@@ -1,7 +1,6 @@
 'use strict';
 
 var React = require('react-native');
-var LoadingOverlay = require('./LoadingOverlay');
 var Unicycle = require('./Unicycle');
 var loginStore = require('./stores/LoginStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
@@ -20,7 +19,8 @@ var {
   NavigatorIOS,
   TabBarIOS,
   AlertIOS,
-  AsyncStorage
+  AsyncStorage,
+  ActivityIndicatorIOS
 } = React;
 
 var styles = StyleSheet.create({
@@ -32,7 +32,10 @@ var styles = StyleSheet.create({
   },
   backgroundImage: {
     flex: 1,
-    width: null
+    width: null,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0,0,0,0)'
   },
   contentContainer: {
     backgroundColor: 'rgba(0,0,0,0)',
@@ -40,16 +43,13 @@ var styles = StyleSheet.create({
     alignItems: 'center'
   },
   appName: {
-    flex: 1,
-    marginTop: 100,
+    marginTop: -100,
     fontSize: 100,
     color: 'white',
     fontWeight: '300',
     fontFamily: 'GeezaPro'
   },
   loginInput: {
-    flex: 1,
-    alignSelf: 'auto',
     backgroundColor: 'rgba(0,0,0,0.6)',
     height: 30,
     width: 250,
@@ -62,8 +62,6 @@ var styles = StyleSheet.create({
     marginTop: 70
   },
   loginButton: {
-    flex: 1,
-    alignSelf: 'auto',
     width: 120,
     height: 25,
     borderRadius: 5,
@@ -76,6 +74,10 @@ var styles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: 'rgba(0,0,0,0)',
     fontWeight: 'bold'
+  },
+  spinner: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0)'
   }
 });
 
@@ -89,34 +91,59 @@ var LoginPage = React.createClass({
 
   render: function () {
     var isLoginInFlight = loginStore.isLoginInFlight();
+    var content;
+    if (isLoginInFlight) {
+      content = this.renderLoadingSpinner();
+    }
+    else {
+      content = this.renderLoginForm();
+    }
 
     return (
       <View style={styles.imageContainer}>
-        <LoadingOverlay isVisible={isLoginInFlight} />
         <Image source={require('image!loginPageBackground2')}
                style={styles.backgroundImage}>
-               <View style={styles.contentContainer}>
-                   <Text style={styles.appName}>Youni</Text>
-                   <TextInput style={[styles.loginInput, styles.emailInput]}
-                      value={loginStore.getEmail()}
-                      clearTextOnFocus={true}
-                      onChangeText={(text) => Unicycle.exec('updateEmail', text)}
-                   />
-                   <TextInput style={styles.loginInput}
-                      secureTextEntry={true}
-                      value={loginStore.getPassword()}
-                      clearTextOnFocus={true}
-                      onChangeText={(text) => Unicycle.exec('updatePassword', text)}
-                   />
-                   <TouchableHighlight style={styles.loginButton} underlayColor='white'>
-                      <Text style={styles.loginText} onPress={this._onLoginRequest}>Login</Text>
-                   </TouchableHighlight>
-               </View>
-         </Image>
+            { content }
+        </Image>
       </View>
     );
   },
 
+  renderLoginForm: function() {
+    return (
+       <View style={styles.contentContainer}>
+         <Text style={styles.appName}>Youni</Text>
+         <TextInput style={[styles.loginInput, styles.emailInput]}
+            value={loginStore.getEmail()}
+            clearTextOnFocus={true}
+            onChangeText={(text) => Unicycle.exec('updateEmail', text)}
+         />
+         <TextInput style={styles.loginInput}
+            secureTextEntry={true}
+            value={loginStore.getPassword()}
+            clearTextOnFocus={true}
+            onChangeText={(text) => Unicycle.exec('updatePassword', text)}
+         />
+         <TouchableHighlight style={styles.loginButton} underlayColor='white'>
+            <Text style={styles.loginText} onPress={this._onLoginRequest}>Login</Text>
+         </TouchableHighlight>
+       </View>
+    );
+  },
+
+  renderLoadingSpinner: function() {
+    return (
+      <View style={styles.spinnerContainer}>
+        <ActivityIndicatorIOS
+          size="small"
+          color="black"
+          animating={true}
+          style={styles.spinner} />
+      </View>
+    );
+  },
+
+  //TODO: This should probably be on the PostStore
   _onLoginRequest: function() {
     var that = this;
     var email = loginStore.getEmail();
