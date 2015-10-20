@@ -7,8 +7,8 @@ var loginStore = Unicycle.createStore({
 
     init: function () {
       this.set({
-        email: 'jruth@albany.edu',//'Enter your email',
-        password: 'bubba1',//'',
+        email: 'Enter your email',
+        password: '',
         loginInFlight: false
       });
     },

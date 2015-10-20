@@ -89,7 +89,7 @@ var HomePage = React.createClass({
           animating={true}
           style={styles.spinner} />
       </View>
-    )
+    );
   }
 
 });
