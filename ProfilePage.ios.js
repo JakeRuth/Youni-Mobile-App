@@ -21,13 +21,13 @@ var styles = StyleSheet.create({
     backgroundColor: 'rgba(0,124,158,.2)'
   },
   fullName: {
-      textAlign: 'center',
-      fontSize: 30,
-      borderWidth: 1,
-      borderColor: '#007C9E',
-      borderRadius: 5,
-      margin: 5,
-      backgroundColor: 'white'
+    textAlign: 'center',
+    fontSize: 30,
+    borderWidth: 1,
+    borderColor: '#007C9E',
+    borderRadius: 5,
+    margin: 5,
+    backgroundColor: 'white'
   },
   profilePictureContainer: {
     flex: 2,
