@@ -37,7 +37,8 @@ var postStore = Unicycle.createStore({
            posts: posts,
            isRequestInFlight: false
          });
-       } else {
+       }
+       else {
          //TODO: implement failed case (show user error message or cached results)
        }
     });

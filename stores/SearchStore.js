@@ -32,7 +32,8 @@ var searchStore = Unicycle.createStore({
              isRequestInFlight: false,
              results: results
            });
-         } else {
+         }
+         else {
            //TODO: Implement a failed case
          }
        });
