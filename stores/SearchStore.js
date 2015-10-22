@@ -2,56 +2,70 @@
 
 var React = require('react-native');
 var Unicycle = require('./../Unicycle');
+var request = require('superagent');
+var prefix = require('superagent-prefix')('http://localhost:8080/Greedy');
 
 var searchStore = Unicycle.createStore({
 
   init: function() {
     this.set({
-      activeSearch: false,
-      results: []
+      results: [],
+      isRequestInFlight: false
     });
   },
 
-  $updateActiveSearch: function(isActive) {
-    if (isActive) {
-      this.set({
-        results: this._getFakeSearchResults()
-      });
-    }
-    else {
-      this.set({
-        results: []
-      });
-    }
-    this.set({
-      activeSearch: isActive
-    });
+  $executeSearch: function(search) {
+    var results = [];
+    var that = this;
+
+    if (search) {
+      this.set({ isRequestInFlight: true });
+      request
+       .post('/search/users')
+       .use(prefix)
+       .send({ searchString: search })
+       .set('Accept', 'application/json')
+       .end(function(err, res) {
+         if ((res !== undefined) && (res.ok)) {
+           results = that._createSearchJsonFromResponse(res.body.users);
+           that.set({
+             isRequestInFlight: false,
+             results: results
+           });
+         } else {
+           //TODO: Implement a failed case
+         }
+       });
+     }
+     else {
+       this.set({
+         results: [],
+         requestInFlight: false
+       });
+     }
   },
 
-  getActiveSearch: function() {
-    return this.get('activeSearch');
+  isRequestInFlight: function() {
+    return this.get('isRequestInFlight');
   },
 
   getSearchResults: function() {
     return this.get('results');
   },
 
-  _getFakeSearchResults() {
-    var results = [];
-    for (var i = 0; i < 20; i++) {
-      results.push({
-        firstName: this._getFakeName(),
-        lastName: '',
-        email: 'fake@email.com'
-      });
+  _createSearchJsonFromResponse: function(users) {
+    var usersJson = [];
+    if (users) {
+      for (var i = 0; i < users.length; i++) {
+        var user = users[i];
+        usersJson.push({
+          firstName: user['firstName'],
+          lastName: user['lastName'],
+          email: user['email']
+        });
+      }
     }
-    return results;
-  },
-
-  _getFakeName() {
-    var randomIndex = Math.floor(Math.random() * 6);
-    var randomNames = ['Jake Ruth', 'Jordan DiLapo', 'Esca IdkUrLastName', 'Your Mom!', 'Flirtacious Female', 'Heee Man Grr'];
-    return randomNames[randomIndex];
+    return usersJson;
   }
 
 });

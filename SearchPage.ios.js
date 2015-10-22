@@ -11,11 +11,15 @@ var {
   View,
   Text,
   StyleSheet,
+  ScrollView,
   TouchableHighlight,
-  ScrollView
+  ActivityIndicatorIOS
 } = React
 
 var styles = StyleSheet.create({
+  searchPageContainer: {
+    flex: 1
+  },
   scrollBar: {
     backgroundColor: 'transparent'
   },
@@ -45,6 +49,11 @@ var styles = StyleSheet.create({
     borderWidth: .3,
     borderColor: 'black',
     margin: 5
+  },
+  spinnerContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });
 
@@ -55,8 +64,13 @@ var SearchPage = React.createClass({
   ],
 
   render: function() {
+    var searchResultsToShow = searchStore.getSearchResults().size != 0;
     var searchPageContent;
-    if (searchStore.getActiveSearch()) {
+
+    if (searchStore.isRequestInFlight()) {
+      searchPageContent = <SearchResultLoading/>;
+    }
+    else if (searchResultsToShow) {
       searchPageContent = <SearchResultsList/>;
     }
     else {
@@ -64,14 +78,16 @@ var SearchPage = React.createClass({
     }
 
     return (
-      <View>
+      <View style={styles.searchPageContainer}>
         <MainScreenBanner
-          title="SUNY Albany"
-          subTitle="Discover other students on campus"/>
+          title='SUNY Albany'
+          subTitle='Discover other students on campus'/>
         <SearchBar
+          barTintColor='white'
+          tintColor='#007C9E'
           placeholder='Search for other students'
-          onChangeText={ () => { Unicycle.exec('updateActiveSearch', true); } }
-          onCancelButtonPress={ () => { Unicycle.exec('updateActiveSearch', false); } }/>
+          onChangeText={ (search) => { Unicycle.exec('executeSearch', search); } }
+          onCancelButtonPress={ () => { Unicycle.exec('executeSearch', null); } }/>
         {searchPageContent}
       </View>
     );
@@ -82,18 +98,24 @@ var SearchPage = React.createClass({
 //TODO Put some thought into whether or not these should be in their own files
 var SearchResultsList = React.createClass({
 
+  mixins: [
+    Unicycle.listenTo(searchStore)
+  ],
+
   render: function() {
     var searchJson = searchStore.getSearchResults();
     var searchResults = [];
+
     for (var i = 0; i < searchJson.size; i++) {
-      var search = searchJson.get(i);
-      searchResults.push(<SearchResult key={i} search={search} />);
+      searchResults.push(<SearchResult
+        key={i}
+        search={searchJson.get(i)}
+      />);
     }
+
     return (
       <ScrollView style={styles.scrollBar}>
-        <View>
-          {searchResults}
-        </View>
+        {searchResults}
       </ScrollView>
     );
   }
@@ -117,7 +139,7 @@ var SearchResult = React.createClass({
         <TouchableHighlight underlayColor='lightgray'>
           <View style={styles.searchResult}>
             <Icon style={styles.profileImage}
-              name="ios-person" size={40} color={this._hackyRandomHexCodeGenerator()} />
+              name='ios-person' size={40} color={this._hackyRandomHexCodeGenerator()} />
             <Text style={styles.fullName} numberOfLines={1}>{firstName} {lastName}</Text>
           </View>
         </TouchableHighlight>
@@ -134,6 +156,22 @@ var SearchResult = React.createClass({
         color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
+  }
+
+});
+
+var SearchResultLoading = React.createClass({
+
+  render: function() {
+    return (
+      <View style={styles.spinnerContainer}>
+        <ActivityIndicatorIOS
+          size="small"
+          color="black"
+          animating={true}
+          style={styles.spinner} />
+      </View>
+    );
   }
 
 });
