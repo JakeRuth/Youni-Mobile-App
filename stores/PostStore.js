@@ -17,7 +17,7 @@ var postStore = Unicycle.createStore({
   $requestExploreFeed() {
     var posts = [];
     var that = this;
-    var token = this.get('accessToken');
+
     this.set({
       isRequestInFlight: true
     });
@@ -26,7 +26,6 @@ var postStore = Unicycle.createStore({
      .post('/feed/getExploreFeed')
      .use(prefix)
      .send({
-       accessToken: token,
        maxNumberOfPostsToFetch: 100, //TODO: enable paged results
        fetchOffsetAmount: 0
      })
