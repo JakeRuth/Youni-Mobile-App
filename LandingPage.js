@@ -8,6 +8,7 @@ var TrendingPage = require('./TrendingPage');
 var UploadPhotoPage = require('./UploadPhotoPage');
 var Icon = require('react-native-vector-icons/Ionicons');
 var loginStore = require('./stores/LoginStore');
+var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
 var Unicycle = require('./Unicycle');
 
 var {
@@ -100,7 +101,7 @@ var LandingPage = React.createClass({
               selectedTab: 'profile'
             });
           }}>
-          <ProfilePage/>
+          <ProfilePage email={userLoginMetadataStore.getEmail()}/>
         </Icon.TabBarItem>
       </TabBarIOS>
     )

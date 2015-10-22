@@ -2,18 +2,51 @@
 
 var React = require('react-native');
 var Unicycle = require('./../Unicycle');
+var request = require('superagent');
+var prefix = require('superagent-prefix')('http://localhost:8080/Greedy');
 
 var profileStore = Unicycle.createStore({
 
     //hard coded store, this will change when we integrate with the api
     init: function () {
       this.set({
-        firstName: 'Jake',
-        lastName: 'Ruth',
-        numFollowers: 15,
-        bio: 'I really hope that we can get a working prototype together by Halloween!',
-        profileImageUrl: 'https://scontent-lga3-1.xx.fbcdn.net/hphotos-frc3/v/t1.0-9/10472701_10152714655244039_5940899796472618864_n.jpg?oh=3ea5a4dc8337923a6c8338e042bb1a22&oe=56972CB2'
+        isRequestInFlight: false,
+        firstName: '',
+        lastName: '',
+        numFollowers: null,
+        bio: '',
+        profileImageUrl: ''
       });
+    },
+
+    $loadUsersProfile(email) {
+      var that = this;
+
+      this.set({ isRequestInFlight: true });
+      request
+       .post('/user/getProfileInformation')
+       .use(prefix)
+       .send({ userEmail: email })
+       .set('Accept', 'application/json')
+       .end(function(err, res) {
+         if ((res !== undefined) && (res.ok)) {
+           that.set({
+             isRequestInFlight: false,
+             firstName: res.body.userDetails['firstName'],
+             lastName: res.body.userDetails['lastName'],
+             numFollowers: res.body.userDetails['numFollowers'],
+             bio: res.body.userDetails['bio'],
+             //TODO: This shouldn't be hardcoded
+             profileImageUrl: 'https://scontent-lga3-1.xx.fbcdn.net/hphotos-frc3/v/t1.0-9/10472701_10152714655244039_5940899796472618864_n.jpg?oh=3ea5a4dc8337923a6c8338e042bb1a22&oe=56972CB2'
+           });
+         } else {
+           //TODO: Implement a failed case
+         }
+       });
+    },
+
+    isRequestInFlight() {
+      return this.get('isRequestInFlight');
     },
 
     getFirstName: function() {

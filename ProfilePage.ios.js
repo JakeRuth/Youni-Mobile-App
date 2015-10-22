@@ -9,14 +9,15 @@ var {
   View,
   Text,
   Image,
-  StyleSheet
+  StyleSheet,
+  ActivityIndicatorIOS
 } = React
 
 var styles = StyleSheet.create({
   profilePageContainer: {
     flex: 1
   },
-  profileContainer: {
+  profileBodyContent: {
     flex: 1,
     backgroundColor: 'rgba(0,124,158,.2)'
   },
@@ -48,16 +49,52 @@ var styles = StyleSheet.create({
     flex: 2,
     alignSelf: 'auto',
     margin: 30
+  },
+  spinnerContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });
 
+//This is a super raw page, it is likely going to be completely re-written when
+//we finalize a new design
 var ProfilePage = React.createClass({
+
+  propTypes: {
+    email: React.PropTypes.string.isRequired
+  },
 
   mixins: [
     Unicycle.listenTo(profileStore)
   ],
 
+  componentDidMount: function() {
+    Unicycle.exec('loadUsersProfile', this.props.email);
+  },
+
   render: function() {
+    var isRequestInFlight = profileStore.isRequestInFlight();
+    var content;
+
+    if (isRequestInFlight) {
+      content = <ProfilePageLoading/>
+    }
+    else {
+      content = this.renderProfilePageBody();
+    }
+
+    return (
+      <View style={styles.profilePageContainer}>
+        <MainScreenBanner
+          title="My Profile"
+          subTitle="Hey look, its you!"/>
+        { content }
+      </View>
+    );
+  },
+
+  renderProfilePageBody: function() {
     var firstName = profileStore.getFirstName(),
         lastName = profileStore.getLastName(),
         bio = profileStore.getBio(),
@@ -65,11 +102,7 @@ var ProfilePage = React.createClass({
         profileImageUrl = profileStore.getProfileImageUrl();
 
     return (
-    <View style={styles.profilePageContainer}>
-      <MainScreenBanner
-        title="My Profile"
-        subTitle="Hey look, its you!"/>
-      <View style={styles.profileContainer}>
+      <View style={styles.profileBodyContent}>
         <Text style={styles.fullName}>{firstName} {lastName}</Text>
         <View style={styles.profilePictureContainer}>
           <Image style={styles.profileImage}
@@ -78,8 +111,7 @@ var ProfilePage = React.createClass({
         <Text style={styles.fanCount}>{this._getFansText(numFans)}</Text>
         <Text style={styles.bio}>{bio}</Text>
       </View>
-    </View>
-    )
+    );
   },
 
   _getFansText: function(numFans) {
@@ -92,6 +124,22 @@ var ProfilePage = React.createClass({
     else {
       return numFans + ' fans';
     }
+  }
+
+});
+
+var ProfilePageLoading = React.createClass({
+
+  render: function() {
+    return (
+      <View style={styles.spinnerContainer}>
+        <ActivityIndicatorIOS
+          size="small"
+          color="black"
+          animating={true}
+          style={styles.spinner} />
+      </View>
+    );
   }
 
 });
