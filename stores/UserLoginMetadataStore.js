@@ -9,28 +9,34 @@ var userLoginMetadata = Unicycle.createStore({
       this.set({
         accessToken: '',
         refreshToken: '',
-        userId: ''
+        userId: '',
+        email: ''
       });
     },
 
-    $setAllMetadata: function (accessToken, refreshToken, userId) {
+    $setAllMetadata: function (accessToken, refreshToken, userId, email) {
       this.set({
         accessToken: accessToken,
         refreshToken: refreshToken,
-        userId: userId
+        userId: userId,
+        email: email
       });
     },
 
     getAccessToken: function() {
-      this.get('accessToken');
+      return this.get('accessToken');
     },
 
     getRefreshToken: function() {
-      this.get('refreshToken');
+      return this.get('refreshToken');
     },
 
     getUserId: function() {
-      this.get('userId');
+      return this.get('userId');
+    },
+
+    getEmail: function() {
+      return this.get('email');
     }
 
 });

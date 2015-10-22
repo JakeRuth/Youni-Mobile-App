@@ -168,10 +168,12 @@ var LoginPage = React.createClass({
        if ((res !== undefined) && (res.ok)) {
          var userId = res.body.userId,
              refreshToken = res.body.refreshToken,
-             accessToken = res.body.accessToken;
+             accessToken = res.body.accessToken,
+             email = res.body.username;
 
-         Unicycle.exec('setAllMetadata', accessToken, refreshToken, userId);
+         Unicycle.exec('setAllMetadata', accessToken, refreshToken, userId, email);
          that._saveUserId(userId);
+         that._saveEmail(email);
          that._saveRefreshToken(refreshToken);
          that._saveAccessTokenThenLoadHomePage(accessToken);
        } else {
@@ -184,6 +186,10 @@ var LoginPage = React.createClass({
   //maybe we want to use stores?  Worth revisiting...
   _saveUserId: function(userId) {
     AsyncStorage.setItem('userId', userId);
+  },
+
+  _saveEmail: function(email) {
+    AsyncStorage.setItem('email', email);
   },
 
   _saveRefreshToken: function(refreshToken) {
