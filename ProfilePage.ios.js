@@ -114,6 +114,7 @@ var ProfilePage = React.createClass({
     );
   },
 
+  //TODO: This is more then likely something we want to api to handle
   _getFansText: function(numFans) {
     if (numFans == 0) {
       return 'No fans :(';
