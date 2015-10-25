@@ -4,7 +4,9 @@ var React = require('react-native');
 var Icon = require('react-native-vector-icons/Ionicons');
 var Unicycle = require('./Unicycle');
 var searchStore = require('./stores/SearchStore');
+var profileStore = require('./stores/ProfileStore');
 var MainScreenBanner = require('./MainScreenBanner');
+var ProfilePage = require('./Components/Profile/ProfilePageBody');
 var SearchBar = require('react-native-search-bar');
 
 var {
@@ -60,15 +62,33 @@ var styles = StyleSheet.create({
 var SearchPage = React.createClass({
 
   mixins: [
-    Unicycle.listenTo(searchStore)
+    Unicycle.listenTo(searchStore),
+    Unicycle.listenTo(profileStore)
   ],
 
   render: function() {
+    var isProfileInView = searchStore.getInProfileView();
     var searchResultsToShow = searchStore.getSearchResults().size != 0;
-    var searchPageContent;
+    var searchPageContent, searchPageHeader;
 
-    if (searchStore.isRequestInFlight()) {
+    if (isProfileInView) {
+      searchPageHeader = this._renderBackButton();
+    }
+    else {
+      searchPageHeader = this._renderSearchBar();
+    }
+
+    if (searchStore.isRequestInFlight() || profileStore.isRequestInFlight()) {
       searchPageContent = <SearchResultLoading/>;
+    }
+    else if (isProfileInView) {
+      searchPageContent = <ProfilePage
+                            firstName = {profileStore.getFirstName()}
+                            lastName = {profileStore.getLastName()}
+                            bio = {profileStore.getBio()}
+                            numFans = {profileStore.getNumFollowers()}
+                            profileImageUrl = {profileStore.getProfileImageUrl()}
+                          />
     }
     else if (searchResultsToShow) {
       searchPageContent = <SearchResultsList/>;
@@ -82,14 +102,28 @@ var SearchPage = React.createClass({
         <MainScreenBanner
           title='SUNY Albany'
           subTitle='Discover other students on campus'/>
-        <SearchBar
-          barTintColor='white'
-          tintColor='#007C9E'
-          placeholder='Search for other students'
-          onChangeText={ (search) => { Unicycle.exec('executeSearch', search); } }
-          onCancelButtonPress={ () => { Unicycle.exec('executeSearch', null); } }/>
+        {searchPageHeader}
         {searchPageContent}
       </View>
+    );
+  },
+
+  _renderSearchBar: function() {
+    return (
+      <SearchBar
+        barTintColor='white'
+        tintColor='#007C9E'
+        placeholder='Search for other students'
+        onChangeText={ (search) => { Unicycle.exec('executeSearch', search); } }
+        onCancelButtonPress={ () => { Unicycle.exec('executeSearch', null); } }/>
+    );
+  },
+
+  _renderBackButton: function() {
+    return (
+      <Text onPress={ () => {Unicycle.exec('setInProfileView', false)} }>
+        Back I say!
+      </Text>
     );
   }
 
@@ -97,10 +131,6 @@ var SearchPage = React.createClass({
 
 //TODO Put some thought into whether or not these should be in their own files
 var SearchResultsList = React.createClass({
-
-  mixins: [
-    Unicycle.listenTo(searchStore)
-  ],
 
   render: function() {
     var searchJson = searchStore.getSearchResults();
@@ -136,16 +166,25 @@ var SearchResult = React.createClass({
 
     return (
       <View>
-        <TouchableHighlight underlayColor='lightgray'>
+        <TouchableHighlight
+          underlayColor='lightgray'
+          onPress={ () => {this._onSearchResultClick(email)} }>
+
           <View style={styles.searchResult}>
             <Icon style={styles.profileImage}
               name='ios-person' size={40} color={this._hackyRandomHexCodeGenerator()} />
             <Text style={styles.fullName} numberOfLines={1}>{firstName} {lastName}</Text>
           </View>
+
         </TouchableHighlight>
         <View style={styles.blankLine} />
       </View>
     );
+  },
+
+  _onSearchResultClick: function(email) {
+    Unicycle.exec('loadUsersProfile', email);
+    Unicycle.exec('setInProfileView', true);
   },
 
   //straight from stackoverflow; +1

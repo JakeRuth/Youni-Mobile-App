@@ -10,7 +10,8 @@ var searchStore = Unicycle.createStore({
   init: function() {
     this.set({
       results: [],
-      isRequestInFlight: false
+      isRequestInFlight: false,
+      inProfileView: false
     });
   },
 
@@ -46,12 +47,22 @@ var searchStore = Unicycle.createStore({
      }
   },
 
+  $setInProfileView: function(value) {
+    return this.set({
+      inProfileView: value
+    });
+  },
+
   isRequestInFlight: function() {
     return this.get('isRequestInFlight');
   },
 
   getSearchResults: function() {
     return this.get('results');
+  },
+
+  getInProfileView: function() {
+    return this.get('inProfileView');
   },
 
   _createSearchJsonFromResponse: function(users) {
