@@ -22,6 +22,17 @@ var styles = StyleSheet.create({
   searchPageContainer: {
     flex: 1
   },
+  backButtonContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 10
+  },
+  backButton: {
+    fontSize: 15,
+    color: '#007C9E',
+    marginLeft: 10
+  },
   scrollBar: {
     backgroundColor: 'transparent'
   },
@@ -121,9 +132,14 @@ var SearchPage = React.createClass({
 
   _renderBackButton: function() {
     return (
-      <Text onPress={ () => {Unicycle.exec('setInProfileView', false)} }>
-        Back I say!
-      </Text>
+      <TouchableHighlight>
+        <View style={styles.backButtonContainer}>
+          <Icon name='ios-arrow-back' size={25} color='#007C9E' />
+          <Text style={styles.backButton} onPress={ () => {Unicycle.exec('setInProfileView', false)} }>
+            Back
+          </Text>
+        </View>
+      </TouchableHighlight>
     );
   }
 
