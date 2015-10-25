@@ -30,8 +30,7 @@ var styles = StyleSheet.create({
     marginBottom: 5
   },
   profileImage: {
-    width: 150,
-    height: 230
+
   },
   fanCount: {
     textAlign: 'center',
@@ -66,8 +65,7 @@ var ProfilePageBody = React.createClass({
       <View style={styles.profileBodyContent}>
         <Text style={styles.fullName}>{firstName} {lastName}</Text>
         <View style={styles.profilePictureContainer}>
-          <Image style={styles.profileImage}
-                 source={{uri: profileImageUrl}} />
+          <Text style={styles.profileImage}>Image Placeholder</Text>
         </View>
         <Text style={styles.fanCount}>{this._getFansText(numFans)}</Text>
         <Text style={styles.bio}>{bio}</Text>
