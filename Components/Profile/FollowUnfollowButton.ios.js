@@ -53,7 +53,11 @@ var FollowUnfollowButton = React.createClass({
     }
     else {
       var isUserFollowingText = followUnfollowStore.getIsUserFollowingResult() ? 'Unfollow' : 'Follow';
-      content = (<Text style={styles.followUnfollowButton}>{isUserFollowingText}</Text>);
+      content = (
+        <Text style={styles.followUnfollowButton} onPress={this._buttonOnClickAction(isUserFollowingText)}>
+          {isUserFollowingText}
+        </Text>
+      );
     }
 
     return (
@@ -61,6 +65,20 @@ var FollowUnfollowButton = React.createClass({
         {content}
       </View>
     );
+  },
+
+  _buttonOnClickAction: function(isFollowing) {
+    var userId = userLoginMetadataStore.getUserId();
+    if (isFollowing == 'Follow') {
+      return () => {
+        Unicycle.exec('follow', userId, this.props.email);
+      }
+    }
+    else {
+      return () => {
+        Unicycle.exec('unfollow', userId, this.props.email);
+      }
+    }
   }
 
 });
