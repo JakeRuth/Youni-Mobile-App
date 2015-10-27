@@ -6,7 +6,7 @@ var Unicycle = require('./Unicycle');
 var searchStore = require('./stores/SearchStore');
 var profileStore = require('./stores/ProfileStore');
 var MainScreenBanner = require('./MainScreenBanner');
-var ProfilePage = require('./Components/Profile/ProfilePageBody');
+var ProfilePageBody = require('./Components/Profile/ProfilePageBody');
 var SearchBar = require('react-native-search-bar');
 
 var {
@@ -93,12 +93,13 @@ var SearchPage = React.createClass({
       searchPageContent = <SearchResultLoading/>;
     }
     else if (isProfileInView) {
-      searchPageContent = <ProfilePage
+      searchPageContent = <ProfilePageBody
                             firstName = {profileStore.getFirstName()}
                             lastName = {profileStore.getLastName()}
                             bio = {profileStore.getBio()}
                             numFans = {profileStore.getNumFollowers()}
                             profileImageUrl = {profileStore.getProfileImageUrl()}
+                            email = {profileStore.getEmail()}
                           />
     }
     else if (searchResultsToShow) {

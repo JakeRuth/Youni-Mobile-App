@@ -15,7 +15,8 @@ var profileStore = Unicycle.createStore({
         lastName: '',
         numFollowers: null,
         bio: '',
-        profileImageUrl: ''
+        profileImageUrl: '',
+        email: ''
       });
     },
 
@@ -36,6 +37,7 @@ var profileStore = Unicycle.createStore({
              lastName: res.body.userDetails['lastName'],
              numFollowers: res.body.userDetails['numFollowers'],
              bio: res.body.userDetails['bio'],
+             email: res.body.userDetails['email'],
              //TODO: This shouldn't be hardcoded
              profileImageUrl: 'https://scontent-lga3-1.xx.fbcdn.net/hphotos-frc3/v/t1.0-9/10472701_10152714655244039_5940899796472618864_n.jpg?oh=3ea5a4dc8337923a6c8338e042bb1a22&oe=56972CB2'
            });
@@ -67,6 +69,10 @@ var profileStore = Unicycle.createStore({
 
     getProfileImageUrl: function() {
       return this.get('profileImageUrl');
+    },
+
+    getEmail: function() {
+      return this.get('email');
     }
 
 });
