@@ -51,7 +51,6 @@ var followUnfollowStore = Unicycle.createStore({
        })
        .set('Accept', 'application/json')
        .end(function(err, res) {
-         console.log(res.body)
          if ((res !== undefined) && (res.ok)) {
            that.set({
              isRequestInFlight: false,

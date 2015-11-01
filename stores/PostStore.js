@@ -10,7 +10,8 @@ var postStore = Unicycle.createStore({
   init: function() {
     this.set({
       posts: [],
-      isRequestInFlight: false
+      isRequestInFlight: false,
+      isLikeRequestInFlight: false
     });
   },
 
@@ -44,17 +45,44 @@ var postStore = Unicycle.createStore({
     });
   },
 
-  //TODO: this will be completely different with api integration
-  $likePost(postId) {
+  $likePost(id, postId, userId) {
+    var that = this;
     var posts = this.get('posts');
-    var post = posts.get(postId);
-    var numLikes = post.get('numLikes');
 
-    post = post.set('numLikes', ++numLikes);
-    posts = posts.set(postId, post);
     this.set({
-      posts: posts
+      isLikeRequestInFlight: true
     });
+
+    request
+     .post('/post/like')
+     .use(prefix)
+     .send({
+       postIdString: postId,
+       userIdString: userId
+     })
+     .set('Accept', 'application/json')
+     .end(function(err, res) {
+       if ((res !== undefined) && (res.ok) && (res.body.success)) {
+         var post = posts.get(id);
+         var numLikes = post.get('numLikes');
+         post = post.set('numLikes', ++numLikes);
+         posts = posts.set(id, post);
+         that.set({
+           posts: posts,
+           isLikeRequestInFlight: false
+         });
+       }
+       else {
+         //TODO: implement failed case (show user error message or cached results)
+         that.set({
+           isLikeRequestInFlight: false
+         });
+       }
+    });
+  },
+
+  isLikeRequestInFlight: function() {
+    return this.get('isLikeRequestInFlight');
   },
 
   getPosts: function() {
@@ -70,13 +98,13 @@ var postStore = Unicycle.createStore({
     for (var i = 0; i < posts.length; i++) {
       var post = posts[i];
       postsJson.push({
-        id: post['postIdString'],
+        postIdString: post['postIdString'],
         posterName: post['posterName'],
         timestamp: post['timestamp'],
         photoUrl: post['photoUrl'],
         numLikes: post['numLikes'],
         caption: post['caption'],
-        postIdString: i
+        id: i
       });
     }
     return postsJson;

@@ -3,6 +3,8 @@
 var React = require('react-native');
 var Unicycle = require('./Unicycle');
 var postStore = require('./stores/PostStore');
+var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
+var LikeText = require('./Components/Post/PostLikeText');
 
 var {
   View,
@@ -39,13 +41,6 @@ var styles = StyleSheet.create({
   postFooter: {
     flexDirection: 'column'
   },
-  numLikes: {
-    alignSelf: 'center',
-    color: 'darkblue',
-    fontSize: 10,
-    fontWeight: '600',
-    margin: 3
-  },
   caption: {
     alignSelf: 'center',
     fontSize: 15,
@@ -66,12 +61,13 @@ var Post = React.createClass({
   ],
 
   propTypes: {
+    id: React.PropTypes.number.isRequired,
     posterName: React.PropTypes.string.isRequired,
     timestamp: React.PropTypes.string.isRequired,
     photoUrl: React.PropTypes.string.isRequired,
     numLikes: React.PropTypes.number.isRequired,
     caption: React.PropTypes.string.isRequired,
-    postIdString: React.PropTypes.number.isRequired //this will change with api integration
+    postIdString: React.PropTypes.string.isRequired
   },
 
   render: function() {
@@ -81,14 +77,14 @@ var Post = React.createClass({
           <Text style={styles.posterName} numberOfLines={1}>{this.props.posterName}</Text>
           <Text style={styles.timestamp}>{this.props.timestamp}</Text>
         </View>
-        <TouchableHighlight onPress={ () => {Unicycle.exec('likePost', this.props.postIdString)} }>
+        <TouchableHighlight onPress={ this._photoOnClickAction() }>
           <View style={styles.imageContainer}>
             <Image style={styles.postImage}
                    source={{uri: this.props.photoUrl}} />
           </View>
         </TouchableHighlight>
         <View style={styles.postFooter}>
-          <Text style={styles.numLikes}>{this._getLikesText(this.props.numLikes)}</Text>
+          <LikeText numLikes={this.props.numLikes} />
           <Text style={styles.caption}>{this.props.caption}</Text>
         </View>
         <View style={styles.blankLine} />
@@ -96,15 +92,10 @@ var Post = React.createClass({
     )
   },
 
-  _getLikesText(numLikes) {
-    if (numLikes > 1) {
-      return numLikes + ' likes';
-    }
-    else if (numLikes === 1) {
-      return numLikes + ' like';
-    }
-    else {
-      return 'no likes... yet';
+  _photoOnClickAction: function() {
+    return () => {
+      var userId = userLoginMetadataStore.getUserId();
+      Unicycle.exec('likePost', this.props.id, this.props.postIdString, userId);
     }
   }
 

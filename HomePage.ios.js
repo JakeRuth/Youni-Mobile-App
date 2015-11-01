@@ -64,13 +64,14 @@ var HomePage = React.createClass({
     for (var i = 0; i<postsJson.size; i++) {
       var post = postsJson.get(i);
       posts.push(
-        <Post key={post.get('id')}
+        <Post id={post.get('id')}
               posterName={post.get('posterName')}
               timestamp={post.get('timestamp')}
               photoUrl={post.get('photoUrl')}
               numLikes={post.get('numLikes')}
               caption={post.get('caption')}
-              postIdString={post.get('postIdString')} />
+              postIdString={post.get('postIdString')}
+              key={post.get('id')} />
       );
     }
     return (
