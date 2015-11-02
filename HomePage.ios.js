@@ -6,6 +6,7 @@ var postStore = require('./stores/PostStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
 var MainScreenBanner = require('./MainScreenBanner');
 var Post = require('./Post');
+var FeedSelector = require('./Components/Feed/FeedSelector');
 
 var {
   View,
@@ -19,6 +20,9 @@ var {
 var styles = StyleSheet.create({
   homePageContainer: {
     flex: 1
+  },
+  feedContainer: {
+    flex: 20
   },
   spinnerContainer: {
     flex: 1,
@@ -51,9 +55,12 @@ var HomePage = React.createClass({
     return (
       <View style={styles.homePageContainer}>
         <MainScreenBanner
-          title="SUNY Albany"
-          subTitle="The most recent activity from your campus"/>
-        { content }
+          title='SUNY Albany'
+          subTitle='The most recent activity from your campus'/>
+        <FeedSelector/>
+        <View style={styles.feedContainer}>
+          { content }
+        </View>
       </View>
     );
   },
