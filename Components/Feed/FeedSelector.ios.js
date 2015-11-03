@@ -2,7 +2,9 @@
 
 var React = require('react-native');
 var Unicycle = require('../../Unicycle');
+var postStore = require('../../stores/PostStore');
 var feedSelectorStore = require('../../stores/FeedSelectorStore');
+var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 
 var {
   View,
@@ -22,12 +24,11 @@ var styles = StyleSheet.create({
   feedOptionSelected: {
     flex: 1,
     borderColor: '#007C9E',
-    borderBottomWidth: 1,
-    margin: 2
+    borderBottomWidth: 1
   },
   feedOptionText: {
     flex: 1,
-    fontSize: 13,
+    fontSize: 20,
     fontFamily: 'Snell Roundhand',
     textAlign: 'center',
     color: 'gray'
@@ -44,7 +45,8 @@ var styles = StyleSheet.create({
 var FeedSelector = React.createClass({
 
   mixins: [
-    Unicycle.listenTo(feedSelectorStore)
+    Unicycle.listenTo(feedSelectorStore),
+    Unicycle.listenTo(postStore)
   ],
 
   propTypes: {
@@ -52,17 +54,33 @@ var FeedSelector = React.createClass({
   },
 
   render: function() {
-    var selectedFeed = feedSelectorStore.getCurrentFeed();
-
     return (
       <View>
-        { this.renderSelectedFeed(selectedFeed) }
+        { this.renderSelectedFeed() }
       </View>
     );
   },
 
+  //TODO: Look into a way to clean this up, there has to be a better way
+  //Maybe more components, or reuse of jsx somehow?
   renderSelectedFeed: function(selectedFeed) {
-    if (selectedFeed == feedSelectorStore.FeedType().FULL) {
+    var isRequestInFlight = postStore.getIsRequestInFlight(),
+        selectedFeed = feedSelectorStore.getCurrentFeed();
+
+    if (isRequestInFlight) {
+      return (
+        <View style={styles.feedSelectorContainer}>
+          <View style={styles.feedOption}>
+            <Text style={styles.feedOptionText}>Youni</Text>
+          </View>
+
+          <View style={styles.feedOption}>
+            <Text style={styles.feedOptionText}>Me</Text>
+          </View>
+        </View>
+      );
+    }
+    else if (selectedFeed == feedSelectorStore.FeedType().FULL) {
       return (
         <View style={styles.feedSelectorContainer}>
           <View style={styles.feedOptionSelected}>
@@ -70,7 +88,8 @@ var FeedSelector = React.createClass({
           </View>
 
           <View style={styles.feedOption}>
-            <Text style={styles.feedOptionText} onPress={ this._selectorOnClickAction() }>Me</Text>
+            <Text style={styles.feedOptionText}
+              onPress={ this._selectorOnClickAction(feedSelectorStore.FeedType().ME) }>Me</Text>
           </View>
         </View>
       );
@@ -79,7 +98,8 @@ var FeedSelector = React.createClass({
       return (
         <View style={styles.feedSelectorContainer}>
           <View style={styles.feedOption}>
-            <Text style={styles.feedOptionText} onPress={ this._selectorOnClickAction() }>Youni</Text>
+            <Text style={styles.feedOptionText}
+              onPress={ this._selectorOnClickAction(feedSelectorStore.FeedType().FULL) }>Youni</Text>
           </View>
 
           <View style={styles.feedOptionSelected}>
@@ -90,8 +110,16 @@ var FeedSelector = React.createClass({
     }
   },
 
-  _selectorOnClickAction: function() {
+  _selectorOnClickAction: function(desiredFeed) {
     return () => {
+      var userId;
+      if (desiredFeed == feedSelectorStore.FeedType().FULL) {
+        Unicycle.exec('requestExploreFeed');
+      }
+      else {
+        userId = userLoginMetadataStore.getUserId();
+        Unicycle.exec('requestHomeFeed', userId);
+      }
       Unicycle.exec('toggleFeed');
     }
   }

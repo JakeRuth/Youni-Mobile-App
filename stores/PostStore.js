@@ -44,6 +44,37 @@ var postStore = Unicycle.createStore({
        }
     });
   },
+  //TODO: Look to combine both methods that are getting the feeds
+  $requestHomeFeed(userId) {
+    var posts = [];
+    var that = this;
+
+    this.set({
+      isRequestInFlight: true
+    });
+
+    request
+     .post('/feed/getHomeFeed')
+     .use(prefix)
+     .send({
+       userIdString: userId,
+       maxNumberOfPostsToFetch: 100, //TODO: enable paged results
+       fetchOffsetAmount: 0
+     })
+     .set('Accept', 'application/json')
+     .end(function(err, res) {
+       if ((res !== undefined) && (res.ok)) {
+         posts = that._createPostsJsonFromResponse(res.body.posts);
+         that.set({
+           posts: posts,
+           isRequestInFlight: false
+         });
+       }
+       else {
+         //TODO: implement failed case (show user error message or cached results)
+       }
+    });
+  },
 
   $likePost(id, postId, userId) {
     var that = this;
