@@ -66,7 +66,7 @@ var FeedSelector = React.createClass({
       return (
         <View style={styles.feedSelectorContainer}>
           <View style={styles.feedOptionSelected}>
-            <Text style={styles.feedOptionTextSelected} onPress={ this._selectorOnClickAction() }>Youni</Text>
+            <Text style={styles.feedOptionTextSelected}>Youni</Text>
           </View>
 
           <View style={styles.feedOption}>
@@ -83,7 +83,7 @@ var FeedSelector = React.createClass({
           </View>
 
           <View style={styles.feedOptionSelected}>
-            <Text style={styles.feedOptionTextSelected} onPress={ this._selectorOnClickAction() }>Me</Text>
+            <Text style={styles.feedOptionTextSelected}>Me</Text>
           </View>
         </View>
       );
