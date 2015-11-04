@@ -17,7 +17,7 @@ var styles = StyleSheet.create({
   }
 });
 
-var UploadPhotoPage = React.createClass({
+var CreatePostPage = React.createClass({
 
   render: function() {
     return (
@@ -32,4 +32,4 @@ var UploadPhotoPage = React.createClass({
 
 });
 
-module.exports = UploadPhotoPage;
+module.exports = CreatePostPage;

@@ -5,7 +5,7 @@ var HomePage = require('./HomePage');
 var SearchPage = require('./SearchPage');
 var ProfilePage = require('./ProfilePage');
 var TrendingPage = require('./TrendingPage');
-var UploadPhotoPage = require('./UploadPhotoPage');
+var CreatePostPage = require('./CreatePostPage');
 var Icon = require('react-native-vector-icons/Ionicons');
 var loginStore = require('./stores/LoginStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
@@ -53,7 +53,7 @@ var LandingPage = React.createClass({
               selectedTab: 'takePhoto',
             });
           }}>
-          <UploadPhotoPage/>
+          <CreatePostPage/>
         </Icon.TabBarItem>
         <Icon.TabBarItem
           title="Search"
