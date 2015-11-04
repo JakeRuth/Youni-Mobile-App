@@ -49,10 +49,6 @@ var FeedSelector = React.createClass({
     Unicycle.listenTo(postStore)
   ],
 
-  propTypes: {
-    feedType: React.PropTypes.string.isRequired
-  },
-
   render: function() {
     return (
       <View>
