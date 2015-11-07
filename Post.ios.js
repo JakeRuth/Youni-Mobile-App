@@ -85,7 +85,7 @@ var Post = React.createClass({
         </TouchableHighlight>
         <View style={styles.postFooter}>
           <LikeText numLikes={this.props.numLikes} />
-          <Text style={styles.caption}>{this.props.caption}</Text>
+          <Text style={styles.caption}>{this.props.caption == '_' ? '' : this.props.caption }</Text>{/*TODO: Fix this crap*/}
         </View>
         <View style={styles.blankLine} />
       </View>

@@ -31,7 +31,7 @@ var createPostStore = Unicycle.createStore({
        .send({
          posterUserIdString: userId,
          pictureIdString: imageId,
-         caption: caption
+         caption: caption ? caption : '_' //TODO: Fix this in the api!!!!
        })
        .set('Accept', 'application/json')
        .end(function(err, res) {
