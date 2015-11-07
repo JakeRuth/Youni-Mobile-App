@@ -2,17 +2,16 @@
 
 var React = require('react-native');
 var MainScreenBanner = require('./MainScreenBanner');
-var Icon = require('react-native-vector-icons/Ionicons');
+var CreatePostButton = require('./Components/Post/CreatePostButton');
 
 var {
   View,
   Text,
   StyleSheet,
-  TouchableHighlight
 } = React
 
 var styles = StyleSheet.create({
-  uploadPhotoPageContainer: {
+  createPostPageContainer: {
     flex: 1
   }
 });
@@ -21,12 +20,12 @@ var CreatePostPage = React.createClass({
 
   render: function() {
     return (
-    <View style={styles.uploadPhotoPageContainer}>
-      <MainScreenBanner
-        title="Upload Photo"
-        subTitle="An upload a day keeps the doctor away"/>
-      <Text>To be implemented</Text>
-    </View>
+      <View style={styles.createPostPageContainer}>
+        <MainScreenBanner
+          title="Upload Photo"
+          subTitle="An upload a day keeps the doctor away"/>
+        <CreatePostButton/>
+      </View>
     )
   }
 

@@ -28,6 +28,7 @@
 		903C378A1BD454900038085B /* libRNSearchBar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 903C37891BD454880038085B /* libRNSearchBar.a */; };
 		903C37911BD454A90038085B /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 903C37901BD454A50038085B /* libRNVectorIcons.a */; };
 		907E7E4D1BE99CCF00F9BA39 /* UIImagePickerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 907E7E4C1BE99CCF00F9BA39 /* UIImagePickerManager.m */; settings = {ASSET_TAGS = (); }; };
+		907E7E521BEC44A600F9BA39 /* RCTFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = 907E7E511BEC44A600F9BA39 /* RCTFileTransfer.m */; settings = {ASSET_TAGS = (); }; };
 		90F34DFD1BD5D95300C73464 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 90F34DFC1BD5D95300C73464 /* Ionicons.ttf */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
@@ -167,6 +168,7 @@
 		903C378B1BD454A50038085B /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
 		907E7E4B1BE99CCF00F9BA39 /* UIImagePickerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIImagePickerManager.h; sourceTree = "<group>"; };
 		907E7E4C1BE99CCF00F9BA39 /* UIImagePickerManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIImagePickerManager.m; sourceTree = "<group>"; };
+		907E7E511BEC44A600F9BA39 /* RCTFileTransfer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCTFileTransfer.m; path = "../node_modules/react-native-file-transfer/RCTFileTransfer.m"; sourceTree = "<group>"; };
 		90F34DFC1BD5D95300C73464 /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -278,6 +280,7 @@
 		13B07FAE1A68108700A75B9A /* Youni */ = {
 			isa = PBXGroup;
 			children = (
+				907E7E511BEC44A600F9BA39 /* RCTFileTransfer.m */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -666,6 +669,7 @@
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				907E7E521BEC44A600F9BA39 /* RCTFileTransfer.m in Sources */,
 				907E7E4D1BE99CCF00F9BA39 /* UIImagePickerManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
