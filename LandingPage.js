@@ -73,6 +73,7 @@ var LandingPage = React.createClass({
           selectedIconName="ios-home-outline"
           selected={this.state.selectedTab === 'home'}
           onPress={() => {
+            Unicycle.exec('requestExploreFeed');
             this.setState({
               selectedTab: 'home',
             });

@@ -47,7 +47,6 @@ var CreatePostButton = React.createClass({
   render: function() {
     var postUploadedSuccessfullyMessage = <View/>
     if (createPostStore.getPostUploadedSuccessfully()) {
-      Unicycle.exec('requestExploreFeed');
       postUploadedSuccessfullyMessage = (
         <View>
           <Text style={styles.postCreatedMessage}>Your post has been created!</Text>
