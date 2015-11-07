@@ -27,17 +27,9 @@ var styles = StyleSheet.create({
 //we finalize a new design
 var ProfilePage = React.createClass({
 
-  propTypes: {
-    email: React.PropTypes.string.isRequired
-  },
-
   mixins: [
     Unicycle.listenTo(profileStore)
   ],
-
-  componentDidMount: function() {
-    Unicycle.exec('loadUsersProfile', this.props.email);
-  },
 
   render: function() {
     var isRequestInFlight = profileStore.isRequestInFlight();
