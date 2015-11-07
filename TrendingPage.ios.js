@@ -14,60 +14,30 @@ var {
 } = React
 
 var styles = StyleSheet.create({
-  trendingProfilesContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    margin: 5
+  trendingPageContainer: {
+    flex: 1
   },
-  trendingProfileImage: {
-    margin: 3,
-    height: 85,
-    width: 85,
-    borderRadius: 2
+  comingSoonContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });
 
 var TrendingPage = React.createClass({
 
-  mixins: [
-    Unicycle.listenTo(trendingStore)
-  ],
-
-  componentDidMount: function() {
-    Unicycle.exec('populateTrendingProfiles');
-  },
-
   render: function() {
     return (
       <View style={styles.trendingPageContainer}>
         <MainScreenBanner
-          title="SUNY Albany"
-          subTitle="Students who are trending on campus"/>
-        {this.renderTrendingProfiles()}
-      </View>
-    );
-  },
+          title='SUNY Albany'
+          subTitle='Students trending on campus'/>
 
-  renderTrendingProfiles: function() {
-    var trendingProfilesJson = trendingStore.getTrendingProfiles();
-    var profiles = [];
-    for (var i = 0; i < trendingProfilesJson.size; i++) {
-      var profile = trendingProfilesJson.get(i);
-      var photoUrl = profile.get('profileImageUrl');
-      profiles.push(
-        <Image style={styles.trendingProfileImage}
-               source={{uri: photoUrl}}
-               key={i} />
-      );
-    }
-
-    return (
-      <ScrollView>
-        <View style={styles.trendingProfilesContainer}>
-          {profiles}
+        <View style={styles.comingSoonContainer}>
+          <Text>Coming soon!</Text>
         </View>
-      </ScrollView>
+
+      </View>
     );
   }
 
