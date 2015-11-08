@@ -3,7 +3,7 @@
 var React = require('react-native');
 var Unicycle = require('./../Unicycle');
 var request = require('superagent');
-var prefix = require('superagent-prefix')('http://localhost:8080/Greedy');
+var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com');
 
 var createPostStore = Unicycle.createStore({
 
@@ -36,14 +36,12 @@ var createPostStore = Unicycle.createStore({
        .set('Accept', 'application/json')
        .end(function(err, res) {
          if ((res !== undefined) && (res.ok)) {
-           console.log('success: ', res)
            that.set({
              isRequestInFlight: false,
              postUploadedSuccessfully: true
            });
            that._cleanUp();
          } else {
-           console.log('failed! ', res)
            //TODO: Implement a failed case
            that.set({
              isRequestInFlight: false

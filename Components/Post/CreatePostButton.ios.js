@@ -6,7 +6,7 @@ var UIImagePickerManager = require('NativeModules').UIImagePickerManager;
 var Unicycle = require('../../Unicycle');
 
 var request = require('superagent');
-var prefix = require('superagent-prefix')('http://localhost:8080/Greedy');
+var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com');
 
 var {
   View,
@@ -80,7 +80,6 @@ var CreatePostButton = React.createClass({
         Unicycle.exec('setImageUri', uri);
 
   			NativeModules.FileTransfer.upload(this._getImageUploadOptions(response), (err, res) => {
-          console.log(res.data)
             var imageId = this._hackyWayToGetPictureIdFromDumbStringThatShouldBeAMap(res.data);
             Unicycle.exec('setImageId', imageId)
             Unicycle.exec('setIsImageUploading', false);
@@ -109,7 +108,7 @@ var CreatePostButton = React.createClass({
   _getImageUploadOptions: function(response) {
     return {
       uri: response.uri,
-      uploadUrl: 'http://localhost:8080/Greedy/upload/photo',
+      uploadUrl: 'http://greedyapi.elasticbeanstalk.com/upload/photo',
       fileName: 'picture', //the name here has no meaning, it could really be anything
       mimeType: 'image/jpeg'
     };

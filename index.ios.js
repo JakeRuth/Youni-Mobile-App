@@ -6,7 +6,7 @@ var loginStore = require('./stores/LoginStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
 var landingPage = require('./LandingPage');
 var request = require('superagent');
-var prefix = require('superagent-prefix')('http://localhost:8080/Greedy');
+var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com');
 
 var {
   View,
