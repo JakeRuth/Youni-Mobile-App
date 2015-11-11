@@ -27,7 +27,7 @@ var postStore = Unicycle.createStore({
      .post('/feed/getExploreFeed')
      .use(prefix)
      .send({
-       maxNumberOfPostsToFetch: 100, //TODO: enable paged results
+       maxNumberOfPostsToFetch: 10, //TODO: enable paged results
        fetchOffsetAmount: 0
      })
      .set('Accept', 'application/json')
@@ -58,7 +58,7 @@ var postStore = Unicycle.createStore({
      .use(prefix)
      .send({
        userIdString: userId,
-       maxNumberOfPostsToFetch: 100, //TODO: enable paged results
+       maxNumberOfPostsToFetch: 10, //TODO: enable paged results
        fetchOffsetAmount: 0
      })
      .set('Accept', 'application/json')
