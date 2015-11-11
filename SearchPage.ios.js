@@ -94,6 +94,7 @@ var SearchPage = React.createClass({
     }
     else if (isProfileInView) {
       searchPageContent = <ProfilePageBody
+                            viewerIsProfileOwner = {false}
                             firstName = {profileStore.getFirstName()}
                             lastName = {profileStore.getLastName()}
                             bio = {profileStore.getBio()}

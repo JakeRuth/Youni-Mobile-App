@@ -40,6 +40,7 @@ var ProfilePage = React.createClass({
     }
     else {
       content = <ProfilePageBody
+                  viewerIsProfileOwner = {true}
                   firstName = {profileStore.getFirstName()}
                   lastName = {profileStore.getLastName()}
                   bio = {profileStore.getBio()}

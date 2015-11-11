@@ -52,19 +52,21 @@ var ProfilePageBody = React.createClass({
     bio: React.PropTypes.string.isRequired,
     numFans: React.PropTypes.number.isRequired,
     profileImageUrl: React.PropTypes.string.isRequired,
+    viewerIsProfileOwner: React.PropTypes.bool.isRequired,
     email: React.PropTypes.string
   },
 
   render: function() {
-    var firstName = this.props.firstName,
+    var viewerIsProfileOwner = this.props.viewerIsProfileOwner,
+        firstName = this.props.firstName,
         lastName = this.props.lastName,
         bio = this.props.bio,
         numFans = this.props.numFans,
         profileImageUrl = this.props.profileImageUrl,
         email = this.props.email;
 
-    var followButton = <View/>; //equivelent null for component
-    if (email) {
+    var followButton = <View/>;
+    if (!viewerIsProfileOwner) {
       followButton = <FollowUnfollowButton email={email}/>
     }
 
