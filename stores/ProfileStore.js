@@ -7,7 +7,6 @@ var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com
 
 var profileStore = Unicycle.createStore({
 
-    //hard coded store, this will change when we integrate with the api
     init: function () {
       this.set({
         isRequestInFlight: false,
@@ -37,9 +36,7 @@ var profileStore = Unicycle.createStore({
              lastName: res.body.userDetails['lastName'],
              numFollowers: res.body.userDetails['numFollowers'],
              bio: res.body.userDetails['bio'],
-             email: res.body.userDetails['email'],
-             //TODO: This shouldn't be hardcoded
-             profileImageUrl: 'https://scontent-lga3-1.xx.fbcdn.net/hphotos-frc3/v/t1.0-9/10472701_10152714655244039_5940899796472618864_n.jpg?oh=3ea5a4dc8337923a6c8338e042bb1a22&oe=56972CB2'
+             email: res.body.userDetails['email']
            });
          } else {
            //TODO: Implement a failed case
