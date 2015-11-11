@@ -10,6 +10,7 @@ var {
   Text,
   Image,
   TextInput,
+  ScrollView,
   StyleSheet,
   TouchableHighlight,
   ActivityIndicatorIOS
@@ -45,10 +46,19 @@ var styles = StyleSheet.create({
   spinnerContainer: {
     flex: 1,
     alignItems: 'center'
+  },
+  hackyIosKeyPadBump: {
+    marginTop: 300
   }
 });
 
 var CreatePostForm = React.createClass({
+
+  getInitialState: function() {
+    return {
+      isTextInputSelected: false
+    };
+  },
 
   propTypes: {
     imageUri: React.PropTypes.string.isRequired
@@ -56,7 +66,12 @@ var CreatePostForm = React.createClass({
 
   render: function() {
     var imageId = createPostStore.getImageId(),
+        hackyIosKeyPadBump = <View/>,
         button;
+
+    if (this.state.isTextInputSelected) {
+      hackyIosKeyPadBump = <View style={styles.hackyIosKeyPadBump} />
+    }
 
     if (imageId) {
       button = (
@@ -75,22 +90,26 @@ var CreatePostForm = React.createClass({
     }
 
     return (
-      <View style={styles.postFormContainer}>
-        <Image style={styles.postImage} source={{uri: this.props.imageUri, isStatic: true}} />
+      <ScrollView>
+        <View style={styles.postFormContainer}>
+          <Image style={styles.postImage} source={{uri: this.props.imageUri, isStatic: true}} />
 
-        <TextInput
-          style={styles.captionInput}
-          onChangeText={(text) => Unicycle.exec('setCaption', text)}
-          value={createPostStore.getCaption()}
-          autoFocus={true}
-          multiline={true}
-          maxLength={183} //TODO: think about this value more, is this a just limit?
-          numberOfLines={2}
-          textAlign={'center'}
-        />
+          <TextInput
+            style={styles.captionInput}
+            onChangeText={(text) => Unicycle.exec('setCaption', text)}
+            value={createPostStore.getCaption()}
+            multiline={true}
+            maxLength={183} //TODO: think about this value more, is this a just limit?
+            textAlign={'center'}
+            onFocus={() => { this.setState({ isTextInputSelected: true }) } }
+          />
 
-        { button }
-      </View>
+          { button }
+
+          { hackyIosKeyPadBump }
+
+        </View>
+      </ScrollView>
     );
   },
 
