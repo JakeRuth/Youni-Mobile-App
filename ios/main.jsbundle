@@ -1379,7 +1379,7 @@ var loginStore=require('Youni/stores/LoginStore.js');
 var userLoginMetadataStore=require('Youni/stores/UserLoginMetadataStore.js');
 var landingPage=require('Youni/LandingPage.js');
 var request=require('superagent/lib/client.js');
-var prefix=require('superagent-prefix/index.js')('http://greedyapi.elasticbeanstalk.com');var 
+var prefix=require('superagent-prefix/index.js')('http://localhost:8080/Greedy');var 
 
 
 View=
@@ -54209,7 +54209,7 @@ __d('Youni/stores/PostStore.js',["react-native/Libraries/react-native/react-nati
 var React=require('react-native/Libraries/react-native/react-native.js');
 var Unicycle=require('Youni/Unicycle.js');
 var request=require('superagent/lib/client.js');
-var prefix=require('superagent-prefix/index.js')('http://greedyapi.elasticbeanstalk.com');var 
+var prefix=require('superagent-prefix/index.js')('http://localhost:8080/Greedy');var 
 
 
 AlertIOS=
@@ -69722,7 +69722,7 @@ __d('Youni/stores/SearchStore.js',["react-native/Libraries/react-native/react-na
 var React=require('react-native/Libraries/react-native/react-native.js');
 var Unicycle=require('Youni/Unicycle.js');
 var request=require('superagent/lib/client.js');
-var prefix=require('superagent-prefix/index.js')('http://greedyapi.elasticbeanstalk.com');
+var prefix=require('superagent-prefix/index.js')('http://localhost:8080/Greedy');
 
 var searchStore=Unicycle.createStore({
 
@@ -69808,7 +69808,7 @@ __d('Youni/stores/ProfileStore.js',["react-native/Libraries/react-native/react-n
 var React=require('react-native/Libraries/react-native/react-native.js');
 var Unicycle=require('Youni/Unicycle.js');
 var request=require('superagent/lib/client.js');
-var prefix=require('superagent-prefix/index.js')('http://greedyapi.elasticbeanstalk.com');
+var prefix=require('superagent-prefix/index.js')('http://localhost:8080/Greedy');
 
 var profileStore=Unicycle.createStore({
 
@@ -70081,7 +70081,7 @@ __d('Youni/stores/FollowStore.js',["react-native/Libraries/react-native/react-na
 var React=require('react-native/Libraries/react-native/react-native.js');
 var Unicycle=require('Youni/Unicycle.js');
 var request=require('superagent/lib/client.js');
-var prefix=require('superagent-prefix/index.js')('http://greedyapi.elasticbeanstalk.com');
+var prefix=require('superagent-prefix/index.js')('http://localhost:8080/Greedy');
 
 var followUnfollowStore=Unicycle.createStore({
 
@@ -70470,7 +70470,7 @@ __d('Youni/stores/CreatePostStore.js',["react-native/Libraries/react-native/reac
 var React=require('react-native/Libraries/react-native/react-native.js');
 var Unicycle=require('Youni/Unicycle.js');
 var request=require('superagent/lib/client.js');
-var prefix=require('superagent-prefix/index.js')('http://greedyapi.elasticbeanstalk.com');
+var prefix=require('superagent-prefix/index.js')('http://localhost:8080/Greedy');
 
 var createPostStore=Unicycle.createStore({
 
@@ -70598,7 +70598,7 @@ var UIImagePickerManager=require('NativeModules').UIImagePickerManager;
 var Unicycle=require('Youni/Unicycle.js');
 
 var request=require('superagent/lib/client.js');
-var prefix=require('superagent-prefix/index.js')('http://greedyapi.elasticbeanstalk.com');var 
+var prefix=require('superagent-prefix/index.js')('http://localhost:8080/Greedy');var 
 
 
 View=
@@ -70700,7 +70700,7 @@ path:'Youni'}};},
 _getImageUploadOptions:function(response){
 return {
 uri:response.uri,
-uploadUrl:'http://greedyapi.elasticbeanstalk.com/upload/photo',
+uploadUrl:'http://localhost:8080/Greedy/upload/photo',
 fileName:'picture',
 mimeType:'image/jpeg'};},
 

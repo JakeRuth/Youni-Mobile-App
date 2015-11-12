@@ -3,10 +3,11 @@
 var React = require('react-native');
 var Unicycle = require('./Unicycle');
 var loginStore = require('./stores/LoginStore');
+var signupStore = require('./stores/SignupStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
 var landingPage = require('./LandingPage');
 var request = require('superagent');
-var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com');
+var prefix = require('superagent-prefix')('http://localhost:8080/Greedy');
 
 var {
   View,
@@ -75,6 +76,20 @@ var styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0)',
     fontWeight: 'bold'
   },
+  signupButton: {
+    width: 120,
+    height: 25,
+    borderRadius: 5,
+    backgroundColor: 'lightblue',
+    marginTop: 40
+  },
+  signupText: {
+    textAlign: 'center',
+    fontSize: 20,
+    borderRadius: 5,
+    backgroundColor: 'rgba(0,0,0,0)',
+    fontWeight: 'bold'
+  },
   spinner: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0)'
@@ -86,18 +101,25 @@ var LoginPage = React.createClass({
 
   mixins: [
     Unicycle.listenTo(loginStore),
+    Unicycle.listenTo(signupStore),
     Unicycle.listenTo(userLoginMetadataStore)
   ],
 
   render: function () {
     var isLoginInFlight = loginStore.isLoginInFlight();
+    var onWayToSignupInFlight = signupStore.isOnWayToSignupInFlight();
+
     var content;
     if (isLoginInFlight) {
       content = this.renderLoadingSpinner();
     }
+    else if(onWayToSignupInFlight){
+      content = this.renderSignupForm();
+    }
     else {
       content = this.renderLoginForm();
     }
+
 
     return (
       <View style={styles.imageContainer}>
@@ -127,9 +149,56 @@ var LoginPage = React.createClass({
          <TouchableHighlight style={styles.loginButton} underlayColor='white'>
             <Text style={styles.loginText} onPress={this._onLoginRequest}>Login</Text>
          </TouchableHighlight>
+
+         <TouchableHighlight style={styles.signupButton} underlayColor='white'>
+            <Text style={styles.signupText} onPress={this._onWayToSignupRequest}>Sign Up</Text>
+         </TouchableHighlight>
        </View>
     );
   },
+
+
+renderSignupForm: function(){
+  return(
+    <View style={styles.contentContainer}>
+      <Text style={styles.appName}>Youni</Text>
+      <TextInput style={[styles.loginInput, styles.emailInput]}
+         value={signupStore.getFirstName()}
+         clearTextOnFocus={true}
+         //onChangeText={(text) => Unicycle.exec('updateFirstName', text)}
+      />
+
+      <TextInput style={styles.loginInput}
+         value={signupStore.getLastName()}
+         clearTextOnFocus={true}
+         //onChangeText={(text) => Unicycle.exec('updateLastName', text)}
+      />
+      <TextInput style={[styles.loginInput, styles.emailInput]}
+         value={signupStore.getEmail()}
+         clearTextOnFocus={true}
+         onChangeText={(text) => Unicycle.exec('updateEmail', text)}
+      />
+      <TextInput style={styles.loginInput}
+         secureTextEntry={true}
+         value={signupStore.getPassword()}
+         clearTextOnFocus={true}
+         onChangeText={(text) => Unicycle.exec('updatePassword', text)}
+      />
+
+
+      <TouchableHighlight style={styles.signupButton} underlayColor='white'>
+         <Text style={styles.signupText}>Sign Up</Text>
+      </TouchableHighlight>
+
+      <Text>or</Text>
+      <TouchableHighlight style={styles.loginButton} underlayColor='white'>
+         <Text style={styles.loginText}>Login</Text>
+      </TouchableHighlight>
+
+    </View>
+  );
+},
+
 
   renderLoadingSpinner: function() {
     return (
@@ -142,6 +211,13 @@ var LoginPage = React.createClass({
       </View>
     );
   },
+
+
+
+  _onWayToSignupRequest: function(){
+        Unicycle.exec('setOnWayToSignupInFlight', true);
+  },
+
 
   //TODO: This should probably be on the PostStore
   _onLoginRequest: function() {

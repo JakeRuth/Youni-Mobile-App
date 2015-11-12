@@ -6,7 +6,7 @@ var UIImagePickerManager = require('NativeModules').UIImagePickerManager;
 var Unicycle = require('../../Unicycle');
 
 var request = require('superagent');
-var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com');
+var prefix = require('superagent-prefix')('http://localhost:8080/Greedy');
 
 var {
   View,
@@ -108,7 +108,7 @@ var CreatePostButton = React.createClass({
   _getImageUploadOptions: function(response) {
     return {
       uri: response.uri,
-      uploadUrl: 'http://greedyapi.elasticbeanstalk.com/upload/photo',
+      uploadUrl: 'http://localhost:8080/Greedy/upload/photo',
       fileName: 'picture', //the name here has no meaning, it could really be anything
       mimeType: 'image/jpeg'
     };
