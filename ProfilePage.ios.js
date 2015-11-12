@@ -3,6 +3,8 @@
 var React = require('react-native');
 var Unicycle = require('./Unicycle');
 var profileStore = require('./stores/ProfileStore');
+var getAllFollowingStore = require('./stores/user/GetAllFollowingStore');
+var GetAllFollowingPage = require('./Components/Profile/GetAllFollowingPage');
 var MainScreenBanner = require('./MainScreenBanner');
 var ProfilePageBody = require('./Components/Profile/ProfilePageBody');
 
@@ -28,15 +30,20 @@ var styles = StyleSheet.create({
 var ProfilePage = React.createClass({
 
   mixins: [
-    Unicycle.listenTo(profileStore)
+    Unicycle.listenTo(profileStore),
+    Unicycle.listenTo(getAllFollowingStore)
   ],
 
   render: function() {
-    var isRequestInFlight = profileStore.isRequestInFlight();
-    var content;
+    var isRequestInFlight = profileStore.isRequestInFlight(),
+        followingViewActive = getAllFollowingStore.getIsInView(),
+        content;
 
     if (isRequestInFlight) {
       content = <ProfilePageLoading/>
+    }
+    else if (followingViewActive) {
+      content = <GetAllFollowingPage/>;
     }
     else {
       content = <ProfilePageBody

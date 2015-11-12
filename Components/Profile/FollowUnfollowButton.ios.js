@@ -14,8 +14,8 @@ var {
 
 var styles = StyleSheet.create({
   followUnfollowContainer: {
-      flex: 1,
-      alignItems: 'center'
+    flex: 1,
+    alignItems: 'center'
   },
   followUnfollowButton: {
     backgroundColor: 'rgba(0,124,158,.2)',

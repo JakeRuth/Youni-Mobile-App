@@ -2,6 +2,7 @@
 
 var React = require('react-native');
 var FollowUnfollowButton = require('./FollowUnfollowButton');
+var FollowingButton = require('./FollowingButton');
 
 var {
   View,
@@ -65,9 +66,13 @@ var ProfilePageBody = React.createClass({
         profileImageUrl = this.props.profileImageUrl,
         email = this.props.email;
 
-    var followButton = <View/>;
+    var followButton = <View/>,
+        followingButton = <View/>;
     if (!viewerIsProfileOwner) {
       followButton = <FollowUnfollowButton email={email}/>
+    }
+    else {
+      followingButton = <FollowingButton email={email}/>
     }
 
     //this should be removed or moved to the api before release
@@ -84,6 +89,7 @@ var ProfilePageBody = React.createClass({
         <Text style={styles.fanCount}>{this._getFansText(numFans)}</Text>
         <Text style={styles.bio}>{bio}</Text>
         {followButton}
+        {followingButton}
       </View>
     );
   },

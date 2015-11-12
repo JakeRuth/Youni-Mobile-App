@@ -7,7 +7,9 @@ var searchStore = require('./stores/SearchStore');
 var profileStore = require('./stores/ProfileStore');
 var MainScreenBanner = require('./MainScreenBanner');
 var ProfilePageBody = require('./Components/Profile/ProfilePageBody');
+var BackButton = require('./Components/Common/BackButtonBar');
 var SearchBar = require('react-native-search-bar');
+var EmptyResults = require('./Components/Common/EmptyResults');
 
 var {
   View,
@@ -21,17 +23,6 @@ var {
 var styles = StyleSheet.create({
   searchPageContainer: {
     flex: 1
-  },
-  backButtonContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginLeft: 10
-  },
-  backButton: {
-    fontSize: 15,
-    color: '#007C9E',
-    marginLeft: 10
   },
   scrollBar: {
     backgroundColor: 'transparent'
@@ -48,15 +39,6 @@ var styles = StyleSheet.create({
     flex: 4,
     fontSize: 20,
     alignSelf: 'center'
-  },
-  emptySearchResultsContainer: {
-    flex: 1
-  },
-  emptySearchText: {
-    flex: 1,
-    alignSelf: 'center',
-    marginTop: 200,
-    color: 'darkgray'
   },
   blankLine: {
     borderWidth: .3,
@@ -83,7 +65,11 @@ var SearchPage = React.createClass({
     var searchPageContent, searchPageHeader;
 
     if (isProfileInView) {
-      searchPageHeader = this._renderBackButton();
+      searchPageHeader = <BackButton buttonOnPress={
+        () => {
+          Unicycle.exec('setInProfileView', false);
+        }
+      }/>;
     }
     else {
       searchPageHeader = this._renderSearchBar();
@@ -107,7 +93,7 @@ var SearchPage = React.createClass({
       searchPageContent = <SearchResultsList/>;
     }
     else {
-      searchPageContent = <EmptySearchResults/>;
+      searchPageContent = <EmptyResults message={'no results to show'}/>;
     }
 
     return (
@@ -129,19 +115,6 @@ var SearchPage = React.createClass({
         placeholder='Search for other students'
         onChangeText={ (search) => { Unicycle.exec('executeSearch', search); } }
         onCancelButtonPress={ () => { Unicycle.exec('executeSearch', null); } }/>
-    );
-  },
-
-  _renderBackButton: function() {
-    return (
-      <TouchableHighlight>
-        <View style={styles.backButtonContainer}>
-          <Icon name='ios-arrow-back' size={25} color='#007C9E' />
-          <Text style={styles.backButton} onPress={ () => {Unicycle.exec('setInProfileView', false)} }>
-            Back
-          </Text>
-        </View>
-      </TouchableHighlight>
     );
   }
 
@@ -229,18 +202,6 @@ var SearchResultLoading = React.createClass({
           style={styles.spinner} />
       </View>
     );
-  }
-
-});
-
-var EmptySearchResults = React.createClass({
-
-  render: function() {
-    return (
-      <View style={styles.emptySearchResultsContainer}>
-        <Text style={styles.emptySearchText}>No results to show</Text>
-      </View>
-    )
   }
 
 });
