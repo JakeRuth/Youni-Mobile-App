@@ -4,7 +4,7 @@ var React = require('react-native');
 var Unicycle = require('./Unicycle');
 var postStore = require('./stores/PostStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
-var LikeText = require('./Components/Post/PostLikeText');
+var PostLikeText = require('./Components/Post/PostLikeText');
 
 var {
   View,
@@ -67,7 +67,8 @@ var Post = React.createClass({
     photoUrl: React.PropTypes.string.isRequired,
     numLikes: React.PropTypes.number.isRequired,
     caption: React.PropTypes.string.isRequired,
-    postIdString: React.PropTypes.string.isRequired
+    postIdString: React.PropTypes.string.isRequired,
+    liked: React.PropTypes.bool.isRequired
   },
 
   render: function() {
@@ -84,7 +85,7 @@ var Post = React.createClass({
           </View>
         </TouchableHighlight>
         <View style={styles.postFooter}>
-          <LikeText numLikes={this.props.numLikes} />
+          <PostLikeText liked={this.props.liked} numLikes={this.props.numLikes} />
           <Text style={styles.caption}>{this.props.caption == '_' ? '' : this.props.caption }</Text>{/*TODO: Fix this crap*/}
         </View>
         <View style={styles.blankLine} />
