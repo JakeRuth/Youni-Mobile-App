@@ -78,14 +78,17 @@ var Post = React.createClass({
           <Text style={styles.posterName} numberOfLines={1}>{this.props.posterName}</Text>
           <Text style={styles.timestamp}>{this.props.timestamp}</Text>
         </View>
-        <TouchableHighlight onPress={ this._photoOnClickAction() }>
+        <TouchableHighlight onPress={ this._photoOnClickAction(this.props.liked) }>
           <View style={styles.imageContainer}>
             <Image style={styles.postImage}
                    source={{uri: this.props.photoUrl}} />
           </View>
         </TouchableHighlight>
         <View style={styles.postFooter}>
-          <PostLikeText liked={this.props.liked} numLikes={this.props.numLikes} />
+          <PostLikeText
+            onStarPress={this._photoOnClickAction(this.props.liked)}
+            liked={this.props.liked}
+            numLikes={this.props.numLikes} />
           <Text style={styles.caption}>{this.props.caption == '_' ? '' : this.props.caption }</Text>{/*TODO: Fix this crap*/}
         </View>
         <View style={styles.blankLine} />
@@ -93,10 +96,17 @@ var Post = React.createClass({
     )
   },
 
-  _photoOnClickAction: function() {
-    return () => {
-      var userId = userLoginMetadataStore.getUserId();
-      Unicycle.exec('likePost', this.props.id, this.props.postIdString, userId);
+  _photoOnClickAction: function(alreadyLiked) {
+    if (!alreadyLiked) {
+      return () => {
+        var userId = userLoginMetadataStore.getUserId();
+        Unicycle.exec('likePost', this.props.id, this.props.postIdString, userId);
+      }
+    }
+    else {
+      return () => {
+        return; //do nothing
+      }
     }
   }
 

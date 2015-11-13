@@ -8,6 +8,7 @@ var {
   View,
   Text,
   StyleSheet,
+  TouchableHighlight,
   ActivityIndicatorIOS
 } = React
 
@@ -33,6 +34,7 @@ var styles = StyleSheet.create({
 var PostLikeText = React.createClass({
 
   propTypes: {
+    onStarPress: React.PropTypes.func,
     numLikes: React.PropTypes.number.isRequired,
     liked: React.PropTypes.bool.isRequired,
   },
@@ -52,7 +54,12 @@ var PostLikeText = React.createClass({
 
     return (
       <View style={styles.likeContainer}>
-        <Icon style={styles.star} name={this._getStarIconName()} size={25} color='gold' />
+        <TouchableHighlight
+          onPress={this.props.onStarPress}
+          underlayColor={'transparent'}
+          style={styles.star}>
+          <Icon name={this._getStarIconName()} size={30} color='gold' />
+        </TouchableHighlight>
         { numLikes }
       </View>
     );
