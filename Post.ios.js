@@ -4,7 +4,7 @@ var React = require('react-native');
 var Unicycle = require('./Unicycle');
 var postStore = require('./stores/PostStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
-var PostLikeText = require('./Components/Post/PostLikeText');
+var PostLikeBar = require('./Components/Post/PostLikeBar');
 
 var {
   View,
@@ -85,7 +85,7 @@ var Post = React.createClass({
           </View>
         </TouchableHighlight>
         <View style={styles.postFooter}>
-          <PostLikeText
+          <PostLikeBar
             onStarPress={this._photoOnClickAction(this.props.liked)}
             liked={this.props.liked}
             numLikes={this.props.numLikes} />

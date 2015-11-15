@@ -31,7 +31,7 @@ var styles = StyleSheet.create({
   }
 });
 
-var PostLikeText = React.createClass({
+var PostLikeBar = React.createClass({
 
   propTypes: {
     onStarPress: React.PropTypes.func,
@@ -91,4 +91,4 @@ var PostLikeText = React.createClass({
 
 });
 
-module.exports = PostLikeText;
+module.exports = PostLikeBar;
