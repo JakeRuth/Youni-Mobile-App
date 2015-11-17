@@ -15,7 +15,7 @@ var postStore = Unicycle.createStore({
     });
   },
 
-  $requestExploreFeed() {
+  $requestExploreFeed(userId) {
     var posts = [];
     var that = this;
 
@@ -27,6 +27,7 @@ var postStore = Unicycle.createStore({
      .post('/feed/getExploreFeed')
      .use(prefix)
      .send({
+       userIdString: userId,
        maxNumberOfPostsToFetch: 10, //TODO: enable paged results
        fetchOffsetAmount: 0
      })
@@ -97,6 +98,7 @@ var postStore = Unicycle.createStore({
          var post = posts.get(id);
          var numLikes = post.get('numLikes');
          post = post.set('numLikes', ++numLikes);
+         post = post.set('liked', true);
          posts = posts.set(id, post);
          that.set({
            posts: posts,
@@ -135,6 +137,7 @@ var postStore = Unicycle.createStore({
         photoUrl: post['photoUrl'],
         numLikes: post['numLikes'],
         caption: post['caption'],
+        liked: post['liked'],
         id: i
       });
     }

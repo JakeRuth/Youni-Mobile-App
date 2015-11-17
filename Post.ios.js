@@ -4,7 +4,7 @@ var React = require('react-native');
 var Unicycle = require('./Unicycle');
 var postStore = require('./stores/PostStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
-var LikeText = require('./Components/Post/PostLikeText');
+var PostLikeBar = require('./Components/Post/PostLikeBar');
 
 var {
   View,
@@ -67,7 +67,8 @@ var Post = React.createClass({
     photoUrl: React.PropTypes.string.isRequired,
     numLikes: React.PropTypes.number.isRequired,
     caption: React.PropTypes.string.isRequired,
-    postIdString: React.PropTypes.string.isRequired
+    postIdString: React.PropTypes.string.isRequired,
+    liked: React.PropTypes.bool.isRequired
   },
 
   render: function() {
@@ -77,14 +78,17 @@ var Post = React.createClass({
           <Text style={styles.posterName} numberOfLines={1}>{this.props.posterName}</Text>
           <Text style={styles.timestamp}>{this.props.timestamp}</Text>
         </View>
-        <TouchableHighlight onPress={ this._photoOnClickAction() }>
+        <TouchableHighlight onPress={ this._photoOnClickAction(this.props.liked) }>
           <View style={styles.imageContainer}>
             <Image style={styles.postImage}
                    source={{uri: this.props.photoUrl}} />
           </View>
         </TouchableHighlight>
         <View style={styles.postFooter}>
-          <LikeText numLikes={this.props.numLikes} />
+          <PostLikeBar
+            onStarPress={this._photoOnClickAction(this.props.liked)}
+            liked={this.props.liked}
+            numLikes={this.props.numLikes} />
           <Text style={styles.caption}>{this.props.caption == '_' ? '' : this.props.caption }</Text>{/*TODO: Fix this crap*/}
         </View>
         <View style={styles.blankLine} />
@@ -92,10 +96,17 @@ var Post = React.createClass({
     )
   },
 
-  _photoOnClickAction: function() {
-    return () => {
-      var userId = userLoginMetadataStore.getUserId();
-      Unicycle.exec('likePost', this.props.id, this.props.postIdString, userId);
+  _photoOnClickAction: function(alreadyLiked) {
+    if (!alreadyLiked) {
+      return () => {
+        var userId = userLoginMetadataStore.getUserId();
+        Unicycle.exec('likePost', this.props.id, this.props.postIdString, userId);
+      }
+    }
+    else {
+      return () => {
+        return; //do nothing
+      }
     }
   }
 

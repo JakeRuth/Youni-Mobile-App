@@ -39,7 +39,8 @@ var HomePage = React.createClass({
   ],
 
   componentDidMount: function() {
-    Unicycle.exec('requestExploreFeed');
+    var userId = userLoginMetadataStore.getUserId();
+    Unicycle.exec('requestExploreFeed', userId);
   },
 
   render: function() {
@@ -78,6 +79,7 @@ var HomePage = React.createClass({
               numLikes={post.get('numLikes')}
               caption={post.get('caption')}
               postIdString={post.get('postIdString')}
+              liked={post.get('liked')}
               key={post.get('id')} />
       );
     }

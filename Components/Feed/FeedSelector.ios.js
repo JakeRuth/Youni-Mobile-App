@@ -108,12 +108,11 @@ var FeedSelector = React.createClass({
 
   _selectorOnClickAction: function(desiredFeed) {
     return () => {
-      var userId;
+      var userId = userLoginMetadataStore.getUserId();;
       if (desiredFeed == feedSelectorStore.FeedType().FULL) {
-        Unicycle.exec('requestExploreFeed');
+        Unicycle.exec('requestExploreFeed', userId);
       }
       else {
-        userId = userLoginMetadataStore.getUserId();
         Unicycle.exec('requestHomeFeed', userId);
       }
       Unicycle.exec('toggleFeed');

@@ -5,9 +5,6 @@ var createPostStore = require('../../stores/CreatePostStore');
 var UIImagePickerManager = require('NativeModules').UIImagePickerManager;
 var Unicycle = require('../../Unicycle');
 
-var request = require('superagent');
-var prefix = require('superagent-prefix')('http://localhost:8080/Greedy');
-
 var {
   View,
   Text,
