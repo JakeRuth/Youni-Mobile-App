@@ -88,7 +88,8 @@ var Post = React.createClass({
           <PostLikeBar
             onStarPress={this._photoOnClickAction(this.props.liked)}
             liked={this.props.liked}
-            numLikes={this.props.numLikes} />
+            numLikes={this.props.numLikes}
+            postIdString={this.props.postIdString} />
           <Text style={styles.caption}>{this.props.caption == '_' ? '' : this.props.caption }</Text>{/*TODO: Fix this crap*/}
         </View>
         <View style={styles.blankLine} />
