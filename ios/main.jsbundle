@@ -54099,7 +54099,7 @@ React.createElement(ProfilePage,null))));}});
 
 module.exports = LandingPage;
 });
-__d('Youni/HomePage.ios.js',["react-native/Libraries/react-native/react-native.js","Youni/Unicycle.js","Youni/stores/UserLoginMetadataStore.js","Youni/MainScreenBanner.ios.js","Youni/Post.ios.js","Youni/Components/Feed/FeedSelector.ios.js","Youni/stores/PostStore.js"],function(global, require, module, exports) {  'use strict';
+__d('Youni/HomePage.ios.js',["react-native/Libraries/react-native/react-native.js","Youni/Unicycle.js","Youni/stores/UserLoginMetadataStore.js","Youni/MainScreenBanner.ios.js","Youni/Components/Feed/FeedSelector.ios.js","Youni/stores/PostStore.js","Youni/Post.ios.js"],function(global, require, module, exports) {  'use strict';
 
 var React=require('react-native/Libraries/react-native/react-native.js');
 var Unicycle=require('Youni/Unicycle.js');
@@ -55771,7 +55771,7 @@ this.props.subTitle)));}});
 
 module.exports = MainScreenBanner;
 });
-__d('Youni/Post.ios.js',["react-native/Libraries/react-native/react-native.js","Youni/Unicycle.js","Youni/stores/UserLoginMetadataStore.js","Youni/stores/PostStore.js","Youni/Components/Post/PostLikeBar.ios.js"],function(global, require, module, exports) {  'use strict';
+__d('Youni/Post.ios.js',["react-native/Libraries/react-native/react-native.js","Youni/Unicycle.js","Youni/stores/PostStore.js","Youni/stores/UserLoginMetadataStore.js","Youni/Components/Post/PostLikeBar.ios.js"],function(global, require, module, exports) {  'use strict';
 
 var React=require('react-native/Libraries/react-native/react-native.js');
 var Unicycle=require('Youni/Unicycle.js');
@@ -55861,7 +55861,8 @@ React.createElement(View,{style:styles.postFooter},
 React.createElement(PostLikeBar,{
 onStarPress:this._photoOnClickAction(this.props.liked),
 liked:this.props.liked,
-numLikes:this.props.numLikes}),
+numLikes:this.props.numLikes,
+postIdString:this.props.postIdString}),
 React.createElement(Text,{style:styles.caption},this.props.caption == '_'?'':this.props.caption)),
 
 React.createElement(View,{style:styles.blankLine})));},
@@ -55887,19 +55888,18 @@ return;};}}});
 
 module.exports = Post;
 });
-__d('Youni/Components/Post/PostLikeBar.ios.js',["react-native/Libraries/react-native/react-native.js","Youni/stores/PostStore.js","Ionicons"],function(global, require, module, exports) {  'use strict';
+__d('Youni/Components/Post/PostLikeBar.ios.js',["react-native/Libraries/react-native/react-native.js","Youni/stores/PostStore.js","Ionicons","Youni/Components/Post/Like/PostLikeText.ios.js"],function(global, require, module, exports) {  'use strict';
 
 var React=require('react-native/Libraries/react-native/react-native.js');
 var postStore=require('Youni/stores/PostStore.js');
-var Icon=require('Ionicons');var 
+var Icon=require('Ionicons');
+var PostLikeText=require('Youni/Components/Post/Like/PostLikeText.ios.js');var 
 
 
 View=
 
 
-
-
-React.View;var Text=React.Text;var StyleSheet=React.StyleSheet;var TouchableHighlight=React.TouchableHighlight;var ActivityIndicatorIOS=React.ActivityIndicatorIOS;
+React.View;var StyleSheet=React.StyleSheet;var TouchableHighlight=React.TouchableHighlight;
 
 var styles=StyleSheet.create({
 likeContainer:{
@@ -55911,12 +55911,7 @@ marginRight:30,
 alignItems:'center'},
 
 star:{
-flex:1},
-
-numLikes:{
-color:'darkblue',
-fontSize:13,
-fontWeight:'600'}});
+flex:1}});
 
 
 
@@ -55925,56 +55920,35 @@ var PostLikeBar=React.createClass({displayName:'PostLikeBar',
 propTypes:{
 onStarPress:React.PropTypes.func,
 numLikes:React.PropTypes.number.isRequired,
-liked:React.PropTypes.bool.isRequired},
+liked:React.PropTypes.bool.isRequired,
+postIdString:React.PropTypes.string.isRequired},
 
 
 render:function(){
-var numLikes;
-if(postStore.isLikeRequestInFlight()){
-numLikes = React.createElement(ActivityIndicatorIOS,{size:'small',style:styles.spinner});}else 
-
-{
-numLikes = 
-React.createElement(Text,{style:styles.numLikes},
-this._getLikesText(this.props.numLikes));}
-
-
-
-
 return (
 React.createElement(View,{style:styles.likeContainer},
+
 React.createElement(TouchableHighlight,{
 onPress:this.props.onStarPress,
 underlayColor:'transparent',
 style:styles.star},
 React.createElement(Icon,{name:this._getStarIconName(),size:30,color:'gold'})),
 
-numLikes));},
+
+React.createElement(PostLikeText,{
+numLikes:this.props.numLikes,
+postIdString:this.props.postIdString})));},
+
 
 
 
 
 _getStarIconName:function(){
-var iconName;
 if(this.props.liked){
-iconName = 'ios-star';}else 
+return 'ios-star';}else 
 
 {
-iconName = 'android-star-outline';}
-
-return iconName;},
-
-
-
-_getLikesText:function(numLikes){
-if(numLikes > 1){
-return numLikes + ' likes';}else 
-
-if(numLikes === 1){
-return numLikes + ' like';}else 
-
-{
-return 'no likes... yet';}}});
+return 'android-star-outline';}}});
 
 
 
@@ -69349,6 +69323,304 @@ rotation:PropTypes.number}};
 
 module.exports = requireNativeComponent('RNTypefaceTextView',iface);
 });
+__d('Youni/Components/Post/Like/PostLikeText.ios.js',["react-native/Libraries/react-native/react-native.js","Youni/Unicycle.js","Youni/stores/PostStore.js","Youni/stores/post/like/PostLikeModalStore.js","Youni/Components/Post/Like/PostLikeModal.ios.js"],function(global, require, module, exports) {  'use strict';
+
+var React=require('react-native/Libraries/react-native/react-native.js');
+var Unicycle=require('Youni/Unicycle.js');
+var postStore=require('Youni/stores/PostStore.js');
+var postLikeModalStore=require('Youni/stores/post/like/PostLikeModalStore.js');
+var PostLikeModal=require('Youni/Components/Post/Like/PostLikeModal.ios.js');var 
+
+
+View=
+
+
+
+React.View;var Text=React.Text;var StyleSheet=React.StyleSheet;var ActivityIndicatorIOS=React.ActivityIndicatorIOS;
+
+var styles=StyleSheet.create({
+numLikes:{
+color:'darkblue',
+fontSize:18,
+marginLeft:25,
+fontFamily:'Avenir'}});
+
+
+
+var PostLikeText=React.createClass({displayName:'PostLikeText',
+
+propTypes:{
+numLikes:React.PropTypes.number.isRequired,
+postIdString:React.PropTypes.string.isRequired},
+
+
+render:function(){
+var content;
+
+if(postStore.isLikeRequestInFlight()){
+content = this._renderSmallSpinner();}else 
+
+{
+content = 
+React.createElement(Text,{style:styles.numLikes,
+onPress:this._onTextPress},
+this._getLikesText(this.props.numLikes));}
+
+
+
+
+return (
+React.createElement(View,null,
+React.createElement(PostLikeModal,{postIdString:this.props.postIdString}),
+content));},
+
+
+
+
+_onTextPress:function(){
+Unicycle.exec('setIsModalVisible',true);
+Unicycle.exec('getLikersForPost',this.props.postIdString);},
+
+
+_renderSmallSpinner:function(){
+return (
+React.createElement(ActivityIndicatorIOS,{size:'small',style:styles.spinner}));},
+
+
+
+
+_getLikesText:function(numLikes){
+if(numLikes > 1){
+return numLikes + ' likes';}else 
+
+if(numLikes === 1){
+return numLikes + ' like';}else 
+
+{
+return 'no likes... yet';}}});
+
+
+
+
+
+module.exports = PostLikeText;
+});
+__d('Youni/stores/post/like/PostLikeModalStore.js',["react-native/Libraries/react-native/react-native.js","Youni/Unicycle.js","superagent/lib/client.js","superagent-prefix/index.js"],function(global, require, module, exports) {  'use strict';
+
+var React=require('react-native/Libraries/react-native/react-native.js');
+var Unicycle=require('Youni/Unicycle.js');
+var request=require('superagent/lib/client.js');
+var prefix=require('superagent-prefix/index.js')('http://greedyapi.elasticbeanstalk.com');
+
+var postLikeModalStore=Unicycle.createStore({
+
+init:function(){
+this.set({
+isVisible:false,
+isRequestInFlight:false,
+likers:[]});},
+
+
+
+$getLikersForPost:function(postId){
+var that=this;
+
+this.set({
+isRequestInFlight:true});
+
+
+request.
+post('/post/getLikerDisplayNames').
+use(prefix).
+send({
+postIdString:postId}).
+
+set('Accept','application/json').
+end(function(err,res){
+if(res !== undefined && res.ok){
+that.set({
+likers:res.body.users});}else 
+
+
+{}
+
+
+that.set({
+isRequestInFlight:false});});},
+
+
+
+
+$setIsModalVisible:function(isVisible){
+this.set({
+isVisible:isVisible});},
+
+
+
+getIsVisible:function(){
+return this.get('isVisible');},
+
+
+getLikerDisplayNames:function(){
+return this.get('likers');},
+
+
+isRequestInFlight:function(){
+return this.get('isRequestInFlight');}});
+
+
+
+
+module.exports = postLikeModalStore;
+});
+__d('Youni/Components/Post/Like/PostLikeModal.ios.js',["react-native/Libraries/react-native/react-native.js","Youni/Unicycle.js","Youni/stores/post/like/PostLikeModalStore.js"],function(global, require, module, exports) {  'use strict';
+
+var React=require('react-native/Libraries/react-native/react-native.js');
+var Unicycle=require('Youni/Unicycle.js');
+var postLikeModalStore=require('Youni/stores/post/like/PostLikeModalStore.js');var 
+
+
+View=
+
+
+
+
+
+
+React.View;var Text=React.Text;var Modal=React.Modal;var ScrollView=React.ScrollView;var StyleSheet=React.StyleSheet;var TouchableHighlight=React.TouchableHighlight;var ActivityIndicatorIOS=React.ActivityIndicatorIOS;
+
+var styles=StyleSheet.create({
+container:{
+flex:1,
+backgroundColor:'rgba(0, 0, 0, 0.5)',
+justifyContent:'center',
+padding:20},
+
+modalContainer:{
+borderRadius:10,
+alignItems:'center',
+backgroundColor:'#FFF',
+padding:10},
+
+modalHeader:{
+color:'darkgray'},
+
+likerListContainer:{
+alignItems:'center'},
+
+likerListScroll:{
+margin:20,
+padding:20,
+height:200},
+
+displayName:{
+padding:2,
+fontSize:20},
+
+closeModalButton:{
+backgroundColor:'#FF7878',
+marginTop:10,
+padding:10,
+paddingTop:5,
+paddingBottom:5,
+borderRadius:3}});
+
+
+
+var PostLikeModal=React.createClass({displayName:'PostLikeModal',
+
+mixins:[
+Unicycle.listenTo(postLikeModalStore)],
+
+
+_setModalVisibility:function(isVisible){
+Unicycle.exec('setIsModalVisible',isVisible);},
+
+
+render:function(){
+var isModalVisible=postLikeModalStore.getIsVisible(),
+isRequestInFlight=postLikeModalStore.isRequestInFlight(),
+likers=postLikeModalStore.getLikerDisplayNames(),
+content;
+
+var likerList=[];
+for(var i=0;i < likers.size;i++) {
+likerList.push(
+this._renderLikerNameText(likers.get(i)));}
+
+
+
+if(isRequestInFlight){
+content = this._renderSmallSpinner();}else 
+
+{
+content = this._renderModalContent(likerList);}
+
+
+return (
+React.createElement(View,null,
+React.createElement(Modal,{
+style:styles.modal,
+animated:true,
+transparent:true,
+visible:isModalVisible},
+
+React.createElement(View,{style:styles.container},
+
+content))));},
+
+
+
+
+
+
+
+
+_renderModalContent:function(likerList){var _this=this;
+return (
+React.createElement(View,{style:styles.modalContainer},
+React.createElement(Text,{style:styles.modalHeader},this._getModalHeadingText(likerList.length)),
+
+React.createElement(ScrollView,{style:styles.likerListScroll},
+React.createElement(View,{style:styles.likerListContainer},
+likerList)),
+
+
+
+React.createElement(TouchableHighlight,{
+onPress:function(){_this._setModalVisibility(false);},
+style:styles.closeModalButton},
+React.createElement(Text,null,'Close'))));},
+
+
+
+
+
+_renderLikerNameText:function(displayName){
+return (
+React.createElement(Text,{style:styles.displayName},
+displayName));},
+
+
+
+
+_renderSmallSpinner:function(){
+return (
+React.createElement(View,{style:styles.modalContainer},
+React.createElement(ActivityIndicatorIOS,{size:'small',style:styles.spinner})));},
+
+
+
+
+_getModalHeadingText:function(numLikers){
+var studentSingularOrPlural=numLikers === 1?'student':'students';
+return numLikers + ' ' + studentSingularOrPlural + ' liked this';}});
+
+
+
+
+module.exports = PostLikeModal;
+});
 __d('Youni/Components/Feed/FeedSelector.ios.js',["react-native/Libraries/react-native/react-native.js","Youni/Unicycle.js","Youni/stores/FeedSelectorStore.js","Youni/stores/UserLoginMetadataStore.js","Youni/stores/PostStore.js"],function(global, require, module, exports) {  'use strict';
 
 var React=require('react-native/Libraries/react-native/react-native.js');
@@ -70833,7 +71105,7 @@ trendingProfiles:[]});}});
 
 module.exports = trendingStore;
 });
-__d('Youni/CreatePostPage.js',["react-native/Libraries/react-native/react-native.js","Youni/Unicycle.js","Youni/MainScreenBanner.ios.js","Youni/Components/Post/CreatePostForm.ios.js","Youni/Components/Post/CreatePostButton.ios.js","Youni/stores/CreatePostStore.js"],function(global, require, module, exports) {  'use strict';
+__d('Youni/CreatePostPage.js',["react-native/Libraries/react-native/react-native.js","Youni/Unicycle.js","Youni/MainScreenBanner.ios.js","Youni/Components/Post/CreatePostForm.ios.js","Youni/stores/CreatePostStore.js","Youni/Components/Post/CreatePostButton.ios.js"],function(global, require, module, exports) {  'use strict';
 
 var React=require('react-native/Libraries/react-native/react-native.js');
 var createPostStore=require('Youni/stores/CreatePostStore.js');
