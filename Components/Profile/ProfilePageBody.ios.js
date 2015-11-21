@@ -3,6 +3,7 @@
 var React = require('react-native');
 var FollowUnfollowButton = require('./FollowUnfollowButton');
 var FollowingButton = require('./FollowingButton');
+var EditSettingsButton = require('./EditSettingsButton');
 
 var {
   View,
@@ -17,21 +18,20 @@ var styles = StyleSheet.create({
     paddingBottom: 20
   },
   fullName: {
-    backgroundColor: 'rgba(0,124,158,.2)',
     textAlign: 'center',
     fontSize: 30,
-    borderWidth: 1,
-    borderRadius: 5,
     margin: 5
   },
   profilePictureContainer: {
-    flex: 2,
     flexDirection: 'row',
     justifyContent: 'center',
     marginBottom: 5
   },
-  profileImage: {
-
+  profilePicture: {
+    borderRadius: 50,
+    margin: 25,
+    width: 150,
+    height: 150
   },
   fanCount: {
     textAlign: 'center',
@@ -64,15 +64,17 @@ var ProfilePageBody = React.createClass({
         bio = this.props.bio,
         numFans = this.props.numFans,
         profileImageUrl = this.props.profileImageUrl,
-        email = this.props.email;
+        email = this.props.email,
+        followButton = <View/>,
+        followingButton = <View/>,
+        editSettingsIcon = <View/>;
 
-    var followButton = <View/>,
-        followingButton = <View/>;
-    if (!viewerIsProfileOwner) {
-      followButton = <FollowUnfollowButton email={email}/>
+    if (viewerIsProfileOwner) {
+      followingButton = <FollowingButton email={email}/>
+      editSettingsIcon = <EditSettingsButton />
     }
     else {
-      followingButton = <FollowingButton email={email}/>
+      followButton = <FollowUnfollowButton email={email}/>
     }
 
     //this should be removed or moved to the api before release
@@ -82,14 +84,18 @@ var ProfilePageBody = React.createClass({
 
     return (
       <View style={styles.profileBodyContent}>
+
         <Text style={styles.fullName}>{firstName} {lastName}</Text>
+        { editSettingsIcon }
         <View style={styles.profilePictureContainer}>
-          <Text style={styles.profileImage}>Image Placeholder</Text>
+          <Image style={styles.profilePicture}
+                 source={{uri: 'https://s3-us-west-2.amazonaws.com/misc-youni-files/snoop_dogg.jpg?X-Amz-Date=20151121T210804Z&X-Amz-Expires=300&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Signature=b2570be15f5d7d5ed477db84dbfe3d35ae4283ec72384081eae5c933a812587d&X-Amz-Credential=ASIAJQ4A4OZXS3F2J5QA/20151121/us-west-2/s3/aws4_request&X-Amz-SignedHeaders=Host&x-amz-security-token=AQoDYXdzENn//////////wEagALlvhvMpjGA%2BNIVs%2BrVDge/dur8Zhx4ZECQsh7WX0JC62Foz7P3amPdAseYixUketph19kitZVOxqFi8%2BZxXlS9qIofgCaAZjZOxFJyWbsHeeKHEuDDTuEbTUIMkOkW30qVEjMw4z5XH6W3JiSp68y6Xeqm%2BBOtG44Nnf%2B71FamDS3dbKc0vkFTJ9ykAAf3%2BwExtK5rnWpLQAUvqwsh05MkUcNawMiFSQQ4PF9wUCIbFaWaGMBk1F6aSp8wra5yZ4ldVvkYKKIEeuboN1iCCvBIt8zDe/Rl2L/V4h%2BjEVqZH14fkVUMWAbrG8kKiOQyGtCDr4HlhWYj/HgqzbpW1VgZILaXwrIF'}} />
         </View>
         <Text style={styles.fanCount}>{this._getFansText(numFans)}</Text>
         <Text style={styles.bio}>{bio}</Text>
         {followButton}
         {followingButton}
+
       </View>
     );
   },
