@@ -117,7 +117,9 @@ var CreatePostForm = React.createClass({
 
           <View style={styles.submitPostContainer}>
             { postButton }
-            <Text style={styles.cancelText}>
+            <Text
+              style={styles.cancelText}
+              onPress={this._onCancelTextClick} >
               Cancel
             </Text>
           </View>
@@ -134,6 +136,11 @@ var CreatePostForm = React.createClass({
         pictureId = createPostStore.getImageId(),
         caption = createPostStore.getCaption();
     Unicycle.exec('createPost', userId, pictureId, caption);
+  },
+
+  _onCancelTextClick: function() {
+    Unicycle.exec('setWasImageSelected', false);
+    Unicycle.exec('setCaption', '');
   }
 
 });
