@@ -8,7 +8,6 @@ var EditBioBox = require('./EditBioBox');
 var {
   View,
   Text,
-  TouchableHighlight,
   StyleSheet
 } = React
 

@@ -27,7 +27,7 @@ var EditSettingsButton = React.createClass({
         style={styles.settingIconContainer}
         underlayColor='transparent'>
 
-        <Icon name='edit' size={25} color={'gray'} />
+        <Icon name='edit' size={35} color={'gray'} />
 
       </TouchableHighlight>
     );
