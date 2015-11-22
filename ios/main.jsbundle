@@ -53981,7 +53981,7 @@ return this.get('email');}});
 
 module.exports = userLoginMetadata;
 });
-__d('Youni/LandingPage.js',["react-native/Libraries/react-native/react-native.js","Youni/HomePage.ios.js","Youni/SearchPage.ios.js","Youni/TrendingPage.ios.js","Youni/CreatePostPage.js","Ionicons","Youni/stores/UserLoginMetadataStore.js","Youni/Unicycle.js","Youni/ProfilePage.ios.js","Youni/stores/LoginStore.js"],function(global, require, module, exports) {  'use strict';
+__d('Youni/LandingPage.js',["react-native/Libraries/react-native/react-native.js","Youni/HomePage.ios.js","Youni/SearchPage.ios.js","Youni/ProfilePage.ios.js","Youni/TrendingPage.ios.js","Youni/CreatePostPage.js","Ionicons","Youni/stores/UserLoginMetadataStore.js","Youni/Unicycle.js","Youni/stores/LoginStore.js"],function(global, require, module, exports) {  'use strict';
 
 var React=require('react-native/Libraries/react-native/react-native.js');
 var HomePage=require('Youni/HomePage.ios.js');
@@ -69323,7 +69323,7 @@ rotation:PropTypes.number}};
 
 module.exports = requireNativeComponent('RNTypefaceTextView',iface);
 });
-__d('Youni/Components/Post/Like/PostLikeText.ios.js',["react-native/Libraries/react-native/react-native.js","Youni/Unicycle.js","Youni/stores/PostStore.js","Youni/stores/post/like/PostLikeModalStore.js","Youni/Components/Post/Like/PostLikeModal.ios.js"],function(global, require, module, exports) {  'use strict';
+__d('Youni/Components/Post/Like/PostLikeText.ios.js',["react-native/Libraries/react-native/react-native.js","Youni/Unicycle.js","Youni/Components/Post/Like/PostLikeModal.ios.js","Youni/stores/PostStore.js","Youni/stores/post/like/PostLikeModalStore.js"],function(global, require, module, exports) {  'use strict';
 
 var React=require('react-native/Libraries/react-native/react-native.js');
 var Unicycle=require('Youni/Unicycle.js');
@@ -69790,7 +69790,7 @@ return this.get('currentFeed');}});
 
 module.exports = feedSelectorStore;
 });
-__d('Youni/SearchPage.ios.js',["react-native/Libraries/react-native/react-native.js","Ionicons","Youni/Unicycle.js","Youni/MainScreenBanner.ios.js","react-native-search-bar/SearchBar.js","Youni/Components/Common/EmptyResults.ios.js","Youni/stores/SearchStore.js","Youni/stores/ProfileStore.js","Youni/Components/Profile/ProfilePageBody.ios.js","Youni/Components/Common/BackButtonBar.ios.js"],function(global, require, module, exports) {  'use strict';
+__d('Youni/SearchPage.ios.js',["react-native/Libraries/react-native/react-native.js","Ionicons","Youni/Unicycle.js","Youni/MainScreenBanner.ios.js","Youni/Components/Common/BackButtonBar.ios.js","react-native-search-bar/SearchBar.js","Youni/Components/Common/EmptyResults.ios.js","Youni/stores/SearchStore.js","Youni/stores/ProfileStore.js","Youni/Components/Profile/ProfilePageBody.ios.js"],function(global, require, module, exports) {  'use strict';
 
 var React=require('react-native/Libraries/react-native/react-native.js');
 var Icon=require('Ionicons');
@@ -70100,6 +70100,8 @@ this.set({
 inSettingsView:false,
 isRequestInFlight:false,
 isUploadBioRequestInFlight:false,
+isUploadFirstNameRequestInFlight:false,
+isUploadLastNameRequestInFlight:false,
 firstName:'',
 lastName:'',
 numFollowers:null,
@@ -70118,6 +70120,18 @@ inSettingsView:inSettingsView});},
 $setBio:function(bio){
 this.set({
 bio:bio});},
+
+
+
+$setFirstName:function(firstName){
+this.set({
+firstName:firstName});},
+
+
+
+$setLastName:function(lastName){
+this.set({
+lastName:lastName});},
 
 
 
@@ -70141,6 +70155,54 @@ if(res !== undefined && res.ok){}else
 
 that.set({
 isUploadBioRequestInFlight:false});});},
+
+
+
+
+$uploadUserFirstName:function(userId,firstName){
+var that=this;
+
+this.set({isUploadFirstNameRequestInFlight:true});
+request.
+post('/user/updateFirstName').
+use(prefix).
+send({
+userIdString:userId,
+firstName:firstName}).
+
+set('Accept','application/json').
+end(function(err,res){
+if(res !== undefined && res.ok){}else 
+
+{}
+
+
+that.set({
+isUploadFirstNameRequestInFlight:false});});},
+
+
+
+
+$uploadUserLastName:function(userId,lastName){
+var that=this;
+
+this.set({isUploadLastNameRequestInFlight:true});
+request.
+post('/user/updateFirstName').
+use(prefix).
+send({
+userIdString:userId,
+lastName:lastName}).
+
+set('Accept','application/json').
+end(function(err,res){
+if(res !== undefined && res.ok){}else 
+
+{}
+
+
+that.set({
+isUploadLastNameRequestInFlight:false});});},
 
 
 
@@ -70176,6 +70238,14 @@ return this.get('isRequestInFlight');},
 
 isUploadBioRequestInFlight:function(){
 return this.get('isUploadBioRequestInFlight');},
+
+
+isUploadFirstNameRequestInFlight:function(){
+return this.get('isUploadFirstNameRequestInFlight');},
+
+
+isUploadLastNameRequestInFlight:function(){
+return this.get('isUploadLastNameRequestInFlight');},
 
 
 getInSettingsView:function(){
@@ -70227,7 +70297,7 @@ React.View;var Text=React.Text;var Image=React.Image;var StyleSheet=React.StyleS
 var styles=StyleSheet.create({
 profileBodyContent:{
 flex:1,
-paddingBottom:20},
+paddingBottom:50},
 
 fullName:{
 textAlign:'center',
@@ -70516,7 +70586,7 @@ return this.get('isUserFollowingResult');}});
 
 module.exports = followUnfollowStore;
 });
-__d('Youni/Components/Profile/FollowingButton.ios.js',["react-native/Libraries/react-native/react-native.js","Youni/Unicycle.js","Youni/stores/user/GetAllFollowingStore.js","Youni/stores/UserLoginMetadataStore.js"],function(global, require, module, exports) {  'use strict';
+__d('Youni/Components/Profile/FollowingButton.ios.js',["react-native/Libraries/react-native/react-native.js","Youni/Unicycle.js","Youni/stores/UserLoginMetadataStore.js","Youni/stores/user/GetAllFollowingStore.js"],function(global, require, module, exports) {  'use strict';
 
 var React=require('react-native/Libraries/react-native/react-native.js');
 var Unicycle=require('Youni/Unicycle.js');
@@ -70684,7 +70754,7 @@ onPress:this._onSettingsButtonClick,
 style:styles.settingIconContainer,
 underlayColor:'transparent'},
 
-React.createElement(Icon,{name:'edit',size:25,color:'gray'})));},
+React.createElement(Icon,{name:'edit',size:35,color:'gray'})));},
 
 
 
@@ -70848,7 +70918,7 @@ React.createElement(Text,{style:styles.emptySearchText},this.props.message)));}}
 
 module.exports = EmptyResults;
 });
-__d('Youni/ProfilePage.ios.js',["react-native/Libraries/react-native/react-native.js","Youni/Unicycle.js","Youni/stores/ProfileStore.js","Youni/Components/Profile/Settings/EditSettingsPage.ios.js","Youni/stores/user/GetAllFollowingStore.js","Youni/Components/Profile/GetAllFollowingPage.ios.js","Youni/MainScreenBanner.ios.js","Youni/Components/Profile/ProfilePageBody.ios.js"],function(global, require, module, exports) {  'use strict';
+__d('Youni/ProfilePage.ios.js',["react-native/Libraries/react-native/react-native.js","Youni/Unicycle.js","Youni/Components/Profile/GetAllFollowingPage.ios.js","Youni/MainScreenBanner.ios.js","Youni/stores/ProfileStore.js","Youni/Components/Profile/ProfilePageBody.ios.js","Youni/stores/user/GetAllFollowingStore.js","Youni/Components/Profile/Settings/EditSettingsPage.ios.js"],function(global, require, module, exports) {  'use strict';
 
 var React=require('react-native/Libraries/react-native/react-native.js');
 var Unicycle=require('Youni/Unicycle.js');
@@ -70941,19 +71011,20 @@ style:styles.spinner})));}});
 
 module.exports = ProfilePage;
 });
-__d('Youni/Components/Profile/Settings/EditSettingsPage.ios.js',["react-native/Libraries/react-native/react-native.js","Youni/Unicycle.js","Youni/Components/Common/BackButtonBar.ios.js","Youni/Components/Profile/Settings/EditBioBox.ios.js"],function(global, require, module, exports) {  'use strict';
+__d('Youni/Components/Profile/Settings/EditSettingsPage.ios.js',["react-native/Libraries/react-native/react-native.js","Youni/Unicycle.js","Youni/Components/Common/BackButtonBar.ios.js","Youni/Components/Profile/Settings/EditBioBox.ios.js","Youni/Components/Profile/Settings/EditFirstNameBox.ios.js","Youni/Components/Profile/Settings/EditLastNameBox.ios.js"],function(global, require, module, exports) {  'use strict';
 
 var React=require('react-native/Libraries/react-native/react-native.js');
 var Unicycle=require('Youni/Unicycle.js');
 var BackButtonBar=require('Youni/Components/Common/BackButtonBar.ios.js');
-var EditBioBox=require('Youni/Components/Profile/Settings/EditBioBox.ios.js');var 
+var EditBioBox=require('Youni/Components/Profile/Settings/EditBioBox.ios.js');
+var EditFirstNameBox=require('Youni/Components/Profile/Settings/EditFirstNameBox.ios.js');
+var EditLastNameBox=require('Youni/Components/Profile/Settings/EditLastNameBox.ios.js');var 
 
 
 View=
 
 
-
-React.View;var Text=React.Text;var TouchableHighlight=React.TouchableHighlight;var StyleSheet=React.StyleSheet;
+React.View;var Text=React.Text;var StyleSheet=React.StyleSheet;
 
 var styles=StyleSheet.create({
 settingIconContainer:{
@@ -70969,7 +71040,9 @@ render:function(){
 return (
 React.createElement(View,null,
 React.createElement(BackButtonBar,{buttonOnPress:this._onBackButtonPress}),
-React.createElement(EditBioBox,null)));},
+React.createElement(EditBioBox,null),
+React.createElement(EditFirstNameBox,null),
+React.createElement(EditLastNameBox,null)));},
 
 
 
@@ -70982,13 +71055,14 @@ Unicycle.exec('setInSettingsView',false);}});
 
 module.exports = EditSettingsPage;
 });
-__d('Youni/Components/Profile/Settings/EditBioBox.ios.js',["react-native/Libraries/react-native/react-native.js","Ionicons","Youni/Unicycle.js","Youni/stores/ProfileStore.js","Youni/stores/UserLoginMetadataStore.js"],function(global, require, module, exports) {  'use strict';
+__d('Youni/Components/Profile/Settings/EditBioBox.ios.js',["react-native/Libraries/react-native/react-native.js","Ionicons","Youni/Unicycle.js","Youni/stores/ProfileStore.js","Youni/stores/UserLoginMetadataStore.js","Youni/Components/Profile/Settings/SubmitActionButtons.ios.js"],function(global, require, module, exports) {  'use strict';
 
 var React=require('react-native/Libraries/react-native/react-native.js');
 var Icon=require('Ionicons');
 var Unicycle=require('Youni/Unicycle.js');
 var profileStore=require('Youni/stores/ProfileStore.js');
-var userLoginMetadataStore=require('Youni/stores/UserLoginMetadataStore.js');var 
+var userLoginMetadataStore=require('Youni/stores/UserLoginMetadataStore.js');
+var SubmitActionButtons=require('Youni/Components/Profile/Settings/SubmitActionButtons.ios.js');var 
 
 
 View=
@@ -71021,26 +71095,7 @@ padding:15,
 paddingTop:3,
 height:75,
 borderWidth:1,
-borderRadius:3},
-
-actionButtonsContainer:{
-flexDirection:'column'},
-
-submitBioButton:{
-flex:1,
-alignSelf:'center',
-marginLeft:5},
-
-cancelBioButton:{
-flex:1,
-marginTop:5,
-alignSelf:'center',
-marginLeft:5},
-
-spinnerContainer:{
-flex:1,
-justifyContent:'center',
-alignItems:'center'}});
+borderRadius:3}});
 
 
 
@@ -71060,7 +71115,11 @@ if(isUploadBioRequestInFlight){
 actionButtons = this.renderSpinner();}else 
 
 {
-actionButtons = this.renderActionButtons();}
+actionButtons = 
+React.createElement(SubmitActionButtons,{
+onSubmitButtonPress:this._onSubmitUpdateBioPress,
+onCancelButtonPress:this._onCancelUpdateBioPress});}
+
 
 
 return (
@@ -71081,24 +71140,176 @@ actionButtons));},
 
 
 
-renderActionButtons:function(){
+renderSpinner:function(){
+return (
+React.createElement(ActivityIndicatorIOS,{color:'black',size:'small'}));},
+
+
+
+_onSubmitUpdateBioPress:function(){
+var userId=userLoginMetadataStore.getUserId(),
+bio=profileStore.getBio();
+Unicycle.exec('uploadUserBio',userId,bio);},
+
+
+_onCancelUpdateBioPress:function(){
+Unicycle.exec('setBio',this.state.originalBio);}});
+
+
+
+
+module.exports = EditBioBox;
+});
+__d('Youni/Components/Profile/Settings/SubmitActionButtons.ios.js',["react-native/Libraries/react-native/react-native.js","Ionicons"],function(global, require, module, exports) {  'use strict';
+
+var React=require('react-native/Libraries/react-native/react-native.js');
+var Icon=require('Ionicons');var 
+
+
+View=
+
+
+React.View;var TouchableHighlight=React.TouchableHighlight;var StyleSheet=React.StyleSheet;
+
+var styles=StyleSheet.create({
+actionButtonsContainer:{
+flexDirection:'column'},
+
+submitButton:{
+flex:1,
+alignSelf:'center',
+marginLeft:5},
+
+cancelButton:{
+flex:1,
+marginTop:5,
+alignSelf:'center',
+marginLeft:5}});
+
+
+
+var EditBioBox=React.createClass({displayName:'EditBioBox',
+
+propTypes:{
+onSubmitButtonPress:React.PropTypes.func.isRequired,
+onCancelButtonPress:React.PropTypes.func.isRequired},
+
+
+render:function(){
 return (
 React.createElement(View,{style:styles.actionButtonsContainer},
 React.createElement(TouchableHighlight,{
-onPress:this._onSubmitUpdateBioPress,
+onPress:this.props.onSubmitButtonPress,
 underlayColor:'transparent'},
 
-React.createElement(Icon,{style:styles.submitBioButton,
+React.createElement(Icon,{style:styles.submitButton,
 name:'checkmark',size:30,color:'#007C9E'})),
 
 
 React.createElement(TouchableHighlight,{
-onPress:this._onCancelUpdateBioPress,
+onPress:this.props.onCancelButtonPress,
 underlayColor:'transparent'},
 
-React.createElement(Icon,{style:styles.cancelBioButton,
-name:'close',size:30,color:'#FF7878'}))));},
+React.createElement(Icon,{style:styles.cancelButton,
+name:'close',size:30,color:'#FF7878'}))));}});
 
+
+
+
+
+
+
+
+module.exports = EditBioBox;
+});
+__d('Youni/Components/Profile/Settings/EditFirstNameBox.ios.js',["react-native/Libraries/react-native/react-native.js","Youni/Unicycle.js","Youni/stores/ProfileStore.js","Youni/stores/UserLoginMetadataStore.js","Youni/Components/Profile/Settings/SubmitActionButtons.ios.js"],function(global, require, module, exports) {  'use strict';
+
+var React=require('react-native/Libraries/react-native/react-native.js');
+var Unicycle=require('Youni/Unicycle.js');
+var profileStore=require('Youni/stores/ProfileStore.js');
+var userLoginMetadataStore=require('Youni/stores/UserLoginMetadataStore.js');
+var SubmitActionButtons=require('Youni/Components/Profile/Settings/SubmitActionButtons.ios.js');var 
+
+
+View=
+
+
+
+
+
+React.View;var Text=React.Text;var TextInput=React.TextInput;var StyleSheet=React.StyleSheet;var AlertIOS=React.AlertIOS;var ActivityIndicatorIOS=React.ActivityIndicatorIOS;
+
+var styles=StyleSheet.create({
+updateFirstNameContainer:{
+flex:1,
+flexDirection:'row',
+backgroundColor:'#DBDBDB',
+borderWidth:1,
+borderRadius:10,
+margin:5,
+padding:10,
+alignItems:'center'},
+
+updateFirstNameText:{
+flex:2,
+textAlign:'center',
+fontSize:10},
+
+updateFirstNameInputContainer:{
+flex:5},
+
+updateFirstNameInput:{
+backgroundColor:'white',
+padding:2,
+height:25,
+borderWidth:1,
+borderRadius:3},
+
+
+
+spinnerContainer:{
+height:71,
+width:29}});
+
+
+
+var EditFirstNameBox=React.createClass({displayName:'EditFirstNameBox',
+
+getInitialState:function(){
+return {
+originalFirstName:profileStore.getFirstName()};},
+
+
+
+render:function(){
+var isUploadFirstNameRequestInFlight=profileStore.isUploadFirstNameRequestInFlight(),
+actionButtons;
+
+if(isUploadFirstNameRequestInFlight){
+actionButtons = this.renderSpinner();}else 
+
+{
+actionButtons = 
+React.createElement(SubmitActionButtons,{
+onSubmitButtonPress:this._onSubmitUpdateFirstNamePress,
+onCancelButtonPress:this._onCancelUpdateFirstNamePress});}
+
+
+
+return (
+React.createElement(View,{style:styles.updateFirstNameContainer},
+
+React.createElement(Text,{style:styles.updateFirstNameText},'Update First Name'),
+React.createElement(View,{style:styles.updateFirstNameInputContainer},
+React.createElement(TextInput,{
+style:styles.updateFirstNameInput,
+onChangeText:function(text){return Unicycle.exec('setFirstName',text);},
+value:profileStore.getFirstName(),
+maxLength:25,
+clearTextOnFocus:true})),
+
+
+actionButtons));},
 
 
 
@@ -71112,18 +71323,158 @@ React.createElement(ActivityIndicatorIOS,{color:'black',size:'small'})));},
 
 
 
-_onSubmitUpdateBioPress:function(){
-var userId=userLoginMetadataStore.getUserId();
-Unicycle.exec('uploadUserBio',userId,profileStore.getBio());},
+_onSubmitUpdateFirstNamePress:function(){
+var userId=userLoginMetadataStore.getUserId(),
+firstName=profileStore.getFirstName();
+
+if(firstName.trim()){
+Unicycle.exec('uploadUserFirstName',userId,firstName);}else 
+
+{
+AlertIOS.alert(
+'Sorry, your first name cannot be blank.',
+'Tried to pull a fast one on us, aye?',
+[
+{text:'Okay'}]);}},
 
 
-_onCancelUpdateBioPress:function(){
-Unicycle.exec('setBio',this.state.originalBio);}});
+
+
+
+_onCancelUpdateFirstNamePress:function(){
+Unicycle.exec('setFirstName',this.state.originalFirstName);}});
 
 
 
 
-module.exports = EditBioBox;
+module.exports = EditFirstNameBox;
+});
+__d('Youni/Components/Profile/Settings/EditLastNameBox.ios.js',["react-native/Libraries/react-native/react-native.js","Youni/Unicycle.js","Youni/stores/ProfileStore.js","Youni/stores/UserLoginMetadataStore.js","Youni/Components/Profile/Settings/SubmitActionButtons.ios.js"],function(global, require, module, exports) {  'use strict';
+
+var React=require('react-native/Libraries/react-native/react-native.js');
+var Unicycle=require('Youni/Unicycle.js');
+var profileStore=require('Youni/stores/ProfileStore.js');
+var userLoginMetadataStore=require('Youni/stores/UserLoginMetadataStore.js');
+var SubmitActionButtons=require('Youni/Components/Profile/Settings/SubmitActionButtons.ios.js');var 
+
+
+View=
+
+
+
+
+
+React.View;var Text=React.Text;var TextInput=React.TextInput;var StyleSheet=React.StyleSheet;var AlertIOS=React.AlertIOS;var ActivityIndicatorIOS=React.ActivityIndicatorIOS;
+
+var styles=StyleSheet.create({
+updateLastNameContainer:{
+flex:1,
+flexDirection:'row',
+backgroundColor:'#DBDBDB',
+borderWidth:1,
+borderRadius:10,
+margin:5,
+padding:10,
+alignItems:'center'},
+
+updateLastNameText:{
+flex:2,
+textAlign:'center',
+fontSize:10},
+
+updateLastNameInputContainer:{
+flex:5},
+
+updateLastNameInput:{
+backgroundColor:'white',
+padding:2,
+height:25,
+borderWidth:1,
+borderRadius:3},
+
+
+
+spinnerContainer:{
+height:71,
+width:29}});
+
+
+
+var EditLastNameBox=React.createClass({displayName:'EditLastNameBox',
+
+getInitialState:function(){
+return {
+originalLastName:profileStore.getLastName()};},
+
+
+
+render:function(){
+var isUploadLastNameRequestInFlight=profileStore.isUploadLastNameRequestInFlight(),
+actionButtons;
+
+if(isUploadLastNameRequestInFlight){
+actionButtons = this.renderSpinner();}else 
+
+{
+actionButtons = 
+React.createElement(SubmitActionButtons,{
+onSubmitButtonPress:this._onSubmitUpdateLastNamePress,
+onCancelButtonPress:this._onCancelUpdateLastNamePress});}
+
+
+
+return (
+React.createElement(View,{style:styles.updateLastNameContainer},
+
+React.createElement(Text,{style:styles.updateLastNameText},'Update Last Name'),
+React.createElement(View,{style:styles.updateLastNameInputContainer},
+React.createElement(TextInput,{
+style:styles.updateLastNameInput,
+onChangeText:function(text){return Unicycle.exec('setLastName',text);},
+value:profileStore.getLastName(),
+maxLength:25,
+clearTextOnFocus:true})),
+
+
+actionButtons));},
+
+
+
+
+
+renderSpinner:function(){
+return (
+React.createElement(View,{style:styles.spinnerContainer},
+React.createElement(ActivityIndicatorIOS,{color:'black',size:'small'})));},
+
+
+
+
+_onSubmitUpdateLastNamePress:function(){
+var userId=userLoginMetadataStore.getUserId(),
+lastName=profileStore.getLastName();
+
+if(lastName.trim()){
+Unicycle.exec('uploadUserLastName',userId,lastName);}else 
+
+{
+AlertIOS.alert(
+'Sorry, your first name cannot be blank.',
+'Tried to pull a fast one on us, aye?',
+[
+{text:'Okay'}]);}},
+
+
+
+
+
+_onCancelUpdateLastNamePress:function(){
+Unicycle.exec('setLastName',this.state.originalFirstName);}});
+
+
+
+
+module.exports = EditLastNameBox;
 });
 __d('Youni/Components/Profile/GetAllFollowingPage.ios.js',["react-native/Libraries/react-native/react-native.js","Youni/Components/Profile/AllFollowingResultList.ios.js","Youni/Components/Common/BackButtonBar.ios.js","Youni/stores/user/GetAllFollowingStore.js"],function(global, require, module, exports) {  'use strict';
 
@@ -71393,7 +71744,7 @@ trendingProfiles:[]});}});
 
 module.exports = trendingStore;
 });
-__d('Youni/CreatePostPage.js',["react-native/Libraries/react-native/react-native.js","Youni/Unicycle.js","Youni/MainScreenBanner.ios.js","Youni/stores/CreatePostStore.js","Youni/Components/Post/CreatePostButton.ios.js","Youni/Components/Post/CreatePostForm.ios.js"],function(global, require, module, exports) {  'use strict';
+__d('Youni/CreatePostPage.js',["react-native/Libraries/react-native/react-native.js","Youni/Unicycle.js","Youni/MainScreenBanner.ios.js","Youni/Components/Post/CreatePostForm.ios.js","Youni/stores/CreatePostStore.js","Youni/Components/Post/CreatePostButton.ios.js"],function(global, require, module, exports) {  'use strict';
 
 var React=require('react-native/Libraries/react-native/react-native.js');
 var createPostStore=require('Youni/stores/CreatePostStore.js');
@@ -71728,7 +72079,7 @@ return ugly.substring(start,end);}});
 
 module.exports = CreatePostButton;
 });
-__d('Youni/Components/Post/CreatePostForm.ios.js',["react-native/Libraries/react-native/react-native.js","Youni/stores/CreatePostStore.js","Youni/stores/UserLoginMetadataStore.js","Youni/Unicycle.js"],function(global, require, module, exports) {  'use strict';
+__d('Youni/Components/Post/CreatePostForm.ios.js',["react-native/Libraries/react-native/react-native.js","Youni/stores/UserLoginMetadataStore.js","Youni/Unicycle.js","Youni/stores/CreatePostStore.js"],function(global, require, module, exports) {  'use strict';
 
 var React=require('react-native/Libraries/react-native/react-native.js');
 var createPostStore=require('Youni/stores/CreatePostStore.js');

@@ -22,7 +22,7 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
-		902929331C01508F00C49C96 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 902929321C01508F00C49C96 /* main.jsbundle */; };
+		902929351C02558900C49C96 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 902929341C02558900C49C96 /* main.jsbundle */; };
 		903C37831BD454740038085B /* libRNOverlay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 903C37821BD4546D0038085B /* libRNOverlay.a */; };
 		903C378A1BD454900038085B /* libRNSearchBar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 903C37891BD454880038085B /* libRNSearchBar.a */; };
 		903C37911BD454A90038085B /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 903C37901BD454A50038085B /* libRNVectorIcons.a */; };
@@ -153,7 +153,7 @@
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
-		902929321C01508F00C49C96 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
+		902929341C02558900C49C96 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		903C377D1BD4546D0038085B /* RNOverlay.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNOverlay.xcodeproj; path = "../node_modules/react-native-overlay/RNOverlay.xcodeproj"; sourceTree = "<group>"; };
 		903C37841BD454880038085B /* RNSearchBar.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNSearchBar.xcodeproj; path = "../node_modules/react-native-search-bar/RNSearchBar.xcodeproj"; sourceTree = "<group>"; };
 		903C378B1BD454A50038085B /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
@@ -270,7 +270,7 @@
 		13B07FAE1A68108700A75B9A /* Youni */ = {
 			isa = PBXGroup;
 			children = (
-				902929321C01508F00C49C96 /* main.jsbundle */,
+				902929341C02558900C49C96 /* main.jsbundle */,
 				907E7E511BEC44A600F9BA39 /* RCTFileTransfer.m */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -621,7 +621,7 @@
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				90F34DFD1BD5D95300C73464 /* Ionicons.ttf in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
-				902929331C01508F00C49C96 /* main.jsbundle in Resources */,
+				902929351C02558900C49C96 /* main.jsbundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
