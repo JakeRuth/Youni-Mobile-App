@@ -3,6 +3,7 @@
 var React = require('react-native');
 var Unicycle = require('./Unicycle');
 var profileStore = require('./stores/ProfileStore');
+var EditSettingsPage = require('./Components/Profile/Settings/EditSettingsPage');
 var getAllFollowingStore = require('./stores/user/GetAllFollowingStore');
 var GetAllFollowingPage = require('./Components/Profile/GetAllFollowingPage');
 var MainScreenBanner = require('./MainScreenBanner');
@@ -36,10 +37,14 @@ var ProfilePage = React.createClass({
 
   render: function() {
     var isRequestInFlight = profileStore.isRequestInFlight(),
+        inSettingsView = profileStore.getInSettingsView(),
         followingViewActive = getAllFollowingStore.getIsInView(),
         content;
 
-    if (isRequestInFlight) {
+    if (inSettingsView) {
+      content = <EditSettingsPage />
+    }
+    else if (isRequestInFlight) {
       content = <ProfilePageLoading/>
     }
     else if (followingViewActive) {

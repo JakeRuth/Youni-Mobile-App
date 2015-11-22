@@ -132,7 +132,7 @@ var PostLikeModal = React.createClass({
   _renderSmallSpinner: function() {
     return (
       <View style={styles.modalContainer}>
-        <ActivityIndicatorIOS size={'small'} style={styles.spinner}/>
+        <ActivityIndicatorIOS size={'small'} />
       </View>
     );
   },

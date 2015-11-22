@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react-native');
+var Unicycle = require('../../../Unicycle');
 var Icon = require('react-native-vector-icons/Ionicons');
 
 var {
@@ -12,7 +13,7 @@ var {
 var styles = StyleSheet.create({
   settingIconContainer: {
     position: 'absolute',
-    top: 3,
+    top: 10,
     right: 10
   }
 });
@@ -22,17 +23,18 @@ var EditSettingsButton = React.createClass({
   render: function() {
     return (
       <TouchableHighlight
+        onPress={this._onSettingsButtonClick}
         style={styles.settingIconContainer}
         underlayColor='transparent'>
 
-        <Icon name='gear-a' size={40} color={'gray'} />
+        <Icon name='edit' size={25} color={'gray'} />
 
       </TouchableHighlight>
     );
   },
 
   _onSettingsButtonClick: function() {
-    return;
+    Unicycle.exec('setInSettingsView', true);
   }
 
 });
