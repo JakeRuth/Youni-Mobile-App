@@ -90,8 +90,9 @@ var EditBioBox = React.createClass({
   },
 
   _onSubmitUpdateBioPress: function() {
-    var userId = userLoginMetadataStore.getUserId();
-    Unicycle.exec('uploadUserBio', userId, profileStore.getBio());
+    var userId = userLoginMetadataStore.getUserId(),
+        bio = profileStore.getBio();
+    Unicycle.exec('uploadUserBio', userId, bio);
   },
 
   _onCancelUpdateBioPress: function() {

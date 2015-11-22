@@ -4,6 +4,7 @@ var React = require('react-native');
 var Unicycle = require('../../../Unicycle');
 var BackButtonBar = require('../../Common/BackButtonBar');
 var EditBioBox = require('./EditBioBox');
+var EditFirstNameBox = require('./EditFirstNameBox');
 
 var {
   View,
@@ -26,6 +27,7 @@ var EditSettingsPage = React.createClass({
       <View>
         <BackButtonBar buttonOnPress={this._onBackButtonPress}/>
         <EditBioBox />
+        <EditFirstNameBox />
       </View>
     );
   },

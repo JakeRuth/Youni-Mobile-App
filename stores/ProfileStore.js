@@ -12,6 +12,7 @@ var profileStore = Unicycle.createStore({
         inSettingsView: false,
         isRequestInFlight: false,
         isUploadBioRequestInFlight: false,
+        isUploadFirstNameRequestInFlight: false,
         firstName: '',
         lastName: '',
         numFollowers: null,
@@ -30,6 +31,12 @@ var profileStore = Unicycle.createStore({
     $setBio: function(bio) {
       this.set({
         bio: bio
+      });
+    },
+
+    $setFirstName: function(firstName) {
+      this.set({
+        firstName: firstName
       });
     },
 
@@ -53,6 +60,30 @@ var profileStore = Unicycle.createStore({
          }
          that.set({
            isUploadBioRequestInFlight: false
+         });
+       });
+    },
+
+    $uploadUserFirstName: function(userId, firstName) {
+      var that = this;
+
+      this.set({ isUploadFirstNameRequestInFlight: true });
+      request
+       .post('/user/updateFirstName')
+       .use(prefix)
+       .send({
+         userIdString: userId,
+         firstName: firstName
+        })
+       .set('Accept', 'application/json')
+       .end(function(err, res) {
+         if ((res !== undefined) && (res.ok)) {
+           //no feedback required, view was already optimistically updated
+         } else {
+           //TODO: Implement a failed case
+         }
+         that.set({
+           isUploadFirstNameRequestInFlight: false
          });
        });
     },
@@ -88,6 +119,10 @@ var profileStore = Unicycle.createStore({
 
     isUploadBioRequestInFlight: function() {
       return this.get('isUploadBioRequestInFlight');
+    },
+
+    isUploadFirstNameRequestInFlight: function() {
+      return this.get('isUploadFirstNameRequestInFlight');
     },
 
     getInSettingsView: function() {
