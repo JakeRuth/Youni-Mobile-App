@@ -5,6 +5,7 @@ var Icon = require('react-native-vector-icons/Ionicons');
 var Unicycle = require('../../../Unicycle');
 var profileStore = require('../../../stores/ProfileStore');
 var userLoginMetadataStore = require('../../../stores/UserLoginMetadataStore');
+var SubmitActionButtons = require('./SubmitActionButtons');
 
 var {
   View,
@@ -38,25 +39,6 @@ var styles = StyleSheet.create({
     height: 75,
     borderWidth: 1,
     borderRadius: 3
-  },
-  actionButtonsContainer: {
-    flexDirection: 'column'
-  },
-  submitBioButton: {
-    flex: 1,
-    alignSelf: 'center',
-    marginLeft: 5
-  },
-  cancelBioButton: {
-    flex: 1,
-    marginTop: 5,
-    alignSelf: 'center',
-    marginLeft: 5
-  },
-  spinnerContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
   }
 });
 
@@ -76,7 +58,11 @@ var EditBioBox = React.createClass({
       actionButtons = this.renderSpinner();
     }
     else {
-      actionButtons = this.renderActionButtons();
+      actionButtons = (
+        <SubmitActionButtons
+          onSubmitButtonPress={this._onSubmitUpdateBioPress}
+          onCancelButtonPress={this._onCancelUpdateBioPress} />
+      );
     }
 
     return (
@@ -97,34 +83,9 @@ var EditBioBox = React.createClass({
     );
   },
 
-  renderActionButtons: function() {
-    return (
-      <View style={styles.actionButtonsContainer}>
-        <TouchableHighlight
-          onPress={this._onSubmitUpdateBioPress}
-          underlayColor='transparent'>
-
-          <Icon style={styles.submitBioButton}
-            name='checkmark' size={30} color={'#007C9E'} />
-
-        </TouchableHighlight>
-        <TouchableHighlight
-          onPress={this._onCancelUpdateBioPress}
-          underlayColor='transparent'>
-
-          <Icon style={styles.cancelBioButton}
-            name='close' size={30} color={'#FF7878'} />
-
-        </TouchableHighlight>
-      </View>
-    );
-  },
-
   renderSpinner: function() {
     return (
-      <View style={styles.spinnerContainer}>
-        <ActivityIndicatorIOS color='black' size={'small'} />
-      </View>
+      <ActivityIndicatorIOS color='black' size={'small'} />
     );
   },
 
