@@ -15,7 +15,7 @@ var {
 var styles = StyleSheet.create({
   profileBodyContent: {
     flex: 1,
-    paddingBottom: 20
+    paddingBottom: 50
   },
   fullName: {
     textAlign: 'center',
