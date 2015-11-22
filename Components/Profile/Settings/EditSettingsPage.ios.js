@@ -5,6 +5,7 @@ var Unicycle = require('../../../Unicycle');
 var BackButtonBar = require('../../Common/BackButtonBar');
 var EditBioBox = require('./EditBioBox');
 var EditFirstNameBox = require('./EditFirstNameBox');
+var EditLastNameBox = require('./EditLastNameBox');
 
 var {
   View,
@@ -28,6 +29,7 @@ var EditSettingsPage = React.createClass({
         <BackButtonBar buttonOnPress={this._onBackButtonPress}/>
         <EditBioBox />
         <EditFirstNameBox />
+        <EditLastNameBox />
       </View>
     );
   },

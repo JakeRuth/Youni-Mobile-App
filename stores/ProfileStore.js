@@ -13,6 +13,7 @@ var profileStore = Unicycle.createStore({
         isRequestInFlight: false,
         isUploadBioRequestInFlight: false,
         isUploadFirstNameRequestInFlight: false,
+        isUploadLastNameRequestInFlight: false,
         firstName: '',
         lastName: '',
         numFollowers: null,
@@ -37,6 +38,12 @@ var profileStore = Unicycle.createStore({
     $setFirstName: function(firstName) {
       this.set({
         firstName: firstName
+      });
+    },
+
+    $setLastName: function(lastName) {
+      this.set({
+        lastName: lastName
       });
     },
 
@@ -88,6 +95,30 @@ var profileStore = Unicycle.createStore({
        });
     },
 
+    $uploadUserLastName: function(userId, lastName) {
+      var that = this;
+
+      this.set({ isUploadLastNameRequestInFlight: true });
+      request
+       .post('/user/updateFirstName')
+       .use(prefix)
+       .send({
+         userIdString: userId,
+         lastName: lastName
+        })
+       .set('Accept', 'application/json')
+       .end(function(err, res) {
+         if ((res !== undefined) && (res.ok)) {
+           //no feedback required, view was already optimistically updated
+         } else {
+           //TODO: Implement a failed case
+         }
+         that.set({
+           isUploadLastNameRequestInFlight: false
+         });
+       });
+    },
+
     $loadUsersProfile(email) {
       var that = this;
 
@@ -123,6 +154,10 @@ var profileStore = Unicycle.createStore({
 
     isUploadFirstNameRequestInFlight: function() {
       return this.get('isUploadFirstNameRequestInFlight');
+    },
+
+    isUploadLastNameRequestInFlight: function() {
+      return this.get('isUploadLastNameRequestInFlight');
     },
 
     getInSettingsView: function() {
