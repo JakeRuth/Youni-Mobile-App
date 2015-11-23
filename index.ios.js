@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react-native');
+var SignUpForm = require('./Components/SignUp/SignUpForm');
 var Unicycle = require('./Unicycle');
 var loginStore = require('./stores/LoginStore');
 var signupStore = require('./stores/SignupStore');
@@ -43,6 +44,11 @@ var styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center'
   },
+  signupContentContainer: {
+    backgroundColor: 'rgba(0,0,0,0)',
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
   appName: {
     marginTop: -100,
     fontSize: 100,
@@ -63,7 +69,7 @@ var styles = StyleSheet.create({
     marginTop: 70
   },
   loginButton: {
-    width: 120,
+    width: 125,
     height: 25,
     borderRadius: 5,
     backgroundColor: 'lightblue',
@@ -93,6 +99,17 @@ var styles = StyleSheet.create({
   spinner: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0)'
+  },
+  signUpOptionDescText: {
+    fontSize: 20,
+    bottom:0,
+    color: 'white',
+    marginTop: 50
+  },
+  signUpOptionText: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    color: '#237A72'
   }
 });
 
@@ -113,8 +130,8 @@ var LoginPage = React.createClass({
     if (isLoginInFlight) {
       content = this.renderLoadingSpinner();
     }
-    else if(onWayToSignupInFlight){
-      content = this.renderSignupForm();
+    else if (onWayToSignupInFlight){
+      content =  <SignUpForm />;
     }
     else {
       content = this.renderLoginForm();
@@ -123,10 +140,11 @@ var LoginPage = React.createClass({
 
     return (
       <View style={styles.imageContainer}>
-        <Image source={require('image!loginPageBackground2')}
-               style={styles.backgroundImage}>
+        <Image source={{uri: 'https://images.unsplash.com/uploads/14121985124429dd8eeb5/60431f5b?dpr=2&fit=crop&fm=jpg&h=650&ixjsv=2.0.0&ixlib=rb-0.3.5&q=50&w=1300'}}
+               style={[styles.backgroundImage, {opacity: 0.9}]}>
             { content }
         </Image>
+
       </View>
     );
   },
@@ -144,61 +162,20 @@ var LoginPage = React.createClass({
             secureTextEntry={true}
             value={loginStore.getPassword()}
             clearTextOnFocus={true}
+            placeholderTextColor={'grey'}
+            placeholder={'Password'}
             onChangeText={(text) => Unicycle.exec('updatePassword', text)}
          />
          <TouchableHighlight style={styles.loginButton} underlayColor='white'>
             <Text style={styles.loginText} onPress={this._onLoginRequest}>Login</Text>
          </TouchableHighlight>
 
-         <TouchableHighlight style={styles.signupButton} underlayColor='white'>
-            <Text style={styles.signupText} onPress={this._onWayToSignupRequest}>Sign Up</Text>
-         </TouchableHighlight>
+         <Text style={styles.signUpOptionDescText}>Don't have Youni account?</Text><TouchableHighlight><Text style={styles.signUpOptionText} onPress={this._goToSignupPage}>Sign Up</Text></TouchableHighlight>
+
+
        </View>
     );
   },
-
-
-renderSignupForm: function(){
-  return(
-    <View style={styles.contentContainer}>
-      <Text style={styles.appName}>Youni</Text>
-      <TextInput style={[styles.loginInput, styles.emailInput]}
-         value={signupStore.getFirstName()}
-         clearTextOnFocus={true}
-         //onChangeText={(text) => Unicycle.exec('updateFirstName', text)}
-      />
-
-      <TextInput style={styles.loginInput}
-         value={signupStore.getLastName()}
-         clearTextOnFocus={true}
-         //onChangeText={(text) => Unicycle.exec('updateLastName', text)}
-      />
-      <TextInput style={[styles.loginInput, styles.emailInput]}
-         value={signupStore.getEmail()}
-         clearTextOnFocus={true}
-         onChangeText={(text) => Unicycle.exec('updateEmail', text)}
-      />
-      <TextInput style={styles.loginInput}
-         secureTextEntry={true}
-         value={signupStore.getPassword()}
-         clearTextOnFocus={true}
-         onChangeText={(text) => Unicycle.exec('updatePassword', text)}
-      />
-
-
-      <TouchableHighlight style={styles.signupButton} underlayColor='white'>
-         <Text style={styles.signupText}>Sign Up</Text>
-      </TouchableHighlight>
-
-      <Text>or</Text>
-      <TouchableHighlight style={styles.loginButton} underlayColor='white'>
-         <Text style={styles.loginText}>Login</Text>
-      </TouchableHighlight>
-
-    </View>
-  );
-},
-
 
   renderLoadingSpinner: function() {
     return (
@@ -214,8 +191,8 @@ renderSignupForm: function(){
 
 
 
-  _onWayToSignupRequest: function(){
-        Unicycle.exec('setOnWayToSignupInFlight', true);
+  _goToSignupPage: function(){
+      Unicycle.exec('setOnWayToSignupInFlight', true);
   },
 
 

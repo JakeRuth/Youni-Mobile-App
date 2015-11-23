@@ -51,7 +51,7 @@ var MainScreenBanner = React.createClass({
           {this.props.subTitle}
         </Text>
       </View>
-    )
+    );
   }
 
 });

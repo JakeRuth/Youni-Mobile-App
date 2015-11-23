@@ -2,32 +2,51 @@
 
 var React = require('react-native');
 var Unicycle = require('./../Unicycle');
-
 var signupStore = Unicycle.createStore({
 
     init: function () {
       this.set({
-        //email: 'Enter your email',
-        //password: '',
+        firstName: 'First Name',
+        lastName: 'Last Name',
+        collegeCampus: 'Seach Your College',
+        email: 'Enter your email',
+        password: '',
         //loginInFlight: false,
-        onWayToSignupInFlight: false
+        onWayToSignupInFlight: false,
+        signupRequestInFlight: false,
       });
     },
 
-    $login: function (username, password) {
+
+    $signup: function (firstname, lastname, username, password) {
       this.set({
+        firstName: firstname,
+        lastName: lastname,
         email: username,
         password: password
       });
     },
 
-    $updateEmail: function(email) {
+
+    $signupUpdateFirstName: function(firstname){
+      this.set({
+        firstName: firstname
+      });
+    },
+
+    $signupUpdateLastName: function(lastname){
+      this.set({
+        lastName: lastname
+      });
+    },
+
+    $signupUpdateEmail: function(email) {
       this.set({
         email: email
       });
     },
 
-    $updatePassword: function(password) {
+    $signupUpdatePassword: function(password) {
       this.set({
         password: password
       });
@@ -43,21 +62,31 @@ var signupStore = Unicycle.createStore({
       return this.get('onWayToSignupInFlight');
     },
 
-    getEmail: function() {
+    $setSignupRequestInFlight: function(isInFlight) {
+      this.set({
+        signupRequestInFlight: isInFlight
+      });
+    },
+
+    isSignupRequestInFlight: function() {
+      return this.get('signupRequestInFlight');
+    },
+
+    getSignupEmail: function() {
       return this.get('email');
     },
 
-    getFirstName: function(){
-      return this.get('');
+    getSignupFirstName: function(){
+      return this.get('firstName');
     },
 
-    getLastName: function(){
-      return this.get('');
+    getSignupLastName: function(){
+      return this.get('lastName');
     },
 
-    getPassword: function() {
+    getSignupPassword: function() {
       return this.get('password');
-    }
+    },
 
 });
 
