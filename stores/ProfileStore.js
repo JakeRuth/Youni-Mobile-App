@@ -47,6 +47,12 @@ var profileStore = Unicycle.createStore({
       });
     },
 
+    $setProfileImageUrl: function(url) {
+      this.set({
+        profileImageUrl: url
+      });
+    },
+
     $uploadUserBio: function(userId, bio) {
       var that = this;
 
@@ -136,7 +142,8 @@ var profileStore = Unicycle.createStore({
              lastName: res.body.userDetails['lastName'],
              numFollowers: res.body.userDetails['numFollowers'],
              bio: res.body.userDetails['bio'],
-             email: res.body.userDetails['email']
+             email: res.body.userDetails['email'],
+             profileImageUrl: res.body.userDetails['profileImageUrl']
            });
          } else {
            //TODO: Implement a failed case

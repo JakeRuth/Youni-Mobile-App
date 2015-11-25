@@ -4,6 +4,7 @@ var React = require('react-native');
 var FollowUnfollowButton = require('./FollowUnfollowButton');
 var FollowingButton = require('./FollowingButton');
 var EditSettingsButton = require('./Settings/EditSettingsButton');
+var ProfileImage = require('./ProfileImage');
 
 var {
   View,
@@ -21,17 +22,6 @@ var styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 30,
     margin: 5
-  },
-  profilePictureContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginBottom: 5
-  },
-  profilePicture: {
-    borderRadius: 50,
-    margin: 25,
-    width: 150,
-    height: 150
   },
   fanCount: {
     textAlign: 'center',
@@ -87,10 +77,9 @@ var ProfilePageBody = React.createClass({
 
         <Text style={styles.fullName}>{firstName} {lastName}</Text>
         { editSettingsIcon }
-        <View style={styles.profilePictureContainer}>
-          <Image style={styles.profilePicture}
-                 source={{uri: 'https://s3-us-west-2.amazonaws.com/misc-youni-files/snoop_dogg.jpg'}} />
-        </View>
+        <ProfileImage
+          viewerIsProfileOwner = {viewerIsProfileOwner}
+          profileImageUrl = {profileImageUrl}/>
         <Text style={styles.fanCount}>{this._getFansText(numFans)}</Text>
         <Text style={styles.bio}>{bio}</Text>
         {followButton}

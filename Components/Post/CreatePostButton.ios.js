@@ -92,7 +92,7 @@ var CreatePostButton = React.createClass({
     return {
       maxWidth: 640, //TODO
       maxHeight: 640, //TODO
-      quality: 1.0, //TODO
+      quality: .5, //TODO
       allowsEditing: true, //TODO
       noData: true,
       storageOptions: {
