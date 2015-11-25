@@ -18,10 +18,10 @@ var {
 
 var styles = StyleSheet.create({
   postFormContainer: {
-    flex: 1,
-    alignItems: 'center'
+    flex: 1
   },
   postImage: {
+    alignSelf: 'center',
     width: 320,
     height: 320
   },
@@ -34,17 +34,28 @@ var styles = StyleSheet.create({
     borderColor: 'gray',
     borderWidth: 1
   },
+  submitPostContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  cancelText: {
+    fontSize: 10,
+    paddingLeft: 15,
+    color: '#FF7878'
+  },
   createPostButton: {
     borderWidth: 1,
     borderRadius: 10,
     borderColor: '#007C9E'
   },
   createPostText: {
+    textAlign: 'center',
     fontSize: 30,
     margin: 5
   },
   spinnerContainer: {
-    flex: 1,
     alignItems: 'center'
   },
   hackyIosKeyPadBump: {
@@ -67,21 +78,21 @@ var CreatePostForm = React.createClass({
   render: function() {
     var imageId = createPostStore.getImageId(),
         hackyIosKeyPadBump = <View/>,
-        button;
+        postButton;
 
     if (this.state.isTextInputSelected) {
       hackyIosKeyPadBump = <View style={styles.hackyIosKeyPadBump} />
     }
 
     if (imageId) {
-      button = (
+      postButton = (
         <TouchableHighlight onPress={this._onSubmitPost} style={styles.createPostButton}>
           <Text style={styles.createPostText}>Post to Youni</Text>
         </TouchableHighlight>
       );
     }
     else {
-      button = (
+      postButton = (
         <View style={styles.spinnerContainer}>
           <ActivityIndicatorIOS/>
           <Text>Image uploading...</Text>
@@ -104,7 +115,14 @@ var CreatePostForm = React.createClass({
             onFocus={() => { this.setState({ isTextInputSelected: true }) } }
           />
 
-          { button }
+          <View style={styles.submitPostContainer}>
+            { postButton }
+            <Text
+              style={styles.cancelText}
+              onPress={this._onCancelTextClick} >
+              Cancel
+            </Text>
+          </View>
 
           { hackyIosKeyPadBump }
 
@@ -118,6 +136,11 @@ var CreatePostForm = React.createClass({
         pictureId = createPostStore.getImageId(),
         caption = createPostStore.getCaption();
     Unicycle.exec('createPost', userId, pictureId, caption);
+  },
+
+  _onCancelTextClick: function() {
+    Unicycle.exec('setWasImageSelected', false);
+    Unicycle.exec('setCaption', '');
   }
 
 });

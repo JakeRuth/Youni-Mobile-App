@@ -3,6 +3,8 @@
 var React = require('react-native');
 var FollowUnfollowButton = require('./FollowUnfollowButton');
 var FollowingButton = require('./FollowingButton');
+var EditSettingsButton = require('./Settings/EditSettingsButton');
+var ProfileImage = require('./ProfileImage');
 
 var {
   View,
@@ -14,24 +16,12 @@ var {
 var styles = StyleSheet.create({
   profileBodyContent: {
     flex: 1,
-    paddingBottom: 20
+    paddingBottom: 50
   },
   fullName: {
-    backgroundColor: 'rgba(0,124,158,.2)',
     textAlign: 'center',
     fontSize: 30,
-    borderWidth: 1,
-    borderRadius: 5,
     margin: 5
-  },
-  profilePictureContainer: {
-    flex: 2,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginBottom: 5
-  },
-  profileImage: {
-
   },
   fanCount: {
     textAlign: 'center',
@@ -64,15 +54,17 @@ var ProfilePageBody = React.createClass({
         bio = this.props.bio,
         numFans = this.props.numFans,
         profileImageUrl = this.props.profileImageUrl,
-        email = this.props.email;
+        email = this.props.email,
+        followButton = <View/>,
+        followingButton = <View/>,
+        editSettingsIcon = <View/>;
 
-    var followButton = <View/>,
-        followingButton = <View/>;
-    if (!viewerIsProfileOwner) {
-      followButton = <FollowUnfollowButton email={email}/>
+    if (viewerIsProfileOwner) {
+      followingButton = <FollowingButton email={email}/>
+      editSettingsIcon = <EditSettingsButton />
     }
     else {
-      followingButton = <FollowingButton email={email}/>
+      followButton = <FollowUnfollowButton email={email}/>
     }
 
     //this should be removed or moved to the api before release
@@ -82,14 +74,17 @@ var ProfilePageBody = React.createClass({
 
     return (
       <View style={styles.profileBodyContent}>
+
         <Text style={styles.fullName}>{firstName} {lastName}</Text>
-        <View style={styles.profilePictureContainer}>
-          <Text style={styles.profileImage}>Image Placeholder</Text>
-        </View>
+        { editSettingsIcon }
+        <ProfileImage
+          viewerIsProfileOwner = {viewerIsProfileOwner}
+          profileImageUrl = {profileImageUrl}/>
         <Text style={styles.fanCount}>{this._getFansText(numFans)}</Text>
         <Text style={styles.bio}>{bio}</Text>
         {followButton}
         {followingButton}
+
       </View>
     );
   },
