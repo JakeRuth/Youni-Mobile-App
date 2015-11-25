@@ -5,7 +5,7 @@ var Unicycle = require('./Unicycle');
 var postStore = require('./stores/PostStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
 var MainScreenBanner = require('./MainScreenBanner');
-var Post = require('./Post');
+var Post = require('./Components/Post/Post');
 var FeedSelector = require('./Components/Feed/FeedSelector');
 
 var {
@@ -22,7 +22,8 @@ var styles = StyleSheet.create({
     flex: 1
   },
   feedContainer: {
-    flex: 20
+    flex: 20,
+    marginTop: 10
   },
   spinnerContainer: {
     flex: 1,
@@ -73,6 +74,7 @@ var HomePage = React.createClass({
       var post = postsJson.get(i);
       posts.push(
         <Post id={post.get('id')}
+              posterProfileImageUrl={post.get('posterProfileImageUrl')}
               posterName={post.get('posterName')}
               timestamp={post.get('timestamp')}
               photoUrl={post.get('photoUrl')}
