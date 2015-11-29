@@ -45,7 +45,8 @@ var UserPosts = React.createClass({
   ],
 
   componentDidMount: function() {
-    Unicycle.exec('getUserPosts', this.props.userEmail);
+    var userId = userLoginMetadataStore.getUserId();
+    Unicycle.exec('getUserPosts', this.props.userEmail, userId);
   },
 
   render: function() {
@@ -81,7 +82,8 @@ var UserPosts = React.createClass({
               postIdString={post.get('postIdString')}
               liked={post.get('liked')}
               key={post.get('id')}
-              viewerIsPostOwner={this.props.viewerIsPostOwner} />
+              viewerIsPostOwner={this.props.viewerIsPostOwner}
+              renderedFromProfileView={true} />
       );
     }
     return (

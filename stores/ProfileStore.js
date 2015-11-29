@@ -175,7 +175,7 @@ var profileStore = Unicycle.createStore({
        });
     },
 
-    $getUserPosts(userEmail) {
+    $getUserPosts(userEmail, userId) {
       var posts = [];
       var that = this;
 
@@ -188,6 +188,7 @@ var profileStore = Unicycle.createStore({
        .use(prefix)
        .send({
          userEmail: userEmail,
+         requestingUserIdString: userId,
          maxNumberOfPostsToFetch: 10, //TODO: enable paged results
          fetchOffsetAmount: 0
        })
@@ -203,6 +204,39 @@ var profileStore = Unicycle.createStore({
          else {
            //TODO: implement failed case (show user error message or cached results)
          }
+      });
+    },
+
+    $likePostFromProfilePage(id, postId, userId) {
+      var that = this;
+      var posts = this.get('posts');
+
+      request
+       .post('/post/like')
+       .use(prefix)
+       .send({
+         postIdString: postId,
+         userIdString: userId
+       })
+       .set('Accept', 'application/json')
+       .end(function(err, res) {
+         if ((res !== undefined) && (res.ok) && (res.body.success)) {
+           that.updateLikeCountForPost(id)
+         }
+         else {
+           //TODO: implement failed case (show user error message or cached results)
+         }
+      });
+    },
+
+    updateLikeCountForPost: function(id) {
+      var posts = this.getPosts();
+      var post = posts.get(id);
+      var numLikes = post.get('numLikes');
+      post = post.set('numLikes', ++numLikes);
+      post = post.set('liked', true);
+      this.set({
+        posts: posts.set(id, post)
       });
     },
 

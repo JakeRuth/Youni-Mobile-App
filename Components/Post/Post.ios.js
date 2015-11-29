@@ -72,7 +72,8 @@ var Post = React.createClass({
     caption: React.PropTypes.string.isRequired,
     postIdString: React.PropTypes.string.isRequired,
     liked: React.PropTypes.bool.isRequired,
-    viewerIsPostOwner: React.PropTypes.bool
+    viewerIsPostOwner: React.PropTypes.bool,
+    renderedFromProfileView: React.PropTypes.bool
   },
 
   render: function() {
@@ -109,16 +110,27 @@ var Post = React.createClass({
   },
 
   _photoOnClickAction: function(alreadyLiked) {
+    var action = this._getOnPhotoClickActionName();
+
     if (!alreadyLiked) {
       return () => {
         var userId = userLoginMetadataStore.getUserId();
-        Unicycle.exec('likePost', this.props.id, this.props.postIdString, userId);
+        Unicycle.exec(action, this.props.id, this.props.postIdString, userId);
       }
     }
     else {
       return () => {
         return; //do nothing
       }
+    }
+  },
+
+  _getOnPhotoClickActionName: function() {
+    if (this.props.renderedFromProfileView) {
+      return 'likePostFromProfilePage';
+    }
+    else {
+      return 'likePost';
     }
   }
 
