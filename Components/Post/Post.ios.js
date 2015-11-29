@@ -71,7 +71,8 @@ var Post = React.createClass({
     numLikes: React.PropTypes.number.isRequired,
     caption: React.PropTypes.string.isRequired,
     postIdString: React.PropTypes.string.isRequired,
-    liked: React.PropTypes.bool.isRequired
+    liked: React.PropTypes.bool.isRequired,
+    viewerIsPostOwner: React.PropTypes.bool
   },
 
   render: function() {
@@ -79,6 +80,9 @@ var Post = React.createClass({
       <View>
 
         <PostHeader
+          id={this.props.id}
+          postIdString={this.props.postIdString}
+          viewerIsPostOwner={this.props.viewerIsPostOwner}
           posterName={this.props.posterName}
           posterProfileImageUrl={this.props.posterProfileImageUrl}
           timestamp={this.props.timestamp}/>
@@ -101,7 +105,7 @@ var Post = React.createClass({
         <View style={styles.blankLine} />
 
       </View>
-    )
+    );
   },
 
   _photoOnClickAction: function(alreadyLiked) {

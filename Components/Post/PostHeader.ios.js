@@ -1,6 +1,7 @@
 'use strict'
 
 var React = require('react-native');
+var DeletePostIcon = require('./DeletePostIcon');
 
 var {
   View,
@@ -36,27 +37,38 @@ var styles = StyleSheet.create({
 var PostHeader = React.createClass({
 
   propTypes: {
+    id: React.PropTypes.number.isRequired,
+    postIdString: React.PropTypes.string.isRequired,
     posterProfileImageUrl: React.PropTypes.string,
     posterName: React.PropTypes.string.isRequired,
-    timestamp: React.PropTypes.string.isRequired
+    timestamp: React.PropTypes.string.isRequired,
+    viewerIsPostOwner: React.PropTypes.bool
   },
 
   render: function() {
-    var posterProfilePicture = <View/>
+    //TODO: Theres probably a better way to branch this logic, worth revisiting when we solve #techdebt
+    var profileImageOrDeleteIcon = <View/>;
 
-    if (this.props.posterProfileImageUrl) {
-      posterProfilePicture = (
+    if (this.props.viewerIsPostOwner) {
+      profileImageOrDeleteIcon = (
+        <DeletePostIcon
+          id={this.props.id}
+          postIdString={this.props.postIdString} />
+      );
+    }
+    else if (this.props.posterProfileImageUrl) {
+      profileImageOrDeleteIcon = (
         <Image style={styles.posterImage} source={{uri: this.props.posterProfileImageUrl}} />
       );
     }
 
     return (
       <View style={styles.postHeader}>
-        {posterProfilePicture}
+        {profileImageOrDeleteIcon}
         <Text style={styles.posterName} numberOfLines={1}>{this.props.posterName}</Text>
         <Text style={styles.timestamp}>{this.props.timestamp}</Text>
       </View>
-    )
+    );
   }
 
 });

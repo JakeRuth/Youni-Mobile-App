@@ -154,6 +154,27 @@ var profileStore = Unicycle.createStore({
        });
     },
 
+    $deletePost(id, postId, userId) {
+      //optimistically remove post from list, then call api to delete
+      this._removePost(id);
+
+      request
+       .post('/post/delete')
+       .use(prefix)
+       .send({
+         postIdString: postId,
+         userIdString: userId
+       })
+       .set('Accept', 'application/json')
+       .end(function(err, res) {
+         if ((res !== undefined) && (res.ok)) {
+           //TODO: Maybe we should give them some feedback?
+         } else {
+           //TODO: Implement a failed case
+         }
+       });
+    },
+
     $getUserPosts(userEmail) {
       var posts = [];
       var that = this;
@@ -173,7 +194,6 @@ var profileStore = Unicycle.createStore({
        .set('Accept', 'application/json')
        .end(function(err, res) {
          if ((res !== undefined) && (res.ok)) {
-           console.log(res.body)
            posts = postStore.createPostsJsonFromResponse(res.body.posts);
            that.set({
              posts: posts,
@@ -236,6 +256,13 @@ var profileStore = Unicycle.createStore({
 
     getPosts: function() {
       return this.get('posts');
+    },
+
+    _removePost: function(id) {
+      var posts = this.getPosts();
+      this.set({
+        posts: posts.delete(id)
+      });
     }
 
 });

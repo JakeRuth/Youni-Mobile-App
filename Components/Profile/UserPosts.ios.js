@@ -36,7 +36,8 @@ var UserPosts = React.createClass({
 
   propTypes: {
     userName: React.PropTypes.string.isRequired,
-    userEmail: React.PropTypes.string.isRequired
+    userEmail: React.PropTypes.string.isRequired,
+    viewerIsPostOwner: React.PropTypes.bool
   },
 
   mixins: [
@@ -79,7 +80,8 @@ var UserPosts = React.createClass({
               caption={post.get('caption')}
               postIdString={post.get('postIdString')}
               liked={post.get('liked')}
-              key={post.get('id')} />
+              key={post.get('id')}
+              viewerIsPostOwner={this.props.viewerIsPostOwner} />
       );
     }
     return (

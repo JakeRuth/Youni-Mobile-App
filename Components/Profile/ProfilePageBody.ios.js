@@ -87,7 +87,8 @@ var ProfilePageBody = React.createClass({
         {followingButton}
         <UserPosts
           userName={fullName}
-          userEmail={email}/>
+          userEmail={email}
+          viewerIsPostOwner={this.props.viewerIsProfileOwner} />
 
       </ScrollView>
     );
