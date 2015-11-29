@@ -58,6 +58,7 @@ var ProfilePage = React.createClass({
                   bio = {profileStore.getBio()}
                   numFans = {profileStore.getNumFollowers()}
                   profileImageUrl = {profileStore.getProfileImageUrl()}
+                  email = {profileStore.getEmail()}
                 />;
     }
 

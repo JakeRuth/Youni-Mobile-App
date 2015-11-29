@@ -34,7 +34,7 @@ var postStore = Unicycle.createStore({
      .set('Accept', 'application/json')
      .end(function(err, res) {
        if ((res !== undefined) && (res.ok)) {
-         posts = that._createPostsJsonFromResponse(res.body.posts);
+         posts = that.createPostsJsonFromResponse(res.body.posts);
          that.set({
            posts: posts,
            isRequestInFlight: false
@@ -65,7 +65,7 @@ var postStore = Unicycle.createStore({
      .set('Accept', 'application/json')
      .end(function(err, res) {
        if ((res !== undefined) && (res.ok)) {
-         posts = that._createPostsJsonFromResponse(res.body.posts);
+         posts = that.createPostsJsonFromResponse(res.body.posts);
          that.set({
            posts: posts,
            isRequestInFlight: false
@@ -126,7 +126,7 @@ var postStore = Unicycle.createStore({
     return this.get('isRequestInFlight');
   },
 
-  _createPostsJsonFromResponse: function(posts) {
+  createPostsJsonFromResponse: function(posts) {
     var postsJson = [];
     for (var i = 0; i < posts.length; i++) {
       var post = posts[i];

@@ -2,6 +2,7 @@
 
 var React = require('react-native');
 var Unicycle = require('./../Unicycle');
+var postStore = require('./PostStore');
 var request = require('superagent');
 var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com');
 
@@ -14,12 +15,14 @@ var profileStore = Unicycle.createStore({
         isUploadBioRequestInFlight: false,
         isUploadFirstNameRequestInFlight: false,
         isUploadLastNameRequestInFlight: false,
+        isUserPostsRequestInFlight: false,
         firstName: '',
         lastName: '',
         numFollowers: null,
         bio: '',
         profileImageUrl: '',
-        email: ''
+        email: '',
+        posts: []
       });
     },
 
@@ -151,6 +154,38 @@ var profileStore = Unicycle.createStore({
        });
     },
 
+    $getUserPosts(userEmail) {
+      var posts = [];
+      var that = this;
+
+      this.set({
+        isUserPostsRequestInFlight: true
+      });
+
+      request
+       .post('/user/getPosts')
+       .use(prefix)
+       .send({
+         userEmail: userEmail,
+         maxNumberOfPostsToFetch: 10, //TODO: enable paged results
+         fetchOffsetAmount: 0
+       })
+       .set('Accept', 'application/json')
+       .end(function(err, res) {
+         if ((res !== undefined) && (res.ok)) {
+           console.log(res.body)
+           posts = postStore.createPostsJsonFromResponse(res.body.posts);
+           that.set({
+             posts: posts,
+             isUserPostsRequestInFlight: false
+           });
+         }
+         else {
+           //TODO: implement failed case (show user error message or cached results)
+         }
+      });
+    },
+
     isRequestInFlight() {
       return this.get('isRequestInFlight');
     },
@@ -165,6 +200,10 @@ var profileStore = Unicycle.createStore({
 
     isUploadLastNameRequestInFlight: function() {
       return this.get('isUploadLastNameRequestInFlight');
+    },
+
+    isUserPostsRequestInFlight: function() {
+      return this.get('isUserPostsRequestInFlight');
     },
 
     getInSettingsView: function() {
@@ -193,6 +232,10 @@ var profileStore = Unicycle.createStore({
 
     getEmail: function() {
       return this.get('email');
+    },
+
+    getPosts: function() {
+      return this.get('posts');
     }
 
 });

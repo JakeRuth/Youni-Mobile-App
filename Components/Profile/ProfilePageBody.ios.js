@@ -5,18 +5,19 @@ var FollowUnfollowButton = require('./FollowUnfollowButton');
 var FollowingButton = require('./FollowingButton');
 var EditSettingsButton = require('./Settings/EditSettingsButton');
 var ProfileImage = require('./ProfileImage');
+var UserPosts = require('./UserPosts');
 
 var {
   View,
   Text,
   Image,
-  StyleSheet
+  StyleSheet,
+  ScrollView
 } = React
 
 var styles = StyleSheet.create({
   profileBodyContent: {
-    flex: 1,
-    paddingBottom: 50
+    flex: 1
   },
   fullName: {
     textAlign: 'center',
@@ -29,7 +30,6 @@ var styles = StyleSheet.create({
     fontWeight: '800'
   },
   bio: {
-    flex: 2,
     alignSelf: 'auto',
     margin: 30
   }
@@ -44,13 +44,14 @@ var ProfilePageBody = React.createClass({
     numFans: React.PropTypes.number.isRequired,
     profileImageUrl: React.PropTypes.string.isRequired,
     viewerIsProfileOwner: React.PropTypes.bool.isRequired,
-    email: React.PropTypes.string
+    email: React.PropTypes.string.isRequired
   },
 
   render: function() {
     var viewerIsProfileOwner = this.props.viewerIsProfileOwner,
         firstName = this.props.firstName,
         lastName = this.props.lastName,
+        fullName = this.props.firstName + ' ' + this.props.lastName,
         bio = this.props.bio,
         numFans = this.props.numFans,
         profileImageUrl = this.props.profileImageUrl,
@@ -73,9 +74,9 @@ var ProfilePageBody = React.createClass({
     }
 
     return (
-      <View style={styles.profileBodyContent}>
+      <ScrollView style={styles.profileBodyContent}>
 
-        <Text style={styles.fullName}>{firstName} {lastName}</Text>
+        <Text style={styles.fullName}>{fullName}</Text>
         { editSettingsIcon }
         <ProfileImage
           viewerIsProfileOwner = {viewerIsProfileOwner}
@@ -84,8 +85,11 @@ var ProfilePageBody = React.createClass({
         <Text style={styles.bio}>{bio}</Text>
         {followButton}
         {followingButton}
+        <UserPosts
+          userName={fullName}
+          userEmail={email}/>
 
-      </View>
+      </ScrollView>
     );
   },
 
