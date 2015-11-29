@@ -53981,7 +53981,7 @@ return this.get('email');}});
 
 module.exports = userLoginMetadata;
 });
-__d('Youni/LandingPage.js',["react-native/Libraries/react-native/react-native.js","Youni/HomePage.ios.js","Youni/SearchPage.ios.js","Youni/ProfilePage.ios.js","Youni/TrendingPage.ios.js","Youni/CreatePostPage.js","Ionicons","Youni/stores/UserLoginMetadataStore.js","Youni/Unicycle.js","Youni/stores/LoginStore.js"],function(global, require, module, exports) {  'use strict';
+__d('Youni/LandingPage.js',["react-native/Libraries/react-native/react-native.js","Youni/SearchPage.ios.js","Youni/ProfilePage.ios.js","Youni/TrendingPage.ios.js","Youni/CreatePostPage.js","Ionicons","Youni/stores/UserLoginMetadataStore.js","Youni/Unicycle.js","Youni/HomePage.ios.js","Youni/stores/LoginStore.js"],function(global, require, module, exports) {  'use strict';
 
 var React=require('react-native/Libraries/react-native/react-native.js');
 var HomePage=require('Youni/HomePage.ios.js');
@@ -54099,14 +54099,14 @@ React.createElement(ProfilePage,null))));}});
 
 module.exports = LandingPage;
 });
-__d('Youni/HomePage.ios.js',["react-native/Libraries/react-native/react-native.js","Youni/Unicycle.js","Youni/stores/UserLoginMetadataStore.js","Youni/MainScreenBanner.ios.js","Youni/Post.ios.js","Youni/Components/Feed/FeedSelector.ios.js","Youni/stores/PostStore.js"],function(global, require, module, exports) {  'use strict';
+__d('Youni/HomePage.ios.js',["react-native/Libraries/react-native/react-native.js","Youni/Unicycle.js","Youni/stores/PostStore.js","Youni/stores/UserLoginMetadataStore.js","Youni/MainScreenBanner.ios.js","Youni/Components/Feed/FeedSelector.ios.js","Youni/Components/Post/Post.ios.js"],function(global, require, module, exports) {  'use strict';
 
 var React=require('react-native/Libraries/react-native/react-native.js');
 var Unicycle=require('Youni/Unicycle.js');
 var postStore=require('Youni/stores/PostStore.js');
 var userLoginMetadataStore=require('Youni/stores/UserLoginMetadataStore.js');
 var MainScreenBanner=require('Youni/MainScreenBanner.ios.js');
-var Post=require('Youni/Post.ios.js');
+var Post=require('Youni/Components/Post/Post.ios.js');
 var FeedSelector=require('Youni/Components/Feed/FeedSelector.ios.js');var 
 
 
@@ -54123,7 +54123,8 @@ homePageContainer:{
 flex:1},
 
 feedContainer:{
-flex:20},
+flex:20,
+marginTop:10},
 
 spinnerContainer:{
 flex:1,
@@ -54174,6 +54175,7 @@ for(var i=0;i < postsJson.size;i++) {
 var post=postsJson.get(i);
 posts.push(
 React.createElement(Post,{id:post.get('id'),
+posterProfileImageUrl:post.get('posterProfileImageUrl'),
 posterName:post.get('posterName'),
 timestamp:post.get('timestamp'),
 photoUrl:post.get('photoUrl'),
@@ -54340,6 +54342,7 @@ var postsJson=[];
 for(var i=0;i < posts.length;i++) {
 var post=posts[i];
 postsJson.push({
+posterProfileImageUrl:post['posterProfilePictureUrl'],
 postIdString:post['postIdString'],
 posterName:post['posterName'],
 timestamp:post['timestamp'],
@@ -55771,12 +55774,13 @@ this.props.subTitle)));}});
 
 module.exports = MainScreenBanner;
 });
-__d('Youni/Post.ios.js',["react-native/Libraries/react-native/react-native.js","Youni/Unicycle.js","Youni/stores/UserLoginMetadataStore.js","Youni/Components/Post/PostLikeBar.ios.js","Youni/stores/PostStore.js"],function(global, require, module, exports) {  'use strict';
+__d('Youni/Components/Post/Post.ios.js',["react-native/Libraries/react-native/react-native.js","Youni/Unicycle.js","Youni/stores/PostStore.js","Youni/stores/UserLoginMetadataStore.js","Youni/Components/Post/PostLikeBar.ios.js","Youni/Components/Post/PostHeader.ios.js"],function(global, require, module, exports) {  'use strict';
 
 var React=require('react-native/Libraries/react-native/react-native.js');
 var Unicycle=require('Youni/Unicycle.js');
 var postStore=require('Youni/stores/PostStore.js');
 var userLoginMetadataStore=require('Youni/stores/UserLoginMetadataStore.js');
+var PostHeader=require('Youni/Components/Post/PostHeader.ios.js');
 var PostLikeBar=require('Youni/Components/Post/PostLikeBar.ios.js');var 
 
 
@@ -55835,6 +55839,8 @@ Unicycle.listenTo(postStore)],
 
 propTypes:{
 id:React.PropTypes.number.isRequired,
+
+posterProfileImageUrl:React.PropTypes.string,
 posterName:React.PropTypes.string.isRequired,
 timestamp:React.PropTypes.string.isRequired,
 photoUrl:React.PropTypes.string.isRequired,
@@ -55847,14 +55853,17 @@ liked:React.PropTypes.bool.isRequired},
 render:function(){
 return (
 React.createElement(View,null,
-React.createElement(View,{style:styles.postHeader},
-React.createElement(Text,{style:styles.posterName,numberOfLines:1},this.props.posterName),
-React.createElement(Text,{style:styles.timestamp},this.props.timestamp)),
+
+React.createElement(PostHeader,{
+posterName:this.props.posterName,
+posterProfileImageUrl:this.props.posterProfileImageUrl,
+timestamp:this.props.timestamp}),
 
 React.createElement(TouchableHighlight,{onPress:this._photoOnClickAction(this.props.liked)},
 React.createElement(View,{style:styles.imageContainer},
 React.createElement(Image,{style:styles.postImage,
 source:{uri:this.props.photoUrl}}))),
+
 
 
 React.createElement(View,{style:styles.postFooter},
@@ -55866,6 +55875,7 @@ postIdString:this.props.postIdString}),
 React.createElement(Text,{style:styles.caption},this.props.caption == '_'?'':this.props.caption)),
 
 React.createElement(View,{style:styles.blankLine})));},
+
 
 
 
@@ -55887,6 +55897,71 @@ return;};}}});
 
 
 module.exports = Post;
+});
+__d('Youni/Components/Post/PostHeader.ios.js',["react-native/Libraries/react-native/react-native.js"],function(global, require, module, exports) {  'use strict';
+
+var React=require('react-native/Libraries/react-native/react-native.js');var 
+
+
+View=
+
+
+
+React.View;var Text=React.Text;var Image=React.Image;var StyleSheet=React.StyleSheet;
+
+var styles=StyleSheet.create({
+postHeader:{
+flexDirection:'row',
+alignItems:'center',
+margin:10,
+marginTop:0},
+
+posterImage:{
+height:45,
+width:45,
+borderRadius:22,
+marginRight:10},
+
+posterName:{
+flex:4,
+fontSize:20},
+
+timestamp:{
+flex:1,
+alignSelf:'center',
+color:'darkgray'}});
+
+
+
+var PostHeader=React.createClass({displayName:'PostHeader',
+
+propTypes:{
+posterProfileImageUrl:React.PropTypes.string,
+posterName:React.PropTypes.string.isRequired,
+timestamp:React.PropTypes.string.isRequired},
+
+
+render:function(){
+var posterProfilePicture=React.createElement(View,null);
+
+if(this.props.posterProfileImageUrl){
+posterProfilePicture = 
+React.createElement(Image,{style:styles.posterImage,source:{uri:this.props.posterProfileImageUrl}});}
+
+
+
+return (
+React.createElement(View,{style:styles.postHeader},
+posterProfilePicture,
+React.createElement(Text,{style:styles.posterName,numberOfLines:1},this.props.posterName),
+React.createElement(Text,{style:styles.timestamp},this.props.timestamp)));}});
+
+
+
+
+
+
+module.exports = PostHeader;
 });
 __d('Youni/Components/Post/PostLikeBar.ios.js',["react-native/Libraries/react-native/react-native.js","Ionicons","Youni/Components/Post/Like/PostLikeText.ios.js","Youni/stores/PostStore.js"],function(global, require, module, exports) {  'use strict';
 
@@ -70135,6 +70210,12 @@ lastName:lastName});},
 
 
 
+$setProfileImageUrl:function(url){
+this.set({
+profileImageUrl:url});},
+
+
+
 $uploadUserBio:function(userId,bio){
 var that=this;
 
@@ -70224,7 +70305,8 @@ firstName:res.body.userDetails['firstName'],
 lastName:res.body.userDetails['lastName'],
 numFollowers:res.body.userDetails['numFollowers'],
 bio:res.body.userDetails['bio'],
-email:res.body.userDetails['email']});}else 
+email:res.body.userDetails['email'],
+profileImageUrl:res.body.userDetails['profileImageUrl']});}else 
 
 {}});},
 
@@ -70280,12 +70362,13 @@ return this.get('email');}});
 
 module.exports = profileStore;
 });
-__d('Youni/Components/Profile/ProfilePageBody.ios.js',["react-native/Libraries/react-native/react-native.js","Youni/Components/Profile/FollowUnfollowButton.ios.js","Youni/Components/Profile/FollowingButton.ios.js","Youni/Components/Profile/Settings/EditSettingsButton.ios.js"],function(global, require, module, exports) {  'use strict';
+__d('Youni/Components/Profile/ProfilePageBody.ios.js',["react-native/Libraries/react-native/react-native.js","Youni/Components/Profile/FollowUnfollowButton.ios.js","Youni/Components/Profile/FollowingButton.ios.js","Youni/Components/Profile/Settings/EditSettingsButton.ios.js","Youni/Components/Profile/ProfileImage.ios.js"],function(global, require, module, exports) {  'use strict';
 
 var React=require('react-native/Libraries/react-native/react-native.js');
 var FollowUnfollowButton=require('Youni/Components/Profile/FollowUnfollowButton.ios.js');
 var FollowingButton=require('Youni/Components/Profile/FollowingButton.ios.js');
-var EditSettingsButton=require('Youni/Components/Profile/Settings/EditSettingsButton.ios.js');var 
+var EditSettingsButton=require('Youni/Components/Profile/Settings/EditSettingsButton.ios.js');
+var ProfileImage=require('Youni/Components/Profile/ProfileImage.ios.js');var 
 
 
 View=
@@ -70303,17 +70386,6 @@ fullName:{
 textAlign:'center',
 fontSize:30,
 margin:5},
-
-profilePictureContainer:{
-flexDirection:'row',
-justifyContent:'center',
-marginBottom:5},
-
-profilePicture:{
-borderRadius:50,
-margin:25,
-width:150,
-height:150},
 
 fanCount:{
 textAlign:'center',
@@ -70369,10 +70441,9 @@ React.createElement(View,{style:styles.profileBodyContent},
 
 React.createElement(Text,{style:styles.fullName},firstName,' ',lastName),
 editSettingsIcon,
-React.createElement(View,{style:styles.profilePictureContainer},
-React.createElement(Image,{style:styles.profilePicture,
-source:{uri:'https://s3-us-west-2.amazonaws.com/misc-youni-files/snoop_dogg.jpg'}})),
-
+React.createElement(ProfileImage,{
+viewerIsProfileOwner:viewerIsProfileOwner,
+profileImageUrl:profileImageUrl}),
 React.createElement(Text,{style:styles.fanCount},this._getFansText(numFans)),
 React.createElement(Text,{style:styles.bio},bio),
 followButton,
@@ -70768,6 +70839,291 @@ Unicycle.exec('setInSettingsView',true);}});
 
 module.exports = EditSettingsButton;
 });
+__d('Youni/Components/Profile/ProfileImage.ios.js',["react-native/Libraries/react-native/react-native.js","Ionicons","Youni/Unicycle.js","NativeModules","Youni/stores/UserLoginMetadataStore.js","Youni/stores/profile/UploadProfileImageStore.js","Youni/Components/Profile/UploadProfileImage.ios.js"],function(global, require, module, exports) {  'use strict';
+
+var React=require('react-native/Libraries/react-native/react-native.js');
+var Icon=require('Ionicons');
+var Unicycle=require('Youni/Unicycle.js');
+var UploadProfileImage=require('Youni/Components/Profile/UploadProfileImage.ios.js');
+var UIImagePickerManager=require('NativeModules').UIImagePickerManager;
+var userLoginMetadataStore=require('Youni/stores/UserLoginMetadataStore.js');
+var uploadProfileImageStore=require('Youni/stores/profile/UploadProfileImageStore.js');var 
+
+
+View=
+
+
+
+
+React.View;var Image=React.Image;var StyleSheet=React.StyleSheet;var NativeModules=React.NativeModules;var TouchableHighlight=React.TouchableHighlight;
+
+var styles=StyleSheet.create({
+profileImageContainer:{
+flexDirection:'row',
+justifyContent:'center',
+marginBottom:5},
+
+profileImage:{
+borderRadius:5,
+width:150,
+height:150}});
+
+
+
+var ProfileImage=React.createClass({displayName:'ProfileImage',
+
+propTypes:{
+viewerIsProfileOwner:React.PropTypes.bool.isRequired,
+profileImageUrl:React.PropTypes.string},
+
+
+render:function(){
+var content;
+
+if(this.props.profileImageUrl){
+content = this.renderProfileImage();}else 
+
+if(this.props.viewerIsProfileOwner){
+content = React.createElement(UploadProfileImage,null);}else 
+
+{
+content = this.renderBlankProfileIcon();}
+
+
+return (
+React.createElement(View,{style:styles.profileImageContainer},
+content));},
+
+
+
+
+renderProfileImage:function(){
+return (
+React.createElement(TouchableHighlight,{onPress:this._onUploadImagePress},
+React.createElement(Image,{style:styles.profileImage,
+source:{uri:this.props.profileImageUrl}})));},
+
+
+
+
+renderBlankProfileIcon:function(){
+return (
+React.createElement(Icon,{
+name:'ios-person',
+size:150,
+color:'#007C9E'}));},
+
+
+
+
+_onUploadImagePress:function(){var _this=this;
+if(this.props.viewerIsProfileOwner){
+UIImagePickerManager.showImagePicker(this._getImagePickerOptions(),function(didCancel,response){
+if(!didCancel){
+Unicycle.exec('setIsUploadProfileImageRequestInFlight',true);
+
+NativeModules.FileTransfer.upload(_this._getImageUploadOptions(response),function(err,res){
+var imageUrl=_this._hackyWayToGetPictureUrlFromDumbStringThatShouldBeAMap(res.data);
+Unicycle.exec('setProfileImageUrl',imageUrl);
+Unicycle.exec('setIsUploadProfileImageRequestInFlight',true);});}});}},
+
+
+
+
+
+
+_getImagePickerOptions:function(){
+return {
+maxWidth:640,
+maxHeight:640,
+quality:.5,
+allowsEditing:true,
+noData:true,
+storageOptions:{
+skipBackup:true,
+path:'Youni'}};},
+
+
+
+
+_getImageUploadOptions:function(response){
+return {
+uri:response.uri,
+uploadUrl:'http://greedyapi.elasticbeanstalk.com/upload/profilePhoto',
+fileName:'picture',
+mimeType:'image/jpeg',
+data:{
+userIdString:userLoginMetadataStore.getUserId()}};},
+
+
+
+
+
+_hackyWayToGetPictureUrlFromDumbStringThatShouldBeAMap:function(ugly){
+var start=ugly.indexOf("pictureUrl") + 13;
+var end=ugly.indexOf("message") - 3;
+return ugly.substring(start,end);}});
+
+
+
+
+module.exports = ProfileImage;
+});
+__d('Youni/Components/Profile/UploadProfileImage.ios.js',["react-native/Libraries/react-native/react-native.js","Ionicons","Youni/Unicycle.js","NativeModules","Youni/stores/UserLoginMetadataStore.js","Youni/stores/profile/UploadProfileImageStore.js"],function(global, require, module, exports) {  'use strict';
+
+var React=require('react-native/Libraries/react-native/react-native.js');
+var Icon=require('Ionicons');
+var Unicycle=require('Youni/Unicycle.js');
+var UIImagePickerManager=require('NativeModules').UIImagePickerManager;
+var userLoginMetadataStore=require('Youni/stores/UserLoginMetadataStore.js');
+var uploadProfileImageStore=require('Youni/stores/profile/UploadProfileImageStore.js');var 
+
+
+View=
+
+
+
+
+React.View;var Text=React.Text;var StyleSheet=React.StyleSheet;var NativeModules=React.NativeModules;var ActivityIndicatorIOS=React.ActivityIndicatorIOS;
+
+var styles=StyleSheet.create({
+uploadProfileImageContainer:{
+flex:1,
+justifyContent:'center',
+alignItems:'center',
+height:150,
+width:150},
+
+uploadProfileImageText:{
+textAlign:'center',
+padding:5,
+paddingTop:7,
+color:'red',
+fontWeight:'500',
+borderWidth:3,
+borderColor:'maroon'}});
+
+
+
+var UploadProfileImage=React.createClass({displayName:'UploadProfileImage',
+
+mixins:[
+Unicycle.listenTo(uploadProfileImageStore)],
+
+
+render:function(){
+var content;
+if(uploadProfileImageStore.isUploadProfileImageRequestInFlight()){
+content = this._renderSpinner();}else 
+
+{
+content = this._renderUploadPhotoPrompt();}
+
+
+return (
+React.createElement(View,{style:styles.uploadProfileImageContainer},
+content));},
+
+
+
+
+_renderUploadPhotoPrompt:function(){
+return (
+React.createElement(Text,{
+style:styles.uploadProfileImageText,
+onPress:this._onUploadImagePress},'tap here to upload profile picture'));},
+
+
+
+
+
+_renderSpinner:function(){
+return (
+React.createElement(ActivityIndicatorIOS,{
+size:'small',
+color:'black',
+animating:true}));},
+
+
+
+_onUploadImagePress:function(){var _this=this;
+UIImagePickerManager.showImagePicker(this._getImagePickerOptions(),function(didCancel,response){
+if(!didCancel){
+Unicycle.exec('setIsUploadProfileImageRequestInFlight',true);
+
+NativeModules.FileTransfer.upload(_this._getImageUploadOptions(response),function(err,res){
+var imageUrl=_this._hackyWayToGetPictureUrlFromDumbStringThatShouldBeAMap(res.data);
+Unicycle.exec('setProfileImageUrl',imageUrl);
+Unicycle.exec('setIsUploadProfileImageRequestInFlight',true);});}});},
+
+
+
+
+
+_getImagePickerOptions:function(){
+return {
+maxWidth:640,
+maxHeight:640,
+quality:.5,
+allowsEditing:true,
+noData:true,
+storageOptions:{
+skipBackup:true,
+path:'Youni'}};},
+
+
+
+
+_getImageUploadOptions:function(response){
+return {
+uri:response.uri,
+uploadUrl:'http://greedyapi.elasticbeanstalk.com/upload/profilePhoto',
+fileName:'picture',
+mimeType:'image/jpeg',
+data:{
+userIdString:userLoginMetadataStore.getUserId()}};},
+
+
+
+
+
+_hackyWayToGetPictureUrlFromDumbStringThatShouldBeAMap:function(ugly){
+var start=ugly.indexOf("pictureUrl") + 13;
+var end=ugly.indexOf("message") - 3;
+return ugly.substring(start,end);}});
+
+
+
+
+module.exports = UploadProfileImage;
+});
+__d('Youni/stores/profile/UploadProfileImageStore.js',["react-native/Libraries/react-native/react-native.js","Youni/Unicycle.js"],function(global, require, module, exports) {  'use strict';
+
+var React=require('react-native/Libraries/react-native/react-native.js');
+var Unicycle=require('Youni/Unicycle.js');
+
+var uploadProfileImageStore=Unicycle.createStore({
+
+init:function(){
+this.set({
+isUploadProfileImageRequestInFlight:false});},
+
+
+
+$setIsUploadProfileImageRequestInFlight:function(inFlight){
+this.set({
+isUploadProfileImageRequestInFlight:inFlight});},
+
+
+
+isUploadProfileImageRequestInFlight:function(){
+return this.get('isUploadProfileImageRequestInFlight');}});
+
+
+
+
+module.exports = uploadProfileImageStore;
+});
 __d('Youni/Components/Common/BackButtonBar.ios.js',["react-native/Libraries/react-native/react-native.js","Youni/Unicycle.js","Ionicons"],function(global, require, module, exports) {  'use strict';
 
 var React=require('react-native/Libraries/react-native/react-native.js');
@@ -70918,7 +71274,7 @@ React.createElement(Text,{style:styles.emptySearchText},this.props.message)));}}
 
 module.exports = EmptyResults;
 });
-__d('Youni/ProfilePage.ios.js',["react-native/Libraries/react-native/react-native.js","Youni/Unicycle.js","Youni/Components/Profile/GetAllFollowingPage.ios.js","Youni/MainScreenBanner.ios.js","Youni/stores/ProfileStore.js","Youni/Components/Profile/ProfilePageBody.ios.js","Youni/stores/user/GetAllFollowingStore.js","Youni/Components/Profile/Settings/EditSettingsPage.ios.js"],function(global, require, module, exports) {  'use strict';
+__d('Youni/ProfilePage.ios.js',["react-native/Libraries/react-native/react-native.js","Youni/Unicycle.js","Youni/Components/Profile/Settings/EditSettingsPage.ios.js","Youni/Components/Profile/GetAllFollowingPage.ios.js","Youni/MainScreenBanner.ios.js","Youni/stores/ProfileStore.js","Youni/Components/Profile/ProfilePageBody.ios.js","Youni/stores/user/GetAllFollowingStore.js"],function(global, require, module, exports) {  'use strict';
 
 var React=require('react-native/Libraries/react-native/react-native.js');
 var Unicycle=require('Youni/Unicycle.js');
@@ -71055,7 +71411,7 @@ Unicycle.exec('setInSettingsView',false);}});
 
 module.exports = EditSettingsPage;
 });
-__d('Youni/Components/Profile/Settings/EditBioBox.ios.js',["react-native/Libraries/react-native/react-native.js","Ionicons","Youni/Unicycle.js","Youni/stores/ProfileStore.js","Youni/stores/UserLoginMetadataStore.js","Youni/Components/Profile/Settings/SubmitActionButtons.ios.js"],function(global, require, module, exports) {  'use strict';
+__d('Youni/Components/Profile/Settings/EditBioBox.ios.js',["react-native/Libraries/react-native/react-native.js","Ionicons","Youni/Unicycle.js","Youni/stores/UserLoginMetadataStore.js","Youni/Components/Profile/Settings/SubmitActionButtons.ios.js","Youni/stores/ProfileStore.js"],function(global, require, module, exports) {  'use strict';
 
 var React=require('react-native/Libraries/react-native/react-native.js');
 var Icon=require('Ionicons');
@@ -71222,7 +71578,7 @@ name:'close',size:30,color:'#FF7878'}))));}});
 
 module.exports = EditBioBox;
 });
-__d('Youni/Components/Profile/Settings/EditFirstNameBox.ios.js',["react-native/Libraries/react-native/react-native.js","Youni/Unicycle.js","Youni/stores/ProfileStore.js","Youni/stores/UserLoginMetadataStore.js","Youni/Components/Profile/Settings/SubmitActionButtons.ios.js"],function(global, require, module, exports) {  'use strict';
+__d('Youni/Components/Profile/Settings/EditFirstNameBox.ios.js',["react-native/Libraries/react-native/react-native.js","Youni/Unicycle.js","Youni/stores/UserLoginMetadataStore.js","Youni/Components/Profile/Settings/SubmitActionButtons.ios.js","Youni/stores/ProfileStore.js"],function(global, require, module, exports) {  'use strict';
 
 var React=require('react-native/Libraries/react-native/react-native.js');
 var Unicycle=require('Youni/Unicycle.js');
@@ -71349,7 +71705,7 @@ Unicycle.exec('setFirstName',this.state.originalFirstName);}});
 
 module.exports = EditFirstNameBox;
 });
-__d('Youni/Components/Profile/Settings/EditLastNameBox.ios.js',["react-native/Libraries/react-native/react-native.js","Youni/Unicycle.js","Youni/stores/ProfileStore.js","Youni/stores/UserLoginMetadataStore.js","Youni/Components/Profile/Settings/SubmitActionButtons.ios.js"],function(global, require, module, exports) {  'use strict';
+__d('Youni/Components/Profile/Settings/EditLastNameBox.ios.js',["react-native/Libraries/react-native/react-native.js","Youni/Unicycle.js","Youni/stores/UserLoginMetadataStore.js","Youni/Components/Profile/Settings/SubmitActionButtons.ios.js","Youni/stores/ProfileStore.js"],function(global, require, module, exports) {  'use strict';
 
 var React=require('react-native/Libraries/react-native/react-native.js');
 var Unicycle=require('Youni/Unicycle.js');
@@ -72049,7 +72405,7 @@ _getImagePickerOptions:function(){
 return {
 maxWidth:640,
 maxHeight:640,
-quality:1.0,
+quality:.5,
 allowsEditing:true,
 noData:true,
 storageOptions:{
