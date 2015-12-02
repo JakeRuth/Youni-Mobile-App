@@ -2,8 +2,13 @@
 
 var React = require('react-native');
 var Unicycle = require('./../Unicycle');
+var feedSelectorStore = require('./FeedSelectorStore');
+var immutable = require('immutable');
 var request = require('superagent');
 var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com');
+
+var INITIAL_PAGE_OFFSET = 0;
+var MAX_POSTS_PER_PAGE = 10;
 
 var postStore = Unicycle.createStore({
 
@@ -11,33 +16,47 @@ var postStore = Unicycle.createStore({
     this.set({
       posts: [],
       isRequestInFlight: false,
-      isLikeRequestInFlight: false
+      isLoadMorePostsRequestInFlight: false,
+      isLikeRequestInFlight: false,
+      exploreFeedPageOffset: INITIAL_PAGE_OFFSET,
+      homeFeedPageOffset: INITIAL_PAGE_OFFSET
     });
   },
 
   $requestExploreFeed(userId) {
-    var posts = [];
-    var that = this;
+    var that = this,
+        offset = this.getExploreFeedPageOffset();
 
-    this.set({
-      isRequestInFlight: true
-    });
+    if (offset == INITIAL_PAGE_OFFSET) {
+      this.set({
+        isRequestInFlight: true,
+        posts: []
+      });
+    }
+    else {
+      this.set({
+        isLoadMorePostsRequestInFlight: true
+      });
+    }
 
     request
      .post('/feed/getExploreFeed')
      .use(prefix)
      .send({
        userIdString: userId,
-       maxNumberOfPostsToFetch: 10, //TODO: enable paged results
-       fetchOffsetAmount: 0
+       maxNumberOfPostsToFetch: MAX_POSTS_PER_PAGE,
+       fetchOffsetAmount: offset
      })
      .set('Accept', 'application/json')
      .end(function(err, res) {
        if ((res !== undefined) && (res.ok)) {
-         posts = that.createPostsJsonFromResponse(res.body.posts);
+         var newPosts = immutable.List(that.createPostsJsonFromResponse(res.body.posts, offset));
+         var allPosts = that.getPosts().concat(newPosts);
          that.set({
-           posts: posts,
-           isRequestInFlight: false
+           posts: allPosts,
+           exploreFeedPageOffset: offset + MAX_POSTS_PER_PAGE,
+           isRequestInFlight: false,
+           isLoadMorePostsRequestInFlight: false
          });
        }
        else {
@@ -47,28 +66,39 @@ var postStore = Unicycle.createStore({
   },
   //TODO: Look to combine both methods that are getting the feeds
   $requestHomeFeed(userId) {
-    var posts = [];
-    var that = this;
+    var that = this,
+        offset = this.getHomeFeedPageOffset();
 
-    this.set({
-      isRequestInFlight: true
-    });
+    if (offset == INITIAL_PAGE_OFFSET) {
+      this.set({
+        isRequestInFlight: true,
+        posts: []
+      });
+    }
+    else {
+      this.set({
+        isLoadMorePostsRequestInFlight: true
+      });
+    }
 
     request
      .post('/feed/getHomeFeed')
      .use(prefix)
      .send({
        userIdString: userId,
-       maxNumberOfPostsToFetch: 10, //TODO: enable paged results
-       fetchOffsetAmount: 0
+       maxNumberOfPostsToFetch: MAX_POSTS_PER_PAGE,
+       fetchOffsetAmount: offset
      })
      .set('Accept', 'application/json')
      .end(function(err, res) {
        if ((res !== undefined) && (res.ok)) {
-         posts = that.createPostsJsonFromResponse(res.body.posts);
+         var newPosts = immutable.List(that.createPostsJsonFromResponse(res.body.posts, offset));
+         var allPosts = that.getPosts().concat(newPosts);
          that.set({
-           posts: posts,
-           isRequestInFlight: false
+           posts: allPosts,
+           homeFeedPageOffset: offset + MAX_POSTS_PER_PAGE,
+           isRequestInFlight: false,
+           isLoadMorePostsRequestInFlight: false
          });
        }
        else {
@@ -96,9 +126,8 @@ var postStore = Unicycle.createStore({
      .end(function(err, res) {
        if ((res !== undefined) && (res.ok) && (res.body.success)) {
          var post = posts.get(id);
-         var numLikes = post.get('numLikes');
-         post = post.set('numLikes', ++numLikes);
-         post = post.set('liked', true);
+         post.numLikes++;
+         post.liked = true;
          posts = posts.set(id, post);
          that.set({
            posts: posts,
@@ -114,6 +143,21 @@ var postStore = Unicycle.createStore({
     });
   },
 
+  $reInitializeFeedOffsets: function() {
+    this.set({
+      exploreFeedPageOffset: INITIAL_PAGE_OFFSET,
+      homeFeedPageOffset: INITIAL_PAGE_OFFSET
+    });
+  },
+
+  isRequestInFlight: function() {
+    return this.get('isRequestInFlight');
+  },
+
+  isLoadMorePostsRequestInFlight: function() {
+    return this.get('isLoadMorePostsRequestInFlight');
+  },
+
   isLikeRequestInFlight: function() {
     return this.get('isLikeRequestInFlight');
   },
@@ -122,14 +166,19 @@ var postStore = Unicycle.createStore({
     return this.get('posts');
   },
 
-  getIsRequestInFlight: function() {
-    return this.get('isRequestInFlight');
+  getExploreFeedPageOffset: function() {
+    return this.get('exploreFeedPageOffset');
   },
 
-  createPostsJsonFromResponse: function(posts) {
+  getHomeFeedPageOffset: function() {
+    return this.get('homeFeedPageOffset');
+  },
+
+  createPostsJsonFromResponse: function(posts, offset) {
     var postsJson = [];
-    for (var i = 0; i < posts.length; i++) {
-      var post = posts[i];
+
+    for (var i = offset; i < posts.length + offset; i++) {
+      var post = posts[i - offset];
       postsJson.push({
         posterProfileImageUrl: post['posterProfilePictureUrl'],
         postIdString: post['postIdString'],

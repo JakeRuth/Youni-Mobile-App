@@ -22,6 +22,7 @@ var feedSelectorStore = Unicycle.createStore({
       var currentFeed = this.getCurrentFeed();
       var nextFeed;
 
+      Unicycle.exec('reInitializeFeedOffsets');
       if (currentFeed == 'full') {
         nextFeed = 'me';
       }

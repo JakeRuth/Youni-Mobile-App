@@ -195,7 +195,7 @@ var profileStore = Unicycle.createStore({
        .set('Accept', 'application/json')
        .end(function(err, res) {
          if ((res !== undefined) && (res.ok)) {
-           posts = postStore.createPostsJsonFromResponse(res.body.posts);
+           posts = postStore.createPostsJsonFromResponse(res.body.posts, 0);
            that.set({
              posts: posts,
              isUserPostsRequestInFlight: false
