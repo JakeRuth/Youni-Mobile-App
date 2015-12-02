@@ -19,7 +19,7 @@ var styles = StyleSheet.create({
     marginLeft: 10
   },
   backButton: {
-    fontSize: 15,
+    fontSize: 20,
     color: '#007C9E',
     marginLeft: 10
   }
@@ -33,13 +33,17 @@ var BackButtonBar = React.createClass({
 
   render: function() {
     return (
-      <TouchableHighlight>
+      <TouchableHighlight
+        onPress={this.props.buttonOnPress}
+        underlayColor='transparent'>
+
         <View style={styles.backButtonContainer}>
           <Icon name='ios-arrow-back' size={25} color='#007C9E' />
-          <Text style={styles.backButton} onPress={this.props.buttonOnPress}>
+          <Text style={styles.backButton}>
             Back
           </Text>
         </View>
+
       </TouchableHighlight>
     );
   }
