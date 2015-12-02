@@ -11,6 +11,7 @@ var signupStore = Unicycle.createStore({
         collegeCampus: 'Seach Your College',
         email: 'Enter your email',
         password: '',
+        confirmPassword: '',
         //loginInFlight: false,
         onWayToSignupInFlight: false,
         signupRequestInFlight: false,
@@ -52,6 +53,12 @@ var signupStore = Unicycle.createStore({
       });
     },
 
+    $signupUpdateConfirmPassword: function(confirmPassword) {
+      this.set({
+        confirmPassword: confirmPassword
+      });
+    },
+
     $setOnWayToSignupInFlight: function(isInFlight) {
       this.set({
         onWayToSignupInFlight: isInFlight
@@ -86,6 +93,10 @@ var signupStore = Unicycle.createStore({
 
     getSignupPassword: function() {
       return this.get('password');
+    },
+
+    getSignupConfirmPassword: function(){
+      return this.get('confirmPassword');
     },
 
 });

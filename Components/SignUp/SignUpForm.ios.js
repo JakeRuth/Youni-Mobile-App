@@ -17,8 +17,7 @@ var {
 
 var styles = StyleSheet.create({
   signupContentContainer: {
-    backgroundColor: 'rgba(0,0,0,0)',
-    flexDirection: 'column',
+    backgroundColor: 'transparent',
     alignItems: 'center'
   },
   signupInput: {
@@ -31,21 +30,7 @@ var styles = StyleSheet.create({
     marginBottom: 8
   },
   firstInputBox: {
-    marginTop: 70,
-  },
-  loginButton: {
-    width: 120,
-    height: 25,
-    borderRadius: 5,
-    backgroundColor: 'lightblue',
-    marginTop: 40
-  },
-  loginText: {
-    textAlign: 'center',
-    fontSize: 20,
-    borderRadius: 5,
-    backgroundColor: 'rgba(0,0,0,0)',
-    fontWeight: 'bold'
+    marginTop: 70
   },
   appName: {
     marginTop: 0,
@@ -55,8 +40,8 @@ var styles = StyleSheet.create({
     fontFamily: 'GeezaPro'
   },
   signupButton: {
-    width: 120,
-    height: 25,
+    flex: 1,
+    width: 100,
     borderRadius: 5,
     backgroundColor: 'lightblue',
     marginTop: 40
@@ -65,10 +50,10 @@ var styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 20,
     borderRadius: 5,
-    backgroundColor: 'rgba(0,0,0,0)',
+    backgroundColor: 'transparent',
     fontWeight: 'bold'
   },
-  signInOptionDescText: {
+  signInOptionDescriptionText: {
     fontSize: 20,
     marginTop: 50
   },
@@ -81,52 +66,58 @@ var styles = StyleSheet.create({
 
 var SignUpForm = React.createClass({
 
-  propTypes: {
-  },
+  propTypes: {},
 
   render: function() {
     return (
       <View style={styles.signupContentContainer}>
         <Text style={styles.appName}>Youni</Text>
-        <TextInput style={[styles.signupInput, styles.firstInputBox]}
-           value={signupStore.getSignupFirstName()}
-           clearTextOnFocus={true}
-           onChangeText={(text) => Unicycle.exec('signupUpdateFirstName', text)}
-        />
-        <TextInput style={styles.signupInput}
-           value={signupStore.getSignupLastName()}
-           clearTextOnFocus={true}
-           onChangeText={(text) => Unicycle.exec('signupUpdateLastName', text)}
-        />
-        <TextInput style={styles.signupInput}
-           value={signupStore.getSignupEmail()}
-           clearTextOnFocus={true}
-           onChangeText={(text) => Unicycle.exec('signupUpdateEmail', text)}
-        />
-        <TextInput style={styles.signupInput}
-          secureTextEntry={true}
-           value={signupStore.getSignupPassword()}
-           clearTextOnFocus={true}
-           placeholderTextColor={'grey'}
-           placeholder={'Password'}
-           onChangeText={(text) => Unicycle.exec('signupUpdatePassword', text)}
-        />
-        <TextInput style={styles.signupInput}
-          secureTextEntry={true}
-           clearTextOnFocus={true}
-           placeholderTextColor={'grey'}
-           placeholder={'Confirm Password'}
-        />
-
+        <TextInput style={[styles.signupInput, styles.firstInputBox]} value={signupStore.getSignupFirstName()} clearTextOnFocus={true} onChangeText={(text) => Unicycle.exec('signupUpdateFirstName', text)}/>
+        <TextInput style={styles.signupInput} value={signupStore.getSignupLastName()} clearTextOnFocus={true} onChangeText={(text) => Unicycle.exec('signupUpdateLastName', text)}/>
+        <TextInput style={styles.signupInput} value={signupStore.getSignupEmail()} clearTextOnFocus={true} onChangeText={(text) => Unicycle.exec('signupUpdateEmail', text)}/>
+        <TextInput style={styles.signupInput} secureTextEntry={true} value={signupStore.getSignupPassword()} clearTextOnFocus={true} placeholderTextColor={'grey'} placeholder={'Password'} onChangeText={(text) => Unicycle.exec('signupUpdatePassword', text)}/>
+        <TextInput style={styles.signupInput} secureTextEntry={true} clearTextOnFocus={true} placeholderTextColor={'grey'} placeholder={'Confirm Password'} onChangeText={(text) => Unicycle.exec('signupUpdateConfirmPassword', text)}/>
 
         <TouchableHighlight style={styles.signupButton} underlayColor='white'>
-           <Text style={styles.signupText} onPress={this._onSignupRequest}>Sign Up</Text>
+          <Text style={styles.signupText} onPress={this._comparePassword}>Sign Up</Text>
         </TouchableHighlight>
 
-        <Text style={styles.signInOptionDescText}>Already have an account?</Text><TouchableHighlight><Text style={styles.loginOptionText}>Sign In</Text></TouchableHighlight>
+        <Text style={styles.signInOptionDescriptionText}>Already have an account?</Text>
+        <TouchableHighlight>
+          <Text style={styles.loginOptionText}>Sign In</Text>
+        </TouchableHighlight>
 
       </View>
     );
+  },
+
+  //_comparePassword will compare passwords and
+  //if passes the check - it will process the request
+  //else alerts user
+  _comparePassword: function() {
+    var password = signupStore.getSignupPassword();
+    var confirmPassword = signupStore.getSignupConfirmPassword();
+
+    if (password == confirmPassword) {
+      console.log('both passwords matches !');
+      this._onSignupRequest();
+    } else {
+      this._alertOnFailure('Ooops', 'Passwords Must Match', 'Re-Enter');
+      console.log('Failed and alerted !');
+    }
+  },
+
+/*
+_alertOnFailure(param1, param2, param3)
+dynamic alert function to prompt alert with generic title, message, button text.
+*/
+  _alertOnFailure: function(alertBoxTitle, alertBoxMessage, alertBoxButtonText) {
+    //Unicycle.exec('setLoginInFlight', false);
+    AlertIOS.alert(alertBoxTitle, alertBoxMessage, [
+      {
+        text: alertBoxButtonText
+      }
+    ])
   },
 
   _onSignupRequest: function() {
@@ -147,31 +138,22 @@ var SignUpForm = React.createClass({
 
     Unicycle.exec('setSignupRequestInFlight', true);
 
-//firstName, lastName, email, password, schoolName
+    //firstName, lastName, email, password, schoolName
 
     console.log('PASSWORD:  ' + password);
 
-    request
-     .post('/user/create')
-     .use(prefix)
-     .send({ firstName: firstName, lastName: lastName, email: email, password: password, schoolName: schoolName })
-     .set('Accept', 'application/json')
-     .end(function(err, res) {
+    request.post('/user/create').use(prefix).send({firstName: firstName, lastName: lastName, email: email, password: password, schoolName: schoolName}).set('Accept', 'application/json').end(function(err, res) {
 
-       if ((res !== undefined) && (res.ok)) {
-         Unicycle.exec('setSignupRequestInFlight', false);
+      if ((res !== undefined) && (res.ok)) {
+        Unicycle.exec('setSignupRequestInFlight', false);
 
-         console.log('something good');
-       }
-       else{
-         console.log('signup failed');
-       }
+        console.log('something good');
+      } else {
+        console.log('signup failed');
+      }
 
-
-
-     });
+    });
   }
-
 
 });
 
