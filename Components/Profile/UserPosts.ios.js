@@ -5,6 +5,7 @@ var Unicycle = require('../../Unicycle');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var profileStore = require('../../stores/ProfileStore');
 var Post = require('../../Components/Post/Post');
+var LoadMorePostsButton = require('../Post/LoadMorePostsButton');
 
 var {
   View,
@@ -72,26 +73,31 @@ var UserPosts = React.createClass({
     for (var i = 0; i<postsJson.size; i++) {
       var post = postsJson.get(i);
       posts.push(
-        <Post id={post.get('id')}
-              posterProfileImageUrl={post.get('posterProfileImageUrl')}
-              posterName={post.get('posterName')}
-              timestamp={post.get('timestamp')}
-              photoUrl={post.get('photoUrl')}
-              numLikes={post.get('numLikes')}
-              caption={post.get('caption')}
-              postIdString={post.get('postIdString')}
-              liked={post.get('liked')}
-              key={post.get('id')}
+        <Post id={post.id}
+              posterProfileImageUrl={post.posterProfileImageUrl}
+              posterName={post.posterName}
+              timestamp={post.timestamp}
+              photoUrl={post.photoUrl}
+              numLikes={post.numLikes}
+              caption={post.caption}
+              postIdString={post.postIdString}
+              liked={post.liked}
+              key={post.id}
               viewerIsPostOwner={this.props.viewerIsPostOwner}
               renderedFromProfileView={true} />
       );
     }
     return (
       <View>
+
         <Text style={styles.userPostsHeader}>
           {this.props.userName + "'s posts"}
         </Text>
         {posts}
+        <LoadMorePostsButton
+          onLoadMorePostsPress={this.onLoadMorePostsPress}
+          loadMorePostsRequestInFlight={profileStore.isLoadMorePostsRequestInFlight()}/>
+
       </View>
     );
   },
@@ -107,6 +113,12 @@ var UserPosts = React.createClass({
         <Text>Loading posts...</Text>
       </View>
     );
+  },
+
+  onLoadMorePostsPress: function() {
+    var userId = userLoginMetadataStore.getUserId(),
+        email = userLoginMetadataStore.getEmail();
+    Unicycle.exec('getUserPosts', email, userId);
   }
 
 });

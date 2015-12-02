@@ -3,8 +3,12 @@
 var React = require('react-native');
 var Unicycle = require('./../Unicycle');
 var postStore = require('./PostStore');
+var immutable = require('immutable');
 var request = require('superagent');
 var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com');
+
+var INITIAL_PAGE_OFFSET = 0;
+var MAX_POSTS_PER_PAGE = 10;
 
 var profileStore = Unicycle.createStore({
 
@@ -16,13 +20,15 @@ var profileStore = Unicycle.createStore({
         isUploadFirstNameRequestInFlight: false,
         isUploadLastNameRequestInFlight: false,
         isUserPostsRequestInFlight: false,
+        isLoadMorePostsRequestInFlight: false,
         firstName: '',
         lastName: '',
         numFollowers: null,
         bio: '',
         profileImageUrl: '',
         email: '',
-        posts: []
+        posts: [],
+        feedPageOffset: INITIAL_PAGE_OFFSET
       });
     },
 
@@ -176,12 +182,20 @@ var profileStore = Unicycle.createStore({
     },
 
     $getUserPosts(userEmail, userId) {
-      var posts = [];
-      var that = this;
+      var that = this,
+          offset = this.getFeedPageOffset();
 
-      this.set({
-        isUserPostsRequestInFlight: true
-      });
+      if (offset == INITIAL_PAGE_OFFSET) {
+        this.set({
+          isUserPostsRequestInFlight: true,
+          posts: []
+        });
+      }
+      else {
+        this.set({
+          isLoadMorePostsRequestInFlight: true
+        });
+      }
 
       request
        .post('/user/getPosts')
@@ -189,16 +203,20 @@ var profileStore = Unicycle.createStore({
        .send({
          userEmail: userEmail,
          requestingUserIdString: userId,
-         maxNumberOfPostsToFetch: 10, //TODO: enable paged results
-         fetchOffsetAmount: 0
+         maxNumberOfPostsToFetch: MAX_POSTS_PER_PAGE,
+         fetchOffsetAmount: offset
        })
        .set('Accept', 'application/json')
        .end(function(err, res) {
          if ((res !== undefined) && (res.ok)) {
-           posts = postStore.createPostsJsonFromResponse(res.body.posts, 0);
+           var postsArray = postStore.createPostsJsonFromResponse(res.body.posts, offset);
+           var newPosts = immutable.List(postsArray);
+           var allPosts = that.getPosts().concat(newPosts);
            that.set({
-             posts: posts,
-             isUserPostsRequestInFlight: false
+             posts: allPosts,
+             feedPageOffset: offset + MAX_POSTS_PER_PAGE,
+             isUserPostsRequestInFlight: false,
+             isLoadMorePostsRequestInFlight: false
            });
          }
          else {
@@ -260,6 +278,10 @@ var profileStore = Unicycle.createStore({
       return this.get('isUserPostsRequestInFlight');
     },
 
+    isLoadMorePostsRequestInFlight: function() {
+      return this.get('isLoadMorePostsRequestInFlight');
+    },
+
     getInSettingsView: function() {
       return this.get('inSettingsView');
     },
@@ -290,6 +312,10 @@ var profileStore = Unicycle.createStore({
 
     getPosts: function() {
       return this.get('posts');
+    },
+
+    getFeedPageOffset: function() {
+      return this.get('feedPageOffset');
     },
 
     _removePost: function(id) {
