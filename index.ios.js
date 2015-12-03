@@ -37,7 +37,8 @@ var styles = StyleSheet.create({
     width: null,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgba(0,0,0,0)'
+    backgroundColor: 'rgba(0,0,0,0)',
+    opacity: 0.9
   },
   contentContainer: {
     backgroundColor: 'rgba(0,0,0,0)',
@@ -123,14 +124,16 @@ var LoginPage = React.createClass({
   ],
 
   render: function () {
-    var isLoginInFlight = loginStore.isLoginInFlight();
-    var onWayToSignupInFlight = signupStore.isOnWayToSignupInFlight();
+    var isLoginInFlight = loginStore.isLoginInFlight(),
+        isSignUpRequestedPage = signupStore.isSignUpRequestedPage(),
+        content;
 
-    var content;
+    //TODO @shivam: following code needs to be redone
+
     if (isLoginInFlight) {
       content = this.renderLoadingSpinner();
     }
-    else if (onWayToSignupInFlight){
+    else if (isSignUpRequestedPage){
       content =  <SignUpForm />;
     }
     else {
@@ -141,7 +144,7 @@ var LoginPage = React.createClass({
     return (
       <View style={styles.imageContainer}>
         <Image source={{uri: 'https://images.unsplash.com/uploads/14121985124429dd8eeb5/60431f5b?dpr=2&fit=crop&fm=jpg&h=650&ixjsv=2.0.0&ixlib=rb-0.3.5&q=50&w=1300'}}
-               style={[styles.backgroundImage, {opacity: 0.9}]}>
+               style={styles.backgroundImage}>
             { content }
         </Image>
 
@@ -192,7 +195,7 @@ var LoginPage = React.createClass({
 
 
   _goToSignupPage: function(){
-      Unicycle.exec('setOnWayToSignupInFlight', true);
+      Unicycle.exec('setSignUpRequestedPage', true);
   },
 
 

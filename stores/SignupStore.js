@@ -69,13 +69,13 @@ var signupStore = Unicycle.createStore({
       return this.get('onWayToSignupInFlight');
     },
 
-    $setSignupRequestInFlight: function(isInFlight) {
+    $setSignUpRequestedPage: function(isInFlight) {
       this.set({
         signupRequestInFlight: isInFlight
       });
     },
 
-    isSignupRequestInFlight: function() {
+    isSignUpRequestedPage: function() {
       return this.get('signupRequestInFlight');
     },
 
@@ -98,6 +98,7 @@ var signupStore = Unicycle.createStore({
     getSignupConfirmPassword: function(){
       return this.get('confirmPassword');
     },
+
 
 });
 

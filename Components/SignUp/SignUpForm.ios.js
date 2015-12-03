@@ -95,8 +95,8 @@ var SignUpForm = React.createClass({
   //if passes the check - it will process the request
   //else alerts user
   _comparePassword: function() {
-    var password = signupStore.getSignupPassword();
-    var confirmPassword = signupStore.getSignupConfirmPassword();
+    var password = signupStore.getSignupPassword(),
+        confirmPassword = signupStore.getSignupConfirmPassword();
 
     if (password == confirmPassword) {
       console.log('both passwords matches !');
@@ -121,12 +121,12 @@ dynamic alert function to prompt alert with generic title, message, button text.
   },
 
   _onSignupRequest: function() {
-    var that = this;
-    var firstName = signupStore.getSignupFirstName();
-    var lastName = signupStore.getSignupLastName();
-    var email = signupStore.getSignupEmail();
-    var password = signupStore.getSignupPassword();
-    var schoolName = 'SUNY Albany';
+    var that = this,
+        firstName = signupStore.getSignupFirstName(),
+        lastName = signupStore.getSignupLastName(),
+        email = signupStore.getSignupEmail(),
+        password = signupStore.getSignupPassword(),
+        schoolName = 'SUNY Albany';
 
     //fixes weird bug where blank password field validates (cannot replicate at command line with api)
     if (!password) {
@@ -138,15 +138,20 @@ dynamic alert function to prompt alert with generic title, message, button text.
 
     Unicycle.exec('setSignupRequestInFlight', true);
 
-    //firstName, lastName, email, password, schoolName
 
     console.log('PASSWORD:  ' + password);
 
-    request.post('/user/create').use(prefix).send({firstName: firstName, lastName: lastName, email: email, password: password, schoolName: schoolName}).set('Accept', 'application/json').end(function(err, res) {
+    request.post('/user/create').use(prefix)
+    .send({firstName: firstName,
+                      lastName: lastName,
+                      email: email,
+                      password: password,
+                      schoolName: schoolName})
+    .set('Accept', 'application/json')
+    .end(function(err, res) {
 
       if ((res !== undefined) && (res.ok)) {
         Unicycle.exec('setSignupRequestInFlight', false);
-
         console.log('something good');
       } else {
         console.log('signup failed');
