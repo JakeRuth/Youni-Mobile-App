@@ -30,6 +30,10 @@ var styles = StyleSheet.create({
 //we finalize a new design
 var ProfilePage = React.createClass({
 
+  propTypes: {
+    email: React.PropTypes.string.isRequired
+  },
+
   mixins: [
     Unicycle.listenTo(profileStore),
     Unicycle.listenTo(getAllFollowingStore)
@@ -42,7 +46,7 @@ var ProfilePage = React.createClass({
         content;
 
     if (inSettingsView) {
-      content = <EditSettingsPage />
+      content = <EditSettingsPage/>
     }
     else if (isRequestInFlight) {
       content = <ProfilePageLoading/>
@@ -58,7 +62,7 @@ var ProfilePage = React.createClass({
                   bio = {profileStore.getBio()}
                   numFans = {profileStore.getNumFollowers()}
                   profileImageUrl = {profileStore.getProfileImageUrl()}
-                  email = {profileStore.getEmail()}
+                  email = {this.props.email}
                 />;
     }
 

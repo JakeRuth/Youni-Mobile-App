@@ -102,11 +102,12 @@ var LandingPage = React.createClass({
           onPress={() => {
             var userEmail = userLoginMetadataStore.getEmail()
             Unicycle.exec('loadUsersProfile', userEmail);
+            Unicycle.exec('reInitializeUsersProfileFeedOffset'); //needed to fix bug because we share a profile store between search result profiles and this page
             this.setState({
               selectedTab: 'profile'
             });
           }}>
-          <ProfilePage/>
+          <ProfilePage email={userLoginMetadataStore.getEmail()}/>
         </Icon.TabBarItem>
       </TabBarIOS>
     )

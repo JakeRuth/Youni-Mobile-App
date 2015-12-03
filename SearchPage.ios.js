@@ -174,6 +174,7 @@ var SearchResult = React.createClass({
   },
 
   _onSearchResultClick: function(email) {
+    Unicycle.exec('reInitializeUsersProfileFeedOffset');
     Unicycle.exec('loadUsersProfile', email);
     Unicycle.exec('setInProfileView', true);
   },

@@ -116,9 +116,8 @@ var UserPosts = React.createClass({
   },
 
   onLoadMorePostsPress: function() {
-    var userId = userLoginMetadataStore.getUserId(),
-        email = userLoginMetadataStore.getEmail();
-    Unicycle.exec('getUserPosts', email, userId);
+    var userId = userLoginMetadataStore.getUserId();
+    Unicycle.exec('getUserPosts', this.props.userEmail, userId);
   }
 
 });

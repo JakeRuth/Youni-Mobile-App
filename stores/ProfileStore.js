@@ -247,6 +247,13 @@ var profileStore = Unicycle.createStore({
       });
     },
 
+    $reInitializeUsersProfileFeedOffset: function() {
+      this.set({
+        feedPageOffset: INITIAL_PAGE_OFFSET,
+        posts: []
+      });
+    },
+
     updateLikeCountForPost: function(id) {
       var posts = this.getPosts();
       var post = posts.get(id);
