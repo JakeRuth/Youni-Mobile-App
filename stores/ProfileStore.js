@@ -115,7 +115,7 @@ var profileStore = Unicycle.createStore({
 
       this.set({ isUploadLastNameRequestInFlight: true });
       request
-       .post('/user/updateFirstName')
+       .post('/user/updateLastName')
        .use(prefix)
        .send({
          userIdString: userId,
