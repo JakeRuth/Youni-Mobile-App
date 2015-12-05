@@ -6,6 +6,7 @@ var BackButtonBar = require('../../Common/BackButtonBar');
 var EditBioBox = require('./EditBioBox');
 var EditFirstNameBox = require('./EditFirstNameBox');
 var EditLastNameBox = require('./EditLastNameBox');
+var editProfileInformationStore = require('../../../stores/profile/EditProfileInformationStore');
 
 var {
   View,
@@ -22,6 +23,10 @@ var styles = StyleSheet.create({
 });
 
 var EditSettingsPage = React.createClass({
+
+  mixins: [
+    Unicycle.listenTo(editProfileInformationStore)
+  ],
 
   render: function() {
     return (

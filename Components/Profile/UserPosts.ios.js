@@ -3,7 +3,7 @@
 var React = require('react-native');
 var Unicycle = require('../../Unicycle');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
-var profileStore = require('../../stores/ProfileStore');
+var profileStore = require('../../stores/profile/ProfileStore');
 var Post = require('../../Components/Post/Post');
 var LoadMorePostsButton = require('../Post/LoadMorePostsButton');
 

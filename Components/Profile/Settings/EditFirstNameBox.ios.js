@@ -2,7 +2,8 @@
 
 var React = require('react-native');
 var Unicycle = require('../../../Unicycle');
-var profileStore = require('../../../stores/ProfileStore');
+var profileStore = require('../../../stores/profile/ProfileStore');
+var editProfileInformationStore = require('../../../stores/profile/EditProfileInformationStore');
 var userLoginMetadataStore = require('../../../stores/UserLoginMetadataStore');
 var SubmitActionButtons = require('./SubmitActionButtons');
 
@@ -58,7 +59,7 @@ var EditFirstNameBox = React.createClass({
   },
 
   render: function() {
-    var isUploadFirstNameRequestInFlight = profileStore.isUploadFirstNameRequestInFlight(),
+    var isUploadFirstNameRequestInFlight = editProfileInformationStore.isUploadFirstNameRequestInFlight(),
         actionButtons;
 
     if (isUploadFirstNameRequestInFlight) {
@@ -81,7 +82,7 @@ var EditFirstNameBox = React.createClass({
             style={styles.updateFirstNameInput}
             onChangeText={(text) => Unicycle.exec('setFirstName', text)}
             value={profileStore.getFirstName()}
-            maxLength={25} //Hopefully someone doesn't have a 25+ cahracter first name?
+            maxLength={25} //Hopefully someone doesnt have a 25+ cahracter first name?
             clearTextOnFocus={true}
           />
         </View>
@@ -104,7 +105,7 @@ var EditFirstNameBox = React.createClass({
         firstName = profileStore.getFirstName();
 
     if (firstName.trim()) {
-      Unicycle.exec('uploadUserFirstName', userId, firstName);
+      Unicycle.exec('updateUserFirstName', userId, firstName);
     }
     else {
       AlertIOS.alert(

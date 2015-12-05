@@ -2,7 +2,7 @@
 
 var React = require('react-native');
 var Unicycle = require('./Unicycle');
-var profileStore = require('./stores/ProfileStore');
+var profileStore = require('./stores/profile/ProfileStore');
 var EditSettingsPage = require('./Components/Profile/Settings/EditSettingsPage');
 var getAllFollowingStore = require('./stores/user/GetAllFollowingStore');
 var GetAllFollowingPage = require('./Components/Profile/GetAllFollowingPage');

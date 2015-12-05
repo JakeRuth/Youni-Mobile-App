@@ -1,8 +1,8 @@
 'use strict';
 
 var React = require('react-native');
-var Unicycle = require('./../Unicycle');
-var postStore = require('./PostStore');
+var Unicycle = require('../../Unicycle');
+var postStore = require('../PostStore');
 var immutable = require('immutable');
 var request = require('superagent');
 var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com');
@@ -16,9 +16,6 @@ var profileStore = Unicycle.createStore({
       this.set({
         inSettingsView: false,
         isRequestInFlight: false,
-        isUploadBioRequestInFlight: false,
-        isUploadFirstNameRequestInFlight: false,
-        isUploadLastNameRequestInFlight: false,
         isUserPostsRequestInFlight: false,
         isLoadMorePostsRequestInFlight: false,
         firstName: '',
@@ -60,78 +57,6 @@ var profileStore = Unicycle.createStore({
       this.set({
         profileImageUrl: url
       });
-    },
-
-    $uploadUserBio: function(userId, bio) {
-      var that = this;
-
-      this.set({ isUploadBioRequestInFlight: true });
-      request
-       .post('/user/updateBio')
-       .use(prefix)
-       .send({
-         userIdString: userId,
-         bio: bio
-        })
-       .set('Accept', 'application/json')
-       .end(function(err, res) {
-         if ((res !== undefined) && (res.ok)) {
-           //no feedback required, view was already optimistically updated
-         } else {
-           //TODO: Implement a failed case
-         }
-         that.set({
-           isUploadBioRequestInFlight: false
-         });
-       });
-    },
-
-    $uploadUserFirstName: function(userId, firstName) {
-      var that = this;
-
-      this.set({ isUploadFirstNameRequestInFlight: true });
-      request
-       .post('/user/updateFirstName')
-       .use(prefix)
-       .send({
-         userIdString: userId,
-         firstName: firstName
-        })
-       .set('Accept', 'application/json')
-       .end(function(err, res) {
-         if ((res !== undefined) && (res.ok)) {
-           //no feedback required, view was already optimistically updated
-         } else {
-           //TODO: Implement a failed case
-         }
-         that.set({
-           isUploadFirstNameRequestInFlight: false
-         });
-       });
-    },
-
-    $uploadUserLastName: function(userId, lastName) {
-      var that = this;
-
-      this.set({ isUploadLastNameRequestInFlight: true });
-      request
-       .post('/user/updateLastName')
-       .use(prefix)
-       .send({
-         userIdString: userId,
-         lastName: lastName
-        })
-       .set('Accept', 'application/json')
-       .end(function(err, res) {
-         if ((res !== undefined) && (res.ok)) {
-           //no feedback required, view was already optimistically updated
-         } else {
-           //TODO: Implement a failed case
-         }
-         that.set({
-           isUploadLastNameRequestInFlight: false
-         });
-       });
     },
 
     $loadUsersProfile(email) {
@@ -267,18 +192,6 @@ var profileStore = Unicycle.createStore({
 
     isRequestInFlight() {
       return this.get('isRequestInFlight');
-    },
-
-    isUploadBioRequestInFlight: function() {
-      return this.get('isUploadBioRequestInFlight');
-    },
-
-    isUploadFirstNameRequestInFlight: function() {
-      return this.get('isUploadFirstNameRequestInFlight');
-    },
-
-    isUploadLastNameRequestInFlight: function() {
-      return this.get('isUploadLastNameRequestInFlight');
     },
 
     isUserPostsRequestInFlight: function() {

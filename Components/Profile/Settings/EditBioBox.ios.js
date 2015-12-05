@@ -3,7 +3,8 @@
 var React = require('react-native');
 var Icon = require('react-native-vector-icons/Ionicons');
 var Unicycle = require('../../../Unicycle');
-var profileStore = require('../../../stores/ProfileStore');
+var profileStore = require('../../../stores/profile/ProfileStore');
+var editProfileInformationStore = require('../../../stores/profile/EditProfileInformationStore');
 var userLoginMetadataStore = require('../../../stores/UserLoginMetadataStore');
 var SubmitActionButtons = require('./SubmitActionButtons');
 
@@ -51,7 +52,7 @@ var EditBioBox = React.createClass({
   },
 
   render: function() {
-    var isUploadBioRequestInFlight = profileStore.isUploadBioRequestInFlight(),
+    var isUploadBioRequestInFlight = editProfileInformationStore.isUploadBioRequestInFlight(),
         actionButtons;
 
     if (isUploadBioRequestInFlight) {

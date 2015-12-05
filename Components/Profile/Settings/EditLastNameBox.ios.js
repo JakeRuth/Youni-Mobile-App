@@ -2,7 +2,8 @@
 
 var React = require('react-native');
 var Unicycle = require('../../../Unicycle');
-var profileStore = require('../../../stores/ProfileStore');
+var profileStore = require('../../../stores/profile/ProfileStore');
+var editProfileInformationStore = require('../../../stores/profile/EditProfileInformationStore');
 var userLoginMetadataStore = require('../../../stores/UserLoginMetadataStore');
 var SubmitActionButtons = require('./SubmitActionButtons');
 
@@ -58,7 +59,7 @@ var EditLastNameBox = React.createClass({
   },
 
   render: function() {
-    var isUploadLastNameRequestInFlight = profileStore.isUploadLastNameRequestInFlight(),
+    var isUploadLastNameRequestInFlight = editProfileInformationStore.isUploadLastNameRequestInFlight(),
         actionButtons;
 
     if (isUploadLastNameRequestInFlight) {
@@ -104,7 +105,7 @@ var EditLastNameBox = React.createClass({
         lastName = profileStore.getLastName();
 
     if (lastName.trim()) {
-      Unicycle.exec('uploadUserLastName', userId, lastName);
+      Unicycle.exec('updateUserLastName', userId, lastName);
     }
     else {
       AlertIOS.alert(
