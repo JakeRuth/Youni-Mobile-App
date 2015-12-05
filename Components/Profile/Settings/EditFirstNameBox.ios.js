@@ -2,7 +2,7 @@
 
 var React = require('react-native');
 var Unicycle = require('../../../Unicycle');
-var profileStore = require('../../../stores/profile/ProfileStore');
+var profileOwnerStore = require('../../../stores/profile/ProfileOwnerStore');
 var editProfileInformationStore = require('../../../stores/profile/EditProfileInformationStore');
 var userLoginMetadataStore = require('../../../stores/UserLoginMetadataStore');
 var SubmitActionButtons = require('./SubmitActionButtons');
@@ -54,7 +54,7 @@ var EditFirstNameBox = React.createClass({
 
   getInitialState: function() {
     return {
-      originalFirstName: profileStore.getFirstName()
+      originalFirstName: profileOwnerStore.getFirstName()
     };
   },
 
@@ -81,7 +81,7 @@ var EditFirstNameBox = React.createClass({
           <TextInput
             style={styles.updateFirstNameInput}
             onChangeText={(text) => Unicycle.exec('setFirstName', text)}
-            value={profileStore.getFirstName()}
+            value={profileOwnerStore.getFirstName()}
             maxLength={25} //Hopefully someone doesnt have a 25+ cahracter first name?
             clearTextOnFocus={true}
           />
@@ -102,7 +102,7 @@ var EditFirstNameBox = React.createClass({
 
   _onSubmitUpdateFirstNamePress: function() {
     var userId = userLoginMetadataStore.getUserId(),
-        firstName = profileStore.getFirstName();
+        firstName = profileOwnerStore.getFirstName();
 
     if (firstName.trim()) {
       Unicycle.exec('updateUserFirstName', userId, firstName);

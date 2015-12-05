@@ -10,10 +10,11 @@ var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com
 var INITIAL_PAGE_OFFSET = 0;
 var MAX_POSTS_PER_PAGE = 10;
 
-var profileStore = Unicycle.createStore({
+var profileOwnerStore = Unicycle.createStore({
 
     init: function () {
       this.set({
+        inSettingsView: false,
         isRequestInFlight: false,
         isUserPostsRequestInFlight: false,
         isLoadMorePostsRequestInFlight: false,
@@ -25,6 +26,12 @@ var profileStore = Unicycle.createStore({
         email: '',
         posts: [],
         feedPageOffset: INITIAL_PAGE_OFFSET
+      });
+    },
+
+    $setInSettingsView: function(inSettingsView) {
+      this.set({
+        inSettingsView: inSettingsView
       });
     },
 
@@ -52,7 +59,7 @@ var profileStore = Unicycle.createStore({
       });
     },
 
-    $loadUsersProfile(email) {
+    $loadOwnerUsersProfile(email) {
       var that = this;
 
       this.set({ isRequestInFlight: true });
@@ -78,7 +85,28 @@ var profileStore = Unicycle.createStore({
        });
     },
 
-    $getUserPosts(userEmail, userId) {
+    $deletePost(id, postId, userId) {
+      //optimistically remove post from list, then call api to delete
+      this._removePost(id);
+
+      request
+       .post('/post/delete')
+       .use(prefix)
+       .send({
+         postIdString: postId,
+         userIdString: userId
+       })
+       .set('Accept', 'application/json')
+       .end(function(err, res) {
+         if ((res !== undefined) && (res.ok)) {
+           //TODO: Maybe we should give them some feedback?
+         } else {
+           //TODO: Implement a failed case
+         }
+       });
+    },
+
+    $getOwnerUserPosts(userEmail, userId) {
       var that = this,
           offset = this.getFeedPageOffset();
 
@@ -144,12 +172,6 @@ var profileStore = Unicycle.createStore({
       });
     },
 
-    $reInitializeUsersProfileFeedOffset: function() {
-      this.set({
-        feedPageOffset: INITIAL_PAGE_OFFSET
-      });
-    },
-
     updateLikeCountForPost: function(id) {
       var posts = this.getPosts();
       var post = posts.get(id);
@@ -171,6 +193,10 @@ var profileStore = Unicycle.createStore({
 
     isLoadMorePostsRequestInFlight: function() {
       return this.get('isLoadMorePostsRequestInFlight');
+    },
+
+    getInSettingsView: function() {
+      return this.get('inSettingsView');
     },
 
     getFirstName: function() {
@@ -203,8 +229,15 @@ var profileStore = Unicycle.createStore({
 
     getFeedPageOffset: function() {
       return this.get('feedPageOffset');
+    },
+
+    _removePost: function(id) {
+      var posts = this.getPosts();
+      this.set({
+        posts: posts.delete(id)
+      });
     }
 
 });
 
-module.exports = profileStore;
+module.exports = profileOwnerStore;

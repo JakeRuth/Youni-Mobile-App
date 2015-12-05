@@ -3,7 +3,6 @@
 var React = require('react-native');
 var Unicycle = require('../../Unicycle');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
-var profileStore = require('../../stores/profile/ProfileStore');
 var Post = require('../../Components/Post/Post');
 var LoadMorePostsButton = require('../Post/LoadMorePostsButton');
 
@@ -36,23 +35,20 @@ var styles = StyleSheet.create({
 var UserPosts = React.createClass({
 
   propTypes: {
+    profileStore: React.PropTypes.any.isRequired,
     userName: React.PropTypes.string.isRequired,
     userEmail: React.PropTypes.string.isRequired,
     viewerIsPostOwner: React.PropTypes.bool
   },
 
-  mixins: [
-    Unicycle.listenTo(profileStore)
-  ],
-
   componentDidMount: function() {
-    var userId = userLoginMetadataStore.getUserId();
-    Unicycle.exec('getUserPosts', this.props.userEmail, userId);
+    this._getInitialPageOfPosts();
   },
 
   render: function() {
-    var loadingPosts = profileStore.isUserPostsRequestInFlight();
-    var content;
+    var loadingPosts = this.props.profileStore.isUserPostsRequestInFlight(),
+        content;
+
     if (loadingPosts) {
       content = this.renderLoadingSpinner()
     }
@@ -68,8 +64,9 @@ var UserPosts = React.createClass({
   },
 
   renderPosts: function() {
-    var postsJson = profileStore.getPosts();
-    var posts = [];
+    var postsJson = this.props.profileStore.getPosts(),
+        posts = [];
+
     for (var i = 0; i<postsJson.size; i++) {
       var post = postsJson.get(i);
       posts.push(
@@ -96,7 +93,7 @@ var UserPosts = React.createClass({
         {posts}
         <LoadMorePostsButton
           onLoadMorePostsPress={this.onLoadMorePostsPress}
-          loadMorePostsRequestInFlight={profileStore.isLoadMorePostsRequestInFlight()}/>
+          loadMorePostsRequestInFlight={this.props.profileStore.isLoadMorePostsRequestInFlight()}/>
 
       </View>
     );
@@ -116,8 +113,28 @@ var UserPosts = React.createClass({
   },
 
   onLoadMorePostsPress: function() {
-    var userId = userLoginMetadataStore.getUserId();
-    Unicycle.exec('getUserPosts', this.props.userEmail, userId);
+    var userId = userLoginMetadataStore.getUserId(),
+        getUsersPostsActionName = this._getLoadUserPostsActionName(this.props.viewerIsPostOwner);
+
+    Unicycle.exec(getUsersPostsActionName, this.props.userEmail, userId);
+  },
+
+  _getInitialPageOfPosts: function() {
+    var userId = userLoginMetadataStore.getUserId(),
+        getUsersPostsActionName = this._getLoadUserPostsActionName(this.props.viewerIsPostOwner);
+
+    if (!this.props.profileStore.isUserPostsRequestInFlight()) {
+      Unicycle.exec(getUsersPostsActionName, this.props.userEmail, userId);
+    }
+  },
+
+  _getLoadUserPostsActionName: function(isOwner) {
+    if (isOwner) {
+      return 'getOwnerUserPosts';
+    }
+    else {
+      return 'getUserPosts';
+    }
   }
 
 });

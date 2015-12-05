@@ -100,9 +100,6 @@ var LandingPage = React.createClass({
           selectedIconName="ios-people-outline"
           selected={this.state.selectedTab === 'profile'}
           onPress={() => {
-            var userEmail = userLoginMetadataStore.getEmail()
-            Unicycle.exec('loadUsersProfile', userEmail);
-            Unicycle.exec('reInitializeUsersProfileFeedOffset'); //needed to fix bug because we share a profile store between search result profiles and this page
             this.setState({
               selectedTab: 'profile'
             });

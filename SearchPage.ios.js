@@ -60,20 +60,10 @@ var SearchPage = React.createClass({
   ],
 
   render: function() {
-    var isProfileInView = searchStore.getInProfileView();
-    var searchResultsToShow = searchStore.getSearchResults().size != 0;
-    var searchPageContent, searchPageHeader;
-
-    if (isProfileInView) {
-      searchPageHeader = <BackButton buttonOnPress={
-        () => {
-          Unicycle.exec('setInProfileView', false);
-        }
-      }/>;
-    }
-    else {
-      searchPageHeader = this._renderSearchBar();
-    }
+    var isProfileInView = searchStore.getInProfileView(),
+        searchResultsToShow = searchStore.getSearchResults().size != 0,
+        searchPageContent,
+        searchPageHeader;
 
     if (searchStore.isRequestInFlight() || profileStore.isRequestInFlight()) {
       searchPageContent = <SearchResultLoading/>;
@@ -98,13 +88,31 @@ var SearchPage = React.createClass({
 
     return (
       <View style={styles.searchPageContainer}>
+
         <MainScreenBanner
           title='SUNY Albany'
           subTitle='Discover other students on campus'/>
+        {this._renderHeader()}
         {searchPageHeader}
         {searchPageContent}
+
       </View>
     );
+  },
+
+  _renderHeader: function() {
+    var isProfileInView = searchStore.getInProfileView();
+
+    if (isProfileInView) {
+      return (
+        <BackButton buttonOnPress={
+            () => { Unicycle.exec('setInProfileView', false); }
+        }/>
+      );
+    }
+    else {
+      return this._renderSearchBar();
+    }
   },
 
   _renderSearchBar: function() {
