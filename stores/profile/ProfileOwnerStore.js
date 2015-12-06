@@ -18,6 +18,7 @@ var profileOwnerStore = Unicycle.createStore({
         isRequestInFlight: false,
         isUserPostsRequestInFlight: false,
         isLoadMorePostsRequestInFlight: false,
+        noMorePostsToFetch: false,
         firstName: '',
         lastName: '',
         numFollowers: null,
@@ -141,7 +142,8 @@ var profileOwnerStore = Unicycle.createStore({
              posts: allPosts,
              feedPageOffset: offset + MAX_POSTS_PER_PAGE,
              isUserPostsRequestInFlight: false,
-             isLoadMorePostsRequestInFlight: false
+             isLoadMorePostsRequestInFlight: false,
+             noMorePostsToFetch: !res.body.moreResults
            });
          }
          else {
@@ -193,6 +195,10 @@ var profileOwnerStore = Unicycle.createStore({
 
     isLoadMorePostsRequestInFlight: function() {
       return this.get('isLoadMorePostsRequestInFlight');
+    },
+
+    getNoMorePostsToFetch: function() {
+      return this.get('noMorePostsToFetch');
     },
 
     getInSettingsView: function() {

@@ -17,6 +17,7 @@ var profileStore = Unicycle.createStore({
         isRequestInFlight: false,
         isUserPostsRequestInFlight: false,
         isLoadMorePostsRequestInFlight: false,
+        noMorePostsToFetch: false,
         firstName: '',
         lastName: '',
         numFollowers: null,
@@ -113,7 +114,8 @@ var profileStore = Unicycle.createStore({
              posts: allPosts,
              feedPageOffset: offset + MAX_POSTS_PER_PAGE,
              isUserPostsRequestInFlight: false,
-             isLoadMorePostsRequestInFlight: false
+             isLoadMorePostsRequestInFlight: false,
+             noMorePostsToFetch: !res.body.moreResults
            });
          }
          else {
@@ -146,7 +148,8 @@ var profileStore = Unicycle.createStore({
 
     $reInitializeUsersProfileFeedOffset: function() {
       this.set({
-        feedPageOffset: INITIAL_PAGE_OFFSET
+        feedPageOffset: INITIAL_PAGE_OFFSET,
+        noMorePostsToFetch: false
       });
     },
 
@@ -171,6 +174,10 @@ var profileStore = Unicycle.createStore({
 
     isLoadMorePostsRequestInFlight: function() {
       return this.get('isLoadMorePostsRequestInFlight');
+    },
+
+    getNoMorePostsToFetch: function() {
+      return this.get('noMorePostsToFetch');
     },
 
     getFirstName: function() {

@@ -91,12 +91,20 @@ var UserPosts = React.createClass({
           {this.props.userName + "'s posts"}
         </Text>
         {posts}
-        <LoadMorePostsButton
-          onLoadMorePostsPress={this.onLoadMorePostsPress}
-          loadMorePostsRequestInFlight={this.props.profileStore.isLoadMorePostsRequestInFlight()}/>
+        {this.renderLoadMorePostsButton()}
 
       </View>
     );
+  },
+
+  renderLoadMorePostsButton: function() {
+    if (!this.props.profileStore.getNoMorePostsToFetch()) {
+      return (
+          <LoadMorePostsButton
+            onLoadMorePostsPress={this.onLoadMorePostsPress}
+            loadMorePostsRequestInFlight={this.props.profileStore.isLoadMorePostsRequestInFlight()}/>
+      );
+    }
   },
 
   renderLoadingSpinner: function() {

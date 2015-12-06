@@ -18,6 +18,7 @@ var postStore = Unicycle.createStore({
       isRequestInFlight: false,
       isLoadMorePostsRequestInFlight: false,
       isLikeRequestInFlight: false,
+      noMorePostsToFetch: false,
       exploreFeedPageOffset: INITIAL_PAGE_OFFSET,
       homeFeedPageOffset: INITIAL_PAGE_OFFSET
     });
@@ -56,7 +57,8 @@ var postStore = Unicycle.createStore({
            posts: allPosts,
            exploreFeedPageOffset: offset + MAX_POSTS_PER_PAGE,
            isRequestInFlight: false,
-           isLoadMorePostsRequestInFlight: false
+           isLoadMorePostsRequestInFlight: false,
+           noMorePostsToFetch: !res.body.moreResults
          });
        }
        else {
@@ -98,7 +100,8 @@ var postStore = Unicycle.createStore({
            posts: allPosts,
            homeFeedPageOffset: offset + MAX_POSTS_PER_PAGE,
            isRequestInFlight: false,
-           isLoadMorePostsRequestInFlight: false
+           isLoadMorePostsRequestInFlight: false,
+           noMorePostsToFetch: !res.body.moreResults
          });
        }
        else {
@@ -146,7 +149,8 @@ var postStore = Unicycle.createStore({
   $reInitializeFeedOffsets: function() {
     this.set({
       exploreFeedPageOffset: INITIAL_PAGE_OFFSET,
-      homeFeedPageOffset: INITIAL_PAGE_OFFSET
+      homeFeedPageOffset: INITIAL_PAGE_OFFSET,
+      noMorePostsToFetch: false
     });
   },
 
@@ -160,6 +164,10 @@ var postStore = Unicycle.createStore({
 
   isLikeRequestInFlight: function() {
     return this.get('isLikeRequestInFlight');
+  },
+
+  getNoMorePostsToFetch: function() {
+    return this.get('noMorePostsToFetch');
   },
 
   getPosts: function() {

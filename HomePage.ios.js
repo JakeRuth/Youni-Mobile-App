@@ -88,12 +88,20 @@ var HomePage = React.createClass({
       <ScrollView>
 
         {posts}
-        <LoadMorePostsButton
-          onLoadMorePostsPress={this.onLoadMorePostsPress}
-          loadMorePostsRequestInFlight={postStore.isLoadMorePostsRequestInFlight()}/>
+        {this.renderLoadMorePostsButton()}
 
       </ScrollView>
     );
+  },
+
+  renderLoadMorePostsButton: function() {
+    if (!postStore.getNoMorePostsToFetch()) {
+      return (
+          <LoadMorePostsButton
+            onLoadMorePostsPress={this.onLoadMorePostsPress}
+            loadMorePostsRequestInFlight={postStore.isLoadMorePostsRequestInFlight()}/>
+      );
+    }
   },
 
   renderLoadingSpinner: function() {
