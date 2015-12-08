@@ -5,6 +5,7 @@ var Icon = require('react-native-vector-icons/Ionicons');
 var Unicycle = require('./Unicycle');
 var searchStore = require('./stores/SearchStore');
 var profileStore = require('./stores/profile/ProfileStore');
+var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
 var MainScreenBanner = require('./MainScreenBanner');
 var ProfilePageBody = require('./Components/Profile/ProfilePageBody');
 var BackButton = require('./Components/Common/BackButtonBar');
@@ -121,8 +122,11 @@ var SearchPage = React.createClass({
         barTintColor='white'
         tintColor='#007C9E'
         placeholder='Search for other students'
-        onChangeText={ (search) => { Unicycle.exec('executeSearch', search); } }
-        onCancelButtonPress={ () => { Unicycle.exec('executeSearch', null); } }/>
+        onChangeText={ (search) => {
+          var email = userLoginMetadataStore.getEmail();
+          Unicycle.exec('executeSearch', search, email);
+        }}
+        onCancelButtonPress={ () => { Unicycle.exec('setSearchResults', []); } }/>
     );
   }
 

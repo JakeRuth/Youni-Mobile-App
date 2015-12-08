@@ -15,7 +15,7 @@ var searchStore = Unicycle.createStore({
     });
   },
 
-  $executeSearch: function(search) {
+  $executeSearch: function(search, email) {
     var results = [];
     var that = this;
 
@@ -24,7 +24,10 @@ var searchStore = Unicycle.createStore({
       request
        .post('/search/users')
        .use(prefix)
-       .send({ searchString: search })
+       .send({
+         searchString: search,
+         requestingUserEmail: email
+       })
        .set('Accept', 'application/json')
        .end(function(err, res) {
          if ((res !== undefined) && (res.ok)) {
@@ -48,8 +51,14 @@ var searchStore = Unicycle.createStore({
   },
 
   $setInProfileView: function(value) {
-    return this.set({
+    this.set({
       inProfileView: value
+    });
+  },
+
+  $setSearchResults: function(results) {
+    this.set({
+      results: results
     });
   },
 
