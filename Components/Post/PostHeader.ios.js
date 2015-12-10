@@ -2,6 +2,7 @@
 
 var React = require('react-native');
 var DeletePostIcon = require('./DeletePostIcon');
+var FlagPostIcon = require('./FlagPostIcon');
 
 var {
   View,
@@ -47,7 +48,14 @@ var PostHeader = React.createClass({
 
   render: function() {
     //TODO: Theres probably a better way to branch this logic, worth revisiting when we solve #techdebt
-    var profileImageOrDeleteIcon = <View/>;
+    var profileImageOrDeleteIcon = <View/>,
+        flagPostIcon = <View/>;
+
+    if (this.props.posterProfileImageUrl) {
+      profileImageOrDeleteIcon = (
+        <Image style={styles.posterImage} source={{uri: this.props.posterProfileImageUrl}} />
+      );
+    }
 
     if (this.props.viewerIsPostOwner) {
       profileImageOrDeleteIcon = (
@@ -56,17 +64,20 @@ var PostHeader = React.createClass({
           postIdString={this.props.postIdString} />
       );
     }
-    else if (this.props.posterProfileImageUrl) {
-      profileImageOrDeleteIcon = (
-        <Image style={styles.posterImage} source={{uri: this.props.posterProfileImageUrl}} />
+    else {
+      flagPostIcon = (
+        <FlagPostIcon postId={this.props.postIdString}/>
       );
     }
 
     return (
       <View style={styles.postHeader}>
+
         {profileImageOrDeleteIcon}
         <Text style={styles.posterName} numberOfLines={1}>{this.props.posterName}</Text>
+        {flagPostIcon}
         <Text style={styles.timestamp}>{this.props.timestamp}</Text>
+
       </View>
     );
   }
