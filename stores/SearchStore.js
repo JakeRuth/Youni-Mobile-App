@@ -15,6 +15,13 @@ var searchStore = Unicycle.createStore({
     });
   },
 
+  resetSearchPageAfterBlockingUser: function () {
+    this.set({
+      results: [],
+      inProfileView: false
+    });
+  },
+
   $executeSearch: function(search, email) {
     var results = [];
     var that = this;

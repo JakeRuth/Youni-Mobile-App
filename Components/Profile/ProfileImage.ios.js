@@ -18,8 +18,10 @@ var {
 
 var styles = StyleSheet.create({
   profileImageContainer: {
+    alignSelf: 'center',
     flexDirection: 'row',
     justifyContent: 'center',
+    width: 150,
     marginBottom: 5
   },
   profileImage: {

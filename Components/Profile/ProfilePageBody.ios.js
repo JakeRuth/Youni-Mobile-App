@@ -4,6 +4,7 @@ var React = require('react-native');
 var FollowUnfollowButton = require('./FollowUnfollowButton');
 var FollowingButton = require('./FollowingButton');
 var EditSettingsButton = require('./Settings/EditSettingsButton');
+var BlockUserButton = require('./BlockUserButton');
 var ProfileImage = require('./ProfileImage');
 var UserPosts = require('./UserPosts');
 var profileOwnerStore = require('../../stores/profile/ProfileOwnerStore');
@@ -52,16 +53,18 @@ var ProfilePageBody = React.createClass({
   render: function() {
     var fullName = this.props.firstName + ' ' + this.props.lastName,
         followButton = <View/>,
-        followingButton = <View/>,
+        seeWhoImFollowingButton = <View/>,
         editSettingsIcon = <View/>,
+        blockUserIcon = <View/>,
         bio = this.props.bio;
 
     if (this.props.viewerIsProfileOwner) {
-      followingButton = <FollowingButton email={this.props.email}/>
-      editSettingsIcon = <EditSettingsButton />
+      seeWhoImFollowingButton = <FollowingButton email={this.props.email}/>
+      editSettingsIcon = <EditSettingsButton/>
     }
     else {
       followButton = <FollowUnfollowButton email={this.props.email}/>
+      blockUserIcon = <BlockUserButton email={this.props.email}/>
     }
 
     return (
@@ -69,6 +72,8 @@ var ProfilePageBody = React.createClass({
 
         <Text style={styles.fullName}>{fullName}</Text>
         {editSettingsIcon}
+        {blockUserIcon}
+
         <ProfileImage
           viewerIsProfileOwner={this.props.viewerIsProfileOwner}
           profileImageUrl={this.props.profileImageUrl}/>
@@ -76,7 +81,7 @@ var ProfilePageBody = React.createClass({
         <Text style={styles.fanCount}>{this._getFansText(this.props.numFans)}</Text>
         <Text style={styles.bio}>{this.props.bio}</Text>
         {followButton}
-        {followingButton}
+        {seeWhoImFollowingButton}
         <UserPosts
           profileStore={this._getProfileStoreForUserPosts()}
           userName={fullName}

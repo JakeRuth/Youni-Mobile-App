@@ -48,11 +48,11 @@ var PostHeader = React.createClass({
       'An email will be sent to Youni to report this post for inappropriate content.',
       [
         {
-          text: 'No'
-        },
-        {
           text: 'Yes',
           onPress: this._flagPost
+        },
+        {
+          text: 'No'
         }
       ]
     );
