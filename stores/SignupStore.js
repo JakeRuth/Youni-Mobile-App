@@ -12,9 +12,10 @@ var signupStore = Unicycle.createStore({
         email: 'Enter your email',
         password: '',
         confirmPassword: '',
-        //loginInFlight: false,
         onWayToSignupInFlight: false,
-        signupRequestInFlight: false,
+        inSignUpView: false,
+        isInLoginView: false,
+        signUpInFlight: false,
       });
     },
 
@@ -59,29 +60,30 @@ var signupStore = Unicycle.createStore({
       });
     },
 
-    $setOnWayToSignupInFlight: function(isInFlight) {
+    $setSignupInFlight: function(isInFlightStatus) {
       this.set({
-        onWayToSignupInFlight: isInFlight
+        signUpInFlight: isInFlightStatus
       });
     },
 
-    isOnWayToSignupInFlight: function() {
-      return this.get('onWayToSignupInFlight');
+    isSignupInFlight: function() {
+      return this.get('signUpInFlight');
     },
 
-    $setSignUpRequestedPage: function(isInFlight) {
+    $setInSignUpView: function(isInFlight) {
       this.set({
-        signupRequestInFlight: isInFlight
+        inSignUpView: isInFlight
       });
     },
 
-    isSignUpRequestedPage: function() {
-      return this.get('signupRequestInFlight');
+    isInSignUpView: function() {
+      return this.get('inSignUpView');
     },
 
     getSignupEmail: function() {
       return this.get('email');
     },
+
 
     getSignupFirstName: function(){
       return this.get('firstName');

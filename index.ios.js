@@ -8,7 +8,8 @@ var signupStore = require('./stores/SignupStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
 var landingPage = require('./LandingPage');
 var request = require('superagent');
-var prefix = require('superagent-prefix')('http://localhost:8080/Greedy');
+var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com');
+
 
 var {
   View,
@@ -55,7 +56,8 @@ var styles = StyleSheet.create({
     fontSize: 100,
     color: 'white',
     fontWeight: '300',
-    fontFamily: 'GeezaPro'
+    fontFamily: 'GeezaPro',
+    marginBottom: 70
   },
   loginInput: {
     backgroundColor: 'rgba(0,0,0,0.6)',
@@ -65,9 +67,6 @@ var styles = StyleSheet.create({
     borderRadius: 5,
     textAlign: 'center',
     marginBottom: 8
-  },
-  emailInput: {
-    marginTop: 70
   },
   loginButton: {
     width: 125,
@@ -83,14 +82,14 @@ var styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0)',
     fontWeight: 'bold'
   },
-  signupButton: {
+  signUpButton: {
     width: 120,
     height: 25,
     borderRadius: 5,
     backgroundColor: 'lightblue',
     marginTop: 40
   },
-  signupText: {
+  signUpText: {
     textAlign: 'center',
     fontSize: 20,
     borderRadius: 5,
@@ -125,21 +124,25 @@ var LoginPage = React.createClass({
 
   render: function () {
     var isLoginInFlight = loginStore.isLoginInFlight(),
-        isSignUpRequestedPage = signupStore.isSignUpRequestedPage(),
+        isInSignUpView = signupStore.isInSignUpView(),
+        isInLoginView = loginStore.isInLoginView(),
+        isSignUpInFlight = signupStore.isSignupInFlight(),
         content;
-
-    //TODO @shivam: following code needs to be redone
 
     if (isLoginInFlight) {
       content = this.renderLoadingSpinner();
     }
-    else if (isSignUpRequestedPage){
+    else if (isInSignUpView){
       content =  <SignUpForm />;
     }
     else {
       content = this.renderLoginForm();
+
     }
 
+    if(isInLoginView){
+      content = this.renderLoginForm();
+    }
 
     return (
       <View style={styles.imageContainer}>
@@ -156,7 +159,7 @@ var LoginPage = React.createClass({
     return (
        <View style={styles.contentContainer}>
          <Text style={styles.appName}>Youni</Text>
-         <TextInput style={[styles.loginInput, styles.emailInput]}
+         <TextInput style={styles.loginInput}
             value={loginStore.getEmail()}
             clearTextOnFocus={true}
             onChangeText={(text) => Unicycle.exec('updateEmail', text)}
@@ -169,11 +172,11 @@ var LoginPage = React.createClass({
             placeholder={'Password'}
             onChangeText={(text) => Unicycle.exec('updatePassword', text)}
          />
-         <TouchableHighlight style={styles.loginButton} underlayColor='white'>
+       <TouchableHighlight style={styles.loginButton} underlayColor='transparent'>
             <Text style={styles.loginText} onPress={this._onLoginRequest}>Login</Text>
          </TouchableHighlight>
 
-         <Text style={styles.signUpOptionDescText}>Don't have Youni account?</Text><TouchableHighlight><Text style={styles.signUpOptionText} onPress={this._goToSignupPage}>Sign Up</Text></TouchableHighlight>
+         <Text style={styles.signUpOptionDescText}>Don't have Youni account?</Text><TouchableHighlight><Text style={styles.signUpOptionText} onPress={this._goToSignUpPage}>Sign Up</Text></TouchableHighlight>
 
 
        </View>
@@ -194,8 +197,9 @@ var LoginPage = React.createClass({
 
 
 
-  _goToSignupPage: function(){
-      Unicycle.exec('setSignUpRequestedPage', true);
+  _goToSignUpPage: function(){
+      Unicycle.exec('setInSignUpView', true);
+      Unicycle.exec('setInLoginView', false);
   },
 
 

@@ -3,7 +3,7 @@
 var React = require('react-native');
 var Unicycle = require('./../Unicycle');
 var request = require('superagent');
-var prefix = require('superagent-prefix')('http://localhost:8080/Greedy');
+var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com');
 
 var followUnfollowStore = Unicycle.createStore({
 

@@ -9,7 +9,8 @@ var loginStore = Unicycle.createStore({
       this.set({
         email: 'Enter your email',
         password: '',
-        loginInFlight: false
+        loginInFlight: false,
+        isInLoginView: false,
       });
     },
 
@@ -36,6 +37,16 @@ var loginStore = Unicycle.createStore({
       this.set({
         loginInFlight: isInFlight
       });
+    },
+
+    $setInLoginView: function(isInFlight) {
+      this.set({
+        isInLoginView: isInFlight
+      });
+    },
+
+    isInLoginView: function(){
+      return this.get('isInLoginView');
     },
 
     isLoginInFlight: function() {

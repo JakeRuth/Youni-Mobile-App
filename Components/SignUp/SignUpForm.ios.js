@@ -1,10 +1,11 @@
 'use strict';
 
 var React = require('react-native');
+var loginStore = require('../../stores/LoginStore');
 var signupStore = require('../../stores/SignupStore');
 var Unicycle = require('../../Unicycle');
 var request = require('superagent');
-var prefix = require('superagent-prefix')('http://localhost:8080/Greedy');
+var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com');
 
 var {
   View,
@@ -12,15 +13,24 @@ var {
   TextInput,
   StyleSheet,
   AlertIOS,
+  ActivityIndicatorIOS,
   TouchableHighlight
 } = React
 
 var styles = StyleSheet.create({
-  signupContentContainer: {
+  signUpFormHolder: {
     backgroundColor: 'transparent',
     alignItems: 'center'
   },
-  signupInput: {
+  appName: {
+    marginTop: 0,
+    fontSize: 100,
+    color: 'white',
+    fontWeight: '300',
+    fontFamily: 'GeezaPro',
+    marginBottom: 70
+  },
+  signUpInput: {
     backgroundColor: 'rgba(0,0,0,0.6)',
     height: 30,
     width: 250,
@@ -29,96 +39,154 @@ var styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 8
   },
-  firstInputBox: {
-    marginTop: 70
-  },
-  appName: {
-    marginTop: 0,
-    fontSize: 100,
-    color: 'white',
-    fontWeight: '300',
-    fontFamily: 'GeezaPro'
-  },
-  signupButton: {
-    flex: 1,
-    width: 100,
-    borderRadius: 5,
-    backgroundColor: 'lightblue',
-    marginTop: 40
-  },
-  signupText: {
+  signUpText: {
     textAlign: 'center',
     fontSize: 20,
     borderRadius: 5,
     backgroundColor: 'transparent',
     fontWeight: 'bold'
   },
-  signInOptionDescriptionText: {
+  signUpButton: {
+    flex: 1,
+    width: 100,
+    borderRadius: 5,
+    backgroundColor: 'lightblue',
+    marginTop: 40
+  },
+  loginOptionDescriptionText: {
+    color: 'white',
     fontSize: 20,
     marginTop: 50
   },
-  loginOptionText: {
+  loginOptionButtonText: {
     fontSize: 30,
     fontWeight: 'bold',
     color: '#237A72'
+  },
+  spinner: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0)'
   }
 });
 
 var SignUpForm = React.createClass({
 
-  propTypes: {},
+  mixins: [
+    Unicycle.listenTo(signupStore),
+    Unicycle.listenTo(loginStore)
+  ],
 
   render: function() {
-    return (
-      <View style={styles.signupContentContainer}>
-        <Text style={styles.appName}>Youni</Text>
-        <TextInput style={[styles.signupInput, styles.firstInputBox]} value={signupStore.getSignupFirstName()} clearTextOnFocus={true} onChangeText={(text) => Unicycle.exec('signupUpdateFirstName', text)}/>
-        <TextInput style={styles.signupInput} value={signupStore.getSignupLastName()} clearTextOnFocus={true} onChangeText={(text) => Unicycle.exec('signupUpdateLastName', text)}/>
-        <TextInput style={styles.signupInput} value={signupStore.getSignupEmail()} clearTextOnFocus={true} onChangeText={(text) => Unicycle.exec('signupUpdateEmail', text)}/>
-        <TextInput style={styles.signupInput} secureTextEntry={true} value={signupStore.getSignupPassword()} clearTextOnFocus={true} placeholderTextColor={'grey'} placeholder={'Password'} onChangeText={(text) => Unicycle.exec('signupUpdatePassword', text)}/>
-        <TextInput style={styles.signupInput} secureTextEntry={true} clearTextOnFocus={true} placeholderTextColor={'grey'} placeholder={'Confirm Password'} onChangeText={(text) => Unicycle.exec('signupUpdateConfirmPassword', text)}/>
 
-        <TouchableHighlight style={styles.signupButton} underlayColor='white'>
-          <Text style={styles.signupText} onPress={this._comparePassword}>Sign Up</Text>
+    var content,
+    isSignUpInFlight = signupStore.isSignupInFlight();
+
+    if(isSignUpInFlight){
+      content = this.renderLoadingSpinner();
+    }
+
+    return (
+      <View style={styles.signUpFormHolder}>
+        <Text style={styles.appName}>Youni</Text>
+        <TextInput style={styles.signUpInput}
+          value={signupStore.getSignupFirstName()}
+          clearTextOnFocus={true}
+          onChangeText={(text) => Unicycle.exec('signupUpdateFirstName', text)}/>
+        <TextInput style={styles.signUpInput}
+          value={signupStore.getSignupLastName()}
+          clearTextOnFocus={true}
+          onChangeText={(text) => Unicycle.exec('signupUpdateLastName', text)}/>
+        <TextInput style={styles.signUpInput}
+          value={signupStore.getSignupEmail()}
+          clearTextOnFocus={true}
+          onChangeText={(text) => Unicycle.exec('signupUpdateEmail', text)}/>
+        <TextInput style={styles.signUpInput}
+          secureTextEntry={true}
+          value={signupStore.getSignupPassword()}
+          clearTextOnFocus={true}
+          placeholderTextColor={'grey'}
+          placeholder={'Password'}
+          onChangeText={(text) => Unicycle.exec('signupUpdatePassword', text)}/>
+        <TextInput style={styles.signUpInput}
+          secureTextEntry={true}
+          clearTextOnFocus={true}
+          placeholderTextColor={'grey'}
+          placeholder={'Confirm Password'}
+          onChangeText={(text) => Unicycle.exec('signupUpdateConfirmPassword', text)}/>
+
+        <TouchableHighlight style={styles.signUpButton} underlayColor='transparent'>
+          <Text style={styles.signUpText} onPress={this.onsignUpButtonPress}>Sign Up</Text>
         </TouchableHighlight>
 
-        <Text style={styles.signInOptionDescriptionText}>Already have an account?</Text>
+        {content}
+
+        <Text style={styles.loginOptionDescriptionText}>Already have an account?</Text>
         <TouchableHighlight>
-          <Text style={styles.loginOptionText}>Sign In</Text>
+          <Text style={styles.loginOptionButtonText} onPress={this._goToLoginPage}>Sign In</Text>
         </TouchableHighlight>
 
       </View>
     );
   },
 
-  //_comparePassword will compare passwords and
-  //if passes the check - it will process the request
-  //else alerts user
-  _comparePassword: function() {
+  onsignUpButtonPress: function(){
+
+    if(this._checkIfPasswordsMatch()){
+      this._onSignupRequest();
+    }
+    else {
+        this._alertOnFailure('Ooops', 'Passwords must be the same!', 'Okay');
+    }
+
+  },
+
+  _checkIfPasswordsMatch: function() {
     var password = signupStore.getSignupPassword(),
         confirmPassword = signupStore.getSignupConfirmPassword();
 
     if (password == confirmPassword) {
-      console.log('both passwords matches !');
-      this._onSignupRequest();
-    } else {
-      this._alertOnFailure('Ooops', 'Passwords Must Match', 'Re-Enter');
-      console.log('Failed and alerted !');
+      return true;
+    }
+    else {
+      return false;
     }
   },
 
-/*
-_alertOnFailure(param1, param2, param3)
-dynamic alert function to prompt alert with generic title, message, button text.
-*/
+  _goToLoginPage: function(){
+    Unicycle.exec('setInLoginView', true);
+    Unicycle.exec('setInSignUpView', false);
+  },
+
+
   _alertOnFailure: function(alertBoxTitle, alertBoxMessage, alertBoxButtonText) {
-    //Unicycle.exec('setLoginInFlight', false);
+    Unicycle.exec('setSignupInFlight', false);
     AlertIOS.alert(alertBoxTitle, alertBoxMessage, [
       {
         text: alertBoxButtonText
       }
     ])
   },
+
+  _alertOnSuccessfulSignUp: function(alertBoxTitle, alertBoxMessage, alertBoxButtonText) {
+    AlertIOS.alert(alertBoxTitle, alertBoxMessage, [
+      {
+        text: alertBoxButtonText
+      }
+    ])
+  },
+
+  renderLoadingSpinner: function() {
+    return (
+      <View style={styles.spinnerContainer}>
+        <ActivityIndicatorIOS
+          size="small"
+          color="black"
+          animating={true}
+          style={styles.spinner} />
+      </View>
+    );
+  },
+
 
   _onSignupRequest: function() {
     var that = this,
@@ -136,10 +204,7 @@ dynamic alert function to prompt alert with generic title, message, button text.
       email = '~';
     }
 
-    Unicycle.exec('setSignupRequestInFlight', true);
-
-
-    console.log('PASSWORD:  ' + password);
+    Unicycle.exec('setSignupInFlight', true);
 
     request.post('/user/create').use(prefix)
     .send({firstName: firstName,
@@ -151,10 +216,13 @@ dynamic alert function to prompt alert with generic title, message, button text.
     .end(function(err, res) {
 
       if ((res !== undefined) && (res.ok)) {
-        Unicycle.exec('setSignupRequestInFlight', false);
-        console.log('something good');
-      } else {
-        console.log('signup failed');
+
+        that._alertOnSuccessfulSignUp('Yay!', 'Confirmation Email Sent!', 'OK!');
+        Unicycle.exec('setSignupInFlight', false);
+        Unicycle.exec('setInLoginView', true);
+        Unicycle.exec('setInSignUpView', false);
+      }
+      else {
       }
 
     });

@@ -105,7 +105,7 @@ var CreatePostButton = React.createClass({
   _getImageUploadOptions: function(response) {
     return {
       uri: response.uri,
-      uploadUrl: 'http://localhost:8080/Greedy/upload/photo',
+      uploadUrl: 'http://greedyapi.elasticbeanstalk.com/upload/photo',
       fileName: 'picture', //the name here has no meaning, it could really be anything
       mimeType: 'image/jpeg'
     };
