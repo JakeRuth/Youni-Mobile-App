@@ -11,6 +11,7 @@ var {
   TextInput,
   StyleSheet,
   AlertIOS,
+  ScrollView,
   ActivityIndicatorIOS,
   TouchableHighlight
 } = React
@@ -62,6 +63,9 @@ var styles = StyleSheet.create({
   spinner: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0)'
+  },
+  hackyIosKeyPadBump: {
+    marginTop: 350
   }
 });
 
@@ -88,9 +92,10 @@ var SignUpForm = React.createClass({
     }
 
     return (
-      <View>
+      <ScrollView>
         {content}
-      </View>
+        <View style={styles.hackyIosKeyPadBump}/>
+      </ScrollView>
     );
   },
 
