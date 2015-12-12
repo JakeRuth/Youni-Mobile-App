@@ -4,19 +4,23 @@ var React = require('react-native');
 var FollowUnfollowButton = require('./FollowUnfollowButton');
 var FollowingButton = require('./FollowingButton');
 var EditSettingsButton = require('./Settings/EditSettingsButton');
+var BlockUserButton = require('./BlockUserButton');
 var ProfileImage = require('./ProfileImage');
+var UserPosts = require('./UserPosts');
+var profileOwnerStore = require('../../stores/profile/ProfileOwnerStore');
+var profileStore = require('../../stores/profile/ProfileStore');
 
 var {
   View,
   Text,
   Image,
-  StyleSheet
+  StyleSheet,
+  ScrollView
 } = React
 
 var styles = StyleSheet.create({
   profileBodyContent: {
-    flex: 1,
-    paddingBottom: 50
+    flex: 1
   },
   fullName: {
     textAlign: 'center',
@@ -29,7 +33,6 @@ var styles = StyleSheet.create({
     fontWeight: '800'
   },
   bio: {
-    flex: 2,
     alignSelf: 'auto',
     margin: 30
   }
@@ -40,52 +43,52 @@ var ProfilePageBody = React.createClass({
   propTypes: {
     firstName: React.PropTypes.string.isRequired,
     lastName: React.PropTypes.string.isRequired,
-    bio: React.PropTypes.string.isRequired,
+    bio: React.PropTypes.string,
     numFans: React.PropTypes.number.isRequired,
     profileImageUrl: React.PropTypes.string.isRequired,
-    viewerIsProfileOwner: React.PropTypes.bool.isRequired,
-    email: React.PropTypes.string
+    email: React.PropTypes.string.isRequired,
+    viewerIsProfileOwner: React.PropTypes.bool.isRequired
   },
 
   render: function() {
-    var viewerIsProfileOwner = this.props.viewerIsProfileOwner,
-        firstName = this.props.firstName,
-        lastName = this.props.lastName,
-        bio = this.props.bio,
-        numFans = this.props.numFans,
-        profileImageUrl = this.props.profileImageUrl,
-        email = this.props.email,
+    var fullName = this.props.firstName + ' ' + this.props.lastName,
         followButton = <View/>,
-        followingButton = <View/>,
-        editSettingsIcon = <View/>;
+        seeWhoImFollowingButton = <View/>,
+        editSettingsIcon = <View/>,
+        blockUserIcon = <View/>,
+        bio = this.props.bio;
 
-    if (viewerIsProfileOwner) {
-      followingButton = <FollowingButton email={email}/>
-      editSettingsIcon = <EditSettingsButton />
+    if (this.props.viewerIsProfileOwner) {
+      seeWhoImFollowingButton = <FollowingButton email={this.props.email}/>
+      editSettingsIcon = <EditSettingsButton/>
     }
     else {
-      followButton = <FollowUnfollowButton email={email}/>
-    }
-
-    //this should be removed or moved to the api before release
-    if (!bio) {
-      bio = "I haven't filled out my bio yet because I am a noob";
+      followButton = <FollowUnfollowButton email={this.props.email}/>
+      blockUserIcon = <BlockUserButton email={this.props.email}/>
     }
 
     return (
-      <View style={styles.profileBodyContent}>
+      <ScrollView style={styles.profileBodyContent}>
 
-        <Text style={styles.fullName}>{firstName} {lastName}</Text>
-        { editSettingsIcon }
+        <Text style={styles.fullName}>{fullName}</Text>
+        {editSettingsIcon}
+        {blockUserIcon}
+
         <ProfileImage
-          viewerIsProfileOwner = {viewerIsProfileOwner}
-          profileImageUrl = {profileImageUrl}/>
-        <Text style={styles.fanCount}>{this._getFansText(numFans)}</Text>
-        <Text style={styles.bio}>{bio}</Text>
-        {followButton}
-        {followingButton}
+          viewerIsProfileOwner={this.props.viewerIsProfileOwner}
+          profileImageUrl={this.props.profileImageUrl}/>
 
-      </View>
+        <Text style={styles.fanCount}>{this._getFansText(this.props.numFans)}</Text>
+        <Text style={styles.bio}>{this.props.bio}</Text>
+        {followButton}
+        {seeWhoImFollowingButton}
+        <UserPosts
+          profileStore={this._getProfileStoreForUserPosts()}
+          userName={fullName}
+          userEmail={this.props.email}
+          viewerIsPostOwner={this.props.viewerIsProfileOwner} />
+
+      </ScrollView>
     );
   },
 
@@ -99,6 +102,15 @@ var ProfilePageBody = React.createClass({
     }
     else {
       return numFans + ' fans';
+    }
+  },
+
+  _getProfileStoreForUserPosts: function() {
+    if (this.props.viewerIsProfileOwner) {
+      return profileOwnerStore;
+    }
+    else {
+      return profileStore;
     }
   }
 

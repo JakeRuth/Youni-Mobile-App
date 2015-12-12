@@ -1,10 +1,11 @@
 'use strict'
 
 var React = require('react-native');
-var Unicycle = require('./Unicycle');
-var postStore = require('./stores/PostStore');
-var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
-var PostLikeBar = require('./Components/Post/PostLikeBar');
+var Unicycle = require('../../Unicycle');
+var postStore = require('../../stores/PostStore');
+var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
+var PostHeader = require('./PostHeader');
+var PostLikeBar = require('./PostLikeBar');
 
 var {
   View,
@@ -62,28 +63,38 @@ var Post = React.createClass({
 
   propTypes: {
     id: React.PropTypes.number.isRequired,
+    //cannot be required because not all user's will have uploaded a profile pic
+    posterProfileImageUrl: React.PropTypes.string,
     posterName: React.PropTypes.string.isRequired,
     timestamp: React.PropTypes.string.isRequired,
     photoUrl: React.PropTypes.string.isRequired,
     numLikes: React.PropTypes.number.isRequired,
     caption: React.PropTypes.string.isRequired,
     postIdString: React.PropTypes.string.isRequired,
-    liked: React.PropTypes.bool.isRequired
+    liked: React.PropTypes.bool.isRequired,
+    viewerIsPostOwner: React.PropTypes.bool,
+    renderedFromProfileView: React.PropTypes.bool
   },
 
   render: function() {
     return (
       <View>
-        <View style={styles.postHeader}>
-          <Text style={styles.posterName} numberOfLines={1}>{this.props.posterName}</Text>
-          <Text style={styles.timestamp}>{this.props.timestamp}</Text>
-        </View>
+
+        <PostHeader
+          id={this.props.id}
+          postIdString={this.props.postIdString}
+          viewerIsPostOwner={this.props.viewerIsPostOwner}
+          posterName={this.props.posterName}
+          posterProfileImageUrl={this.props.posterProfileImageUrl}
+          timestamp={this.props.timestamp}/>
+
         <TouchableHighlight onPress={ this._photoOnClickAction(this.props.liked) }>
           <View style={styles.imageContainer}>
             <Image style={styles.postImage}
                    source={{uri: this.props.photoUrl}} />
           </View>
         </TouchableHighlight>
+
         <View style={styles.postFooter}>
           <PostLikeBar
             onStarPress={this._photoOnClickAction(this.props.liked)}
@@ -93,21 +104,33 @@ var Post = React.createClass({
           <Text style={styles.caption}>{this.props.caption == '_' ? '' : this.props.caption }</Text>{/*TODO: Fix this crap*/}
         </View>
         <View style={styles.blankLine} />
+
       </View>
-    )
+    );
   },
 
   _photoOnClickAction: function(alreadyLiked) {
+    var action = this._getOnPhotoClickActionName();
+
     if (!alreadyLiked) {
       return () => {
         var userId = userLoginMetadataStore.getUserId();
-        Unicycle.exec('likePost', this.props.id, this.props.postIdString, userId);
+        Unicycle.exec(action, this.props.id, this.props.postIdString, userId);
       }
     }
     else {
       return () => {
         return; //do nothing
       }
+    }
+  },
+
+  _getOnPhotoClickActionName: function() {
+    if (this.props.renderedFromProfileView) {
+      return 'likePostFromProfilePage';
+    }
+    else {
+      return 'likePost';
     }
   }
 

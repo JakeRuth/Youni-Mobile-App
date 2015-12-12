@@ -3,7 +3,8 @@
 var React = require('react-native');
 var Icon = require('react-native-vector-icons/Ionicons');
 var Unicycle = require('../../../Unicycle');
-var profileStore = require('../../../stores/ProfileStore');
+var profileOwnerStore = require('../../../stores/profile/ProfileOwnerStore');
+var editProfileInformationStore = require('../../../stores/profile/EditProfileInformationStore');
 var userLoginMetadataStore = require('../../../stores/UserLoginMetadataStore');
 var SubmitActionButtons = require('./SubmitActionButtons');
 
@@ -46,12 +47,12 @@ var EditBioBox = React.createClass({
 
   getInitialState: function() {
     return {
-      originalBio: profileStore.getBio()
+      originalBio: profileOwnerStore.getBio()
     };
   },
 
   render: function() {
-    var isUploadBioRequestInFlight = profileStore.isUploadBioRequestInFlight(),
+    var isUploadBioRequestInFlight = editProfileInformationStore.isUploadBioRequestInFlight(),
         actionButtons;
 
     if (isUploadBioRequestInFlight) {
@@ -72,7 +73,7 @@ var EditBioBox = React.createClass({
         <TextInput
           style={styles.updateBioInput}
           onChangeText={(text) => Unicycle.exec('setBio', text)}
-          value={profileStore.getBio()}
+          value={profileOwnerStore.getBio()}
           multiline={true}
           maxLength={300} //TODO: think about this value more, is this a just limit?
           clearTextOnFocus={true}
@@ -91,7 +92,7 @@ var EditBioBox = React.createClass({
 
   _onSubmitUpdateBioPress: function() {
     var userId = userLoginMetadataStore.getUserId(),
-        bio = profileStore.getBio();
+        bio = profileOwnerStore.getBio();
     Unicycle.exec('uploadUserBio', userId, bio);
   },
 

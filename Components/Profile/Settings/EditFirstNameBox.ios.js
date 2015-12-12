@@ -2,7 +2,8 @@
 
 var React = require('react-native');
 var Unicycle = require('../../../Unicycle');
-var profileStore = require('../../../stores/ProfileStore');
+var profileOwnerStore = require('../../../stores/profile/ProfileOwnerStore');
+var editProfileInformationStore = require('../../../stores/profile/EditProfileInformationStore');
 var userLoginMetadataStore = require('../../../stores/UserLoginMetadataStore');
 var SubmitActionButtons = require('./SubmitActionButtons');
 
@@ -53,12 +54,12 @@ var EditFirstNameBox = React.createClass({
 
   getInitialState: function() {
     return {
-      originalFirstName: profileStore.getFirstName()
+      originalFirstName: profileOwnerStore.getFirstName()
     };
   },
 
   render: function() {
-    var isUploadFirstNameRequestInFlight = profileStore.isUploadFirstNameRequestInFlight(),
+    var isUploadFirstNameRequestInFlight = editProfileInformationStore.isUploadFirstNameRequestInFlight(),
         actionButtons;
 
     if (isUploadFirstNameRequestInFlight) {
@@ -80,8 +81,8 @@ var EditFirstNameBox = React.createClass({
           <TextInput
             style={styles.updateFirstNameInput}
             onChangeText={(text) => Unicycle.exec('setFirstName', text)}
-            value={profileStore.getFirstName()}
-            maxLength={25} //Hopefully someone doesn't have a 25+ cahracter first name?
+            value={profileOwnerStore.getFirstName()}
+            maxLength={25} //Hopefully someone doesnt have a 25+ cahracter first name?
             clearTextOnFocus={true}
           />
         </View>
@@ -101,10 +102,10 @@ var EditFirstNameBox = React.createClass({
 
   _onSubmitUpdateFirstNamePress: function() {
     var userId = userLoginMetadataStore.getUserId(),
-        firstName = profileStore.getFirstName();
+        firstName = profileOwnerStore.getFirstName();
 
     if (firstName.trim()) {
-      Unicycle.exec('uploadUserFirstName', userId, firstName);
+      Unicycle.exec('updateUserFirstName', userId, firstName);
     }
     else {
       AlertIOS.alert(

@@ -3,10 +3,12 @@
 var React = require('react-native');
 var Unicycle = require('./Unicycle');
 var postStore = require('./stores/PostStore');
+var feedSelectorStore = require('./stores/FeedSelectorStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
 var MainScreenBanner = require('./MainScreenBanner');
-var Post = require('./Post');
+var Post = require('./Components/Post/Post');
 var FeedSelector = require('./Components/Feed/FeedSelector');
+var LoadMorePostsButton = require('./Components/Post/LoadMorePostsButton');
 
 var {
   View,
@@ -22,7 +24,9 @@ var styles = StyleSheet.create({
     flex: 1
   },
   feedContainer: {
-    flex: 20
+    flex: 20,
+    marginTop: 10,
+    paddingBottom: 50
   },
   spinnerContainer: {
     flex: 1,
@@ -38,19 +42,15 @@ var HomePage = React.createClass({
     Unicycle.listenTo(userLoginMetadataStore)
   ],
 
-  componentDidMount: function() {
-    var userId = userLoginMetadataStore.getUserId();
-    Unicycle.exec('requestExploreFeed', userId);
-  },
-
   render: function() {
-    var loadingPosts = postStore.getIsRequestInFlight();
-    var content;
+    var loadingPosts = postStore.isRequestInFlight(),
+        content;
+
     if (loadingPosts) {
-      content = this.renderLoadingSpinner()
+      content = this.renderLoadingSpinner();
     }
     else {
-      content = this.renderPosts()
+      content = this.renderPosts();
     }
 
     return (
@@ -72,22 +72,36 @@ var HomePage = React.createClass({
     for (var i = 0; i<postsJson.size; i++) {
       var post = postsJson.get(i);
       posts.push(
-        <Post id={post.get('id')}
-              posterName={post.get('posterName')}
-              timestamp={post.get('timestamp')}
-              photoUrl={post.get('photoUrl')}
-              numLikes={post.get('numLikes')}
-              caption={post.get('caption')}
-              postIdString={post.get('postIdString')}
-              liked={post.get('liked')}
-              key={post.get('id')} />
+        <Post id={post.id}
+              posterProfileImageUrl={post.posterProfileImageUrl}
+              posterName={post.posterName}
+              timestamp={post.timestamp}
+              photoUrl={post.photoUrl}
+              numLikes={post.numLikes}
+              caption={post.caption}
+              postIdString={post.postIdString}
+              liked={post.liked}
+              key={post.id} />
       );
     }
     return (
       <ScrollView>
+
         {posts}
+        {this.renderLoadMorePostsButton()}
+
       </ScrollView>
     );
+  },
+
+  renderLoadMorePostsButton: function() {
+    if (!postStore.getNoMorePostsToFetch()) {
+      return (
+          <LoadMorePostsButton
+            onLoadMorePostsPress={this.onLoadMorePostsPress}
+            loadMorePostsRequestInFlight={postStore.isLoadMorePostsRequestInFlight()}/>
+      );
+    }
   },
 
   renderLoadingSpinner: function() {
@@ -100,6 +114,18 @@ var HomePage = React.createClass({
           style={styles.spinner} />
       </View>
     );
+  },
+
+  onLoadMorePostsPress: function() {
+    var userId = userLoginMetadataStore.getUserId(),
+        currentFeed = feedSelectorStore.getCurrentFeed();
+
+    if (currentFeed == feedSelectorStore.FeedType().FULL) {
+      Unicycle.exec('requestExploreFeed', userId);
+    }
+    else {
+      Unicycle.exec('requestHomeFeed', userId);
+    }
   }
 
 });

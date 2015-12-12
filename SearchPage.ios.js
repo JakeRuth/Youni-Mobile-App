@@ -4,7 +4,8 @@ var React = require('react-native');
 var Icon = require('react-native-vector-icons/Ionicons');
 var Unicycle = require('./Unicycle');
 var searchStore = require('./stores/SearchStore');
-var profileStore = require('./stores/ProfileStore');
+var profileStore = require('./stores/profile/ProfileStore');
+var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
 var MainScreenBanner = require('./MainScreenBanner');
 var ProfilePageBody = require('./Components/Profile/ProfilePageBody');
 var BackButton = require('./Components/Common/BackButtonBar');
@@ -60,20 +61,10 @@ var SearchPage = React.createClass({
   ],
 
   render: function() {
-    var isProfileInView = searchStore.getInProfileView();
-    var searchResultsToShow = searchStore.getSearchResults().size != 0;
-    var searchPageContent, searchPageHeader;
-
-    if (isProfileInView) {
-      searchPageHeader = <BackButton buttonOnPress={
-        () => {
-          Unicycle.exec('setInProfileView', false);
-        }
-      }/>;
-    }
-    else {
-      searchPageHeader = this._renderSearchBar();
-    }
+    var isProfileInView = searchStore.getInProfileView(),
+        searchResultsToShow = searchStore.getSearchResults().size != 0,
+        searchPageContent,
+        searchPageHeader;
 
     if (searchStore.isRequestInFlight() || profileStore.isRequestInFlight()) {
       searchPageContent = <SearchResultLoading/>;
@@ -98,13 +89,31 @@ var SearchPage = React.createClass({
 
     return (
       <View style={styles.searchPageContainer}>
+
         <MainScreenBanner
           title='SUNY Albany'
           subTitle='Discover other students on campus'/>
+        {this._renderHeader()}
         {searchPageHeader}
         {searchPageContent}
+
       </View>
     );
+  },
+
+  _renderHeader: function() {
+    var isProfileInView = searchStore.getInProfileView();
+
+    if (isProfileInView) {
+      return (
+        <BackButton buttonOnPress={
+            () => { Unicycle.exec('setInProfileView', false); }
+        }/>
+      );
+    }
+    else {
+      return this._renderSearchBar();
+    }
   },
 
   _renderSearchBar: function() {
@@ -113,8 +122,11 @@ var SearchPage = React.createClass({
         barTintColor='white'
         tintColor='#007C9E'
         placeholder='Search for other students'
-        onChangeText={ (search) => { Unicycle.exec('executeSearch', search); } }
-        onCancelButtonPress={ () => { Unicycle.exec('executeSearch', null); } }/>
+        onChangeText={ (search) => {
+          var email = userLoginMetadataStore.getEmail();
+          Unicycle.exec('executeSearch', search, email);
+        }}
+        onCancelButtonPress={ () => { Unicycle.exec('setSearchResults', []); } }/>
     );
   }
 
@@ -174,6 +186,7 @@ var SearchResult = React.createClass({
   },
 
   _onSearchResultClick: function(email) {
+    Unicycle.exec('reInitializeUsersProfileFeedOffset');
     Unicycle.exec('loadUsersProfile', email);
     Unicycle.exec('setInProfileView', true);
   },

@@ -49,6 +49,11 @@ var FeedSelector = React.createClass({
     Unicycle.listenTo(postStore)
   ],
 
+  componentDidMount: function() {
+    var userId = userLoginMetadataStore.getUserId();
+    Unicycle.exec('requestExploreFeed', userId);
+  },
+
   render: function() {
     return (
       <View>
@@ -60,7 +65,7 @@ var FeedSelector = React.createClass({
   //TODO: Look into a way to clean this up, there has to be a better way
   //Maybe more components, or reuse of jsx somehow?
   renderSelectedFeed: function(selectedFeed) {
-    var isRequestInFlight = postStore.getIsRequestInFlight(),
+    var isRequestInFlight = postStore.isRequestInFlight(),
         selectedFeed = feedSelectorStore.getCurrentFeed();
 
     if (isRequestInFlight) {

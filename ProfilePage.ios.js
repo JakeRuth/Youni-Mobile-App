@@ -2,7 +2,7 @@
 
 var React = require('react-native');
 var Unicycle = require('./Unicycle');
-var profileStore = require('./stores/ProfileStore');
+var profileOwnerStore = require('./stores/profile/ProfileOwnerStore');
 var EditSettingsPage = require('./Components/Profile/Settings/EditSettingsPage');
 var getAllFollowingStore = require('./stores/user/GetAllFollowingStore');
 var GetAllFollowingPage = require('./Components/Profile/GetAllFollowingPage');
@@ -30,19 +30,29 @@ var styles = StyleSheet.create({
 //we finalize a new design
 var ProfilePage = React.createClass({
 
+  propTypes: {
+    email: React.PropTypes.string.isRequired
+  },
+
   mixins: [
-    Unicycle.listenTo(profileStore),
+    Unicycle.listenTo(profileOwnerStore),
     Unicycle.listenTo(getAllFollowingStore)
   ],
 
+  componentDidMount: function() {
+    if (profileOwnerStore.getPosts().size === 0) {
+      Unicycle.exec('loadOwnerUsersProfile', this.props.email);
+    }
+  },
+
   render: function() {
-    var isRequestInFlight = profileStore.isRequestInFlight(),
-        inSettingsView = profileStore.getInSettingsView(),
+    var isRequestInFlight = profileOwnerStore.isRequestInFlight(),
+        inSettingsView = profileOwnerStore.getInSettingsView(),
         followingViewActive = getAllFollowingStore.getIsInView(),
         content;
 
     if (inSettingsView) {
-      content = <EditSettingsPage />
+      content = <EditSettingsPage/>
     }
     else if (isRequestInFlight) {
       content = <ProfilePageLoading/>
@@ -53,11 +63,12 @@ var ProfilePage = React.createClass({
     else {
       content = <ProfilePageBody
                   viewerIsProfileOwner = {true}
-                  firstName = {profileStore.getFirstName()}
-                  lastName = {profileStore.getLastName()}
-                  bio = {profileStore.getBio()}
-                  numFans = {profileStore.getNumFollowers()}
-                  profileImageUrl = {profileStore.getProfileImageUrl()}
+                  firstName = {profileOwnerStore.getFirstName()}
+                  lastName = {profileOwnerStore.getLastName()}
+                  bio = {profileOwnerStore.getBio()}
+                  numFans = {profileOwnerStore.getNumFollowers()}
+                  profileImageUrl = {profileOwnerStore.getProfileImageUrl()}
+                  email = {this.props.email}
                 />;
     }
 

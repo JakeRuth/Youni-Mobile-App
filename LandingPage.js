@@ -100,13 +100,11 @@ var LandingPage = React.createClass({
           selectedIconName="ios-people-outline"
           selected={this.state.selectedTab === 'profile'}
           onPress={() => {
-            var userEmail = userLoginMetadataStore.getEmail()
-            Unicycle.exec('loadUsersProfile', userEmail);
             this.setState({
               selectedTab: 'profile'
             });
           }}>
-          <ProfilePage/>
+          <ProfilePage email={userLoginMetadataStore.getEmail()}/>
         </Icon.TabBarItem>
       </TabBarIOS>
     )
