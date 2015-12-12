@@ -2,7 +2,7 @@
 
 var React = require('react-native');
 var loginStore = require('../../stores/LoginStore');
-var signupStore = require('../../stores/SignupStore');
+var signUpStore = require('../../stores/SignupStore');
 var Unicycle = require('../../Unicycle');
 var request = require('superagent');
 var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com');
@@ -18,12 +18,11 @@ var {
 } = React
 
 var styles = StyleSheet.create({
-  signUpFormHolder: {
+  signUpFormContainer: {
     backgroundColor: 'transparent',
     alignItems: 'center'
   },
   appName: {
-    marginTop: 0,
     fontSize: 100,
     color: 'white',
     fontWeight: '300',
@@ -53,15 +52,14 @@ var styles = StyleSheet.create({
     backgroundColor: 'lightblue',
     marginTop: 40
   },
-  loginOptionDescriptionText: {
-    color: 'white',
-    fontSize: 20,
+  loginPageLink: {
     marginTop: 50
   },
-  loginOptionButtonText: {
-    fontSize: 30,
+  loginPageLinkText: {
+    alignSelf: 'center',
+    color: 'white',
     fontWeight: 'bold',
-    color: '#237A72'
+    fontSize: 20
   },
   spinner: {
     flex: 1,
@@ -72,160 +70,134 @@ var styles = StyleSheet.create({
 var SignUpForm = React.createClass({
 
   mixins: [
-    Unicycle.listenTo(signupStore),
+    Unicycle.listenTo(signUpStore),
     Unicycle.listenTo(loginStore)
   ],
 
   render: function() {
-
     var content,
-    isSignUpInFlight = signupStore.isSignupInFlight();
+        isSignUpInFlight = signUpStore.isSignupInFlight(),
+        signUpRequestSuccessful = signUpStore.getSignUpRequestSuccessful();
 
-    if(isSignUpInFlight){
+    if (signUpRequestSuccessful) {
+      this._alertOnSuccessfulSignUp();
+    }
+
+    if (isSignUpInFlight) {
       content = this.renderLoadingSpinner();
+    }
+    else {
+      content = this.renderSignUpForm();
     }
 
     return (
-      <View style={styles.signUpFormHolder}>
+      <View>
+        {content}
+      </View>
+    );
+  },
+
+  renderSignUpForm: function() {
+    return (
+      <View style={styles.signUpFormContainer}>
         <Text style={styles.appName}>Youni</Text>
         <TextInput style={styles.signUpInput}
-          value={signupStore.getSignupFirstName()}
+          value={signUpStore.getSignupFirstName()}
           clearTextOnFocus={true}
-          onChangeText={(text) => Unicycle.exec('signupUpdateFirstName', text)}/>
+          onChangeText={(text) => Unicycle.exec('signUpUpdateFirstName', text)}/>
         <TextInput style={styles.signUpInput}
-          value={signupStore.getSignupLastName()}
+          value={signUpStore.getSignupLastName()}
           clearTextOnFocus={true}
-          onChangeText={(text) => Unicycle.exec('signupUpdateLastName', text)}/>
+          onChangeText={(text) => Unicycle.exec('signUpUpdateLastName', text)}/>
         <TextInput style={styles.signUpInput}
-          value={signupStore.getSignupEmail()}
+          value={signUpStore.getSignupEmail()}
           clearTextOnFocus={true}
-          onChangeText={(text) => Unicycle.exec('signupUpdateEmail', text)}/>
+          onChangeText={(text) => Unicycle.exec('signUpUpdateEmail', text)}/>
         <TextInput style={styles.signUpInput}
           secureTextEntry={true}
-          value={signupStore.getSignupPassword()}
+          value={signUpStore.getSignupPassword()}
           clearTextOnFocus={true}
           placeholderTextColor={'grey'}
           placeholder={'Password'}
-          onChangeText={(text) => Unicycle.exec('signupUpdatePassword', text)}/>
+          onChangeText={(text) => Unicycle.exec('signUpUpdatePassword', text)}/>
         <TextInput style={styles.signUpInput}
           secureTextEntry={true}
           clearTextOnFocus={true}
           placeholderTextColor={'grey'}
           placeholder={'Confirm Password'}
-          onChangeText={(text) => Unicycle.exec('signupUpdateConfirmPassword', text)}/>
+          onChangeText={(text) => Unicycle.exec('signUpUpdateConfirmPassword', text)}/>
 
         <TouchableHighlight style={styles.signUpButton} underlayColor='transparent'>
-          <Text style={styles.signUpText} onPress={this.onsignUpButtonPress}>Sign Up</Text>
+          <Text style={styles.signUpText} onPress={this.onSignUpButtonPress}>Sign Up</Text>
         </TouchableHighlight>
 
-        {content}
-
-        <Text style={styles.loginOptionDescriptionText}>Already have an account?</Text>
-        <TouchableHighlight>
-          <Text style={styles.loginOptionButtonText} onPress={this._goToLoginPage}>Sign In</Text>
+        <TouchableHighlight style={styles.loginPageLink} onPress={this._goToLoginPage}>
+          <View>
+            <Text style={styles.loginPageLinkText}>Already have an account?</Text>
+            <Text style={styles.loginPageLinkText}>Sign In</Text>
+          </View>
         </TouchableHighlight>
 
       </View>
     );
   },
 
-  onsignUpButtonPress: function(){
-
-    if(this._checkIfPasswordsMatch()){
-      this._onSignupRequest();
+  onSignUpButtonPress: function() {
+    if (this._checkIfPasswordsMatch()) {
+      Unicycle.exec('onSignUpRequest');
     }
     else {
-        this._alertOnFailure('Ooops', 'Passwords must be the same!', 'Okay');
+      this._alertPasswordMismatch();
     }
-
   },
 
   _checkIfPasswordsMatch: function() {
-    var password = signupStore.getSignupPassword(),
-        confirmPassword = signupStore.getSignupConfirmPassword();
+    var password = signUpStore.getSignupPassword(),
+        confirmPassword = signUpStore.getSignupConfirmPassword();
 
-    if (password == confirmPassword) {
-      return true;
-    }
-    else {
-      return false;
-    }
+    return password == confirmPassword;
   },
 
-  _goToLoginPage: function(){
-    Unicycle.exec('setInLoginView', true);
+  _goToLoginPage: function() {
     Unicycle.exec('setInSignUpView', false);
   },
 
 
-  _alertOnFailure: function(alertBoxTitle, alertBoxMessage, alertBoxButtonText) {
-    Unicycle.exec('setSignupInFlight', false);
-    AlertIOS.alert(alertBoxTitle, alertBoxMessage, [
-      {
-        text: alertBoxButtonText
-      }
-    ])
+  _alertPasswordMismatch: function() {
+    Unicycle.exec('setSignUpInFlight', false);
+    AlertIOS.alert(
+      'Ooops',
+      'Passwords must be the same!',
+      [
+        {
+          text: 'Okay'
+        }
+      ]
+    );
   },
 
-  _alertOnSuccessfulSignUp: function(alertBoxTitle, alertBoxMessage, alertBoxButtonText) {
-    AlertIOS.alert(alertBoxTitle, alertBoxMessage, [
-      {
-        text: alertBoxButtonText
-      }
-    ])
+  _alertOnSuccessfulSignUp: function() {
+    AlertIOS.alert(
+      'Yay!',
+      'Confirmation Email Sent!',
+      [
+        {
+          text: 'OK!'
+        }
+      ]
+    );
   },
 
   renderLoadingSpinner: function() {
     return (
       <View style={styles.spinnerContainer}>
         <ActivityIndicatorIOS
-          size="small"
-          color="black"
+          size="large"
+          color="white"
           animating={true}
           style={styles.spinner} />
       </View>
     );
-  },
-
-
-  _onSignupRequest: function() {
-    var that = this,
-        firstName = signupStore.getSignupFirstName(),
-        lastName = signupStore.getSignupLastName(),
-        email = signupStore.getSignupEmail(),
-        password = signupStore.getSignupPassword(),
-        schoolName = 'SUNY Albany';
-
-    //fixes weird bug where blank password field validates (cannot replicate at command line with api)
-    if (!password) {
-      password = '~';
-    }
-    if (!email) {
-      email = '~';
-    }
-
-    Unicycle.exec('setSignupInFlight', true);
-
-    request.post('/user/create').use(prefix)
-    .send({firstName: firstName,
-                      lastName: lastName,
-                      email: email,
-                      password: password,
-                      schoolName: schoolName})
-    .set('Accept', 'application/json')
-    .end(function(err, res) {
-
-      if ((res !== undefined) && (res.ok)) {
-
-        that._alertOnSuccessfulSignUp('Yay!', 'Confirmation Email Sent!', 'OK!');
-        Unicycle.exec('setSignupInFlight', false);
-        Unicycle.exec('setInLoginView', true);
-        Unicycle.exec('setInSignUpView', false);
-      }
-      else {
-      }
-
-    });
   }
 
 });

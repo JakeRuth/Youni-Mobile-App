@@ -2,78 +2,109 @@
 
 var React = require('react-native');
 var Unicycle = require('./../Unicycle');
-var signupStore = Unicycle.createStore({
+
+var signUpStore = Unicycle.createStore({
 
     init: function () {
       this.set({
         firstName: 'First Name',
         lastName: 'Last Name',
-        collegeCampus: 'Seach Your College',
         email: 'Enter your email',
         password: '',
         confirmPassword: '',
-        onWayToSignupInFlight: false,
         inSignUpView: false,
-        isInLoginView: false,
         signUpInFlight: false,
+        signUpRequestSuccessful: false
       });
     },
 
+    $onSignUpRequest: function() {
+      var that = this,
+          firstName = this.getSignupFirstName(),
+          lastName = this.getSignupLastName(),
+          email = this.getSignupEmail(),
+          password = this.getSignupPassword();
 
-    $signup: function (firstname, lastname, username, password) {
+      //fixes weird bug where blank password field validates (cannot replicate at command line with api)
+      if (!password) {
+        password = '~';
+      }
+      if (!email) {
+        email = '~';
+      }
+
       this.set({
-        firstName: firstname,
-        lastName: lastname,
-        email: username,
-        password: password
+        setSignUpInFlight: true
       });
+
+      request
+        .post('/user/create')
+        .use(prefix)
+        .send({
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            password: password,
+            schoolName: 'SUNY Albany' //TODO fix me
+          })
+        .set('Accept', 'application/json')
+        .end(function(err, res) {
+          if ((res !== undefined) && (res.ok)) {
+            that.set({
+              signUpRequestSuccessful: true,
+              setSignUpInFlight: false,
+              setInLoginView: true,
+              setInSignUpView: false
+            });
+          }
+          //TODO: implement fail case
+        });
     },
 
-
-    $signupUpdateFirstName: function(firstname){
+    $signUpUpdateFirstName: function(firstname){
       this.set({
         firstName: firstname
       });
     },
 
-    $signupUpdateLastName: function(lastname){
+    $signUpUpdateLastName: function(lastname){
       this.set({
         lastName: lastname
       });
     },
 
-    $signupUpdateEmail: function(email) {
+    $signUpUpdateEmail: function(email) {
       this.set({
         email: email
       });
     },
 
-    $signupUpdatePassword: function(password) {
+    $signUpUpdatePassword: function(password) {
       this.set({
         password: password
       });
     },
 
-    $signupUpdateConfirmPassword: function(confirmPassword) {
+    $signUpUpdateConfirmPassword: function(confirmPassword) {
       this.set({
         confirmPassword: confirmPassword
       });
     },
 
-    $setSignupInFlight: function(isInFlightStatus) {
+    $setSignUpInFlight: function(isInFlightStatus) {
       this.set({
         signUpInFlight: isInFlightStatus
       });
-    },
-
-    isSignupInFlight: function() {
-      return this.get('signUpInFlight');
     },
 
     $setInSignUpView: function(isInFlight) {
       this.set({
         inSignUpView: isInFlight
       });
+    },
+
+    isSignupInFlight: function() {
+      return this.get('signUpInFlight');
     },
 
     isInSignUpView: function() {
@@ -84,12 +115,11 @@ var signupStore = Unicycle.createStore({
       return this.get('email');
     },
 
-
-    getSignupFirstName: function(){
+    getSignupFirstName: function() {
       return this.get('firstName');
     },
 
-    getSignupLastName: function(){
+    getSignupLastName: function() {
       return this.get('lastName');
     },
 
@@ -97,11 +127,14 @@ var signupStore = Unicycle.createStore({
       return this.get('password');
     },
 
-    getSignupConfirmPassword: function(){
+    getSignupConfirmPassword: function() {
       return this.get('confirmPassword');
     },
 
+    getSignUpRequestSuccessful: function() {
+      this.get('signUpRequestSuccessful');
+    }
 
 });
 
-module.exports = signupStore;
+module.exports = signUpStore;

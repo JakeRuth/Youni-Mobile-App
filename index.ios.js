@@ -4,12 +4,11 @@ var React = require('react-native');
 var SignUpForm = require('./Components/SignUp/SignUpForm');
 var Unicycle = require('./Unicycle');
 var loginStore = require('./stores/LoginStore');
-var signupStore = require('./stores/SignupStore');
+var signUpStore = require('./stores/SignupStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
 var landingPage = require('./LandingPage');
 var request = require('superagent');
 var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com');
-
 
 var {
   View,
@@ -46,8 +45,8 @@ var styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center'
   },
-  signupContentContainer: {
-    backgroundColor: 'rgba(0,0,0,0)',
+  signUpContentContainer: {
+    //backgroundColor: 'rgba(0,0,0,0)',
     flexDirection: 'column',
     alignItems: 'center'
   },
@@ -82,20 +81,6 @@ var styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0)',
     fontWeight: 'bold'
   },
-  signUpButton: {
-    width: 120,
-    height: 25,
-    borderRadius: 5,
-    backgroundColor: 'lightblue',
-    marginTop: 40
-  },
-  signUpText: {
-    textAlign: 'center',
-    fontSize: 20,
-    borderRadius: 5,
-    backgroundColor: 'rgba(0,0,0,0)',
-    fontWeight: 'bold'
-  },
   spinner: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0)'
@@ -118,29 +103,23 @@ var LoginPage = React.createClass({
 
   mixins: [
     Unicycle.listenTo(loginStore),
-    Unicycle.listenTo(signupStore),
+    Unicycle.listenTo(signUpStore),
     Unicycle.listenTo(userLoginMetadataStore)
   ],
 
   render: function () {
     var isLoginInFlight = loginStore.isLoginInFlight(),
-        isInSignUpView = signupStore.isInSignUpView(),
-        isInLoginView = loginStore.isInLoginView(),
-        isSignUpInFlight = signupStore.isSignupInFlight(),
+        isInSignUpView = signUpStore.isInSignUpView(),
+        isSignUpInFlight = signUpStore.isSignupInFlight(),
         content;
 
     if (isLoginInFlight) {
       content = this.renderLoadingSpinner();
     }
     else if (isInSignUpView){
-      content =  <SignUpForm />;
+      content =  <SignUpForm/>;
     }
     else {
-      content = this.renderLoginForm();
-
-    }
-
-    if(isInLoginView){
       content = this.renderLoginForm();
     }
 
@@ -172,13 +151,14 @@ var LoginPage = React.createClass({
             placeholder={'Password'}
             onChangeText={(text) => Unicycle.exec('updatePassword', text)}
          />
-       <TouchableHighlight style={styles.loginButton} underlayColor='transparent'>
+         <TouchableHighlight style={styles.loginButton} underlayColor='transparent'>
             <Text style={styles.loginText} onPress={this._onLoginRequest}>Login</Text>
          </TouchableHighlight>
 
-         <Text style={styles.signUpOptionDescText}>Don't have Youni account?</Text><TouchableHighlight><Text style={styles.signUpOptionText} onPress={this._goToSignUpPage}>Sign Up</Text></TouchableHighlight>
-
-
+         <Text style={styles.signUpOptionDescText}>Don't have Youni account?</Text>
+         <TouchableHighlight>
+           <Text style={styles.signUpOptionText} onPress={this._goToSignUpPage}>Sign Up</Text>
+         </TouchableHighlight>
        </View>
     );
   },
@@ -195,13 +175,9 @@ var LoginPage = React.createClass({
     );
   },
 
-
-
   _goToSignUpPage: function(){
-      Unicycle.exec('setInSignUpView', true);
-      Unicycle.exec('setInLoginView', false);
+    Unicycle.exec('setInSignUpView', true);
   },
-
 
   //TODO: This should probably be on the PostStore
   _onLoginRequest: function() {
