@@ -4,7 +4,7 @@ var React = require('react-native');
 var SignUpForm = require('./Components/SignUp/SignUpForm');
 var Unicycle = require('./Unicycle');
 var loginStore = require('./stores/LoginStore');
-var signUpStore = require('./stores/SignupStore');
+var signUpStore = require('./stores/signUp/SignupStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
 var landingPage = require('./LandingPage');
 var request = require('superagent');
@@ -19,7 +19,6 @@ var {
   Image,
   TextInput,
   NavigatorIOS,
-  TabBarIOS,
   AlertIOS,
   AsyncStorage,
   ActivityIndicatorIOS
@@ -37,16 +36,15 @@ var styles = StyleSheet.create({
     width: null,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgba(0,0,0,0)',
+    backgroundColor: 'transparent',
     opacity: 0.9
   },
   contentContainer: {
-    backgroundColor: 'rgba(0,0,0,0)',
+    backgroundColor: 'transparent',
     flexDirection: 'column',
     alignItems: 'center'
   },
   signUpContentContainer: {
-    //backgroundColor: 'rgba(0,0,0,0)',
     flexDirection: 'column',
     alignItems: 'center'
   },
@@ -78,16 +76,15 @@ var styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 20,
     borderRadius: 5,
-    backgroundColor: 'rgba(0,0,0,0)',
+    backgroundColor: 'transparent',
     fontWeight: 'bold'
   },
   spinner: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0)'
+    backgroundColor: 'transparent'
   },
   signUpOptionDescText: {
     fontSize: 20,
-    bottom:0,
     color: 'white',
     marginTop: 50
   },
@@ -110,7 +107,6 @@ var LoginPage = React.createClass({
   render: function () {
     var isLoginInFlight = loginStore.isLoginInFlight(),
         isInSignUpView = signUpStore.isInSignUpView(),
-        isSignUpInFlight = signUpStore.isSignupInFlight(),
         content;
 
     if (isLoginInFlight) {

@@ -1,7 +1,9 @@
 'use strict';
 
 var React = require('react-native');
-var Unicycle = require('./../Unicycle');
+var Unicycle = require('../../Unicycle');
+var request = require('superagent');
+var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com');
 
 var signUpStore = Unicycle.createStore({
 
@@ -13,7 +15,7 @@ var signUpStore = Unicycle.createStore({
         password: '',
         confirmPassword: '',
         inSignUpView: false,
-        signUpInFlight: false,
+        isSignUpRequestUpInFlight: false,
         signUpRequestSuccessful: false
       });
     },
@@ -34,7 +36,7 @@ var signUpStore = Unicycle.createStore({
       }
 
       this.set({
-        setSignUpInFlight: true
+        isSignUpRequestUpInFlight: true
       });
 
       request
@@ -49,15 +51,21 @@ var signUpStore = Unicycle.createStore({
           })
         .set('Accept', 'application/json')
         .end(function(err, res) {
-          if ((res !== undefined) && (res.ok)) {
+          console.log(res.body)
+          if ((res !== undefined) && (res.ok) && (res.body.success)) {
             that.set({
               signUpRequestSuccessful: true,
-              setSignUpInFlight: false,
+              isSignUpRequestUpInFlight: false,
               setInLoginView: true,
               setInSignUpView: false
             });
           }
           //TODO: implement fail case
+          else {
+            that.set({
+              isSignUpRequestUpInFlight: false
+            });
+          }
         });
     },
 
@@ -91,20 +99,14 @@ var signUpStore = Unicycle.createStore({
       });
     },
 
-    $setSignUpInFlight: function(isInFlightStatus) {
-      this.set({
-        signUpInFlight: isInFlightStatus
-      });
-    },
-
     $setInSignUpView: function(isInFlight) {
       this.set({
         inSignUpView: isInFlight
       });
     },
 
-    isSignupInFlight: function() {
-      return this.get('signUpInFlight');
+    isSignUpRequestUpInFlight: function() {
+      return this.get('isSignUpRequestUpInFlight');
     },
 
     isInSignUpView: function() {
@@ -132,7 +134,7 @@ var signUpStore = Unicycle.createStore({
     },
 
     getSignUpRequestSuccessful: function() {
-      this.get('signUpRequestSuccessful');
+      return this.get('signUpRequestSuccessful');
     }
 
 });

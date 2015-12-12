@@ -2,10 +2,8 @@
 
 var React = require('react-native');
 var loginStore = require('../../stores/LoginStore');
-var signUpStore = require('../../stores/SignupStore');
+var signUpStore = require('../../stores/signUp/SignupStore');
 var Unicycle = require('../../Unicycle');
-var request = require('superagent');
-var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com');
 
 var {
   View,
@@ -70,13 +68,12 @@ var styles = StyleSheet.create({
 var SignUpForm = React.createClass({
 
   mixins: [
-    Unicycle.listenTo(signUpStore),
-    Unicycle.listenTo(loginStore)
+    Unicycle.listenTo(signUpStore)
   ],
 
   render: function() {
     var content,
-        isSignUpInFlight = signUpStore.isSignupInFlight(),
+        isSignUpInFlight = signUpStore.isSignUpRequestUpInFlight(),
         signUpRequestSuccessful = signUpStore.getSignUpRequestSuccessful();
 
     if (signUpRequestSuccessful) {
@@ -100,6 +97,7 @@ var SignUpForm = React.createClass({
   renderSignUpForm: function() {
     return (
       <View style={styles.signUpFormContainer}>
+
         <Text style={styles.appName}>Youni</Text>
         <TextInput style={styles.signUpInput}
           value={signUpStore.getSignupFirstName()}
@@ -127,8 +125,11 @@ var SignUpForm = React.createClass({
           placeholder={'Confirm Password'}
           onChangeText={(text) => Unicycle.exec('signUpUpdateConfirmPassword', text)}/>
 
-        <TouchableHighlight style={styles.signUpButton} underlayColor='transparent'>
-          <Text style={styles.signUpText} onPress={this.onSignUpButtonPress}>Sign Up</Text>
+        <TouchableHighlight
+          style={styles.signUpButton}
+          underlayColor='transparent'
+          onPress={this.onSignUpButtonPress}>
+          <Text style={styles.signUpText}>Sign Up</Text>
         </TouchableHighlight>
 
         <TouchableHighlight style={styles.loginPageLink} onPress={this._goToLoginPage}>
