@@ -2,7 +2,6 @@
 
 var React = require('react-native');
 var Unicycle = require('../../Unicycle');
-var postStore = require('../../stores/PostStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var PostHeader = require('./PostHeader');
 var PostLikeBar = require('./PostLikeBar');
@@ -57,11 +56,8 @@ var styles = StyleSheet.create({
 
 var Post = React.createClass({
 
-  mixins: [
-    Unicycle.listenTo(postStore)
-  ],
-
   propTypes: {
+    postStore: React.PropTypes.any.isRequired,
     id: React.PropTypes.number.isRequired,
     //cannot be required because not all user's will have uploaded a profile pic
     posterProfileImageUrl: React.PropTypes.string,
@@ -97,6 +93,7 @@ var Post = React.createClass({
 
         <View style={styles.postFooter}>
           <PostLikeBar
+            postStore={this.props.postStore}
             onStarPress={this._photoOnClickAction(this.props.liked)}
             liked={this.props.liked}
             numLikes={this.props.numLikes}
@@ -127,7 +124,12 @@ var Post = React.createClass({
 
   _getOnPhotoClickActionName: function() {
     if (this.props.renderedFromProfileView) {
-      return 'likePostFromProfilePage';
+      if (this.props.viewerIsPostOwner) {
+        return 'likePostFromOwnerProfilePage';
+      }
+      else {
+        return 'likePostFromProfilePage';
+      }
     }
     else {
       return 'likePost';

@@ -2,12 +2,10 @@
 
 var React = require('react-native');
 var Unicycle = require('./Unicycle');
-var postStore = require('./stores/PostStore');
-var feedSelectorStore = require('./stores/FeedSelectorStore');
+var homePostsStore = require('./stores/post/HomePostsStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
 var MainScreenBanner = require('./MainScreenBanner');
 var Post = require('./Components/Post/Post');
-var FeedSelector = require('./Components/Feed/FeedSelector');
 var LoadMorePostsButton = require('./Components/Post/LoadMorePostsButton');
 
 var {
@@ -38,12 +36,17 @@ var styles = StyleSheet.create({
 var HomePage = React.createClass({
 
   mixins: [
-    Unicycle.listenTo(postStore),
+    Unicycle.listenTo(homePostsStore),
     Unicycle.listenTo(userLoginMetadataStore)
   ],
 
+  componentDidMount: function() {
+    var userId = userLoginMetadataStore.getUserId();
+    Unicycle.exec('requestHomeFeed', userId);
+  },
+
   render: function() {
-    var loadingPosts = postStore.isRequestInFlight(),
+    var loadingPosts = homePostsStore.isRequestInFlight(),
         content;
 
     if (loadingPosts) {
@@ -56,9 +59,8 @@ var HomePage = React.createClass({
     return (
       <View style={styles.homePageContainer}>
         <MainScreenBanner
-          title='SUNY Albany'
-          subTitle='The most recent activity from your campus'/>
-        <FeedSelector/>
+          title='Home Feed'
+          subTitle='Posts from the people YOU care about'/>
         <View style={styles.feedContainer}>
           { content }
         </View>
@@ -67,7 +69,7 @@ var HomePage = React.createClass({
   },
 
   renderPosts: function() {
-    var postsJson = postStore.getPosts();
+    var postsJson = homePostsStore.getPosts();
     var posts = [];
     for (var i = 0; i<postsJson.size; i++) {
       var post = postsJson.get(i);
@@ -81,7 +83,8 @@ var HomePage = React.createClass({
               caption={post.caption}
               postIdString={post.postIdString}
               liked={post.liked}
-              key={post.id} />
+              key={post.id}
+              postStore={homePostsStore} />
       );
     }
     return (
@@ -95,11 +98,11 @@ var HomePage = React.createClass({
   },
 
   renderLoadMorePostsButton: function() {
-    if (!postStore.getNoMorePostsToFetch()) {
+    if (!homePostsStore.getNoMorePostsToFetch()) {
       return (
           <LoadMorePostsButton
             onLoadMorePostsPress={this.onLoadMorePostsPress}
-            loadMorePostsRequestInFlight={postStore.isLoadMorePostsRequestInFlight()}/>
+            loadMorePostsRequestInFlight={homePostsStore.isLoadMorePostsRequestInFlight()}/>
       );
     }
   },
@@ -117,15 +120,8 @@ var HomePage = React.createClass({
   },
 
   onLoadMorePostsPress: function() {
-    var userId = userLoginMetadataStore.getUserId(),
-        currentFeed = feedSelectorStore.getCurrentFeed();
-
-    if (currentFeed == feedSelectorStore.FeedType().FULL) {
-      Unicycle.exec('requestExploreFeed', userId);
-    }
-    else {
-      Unicycle.exec('requestHomeFeed', userId);
-    }
+    var userId = userLoginMetadataStore.getUserId();
+    Unicycle.exec('requestHomeFeed', userId);
   }
 
 });

@@ -2,7 +2,6 @@
 
 var React = require('react-native');
 var Unicycle = require('../../../Unicycle');
-var postStore = require('../../../stores/PostStore');
 var postLikeModalStore = require('../../../stores/post/like/PostLikeModalStore');
 var PostLikeModal = require('./PostLikeModal')
 
@@ -25,6 +24,7 @@ var styles = StyleSheet.create({
 var PostLikeText = React.createClass({
 
   propTypes: {
+    postStore: React.PropTypes.any.isRequired,
     numLikes: React.PropTypes.number.isRequired,
     postIdString: React.PropTypes.string.isRequired
   },
@@ -32,7 +32,7 @@ var PostLikeText = React.createClass({
   render: function() {
     var content;
 
-    if (postStore.isLikeRequestInFlight()) {
+    if (this.props.postStore.isLikeRequestInFlight()) {
       content = this._renderSmallSpinner();
     }
     else {

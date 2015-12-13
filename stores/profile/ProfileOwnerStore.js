@@ -2,7 +2,7 @@
 
 var React = require('react-native');
 var Unicycle = require('../../Unicycle');
-var postStore = require('../PostStore');
+var postStore = require('../post/HomePostsStore');//TODO: FixME
 var immutable = require('immutable');
 var request = require('superagent');
 var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com');
@@ -18,6 +18,7 @@ var profileOwnerStore = Unicycle.createStore({
         isRequestInFlight: false,
         isUserPostsRequestInFlight: false,
         isLoadMorePostsRequestInFlight: false,
+        isLikeRequestInFlight: false,
         noMorePostsToFetch: false,
         firstName: '',
         lastName: '',
@@ -152,9 +153,13 @@ var profileOwnerStore = Unicycle.createStore({
       });
     },
 
-    $likePostFromProfilePage(id, postId, userId) {
+    $likePostFromOwnerProfilePage(id, postId, userId) {
       var that = this;
       var posts = this.get('posts');
+
+      this.set({
+        isLikeRequestInFlight: true
+      });
 
       request
        .post('/post/like')
@@ -171,17 +176,20 @@ var profileOwnerStore = Unicycle.createStore({
          else {
            //TODO: implement failed case (show user error message or cached results)
          }
+         that.set({
+           isLikeRequestInFlight: false
+         });
       });
     },
 
     updateLikeCountForPost: function(id) {
-      var posts = this.getPosts();
-      var post = posts.get(id);
-      var numLikes = post.get('numLikes');
-      post = post.set('numLikes', ++numLikes);
-      post = post.set('liked', true);
+      var posts = this.getPosts(),
+          post = posts.get(id);
+      post.numLikes++;
+      post.liked = true;
+      posts = posts.set(id, post);
       this.set({
-        posts: posts.set(id, post)
+        posts: posts
       });
     },
 
@@ -195,6 +203,10 @@ var profileOwnerStore = Unicycle.createStore({
 
     isLoadMorePostsRequestInFlight: function() {
       return this.get('isLoadMorePostsRequestInFlight');
+    },
+
+    isLikeRequestInFlight: function() {
+      return this.get('isLikeRequestInFlight');
     },
 
     getNoMorePostsToFetch: function() {

@@ -197,7 +197,6 @@ var LoginPage = React.createClass({
     Unicycle.exec('setInSignUpView', true);
   },
 
-  //TODO: This should probably be on the PostStore
   _onLoginRequest: function() {
     this._savePassword(loginStore.getPassword());
     var that = this;

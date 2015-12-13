@@ -1,7 +1,6 @@
 'use strict';
 
 var React = require('react-native');
-var postStore = require('../../stores/PostStore');
 var Icon = require('react-native-vector-icons/Ionicons');
 var PostLikeText = require('./Like/PostLikeText');
 
@@ -28,6 +27,7 @@ var styles = StyleSheet.create({
 var PostLikeBar = React.createClass({
 
   propTypes: {
+    postStore: React.PropTypes.any.isRequired,
     onStarPress: React.PropTypes.func,
     numLikes: React.PropTypes.number.isRequired,
     liked: React.PropTypes.bool.isRequired,
@@ -46,6 +46,7 @@ var PostLikeBar = React.createClass({
         </TouchableHighlight>
 
         <PostLikeText
+          postStore={this.props.postStore}
           numLikes={this.props.numLikes}
           postIdString={this.props.postIdString} />
 

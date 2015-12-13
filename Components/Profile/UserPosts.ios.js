@@ -81,7 +81,8 @@ var UserPosts = React.createClass({
               liked={post.liked}
               key={post.id}
               viewerIsPostOwner={this.props.viewerIsPostOwner}
-              renderedFromProfileView={true} />
+              renderedFromProfileView={true}
+              postStore={this.props.profileStore} />
       );
     }
     return (
