@@ -26,6 +26,21 @@ var styles = StyleSheet.create({
     marginTop: 10,
     paddingBottom: 50
   },
+  emptyPostsMessageContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10
+  },
+  noPostsTitle: {
+    textAlign: 'center',
+    fontSize: 20,
+    paddingBottom: 20
+  },
+  noPostSubTitle: {
+    textAlign: 'center',
+    color: 'gray'
+  },
   spinnerContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -52,8 +67,11 @@ var HomePage = React.createClass({
     if (loadingPosts) {
       content = this.renderLoadingSpinner();
     }
-    else {
+    else if (homePostsStore.getPosts().size) {
       content = this.renderPosts();
+    }
+    else {
+      content = this.renderEmptyPostsMessage();
     }
 
     return (
@@ -94,6 +112,15 @@ var HomePage = React.createClass({
         {this.renderLoadMorePostsButton()}
 
       </ScrollView>
+    );
+  },
+
+  renderEmptyPostsMessage: function() {
+    return (
+      <View style={styles.emptyPostsMessageContainer}>
+        <Text style={styles.noPostsTitle}>No posts from any one you are following</Text>
+        <Text style={styles.noPostSubTitle}>As you follow your friends, only their posts will show up in this feed</Text>
+      </View>
     );
   },
 
