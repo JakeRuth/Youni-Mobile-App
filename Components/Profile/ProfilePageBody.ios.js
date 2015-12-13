@@ -3,6 +3,7 @@
 var React = require('react-native');
 var FollowUnfollowButton = require('./FollowUnfollowButton');
 var FollowingButton = require('./FollowingButton');
+var LogoutButton = require('../Common/LogoutButton');
 var EditSettingsButton = require('./Settings/EditSettingsButton');
 var BlockUserButton = require('./BlockUserButton');
 var ProfileImage = require('./ProfileImage');
@@ -25,7 +26,8 @@ var styles = StyleSheet.create({
   fullName: {
     textAlign: 'center',
     fontSize: 30,
-    margin: 5
+    margin: 5,
+    backgroundColor: 'transparent'
   },
   fanCount: {
     textAlign: 'center',
@@ -47,30 +49,34 @@ var ProfilePageBody = React.createClass({
     numFans: React.PropTypes.number.isRequired,
     profileImageUrl: React.PropTypes.string.isRequired,
     email: React.PropTypes.string.isRequired,
-    viewerIsProfileOwner: React.PropTypes.bool.isRequired
+    viewerIsProfileOwner: React.PropTypes.bool.isRequired,
+    navigator: React.PropTypes.any.isRequired
   },
 
   render: function() {
     var fullName = this.props.firstName + ' ' + this.props.lastName,
         followButton = <View/>,
+        logoutButton = <View/>,
         seeWhoImFollowingButton = <View/>,
         editSettingsIcon = <View/>,
         blockUserIcon = <View/>,
         bio = this.props.bio;
 
     if (this.props.viewerIsProfileOwner) {
-      seeWhoImFollowingButton = <FollowingButton email={this.props.email}/>
-      editSettingsIcon = <EditSettingsButton/>
+      logoutButton = <LogoutButton navigator={this.props.navigator}/>;
+      seeWhoImFollowingButton = <FollowingButton email={this.props.email}/>;
+      editSettingsIcon = <EditSettingsButton/>;
     }
     else {
-      followButton = <FollowUnfollowButton email={this.props.email}/>
-      blockUserIcon = <BlockUserButton email={this.props.email}/>
+      followButton = <FollowUnfollowButton email={this.props.email}/>;
+      blockUserIcon = <BlockUserButton email={this.props.email}/>;
     }
 
     return (
       <ScrollView style={styles.profileBodyContent}>
 
         <Text style={styles.fullName}>{fullName}</Text>
+        {logoutButton}
         {editSettingsIcon}
         {blockUserIcon}
 

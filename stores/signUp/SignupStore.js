@@ -51,7 +51,6 @@ var signUpStore = Unicycle.createStore({
           })
         .set('Accept', 'application/json')
         .end(function(err, res) {
-          console.log(res.body)
           if ((res !== undefined) && (res.ok) && (res.body.success)) {
             that.set({
               signUpRequestSuccessful: true,

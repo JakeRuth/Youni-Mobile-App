@@ -104,6 +104,10 @@ var LoginPage = React.createClass({
     Unicycle.listenTo(userLoginMetadataStore)
   ],
 
+  componentDidMount: function() {
+    this._attemptToAutoLoginUser();
+  },
+
   render: function () {
     var isLoginInFlight = loginStore.isLoginInFlight(),
         isInSignUpView = signUpStore.isInSignUpView(),
@@ -171,12 +175,31 @@ var LoginPage = React.createClass({
     );
   },
 
+  _attemptToAutoLoginUser: function() {
+    AsyncStorage.multiGet(['email', 'password']).then((response) => {
+      if (this._cachedUsernameAndPasswordExists(response)) {
+        var email = response[0][1],
+            password = response[1][1];
+        Unicycle.exec('updateEmail', email);
+        Unicycle.exec('updatePassword', password);
+        this._onLoginRequest();
+      }
+    }).done();
+  },
+
+  _cachedUsernameAndPasswordExists: function(cache) {
+    var cachedEmail = cache[0][1],
+        cachedPassword = cache[1][1];
+    return cachedEmail && cachedPassword;
+  },
+
   _goToSignUpPage: function(){
     Unicycle.exec('setInSignUpView', true);
   },
 
   //TODO: This should probably be on the PostStore
   _onLoginRequest: function() {
+    this._savePassword(loginStore.getPassword());
     var that = this;
     var email = loginStore.getEmail();
     var password = loginStore.getPassword();
@@ -220,6 +243,10 @@ var LoginPage = React.createClass({
     AsyncStorage.setItem('userId', userId);
   },
 
+  _savePassword: function(password) {
+    AsyncStorage.setItem('password', password);
+  },
+
   _saveEmail: function(email) {
     AsyncStorage.setItem('email', email);
   },
@@ -231,7 +258,6 @@ var LoginPage = React.createClass({
   _saveAccessTokenThenLoadHomePage: function(accessToken) {
     var that = this;
     AsyncStorage.setItem('accessToken', accessToken).then(() => {
-      that.props.navigator.pop();
       that.props.navigator.push({
           component: landingPage
       });

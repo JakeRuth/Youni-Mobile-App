@@ -104,7 +104,9 @@ var LandingPage = React.createClass({
               selectedTab: 'profile'
             });
           }}>
-          <ProfilePage email={userLoginMetadataStore.getEmail()}/>
+          <ProfilePage
+            email={userLoginMetadataStore.getEmail()}
+            navigator={this.props.navigator} />
         </Icon.TabBarItem>
       </TabBarIOS>
     )
