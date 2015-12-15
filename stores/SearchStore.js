@@ -105,7 +105,8 @@ var searchStore = Unicycle.createStore({
         usersJson.push({
           firstName: user['firstName'],
           lastName: user['lastName'],
-          email: user['email']
+          email: user['email'],
+          profileImageUrl: user['profileImageUrl']
         });
       }
     }

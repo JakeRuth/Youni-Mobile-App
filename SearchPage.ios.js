@@ -1,8 +1,8 @@
 'use strict';
 
 var React = require('react-native');
-var Icon = require('react-native-vector-icons/Ionicons');
 var Unicycle = require('./Unicycle');
+var Icon = require('react-native-vector-icons/Ionicons');
 var searchStore = require('./stores/SearchStore');
 var profileStore = require('./stores/profile/ProfileStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
@@ -16,6 +16,7 @@ var EmptyResults = require('./Components/Common/EmptyResults');
 var {
   View,
   Text,
+  Image,
   StyleSheet,
   ScrollView,
   TouchableHighlight,
@@ -35,7 +36,10 @@ var styles = StyleSheet.create({
     marginRight: 10
   },
   profileImage: {
-    flex: 1
+    height: 45,
+    width: 45,
+    borderRadius: 22,
+    marginRight: 10
   },
   fullName: {
     flex: 4,
@@ -179,10 +183,24 @@ var SearchResult = React.createClass({
   },
 
   render: function() {
-    var search = this.props.search;
-    var firstName = search.get('firstName'),
+    var search = this.props.search,
+        firstName = search.get('firstName'),
         lastName = search.get('lastName'),
-        email = search.get('email');
+        email = search.get('email'),
+        profileImageUrl = search.get('profileImageUrl'),
+        thumbnail;
+
+    if (profileImageUrl) {
+      thumbnail = (
+        <Image style={styles.profileImage} source={{uri: profileImageUrl}} />
+      );
+    }
+    else {
+      thumbnail = (
+        <Icon style={styles.profileImage}
+          name='ios-person' size={40} color='#007C9E' />
+      );
+    }
 
     return (
       <View>
@@ -191,8 +209,7 @@ var SearchResult = React.createClass({
           onPress={ () => {this._onSearchResultClick(email)} }>
 
           <View style={styles.searchResult}>
-            <Icon style={styles.profileImage}
-              name='ios-person' size={40} color={this._hackyRandomHexCodeGenerator()} />
+            {thumbnail}
             <Text style={styles.fullName} numberOfLines={1}>{firstName} {lastName}</Text>
           </View>
 
@@ -206,16 +223,6 @@ var SearchResult = React.createClass({
     Unicycle.exec('reInitializeUsersProfileFeedOffset');
     Unicycle.exec('loadUsersProfile', email);
     Unicycle.exec('setInProfileView', true);
-  },
-
-  //straight from stackoverflow; +1
-  _hackyRandomHexCodeGenerator: function() {
-    var letters = '0123456789ABCDEF'.split('');
-    var color = '#';
-    for (var i = 0; i < 6; i++ ) {
-        color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
   }
 
 });
