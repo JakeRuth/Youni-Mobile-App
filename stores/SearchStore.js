@@ -63,6 +63,12 @@ var searchStore = Unicycle.createStore({
      }
   },
 
+  $setInExploreFeedView: function(value) {
+    this.set({
+      inExploreFeedView: value
+    });
+  },
+
   $setInProfileView: function(value) {
     this.set({
       inProfileView: value
