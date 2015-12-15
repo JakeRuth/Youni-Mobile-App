@@ -11,6 +11,7 @@ var searchStore = Unicycle.createStore({
     this.set({
       results: [],
       isRequestInFlight: false,
+      inExploreFeedView: true,
       inProfileView: false
     });
   },
@@ -25,6 +26,10 @@ var searchStore = Unicycle.createStore({
   $executeSearch: function(search, email) {
     var results = [];
     var that = this;
+
+    this.set({
+      inExploreFeedView: false
+    });
 
     if (search) {
       this.set({ isRequestInFlight: true });
@@ -52,7 +57,8 @@ var searchStore = Unicycle.createStore({
      else {
        this.set({
          results: [],
-         requestInFlight: false
+         requestInFlight: false,
+         inExploreFeedView: true
        });
      }
   },
@@ -75,6 +81,10 @@ var searchStore = Unicycle.createStore({
 
   getSearchResults: function() {
     return this.get('results');
+  },
+
+  getInExploreFeedView: function() {
+    return this.get('inExploreFeedView');
   },
 
   getInProfileView: function() {

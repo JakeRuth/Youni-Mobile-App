@@ -7,6 +7,7 @@ var searchStore = require('./stores/SearchStore');
 var profileStore = require('./stores/profile/ProfileStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
 var MainScreenBanner = require('./MainScreenBanner');
+var ExploreFeedPosts = require('./Components/Post/ExploreFeedPosts');
 var ProfilePageBody = require('./Components/Profile/ProfilePageBody');
 var BackButton = require('./Components/Common/BackButtonBar');
 var SearchBar = require('react-native-search-bar');
@@ -25,7 +26,7 @@ var styles = StyleSheet.create({
   searchPageContainer: {
     flex: 1
   },
-  scrollBar: {
+  searchResultsScroll: {
     backgroundColor: 'transparent'
   },
   searchResult: {
@@ -50,6 +51,9 @@ var styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  hackyIosKeyPadBump: {
+    marginTop: 350
   }
 });
 
@@ -60,14 +64,22 @@ var SearchPage = React.createClass({
     Unicycle.listenTo(profileStore)
   ],
 
+  componentDidMount: function() {
+    var userId = userLoginMetadataStore.getUserId();
+    Unicycle.exec('requestExploreFeed', userId);
+  },
+
   render: function() {
-    var isProfileInView = searchStore.getInProfileView(),
+    var inExploreFeedView = searchStore.getInExploreFeedView(),
+        isProfileInView = searchStore.getInProfileView(),
         searchResultsToShow = searchStore.getSearchResults().size != 0,
-        searchPageContent,
-        searchPageHeader;
+        searchPageContent;
 
     if (searchStore.isRequestInFlight() || profileStore.isRequestInFlight()) {
       searchPageContent = <SearchResultLoading/>;
+    }
+    else if (inExploreFeedView) {
+      searchPageContent = <ExploreFeedPosts/>;
     }
     else if (isProfileInView) {
       searchPageContent = <ProfilePageBody
@@ -78,7 +90,7 @@ var SearchPage = React.createClass({
                             numFans = {profileStore.getNumFollowers()}
                             profileImageUrl = {profileStore.getProfileImageUrl()}
                             email = {profileStore.getEmail()}
-                          />
+                          />;
     }
     else if (searchResultsToShow) {
       searchPageContent = <SearchResultsList/>;
@@ -94,7 +106,6 @@ var SearchPage = React.createClass({
           title='SUNY Albany'
           subTitle='Discover other students on campus'/>
         {this._renderHeader()}
-        {searchPageHeader}
         {searchPageContent}
 
       </View>
@@ -140,15 +151,18 @@ var SearchResultsList = React.createClass({
     var searchResults = [];
 
     for (var i = 0; i < searchJson.size; i++) {
-      searchResults.push(<SearchResult
-        key={i}
-        search={searchJson.get(i)}
-      />);
+      searchResults.push(
+        <SearchResult
+          key={i}
+          search={searchJson.get(i)}
+        />
+      );
     }
 
     return (
-      <ScrollView style={styles.scrollBar}>
+      <ScrollView style={styles.searchResultsScroll}>
         {searchResults}
+        <View style={styles.hackyIosKeyPadBump}/>
       </ScrollView>
     );
   }

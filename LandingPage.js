@@ -56,7 +56,7 @@ var LandingPage = React.createClass({
           <CreatePostPage/>
         </Icon.TabBarItem>
         <Icon.TabBarItem
-          title="Search"
+          title="Explore"
           iconName="ios-search"
           selectedIconName="ios-search"
           selected={this.state.selectedTab === 'search'}

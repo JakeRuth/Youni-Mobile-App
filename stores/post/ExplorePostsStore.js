@@ -1,8 +1,7 @@
 'use strict';
 
 var React = require('react-native');
-var Unicycle = require('./../Unicycle');
-var feedSelectorStore = require('./FeedSelectorStore');
+var Unicycle = require('../../Unicycle');
 var immutable = require('immutable');
 var request = require('superagent');
 var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com');
@@ -10,7 +9,14 @@ var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com
 var INITIAL_PAGE_OFFSET = 0;
 var MAX_POSTS_PER_PAGE = 10;
 
-var postStore = Unicycle.createStore({
+var explorePostsStore = Unicycle.createStore({
+
+  //TODO: This is a hacky way for the Post component's _getOnPhotoClickActionName
+  //      action to be able to determine which like post action to execute.  It
+  //      can either be 'likeHomeFeedPost' or 'likeExploreFeedPost'
+  isHomeFeed: function() {
+    return false;
+  },
 
   init: function() {
     this.set({
@@ -19,8 +25,7 @@ var postStore = Unicycle.createStore({
       isLoadMorePostsRequestInFlight: false,
       isLikeRequestInFlight: false,
       noMorePostsToFetch: false,
-      exploreFeedPageOffset: INITIAL_PAGE_OFFSET,
-      homeFeedPageOffset: INITIAL_PAGE_OFFSET
+      exploreFeedPageOffset: INITIAL_PAGE_OFFSET
     });
   },
 
@@ -66,51 +71,8 @@ var postStore = Unicycle.createStore({
        }
     });
   },
-  //TODO: Look to combine both methods that are getting the feeds
-  $requestHomeFeed(userId) {
-    var that = this,
-        offset = this.getHomeFeedPageOffset();
 
-    if (offset == INITIAL_PAGE_OFFSET) {
-      this.set({
-        isRequestInFlight: true,
-        posts: []
-      });
-    }
-    else {
-      this.set({
-        isLoadMorePostsRequestInFlight: true
-      });
-    }
-
-    request
-     .post('/feed/getHomeFeed')
-     .use(prefix)
-     .send({
-       userIdString: userId,
-       maxNumberOfPostsToFetch: MAX_POSTS_PER_PAGE,
-       fetchOffsetAmount: offset
-     })
-     .set('Accept', 'application/json')
-     .end(function(err, res) {
-       if ((res !== undefined) && (res.ok)) {
-         var newPosts = immutable.List(that.createPostsJsonFromResponse(res.body.posts, offset));
-         var allPosts = that.getPosts().concat(newPosts);
-         that.set({
-           posts: allPosts,
-           homeFeedPageOffset: offset + MAX_POSTS_PER_PAGE,
-           isRequestInFlight: false,
-           isLoadMorePostsRequestInFlight: false,
-           noMorePostsToFetch: !res.body.moreResults
-         });
-       }
-       else {
-         //TODO: implement failed case (show user error message or cached results)
-       }
-    });
-  },
-
-  $likePost(id, postId, userId) {
+  $likeExploreFeedPost(id, postId, userId) {
     var that = this;
     var posts = this.get('posts');
 
@@ -149,7 +111,6 @@ var postStore = Unicycle.createStore({
   $reInitializeFeedOffsets: function() {
     this.set({
       exploreFeedPageOffset: INITIAL_PAGE_OFFSET,
-      homeFeedPageOffset: INITIAL_PAGE_OFFSET,
       noMorePostsToFetch: false
     });
   },
@@ -178,10 +139,6 @@ var postStore = Unicycle.createStore({
     return this.get('exploreFeedPageOffset');
   },
 
-  getHomeFeedPageOffset: function() {
-    return this.get('homeFeedPageOffset');
-  },
-
   createPostsJsonFromResponse: function(posts, offset) {
     var postsJson = [];
 
@@ -204,4 +161,4 @@ var postStore = Unicycle.createStore({
 
 });
 
-module.exports = postStore;
+module.exports = explorePostsStore;

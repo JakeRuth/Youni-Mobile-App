@@ -122,6 +122,7 @@ var Post = React.createClass({
     }
   },
 
+  //TODO: Figure out a better way to do this
   _getOnPhotoClickActionName: function() {
     if (this.props.renderedFromProfileView) {
       if (this.props.viewerIsPostOwner) {
@@ -132,7 +133,12 @@ var Post = React.createClass({
       }
     }
     else {
-      return 'likePost';
+      if (this.props.postStore.isHomeFeed()) {
+        return 'likeHomeFeedPost';
+      }
+      else {
+        return 'likeExploreFeedPost';
+      }
     }
   }
 

@@ -50,7 +50,7 @@ var ProfilePageBody = React.createClass({
     profileImageUrl: React.PropTypes.string.isRequired,
     email: React.PropTypes.string.isRequired,
     viewerIsProfileOwner: React.PropTypes.bool.isRequired,
-    navigator: React.PropTypes.any.isRequired
+    navigator: React.PropTypes.any
   },
 
   render: function() {

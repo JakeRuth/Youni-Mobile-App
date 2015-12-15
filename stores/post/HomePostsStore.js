@@ -11,6 +11,13 @@ var MAX_POSTS_PER_PAGE = 10;
 
 var homePostsStore = Unicycle.createStore({
 
+  //TODO: This is a hacky way for the Post component's _getOnPhotoClickActionName
+  //      action to be able to determine which like post action to execute.  It
+  //      can either be 'likeHomeFeedPost' or 'likeExploreFeedPost'
+  isHomeFeed: function() {
+    return true;
+  },
+
   init: function() {
     this.set({
       posts: [],
@@ -66,7 +73,7 @@ var homePostsStore = Unicycle.createStore({
     });
   },
 
-  $likePost(id, postId, userId) {
+  $likeHomeFeedPost(id, postId, userId) {
     var that = this;
     var posts = this.get('posts');
 
