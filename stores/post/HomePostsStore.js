@@ -4,7 +4,7 @@ var React = require('react-native');
 var Unicycle = require('../../Unicycle');
 var immutable = require('immutable');
 var request = require('superagent');
-var prefix = require('superagent-prefix')('http://localhost:8080/Greedy');
+var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com');
 
 var INITIAL_PAGE_OFFSET = 0;
 var MAX_POSTS_PER_PAGE = 10;
