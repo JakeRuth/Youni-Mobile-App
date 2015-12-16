@@ -3,7 +3,6 @@
 var React = require('react-native');
 var FollowUnfollowButton = require('./FollowUnfollowButton');
 var FollowingButton = require('./FollowingButton');
-var LogoutButton = require('../Common/LogoutButton');
 var EditSettingsButton = require('./Settings/EditSettingsButton');
 var BlockUserButton = require('./BlockUserButton');
 var ProfileImage = require('./ProfileImage');
@@ -49,21 +48,18 @@ var ProfilePageBody = React.createClass({
     numFans: React.PropTypes.number.isRequired,
     profileImageUrl: React.PropTypes.string.isRequired,
     email: React.PropTypes.string.isRequired,
-    viewerIsProfileOwner: React.PropTypes.bool.isRequired,
-    navigator: React.PropTypes.any
+    viewerIsProfileOwner: React.PropTypes.bool.isRequired
   },
 
   render: function() {
     var fullName = this.props.firstName + ' ' + this.props.lastName,
         followButton = <View/>,
-        logoutButton = <View/>,
         seeWhoImFollowingButton = <View/>,
         editSettingsIcon = <View/>,
         blockUserIcon = <View/>,
         bio = this.props.bio;
 
     if (this.props.viewerIsProfileOwner) {
-      logoutButton = <LogoutButton navigator={this.props.navigator}/>;
       seeWhoImFollowingButton = <FollowingButton email={this.props.email}/>;
       editSettingsIcon = <EditSettingsButton/>;
     }
@@ -76,7 +72,6 @@ var ProfilePageBody = React.createClass({
       <ScrollView style={styles.profileBodyContent}>
 
         <Text style={styles.fullName}>{fullName}</Text>
-        {logoutButton}
         {editSettingsIcon}
         {blockUserIcon}
 

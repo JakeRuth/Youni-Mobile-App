@@ -8,6 +8,7 @@ var getAllFollowingStore = require('./stores/user/GetAllFollowingStore');
 var GetAllFollowingPage = require('./Components/Profile/GetAllFollowingPage');
 var MainScreenBanner = require('./MainScreenBanner');
 var ProfilePageBody = require('./Components/Profile/ProfilePageBody');
+var LogoutButton = require('./Components/Common/LogoutButton');
 
 var {
   View,
@@ -78,7 +79,10 @@ var ProfilePage = React.createClass({
         <MainScreenBanner
           title="My Profile"
           subTitle="Hey look, its you!"/>
+
+        <LogoutButton navigator={this.props.navigator}/>
         { content }
+        
       </View>
     );
   }
