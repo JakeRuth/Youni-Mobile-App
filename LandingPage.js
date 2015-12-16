@@ -82,8 +82,8 @@ var LandingPage = React.createClass({
         </Icon.TabBarItem>
         <Icon.TabBarItem
           title="Trending"
-          iconName="beer"
-          selectedIconName="beer"
+          iconName="fireball"
+          selectedIconName="fireball"
           selected={this.state.selectedTab === 'trend'}
           onPress={() => {
             this.setState({
