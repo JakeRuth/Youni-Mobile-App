@@ -5,15 +5,13 @@ var Unicycle = require('./Unicycle');
 var homePostsStore = require('./stores/post/HomePostsStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
 var MainScreenBanner = require('./MainScreenBanner');
-var Post = require('./Components/Post/Post');
-var LoadMorePostsButton = require('./Components/Post/LoadMorePostsButton');
+var PostList = require('./Components/Post/PostList');
 
 var {
   View,
   Text,
   StyleSheet,
   AppRegistry,
-  ScrollView,
   ActivityIndicatorIOS
 } = React
 
@@ -62,13 +60,20 @@ var HomePage = React.createClass({
 
   render: function() {
     var loadingPosts = homePostsStore.isRequestInFlight(),
+        homeFeedPosts = homePostsStore.getPosts(),
         content;
 
     if (loadingPosts) {
       content = this.renderLoadingSpinner();
     }
-    else if (homePostsStore.getPosts().size) {
-      content = this.renderPosts();
+    else if (homeFeedPosts.size) {
+      content = (
+        <PostList
+          posts={homeFeedPosts}
+          onScroll={this.handleScroll}
+          onLoadMorePostsPress={this.onLoadMorePostsPress}
+          isLoadMorePostsRequestInFlight={homePostsStore.isLoadMorePostsRequestInFlight()} />
+      );
     }
     else {
       content = this.renderEmptyPostsMessage();
@@ -86,35 +91,6 @@ var HomePage = React.createClass({
     );
   },
 
-  renderPosts: function() {
-    var postsJson = homePostsStore.getPosts();
-    var posts = [];
-    for (var i = 0; i<postsJson.size; i++) {
-      var post = postsJson.get(i);
-      posts.push(
-        <Post id={post.id}
-              posterProfileImageUrl={post.posterProfileImageUrl}
-              posterName={post.posterName}
-              timestamp={post.timestamp}
-              photoUrl={post.photoUrl}
-              numLikes={post.numLikes}
-              caption={post.caption}
-              postIdString={post.postIdString}
-              liked={post.liked}
-              key={post.id}
-              postStore={homePostsStore} />
-      );
-    }
-    return (
-      <ScrollView>
-
-        {posts}
-        {this.renderLoadMorePostsButton()}
-
-      </ScrollView>
-    );
-  },
-
   renderEmptyPostsMessage: function() {
     return (
       <View style={styles.emptyPostsMessageContainer}>
@@ -122,16 +98,6 @@ var HomePage = React.createClass({
         <Text style={styles.noPostSubTitle}>As you follow your friends, only their posts will show up in this feed</Text>
       </View>
     );
-  },
-
-  renderLoadMorePostsButton: function() {
-    if (!homePostsStore.getNoMorePostsToFetch()) {
-      return (
-          <LoadMorePostsButton
-            onLoadMorePostsPress={this.onLoadMorePostsPress}
-            loadMorePostsRequestInFlight={homePostsStore.isLoadMorePostsRequestInFlight()}/>
-      );
-    }
   },
 
   renderLoadingSpinner: function() {
@@ -144,6 +110,16 @@ var HomePage = React.createClass({
           style={styles.spinner} />
       </View>
     );
+  },
+
+  handleScroll(e) {
+    var inifiniteScrollThreshold = -15,
+        userId = userLoginMetadataStore.getUserId();
+
+    if (e.nativeEvent.contentOffset.y < inifiniteScrollThreshold) {
+      Unicycle.exec('refreshHomeFeedData');
+      Unicycle.exec('requestHomeFeed', userId);
+    }
   },
 
   onLoadMorePostsPress: function() {

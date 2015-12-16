@@ -108,10 +108,11 @@ var explorePostsStore = Unicycle.createStore({
     });
   },
 
-  $reInitializeFeedOffsets: function() {
+  $refreshExploreFeedData: function() {
     this.set({
       exploreFeedPageOffset: INITIAL_PAGE_OFFSET,
-      noMorePostsToFetch: false
+      noMorePostsToFetch: false,
+      posts: []
     });
   },
 

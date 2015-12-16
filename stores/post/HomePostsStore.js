@@ -59,6 +59,7 @@ var homePostsStore = Unicycle.createStore({
        if ((res !== undefined) && (res.ok)) {
          var newPosts = immutable.List(that.createPostsJsonFromResponse(res.body.posts, offset));
          var allPosts = that.getPosts().concat(newPosts);
+
          that.set({
            posts: allPosts,
            homeFeedPageOffset: offset + MAX_POSTS_PER_PAGE,
@@ -109,10 +110,11 @@ var homePostsStore = Unicycle.createStore({
     });
   },
 
-  $reInitializeFeedOffsets: function() {
+  $refreshHomeFeedData: function() {
     this.set({
       homeFeedPageOffset: INITIAL_PAGE_OFFSET,
-      noMorePostsToFetch: false
+      noMorePostsToFetch: false,
+      posts: []
     });
   },
 

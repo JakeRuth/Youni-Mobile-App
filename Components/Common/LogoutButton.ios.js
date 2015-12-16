@@ -46,7 +46,8 @@ var LogoutButton = React.createClass({
 
   _onLogoutButtonPress: function() {
     AsyncStorage.removeItem('password');
-    Unicycle.exec('reInitializeFeedOffsets');
+    Unicycle.exec('refreshHomeFeedData');
+    Unicycle.exec('refreshExploreFeedData');
     this.props.navigator.pop();
   }
 

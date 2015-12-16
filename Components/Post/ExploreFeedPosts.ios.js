@@ -4,14 +4,12 @@ var React = require('react-native');
 var Unicycle = require('../../Unicycle');
 var explorePostsStore = require('../../stores/post/ExplorePostsStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
-var Post = require('./Post');
-var LoadMorePostsButton = require('./LoadMorePostsButton');
+var PostList = require('./PostList');
 
 var {
   View,
   Text,
   StyleSheet,
-  ScrollView,
   ActivityIndicatorIOS
 } = React
 
@@ -43,7 +41,13 @@ var ExploreFeedPosts = React.createClass({
       content = this.renderLoadingSpinner();
     }
     else {
-      content = this.renderPosts();
+      content = (
+        <PostList
+          posts={explorePostsStore.getPosts()}
+          onScroll={this.handleScroll}
+          onLoadMorePostsPress={this.onLoadMorePostsPress}
+          isLoadMorePostsRequestInFlight={explorePostsStore.isLoadMorePostsRequestInFlight()} />
+      );
     }
 
     return (
@@ -51,45 +55,6 @@ var ExploreFeedPosts = React.createClass({
         {content}
       </View>
     );
-  },
-
-  renderPosts: function() {
-    var postsJson = explorePostsStore.getPosts();
-    var posts = [];
-    for (var i = 0; i<postsJson.size; i++) {
-      var post = postsJson.get(i);
-      posts.push(
-        <Post id={post.id}
-              posterProfileImageUrl={post.posterProfileImageUrl}
-              posterName={post.posterName}
-              timestamp={post.timestamp}
-              photoUrl={post.photoUrl}
-              numLikes={post.numLikes}
-              caption={post.caption}
-              postIdString={post.postIdString}
-              liked={post.liked}
-              key={post.id}
-              postStore={explorePostsStore} />
-      );
-    }
-    return (
-      <ScrollView>
-
-        {posts}
-        {this.renderLoadMorePostsButton()}
-
-      </ScrollView>
-    );
-  },
-
-  renderLoadMorePostsButton: function() {
-    if (!explorePostsStore.getNoMorePostsToFetch()) {
-      return (
-          <LoadMorePostsButton
-            onLoadMorePostsPress={this.onLoadMorePostsPress}
-            loadMorePostsRequestInFlight={explorePostsStore.isLoadMorePostsRequestInFlight()}/>
-      );
-    }
   },
 
   renderLoadingSpinner: function() {
@@ -104,10 +69,20 @@ var ExploreFeedPosts = React.createClass({
     );
   },
 
+  handleScroll(e) {
+    var inifiniteScrollThreshold = -15,
+        userId = userLoginMetadataStore.getUserId();
+
+    if (e.nativeEvent.contentOffset.y < inifiniteScrollThreshold) {
+      Unicycle.exec('refreshExploreFeedData');
+      Unicycle.exec('requestExploreFeed', userId);
+    }
+  },
+
   onLoadMorePostsPress: function() {
     var userId = userLoginMetadataStore.getUserId();
     Unicycle.exec('requestExploreFeed', userId);
-  }
+  },
 
 });
 
