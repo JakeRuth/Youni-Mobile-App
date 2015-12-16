@@ -9,9 +9,9 @@ var signUpStore = Unicycle.createStore({
 
     init: function () {
       this.set({
-        firstName: 'First Name',
-        lastName: 'Last Name',
-        email: 'Enter your email',
+        firstName: '',
+        lastName: '',
+        email: '',
         password: '',
         confirmPassword: '',
         inSignUpView: false,
@@ -101,6 +101,12 @@ var signUpStore = Unicycle.createStore({
     $setInSignUpView: function(isInFlight) {
       this.set({
         inSignUpView: isInFlight
+      });
+    },
+
+    $setSignUpRequestSuccessful: function(value) {
+      this.set({
+        signUpRequestSuccessful: value
       });
     },
 

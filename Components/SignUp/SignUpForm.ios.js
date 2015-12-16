@@ -107,14 +107,20 @@ var SignUpForm = React.createClass({
         <TextInput style={styles.signUpInput}
           value={signUpStore.getSignupFirstName()}
           clearTextOnFocus={true}
+          placeholderTextColor={'grey'}
+          placeholder={'First Name'}
           onChangeText={(text) => Unicycle.exec('signUpUpdateFirstName', text)}/>
         <TextInput style={styles.signUpInput}
           value={signUpStore.getSignupLastName()}
           clearTextOnFocus={true}
+          placeholderTextColor={'grey'}
+          placeholder={'Last Name'}
           onChangeText={(text) => Unicycle.exec('signUpUpdateLastName', text)}/>
         <TextInput style={styles.signUpInput}
           value={signUpStore.getSignupEmail()}
           clearTextOnFocus={true}
+          placeholderTextColor={'grey'}
+          placeholder={'Email'}
           onChangeText={(text) => Unicycle.exec('signUpUpdateEmail', text)}/>
         <TextInput style={styles.signUpInput}
           secureTextEntry={true}
@@ -188,7 +194,8 @@ var SignUpForm = React.createClass({
       'Confirmation Email Sent!',
       [
         {
-          text: 'OK!'
+          text: 'OK!',
+          onPress: () => { Unicycle.exec('setSignUpRequestSuccessful', false) }
         }
       ]
     );
