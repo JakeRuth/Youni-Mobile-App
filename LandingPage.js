@@ -44,16 +44,16 @@ var LandingPage = React.createClass({
       <TabBarIOS
         tintColor="#007C9E">
         <Icon.TabBarItem
-          title="Take Photo"
-          iconName="ios-camera-outline"
-          selectedIconName="ios-camera-outline"
-          selected={this.state.selectedTab === 'takePhoto'}
+          title="Home"
+          iconName="ios-home-outline"
+          selectedIconName="ios-home-outline"
+          selected={this.state.selectedTab === 'home'}
           onPress={() => {
             this.setState({
-              selectedTab: 'takePhoto',
+              selectedTab: 'home',
             });
           }}>
-          <CreatePostPage/>
+          <HomePage/>
         </Icon.TabBarItem>
         <Icon.TabBarItem
           title="Explore"
@@ -69,16 +69,16 @@ var LandingPage = React.createClass({
           <SearchPage/>
         </Icon.TabBarItem>
         <Icon.TabBarItem
-          title="Home"
-          iconName="ios-home-outline"
-          selectedIconName="ios-home-outline"
-          selected={this.state.selectedTab === 'home'}
+          title="Take Photo"
+          iconName="ios-camera-outline"
+          selectedIconName="ios-camera-outline"
+          selected={this.state.selectedTab === 'takePhoto'}
           onPress={() => {
             this.setState({
-              selectedTab: 'home',
+              selectedTab: 'takePhoto',
             });
           }}>
-          <HomePage/>
+          <CreatePostPage/>
         </Icon.TabBarItem>
         <Icon.TabBarItem
           title="Trending"
