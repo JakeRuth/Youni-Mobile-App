@@ -256,9 +256,32 @@ var profileOwnerStore = Unicycle.createStore({
 
     _removePost: function(id) {
       var posts = this.getPosts();
+      posts = posts.delete(id);
+      posts = this._resetPostsJson(posts);
       this.set({
-        posts: posts.delete(id)
+        posts: posts
       });
+    },
+
+    //TODO: Put this method and methods like createPostsJsonFromResponse in a utlitity class
+    _resetPostsJson: function(posts) {
+      var postsJson = [];
+
+      for (var i = 0; i < posts.size; i++) {
+        var post = posts.get(i);
+        postsJson.push({
+          posterProfileImageUrl: post.posterProfileImageUrl,
+          postIdString: post.postIdString,
+          posterName: post.posterName,
+          timestamp: post.timestamp,
+          photoUrl: post.photoUrl,
+          numLikes: post.numLikes,
+          caption: post.caption,
+          liked: post.liked,
+          id: i
+        });
+      }
+      return immutable.List(postsJson);
     },
 
     _setInitialState: function() {
