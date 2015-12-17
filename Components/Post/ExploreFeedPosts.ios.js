@@ -71,7 +71,7 @@ var ExploreFeedPosts = React.createClass({
   },
 
   handleScroll(e) {
-    var inifiniteScrollThreshold = -15,
+    var inifiniteScrollThreshold = -1,
         userId = userLoginMetadataStore.getUserId();
 
     if (e.nativeEvent.contentOffset.y < inifiniteScrollThreshold) {
