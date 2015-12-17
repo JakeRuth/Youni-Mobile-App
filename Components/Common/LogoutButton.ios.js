@@ -15,13 +15,13 @@ var styles = StyleSheet.create({
     position: 'absolute',
     top: 30,
     width: 75,
-    marginLeft: 10,
-    backgroundColor: '#FF7878'
+    marginLeft: 10
   },
   logoutText: {
     fontSize: 20,
     padding: 5,
-    paddingTop: 2
+    paddingTop: 2,
+    color: '#FF7878'
   }
 });
 
