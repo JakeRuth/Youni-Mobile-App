@@ -13,6 +13,7 @@ var MAX_POSTS_PER_PAGE = 10;
 var profileOwnerStore = Unicycle.createStore({
 
     init: function () {
+      //TODO: Figure out why we can't call `this._setInitialState()` here...
       this.set({
         inSettingsView: false,
         isRequestInFlight: false,
@@ -29,6 +30,10 @@ var profileOwnerStore = Unicycle.createStore({
         posts: [],
         feedPageOffset: INITIAL_PAGE_OFFSET
       });
+    },
+
+    $reInitProfilePageState: function() {
+      this._setInitialState();
     },
 
     $setInSettingsView: function(inSettingsView) {
@@ -253,6 +258,25 @@ var profileOwnerStore = Unicycle.createStore({
       var posts = this.getPosts();
       this.set({
         posts: posts.delete(id)
+      });
+    },
+
+    _setInitialState: function() {
+      this.set({
+        inSettingsView: false,
+        isRequestInFlight: false,
+        isUserPostsRequestInFlight: false,
+        isLoadMorePostsRequestInFlight: false,
+        isLikeRequestInFlight: false,
+        noMorePostsToFetch: false,
+        firstName: '',
+        lastName: '',
+        numFollowers: null,
+        bio: '',
+        profileImageUrl: '',
+        email: '',
+        posts: [],
+        feedPageOffset: INITIAL_PAGE_OFFSET
       });
     }
 
