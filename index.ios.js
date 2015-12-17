@@ -79,9 +79,15 @@ var styles = StyleSheet.create({
     backgroundColor: 'transparent',
     fontWeight: 'bold'
   },
+  spinnerContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   spinner: {
     flex: 1,
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
+    marginTop: 27 //used to make this spinner match up with the home page spinner
   },
   signUpOptionDescText: {
     fontSize: 20,
@@ -109,11 +115,12 @@ var LoginPage = React.createClass({
   },
 
   render: function () {
-    var isLoginInFlight = loginStore.isLoginInFlight(),
+    var shouldRenderLoginPage = loginStore.getShouldRenderLoginPage(),
+        isLoginInFlight = loginStore.isLoginInFlight(),
         isInSignUpView = signUpStore.isInSignUpView(),
         content;
 
-    if (isLoginInFlight) {
+    if (isLoginInFlight || !shouldRenderLoginPage) {
       content = this.renderLoadingSpinner();
     }
     else if (isInSignUpView){
@@ -125,41 +132,45 @@ var LoginPage = React.createClass({
 
     return (
       <View style={styles.imageContainer}>
-        <Image source={{uri: 'https://images.unsplash.com/uploads/14121985124429dd8eeb5/60431f5b?dpr=2&fit=crop&fm=jpg&h=650&ixjsv=2.0.0&ixlib=rb-0.3.5&q=50&w=1300'}}
-               style={styles.backgroundImage}>
-            { content }
-        </Image>
-
+        { content }
       </View>
     );
   },
 
   renderLoginForm: function() {
     return (
-       <View style={styles.contentContainer}>
-         <Text style={styles.appName}>Youni</Text>
-         <TextInput style={styles.loginInput}
-            value={loginStore.getEmail()}
-            clearTextOnFocus={true}
-            onChangeText={(text) => Unicycle.exec('updateEmail', text)}
-         />
-         <TextInput style={styles.loginInput}
-            secureTextEntry={true}
-            value={loginStore.getPassword()}
-            clearTextOnFocus={true}
-            placeholderTextColor={'grey'}
-            placeholder={'Password'}
-            onChangeText={(text) => Unicycle.exec('updatePassword', text)}
-         />
-         <TouchableHighlight style={styles.loginButton} underlayColor='transparent'>
-            <Text style={styles.loginText} onPress={this._onLoginRequest}>Login</Text>
-         </TouchableHighlight>
+      <Image source={{uri: 'https://images.unsplash.com/uploads/14121985124429dd8eeb5/60431f5b?dpr=2&fit=crop&fm=jpg&h=650&ixjsv=2.0.0&ixlib=rb-0.3.5&q=50&w=1300'}}
+             style={styles.backgroundImage}>
 
-         <Text style={styles.signUpOptionDescText}>Don't have Youni account?</Text>
-         <TouchableHighlight>
-           <Text style={styles.signUpOptionText} onPress={this._goToSignUpPage}>Sign Up</Text>
-         </TouchableHighlight>
-       </View>
+         <View style={styles.contentContainer}>
+           <Text style={styles.appName}>Youni</Text>
+
+           <TextInput style={styles.loginInput}
+              value={loginStore.getEmail()}
+              clearTextOnFocus={true}
+              onChangeText={(text) => Unicycle.exec('updateEmail', text)}
+           />
+           <TextInput style={styles.loginInput}
+              secureTextEntry={true}
+              value={loginStore.getPassword()}
+              clearTextOnFocus={true}
+              placeholderTextColor={'grey'}
+              placeholder={'Password'}
+              onChangeText={(text) => Unicycle.exec('updatePassword', text)}
+           />
+
+           <TouchableHighlight style={styles.loginButton} underlayColor='transparent'>
+              <Text style={styles.loginText} onPress={this._onLoginRequest}>Login</Text>
+           </TouchableHighlight>
+
+           <Text style={styles.signUpOptionDescText}>Don't have Youni account?</Text>
+
+           <TouchableHighlight>
+             <Text style={styles.signUpOptionText} onPress={this._goToSignUpPage}>Sign Up</Text>
+           </TouchableHighlight>
+         </View>
+
+     </Image>
     );
   },
 
@@ -184,6 +195,8 @@ var LoginPage = React.createClass({
         Unicycle.exec('updatePassword', password);
         this._onLoginRequest();
       }
+      //ensure login page shows if the user logs out
+      Unicycle.exec('setShouldRenderLoginPage', true);
     }).done();
   },
 

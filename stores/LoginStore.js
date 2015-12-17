@@ -9,7 +9,9 @@ var loginStore = Unicycle.createStore({
       this.set({
         email: 'Enter your email',
         password: '',
-        loginInFlight: false
+        loginInFlight: false,
+        //defaulted to false so the login page doesn't flash when a user is auto logged in
+        shouldRenderLoginPage: false
       });
     },
 
@@ -38,6 +40,12 @@ var loginStore = Unicycle.createStore({
       });
     },
 
+    $setShouldRenderLoginPage: function(value) {
+      this.set({
+        shouldRenderLoginPage: value
+      });
+    },
+
     isLoginInFlight: function() {
       return this.get('loginInFlight');
     },
@@ -48,6 +56,10 @@ var loginStore = Unicycle.createStore({
 
     getPassword: function() {
       return this.get('password');
+    },
+
+    getShouldRenderLoginPage: function() {
+      return this.get('shouldRenderLoginPage');
     }
 
 });
