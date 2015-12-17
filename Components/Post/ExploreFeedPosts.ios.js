@@ -43,6 +43,7 @@ var ExploreFeedPosts = React.createClass({
     else {
       content = (
         <PostList
+          postStore={explorePostsStore}
           posts={explorePostsStore.getPosts()}
           onScroll={this.handleScroll}
           onLoadMorePostsPress={this.onLoadMorePostsPress}

@@ -69,6 +69,7 @@ var HomePage = React.createClass({
     else if (homeFeedPosts.size) {
       content = (
         <PostList
+          postStore={homePostsStore}
           posts={homeFeedPosts}
           onScroll={this.handleScroll}
           onLoadMorePostsPress={this.onLoadMorePostsPress}

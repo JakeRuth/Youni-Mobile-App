@@ -4,7 +4,7 @@ var React = require('react-native');
 var Unicycle = require('../../Unicycle');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var PostHeader = require('./PostHeader');
-var PostLikeBar = require('./PostLikeBar');
+var PostLikeBar = require('./Like/PostLikeBar');
 
 var {
   View,

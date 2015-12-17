@@ -2,7 +2,6 @@
 
 var React = require('react-native');
 var Unicycle = require('../../Unicycle');
-var homePostsStore = require('../../stores/post/HomePostsStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var Post = require('./Post');
 var LoadMorePostsButton = require('./LoadMorePostsButton');
@@ -26,6 +25,7 @@ var styles = StyleSheet.create({
 var PostList = React.createClass({
 
   propTypes: {
+    postStore: React.PropTypes.any.isRequired,
     posts: React.PropTypes.object.isRequired,
     onScroll: React.PropTypes.func.isRequired,
     onLoadMorePostsPress: React.PropTypes.func.isRequired,
@@ -48,7 +48,7 @@ var PostList = React.createClass({
               postIdString={post.postIdString}
               liked={post.liked}
               key={post.id}
-              postStore={homePostsStore} />
+              postStore={this.props.postStore} />
       );
     }
     return (
@@ -63,7 +63,7 @@ var PostList = React.createClass({
   },
 
   renderLoadMorePostsButton: function() {
-    if (!homePostsStore.getNoMorePostsToFetch()) {
+    if (!this.props.postStore.getNoMorePostsToFetch()) {
       return (
           <LoadMorePostsButton
             onLoadMorePostsPress={this.props.onLoadMorePostsPress}
