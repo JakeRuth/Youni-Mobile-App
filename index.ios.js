@@ -149,13 +149,14 @@ var LoginPage = React.createClass({
               value={loginStore.getEmail()}
               clearTextOnFocus={true}
               onChangeText={(text) => Unicycle.exec('updateEmail', text)}
+              keyboardType='email-address'
            />
            <TextInput style={styles.loginInput}
               secureTextEntry={true}
               value={loginStore.getPassword()}
               clearTextOnFocus={true}
-              placeholderTextColor={'grey'}
-              placeholder={'Password'}
+              placeholderTextColor='grey'
+              placeholder='Password'
               onChangeText={(text) => Unicycle.exec('updatePassword', text)}
            />
 
