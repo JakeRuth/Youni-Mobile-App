@@ -10,13 +10,13 @@ var MainScreenBanner = require('./MainScreenBanner');
 var ExploreFeedPosts = require('./Components/Post/ExploreFeedPosts');
 var ProfilePageBody = require('./Components/Profile/ProfilePageBody');
 var BackButton = require('./Components/Common/BackButtonBar');
-var SearchBar = require('react-native-search-bar');
 var EmptyResults = require('./Components/Common/EmptyResults');
 
 var {
   View,
   Text,
   Image,
+  TextInput,
   StyleSheet,
   ScrollView,
   TouchableHighlight,
@@ -26,6 +26,14 @@ var {
 var styles = StyleSheet.create({
   searchPageContainer: {
     flex: 1
+  },
+  searchBarInputContainer: {
+    padding: 10,
+    borderWidth: .5,
+    borderColor: 'gray'
+  },
+  searchBarInput: {
+    height: 20
   },
   searchResultsScroll: {
     backgroundColor: 'transparent'
@@ -136,15 +144,15 @@ var SearchPage = React.createClass({
 
   _renderSearchBar: function() {
     return (
-      <SearchBar
-        barTintColor='white'
-        tintColor='#007C9E'
-        placeholder='Search for other students'
-        onChangeText={ (search) => {
-          var email = userLoginMetadataStore.getEmail();
-          Unicycle.exec('executeSearch', search, email);
-        }}
-        onCancelButtonPress={ () => { Unicycle.exec('setSearchResults', []); } }/>
+      <View style={styles.searchBarInputContainer}>
+        <TextInput style={styles.searchBarInput}
+          placeholder='Search for students'
+          blurOnSubmit={true}
+          onChangeText={ (search) => {
+            var email = userLoginMetadataStore.getEmail();
+            Unicycle.exec('executeSearch', search, email);
+          }} />
+      </View>
     );
   }
 
