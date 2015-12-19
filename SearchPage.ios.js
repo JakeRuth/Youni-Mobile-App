@@ -63,9 +63,6 @@ var styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
-  },
-  hackyIosKeyPadBump: {
-    marginTop: 350
   }
 });
 
@@ -177,7 +174,6 @@ var SearchResultsList = React.createClass({
     return (
       <ScrollView style={styles.searchResultsScroll}>
         {searchResults}
-        <View style={styles.hackyIosKeyPadBump}/>
       </ScrollView>
     );
   }
