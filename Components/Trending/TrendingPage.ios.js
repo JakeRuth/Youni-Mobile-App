@@ -1,9 +1,9 @@
 'use strict';
 
 var React = require('react-native');
-var Unicycle = require('./Unicycle');
-var trendingStore = require('./stores/TrendingStore');
-var MainScreenBanner = require('./MainScreenBanner');
+var Unicycle = require('../../Unicycle');
+var trendingStore = require('../../stores/TrendingStore');
+var MainScreenBanner = require('../../MainScreenBanner');
 
 var {
   View,
