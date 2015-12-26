@@ -148,6 +148,7 @@ var explorePostsStore = Unicycle.createStore({
       postsJson.push({
         posterProfileImageUrl: post['posterProfilePictureUrl'],
         postIdString: post['postIdString'],
+        posterEmail: post['posterEmail'],
         posterName: post['posterName'],
         timestamp: post['timestamp'],
         photoUrl: post['photoUrl'],

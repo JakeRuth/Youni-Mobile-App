@@ -61,6 +61,7 @@ var Post = React.createClass({
     id: React.PropTypes.number.isRequired,
     //cannot be required because not all user's will have uploaded a profile pic
     posterProfileImageUrl: React.PropTypes.string,
+    posterEmail: React.PropTypes.string.isRequired,
     posterName: React.PropTypes.string.isRequired,
     timestamp: React.PropTypes.string.isRequired,
     photoUrl: React.PropTypes.string.isRequired,
@@ -79,6 +80,7 @@ var Post = React.createClass({
         <PostHeader
           id={this.props.id}
           postIdString={this.props.postIdString}
+          posterEmail={this.props.posterEmail}
           viewerIsPostOwner={this.props.viewerIsPostOwner}
           posterName={this.props.posterName}
           posterProfileImageUrl={this.props.posterProfileImageUrl}

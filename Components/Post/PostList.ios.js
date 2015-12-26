@@ -40,6 +40,7 @@ var PostList = React.createClass({
       posts.push(
         <Post id={post.id}
               posterProfileImageUrl={post.posterProfileImageUrl}
+              posterEmail={post.posterEmail}
               posterName={post.posterName}
               timestamp={post.timestamp}
               photoUrl={post.photoUrl}

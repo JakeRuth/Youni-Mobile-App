@@ -40,6 +40,7 @@ var PostHeader = React.createClass({
   propTypes: {
     id: React.PropTypes.number.isRequired,
     postIdString: React.PropTypes.string.isRequired,
+    posterEmail: React.PropTypes.string.isRequired,
     posterProfileImageUrl: React.PropTypes.string,
     posterName: React.PropTypes.string.isRequired,
     timestamp: React.PropTypes.string.isRequired,
