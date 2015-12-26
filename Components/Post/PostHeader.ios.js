@@ -8,15 +8,15 @@ var {
   View,
   Text,
   Image,
-  StyleSheet
+  StyleSheet,
+  TouchableHighlight
 } = React;
 
 var styles = StyleSheet.create({
   postHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    margin: 10,
-    marginTop: 0
+    margin: 10
   },
   posterImage: {
     height: 45,
@@ -24,9 +24,17 @@ var styles = StyleSheet.create({
     borderRadius: 22,
     marginRight: 10
   },
-  posterName: {
-    flex: 4,
-    fontSize: 20
+  profileImageAndNameContainer: {
+    flex: 4
+  },
+  profileImageAndName: {
+    flex: 1,
+    flexDirection: 'row'
+  },
+  profileName: {
+    flex: 1,
+    fontSize: 20,
+    alignSelf: 'center'
   },
   timestamp: {
     flex: 1,
@@ -74,13 +82,31 @@ var PostHeader = React.createClass({
     return (
       <View style={styles.postHeader}>
 
-        {profileImageOrDeleteIcon}
-        <Text style={styles.posterName} numberOfLines={1}>{this.props.posterName}</Text>
+        <TouchableHighlight
+          style={styles.profileImageAndNameContainer}
+          onPress={this.onProfilePress}
+          underlayColor='transparent'>
+
+          <View style={styles.profileImageAndName}>
+            {profileImageOrDeleteIcon}
+            <Text style={styles.profileName} numberOfLines={1}>
+              {this.props.posterName}
+            </Text>
+          </View>
+
+        </TouchableHighlight>
+
         {flagPostIcon}
         <Text style={styles.timestamp}>{this.props.timestamp}</Text>
 
       </View>
     );
+  },
+
+  onProfilePress: function() {
+    if (!this.props.viewerIsPostOwner) {
+      console.log('shit in my pants')
+    }
   }
 
 });
