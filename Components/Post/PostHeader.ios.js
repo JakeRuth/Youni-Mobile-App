@@ -1,8 +1,10 @@
 'use strict'
 
 var React = require('react-native');
+var Unicycle = require('../../Unicycle')
 var DeletePostIcon = require('./DeletePostIcon');
 var FlagPostIcon = require('./FlagPostIcon');
+var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 
 var {
   View,
@@ -52,7 +54,8 @@ var PostHeader = React.createClass({
     posterProfileImageUrl: React.PropTypes.string,
     posterName: React.PropTypes.string.isRequired,
     timestamp: React.PropTypes.string.isRequired,
-    viewerIsPostOwner: React.PropTypes.bool
+    viewerIsPostOwner: React.PropTypes.bool,
+    renderedFromProfileView: React.PropTypes.bool
   },
 
   render: function() {
@@ -104,8 +107,14 @@ var PostHeader = React.createClass({
   },
 
   onProfilePress: function() {
-    if (!this.props.viewerIsPostOwner) {
-      console.log('shit in my pants')
+    var userId;
+
+    if (!this.props.viewerIsPostOwner && !this.props.renderedFromProfileView) {
+      userId = userLoginMetadataStore.getUserId();
+      Unicycle.exec('reInitializeUsersProfileFeedOffset');
+      Unicycle.exec('loadUsersProfile', this.props.posterEmail);
+      Unicycle.exec('getUserPosts', this.props.posterEmail, userId);
+      Unicycle.exec('setProfileModalVisibile', true);
     }
   }
 

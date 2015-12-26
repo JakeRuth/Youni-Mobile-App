@@ -6,6 +6,7 @@ var SearchPage = require('./SearchPage');
 var ProfilePage = require('./ProfilePage');
 var TrendingPage = require('./Components/Trending/TrendingPage');
 var CreatePostPage = require('./CreatePostPage');
+var ProfileModal = require('./Components/Profile/ProfileModal');
 var Icon = require('react-native-vector-icons/Ionicons');
 var loginStore = require('./stores/LoginStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
@@ -18,6 +19,12 @@ var {
   TabBarIOS,
   AsyncStorage
 } = React;
+
+var styles = StyleSheet.create({
+  tabBarContainer: {
+    flex: 1
+  }
+});
 
 var LandingPage = React.createClass({
 
@@ -41,73 +48,77 @@ var LandingPage = React.createClass({
 
   render: function() {
     return (
-      <TabBarIOS
-        tintColor="#007C9E">
-        <Icon.TabBarItem
-          title="Home"
-          iconName="ios-home-outline"
-          selectedIconName="ios-home-outline"
-          selected={this.state.selectedTab === 'home'}
-          onPress={() => {
-            this.setState({
-              selectedTab: 'home',
-            });
-          }}>
-          <HomePage/>
-        </Icon.TabBarItem>
-        <Icon.TabBarItem
-          title="Explore"
-          iconName="ios-search"
-          selectedIconName="ios-search"
-          selected={this.state.selectedTab === 'search'}
-          onPress={() => {
-            Unicycle.exec('setInProfileView', false);
-            this.setState({
-              selectedTab: 'search',
-            });
-          }}>
-          <SearchPage/>
-        </Icon.TabBarItem>
-        <Icon.TabBarItem
-          title="Take Photo"
-          iconName="ios-camera-outline"
-          selectedIconName="ios-camera-outline"
-          selected={this.state.selectedTab === 'takePhoto'}
-          onPress={() => {
-            this.setState({
-              selectedTab: 'takePhoto',
-            });
-          }}>
-          <CreatePostPage/>
-        </Icon.TabBarItem>
-        <Icon.TabBarItem
-          title="Trending"
-          iconName="fireball"
-          selectedIconName="fireball"
-          selected={this.state.selectedTab === 'trend'}
-          onPress={() => {
-            this.setState({
-              selectedTab: 'trend'
-            });
-          }}>
-          <TrendingPage/>
-        </Icon.TabBarItem>
-        <Icon.TabBarItem
-          title="Profile"
-          iconName="ios-people-outline"
-          selectedIconName="ios-people-outline"
-          selected={this.state.selectedTab === 'profile'}
-          onPress={() => {
-            this.setState({
-              selectedTab: 'profile'
-            });
-          }}>
-          <ProfilePage
-            email={userLoginMetadataStore.getEmail()}
-            navigator={this.props.navigator} />
-        </Icon.TabBarItem>
-      </TabBarIOS>
-    )
+      <View style={styles.tabBarContainer}>
+        <ProfileModal/>
+
+        <TabBarIOS
+          tintColor="#007C9E">
+          <Icon.TabBarItem
+            title="Home"
+            iconName="ios-home-outline"
+            selectedIconName="ios-home-outline"
+            selected={this.state.selectedTab === 'home'}
+            onPress={() => {
+              this.setState({
+                selectedTab: 'home',
+              });
+            }}>
+            <HomePage/>
+          </Icon.TabBarItem>
+          <Icon.TabBarItem
+            title="Explore"
+            iconName="ios-search"
+            selectedIconName="ios-search"
+            selected={this.state.selectedTab === 'search'}
+            onPress={() => {
+              Unicycle.exec('setInProfileView', false);
+              this.setState({
+                selectedTab: 'search',
+              });
+            }}>
+            <SearchPage/>
+          </Icon.TabBarItem>
+          <Icon.TabBarItem
+            title="Take Photo"
+            iconName="ios-camera-outline"
+            selectedIconName="ios-camera-outline"
+            selected={this.state.selectedTab === 'takePhoto'}
+            onPress={() => {
+              this.setState({
+                selectedTab: 'takePhoto',
+              });
+            }}>
+            <CreatePostPage/>
+          </Icon.TabBarItem>
+          <Icon.TabBarItem
+            title="Trending"
+            iconName="fireball"
+            selectedIconName="fireball"
+            selected={this.state.selectedTab === 'trend'}
+            onPress={() => {
+              this.setState({
+                selectedTab: 'trend'
+              });
+            }}>
+            <TrendingPage/>
+          </Icon.TabBarItem>
+          <Icon.TabBarItem
+            title="Profile"
+            iconName="ios-people-outline"
+            selectedIconName="ios-people-outline"
+            selected={this.state.selectedTab === 'profile'}
+            onPress={() => {
+              this.setState({
+                selectedTab: 'profile'
+              });
+            }}>
+            <ProfilePage
+              email={userLoginMetadataStore.getEmail()}
+              navigator={this.props.navigator} />
+          </Icon.TabBarItem>
+        </TabBarIOS>
+      </View>
+    );
   }
 
 });

@@ -84,7 +84,8 @@ var Post = React.createClass({
           viewerIsPostOwner={this.props.viewerIsPostOwner}
           posterName={this.props.posterName}
           posterProfileImageUrl={this.props.posterProfileImageUrl}
-          timestamp={this.props.timestamp}/>
+          timestamp={this.props.timestamp}
+          renderedFromProfileView={this.props.renderedFromProfileView}/>
 
         <TouchableHighlight onPress={ this._photoOnClickAction(this.props.liked) }>
           <View style={styles.imageContainer}>

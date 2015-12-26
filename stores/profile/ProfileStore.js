@@ -57,7 +57,9 @@ var profileStore = Unicycle.createStore({
     $loadUsersProfile(email) {
       var that = this;
 
-      this.set({ isRequestInFlight: true });
+      this.set({
+        isRequestInFlight: true
+      });
       request
        .post('/user/getProfileInformation')
        .use(prefix)
