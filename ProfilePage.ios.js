@@ -50,7 +50,7 @@ var ProfilePage = React.createClass({
   render: function() {
     var isRequestInFlight = profileOwnerStore.isRequestInFlight(),
         inSettingsView = profileOwnerStore.getInSettingsView(),
-        followingViewActive = getAllFollowingStore.getIsInView(),
+        inFollowingView = getAllFollowingStore.getIsInView(),
         content;
 
     if (inSettingsView) {
@@ -59,7 +59,7 @@ var ProfilePage = React.createClass({
     else if (isRequestInFlight) {
       content = <ProfilePageLoading/>
     }
-    else if (followingViewActive) {
+    else if (inFollowingView) {
       content = <GetAllFollowingPage/>;
     }
     else {
