@@ -36,7 +36,8 @@ var styles = StyleSheet.create({
     height: 20
   },
   searchResultsScroll: {
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
+    marginBottom: 35
   },
   searchResult: {
     flexDirection: 'row',
