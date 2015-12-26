@@ -37,14 +37,10 @@ var TrendingPage = React.createClass({
 
   render: function() {
     var isRequestInFlight = trendingStore.isRequestInFlight(),
-        isProfileInView = trendingStore.getInProfileView(),
         content;
 
     if (isRequestInFlight) {
       content = this._renderLoadingSpinner();
-    }
-    else if (isProfileInView) {
-      content = this._renderProfileView();
     }
     else {
       content = <TrendingUsersGrid/>;
@@ -60,25 +56,6 @@ var TrendingPage = React.createClass({
     );
   },
 
-  _renderProfileView: function() {
-    return (
-      <View>
-
-        <BackButton buttonOnPress={this._onBackButtonPress}/>
-        <ProfilePageBody
-          viewerIsProfileOwner={false}
-          firstName={profileStore.getFirstName()}
-          lastName={profileStore.getLastName()}
-          bio={profileStore.getBio()}
-          numFans={profileStore.getNumFollowers()}
-          profileImageUrl={profileStore.getProfileImageUrl()}
-          email={profileStore.getEmail()}
-        />
-      
-      </View>
-    );
-  },
-
   _renderLoadingSpinner: function() {
     return (
       <View style={styles.spinnerContainer}>
@@ -88,10 +65,6 @@ var TrendingPage = React.createClass({
           animating={true} />
       </View>
     );
-  },
-
-  _onBackButtonPress: function() {
-    trendingStore.setInProfileView(true);
   }
 
 });

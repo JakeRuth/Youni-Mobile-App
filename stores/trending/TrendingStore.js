@@ -11,9 +11,7 @@ var trendingStore = Unicycle.createStore({
     init: function () {
       this.set({
         isTrendingRequestInFlight: true,
-        inProfileView: false,
-        users: [],
-        userInView: null
+        users: []
       });
     },
 
@@ -40,23 +38,12 @@ var trendingStore = Unicycle.createStore({
        });
     },
 
-    setInProfileView: function(value) {
-      console.log('here ', value)
-      this.set({
-        inProfileView: value
-      });
-    },
-
     isRequestInFlight: function() {
       return this.get('isTrendingRequestInFlight');
     },
 
     getTrendingUsers: function() {
       return this.get('users');
-    },
-
-    getInProfileView: function() {
-      this.get('inProfileView');
     },
 
     _generateTrendingUserInfoFromResponse: function(trendingUsers) {

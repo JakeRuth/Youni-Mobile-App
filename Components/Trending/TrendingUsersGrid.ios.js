@@ -1,8 +1,10 @@
 'use strict';
 
 var React = require('react-native');
+var Unicycle = require('../../Unicycle');
 var TrendingUser = require('./TrendingUser');
 var trendingStore = require('../../stores/trending/TrendingStore');
+var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 
 var {
   View,
@@ -51,7 +53,12 @@ var TrendingUsersGrid = React.createClass({
 
   _renderTrendingUserRow: function(trendingUser) {
     return (
-      <TouchableHighlight underlayColor='transparent'>
+      <TouchableHighlight
+        underlayColor='transparent'
+        onPress={() => {
+          this.onTrendingUserPress(trendingUser.email);
+        }}>
+
         <View>
           <TrendingUser
             firstName={trendingUser.firstName}
@@ -62,8 +69,18 @@ var TrendingUsersGrid = React.createClass({
             email={trendingUser.email}
             id={trendingUser.id} />
         </View>
+
       </TouchableHighlight>
     );
+  },
+
+  onTrendingUserPress: function(email) {
+    var userId = userLoginMetadataStore.getUserId();
+
+    Unicycle.exec('reInitializeUsersProfileFeedOffset');
+    Unicycle.exec('loadUsersProfile', email);
+    Unicycle.exec('getUserPosts', email, userId);
+    Unicycle.exec('setProfileModalVisibile', true);
   },
 
   _generateTrendingUserLinks: function() {
