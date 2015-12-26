@@ -62,7 +62,8 @@ var styles = StyleSheet.create({
   },
   spinner: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0)'
+    marginTop: 100,
+    backgroundColor: 'transparent'
   },
   hackyIosKeyPadBump: {
     marginTop: 350
