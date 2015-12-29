@@ -6,6 +6,7 @@ var postStore = require('../post/HomePostsStore');//TODO: FixME
 var immutable = require('immutable');
 var request = require('superagent');
 var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com');
+var PostUtils = require('../../Utils/Post/PostUtils');
 
 var INITIAL_PAGE_OFFSET = 0;
 var MAX_POSTS_PER_PAGE = 10;
@@ -185,6 +186,34 @@ var profileOwnerStore = Unicycle.createStore({
            isLikeRequestInFlight: false
          });
       });
+    },
+
+    $removeLikeProfileOwner(id, postId, userId) {
+      var posts = this.get('posts'),
+          that = this;
+
+      this.set({
+        isLikeRequestInFlight: true
+      });
+
+      PostUtils.removePostAjax(
+        id, postId, userId,
+        (id) => {
+          var post = posts.get(id);
+          post.numLikes--;
+          post.liked = false;
+          posts = posts.set(id, post);
+          that.set({
+            posts: posts,
+            isLikeRequestInFlight: false
+          });
+        },
+        () => {
+          that.set({
+            isLikeRequestInFlight: false
+          });
+        }
+      );
     },
 
     updateLikeCountForPost: function(id) {
