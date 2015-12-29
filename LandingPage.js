@@ -72,6 +72,7 @@ var LandingPage = React.createClass({
             selected={this.state.selectedTab === 'search'}
             onPress={() => {
               Unicycle.exec('setInProfileView', false);
+              Unicycle.exec('setInExploreFeedView', true);
               this.setState({
                 selectedTab: 'search',
               });

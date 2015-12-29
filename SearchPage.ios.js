@@ -130,7 +130,6 @@ var SearchPage = React.createClass({
         <BackButton buttonOnPress={
             () => {
               Unicycle.exec('setInProfileView', false);
-              Unicycle.exec('setInExploreFeedView', true);
             }
         }/>
       );
