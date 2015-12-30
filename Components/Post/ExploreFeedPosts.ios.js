@@ -43,6 +43,7 @@ var ExploreFeedPosts = React.createClass({
     else {
       content = (
         <PostList
+          refreshable={true}
           postStore={explorePostsStore}
           posts={explorePostsStore.getPosts()}
           onScroll={this.handleScroll}
@@ -64,8 +65,7 @@ var ExploreFeedPosts = React.createClass({
         <ActivityIndicatorIOS
           size="small"
           color="black"
-          animating={true}
-          style={styles.spinner} />
+          animating={true}/>
       </View>
     );
   },

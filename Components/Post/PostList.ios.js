@@ -11,7 +11,8 @@ var {
   Text,
   StyleSheet,
   AppRegistry,
-  ScrollView
+  ScrollView,
+  ActivityIndicatorIOS
 } = React
 
 var styles = StyleSheet.create({
@@ -19,24 +20,44 @@ var styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: -20,
     color: 'gray'
+  },
+  spinnerContainer: {
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });
 
 var PostList = React.createClass({
 
   propTypes: {
+    refreshable: React.PropTypes.bool.isRequired,
     postStore: React.PropTypes.any.isRequired,
     posts: React.PropTypes.object.isRequired,
     onScroll: React.PropTypes.func.isRequired,
     onLoadMorePostsPress: React.PropTypes.func.isRequired,
-    isLoadMorePostsRequestInFlight: React.PropTypes.bool
+    isLoadMorePostsRequestInFlight: React.PropTypes.bool,
+    viewerIsPostOwner: React.PropTypes.bool,
+    renderedFromProfileView: React.PropTypes.bool
   },
 
   render: function() {
+    var refreshHeader;
+
+    if (this.props.refreshable && this.props.postStore.isFeedRefreshing()) {
+      refreshHeader = this._renderRefreshingSpinner();
+    }
+    else {
+      refreshHeader = (
+        <Text style={styles.pullDownToRefreshText}>Pull down to refresh</Text>
+      );
+    }
+
     return (
       <ScrollView onScroll={this.props.onScroll}>
 
-        <Text style={styles.pullDownToRefreshText}>Pull down to refresh</Text>
+        {refreshHeader}
+
         {this._renderPosts()}
         {this._renderLoadMorePostsButton()}
 
@@ -61,7 +82,9 @@ var PostList = React.createClass({
               postIdString={post.postIdString}
               liked={post.liked}
               key={post.id}
-              postStore={this.props.postStore} />
+              postStore={this.props.postStore}
+              renderedFromProfileView={this.props.renderedFromProfileView}
+              viewerIsPostOwner={this.props.viewerIsPostOwner}/>
       );
     }
     return posts;
@@ -75,7 +98,18 @@ var PostList = React.createClass({
             loadMorePostsRequestInFlight={this.props.isLoadMorePostsRequestInFlight}/>
       );
     }
-  }
+  },
+
+  _renderRefreshingSpinner: function() {
+    return (
+      <View style={styles.spinnerContainer}>
+        <ActivityIndicatorIOS
+          size="small"
+          color="black"
+          animating={true}/>
+      </View>
+    );
+  },
 
 });
 

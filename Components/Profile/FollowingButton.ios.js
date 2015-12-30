@@ -15,8 +15,7 @@ var {
 var styles = StyleSheet.create({
   followingButtonContainer: {
     flex: 1,
-    alignItems: 'center',
-    paddingBottom: 50
+    alignItems: 'center'
   },
   followingButton: {
     backgroundColor: 'rgba(0,124,158,.2)',

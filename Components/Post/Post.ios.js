@@ -21,15 +21,6 @@ var styles = StyleSheet.create({
     margin: 10,
     marginTop: 0
   },
-  posterName: {
-    flex: 4,
-    fontSize: 20
-  },
-  timestamp: {
-    flex: 1,
-    alignSelf: 'center',
-    color: 'darkgray'
-  },
   imageContainer: {
     flex: 1
   },

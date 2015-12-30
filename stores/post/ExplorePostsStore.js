@@ -23,6 +23,7 @@ var explorePostsStore = Unicycle.createStore({
     this.set({
       posts: [],
       isRequestInFlight: false,
+      isExploreFeedRefreshing: false,
       isLoadMorePostsRequestInFlight: false,
       isLikeRequestInFlight: false,
       noMorePostsToFetch: false,
@@ -147,6 +148,10 @@ var explorePostsStore = Unicycle.createStore({
 
   isRequestInFlight: function() {
     return this.get('isRequestInFlight');
+  },
+
+  isFeedRefreshing: function() {
+    return this.get('isExploreFeedRefreshing');
   },
 
   isLoadMorePostsRequestInFlight: function() {

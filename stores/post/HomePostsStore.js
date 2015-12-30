@@ -23,6 +23,7 @@ var homePostsStore = Unicycle.createStore({
     this.set({
       posts: [],
       isRequestInFlight: false,
+      isHomeFeedRefreshing: false,
       isLoadMorePostsRequestInFlight: false,
       isLikeRequestInFlight: false,
       noMorePostsToFetch: false,
@@ -30,7 +31,6 @@ var homePostsStore = Unicycle.createStore({
     });
   },
 
-  //TODO: Look to combine both methods that are getting the feeds
   $requestHomeFeed(userId) {
     var that = this,
         offset = this.getHomeFeedPageOffset();
@@ -47,32 +47,79 @@ var homePostsStore = Unicycle.createStore({
       });
     }
 
-    request
-     .post('/feed/getHomeFeed')
-     .use(prefix)
-     .send({
-       userIdString: userId,
-       maxNumberOfPostsToFetch: MAX_POSTS_PER_PAGE,
-       fetchOffsetAmount: offset
-     })
-     .set('Accept', 'application/json')
-     .end(function(err, res) {
-       if ((res !== undefined) && (res.ok)) {
-         var newPosts = immutable.List(that.createPostsJsonFromResponse(res.body.posts, offset));
-         var allPosts = that.getPosts().concat(newPosts);
+    PostUtils.getHomeFeedAjax(
+      {
+        userIdString: userId,
+        maxNumberOfPostsToFetch: MAX_POSTS_PER_PAGE,
+        fetchOffsetAmount: offset
+      },
+      (res) => {
+        var newPosts = immutable.List(that.createPostsJsonFromResponse(res.body.posts, offset));
+        var allPosts = that.getPosts().concat(newPosts);
 
-         that.set({
-           posts: allPosts,
-           homeFeedPageOffset: offset + MAX_POSTS_PER_PAGE,
-           isRequestInFlight: false,
-           isLoadMorePostsRequestInFlight: false,
-           noMorePostsToFetch: !res.body.moreResults
-         });
-       }
-       else {
-         //TODO: implement failed case (show user error message or cached results)
-       }
+        that.set({
+          posts: allPosts,
+          homeFeedPageOffset: offset + MAX_POSTS_PER_PAGE,
+          isRequestInFlight: false,
+          isLoadMorePostsRequestInFlight: false,
+          noMorePostsToFetch: !res.body.moreResults
+        });
+      },
+      () => {
+        that.set({
+          isRequestInFlight: false,
+          isLoadMorePostsRequestInFlight: false
+        });
+      }
+    );
+  },
+
+  $refreshHomeFeed(userId) {
+    var that = this,
+        originalOffset = this.get('homeFeedPageOffset');
+
+    this.set({
+      isHomeFeedRefreshing: true
     });
+
+    PostUtils.getHomeFeedAjax(
+      {
+        userIdString: userId,
+        maxNumberOfPostsToFetch: MAX_POSTS_PER_PAGE,
+        fetchOffsetAmount: 0
+      },
+      (res) => {
+        var newPosts = immutable.List(that.createPostsJsonFromResponse(res.body.posts, 0)),
+            currentPosts = that.getPosts(),
+            allPosts = PostUtils.compressNewestPostsIntoCurrentPosts(newPosts, currentPosts);
+
+        if (allPosts) {
+          var numPostsAdded = allPosts.size - currentPosts.size,
+              newOffset = originalOffset + numPostsAdded;
+
+          that.set({
+            homeFeedPageOffset: newOffset,
+            posts: allPosts,
+            isHomeFeedRefreshing: false
+          });
+        }
+        //no new posts matched existing posts, a new list must be made
+        else {
+          that.set({
+            homeFeedPageOffset: INITIAL_PAGE_OFFSET,
+            noMorePostsToFetch: false,
+            posts: newPosts,
+            isHomeFeedRefreshing: false,
+            homeFeedPageOffset: newPosts.size
+          });
+        }
+      },
+      () => {
+        that.set({
+          isHomeFeedRefreshing: false
+        });
+      }
+    );
   },
 
   $likeHomeFeedPost(id, postId, userId) {
@@ -149,6 +196,10 @@ var homePostsStore = Unicycle.createStore({
 
   isRequestInFlight: function() {
     return this.get('isRequestInFlight');
+  },
+
+  isFeedRefreshing: function() {
+    return this.get('isHomeFeedRefreshing');
   },
 
   isLoadMorePostsRequestInFlight: function() {

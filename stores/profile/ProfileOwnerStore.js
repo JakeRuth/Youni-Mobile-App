@@ -21,6 +21,7 @@ var profileOwnerStore = Unicycle.createStore({
         isUserPostsRequestInFlight: false,
         isLoadMorePostsRequestInFlight: false,
         isLikeRequestInFlight: false,
+        isProfileOwnerFeedRefreshing: false,
         noMorePostsToFetch: false,
         firstName: '',
         lastName: '',
@@ -241,6 +242,10 @@ var profileOwnerStore = Unicycle.createStore({
 
     isLikeRequestInFlight: function() {
       return this.get('isLikeRequestInFlight');
+    },
+
+    isFeedRefreshing: function() {
+      return this.get('isProfileOwnerFeedRefreshing');
     },
 
     getNoMorePostsToFetch: function() {
