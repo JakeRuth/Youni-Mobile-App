@@ -33,6 +33,18 @@ var PostList = React.createClass({
   },
 
   render: function() {
+    return (
+      <ScrollView onScroll={this.props.onScroll}>
+
+        <Text style={styles.pullDownToRefreshText}>Pull down to refresh</Text>
+        {this._renderPosts()}
+        {this._renderLoadMorePostsButton()}
+
+      </ScrollView>
+    );
+  },
+
+  _renderPosts: function() {
     var postsJson = this.props.posts;
     var posts = [];
     for (var i = 0; i<postsJson.size; i++) {
@@ -52,18 +64,10 @@ var PostList = React.createClass({
               postStore={this.props.postStore} />
       );
     }
-    return (
-      <ScrollView onScroll={this.props.onScroll}>
-
-        <Text style={styles.pullDownToRefreshText}>Pull down to refresh</Text>
-        {posts}
-        {this.renderLoadMorePostsButton()}
-
-      </ScrollView>
-    );
+    return posts;
   },
 
-  renderLoadMorePostsButton: function() {
+  _renderLoadMorePostsButton: function() {
     if (!this.props.postStore.getNoMorePostsToFetch()) {
       return (
           <LoadMorePostsButton
