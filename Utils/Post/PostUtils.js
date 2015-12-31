@@ -54,9 +54,9 @@ var PostUtils = {
       }
     }
 
-    if (index != null && index != 0) {
+    if (index != null) {
       //modify id values for existing list, so when concatting the two lists posts don't get overridden
-      var keyStartIndex = index + 1;
+      var keyStartIndex = index;
       for (var i = 0; i < currentPosts.size; i++) {
         var post = currentPosts.get(i);
         post.id = keyStartIndex++;
