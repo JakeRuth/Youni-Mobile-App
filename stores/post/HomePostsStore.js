@@ -76,7 +76,7 @@ var homePostsStore = Unicycle.createStore({
 
   $refreshHomeFeed(userId) {
     var that = this,
-        originalOffset = this.get('homeFeedPageOffset');
+        originalOffset = this.getHomeFeedPageOffset();
 
     this.set({
       isHomeFeedRefreshing: true

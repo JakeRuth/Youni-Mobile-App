@@ -74,6 +74,53 @@ var explorePostsStore = Unicycle.createStore({
     );
   },
 
+  $refreshExploreFeed: function(userId) {
+    var that = this,
+        originalOffset = this.getExploreFeedPageOffset();
+
+    this.set({
+      isExploreFeedRefreshing: true
+    });
+
+    PostUtils.getHomeFeedAjax(
+      {
+        userIdString: userId,
+        maxNumberOfPostsToFetch: MAX_POSTS_PER_PAGE,
+        fetchOffsetAmount: 0
+      },
+      (res) => {
+        var newPosts = immutable.List(that.createPostsJsonFromResponse(res.body.posts, 0)),
+            currentPosts = that.getPosts(),
+            allPosts = PostUtils.compressNewestPostsIntoCurrentPosts(newPosts, currentPosts);
+
+        if (allPosts) {
+          var numPostsAdded = allPosts.size - currentPosts.size,
+              newOffset = originalOffset + numPostsAdded;
+
+          that.set({
+            posts: allPosts,
+            exploreFeedPageOffset: newOffset,
+            isExploreFeedRefreshing: false
+          });
+        }
+        else {
+          that.set({
+            exploreFeedPageOffset: INITIAL_PAGE_OFFSET,
+            noMorePostsToFetch: false,
+            posts: newPosts,
+            isExploreFeedRefreshing: false,
+            exploreFeedPageOffset: newPosts.size
+          });
+        }
+      },
+      () => {
+        that.set({
+          isExploreFeedRefreshing: false
+        });
+      }
+    );
+  },
+
   $likeExploreFeedPost(id, postId, userId) {
     var that = this;
     var posts = this.get('posts');
