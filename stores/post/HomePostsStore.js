@@ -103,10 +103,8 @@ var homePostsStore = Unicycle.createStore({
             isHomeFeedRefreshing: false
           });
         }
-        //no new posts matched existing posts, a new list must be made
         else {
           that.set({
-            homeFeedPageOffset: INITIAL_PAGE_OFFSET,
             noMorePostsToFetch: false,
             posts: newPosts,
             isHomeFeedRefreshing: false,

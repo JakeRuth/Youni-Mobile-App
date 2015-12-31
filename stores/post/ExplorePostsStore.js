@@ -47,7 +47,7 @@ var explorePostsStore = Unicycle.createStore({
       });
     }
 
-    PostUtils.getHomeFeedAjax(
+    PostUtils.getExploreFeedAjax(
       {
         userIdString: userId,
         maxNumberOfPostsToFetch: MAX_POSTS_PER_PAGE,
@@ -82,7 +82,7 @@ var explorePostsStore = Unicycle.createStore({
       isExploreFeedRefreshing: true
     });
 
-    PostUtils.getHomeFeedAjax(
+    PostUtils.getExploreFeedAjax(
       {
         userIdString: userId,
         maxNumberOfPostsToFetch: MAX_POSTS_PER_PAGE,
@@ -105,7 +105,6 @@ var explorePostsStore = Unicycle.createStore({
         }
         else {
           that.set({
-            exploreFeedPageOffset: INITIAL_PAGE_OFFSET,
             noMorePostsToFetch: false,
             posts: newPosts,
             isExploreFeedRefreshing: false,

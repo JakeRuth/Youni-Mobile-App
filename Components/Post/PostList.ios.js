@@ -5,6 +5,7 @@ var Unicycle = require('../../Unicycle');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var Post = require('./Post');
 var LoadMorePostsButton = require('./LoadMorePostsButton');
+var Icon = require('react-native-vector-icons/Ionicons');
 
 var {
   View,
@@ -12,7 +13,8 @@ var {
   StyleSheet,
   AppRegistry,
   ScrollView,
-  ActivityIndicatorIOS
+  ActivityIndicatorIOS,
+  TouchableHighlight
 } = React
 
 var styles = StyleSheet.create({
@@ -20,6 +22,9 @@ var styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: -20,
     color: 'gray'
+  },
+  refreshIconContainer: {
+    alignItems: 'center'
   },
   spinnerContainer: {
     height: 40,
@@ -32,6 +37,8 @@ var PostList = React.createClass({
 
   propTypes: {
     refreshable: React.PropTypes.bool.isRequired,
+    showManualRefreshButton: React.PropTypes.bool,
+    onManualRefreshButtonPress: React.PropTypes.func,
     postStore: React.PropTypes.any.isRequired,
     posts: React.PropTypes.object.isRequired,
     onScroll: React.PropTypes.func.isRequired,
@@ -42,21 +49,27 @@ var PostList = React.createClass({
   },
 
   render: function() {
-    var refreshHeader;
+    var refreshHeader,
+        manualRefreshButton = <View/>;
 
     if (this.props.refreshable && this.props.postStore.isFeedRefreshing()) {
       refreshHeader = this._renderRefreshingSpinner();
     }
-    else {
+    else if (!this.props.showManualRefreshButton){
       refreshHeader = (
         <Text style={styles.pullDownToRefreshText}>Pull down to refresh</Text>
       );
+    }
+
+    if (this.props.showManualRefreshButton && !this.props.postStore.isFeedRefreshing()) {
+      manualRefreshButton = this._renderManualRefreshButton();
     }
 
     return (
       <ScrollView onScroll={this.props.onScroll}>
 
         {refreshHeader}
+        {manualRefreshButton}
 
         {this._renderPosts()}
         {this._renderLoadMorePostsButton()}
@@ -98,6 +111,20 @@ var PostList = React.createClass({
             loadMorePostsRequestInFlight={this.props.isLoadMorePostsRequestInFlight}/>
       );
     }
+  },
+
+  _renderManualRefreshButton: function() {
+    return (
+      <TouchableHighlight
+        style={styles.refreshIconContainer}
+        underlayColor='transparent'
+        onPress={this.props.onManualRefreshButtonPress}>
+        <Icon
+          name='refresh'
+          size={35}
+          color={'gray'} />
+      </TouchableHighlight>
+    );
   },
 
   _renderRefreshingSpinner: function() {

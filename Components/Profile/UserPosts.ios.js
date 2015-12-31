@@ -50,9 +50,11 @@ var UserPosts = React.createClass({
       content = (
         <PostList
           refreshable={this.props.viewerIsProfileOwner}
+          showManualRefreshButton={true}
+          onManualRefreshButtonPress={this._onRefreshButtonPress}
           postStore={this.props.profileStore}
           posts={this.props.profileStore.getPosts()}
-          onScroll={this.handleScroll}
+          onScroll={() => { /* do nothing */ }}
           onLoadMorePostsPress={this.onLoadMorePostsPress}
           isLoadMorePostsRequestInFlight={this.props.profileStore.isLoadMorePostsRequestInFlight()}
           viewerIsPostOwner={this.props.viewerIsProfileOwner}
@@ -67,13 +69,10 @@ var UserPosts = React.createClass({
     );
   },
 
-  handleScroll(e) {
-    var infiniteScrollThreshold = -1,
-        userId = userLoginMetadataStore.getUserId();
-
-    if (e.nativeEvent.contentOffset.y < infiniteScrollThreshold) {
-
-    }
+  _onRefreshButtonPress: function() {
+    var userId = userLoginMetadataStore.getUserId(),
+        userEmail = userLoginMetadataStore.getEmail();
+    Unicycle.exec('refreshProfileOwnerPosts', userEmail, userId);
   },
 
   renderLoadingSpinner: function() {
