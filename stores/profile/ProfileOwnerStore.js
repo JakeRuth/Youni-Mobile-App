@@ -5,7 +5,7 @@ var Unicycle = require('../../Unicycle');
 var postStore = require('../post/HomePostsStore');//TODO: FixME
 var immutable = require('immutable');
 var request = require('superagent');
-var prefix = require('superagent-prefix')('http://localhost:8080/Greedy');
+var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com');
 var PostUtils = require('../../Utils/Post/PostUtils');
 var ProfileUtils = require('../../Utils/Profile/ProfileUtils');
 
