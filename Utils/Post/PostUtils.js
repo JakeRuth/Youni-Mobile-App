@@ -40,6 +40,22 @@ var PostUtils = {
     });
   },
 
+  getExploreFeedAjax: function(data, onSuccessCallback, onFailureCallback) {
+    request
+     .post('/feed/getExploreFeed')
+     .use(prefix)
+     .send(data)
+     .set('Accept', 'application/json')
+     .end(function(err, res) {
+       if ((res !== undefined) && (res.ok)) {
+         onSuccessCallback(res);
+       }
+       else {
+         onFailureCallback();
+       }
+    });
+  },
+
   //TODO: Clean up this method, its too big
   compressNewestPostsIntoCurrentPosts: function(newPosts, currentPosts) {
     var index = null,
