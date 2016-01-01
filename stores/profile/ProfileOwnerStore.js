@@ -6,6 +6,8 @@ var postStore = require('../post/HomePostsStore');//TODO: FixME
 var immutable = require('immutable');
 var request = require('superagent');
 var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com');
+var PostUtils = require('../../Utils/Post/PostUtils');
+var ProfileUtils = require('../../Utils/Profile/ProfileUtils');
 
 var INITIAL_PAGE_OFFSET = 0;
 var MAX_POSTS_PER_PAGE = 10;
@@ -20,6 +22,7 @@ var profileOwnerStore = Unicycle.createStore({
         isUserPostsRequestInFlight: false,
         isLoadMorePostsRequestInFlight: false,
         isLikeRequestInFlight: false,
+        isProfileOwnerFeedRefreshing: false,
         noMorePostsToFetch: false,
         firstName: '',
         lastName: '',
@@ -129,33 +132,80 @@ var profileOwnerStore = Unicycle.createStore({
         });
       }
 
-      request
-       .post('/user/getPosts')
-       .use(prefix)
-       .send({
-         userEmail: userEmail,
-         requestingUserIdString: userId,
-         maxNumberOfPostsToFetch: MAX_POSTS_PER_PAGE,
-         fetchOffsetAmount: offset
-       })
-       .set('Accept', 'application/json')
-       .end(function(err, res) {
-         if ((res !== undefined) && (res.ok)) {
-           var postsArray = postStore.createPostsJsonFromResponse(res.body.posts, offset);
-           var newPosts = immutable.List(postsArray);
-           var allPosts = that.getPosts().concat(newPosts);
-           that.set({
-             posts: allPosts,
-             feedPageOffset: offset + MAX_POSTS_PER_PAGE,
-             isUserPostsRequestInFlight: false,
-             isLoadMorePostsRequestInFlight: false,
-             noMorePostsToFetch: !res.body.moreResults
-           });
-         }
-         else {
-           //TODO: implement failed case (show user error message or cached results)
-         }
+      ProfileUtils.getUserPostsAjax(
+        {
+          userEmail: userEmail,
+          requestingUserIdString: userId,
+          maxNumberOfPostsToFetch: MAX_POSTS_PER_PAGE,
+          fetchOffsetAmount: offset
+        },
+        (res) => {
+          var postsArray = postStore.createPostsJsonFromResponse(res.body.posts, offset),
+              newPosts = immutable.List(postsArray),
+              allPosts = that.getPosts().concat(newPosts);
+          that.set({
+            posts: allPosts,
+            feedPageOffset: offset + MAX_POSTS_PER_PAGE,
+            isUserPostsRequestInFlight: false,
+            isLoadMorePostsRequestInFlight: false,
+            noMorePostsToFetch: !res.body.moreResults
+          });
+        },
+        () => {
+          that.set({
+            isUserPostsRequestInFlight: false,
+            isLoadMorePostsRequestInFlight: false
+          });
+        }
+      );
+    },
+
+    $refreshProfileOwnerPosts: function(userEmail, userId) {
+      var that = this,
+          originalOffset = this.getFeedPageOffset();
+
+      this.set({
+        isProfileOwnerFeedRefreshing: true
       });
+
+      ProfileUtils.getUserPostsAjax(
+        {
+          userEmail: userEmail,
+          requestingUserIdString: userId,
+          maxNumberOfPostsToFetch: MAX_POSTS_PER_PAGE,
+          fetchOffsetAmount: 0
+        },
+        (res) => {
+          var postsArray = postStore.createPostsJsonFromResponse(res.body.posts, 0),
+              newPosts = immutable.List(postsArray),
+              currentPosts = this.getPosts(),
+              allPosts = PostUtils.compressNewestPostsIntoCurrentPosts(newPosts, currentPosts);
+
+          if (allPosts) {
+            var numPostsAdded = allPosts.size - currentPosts.size,
+                newOffset = originalOffset + numPostsAdded;
+
+            that.set({
+              posts: allPosts,
+              feedPageOffset: newOffset,
+              isProfileOwnerFeedRefreshing: false
+            });
+          }
+          else {
+            that.set({
+              noMorePostsToFetch: false,
+              posts: newPosts,
+              isProfileOwnerFeedRefreshing: false,
+              feedPageOffset: newPosts.size
+            });
+          }
+        },
+        () => {
+          that.set({
+            isProfileOwnerFeedRefreshing: false
+          });
+        }
+      );
     },
 
     $likePostFromOwnerProfilePage(id, postId, userId) {
@@ -187,6 +237,34 @@ var profileOwnerStore = Unicycle.createStore({
       });
     },
 
+    $removeLikeProfileOwner(id, postId, userId) {
+      var posts = this.get('posts'),
+          that = this;
+
+      this.set({
+        isLikeRequestInFlight: true
+      });
+
+      PostUtils.removePostAjax(
+        id, postId, userId,
+        (id) => {
+          var post = posts.get(id);
+          post.numLikes--;
+          post.liked = false;
+          posts = posts.set(id, post);
+          that.set({
+            posts: posts,
+            isLikeRequestInFlight: false
+          });
+        },
+        () => {
+          that.set({
+            isLikeRequestInFlight: false
+          });
+        }
+      );
+    },
+
     updateLikeCountForPost: function(id) {
       var posts = this.getPosts(),
           post = posts.get(id);
@@ -212,6 +290,10 @@ var profileOwnerStore = Unicycle.createStore({
 
     isLikeRequestInFlight: function() {
       return this.get('isLikeRequestInFlight');
+    },
+
+    isFeedRefreshing: function() {
+      return this.get('isProfileOwnerFeedRefreshing');
     },
 
     getNoMorePostsToFetch: function() {

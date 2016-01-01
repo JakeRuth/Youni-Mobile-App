@@ -14,10 +14,15 @@ var {
 
 var styles = StyleSheet.create({
   followingButtonContainer: {
+<<<<<<< HEAD
     position: 'absolute',
     right: 10,
     top: 130,
     left: 198
+=======
+    flex: 1,
+    alignItems: 'center'
+>>>>>>> master
   },
   followingButton: {
     backgroundColor: 'white',

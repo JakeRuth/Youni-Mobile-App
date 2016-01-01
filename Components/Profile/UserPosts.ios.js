@@ -3,8 +3,7 @@
 var React = require('react-native');
 var Unicycle = require('../../Unicycle');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
-var Post = require('../../Components/Post/Post');
-var LoadMorePostsButton = require('../Post/LoadMorePostsButton');
+var PostList = require('../../Components/Post/PostList');
 
 var {
   View,
@@ -24,11 +23,6 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20
-  },
-  userPostsHeader: {
-    textAlign: 'center',
-    fontSize: 20,
-    padding: 10
   }
 });
 
@@ -38,7 +32,7 @@ var UserPosts = React.createClass({
     profileStore: React.PropTypes.any.isRequired,
     userName: React.PropTypes.string.isRequired,
     userEmail: React.PropTypes.string.isRequired,
-    viewerIsPostOwner: React.PropTypes.bool
+    viewerIsProfileOwner: React.PropTypes.bool
   },
 
   componentDidMount: function() {
@@ -50,10 +44,22 @@ var UserPosts = React.createClass({
         content;
 
     if (loadingPosts) {
-      content = this.renderLoadingSpinner()
+      content = this.renderLoadingSpinner();
     }
     else {
-      content = this.renderPosts()
+      content = (
+        <PostList
+          refreshable={this.props.viewerIsProfileOwner}
+          showManualRefreshButton={true}
+          onManualRefreshButtonPress={this._onRefreshButtonPress}
+          postStore={this.props.profileStore}
+          posts={this.props.profileStore.getPosts()}
+          onScroll={() => { /* do nothing */ }}
+          onLoadMorePostsPress={this.onLoadMorePostsPress}
+          isLoadMorePostsRequestInFlight={this.props.profileStore.isLoadMorePostsRequestInFlight()}
+          viewerIsPostOwner={this.props.viewerIsProfileOwner}
+          renderedFromProfileView={true}/>
+      );
     }
 
     return (
@@ -63,50 +69,10 @@ var UserPosts = React.createClass({
     );
   },
 
-  renderPosts: function() {
-    var postsJson = this.props.profileStore.getPosts(),
-        posts = [];
-
-    for (var i = 0; i<postsJson.size; i++) {
-      var post = postsJson.get(i);
-      posts.push(
-        <Post id={post.id}
-              posterProfileImageUrl={post.posterProfileImageUrl}
-              posterEmail={post.posterEmail}
-              posterName={post.posterName}
-              timestamp={post.timestamp}
-              photoUrl={post.photoUrl}
-              numLikes={post.numLikes}
-              caption={post.caption}
-              postIdString={post.postIdString}
-              liked={post.liked}
-              key={post.id}
-              viewerIsPostOwner={this.props.viewerIsPostOwner}
-              renderedFromProfileView={true}
-              postStore={this.props.profileStore} />
-      );
-    }
-    return (
-      <View>
-
-        <Text style={styles.userPostsHeader}>
-          {this.props.userName + "'s posts"}
-        </Text>
-        {posts}
-        {this.renderLoadMorePostsButton()}
-
-      </View>
-    );
-  },
-
-  renderLoadMorePostsButton: function() {
-    if (!this.props.profileStore.getNoMorePostsToFetch()) {
-      return (
-          <LoadMorePostsButton
-            onLoadMorePostsPress={this.onLoadMorePostsPress}
-            loadMorePostsRequestInFlight={this.props.profileStore.isLoadMorePostsRequestInFlight()}/>
-      );
-    }
+  _onRefreshButtonPress: function() {
+    var userId = userLoginMetadataStore.getUserId(),
+        userEmail = userLoginMetadataStore.getEmail();
+    Unicycle.exec('refreshProfileOwnerPosts', userEmail, userId);
   },
 
   renderLoadingSpinner: function() {
@@ -124,14 +90,14 @@ var UserPosts = React.createClass({
 
   onLoadMorePostsPress: function() {
     var userId = userLoginMetadataStore.getUserId(),
-        getUsersPostsActionName = this._getLoadUserPostsActionName(this.props.viewerIsPostOwner);
+        getUsersPostsActionName = this._getLoadUserPostsActionName(this.props.viewerIsProfileOwner);
 
     Unicycle.exec(getUsersPostsActionName, this.props.userEmail, userId);
   },
 
   _getInitialPageOfPosts: function() {
     var userId = userLoginMetadataStore.getUserId(),
-        getUsersPostsActionName = this._getLoadUserPostsActionName(this.props.viewerIsPostOwner);
+        getUsersPostsActionName = this._getLoadUserPostsActionName(this.props.viewerIsProfileOwner);
 
     if (!this.props.profileStore.isUserPostsRequestInFlight()) {
       Unicycle.exec(getUsersPostsActionName, this.props.userEmail, userId);

@@ -43,6 +43,7 @@ var ExploreFeedPosts = React.createClass({
     else {
       content = (
         <PostList
+          refreshable={true}
           postStore={explorePostsStore}
           posts={explorePostsStore.getPosts()}
           onScroll={this.handleScroll}
@@ -64,8 +65,7 @@ var ExploreFeedPosts = React.createClass({
         <ActivityIndicatorIOS
           size="small"
           color="black"
-          animating={true}
-          style={styles.spinner} />
+          animating={true}/>
       </View>
     );
   },
@@ -75,8 +75,7 @@ var ExploreFeedPosts = React.createClass({
         userId = userLoginMetadataStore.getUserId();
 
     if (e.nativeEvent.contentOffset.y < inifiniteScrollThreshold) {
-      Unicycle.exec('refreshExploreFeedData');
-      Unicycle.exec('requestExploreFeed', userId);
+      Unicycle.exec('refreshExploreFeed', userId);
     }
   },
 

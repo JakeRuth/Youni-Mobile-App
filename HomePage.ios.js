@@ -69,6 +69,7 @@ var HomePage = React.createClass({
     else if (homeFeedPosts.size) {
       content = (
         <PostList
+          refreshable={true}
           postStore={homePostsStore}
           posts={homeFeedPosts}
           onScroll={this.handleScroll}
@@ -118,8 +119,7 @@ var HomePage = React.createClass({
         userId = userLoginMetadataStore.getUserId();
 
     if (e.nativeEvent.contentOffset.y < inifiniteScrollThreshold) {
-      Unicycle.exec('refreshHomeFeedData');
-      Unicycle.exec('requestHomeFeed', userId);
+      Unicycle.exec('refreshHomeFeed', userId);
     }
   },
 

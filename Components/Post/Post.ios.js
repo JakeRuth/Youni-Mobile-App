@@ -21,15 +21,6 @@ var styles = StyleSheet.create({
     margin: 10,
     marginTop: 0
   },
-  posterName: {
-    flex: 4,
-    fontSize: 20
-  },
-  timestamp: {
-    flex: 1,
-    alignSelf: 'center',
-    color: 'darkgray'
-  },
   imageContainer: {
     flex: 1
   },
@@ -97,7 +88,7 @@ var Post = React.createClass({
         <View style={styles.postFooter}>
           <PostLikeBar
             postStore={this.props.postStore}
-            onStarPress={this._photoOnClickAction(this.props.liked)}
+            onStarPress={this._onStarPress(this.props.liked)}
             liked={this.props.liked}
             numLikes={this.props.numLikes}
             postIdString={this.props.postIdString} />
@@ -109,20 +100,34 @@ var Post = React.createClass({
     );
   },
 
-  _photoOnClickAction: function(alreadyLiked) {
-    var action = this._getOnPhotoClickActionName();
-
-    if (!alreadyLiked) {
-      return () => {
-        var userId = userLoginMetadataStore.getUserId();
-        Unicycle.exec(action, this.props.id, this.props.postIdString, userId);
-      }
+  _onStarPress: function(liked) {
+    if (liked) {
+      return this._unlikePost;
     }
     else {
-      return () => {
-        return; //do nothing
-      }
+      return this._likePost;
     }
+  },
+
+  _photoOnClickAction: function(liked) {
+    if (!liked) {
+      return this._likePost;
+    }
+    else {
+      return () => { /* do nothing */ };
+    }
+  },
+
+  _likePost: function() {
+    var action = this._getOnPhotoClickActionName(),
+        userId = userLoginMetadataStore.getUserId();
+    Unicycle.exec(action, this.props.id, this.props.postIdString, userId);
+  },
+
+  _unlikePost: function() {
+    var action = this._getOnStarClickActionName(),
+        userId = userLoginMetadataStore.getUserId();
+    Unicycle.exec(action, this.props.id, this.props.postIdString, userId);
   },
 
   //TODO: Figure out a better way to do this
@@ -141,6 +146,26 @@ var Post = React.createClass({
       }
       else {
         return 'likeExploreFeedPost';
+      }
+    }
+  },
+
+  //TODO: Figure out a better way to do this
+  _getOnStarClickActionName: function() {
+    if (this.props.renderedFromProfileView) {
+      if (this.props.viewerIsPostOwner) {
+        return 'removeLikeProfileOwner';
+      }
+      else {
+        return 'removeLikeProfile';
+      }
+    }
+    else {
+      if (this.props.postStore.isHomeFeed()) {
+        return 'removeLikeHomeFeed';
+      }
+      else {
+        return 'removeLikeExploreFeed';
       }
     }
   }

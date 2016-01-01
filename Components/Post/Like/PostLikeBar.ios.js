@@ -7,7 +7,8 @@ var PostLikeText = require('./PostLikeText');
 var {
   View,
   StyleSheet,
-  TouchableHighlight
+  TouchableHighlight,
+  AlertIOS
 } = React
 
 var styles = StyleSheet.create({

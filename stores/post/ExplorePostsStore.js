@@ -5,6 +5,7 @@ var Unicycle = require('../../Unicycle');
 var immutable = require('immutable');
 var request = require('superagent');
 var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com');
+var PostUtils = require('../../Utils/Post/PostUtils');
 
 var INITIAL_PAGE_OFFSET = 0;
 var MAX_POSTS_PER_PAGE = 10;
@@ -22,6 +23,7 @@ var explorePostsStore = Unicycle.createStore({
     this.set({
       posts: [],
       isRequestInFlight: false,
+      isExploreFeedRefreshing: false,
       isLoadMorePostsRequestInFlight: false,
       isLikeRequestInFlight: false,
       noMorePostsToFetch: false,
@@ -45,31 +47,77 @@ var explorePostsStore = Unicycle.createStore({
       });
     }
 
-    request
-     .post('/feed/getExploreFeed')
-     .use(prefix)
-     .send({
-       userIdString: userId,
-       maxNumberOfPostsToFetch: MAX_POSTS_PER_PAGE,
-       fetchOffsetAmount: offset
-     })
-     .set('Accept', 'application/json')
-     .end(function(err, res) {
-       if ((res !== undefined) && (res.ok)) {
-         var newPosts = immutable.List(that.createPostsJsonFromResponse(res.body.posts, offset));
-         var allPosts = that.getPosts().concat(newPosts);
-         that.set({
-           posts: allPosts,
-           exploreFeedPageOffset: offset + MAX_POSTS_PER_PAGE,
-           isRequestInFlight: false,
-           isLoadMorePostsRequestInFlight: false,
-           noMorePostsToFetch: !res.body.moreResults
-         });
-       }
-       else {
-         //TODO: implement failed case (show user error message or cached results)
-       }
+    PostUtils.getExploreFeedAjax(
+      {
+        userIdString: userId,
+        maxNumberOfPostsToFetch: MAX_POSTS_PER_PAGE,
+        fetchOffsetAmount: offset
+      },
+      (res) => {
+        var newPosts = immutable.List(that.createPostsJsonFromResponse(res.body.posts, offset));
+        var allPosts = that.getPosts().concat(newPosts);
+
+        that.set({
+          posts: allPosts,
+          exploreFeedPageOffset: offset + MAX_POSTS_PER_PAGE,
+          isRequestInFlight: false,
+          isLoadMorePostsRequestInFlight: false,
+          noMorePostsToFetch: !res.body.moreResults
+        });
+      },
+      () => {
+        that.set({
+          isRequestInFlight: false,
+          isLoadMorePostsRequestInFlight: false
+        });
+      }
+    );
+  },
+
+  $refreshExploreFeed: function(userId) {
+    var that = this,
+        originalOffset = this.getExploreFeedPageOffset();
+
+    this.set({
+      isExploreFeedRefreshing: true
     });
+
+    PostUtils.getExploreFeedAjax(
+      {
+        userIdString: userId,
+        maxNumberOfPostsToFetch: MAX_POSTS_PER_PAGE,
+        fetchOffsetAmount: 0
+      },
+      (res) => {
+        var newPosts = immutable.List(that.createPostsJsonFromResponse(res.body.posts, 0)),
+            currentPosts = that.getPosts(),
+            allPosts = PostUtils.compressNewestPostsIntoCurrentPosts(newPosts, currentPosts);
+
+        if (allPosts) {
+          var numPostsAdded = allPosts.size - currentPosts.size,
+              newOffset = originalOffset + numPostsAdded;
+
+          that.set({
+            posts: allPosts,
+            exploreFeedPageOffset: newOffset,
+            isExploreFeedRefreshing: false
+          });
+        }
+        else {
+          that.set({
+            noMorePostsToFetch: false,
+            posts: newPosts,
+            isExploreFeedRefreshing: false,
+            exploreFeedPageOffset: newPosts.size
+          });
+        }
+      },
+      () => {
+        that.set({
+          isExploreFeedRefreshing: false
+        });
+      }
+    );
   },
 
   $likeExploreFeedPost(id, postId, userId) {
@@ -108,6 +156,34 @@ var explorePostsStore = Unicycle.createStore({
     });
   },
 
+  $removeLikeExploreFeed(id, postId, userId) {
+    var posts = this.get('posts'),
+        that = this;
+
+    this.set({
+      isLikeRequestInFlight: true
+    });
+
+    PostUtils.removePostAjax(
+      id, postId, userId,
+      (id) => {
+        var post = posts.get(id);
+        post.numLikes--;
+        post.liked = false;
+        posts = posts.set(id, post);
+        that.set({
+          posts: posts,
+          isLikeRequestInFlight: false
+        });
+      },
+      () => {
+        that.set({
+          isLikeRequestInFlight: false
+        });
+      }
+    );
+  },
+
   $refreshExploreFeedData: function() {
     this.set({
       exploreFeedPageOffset: INITIAL_PAGE_OFFSET,
@@ -118,6 +194,10 @@ var explorePostsStore = Unicycle.createStore({
 
   isRequestInFlight: function() {
     return this.get('isRequestInFlight');
+  },
+
+  isFeedRefreshing: function() {
+    return this.get('isExploreFeedRefreshing');
   },
 
   isLoadMorePostsRequestInFlight: function() {
