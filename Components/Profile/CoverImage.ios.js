@@ -126,4 +126,4 @@ var ProfileImage = React.createClass({
 
 });
 
-module.exports = ProfileCoverImage;
+module.exports = CoverImage;
