@@ -6,6 +6,7 @@ var FollowingButton = require('./FollowingButton');
 var EditSettingsButton = require('./Settings/EditSettingsButton');
 var BlockUserButton = require('./BlockUserButton');
 var ProfileImage = require('./ProfileImage');
+var CoverImage = require('./ProfileCoverImage');
 var UserPosts = require('./UserPosts');
 var profileOwnerStore = require('../../stores/profile/ProfileOwnerStore');
 var profileStore = require('../../stores/profile/ProfileStore');
@@ -23,9 +24,8 @@ var styles = StyleSheet.create({
     flex: 1
   },
   fullName: {
-    textAlign: 'center',
     fontSize: 30,
-    margin: 5,
+    left: 20,
     backgroundColor: 'transparent'
   },
   fanCount: {
@@ -34,8 +34,9 @@ var styles = StyleSheet.create({
     fontWeight: '800'
   },
   bio: {
+    color: 'grey',
     alignSelf: 'auto',
-    margin: 30
+    margin: 20
   }
 });
 
@@ -70,19 +71,16 @@ var ProfilePageBody = React.createClass({
 
     return (
       <ScrollView style={styles.profileBodyContent}>
-
-        <Text style={styles.fullName}>{fullName}</Text>
-        {editSettingsIcon}
-        {blockUserIcon}
-
         <ProfileImage
           viewerIsProfileOwner={this.props.viewerIsProfileOwner}
           profileImageUrl={this.props.profileImageUrl}/>
 
+          <Text style={styles.fullName}>{fullName}</Text>
+          {seeWhoImFollowingButton}
+          {blockUserIcon}
+          <Text style={styles.bio}>{this.props.bio}</Text>
         <Text style={styles.fanCount}>{this._getFansText(this.props.numFans)}</Text>
-        <Text style={styles.bio}>{this.props.bio}</Text>
         {followButton}
-        {seeWhoImFollowingButton}
         <UserPosts
           profileStore={this._getProfileStoreForUserPosts()}
           userName={fullName}

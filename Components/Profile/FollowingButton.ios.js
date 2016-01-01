@@ -14,18 +14,22 @@ var {
 
 var styles = StyleSheet.create({
   followingButtonContainer: {
-    flex: 1,
-    alignItems: 'center',
-    paddingBottom: 50
+    position: 'absolute',
+    right: 10,
+    top: 130,
+    left: 198
   },
   followingButton: {
-    backgroundColor: 'rgba(0,124,158,.2)',
+    backgroundColor: 'white',
+    borderColor: '#5375FA',
+    color: '#5375FA',
+    textAlign: 'center',
     fontSize: 20,
+    fontWeight: '600',
     borderWidth: 1,
-    borderRadius: 5,
-    padding: 5,
-    paddingRight: 10,
-    paddingLeft: 10
+    borderRadius: 1,
+    paddingTop: 5,
+    paddingBottom: 5
   }
 });
 

@@ -22,7 +22,7 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     left: 20,
     width: 168,
-    borderColor: 'green',
+    borderColor: 'red',
     borderWidth: 4,
     marginBottom: 5
   },
@@ -44,9 +44,6 @@ var ProfileImage = React.createClass({
 
     if (this.props.profileImageUrl) {
       content = this.renderProfileImage();
-    }
-    else if (this.props.viewerIsProfileOwner) {
-      content = <UploadProfileImage />;
     }
     else {
       content = this.renderBlankProfileIcon();
@@ -129,4 +126,4 @@ var ProfileImage = React.createClass({
 
 });
 
-module.exports = ProfileImage;
+module.exports = ProfileCoverImage;

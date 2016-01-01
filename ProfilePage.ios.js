@@ -9,6 +9,7 @@ var GetAllFollowingPage = require('./Components/Profile/GetAllFollowingPage');
 var MainScreenBanner = require('./MainScreenBanner');
 var ProfilePageBody = require('./Components/Profile/ProfilePageBody');
 var LogoutButton = require('./Components/Common/LogoutButton');
+var EditSettingsButton = require('./Components/Profile/Settings/EditSettingsButton');
 
 var {
   View,
@@ -81,8 +82,9 @@ var ProfilePage = React.createClass({
           subTitle="Hey look, its you!"/>
 
         <LogoutButton navigator={this.props.navigator}/>
+        <EditSettingsButton navigator={this.props.navigator}/>
         { content }
-        
+
       </View>
     );
   }
