@@ -76,7 +76,6 @@ var EditBioBox = React.createClass({
           value={profileOwnerStore.getBio()}
           multiline={true}
           maxLength={300} //TODO: think about this value more, is this a just limit?
-          clearTextOnFocus={true}
         />
         {actionButtons}
 

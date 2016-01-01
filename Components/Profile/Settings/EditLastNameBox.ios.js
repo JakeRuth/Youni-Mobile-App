@@ -82,8 +82,7 @@ var EditLastNameBox = React.createClass({
             style={styles.updateLastNameInput}
             onChangeText={(text) => Unicycle.exec('setLastName', text)}
             value={profileOwnerStore.getLastName()}
-            maxLength={25} //Hopefully someone doesn't have a 25+ cahracter first name?
-            clearTextOnFocus={true}
+            maxLength={25} //Hopefully someone doesnt have a 25+ cahracter first name?
           />
         </View>
         {actionButtons}
