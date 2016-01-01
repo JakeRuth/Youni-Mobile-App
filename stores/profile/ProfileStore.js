@@ -219,6 +219,12 @@ var profileStore = Unicycle.createStore({
       return this.get('isLikeRequestInFlight');
     },
 
+    isFeedRefreshing: function() {
+      //always return false because the user's profile page feed is not refreshable.
+      //(Note, the profile owner's is refreshable)
+      return false;
+    },
+
     getNoMorePostsToFetch: function() {
       return this.get('noMorePostsToFetch');
     },
