@@ -6,6 +6,7 @@ var Unicycle = require('./Unicycle');
 var MainScreenBanner = require('./MainScreenBanner');
 var CreatePostButton = require('./Components/Post/CreatePostButton');
 var CreatePostForm = require('./Components/Post/CreatePostForm');
+var ErrorPage = require('./Components/Common/ErrorPage');
 
 var {
   View,
@@ -46,10 +47,19 @@ var CreatePostPage = React.createClass({
     var isImageUploading = createPostStore.getIsImageUploading(),
         wasImageSelected = createPostStore.getWasImageSelected(),
         isPostRequestInFlight = createPostStore.isRequestInFlight(),
+        anyErrorsLoadingPage = createPostStore.anyErrorsLoadingPage(),
         content;
 
     if (isPostRequestInFlight) {
       content = this.renderPostUploadingContent();
+    }
+    else if (anyErrorsLoadingPage) {
+      content = (
+        <ErrorPage
+          reloadButtonAction={() => {}}
+          hideReloadButton={true}
+          subTitleMessageOverride='Something went wrong while creating your post'/>
+      );
     }
     else if (wasImageSelected) {
       var uri = createPostStore.getImageUri();

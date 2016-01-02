@@ -4,16 +4,8 @@ var AjaxUtils = require('../Common/AjaxUtils');
 
 var PostUtils = {
 
-  removePostAjax: function(data, onSuccessCallback, onFailureCallback) {
-    AjaxUtils.ajax('/post/removeLike', data, onSuccessCallback, onFailureCallback);
-  },
-
-  getHomeFeedAjax: function(data, onSuccessCallback, onFailureCallback) {
-    AjaxUtils.ajax('/feed/getHomeFeed', data, onSuccessCallback, onFailureCallback);
-  },
-
-  getExploreFeedAjax: function(data, onSuccessCallback, onFailureCallback) {
-    AjaxUtils.ajax('/feed/getExploreFeed', data, onSuccessCallback, onFailureCallback);
+  ajax: function(url, data, onSuccessCallback, onFailureCallback) {
+    AjaxUtils.ajax(url, data, onSuccessCallback, onFailureCallback);
   },
 
   //TODO: Clean up this method, its too big

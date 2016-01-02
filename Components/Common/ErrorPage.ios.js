@@ -39,7 +39,9 @@ var styles = StyleSheet.create({
 var ErrorPage = React.createClass({
 
   propTypes: {
-    reloadButtonAction: React.PropTypes.func.isRequired
+    reloadButtonAction: React.PropTypes.func.isRequired,
+    hideReloadButton: React.PropTypes.bool,
+    subTitleMessageOverride: React.PropTypes.string
   },
 
   render: function() {
@@ -49,7 +51,7 @@ var ErrorPage = React.createClass({
           Tarter sauce!
         </Text>
         <Text style={styles.errorMessageSubHeader}>
-          Please try to reload the page, or reopen the app.
+          {this._getSubtitle()}
         </Text>
         {this._renderReloadPageIcon()}
         <Text style={styles.errorMessageFooter}>
@@ -61,18 +63,34 @@ var ErrorPage = React.createClass({
     );
   },
 
+  _getSubtitle: function() {
+    if (this.props.subTitleMessageOverride) {
+      return this.props.subTitleMessageOverride;
+    }
+    else {
+      return 'Please try to reload the page, or reopen the app.';
+    }
+  },
+
   _renderReloadPageIcon: function() {
-    return (
-      <TouchableHighlight
-        underlayColor='transparent'
-        onPress={this.props.reloadButtonAction}>
-        <Icon
-          style={styles.reloadPageIcon}
-          name='refresh'
-          size={35}
-          color={'gray'}/>
-      </TouchableHighlight>
-    );
+    if (!this.props.hideReloadButton) {
+      return (
+        <TouchableHighlight
+          underlayColor='transparent'
+          onPress={this.props.reloadButtonAction}>
+          <Icon
+            style={styles.reloadPageIcon}
+            name='refresh'
+            size={35}
+            color={'gray'}/>
+        </TouchableHighlight>
+      );
+    }
+    else {
+      return (
+        <View/>
+      );
+    }
   }
 
 });

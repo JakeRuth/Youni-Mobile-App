@@ -47,7 +47,8 @@ var homePostsStore = Unicycle.createStore({
       });
     }
 
-    PostUtils.getHomeFeedAjax(
+    PostUtils.ajax(
+      '/feed/getHomeFeed',
       {
         userIdString: userId,
         maxNumberOfPostsToFetch: MAX_POSTS_PER_PAGE,
@@ -82,7 +83,8 @@ var homePostsStore = Unicycle.createStore({
       isHomeFeedRefreshing: true
     });
 
-    PostUtils.getHomeFeedAjax(
+    PostUtils.ajax(
+      '/feed/getHomeFeed',
       {
         userIdString: userId,
         maxNumberOfPostsToFetch: MAX_POSTS_PER_PAGE,
@@ -164,7 +166,8 @@ var homePostsStore = Unicycle.createStore({
       isLikeRequestInFlight: true
     });
 
-    PostUtils.removePostAjax(
+    PostUtils.ajax(
+      '/post/removeLike',
       {
         postIdString: postId,
         userIdString: userId

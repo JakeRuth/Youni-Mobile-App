@@ -165,7 +165,8 @@ var profileStore = Unicycle.createStore({
         isLikeRequestInFlight: true
       });
 
-      PostUtils.removePostAjax(
+      PostUtils.ajax(
+        '/post/removeLike',
         {
           postIdString: postId,
           userIdString: userId

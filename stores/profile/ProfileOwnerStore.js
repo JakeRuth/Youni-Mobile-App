@@ -78,7 +78,8 @@ var profileOwnerStore = Unicycle.createStore({
         isRequestInFlight: true
       });
 
-      ProfileUtils.getProfileAjax(
+      ProfileUtils.ajax(
+        '/user/getProfileInformation',
         {
           userEmail: email
         },
@@ -139,7 +140,8 @@ var profileOwnerStore = Unicycle.createStore({
         });
       }
 
-      ProfileUtils.getUserPostsAjax(
+      ProfileUtils.ajax(
+        '/user/getPosts',
         {
           userEmail: userEmail,
           requestingUserIdString: userId,
@@ -175,7 +177,8 @@ var profileOwnerStore = Unicycle.createStore({
         isProfileOwnerFeedRefreshing: true
       });
 
-      ProfileUtils.getUserPostsAjax(
+      ProfileUtils.ajax(
+        '/user/getPosts',
         {
           userEmail: userEmail,
           requestingUserIdString: userId,
@@ -252,7 +255,8 @@ var profileOwnerStore = Unicycle.createStore({
         isLikeRequestInFlight: true
       });
 
-      PostUtils.removePostAjax(
+      PostUtils.ajax(
+        '/post/removeLike',
         {
           postIdString: postId,
           userIdString: userId

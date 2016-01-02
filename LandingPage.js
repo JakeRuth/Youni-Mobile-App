@@ -85,6 +85,7 @@ var LandingPage = React.createClass({
             selectedIconName="ios-camera-outline"
             selected={this.state.selectedTab === 'takePhoto'}
             onPress={() => {
+              Unicycle.exec('setAnyErrorsOnCreatePostPage', false);
               this.setState({
                 selectedTab: 'takePhoto',
               });

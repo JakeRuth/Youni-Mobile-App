@@ -18,7 +18,8 @@ var trendingStore = Unicycle.createStore({
     $getTrendingUsers: function() {
       var that = this;
 
-      TrendingUtils.getTrendingUsersAjax(
+      TrendingUtils.ajax(
+        '/trending/getTopUsers',
         (res) => {
           that.set({
             users: immutable.List(

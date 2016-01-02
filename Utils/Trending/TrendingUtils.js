@@ -4,8 +4,8 @@ var AjaxUtils = require('../Common/AjaxUtils');
 
 var TrendingUtils = {
 
-  getTrendingUsersAjax: function(onSuccessCallback, onFailureCallback) {
-    AjaxUtils.ajax('/trending/getTopUsers', {}, onSuccessCallback, onFailureCallback);
+  ajax: function(url, onSuccessCallback, onFailureCallback) {
+    AjaxUtils.ajax(url, {}, onSuccessCallback, onFailureCallback);
   },
 
   generateTrendingUserInfo: function(trendingUsers) {

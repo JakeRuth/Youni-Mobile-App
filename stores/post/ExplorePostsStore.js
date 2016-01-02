@@ -47,7 +47,8 @@ var explorePostsStore = Unicycle.createStore({
       });
     }
 
-    PostUtils.getExploreFeedAjax(
+    PostUtils.ajax(
+      '/feed/getExploreFeed',
       {
         userIdString: userId,
         maxNumberOfPostsToFetch: MAX_POSTS_PER_PAGE,
@@ -82,7 +83,8 @@ var explorePostsStore = Unicycle.createStore({
       isExploreFeedRefreshing: true
     });
 
-    PostUtils.getExploreFeedAjax(
+    PostUtils.ajax(
+      '/feed/getExploreFeed',
       {
         userIdString: userId,
         maxNumberOfPostsToFetch: MAX_POSTS_PER_PAGE,
@@ -164,7 +166,8 @@ var explorePostsStore = Unicycle.createStore({
       isLikeRequestInFlight: true
     });
 
-    PostUtils.removePostAjax(
+    PostUtils.ajax(
+      '/post/removeLike',
       {
         postIdString: postId,
         userIdString: userId

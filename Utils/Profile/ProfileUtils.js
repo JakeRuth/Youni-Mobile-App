@@ -4,12 +4,8 @@ var AjaxUtils = require('../Common/AjaxUtils');
 
 var ProfileUtils = {
 
-  getProfileAjax: function(data, onSuccessCallback, onFailureCallback) {
-    AjaxUtils.ajax('/user/getProfileInformation', data, onSuccessCallback, onFailureCallback);
-  },
-
-  getUserPostsAjax: function(data, onSuccessCallback, onFailureCallback) {
-    AjaxUtils.ajax('/user/getPosts', data, onSuccessCallback, onFailureCallback);
+  ajax: function(url, data, onSuccessCallback, onFailureCallback) {
+    AjaxUtils.ajax(url, data, onSuccessCallback, onFailureCallback);
   }
 
 }
