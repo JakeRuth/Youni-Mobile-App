@@ -27,7 +27,8 @@ var explorePostsStore = Unicycle.createStore({
       isLoadMorePostsRequestInFlight: false,
       isLikeRequestInFlight: false,
       noMorePostsToFetch: false,
-      exploreFeedPageOffset: INITIAL_PAGE_OFFSET
+      exploreFeedPageOffset: INITIAL_PAGE_OFFSET,
+      pageLoadError: false,
     });
   },
 
@@ -63,13 +64,15 @@ var explorePostsStore = Unicycle.createStore({
           exploreFeedPageOffset: offset + MAX_POSTS_PER_PAGE,
           isRequestInFlight: false,
           isLoadMorePostsRequestInFlight: false,
-          noMorePostsToFetch: !res.body.moreResults
+          noMorePostsToFetch: !res.body.moreResults,
+          pageLoadError: false
         });
       },
       () => {
         that.set({
           isRequestInFlight: false,
-          isLoadMorePostsRequestInFlight: false
+          isLoadMorePostsRequestInFlight: false,
+          pageLoadError: true
         });
       }
     );
@@ -196,6 +199,10 @@ var explorePostsStore = Unicycle.createStore({
       noMorePostsToFetch: false,
       posts: []
     });
+  },
+
+  anyErrorsLoadingPage: function() {
+    return this.get('pageLoadError');
   },
 
   isRequestInFlight: function() {
