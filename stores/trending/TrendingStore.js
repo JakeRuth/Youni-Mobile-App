@@ -3,39 +3,42 @@
 var React = require('react-native');
 var Unicycle = require('../../Unicycle');
 var immutable = require('immutable');
-var request = require('superagent');
-var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com');
+var TrendingUtils = require('../../Utils/Trending/TrendingUtils');
 
 var trendingStore = Unicycle.createStore({
 
     init: function () {
       this.set({
         isTrendingRequestInFlight: true,
-        users: []
+        users: [],
+        pageLoadError: false
       });
     },
 
     $getTrendingUsers: function() {
       var that = this;
 
-      request
-       .post('/trending/getTopUsers')
-       .use(prefix)
-       .set('Accept', 'application/json')
-       .end(function(err, res) {
-         if ((res !== undefined) && (res.ok)) {
-           that.set({
-             users: immutable.List(
-               that._generateTrendingUserInfoFromResponse(res.body.users)
-             )
-           });
-         } else {
-           //TODO: Implement a failed case
-         }
-         that.set({
-           isTrendingRequestInFlight: false
-         });
-       });
+      TrendingUtils.getTrendingUsersAjax(
+        (res) => {
+          that.set({
+            users: immutable.List(
+                TrendingUtils.generateTrendingUserInfo(res.body.users)
+            ),
+            isTrendingRequestInFlight: false,
+            pageLoadError: false
+          });
+        },
+        () => {
+          that.set({
+            isTrendingRequestInFlight: false,
+            pageLoadError: true
+          });
+        }
+      );
+    },
+
+    anyErrorsLoadingPage: function() {
+      return this.get('pageLoadError');
     },
 
     isRequestInFlight: function() {
@@ -44,24 +47,6 @@ var trendingStore = Unicycle.createStore({
 
     getTrendingUsers: function() {
       return this.get('users');
-    },
-
-    _generateTrendingUserInfoFromResponse: function(trendingUsers) {
-      var trendingUsersJson = [];
-
-      for (var i = 0; i < trendingUsers.length; i++) {
-        var user = trendingUsers[i];
-        trendingUsersJson.push({
-          firstName: user['firstName'],
-          lastName: user['lastName'],
-          numFans: user['numFollowers'],
-          bio: user['bio'],
-          email: user['email'],
-          profileImageUrl: user['profileImageUrl'],
-          id: i
-        });
-      }
-      return trendingUsersJson;
     }
 
 });
