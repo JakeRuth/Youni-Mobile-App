@@ -165,8 +165,11 @@ var explorePostsStore = Unicycle.createStore({
     });
 
     PostUtils.removePostAjax(
-      id, postId, userId,
-      (id) => {
+      {
+        postIdString: postId,
+        userIdString: userId
+      },
+      () => {
         var post = posts.get(id);
         post.numLikes--;
         post.liked = false;

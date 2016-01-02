@@ -1,24 +1,15 @@
 'use strict';
 
-var request = require('superagent');
-var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com');
+var AjaxUtils = require('../Common/AjaxUtils');
 
 var ProfileUtils = {
 
+  getProfileAjax: function(data, onSuccessCallback, onFailureCallback) {
+    AjaxUtils.ajax('/user/getProfileInformation', data, onSuccessCallback, onFailureCallback);
+  },
+
   getUserPostsAjax: function(data, onSuccessCallback, onFailureCallback) {
-    request
-     .post('/user/getPosts')
-     .use(prefix)
-     .send(data)
-     .set('Accept', 'application/json')
-     .end(function(err, res) {
-       if ((res !== undefined) && (res.ok)) {
-         onSuccessCallback(res);
-       }
-       else {
-         onFailureCallback();
-       }
-    });
+    AjaxUtils.ajax('/user/getPosts', data, onSuccessCallback, onFailureCallback);
   }
 
 }
