@@ -2,8 +2,7 @@
 
 var React = require('react-native');
 var Unicycle = require('../../Unicycle');
-var request = require('superagent');
-var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com');
+var SignupUtils = require('../../Utils/Signup/SignupUtils');
 
 var signUpStore = Unicycle.createStore({
 
@@ -16,7 +15,8 @@ var signUpStore = Unicycle.createStore({
         confirmPassword: '',
         inSignUpView: false,
         isSignUpRequestUpInFlight: false,
-        signUpRequestSuccessful: false
+        signUpRequestSuccessful: false,
+        pageLoadError: false
       });
     },
 
@@ -36,36 +36,35 @@ var signUpStore = Unicycle.createStore({
       }
 
       this.set({
-        isSignUpRequestUpInFlight: true
+        isSignUpRequestUpInFlight: true,
+        pageLoadError: false
       });
 
-      request
-        .post('/user/create')
-        .use(prefix)
-        .send({
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            password: password,
-            schoolName: 'SUNY Albany' //TODO fix me
-          })
-        .set('Accept', 'application/json')
-        .end(function(err, res) {
-          if ((res !== undefined) && (res.ok) && (res.body.success)) {
-            that.set({
-              signUpRequestSuccessful: true,
-              isSignUpRequestUpInFlight: false,
-              setInLoginView: true,
-              setInSignUpView: false
-            });
-          }
-          //TODO: implement fail case
-          else {
-            that.set({
-              isSignUpRequestUpInFlight: false
-            });
-          }
-        });
+      SignupUtils.ajax(
+        '/user/create',
+        {
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+          password: password,
+          schoolName: 'SUNY Albany' //TODO fix me
+        },
+        () => {
+          that.set({
+            signUpRequestSuccessful: true,
+            isSignUpRequestUpInFlight: false,
+            setInLoginView: true,
+            setInSignUpView: false,
+            pageLoadError: false
+          });
+        },
+        () => {
+          that.set({
+            isSignUpRequestUpInFlight: false,
+            pageLoadError: true
+          });
+        }
+      );
     },
 
     $signUpUpdateFirstName: function(firstname){
@@ -108,6 +107,10 @@ var signUpStore = Unicycle.createStore({
       this.set({
         signUpRequestSuccessful: value
       });
+    },
+
+    anyErrorsLoadingPage: function() {
+      return this.get('pageLoadError');
     },
 
     isSignUpRequestUpInFlight: function() {
