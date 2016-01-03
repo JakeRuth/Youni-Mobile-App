@@ -7,6 +7,7 @@ var ProfilePage = require('./ProfilePage');
 var TrendingPage = require('./Components/Trending/TrendingPage');
 var CreatePostPage = require('./CreatePostPage');
 var ProfileModal = require('./Components/Profile/ProfileModal');
+var BlockedUsersModal = require('./Components/Profile/Settings/BlockedUsersModal');
 var Icon = require('react-native-vector-icons/Ionicons');
 var loginStore = require('./stores/LoginStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
@@ -50,6 +51,7 @@ var LandingPage = React.createClass({
     return (
       <View style={styles.tabBarContainer}>
         <ProfileModal/>
+        <BlockedUsersModal/>
 
         <TabBarIOS
           tintColor="#007C9E">

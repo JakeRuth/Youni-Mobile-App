@@ -85,7 +85,6 @@ var PostLikeModal = React.createClass({
     return (
       <View>
         <Modal
-          style={styles.modal}
           animated={true}
           transparent={true}
           visible={isModalVisible}>

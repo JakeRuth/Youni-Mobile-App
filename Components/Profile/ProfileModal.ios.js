@@ -64,7 +64,7 @@ var ProfileModal = React.createClass({
     return (
       <View>
         <Modal
-          animated={true}
+          animated={false}
           visible={isModalVisible}>
 
           <View style={styles.container}>
