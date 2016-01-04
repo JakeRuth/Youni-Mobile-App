@@ -111,18 +111,14 @@ var ProfilePageBody = React.createClass({
 
     return (
       <ScrollView style={styles.profileBodyContent}>
-
-        <View>
           <CoverImage
             viewerIsProfileOwner={this.props.viewerIsProfileOwner}
             coverImageUrl={'http://www.gobeyondthebrochure.com/wp-content/uploads/2015/05/SUNY-Albany_LevineJ_5ThingsYouMustDo_4.23_FINAL.jpg'}/>
-
           <ProfileImage
             viewerIsProfileOwner={this.props.viewerIsProfileOwner}
             profileImageUrl={this.props.profileImageUrl}/>
-
+          {editSettingsIcon}
           {seeWhoImFollowingButton}
-        </View>
 
           <View style={styles.blankLine}/>
             <View style={styles.statusBadge}>
