@@ -6,6 +6,7 @@ var FollowingButton = require('./FollowingButton');
 var EditSettingsButton = require('./Settings/EditSettingsButton');
 var BlockUserButton = require('./BlockUserButton');
 var ProfileImage = require('./ProfileImage');
+var CoverImage = require('./CoverImage');
 var UserPosts = require('./UserPosts');
 var profileOwnerStore = require('../../stores/profile/ProfileOwnerStore');
 var profileStore = require('../../stores/profile/ProfileStore');
@@ -20,15 +21,51 @@ var {
 
 var styles = StyleSheet.create({
   profileBodyContent: {
-    flex: 1
+    flex: 1,
+    flexDirection: 'column'
+  },
+  profileBodyFirstBlock: {
+    flex: .25,
+    backgroundColor: 'red'
+  },
+  profileBodySecondBlock: {
+    flex: .25,
+    backgroundColor: 'green'
+  },
+  statusBadge: {
+    flex: 1,
+    flexDirection: 'row'
+  },
+  statusBadgeNumPosts: {
+    flex: .5,
+    borderRightWidth: 1,
+    borderColor: 'grey'
+  },
+  statusBadgeNumFans: {
+    flex: .5
+  },
+  statusBadgeText: {
+    color: 'grey',
+    textAlign: 'center'
+  },
+  statusBadgeNum: {
+    color: '#5375FA',
+    textAlign: 'center',
+    fontSize: 25,
+    fontWeight: '600'
   },
   fullName: {
     fontSize: 30,
     left: 20,
     backgroundColor: 'transparent'
   },
+  postCount: {
+    textAlign: 'left',
+    fontSize: 30,
+    fontWeight: '800'
+  },
   fanCount: {
-    textAlign: 'center',
+    textAlign: 'right',
     fontSize: 30,
     fontWeight: '800'
   },
@@ -36,6 +73,10 @@ var styles = StyleSheet.create({
     color: 'grey',
     alignSelf: 'auto',
     margin: 20
+  },
+  blankLine: {
+    borderWidth: 1,
+    borderColor: 'lightgray'
   }
 });
 
@@ -70,22 +111,46 @@ var ProfilePageBody = React.createClass({
 
     return (
       <ScrollView style={styles.profileBodyContent}>
-        <ProfileImage
-          viewerIsProfileOwner={this.props.viewerIsProfileOwner}
-          profileImageUrl={this.props.profileImageUrl}/>
+
+        <View>
+          <CoverImage
+            viewerIsProfileOwner={this.props.viewerIsProfileOwner}
+            coverImageUrl={'http://www.gobeyondthebrochure.com/wp-content/uploads/2015/05/SUNY-Albany_LevineJ_5ThingsYouMustDo_4.23_FINAL.jpg'}/>
+
+          <ProfileImage
+            viewerIsProfileOwner={this.props.viewerIsProfileOwner}
+            profileImageUrl={this.props.profileImageUrl}/>
+
+          {seeWhoImFollowingButton}
+        </View>
+
+          <View style={styles.blankLine}/>
+            <View style={styles.statusBadge}>
+              <View style={styles.statusBadgeNumPosts}>
+                <Text style={styles.statusBadgeText}>Posts</Text>
+                <Text style={styles.statusBadgeNum}>43</Text>
+              </View>
+              <View style={styles.statusBadgeNumFans}>
+                <Text style={styles.statusBadgeText}>Fans</Text>
+                <Text style={styles.statusBadgeNum}>{this.props.numFans}</Text>
+              </View>
+            </View>
+          <View style={styles.blankLine}/>
 
           <Text style={styles.fullName}>{fullName}</Text>
-          {seeWhoImFollowingButton}
+
           {blockUserIcon}
           <Text style={styles.bio}>{this.props.bio}</Text>
-        <Text style={styles.fanCount}>{this._getFansText(this.props.numFans)}</Text>
-        {followButton}
-        <UserPosts
-          profileStore={this._getProfileStoreForUserPosts()}
-          userName={fullName}
-          userEmail={this.props.email}
-          viewerIsProfileOwner={this.props.viewerIsProfileOwner} />
 
+
+          <Text style={styles.fanCount}>{this._getFansText(this.props.numFans)}</Text>
+          {followButton}
+
+          <UserPosts
+            profileStore={this._getProfileStoreForUserPosts()}
+            userName={fullName}
+            userEmail={this.props.email}
+            viewerIsProfileOwner={this.props.viewerIsProfileOwner} />
       </ScrollView>
     );
   },

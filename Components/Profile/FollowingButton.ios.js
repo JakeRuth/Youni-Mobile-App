@@ -16,7 +16,7 @@ var styles = StyleSheet.create({
   followingButtonContainer: {
     position: 'absolute',
     right: 10,
-    top: 130,
+    top: 290,
     left: 198
   },
   followingButton: {
@@ -24,7 +24,7 @@ var styles = StyleSheet.create({
     borderColor: '#5375FA',
     color: '#5375FA',
     textAlign: 'center',
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: '600',
     borderWidth: 1,
     borderRadius: 1,

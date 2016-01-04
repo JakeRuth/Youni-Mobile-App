@@ -18,17 +18,17 @@ var {
 
 var styles = StyleSheet.create({
   profileImageContainer: {
-    flexDirection: 'row',
+    top: -100,
     justifyContent: 'center',
     left: 20,
     width: 168,
-    borderColor: 'green',
-    borderWidth: 4,
-    marginBottom: 5
+    borderColor: 'transparent',
+    borderWidth: 4
   },
   profileImage: {
     width: 160,
-    height: 160
+    height: 160,
+    borderRadius: 4
   }
 });
 

@@ -3,10 +3,7 @@
 var React = require('react-native');
 var Icon = require('react-native-vector-icons/Ionicons');
 var Unicycle = require('../../Unicycle');
-var UploadProfileImage = require('./UploadProfileImage');
-var UIImagePickerManager = require('NativeModules').UIImagePickerManager;
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
-var uploadProfileImageStore = require('../../stores/profile/UploadProfileImageStore');
 
 var {
   View,
@@ -18,31 +15,26 @@ var {
 
 var styles = StyleSheet.create({
   profileImageContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    left: 20,
-    width: 168,
-    borderColor: 'red',
+    borderColor: 'transparent',
     borderWidth: 4,
     marginBottom: 5
   },
   profileImage: {
-    width: 160,
-    height: 160
+    height: 250
   }
 });
 
-var ProfileImage = React.createClass({
+var CoverImage = React.createClass({
 
   propTypes: {
     viewerIsProfileOwner: React.PropTypes.bool.isRequired,
-    profileImageUrl: React.PropTypes.string
+    coverImageUrl: React.PropTypes.string
   },
 
   render: function() {
     var content;
 
-    if (this.props.profileImageUrl) {
+    if (this.props.coverImageUrl) {
       content = this.renderProfileImage();
     }
     else {
@@ -60,7 +52,7 @@ var ProfileImage = React.createClass({
     return (
       <TouchableHighlight onPress={this._onUploadImagePress}>
         <Image style={styles.profileImage}
-               source={{uri: this.props.profileImageUrl}} />
+               source={{uri: this.props.coverImageUrl}} />
       </TouchableHighlight>
     );
   },
@@ -73,56 +65,6 @@ var ProfileImage = React.createClass({
         color='#007C9E' />
     );
   },
-
-  //TODO: ALL these function are repeated, stop the ugly!!!!!
-  _onUploadImagePress: function() {
-    if (this.props.viewerIsProfileOwner) {
-      UIImagePickerManager.showImagePicker(this._getImagePickerOptions(), (didCancel, response) => {
-        if (!didCancel) {
-          Unicycle.exec('setIsUploadProfileImageRequestInFlight', true);
-
-    			NativeModules.FileTransfer.upload(this._getImageUploadOptions(response), (err, res) => {
-            var imageUrl = this._hackyWayToGetPictureUrlFromDumbStringThatShouldBeAMap(res.data);
-            Unicycle.exec('setProfileImageUrl', imageUrl);
-            Unicycle.exec('setIsUploadProfileImageRequestInFlight', true);
-        	});
-        }
-      });
-    }
-  },
-
-  _getImagePickerOptions: function() {
-    return {
-      maxWidth: 640, //TODO
-      maxHeight: 640, //TODO
-      quality: .5, //TODO
-      allowsEditing: true, //TODO
-      noData: true,
-      storageOptions: {
-        skipBackup: true,
-        path: 'Youni'
-      }
-    };
-  },
-
-  _getImageUploadOptions: function(response) {
-    return {
-      uri: response.uri,
-      uploadUrl: 'http://greedyapi.elasticbeanstalk.com/upload/profilePhoto',
-      fileName: 'picture', //the name here has no meaning, it could really be anything
-      mimeType: 'image/jpeg',
-      data: {
-        userIdString: userLoginMetadataStore.getUserId()
-      }
-    };
-  },
-
-  //TODO: Fix this ugly shit and make it nice
-  _hackyWayToGetPictureUrlFromDumbStringThatShouldBeAMap: function(ugly) {
-    var start = ugly.indexOf("pictureUrl") + 13;
-    var end = ugly.indexOf("message") - 3;
-    return ugly.substring(start, end);
-  }
 
 });
 
