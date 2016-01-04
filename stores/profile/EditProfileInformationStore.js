@@ -135,7 +135,6 @@ var editProfileInformationStore = Unicycle.createStore({
           userToUnBlockEmail: userToUnBlockEmail
         },
         (res) => {
-          console.log(res.body)
           that.set({
             isRemoveBlockRequestInFlight: false,
             isBlockedUsersModalVisible: false

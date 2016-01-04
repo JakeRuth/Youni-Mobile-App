@@ -11,6 +11,7 @@ var BlockedUsersModal = require('./Components/Profile/Settings/BlockedUsersModal
 var Icon = require('react-native-vector-icons/Ionicons');
 var loginStore = require('./stores/LoginStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
+var tabStateStore = require('./stores/TabStateStore');
 var Unicycle = require('./Unicycle');
 
 var {
@@ -30,21 +31,16 @@ var styles = StyleSheet.create({
 var LandingPage = React.createClass({
 
   mixins: [
-    Unicycle.listenTo(loginStore)
+    Unicycle.listenTo(loginStore),
+    Unicycle.listenTo(tabStateStore)
   ],
 
   componentDidMount: function() {
     //nice little trick to get the spinner to stay during the animation to home page
     AsyncStorage.getItem('accessToken').then(() => {
-      this.setState({'selectedTab': 'home'});
+      Unicycle.exec('setSelectedTab', 'home');
       Unicycle.exec('setLoginInFlight', false);
     }).done();
-  },
-
-  getInitialState: function() {
-    return {
-      selectedTab: ''
-    };
   },
 
   render: function() {
@@ -59,11 +55,9 @@ var LandingPage = React.createClass({
             title="Home"
             iconName="ios-home-outline"
             selectedIconName="ios-home-outline"
-            selected={this.state.selectedTab === 'home'}
+            selected={tabStateStore.getSelectedTab() === 'home'}
             onPress={() => {
-              this.setState({
-                selectedTab: 'home',
-              });
+              this._transitionState('home');
             }}>
             <HomePage/>
           </Icon.TabBarItem>
@@ -71,13 +65,11 @@ var LandingPage = React.createClass({
             title="Explore"
             iconName="ios-search"
             selectedIconName="ios-search"
-            selected={this.state.selectedTab === 'search'}
+            selected={tabStateStore.getSelectedTab() === 'search'}
             onPress={() => {
               Unicycle.exec('setInProfileView', false);
               Unicycle.exec('setInExploreFeedView', true);
-              this.setState({
-                selectedTab: 'search',
-              });
+              this._transitionState('search');
             }}>
             <SearchPage/>
           </Icon.TabBarItem>
@@ -85,24 +77,21 @@ var LandingPage = React.createClass({
             title="Take Photo"
             iconName="ios-camera-outline"
             selectedIconName="ios-camera-outline"
-            selected={this.state.selectedTab === 'takePhoto'}
+            selected={tabStateStore.getSelectedTab() === 'takePhoto'}
             onPress={() => {
               Unicycle.exec('setAnyErrorsOnCreatePostPage', false);
-              this.setState({
-                selectedTab: 'takePhoto',
-              });
+              Unicycle.exec('setShouldShowImagePickerForPost', true);
+              this._transitionState('takePhoto');
             }}>
-            <CreatePostPage/>
+            <CreatePostPage previousTab={tabStateStore.getPreviousTab()}/>
           </Icon.TabBarItem>
           <Icon.TabBarItem
             title="Trending"
             iconName="fireball"
             selectedIconName="fireball"
-            selected={this.state.selectedTab === 'trend'}
+            selected={tabStateStore.getSelectedTab() === 'trend'}
             onPress={() => {
-              this.setState({
-                selectedTab: 'trend'
-              });
+              this._transitionState('trend');
             }}>
             <TrendingPage/>
           </Icon.TabBarItem>
@@ -110,11 +99,9 @@ var LandingPage = React.createClass({
             title="Profile"
             iconName="ios-people-outline"
             selectedIconName="ios-people-outline"
-            selected={this.state.selectedTab === 'profile'}
+            selected={tabStateStore.getSelectedTab() === 'profile'}
             onPress={() => {
-              this.setState({
-                selectedTab: 'profile'
-              });
+              this._transitionState('profile');
             }}>
             <ProfilePage
               email={userLoginMetadataStore.getEmail()}
@@ -123,6 +110,12 @@ var LandingPage = React.createClass({
         </TabBarIOS>
       </View>
     );
+  },
+
+  _transitionState: function(selectedTabName) {
+    var previousTabName = tabStateStore.getSelectedTab();
+    Unicycle.exec('setPreviousTab', previousTabName);
+    Unicycle.exec('setSelectedTab', selectedTabName);
   }
 
 });

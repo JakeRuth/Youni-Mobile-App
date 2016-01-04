@@ -15,7 +15,8 @@ var createPostStore = Unicycle.createStore({
         imageUri: '',
         imageId: '',
         caption: '',
-        pageLoadError: false
+        pageLoadError: false,
+        shouldShowImagePicker: true
       });
     },
 
@@ -23,7 +24,8 @@ var createPostStore = Unicycle.createStore({
       var that = this;
 
       this.set({
-        isRequestInFlight: true
+        isRequestInFlight: true,
+        shouldShowImagePicker: false
       });
 
       PostUtils.ajax(
@@ -86,6 +88,12 @@ var createPostStore = Unicycle.createStore({
       });
     },
 
+    $setShouldShowImagePickerForPost: function(value) {
+      this.set({
+        shouldShowImagePicker: value
+      });
+    },
+
     anyErrorsLoadingPage: function() {
       return this.get('pageLoadError');
     },
@@ -116,6 +124,10 @@ var createPostStore = Unicycle.createStore({
 
     getCaption: function() {
       return this.get('caption');
+    },
+
+    getShouldShowImagePicker: function() {
+      return this.get('shouldShowImagePicker');
     },
 
     _cleanUp: function() {
