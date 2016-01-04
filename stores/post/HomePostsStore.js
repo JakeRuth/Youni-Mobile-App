@@ -27,7 +27,8 @@ var homePostsStore = Unicycle.createStore({
       isLoadMorePostsRequestInFlight: false,
       isLikeRequestInFlight: false,
       noMorePostsToFetch: false,
-      homeFeedPageOffset: INITIAL_PAGE_OFFSET
+      homeFeedPageOffset: INITIAL_PAGE_OFFSET,
+      pageLoadError: false
     });
   },
 
@@ -38,7 +39,8 @@ var homePostsStore = Unicycle.createStore({
     if (offset == INITIAL_PAGE_OFFSET) {
       this.set({
         isRequestInFlight: true,
-        posts: []
+        posts: [],
+        pageLoadError: false
       });
     }
     else {
@@ -47,7 +49,8 @@ var homePostsStore = Unicycle.createStore({
       });
     }
 
-    PostUtils.getHomeFeedAjax(
+    PostUtils.ajax(
+      '/feed/getHomeFeed',
       {
         userIdString: userId,
         maxNumberOfPostsToFetch: MAX_POSTS_PER_PAGE,
@@ -62,13 +65,18 @@ var homePostsStore = Unicycle.createStore({
           homeFeedPageOffset: offset + MAX_POSTS_PER_PAGE,
           isRequestInFlight: false,
           isLoadMorePostsRequestInFlight: false,
-          noMorePostsToFetch: !res.body.moreResults
+          noMorePostsToFetch: !res.body.moreResults,
+          pageLoadError: false
         });
       },
       () => {
         that.set({
           isRequestInFlight: false,
-          isLoadMorePostsRequestInFlight: false
+          isLoadMorePostsRequestInFlight: false,
+          pageLoadError: true,
+          homeFeedPageOffset: INITIAL_PAGE_OFFSET,
+          noMorePostsToFetch: false,
+          posts: []
         });
       }
     );
@@ -82,7 +90,8 @@ var homePostsStore = Unicycle.createStore({
       isHomeFeedRefreshing: true
     });
 
-    PostUtils.getHomeFeedAjax(
+    PostUtils.ajax(
+      '/feed/getHomeFeed',
       {
         userIdString: userId,
         maxNumberOfPostsToFetch: MAX_POSTS_PER_PAGE,
@@ -164,9 +173,13 @@ var homePostsStore = Unicycle.createStore({
       isLikeRequestInFlight: true
     });
 
-    PostUtils.removePostAjax(
-      id, postId, userId,
-      (id) => {
+    PostUtils.ajax(
+      '/post/removeLike',
+      {
+        postIdString: postId,
+        userIdString: userId
+      },
+      () => {
         var post = posts.get(id);
         post.numLikes--;
         post.liked = false;
@@ -190,6 +203,10 @@ var homePostsStore = Unicycle.createStore({
       noMorePostsToFetch: false,
       posts: []
     });
+  },
+
+  anyErrorsLoadingPage: function() {
+    return this.get('pageLoadError');
   },
 
   isRequestInFlight: function() {

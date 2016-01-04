@@ -1,59 +1,11 @@
 'use strict';
 
-var request = require('superagent');
-var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com');
+var AjaxUtils = require('../Common/AjaxUtils');
 
 var PostUtils = {
 
-  removePostAjax: function(id, postId, userId, onSuccessCallback, onFailureCallback) {
-    request
-     .post('/post/removeLike')
-     .use(prefix)
-     .send({
-       postIdString: postId,
-       userIdString: userId
-     })
-     .set('Accept', 'application/json')
-     .end(function(err, res) {
-       if ((res !== undefined) && (res.ok) && (res.body.success)) {
-         onSuccessCallback(id);
-       }
-       else {
-         onFailureCallback();
-       }
-    });
-  },
-
-  getHomeFeedAjax: function(data, onSuccessCallback, onFailureCallback) {
-    request
-     .post('/feed/getHomeFeed')
-     .use(prefix)
-     .send(data)
-     .set('Accept', 'application/json')
-     .end(function(err, res) {
-       if ((res !== undefined) && (res.ok)) {
-         onSuccessCallback(res);
-       }
-       else {
-         onFailureCallback();
-       }
-    });
-  },
-
-  getExploreFeedAjax: function(data, onSuccessCallback, onFailureCallback) {
-    request
-     .post('/feed/getExploreFeed')
-     .use(prefix)
-     .send(data)
-     .set('Accept', 'application/json')
-     .end(function(err, res) {
-       if ((res !== undefined) && (res.ok)) {
-         onSuccessCallback(res);
-       }
-       else {
-         onFailureCallback();
-       }
-    });
+  ajax: function(url, data, onSuccessCallback, onFailureCallback) {
+    AjaxUtils.ajax(url, data, onSuccessCallback, onFailureCallback);
   },
 
   //TODO: Clean up this method, its too big

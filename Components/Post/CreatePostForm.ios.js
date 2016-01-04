@@ -141,6 +141,7 @@ var CreatePostForm = React.createClass({
   _onCancelTextClick: function() {
     Unicycle.exec('setWasImageSelected', false);
     Unicycle.exec('setCaption', '');
+    Unicycle.exec('setSelectedTab', 'home');
   }
 
 });

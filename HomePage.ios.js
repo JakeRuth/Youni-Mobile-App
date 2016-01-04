@@ -6,6 +6,7 @@ var homePostsStore = require('./stores/post/HomePostsStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
 var MainScreenBanner = require('./MainScreenBanner');
 var PostList = require('./Components/Post/PostList');
+var ErrorPage = require('./Components/Common/ErrorPage');
 
 var {
   View,
@@ -54,17 +55,20 @@ var HomePage = React.createClass({
   ],
 
   componentDidMount: function() {
-    var userId = userLoginMetadataStore.getUserId();
-    Unicycle.exec('requestHomeFeed', userId);
+    this._requestHomeFeed();
   },
 
   render: function() {
     var loadingPosts = homePostsStore.isRequestInFlight(),
+        anyErrorsLoadingPage = homePostsStore.anyErrorsLoadingPage(),
         homeFeedPosts = homePostsStore.getPosts(),
         content;
 
     if (loadingPosts) {
       content = this.renderLoadingSpinner();
+    }
+    else if (anyErrorsLoadingPage) {
+      content = <ErrorPage reloadButtonAction={this._requestHomeFeed}/>
     }
     else if (homeFeedPosts.size) {
       content = (
@@ -126,6 +130,11 @@ var HomePage = React.createClass({
   onLoadMorePostsPress: function() {
     var userId = userLoginMetadataStore.getUserId();
     Unicycle.exec('requestHomeFeed', userId);
+  },
+
+  _requestHomeFeed: function() {
+    var id = userLoginMetadataStore.getUserId();
+    Unicycle.exec('requestHomeFeed', id);
   }
 
 });

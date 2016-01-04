@@ -17,6 +17,7 @@ var profileOwnerStore = Unicycle.createStore({
     init: function () {
       //TODO: Figure out why we can't call `this._setInitialState()` here...
       this.set({
+        pageLoadError: false,
         inSettingsView: false,
         isRequestInFlight: false,
         isUserPostsRequestInFlight: false,
@@ -72,27 +73,34 @@ var profileOwnerStore = Unicycle.createStore({
     $loadOwnerUsersProfile(email) {
       var that = this;
 
-      this.set({ isRequestInFlight: true });
-      request
-       .post('/user/getProfileInformation')
-       .use(prefix)
-       .send({ userEmail: email })
-       .set('Accept', 'application/json')
-       .end(function(err, res) {
-         if ((res !== undefined) && (res.ok)) {
-           that.set({
-             isRequestInFlight: false,
-             firstName: res.body.userDetails['firstName'],
-             lastName: res.body.userDetails['lastName'],
-             numFollowers: res.body.userDetails['numFollowers'],
-             bio: res.body.userDetails['bio'],
-             email: res.body.userDetails['email'],
-             profileImageUrl: res.body.userDetails['profileImageUrl']
-           });
-         } else {
-           //TODO: Implement a failed case
-         }
-       });
+      this.set({
+        pageLoadError: false,
+        isRequestInFlight: true
+      });
+
+      ProfileUtils.ajax(
+        '/user/getProfileInformation',
+        {
+          userEmail: email
+        },
+        (res) => {
+          that.set({
+            isRequestInFlight: false,
+            firstName: res.body.userDetails['firstName'],
+            lastName: res.body.userDetails['lastName'],
+            numFollowers: res.body.userDetails['numFollowers'],
+            bio: res.body.userDetails['bio'],
+            email: res.body.userDetails['email'],
+            profileImageUrl: res.body.userDetails['profileImageUrl']
+          });
+        },
+        () => {
+          that.set({
+            pageLoadError: true,
+            isRequestInFlight: false
+          });
+        }
+      );
     },
 
     $deletePost(id, postId, userId) {
@@ -132,7 +140,8 @@ var profileOwnerStore = Unicycle.createStore({
         });
       }
 
-      ProfileUtils.getUserPostsAjax(
+      ProfileUtils.ajax(
+        '/user/getPosts',
         {
           userEmail: userEmail,
           requestingUserIdString: userId,
@@ -168,7 +177,8 @@ var profileOwnerStore = Unicycle.createStore({
         isProfileOwnerFeedRefreshing: true
       });
 
-      ProfileUtils.getUserPostsAjax(
+      ProfileUtils.ajax(
+        '/user/getPosts',
         {
           userEmail: userEmail,
           requestingUserIdString: userId,
@@ -245,9 +255,13 @@ var profileOwnerStore = Unicycle.createStore({
         isLikeRequestInFlight: true
       });
 
-      PostUtils.removePostAjax(
-        id, postId, userId,
-        (id) => {
+      PostUtils.ajax(
+        '/post/removeLike',
+        {
+          postIdString: postId,
+          userIdString: userId
+        },
+        () => {
           var post = posts.get(id);
           post.numLikes--;
           post.liked = false;
@@ -274,6 +288,10 @@ var profileOwnerStore = Unicycle.createStore({
       this.set({
         posts: posts
       });
+    },
+
+    anyErrorsLoadingPage: function() {
+      return this.get('pageLoadError');
     },
 
     isRequestInFlight() {

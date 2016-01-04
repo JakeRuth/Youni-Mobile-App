@@ -27,7 +27,8 @@ var explorePostsStore = Unicycle.createStore({
       isLoadMorePostsRequestInFlight: false,
       isLikeRequestInFlight: false,
       noMorePostsToFetch: false,
-      exploreFeedPageOffset: INITIAL_PAGE_OFFSET
+      exploreFeedPageOffset: INITIAL_PAGE_OFFSET,
+      pageLoadError: false,
     });
   },
 
@@ -47,7 +48,8 @@ var explorePostsStore = Unicycle.createStore({
       });
     }
 
-    PostUtils.getExploreFeedAjax(
+    PostUtils.ajax(
+      '/feed/getExploreFeed',
       {
         userIdString: userId,
         maxNumberOfPostsToFetch: MAX_POSTS_PER_PAGE,
@@ -62,13 +64,15 @@ var explorePostsStore = Unicycle.createStore({
           exploreFeedPageOffset: offset + MAX_POSTS_PER_PAGE,
           isRequestInFlight: false,
           isLoadMorePostsRequestInFlight: false,
-          noMorePostsToFetch: !res.body.moreResults
+          noMorePostsToFetch: !res.body.moreResults,
+          pageLoadError: false
         });
       },
       () => {
         that.set({
           isRequestInFlight: false,
-          isLoadMorePostsRequestInFlight: false
+          isLoadMorePostsRequestInFlight: false,
+          pageLoadError: true
         });
       }
     );
@@ -82,7 +86,8 @@ var explorePostsStore = Unicycle.createStore({
       isExploreFeedRefreshing: true
     });
 
-    PostUtils.getExploreFeedAjax(
+    PostUtils.ajax(
+      '/feed/getExploreFeed',
       {
         userIdString: userId,
         maxNumberOfPostsToFetch: MAX_POSTS_PER_PAGE,
@@ -164,9 +169,13 @@ var explorePostsStore = Unicycle.createStore({
       isLikeRequestInFlight: true
     });
 
-    PostUtils.removePostAjax(
-      id, postId, userId,
-      (id) => {
+    PostUtils.ajax(
+      '/post/removeLike',
+      {
+        postIdString: postId,
+        userIdString: userId
+      },
+      () => {
         var post = posts.get(id);
         post.numLikes--;
         post.liked = false;
@@ -190,6 +199,10 @@ var explorePostsStore = Unicycle.createStore({
       noMorePostsToFetch: false,
       posts: []
     });
+  },
+
+  anyErrorsLoadingPage: function() {
+    return this.get('pageLoadError');
   },
 
   isRequestInFlight: function() {

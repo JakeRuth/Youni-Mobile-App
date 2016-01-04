@@ -79,10 +79,14 @@ var SignUpForm = React.createClass({
   render: function() {
     var content,
         isSignUpInFlight = signUpStore.isSignUpRequestUpInFlight(),
-        signUpRequestSuccessful = signUpStore.getSignUpRequestSuccessful();
+        signUpRequestSuccessful = signUpStore.getSignUpRequestSuccessful(),
+        anyErrorsLoadingPage = signUpStore.anyErrorsLoadingPage();
 
     if (signUpRequestSuccessful) {
       this._alertOnSuccessfulSignUp();
+    }
+    else if (anyErrorsLoadingPage) {
+      this._alertSignUpError();
     }
 
     if (isSignUpInFlight) {
@@ -197,6 +201,22 @@ var SignUpForm = React.createClass({
         {
           text: 'OK!',
           onPress: () => { Unicycle.exec('setSignUpRequestSuccessful', false) }
+        }
+      ]
+    );
+  },
+
+  _alertSignUpError: function() {
+    AlertIOS.alert(
+      'Sorry, there was an error creating your account.',
+      '',
+      [
+        {
+          text: 'Try Again',
+          onPress: () => { this.onSignUpButtonPress(); }
+        },
+        {
+          text: 'Ok'
         }
       ]
     );

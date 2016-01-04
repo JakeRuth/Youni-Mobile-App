@@ -7,6 +7,7 @@ var MainScreenBanner = require('../../MainScreenBanner');
 var TrendingUsersGrid = require('./TrendingUsersGrid');
 var ProfilePageBody = require('../Profile/ProfilePageBody');
 var BackButton = require('../Common/BackButtonBar');
+var ErrorPage = require('../Common/ErrorPage');
 
 var {
   View,
@@ -37,10 +38,14 @@ var TrendingPage = React.createClass({
 
   render: function() {
     var isRequestInFlight = trendingStore.isRequestInFlight(),
+        anyErrorsLoadingPage = trendingStore.anyErrorsLoadingPage(),
         content;
 
     if (isRequestInFlight) {
       content = this._renderLoadingSpinner();
+    }
+    else if (anyErrorsLoadingPage) {
+      content = <ErrorPage reloadButtonAction={this._onErrorPageReload}/>
     }
     else {
       content = <TrendingUsersGrid/>;
@@ -65,6 +70,10 @@ var TrendingPage = React.createClass({
           animating={true} />
       </View>
     );
+  },
+
+  _onErrorPageReload: function() {
+    Unicycle.exec('getTrendingUsers');
   }
 
 });

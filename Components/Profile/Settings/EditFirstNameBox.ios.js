@@ -83,7 +83,6 @@ var EditFirstNameBox = React.createClass({
             onChangeText={(text) => Unicycle.exec('setFirstName', text)}
             value={profileOwnerStore.getFirstName()}
             maxLength={25} //Hopefully someone doesnt have a 25+ cahracter first name?
-            clearTextOnFocus={true}
           />
         </View>
         {actionButtons}

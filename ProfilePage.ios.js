@@ -3,13 +3,14 @@
 var React = require('react-native');
 var Unicycle = require('./Unicycle');
 var profileOwnerStore = require('./stores/profile/ProfileOwnerStore');
-var EditSettingsPage = require('./Components/Profile/Settings/EditSettingsPage');
 var getAllFollowingStore = require('./stores/user/GetAllFollowingStore');
+var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
+var EditSettingsPage = require('./Components/Profile/Settings/EditSettingsPage');
 var GetAllFollowingPage = require('./Components/Profile/GetAllFollowingPage');
 var MainScreenBanner = require('./MainScreenBanner');
 var ProfilePageBody = require('./Components/Profile/ProfilePageBody');
 var LogoutButton = require('./Components/Common/LogoutButton');
-var EditSettingsButton = require('./Components/Profile/Settings/EditSettingsButton');
+var ErrorPage = require('./Components/Common/ErrorPage');
 
 var {
   View,
@@ -52,13 +53,17 @@ var ProfilePage = React.createClass({
     var isRequestInFlight = profileOwnerStore.isRequestInFlight(),
         inSettingsView = profileOwnerStore.getInSettingsView(),
         inFollowingView = getAllFollowingStore.getIsInView(),
+        anyErrorsLoadingPage = profileOwnerStore.anyErrorsLoadingPage(),
         content;
 
-    if (inSettingsView) {
-      content = <EditSettingsPage/>
+    if (anyErrorsLoadingPage) {
+      content = <ErrorPage reloadButtonAction={this._onErrorPageReload}/>;
+    }
+    else if (inSettingsView) {
+      content = <EditSettingsPage/>;
     }
     else if (isRequestInFlight) {
-      content = <ProfilePageLoading/>
+      content = this._renderLoadingSpinner();
     }
     else if (inFollowingView) {
       content = <GetAllFollowingPage/>;
@@ -82,18 +87,13 @@ var ProfilePage = React.createClass({
           subTitle="Hey look, its you!"/>
 
         <LogoutButton navigator={this.props.navigator}/>
-        <EditSettingsButton navigator={this.props.navigator}/>
         { content }
 
       </View>
     );
-  }
+  },
 
-});
-
-var ProfilePageLoading = React.createClass({
-
-  render: function() {
+  _renderLoadingSpinner: function() {
     return (
       <View style={styles.spinnerContainer}>
         <ActivityIndicatorIOS
@@ -103,6 +103,11 @@ var ProfilePageLoading = React.createClass({
           style={styles.spinner} />
       </View>
     );
+  },
+
+  _onErrorPageReload: function() {
+    var email = userLoginMetadataStore.getEmail();
+    Unicycle.exec('loadOwnerUsersProfile', email);
   }
 
 });

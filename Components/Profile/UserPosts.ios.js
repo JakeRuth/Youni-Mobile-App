@@ -50,7 +50,7 @@ var UserPosts = React.createClass({
       content = (
         <PostList
           refreshable={this.props.viewerIsProfileOwner}
-          showManualRefreshButton={true}
+          showManualRefreshButton={this.props.viewerIsProfileOwner}
           onManualRefreshButtonPress={this._onRefreshButtonPress}
           postStore={this.props.profileStore}
           posts={this.props.profileStore.getPosts()}

@@ -165,9 +165,13 @@ var profileStore = Unicycle.createStore({
         isLikeRequestInFlight: true
       });
 
-      PostUtils.removePostAjax(
-        id, postId, userId,
-        (id) => {
+      PostUtils.ajax(
+        '/post/removeLike',
+        {
+          postIdString: postId,
+          userIdString: userId
+        },
+        () => {
           var post = posts.get(id);
           post.numLikes--;
           post.liked = false;
@@ -217,6 +221,12 @@ var profileStore = Unicycle.createStore({
 
     isLikeRequestInFlight: function() {
       return this.get('isLikeRequestInFlight');
+    },
+
+    isFeedRefreshing: function() {
+      //always return false because the user's profile page feed is not refreshable.
+      //(Note, the profile owner's is refreshable)
+      return false;
     },
 
     getNoMorePostsToFetch: function() {

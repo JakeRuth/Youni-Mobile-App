@@ -5,6 +5,7 @@ var Unicycle = require('../../Unicycle');
 var explorePostsStore = require('../../stores/post/ExplorePostsStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var PostList = require('./PostList');
+var ErrorPage = require('../Common/ErrorPage');
 
 var {
   View,
@@ -35,10 +36,14 @@ var ExploreFeedPosts = React.createClass({
 
   render: function() {
     var loadingPosts = explorePostsStore.isRequestInFlight(),
+        anyErrorsLoadingPage = explorePostsStore.anyErrorsLoadingPage(),
         content;
 
     if (loadingPosts) {
       content = this.renderLoadingSpinner();
+    }
+    else if (anyErrorsLoadingPage) {
+      content = <ErrorPage reloadButtonAction={this._onErrorPageReload}/>
     }
     else {
       content = (
@@ -83,6 +88,11 @@ var ExploreFeedPosts = React.createClass({
     var userId = userLoginMetadataStore.getUserId();
     Unicycle.exec('requestExploreFeed', userId);
   },
+
+  _onErrorPageReload: function() {
+    var id = userLoginMetadataStore.getUserId();
+    Unicycle.exec('requestExploreFeed', id);
+  }
 
 });
 

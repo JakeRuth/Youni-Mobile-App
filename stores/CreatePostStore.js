@@ -1,9 +1,8 @@
 'use strict';
 
 var React = require('react-native');
-var Unicycle = require('./../Unicycle');
-var request = require('superagent');
-var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com');
+var Unicycle = require('../Unicycle');
+var PostUtils = require('../Utils/Post/PostUtils');
 
 var createPostStore = Unicycle.createStore({
 
@@ -15,39 +14,48 @@ var createPostStore = Unicycle.createStore({
         wasImageSelected: false,
         imageUri: '',
         imageId: '',
-        caption: ''
+        caption: '',
+        pageLoadError: false,
+        shouldShowImagePicker: true
       });
     },
 
     $createPost: function(userId, imageId, caption) {
       var that = this;
+
       this.set({
-        isRequestInFlight: true
+        isRequestInFlight: true,
+        shouldShowImagePicker: false
       });
 
-      request
-       .post('/post/create')
-       .use(prefix)
-       .send({
-         posterUserIdString: userId,
-         pictureIdString: imageId,
-         caption: caption ? caption : '_' //TODO: Fix this in the api!!!!
-       })
-       .set('Accept', 'application/json')
-       .end(function(err, res) {
-         if ((res !== undefined) && (res.ok)) {
-           that.set({
-             isRequestInFlight: false,
-             postUploadedSuccessfully: true
-           });
-           that._cleanUp();
-         } else {
-           //TODO: Implement a failed case
-           that.set({
-             isRequestInFlight: false
-           });
-         }
-       });
+      PostUtils.ajax(
+        '/post/create',
+        {
+          posterUserIdString: userId,
+          pictureIdString: imageId,
+          caption: caption ? caption : '_' //TODO: Fix this in the api!!!!
+        },
+        (res) => {
+          that.set({
+            isRequestInFlight: false,
+            pageLoadError: false,
+            postUploadedSuccessfully: true
+          });
+          that._cleanUp();
+        },
+        () => {
+          that.set({
+            isRequestInFlight: false,
+            pageLoadError: true
+          });
+        }
+      );
+    },
+
+    $setAnyErrorsOnCreatePostPage: function(value) {
+      this.set({
+        pageLoadError: value
+      });
     },
 
     $setIsImageUploading: function(isUploading) {
@@ -80,6 +88,16 @@ var createPostStore = Unicycle.createStore({
       });
     },
 
+    $setShouldShowImagePickerForPost: function(value) {
+      this.set({
+        shouldShowImagePicker: value
+      });
+    },
+
+    anyErrorsLoadingPage: function() {
+      return this.get('pageLoadError');
+    },
+
     isRequestInFlight: function() {
       return this.get('isRequestInFlight');
     },
@@ -106,6 +124,10 @@ var createPostStore = Unicycle.createStore({
 
     getCaption: function() {
       return this.get('caption');
+    },
+
+    getShouldShowImagePicker: function() {
+      return this.get('shouldShowImagePicker');
     },
 
     _cleanUp: function() {
