@@ -22,11 +22,12 @@ var {
 var styles = StyleSheet.create({
   profileBodyContent: {
     flex: 1,
+    backgroundColor: '#F0F0F0',
     flexDirection: 'column'
   },
   profileBodyFirstBlock: {
     flex: .25,
-    backgroundColor: 'red'
+    backgroundColor: 'white'
   },
   profileBodySecondBlock: {
     flex: .25,
@@ -38,25 +39,31 @@ var styles = StyleSheet.create({
   },
   statusBadgeNumPosts: {
     flex: .5,
+    margin: 10,
     borderRightWidth: 1,
     borderColor: 'grey'
   },
   statusBadgeNumFans: {
-    flex: .5
+    flex: .5,
+    margin: 10
   },
-  statusBadgeText: {
-    color: 'grey',
+  statusBadgeTitleText: {
+    color: '#999',
+    fontSize: 16,
     textAlign: 'center'
   },
   statusBadgeNum: {
     color: '#5375FA',
     textAlign: 'center',
-    fontSize: 25,
+    fontSize: 22,
     fontWeight: '600'
   },
   fullName: {
-    fontSize: 30,
+    top: 10,
+    fontSize: 26,
+    fontWeight: '400',
     left: 20,
+    color: '#767676',
     backgroundColor: 'transparent'
   },
   postCount: {
@@ -72,7 +79,12 @@ var styles = StyleSheet.create({
   bio: {
     color: 'grey',
     alignSelf: 'auto',
-    margin: 20
+    top: 5,
+    fontSize: 20,
+    fontWeight: '400',
+    marginBottom: 20,
+    marginLeft: 20,
+    marginRight: 20
   },
   blankLine: {
     borderWidth: 1,
@@ -111,6 +123,7 @@ var ProfilePageBody = React.createClass({
 
     return (
       <ScrollView style={styles.profileBodyContent}>
+        <View style={styles.profileBodyFirstBlock}>
           <CoverImage
             viewerIsProfileOwner={this.props.viewerIsProfileOwner}
             coverImageUrl={'http://www.gobeyondthebrochure.com/wp-content/uploads/2015/05/SUNY-Albany_LevineJ_5ThingsYouMustDo_4.23_FINAL.jpg'}/>
@@ -120,26 +133,25 @@ var ProfilePageBody = React.createClass({
           {editSettingsIcon}
           {seeWhoImFollowingButton}
 
-          <View style={styles.blankLine}/>
-            <View style={styles.statusBadge}>
-              <View style={styles.statusBadgeNumPosts}>
-                <Text style={styles.statusBadgeText}>Posts</Text>
-                <Text style={styles.statusBadgeNum}>43</Text>
-              </View>
-              <View style={styles.statusBadgeNumFans}>
-                <Text style={styles.statusBadgeText}>Fans</Text>
-                <Text style={styles.statusBadgeNum}>{this.props.numFans}</Text>
-              </View>
-            </View>
-          <View style={styles.blankLine}/>
-
           <Text style={styles.fullName}>{fullName}</Text>
 
           {blockUserIcon}
           <Text style={styles.bio}>{this.props.bio}</Text>
 
+          <View style={styles.blankLine}/>
+            <View style={styles.statusBadge}>
+              <View style={styles.statusBadgeNumPosts}>
+                <Text style={styles.statusBadgeTitleText}>Posts</Text>
+                <Text style={styles.statusBadgeNum}>43</Text>
+              </View>
+              <View style={styles.statusBadgeNumFans}>
+                <Text style={styles.statusBadgeTitleText}>Fans</Text>
+                <Text style={styles.statusBadgeNum}>{this.props.numFans}</Text>
+              </View>
+            </View>
+          <View style={styles.blankLine}/>
+        </View>
 
-          <Text style={styles.fanCount}>{this._getFansText(this.props.numFans)}</Text>
           {followButton}
 
           <UserPosts
