@@ -22,7 +22,7 @@ var {
 var styles = StyleSheet.create({
   profileBodyContent: {
     flex: 1,
-    backgroundColor: '#F0F0F0',
+    backgroundColor: '#f2f2f2',
     flexDirection: 'column'
   },
   profileBodyFirstBlock: {

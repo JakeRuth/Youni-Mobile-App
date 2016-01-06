@@ -30,7 +30,8 @@ var styles = StyleSheet.create({
     height: 300
   },
   postFooter: {
-    flexDirection: 'column'
+    flexDirection: 'column',
+    backgroundColor: 'white'
   },
   caption: {
     alignSelf: 'center',
@@ -42,6 +43,10 @@ var styles = StyleSheet.create({
     borderWidth: 1 / PixelRatio.get(),
     borderColor: 'lightgray',
     margin: 10
+  },
+  blankBlock: {
+    borderWidth: 16,
+    borderColor: 'transparent'
   }
 });
 
@@ -94,7 +99,7 @@ var Post = React.createClass({
             postIdString={this.props.postIdString} />
           <Text style={styles.caption}>{this.props.caption == '_' ? '' : this.props.caption }</Text>{/*TODO: Fix this crap*/}
         </View>
-        <View style={styles.blankLine} />
+        <View style={styles.blankBlock} />
 
       </View>
     );
