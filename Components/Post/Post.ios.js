@@ -34,15 +34,20 @@ var styles = StyleSheet.create({
     backgroundColor: 'white'
   },
   caption: {
-    alignSelf: 'center',
-    fontSize: 15,
+    fontSize: 20,
     borderBottomWidth: 2,
+    marginTop: 12,
+    marginBottom: 12,
+    marginLeft: 16,
+    marginRight: 16,
+    color: '#666',
     borderBottomColor: 'black'
   },
   blankLine: {
     borderWidth: 1 / PixelRatio.get(),
     borderColor: 'lightgray',
-    margin: 10
+    marginLeft: 16,
+    marginRight: 16
   },
   blankBlock: {
     borderWidth: 16,
@@ -91,13 +96,14 @@ var Post = React.createClass({
         </TouchableHighlight>
 
         <View style={styles.postFooter}>
+          <Text style={styles.caption}>{this.props.caption == '_' ? '' : this.props.caption }</Text>{/*TODO: Fix this crap*/}
+            <View style={styles.blankLine} />
           <PostLikeBar
             postStore={this.props.postStore}
             onStarPress={this._onStarPress(this.props.liked)}
             liked={this.props.liked}
             numLikes={this.props.numLikes}
             postIdString={this.props.postIdString} />
-          <Text style={styles.caption}>{this.props.caption == '_' ? '' : this.props.caption }</Text>{/*TODO: Fix this crap*/}
         </View>
         <View style={styles.blankBlock} />
 
