@@ -117,8 +117,8 @@ var CreatePostPage = React.createClass({
 
   _getImagePickerOptions: function() {
     return {
-      maxWidth: 640, //TODO
-      maxHeight: 640, //TODO
+      maxWidth: 416, //TODO
+      maxHeight: 416, //TODO
       quality: .5, //TODO
       allowsEditing: true, //TODO
       noData: true,

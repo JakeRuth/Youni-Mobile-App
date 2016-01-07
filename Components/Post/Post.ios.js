@@ -27,7 +27,7 @@ var styles = StyleSheet.create({
   postImage: {
     flex: 1,
     width: null,
-    height: 300
+    height: 416
   },
   postFooter: {
     flexDirection: 'column'
