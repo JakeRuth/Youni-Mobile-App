@@ -49,7 +49,7 @@ var styles = StyleSheet.create({
     marginLeft: 16,
     marginRight: 16
   },
-  blankBlock: {
+  postSeparator: {
     borderWidth: 16,
     borderColor: 'transparent'
   }
@@ -105,7 +105,7 @@ var Post = React.createClass({
             numLikes={this.props.numLikes}
             postIdString={this.props.postIdString} />
         </View>
-        <View style={styles.blankBlock} />
+        <View style={styles.postSeparator} />
 
       </View>
     );

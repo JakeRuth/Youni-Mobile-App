@@ -21,38 +21,37 @@ var {
 
 var styles = StyleSheet.create({
   profileBodyContent: {
-    flex: 1,
+    flex: 4,
     backgroundColor: '#f2f2f2',
     flexDirection: 'column'
   },
-  profileBodyFirstBlock: {
-    flex: .25,
+  userProfileAboutMeWithImages: {
+    flex: 1,
     backgroundColor: 'white'
   },
-  profileBodySecondBlock: {
-    flex: .25,
-    backgroundColor: 'green'
+  profileBodyPosts: {
+    flex: 3
   },
-  statusBadge: {
-    flex: 1,
+  postsAndFansCounterContainer: {
+    flex: 2,
     flexDirection: 'row'
   },
-  statusBadgeNumPosts: {
-    flex: .5,
+  numPostsCounter: {
+    flex: 1,
     margin: 10,
     borderRightWidth: 1,
     borderColor: 'grey'
   },
-  statusBadgeNumFans: {
-    flex: .5,
+  numFansCounter: {
+    flex: 1,
     margin: 10
   },
-  statusBadgeTitleText: {
+  postsAndFansCounterTitleText: {
     color: '#999',
     fontSize: 16,
     textAlign: 'center'
   },
-  statusBadgeNum: {
+  postsAndFansCounter: {
     color: '#5375FA',
     textAlign: 'center',
     fontSize: 22,
@@ -123,7 +122,7 @@ var ProfilePageBody = React.createClass({
 
     return (
       <ScrollView style={styles.profileBodyContent}>
-        <View style={styles.profileBodyFirstBlock}>
+        <View style={styles.userProfileAboutMeWithImages}>
           <CoverImage
             viewerIsProfileOwner={this.props.viewerIsProfileOwner}
             coverImageUrl={'http://www.gobeyondthebrochure.com/wp-content/uploads/2015/05/SUNY-Albany_LevineJ_5ThingsYouMustDo_4.23_FINAL.jpg'}/>
@@ -139,26 +138,28 @@ var ProfilePageBody = React.createClass({
           <Text style={styles.bio}>{this.props.bio}</Text>
 
           <View style={styles.blankLine}/>
-            <View style={styles.statusBadge}>
-              <View style={styles.statusBadgeNumPosts}>
-                <Text style={styles.statusBadgeTitleText}>Posts</Text>
-                <Text style={styles.statusBadgeNum}>43</Text>
+            <View style={styles.postsAndFansCounterContainer}>
+              <View style={styles.numPostsCounter}>
+                <Text style={styles.postsAndFansCounterTitleText}>Posts</Text>
+                <Text style={styles.postsAndFansCounter}>43</Text>
               </View>
-              <View style={styles.statusBadgeNumFans}>
-                <Text style={styles.statusBadgeTitleText}>Fans</Text>
-                <Text style={styles.statusBadgeNum}>{this.props.numFans}</Text>
+              <View style={styles.numFansCounter}>
+                <Text style={styles.postsAndFansCounterTitleText}>Fans</Text>
+                <Text style={styles.postsAndFansCounter}>{this.props.numFans}</Text>
               </View>
             </View>
           <View style={styles.blankLine}/>
-        </View>
+      </View>
 
-          {followButton}
+      {followButton}
 
-          <UserPosts
-            profileStore={this._getProfileStoreForUserPosts()}
-            userName={fullName}
-            userEmail={this.props.email}
-            viewerIsProfileOwner={this.props.viewerIsProfileOwner} />
+          <View style={styles.profileBodyPosts}>
+            <UserPosts
+              profileStore={this._getProfileStoreForUserPosts()}
+              userName={fullName}
+              userEmail={this.props.email}
+              viewerIsProfileOwner={this.props.viewerIsProfileOwner} />
+          </View>
       </ScrollView>
     );
   },

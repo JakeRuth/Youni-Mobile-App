@@ -19,7 +19,7 @@ var styles = StyleSheet.create({
     borderWidth: 4,
     marginBottom: 5
   },
-  profileImage: {
+  coverImage: {
     height: 250
   }
 });
@@ -35,10 +35,10 @@ var CoverImage = React.createClass({
     var content;
 
     if (this.props.coverImageUrl) {
-      content = this.renderProfileImage();
+      content = this.renderCoverImage();
     }
     else {
-      content = this.renderBlankProfileIcon();
+      content = this.renderBlankCoverPhotoIcon();
     }
 
     return (
@@ -48,16 +48,16 @@ var CoverImage = React.createClass({
     );
   },
 
-  renderProfileImage: function() {
+  renderCoverImage: function() {
     return (
       <TouchableHighlight onPress={this._onUploadImagePress}>
-        <Image style={styles.profileImage}
+        <Image style={styles.coverImage}
                source={{uri: this.props.coverImageUrl}} />
       </TouchableHighlight>
     );
   },
 
-  renderBlankProfileIcon: function() {
+  renderBlankCoverPhotoIcon: function() {
     return (
       <Icon
         name='ios-person'

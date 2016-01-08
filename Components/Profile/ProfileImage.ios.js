@@ -18,7 +18,7 @@ var {
 
 var styles = StyleSheet.create({
   profileImageContainer: {
-    top: -100,
+    marginTop: -100,
     justifyContent: 'center',
     left: 20,
     width: 168,

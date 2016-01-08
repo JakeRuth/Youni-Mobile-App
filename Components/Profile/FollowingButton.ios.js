@@ -14,22 +14,26 @@ var {
 
 var styles = StyleSheet.create({
   followingButtonContainer: {
-    position: 'absolute',
-    right: 10,
-    top: 290,
-    left: 198
+    flex: 1,
+    alignItems: 'center',
+    marginTop: -40,
+    marginRight: 10,
+    backgroundColor: 'white',
+    alignSelf: 'flex-end'
   },
   followingButton: {
-    backgroundColor: 'white',
+    flex: 1,
+    backgroundColor: 'transparent',
     borderColor: '#5375FA',
     color: '#5375FA',
-    textAlign: 'center',
     fontSize: 18,
     fontWeight: '600',
     borderWidth: 1,
     borderRadius: 1,
     paddingTop: 5,
-    paddingBottom: 5
+    paddingBottom: 5,
+    paddingLeft: 45,
+    paddingRight: 45
   }
 });
 
