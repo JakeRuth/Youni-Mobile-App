@@ -22,16 +22,11 @@ var {
 
 var styles = StyleSheet.create({
   profileBodyContent: {
-    flex: 4,
     backgroundColor: '#f2f2f2',
     flexDirection: 'column'
   },
-  userProfileAboutMeWithImages: {
-    flex: 1,
+  profileInformationContainer: {
     backgroundColor: 'white'
-  },
-  profileBodyPosts: {
-    flex: 3
   },
   fullName: {
     top: 10,
@@ -39,7 +34,7 @@ var styles = StyleSheet.create({
     fontWeight: '400',
     left: 20,
     color: '#767676',
-    backgroundColor: 'transparent'
+    marginBottom: 10
   },
   bio: {
     color: 'grey',
@@ -88,7 +83,7 @@ var ProfilePageBody = React.createClass({
 
     return (
       <ScrollView style={styles.profileBodyContent}>
-        <View style={styles.userProfileAboutMeWithImages}>
+        <View style={styles.profileInformationContainer}>
           <CoverImage
             viewerIsProfileOwner={this.props.viewerIsProfileOwner}
             coverImageUrl={'http://www.gobeyondthebrochure.com/wp-content/uploads/2015/05/SUNY-Albany_LevineJ_5ThingsYouMustDo_4.23_FINAL.jpg'}/>
@@ -107,15 +102,13 @@ var ProfilePageBody = React.createClass({
 
         </View>
 
-      {followButton}
+        {followButton}
 
-        <View style={styles.profileBodyPosts}>
-          <UserPosts
-            profileStore={this._getProfileStoreForUserPosts()}
-            userName={fullName}
-            userEmail={this.props.email}
-            viewerIsProfileOwner={this.props.viewerIsProfileOwner} />
-        </View>
+        <UserPosts
+          profileStore={this._getProfileStoreForUserPosts()}
+          userName={fullName}
+          userEmail={this.props.email}
+          viewerIsProfileOwner={this.props.viewerIsProfileOwner} />
       </ScrollView>
     );
   },
