@@ -37,7 +37,7 @@ var styles = StyleSheet.create({
   },
   fullName: {
     top: 10,
-    fontSize: 26,
+    fontSize: 23,
     fontWeight: '400',
     left: 20,
     color: '#767676',
@@ -47,7 +47,7 @@ var styles = StyleSheet.create({
     color: 'grey',
     alignSelf: 'auto',
     top: 5,
-    fontSize: 20,
+    fontSize: 14,
     fontWeight: '400',
     marginBottom: 20,
     marginLeft: 20,
