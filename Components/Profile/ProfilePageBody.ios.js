@@ -7,7 +7,7 @@ var EditSettingsButton = require('./Settings/EditSettingsButton');
 var BlockUserButton = require('./BlockUserButton');
 var ProfileImage = require('./ProfileImage');
 var CoverImage = require('./CoverImage');
-var PostsAndFansCountContainer = require('./PostsAndFansCountContainer');
+var TotalProfileCountsContainer = require('./TotalProfileCountsContainer');
 var UserPosts = require('./UserPosts');
 var profileOwnerStore = require('../../stores/profile/ProfileOwnerStore');
 var profileStore = require('../../stores/profile/ProfileStore');
@@ -103,7 +103,7 @@ var ProfilePageBody = React.createClass({
           {blockUserIcon}
           <Text style={styles.bio}>{this.props.bio}</Text>
 
-          <PostsAndFansCountContainer numFans={this.props.numFans} />
+          <TotalProfileCountsContainer numFans={this.props.numFans} />
 
         </View>
 

@@ -42,7 +42,7 @@ var styles = StyleSheet.create({
   }
 });
 
-var PostsAndFansCountContainer = React.createClass({
+var TotalProfileCountsContainer = React.createClass({
 
   propTypes: {
     viewerIsProfileOwner: React.PropTypes.bool.isRequired,
@@ -80,4 +80,4 @@ var PostsAndFansCountContainer = React.createClass({
 
 });
 
-module.exports = PostsAndFansCountContainer;
+module.exports = TotalProfileCountsContainer;
