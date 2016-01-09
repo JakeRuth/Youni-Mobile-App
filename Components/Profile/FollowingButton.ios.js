@@ -18,7 +18,7 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: -40,
     marginRight: 10,
-    backgroundColor: 'white',
+    backgroundColor: 'red',
     alignSelf: 'flex-end'
   },
   followingButton: {
@@ -31,9 +31,7 @@ var styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 1,
     paddingTop: 5,
-    paddingBottom: 5,
-    paddingLeft: 45,
-    paddingRight: 45
+    paddingBottom: 5
   }
 });
 

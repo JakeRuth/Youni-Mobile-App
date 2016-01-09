@@ -14,9 +14,8 @@ var {
 } = React
 
 var styles = StyleSheet.create({
-  profileImageContainer: {
+  coverImageContainer: {
     borderColor: 'transparent',
-    borderWidth: 4,
     marginBottom: 5
   },
   coverImage: {
@@ -42,7 +41,7 @@ var CoverImage = React.createClass({
     }
 
     return (
-      <View style={styles.profileImageContainer}>
+      <View style={styles.coverImageContainer}>
         {content}
       </View>
     );

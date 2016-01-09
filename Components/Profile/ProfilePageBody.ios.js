@@ -7,6 +7,7 @@ var EditSettingsButton = require('./Settings/EditSettingsButton');
 var BlockUserButton = require('./BlockUserButton');
 var ProfileImage = require('./ProfileImage');
 var CoverImage = require('./CoverImage');
+var PostsAndFansCountContainer = require('./PostsAndFansCountContainer');
 var UserPosts = require('./UserPosts');
 var profileOwnerStore = require('../../stores/profile/ProfileOwnerStore');
 var profileStore = require('../../stores/profile/ProfileStore');
@@ -32,31 +33,6 @@ var styles = StyleSheet.create({
   profileBodyPosts: {
     flex: 3
   },
-  postsAndFansCounterContainer: {
-    flex: 2,
-    flexDirection: 'row'
-  },
-  numPostsCounter: {
-    flex: 1,
-    margin: 10,
-    borderRightWidth: 1,
-    borderColor: 'grey'
-  },
-  numFansCounter: {
-    flex: 1,
-    margin: 10
-  },
-  postsAndFansCounterTitleText: {
-    color: '#999',
-    fontSize: 16,
-    textAlign: 'center'
-  },
-  postsAndFansCounter: {
-    color: '#5375FA',
-    textAlign: 'center',
-    fontSize: 22,
-    fontWeight: '600'
-  },
   fullName: {
     top: 10,
     fontSize: 26,
@@ -64,16 +40,6 @@ var styles = StyleSheet.create({
     left: 20,
     color: '#767676',
     backgroundColor: 'transparent'
-  },
-  postCount: {
-    textAlign: 'left',
-    fontSize: 30,
-    fontWeight: '800'
-  },
-  fanCount: {
-    textAlign: 'right',
-    fontSize: 30,
-    fontWeight: '800'
   },
   bio: {
     color: 'grey',
@@ -137,18 +103,10 @@ var ProfilePageBody = React.createClass({
           {blockUserIcon}
           <Text style={styles.bio}>{this.props.bio}</Text>
 
-          <View style={styles.blankLine}/>
-            <View style={styles.postsAndFansCounterContainer}>
-              <View style={styles.numPostsCounter}>
-                <Text style={styles.postsAndFansCounterTitleText}>Posts</Text>
-                <Text style={styles.postsAndFansCounter}>43</Text>
-              </View>
-              <View style={styles.numFansCounter}>
-                <Text style={styles.postsAndFansCounterTitleText}>Fans</Text>
-                <Text style={styles.postsAndFansCounter}>{this.props.numFans}</Text>
-              </View>
-            </View>
-          <View style={styles.blankLine}/>
+          <PostsAndFansCountContainer
+            numFans= {this.props.numFans}
+            />
+
       </View>
 
       {followButton}
