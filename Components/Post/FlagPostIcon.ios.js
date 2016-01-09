@@ -3,8 +3,7 @@
 var React = require('react-native');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var Icon = require('react-native-vector-icons/Ionicons');
-var request = require('superagent');
-var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com');
+var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 
 var {
   TouchableHighlight,
@@ -61,17 +60,18 @@ var PostHeader = React.createClass({
   _flagPost: function() {
     var userId = userLoginMetadataStore.getUserId();
 
-    request
-     .post('/post/flag')
-     .use(prefix)
-     .send({
-       postIdString: this.props.postId,
-       reporterUserIdString: userId
-     })
-     .set('Accept', 'application/json')
-     .end(function(err, res) {
-       //TODO: Record if the request was successful
-     });
+    //TODO: Think if we may want to implement some feedback here
+    AjaxUtils.ajax(
+      '/post/flag',
+      {
+        postIdString: this.props.postId,
+        reporterUserIdString: userId
+      },
+      (res) => {
+      },
+      () => {
+      }
+    );
   }
 
 });

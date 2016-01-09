@@ -1,9 +1,8 @@
 'use strict';
 
 var React = require('react-native');
-var Unicycle = require('./../Unicycle');
-var request = require('superagent');
-var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com');
+var Unicycle = require('../Unicycle');
+var AjaxUtils = require('../Utils/Common/AjaxUtils');
 
 var followUnfollowStore = Unicycle.createStore({
 
@@ -17,73 +16,82 @@ var followUnfollowStore = Unicycle.createStore({
     $isUserFollowing(requestingUserId, userEmail) {
       var that = this;
 
-      this.set({ isRequestInFlight: true });
-      request
-       .post('/user/isFollowing')
-       .use(prefix)
-       .send({
-         requestingUserIdString: requestingUserId,
-         userEmail: userEmail
-       })
-       .set('Accept', 'application/json')
-       .end(function(err, res) {
-         if ((res !== undefined) && (res.ok)) {
-           that.set({
-             isRequestInFlight: false,
-             isUserFollowingResult: res.body.following
-           });
-         } else {
-           //TODO: Implement a failed case
-         }
-       });
+      this.set({
+        isRequestInFlight: true
+      });
+
+      AjaxUtils.ajax(
+        '/user/isFollowing',
+        {
+          requestingUserIdString: requestingUserId,
+          userEmail: userEmail
+        },
+        (res) => {
+          that.set({
+            isRequestInFlight: false,
+            isUserFollowingResult: res.body.following
+          });
+        },
+        () => {
+          that.set({
+            isRequestInFlight: false
+          });
+        }
+      );
     },
 
     $follow(requestingUserId, userEmail) {
       var that = this;
 
-      this.set({ isRequestInFlight: true });
-      request
-       .post('/user/follow')
-       .use(prefix)
-       .send({
-         requestingUserIdString: requestingUserId,
-         userToFollowEmail: userEmail
-       })
-       .set('Accept', 'application/json')
-       .end(function(err, res) {
-         if ((res !== undefined) && (res.ok)) {
-           that.set({
-             isRequestInFlight: false,
-             isUserFollowingResult: true //TODO: this could be a lie if the call fails
-           });
-         } else {
-           //TODO: Implement a failed case
-         }
-       });
+      this.set({
+        isRequestInFlight: true
+      });
+
+      AjaxUtils.ajax(
+        '/user/follow',
+        {
+          requestingUserIdString: requestingUserId,
+          userToFollowEmail: userEmail
+        },
+        (res) => {
+          that.set({
+            isRequestInFlight: false,
+            isUserFollowingResult: true //TODO: this could be a lie if the call fails
+          });
+        },
+        () => {
+          that.set({
+            isRequestInFlight: false
+          });
+        }
+      );
     },
 
     $unfollow(requestingUserId, userEmail) {
       var that = this;
 
-      this.set({ isRequestInFlight: true });
-      request
-       .post('/user/removeFollow')
-       .use(prefix)
-       .send({
-         requestingUserIdString: requestingUserId,
-         userToNotFollowEmail: userEmail
-       })
-       .set('Accept', 'application/json')
-       .end(function(err, res) {
-         if ((res !== undefined) && (res.ok)) {
-           that.set({
-             isRequestInFlight: false,
-             isUserFollowingResult: false
-           });
-         } else {
-           //TODO: Implement a failed case
-         }
-       });
+      this.set({
+        isRequestInFlight: true
+      });
+
+      AjaxUtils.ajax(
+        '/user/removeFollow',
+        {
+          requestingUserIdString: requestingUserId,
+          userToNotFollowEmail: userEmail
+        },
+        (res) => {
+          that.set({
+            isRequestInFlight: false,
+            isUserFollowingResult: false
+          });
+        },
+        () => {
+          that.set({
+            isRequestInFlight: false
+          });
+        }
+      );
     },
 
     isRequestInFlight: function() {

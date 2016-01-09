@@ -8,6 +8,7 @@ var MainScreenBanner = require('./MainScreenBanner');
 var CreatePostForm = require('./Components/Post/CreatePostForm');
 var ErrorPage = require('./Components/Common/ErrorPage');
 var UIImagePickerManager = require('NativeModules').UIImagePickerManager;
+var AjaxUtils = require('./Utils/Common/AjaxUtils');
 
 var {
   View,
@@ -130,9 +131,10 @@ var CreatePostPage = React.createClass({
   },
 
   _getImageUploadOptions: function(response) {
+    var url = AjaxUtils.SERVER_URL + '/upload/photo';
     return {
       uri: response.uri,
-      uploadUrl: 'http://greedyapi.elasticbeanstalk.com/upload/photo',
+      uploadUrl: url,
       fileName: 'picture', //the name here has no meaning, it could really be anything
       mimeType: 'image/jpeg'
     };

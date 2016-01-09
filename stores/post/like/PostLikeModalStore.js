@@ -2,8 +2,7 @@
 
 var React = require('react-native');
 var Unicycle = require('./../../../Unicycle');
-var request = require('superagent');
-var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com');
+var AjaxUtils = require('../../../Utils/Common/AjaxUtils');
 
 var postLikeModalStore = Unicycle.createStore({
 
@@ -22,26 +21,23 @@ var postLikeModalStore = Unicycle.createStore({
       isRequestInFlight: true
     });
 
-    request
-     .post('/post/getLikerDisplayNames')
-     .use(prefix)
-     .send({
-       postIdString: postId
-     })
-     .set('Accept', 'application/json')
-     .end(function(err, res) {
-       if ((res !== undefined) && (res.ok)) {
-         that.set({
-           likers: res.body.users
-         });
-       }
-       else {
-         //TODO: implement failed case (show user error message or cached results)
-       }
-       that.set({
-         isRequestInFlight: false
-       })
-    });
+    AjaxUtils.ajax(
+      '/post/getLikerDisplayNames',
+      {
+        postIdString: postId
+      },
+      (res) => {
+        that.set({
+          likers: res.body.users,
+          isRequestInFlight: false
+        });
+      },
+      () => {
+        that.set({
+          isRequestInFlight: false
+        });
+      }
+    );
   },
 
   $setIsModalVisible: function(isVisible) {

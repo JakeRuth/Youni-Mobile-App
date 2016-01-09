@@ -2,7 +2,7 @@
 
 var React = require('react-native');
 var Unicycle = require('../../Unicycle');
-var SignupUtils = require('../../Utils/Signup/SignupUtils');
+var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 
 var signUpStore = Unicycle.createStore({
 
@@ -40,7 +40,7 @@ var signUpStore = Unicycle.createStore({
         pageLoadError: false
       });
 
-      SignupUtils.ajax(
+      AjaxUtils.ajax(
         '/user/create',
         {
           firstName: firstName,

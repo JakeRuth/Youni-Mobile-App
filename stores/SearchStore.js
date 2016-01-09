@@ -1,9 +1,9 @@
 'use strict';
 
 var React = require('react-native');
-var Unicycle = require('./../Unicycle');
-var request = require('superagent');
-var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com');
+var Unicycle = require('../Unicycle');
+var AjaxUtils = require('../Utils/Common/AjaxUtils');
+var UserUtils = require('../Utils/User/UserUtils');
 
 var searchStore = Unicycle.createStore({
 
@@ -32,27 +32,28 @@ var searchStore = Unicycle.createStore({
     });
 
     if (search) {
-      this.set({ isRequestInFlight: true });
-      request
-       .post('/search/users')
-       .use(prefix)
-       .send({
-         searchString: search,
-         requestingUserEmail: email
-       })
-       .set('Accept', 'application/json')
-       .end(function(err, res) {
-         if ((res !== undefined) && (res.ok)) {
-           results = that._createSearchJsonFromResponse(res.body.users);
-           that.set({
-             isRequestInFlight: false,
-             results: results
-           });
-         }
-         else {
-           //TODO: Implement a failed case
-         }
-       });
+      this.set({
+        isRequestInFlight: true
+      });
+
+      AjaxUtils.ajax(
+        '/search/users',
+        {
+          searchString: search,
+          requestingUserEmail: email
+        },
+        (res) => {
+          that.set({
+            isRequestInFlight: false,
+            results: UserUtils.convertResponseUserListToMap(res.body.users)
+          });
+        },
+        () => {
+          that.set({
+            isRequestInFlight: false
+          });
+        }
+      );
      }
      else {
        this.set({
@@ -95,22 +96,6 @@ var searchStore = Unicycle.createStore({
 
   getInProfileView: function() {
     return this.get('inProfileView');
-  },
-
-  _createSearchJsonFromResponse: function(users) {
-    var usersJson = [];
-    if (users) {
-      for (var i = 0; i < users.length; i++) {
-        var user = users[i];
-        usersJson.push({
-          firstName: user['firstName'],
-          lastName: user['lastName'],
-          email: user['email'],
-          profileImageUrl: user['profileImageUrl']
-        });
-      }
-    }
-    return usersJson;
   }
 
 });
