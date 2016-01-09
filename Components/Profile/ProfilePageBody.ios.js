@@ -1,8 +1,8 @@
 'use strict';
 
 var React = require('react-native');
-var FollowUnfollowButton = require('./FollowUnfollowButton');
-var FollowingButton = require('./FollowingButton');
+var Unicycle = require('../../Unicycle');
+var FollowButton = require('./FollowButton');
 var EditSettingsButton = require('./Settings/EditSettingsButton');
 var BlockUserButton = require('./BlockUserButton');
 var ProfileImage = require('./ProfileImage');
@@ -11,6 +11,8 @@ var TotalProfileCountsContainer = require('./TotalProfileCountsContainer');
 var UserPosts = require('./UserPosts');
 var profileOwnerStore = require('../../stores/profile/ProfileOwnerStore');
 var profileStore = require('../../stores/profile/ProfileStore');
+var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
+var followUnfollowStore = require('../../stores/FollowStore');
 
 var {
   View,
@@ -59,6 +61,14 @@ var styles = StyleSheet.create({
 
 var ProfilePageBody = React.createClass({
 
+  componentDidMount: function() {
+    var userId;
+    if (!this.props.viewerIsProfileOwner) {
+      userId = userLoginMetadataStore.getUserId();
+      Unicycle.exec('isUserFollowing', userId, this.props.email);
+    }
+  },
+
   propTypes: {
     firstName: React.PropTypes.string.isRequired,
     lastName: React.PropTypes.string.isRequired,
@@ -69,20 +79,18 @@ var ProfilePageBody = React.createClass({
     viewerIsProfileOwner: React.PropTypes.bool.isRequired
   },
 
+  mixins: [
+    Unicycle.listenTo(followUnfollowStore)
+  ],
+
   render: function() {
-    var fullName = this.props.firstName + ' ' + this.props.lastName,
-        followButton = <View/>,
-        seeWhoImFollowingButton = <View/>,
-        editSettingsIcon = <View/>,
-        blockUserIcon = <View/>,
-        bio = this.props.bio;
+    var editSettingsIcon = <View/>,
+        blockUserIcon = <View/>;
 
     if (this.props.viewerIsProfileOwner) {
-      seeWhoImFollowingButton = <FollowingButton email={this.props.email}/>;
       editSettingsIcon = <EditSettingsButton/>;
     }
     else {
-      followButton = <FollowUnfollowButton email={this.props.email}/>;
       blockUserIcon = <BlockUserButton email={this.props.email}/>;
     }
 
@@ -98,16 +106,22 @@ var ProfilePageBody = React.createClass({
             <ProfileImage
               viewerIsProfileOwner={this.props.viewerIsProfileOwner}
               profileImageUrl={this.props.profileImageUrl}/>
-            {seeWhoImFollowingButton}
-            {followButton}
+            <FollowButton
+              viewerIsProfileOwner={this.props.viewerIsProfileOwner}
+              onButtonPress={this._getFollowButtonAction}
+              isRequestInFlight={this._isFollowButtonRequestInFlight()}/>
           </View>
 
           {editSettingsIcon}
 
-          <Text style={styles.fullName}>{fullName}</Text>
+          <Text style={styles.fullName}>
+            {this.props.firstName + ' ' + this.props.lastName}
+          </Text>
 
           {blockUserIcon}
-          <Text style={styles.bio}>{this.props.bio}</Text>
+          <Text style={styles.bio}>
+            {this.props.bio}
+          </Text>
 
           <TotalProfileCountsContainer numFans={this.props.numFans} />
 
@@ -115,11 +129,44 @@ var ProfilePageBody = React.createClass({
 
         <UserPosts
           profileStore={this._getProfileStoreForUserPosts()}
-          userName={fullName}
+          userName={this.props.firstName + ' ' + this.props.lastName}
           userEmail={this.props.email}
           viewerIsProfileOwner={this.props.viewerIsProfileOwner} />
       </ScrollView>
     );
+  },
+
+  _getFollowButtonAction: function() {
+    if (this.props.viewerIsProfileOwner) {
+      this._getAllUsersTheOwnerIsFollowing();
+    }
+    else {
+      this._followOrUnfollowUser();
+    }
+  },
+
+  _isFollowButtonRequestInFlight: function() {
+    if (this.props.viewerIsProfileOwner) {
+      return false;
+    } else {
+      return followUnfollowStore.isRequestInFlight();
+    }
+  },
+
+  _getAllUsersTheOwnerIsFollowing: function() {
+    var userEmail = userLoginMetadataStore.getEmail()
+    Unicycle.exec('getFollowing', userEmail);
+  },
+
+  _followOrUnfollowUser: function() {
+    var userId = userLoginMetadataStore.getUserId();
+
+    if (followUnfollowStore.getIsUserFollowingResult()) {
+      Unicycle.exec('unfollow', userId, this.props.email);
+    }
+    else {
+      Unicycle.exec('follow', userId, this.props.email);
+    }
   },
 
   //TODO: This is more then likely something we want to api to handle

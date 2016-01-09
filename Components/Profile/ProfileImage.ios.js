@@ -21,13 +21,15 @@ var styles = StyleSheet.create({
   profileImageContainer: {
     flex: 1,
     marginTop: -100,
-    marginLeft: 20
+    marginLeft: 20,
+    alignItems: 'stretch'
   },
   profileImage: {
-    width: 168,
-    height: 168,
-    alignSelf: 'center',
-    marginTop: 4
+    width: null,
+    height: 160,
+    flex: 1,
+    alignSelf: 'stretch',
+    margin: 4
   }
 });
 

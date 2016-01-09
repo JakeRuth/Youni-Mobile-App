@@ -44,11 +44,6 @@ var styles = StyleSheet.create({
 
 var TotalProfileCountsContainer = React.createClass({
 
-  propTypes: {
-    viewerIsProfileOwner: React.PropTypes.bool.isRequired,
-    coverImageUrl: React.PropTypes.string
-  },
-
   render: function() {
     return (
       <View style={styles.profileImageContainer}>
