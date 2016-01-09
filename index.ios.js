@@ -235,7 +235,7 @@ var LoginPage = React.createClass({
     AjaxUtils.ajax(
       '/api/login',
       {
-        rusername: email,
+        username: email,
         password: password
       },
       (res) => {
