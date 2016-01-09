@@ -103,21 +103,19 @@ var ProfilePageBody = React.createClass({
           {blockUserIcon}
           <Text style={styles.bio}>{this.props.bio}</Text>
 
-          <PostsAndFansCountContainer
-            numFans= {this.props.numFans}
-            />
+          <PostsAndFansCountContainer numFans={this.props.numFans} />
 
-      </View>
+        </View>
 
       {followButton}
 
-          <View style={styles.profileBodyPosts}>
-            <UserPosts
-              profileStore={this._getProfileStoreForUserPosts()}
-              userName={fullName}
-              userEmail={this.props.email}
-              viewerIsProfileOwner={this.props.viewerIsProfileOwner} />
-          </View>
+        <View style={styles.profileBodyPosts}>
+          <UserPosts
+            profileStore={this._getProfileStoreForUserPosts()}
+            userName={fullName}
+            userEmail={this.props.email}
+            viewerIsProfileOwner={this.props.viewerIsProfileOwner} />
+        </View>
       </ScrollView>
     );
   },

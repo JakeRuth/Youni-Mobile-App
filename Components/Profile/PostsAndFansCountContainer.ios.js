@@ -1,24 +1,26 @@
 'use strict';
 
 var React = require('react-native');
-var Text = React.Text;
 var Unicycle = require('../../Unicycle');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 
 var {
   View,
   Image,
+  Text,
   StyleSheet,
   NativeModules,
   TouchableHighlight
 } = React
 
 var styles = StyleSheet.create({
-  postsAndFansCounterContainer: {
+  container: {
+    borderTopWidth: .5,
+    borderBottomWidth: .5,
     flex: 2,
     flexDirection: 'row'
   },
-  numPostsCounter: {
+  totalCountContainer: {
     flex: 1,
     margin: 10
   },
@@ -27,24 +29,16 @@ var styles = StyleSheet.create({
     marginVertical: 5,
     borderColor: 'grey'
   },
-  numFansCounter: {
-    flex: 1,
-    margin: 10
-  },
-  postsAndFansCounterTitleText: {
+  countLabel: {
     color: '#999',
     fontSize: 16,
     textAlign: 'center'
   },
-  postsAndFansCounter: {
+  countValue: {
     color: '#5375FA',
     textAlign: 'center',
     fontSize: 22,
     fontWeight: '600'
-  },
-  blankLine: {
-    borderWidth: 1,
-    borderColor: 'lightgray'
   }
 });
 
@@ -56,33 +50,30 @@ var PostsAndFansCountContainer = React.createClass({
   },
 
   render: function() {
-    var content;
-
-      content = this.renderPostsAndFansCounterContainer();
-
     return (
       <View style={styles.profileImageContainer}>
-        {content}
+        {this.renderPostsAndFansCounterContainer()}
       </View>
     );
   },
 
+  //TODO: Once posts come from api, use that value!!!
   renderPostsAndFansCounterContainer: function() {
     return (
-      <View>
-      <View style={styles.blankLine}/>
-        <View style={styles.postsAndFansCounterContainer}>
-          <View style={styles.numPostsCounter}>
-            <Text style={styles.postsAndFansCounterTitleText}>Posts</Text>
-            <Text style={styles.postsAndFansCounter}>43</Text>
-          </View>
-          <View style={styles.verticalLineSeperator}/>
-          <View style={styles.numFansCounter}>
-            <Text style={styles.postsAndFansCounterTitleText}>Fans</Text>
-            <Text style={styles.postsAndFansCounter}>{this.props.numFans}</Text>
-          </View>
+      <View style={styles.container}>
+
+        <View style={styles.totalCountContainer}>
+          <Text style={styles.countLabel}>Posts</Text>
+          <Text style={styles.countValue}>bitch</Text>
         </View>
-      <View style={styles.blankLine}/>
+
+        <View style={styles.verticalLineSeperator}/>
+
+        <View style={styles.totalCountContainer}>
+          <Text style={styles.countLabel}>Fans</Text>
+          <Text style={styles.countValue}>{this.props.numFans}</Text>
+        </View>
+
       </View>
     );
   },

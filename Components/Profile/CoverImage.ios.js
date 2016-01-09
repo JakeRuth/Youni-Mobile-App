@@ -9,7 +9,6 @@ var {
   View,
   Image,
   StyleSheet,
-  NativeModules,
   TouchableHighlight
 } = React
 
@@ -56,6 +55,7 @@ var CoverImage = React.createClass({
     );
   },
 
+  //TODO: This may be able to be deleted after profile page is fully redesigned
   renderBlankCoverPhotoIcon: function() {
     return (
       <Icon
