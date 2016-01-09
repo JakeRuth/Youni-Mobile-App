@@ -28,6 +28,11 @@ var styles = StyleSheet.create({
   profileInformationContainer: {
     backgroundColor: 'white'
   },
+  profileImageFollowButtonContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
   fullName: {
     top: 10,
     fontSize: 26,
@@ -83,15 +88,21 @@ var ProfilePageBody = React.createClass({
 
     return (
       <ScrollView style={styles.profileBodyContent}>
+
         <View style={styles.profileInformationContainer}>
           <CoverImage
             viewerIsProfileOwner={this.props.viewerIsProfileOwner}
             coverImageUrl={'http://www.gobeyondthebrochure.com/wp-content/uploads/2015/05/SUNY-Albany_LevineJ_5ThingsYouMustDo_4.23_FINAL.jpg'}/>
-          <ProfileImage
-            viewerIsProfileOwner={this.props.viewerIsProfileOwner}
-            profileImageUrl={this.props.profileImageUrl}/>
+
+          <View style={styles.profileImageFollowButtonContainer}>
+            <ProfileImage
+              viewerIsProfileOwner={this.props.viewerIsProfileOwner}
+              profileImageUrl={this.props.profileImageUrl}/>
+            {seeWhoImFollowingButton}
+            {followButton}
+          </View>
+
           {editSettingsIcon}
-          {seeWhoImFollowingButton}
 
           <Text style={styles.fullName}>{fullName}</Text>
 
@@ -101,8 +112,6 @@ var ProfilePageBody = React.createClass({
           <TotalProfileCountsContainer numFans={this.props.numFans} />
 
         </View>
-
-        {followButton}
 
         <UserPosts
           profileStore={this._getProfileStoreForUserPosts()}

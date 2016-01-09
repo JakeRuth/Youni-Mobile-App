@@ -16,13 +16,9 @@ var styles = StyleSheet.create({
   followingButtonContainer: {
     flex: 1,
     alignItems: 'center',
-    marginTop: -40,
-    marginRight: 10,
-    backgroundColor: 'red',
-    alignSelf: 'flex-end'
+    backgroundColor: 'transparent'
   },
   followingButton: {
-    flex: 1,
     backgroundColor: 'transparent',
     borderColor: '#5375FA',
     color: '#5375FA',
@@ -30,8 +26,7 @@ var styles = StyleSheet.create({
     fontWeight: '600',
     borderWidth: 1,
     borderRadius: 1,
-    paddingTop: 5,
-    paddingBottom: 5
+    padding: 5
   }
 });
 
