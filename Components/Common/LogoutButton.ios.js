@@ -21,7 +21,7 @@ var styles = StyleSheet.create({
     fontSize: 20,
     padding: 5,
     paddingTop: 2,
-    color: '#FF7878'
+    color: 'white'
   }
 });
 

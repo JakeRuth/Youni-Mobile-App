@@ -15,9 +15,10 @@ var styles = StyleSheet.create({
   likeContainer: {
     flex: 1,
     flexDirection: 'row',
-    margin: 5,
-    marginLeft: 30,
-    marginRight: 30,
+    marginTop: 12,
+    marginBottom: 12,
+    marginLeft: 16,
+    marginRight: 16,
     alignItems: 'center'
   },
   star: {

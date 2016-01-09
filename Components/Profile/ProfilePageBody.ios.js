@@ -6,6 +6,8 @@ var FollowingButton = require('./FollowingButton');
 var EditSettingsButton = require('./Settings/EditSettingsButton');
 var BlockUserButton = require('./BlockUserButton');
 var ProfileImage = require('./ProfileImage');
+var CoverImage = require('./CoverImage');
+var TotalProfileCountsContainer = require('./TotalProfileCountsContainer');
 var UserPosts = require('./UserPosts');
 var profileOwnerStore = require('../../stores/profile/ProfileOwnerStore');
 var profileStore = require('../../stores/profile/ProfileStore');
@@ -20,22 +22,38 @@ var {
 
 var styles = StyleSheet.create({
   profileBodyContent: {
-    flex: 1
+    backgroundColor: '#f2f2f2',
+    flexDirection: 'column'
+  },
+  profileInformationContainer: {
+    backgroundColor: 'white'
+  },
+  profileImageFollowButtonContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center'
   },
   fullName: {
-    textAlign: 'center',
-    fontSize: 30,
-    margin: 5,
-    backgroundColor: 'transparent'
-  },
-  fanCount: {
-    textAlign: 'center',
-    fontSize: 30,
-    fontWeight: '800'
+    top: 10,
+    fontSize: 26,
+    fontWeight: '400',
+    left: 20,
+    color: '#767676',
+    marginBottom: 10
   },
   bio: {
+    color: 'grey',
     alignSelf: 'auto',
-    margin: 30
+    top: 5,
+    fontSize: 20,
+    fontWeight: '400',
+    marginBottom: 20,
+    marginLeft: 20,
+    marginRight: 20
+  },
+  blankLine: {
+    borderWidth: 1,
+    borderColor: 'lightgray'
   }
 });
 
@@ -71,24 +89,35 @@ var ProfilePageBody = React.createClass({
     return (
       <ScrollView style={styles.profileBodyContent}>
 
-        <Text style={styles.fullName}>{fullName}</Text>
-        {editSettingsIcon}
-        {blockUserIcon}
+        <View style={styles.profileInformationContainer}>
+          <CoverImage
+            viewerIsProfileOwner={this.props.viewerIsProfileOwner}
+            coverImageUrl={'http://www.gobeyondthebrochure.com/wp-content/uploads/2015/05/SUNY-Albany_LevineJ_5ThingsYouMustDo_4.23_FINAL.jpg'}/>
 
-        <ProfileImage
-          viewerIsProfileOwner={this.props.viewerIsProfileOwner}
-          profileImageUrl={this.props.profileImageUrl}/>
+          <View style={styles.profileImageFollowButtonContainer}>
+            <ProfileImage
+              viewerIsProfileOwner={this.props.viewerIsProfileOwner}
+              profileImageUrl={this.props.profileImageUrl}/>
+            {seeWhoImFollowingButton}
+            {followButton}
+          </View>
 
-        <Text style={styles.fanCount}>{this._getFansText(this.props.numFans)}</Text>
-        <Text style={styles.bio}>{this.props.bio}</Text>
-        {followButton}
-        {seeWhoImFollowingButton}
+          {editSettingsIcon}
+
+          <Text style={styles.fullName}>{fullName}</Text>
+
+          {blockUserIcon}
+          <Text style={styles.bio}>{this.props.bio}</Text>
+
+          <TotalProfileCountsContainer numFans={this.props.numFans} />
+
+        </View>
+
         <UserPosts
           profileStore={this._getProfileStoreForUserPosts()}
           userName={fullName}
           userEmail={this.props.email}
           viewerIsProfileOwner={this.props.viewerIsProfileOwner} />
-
       </ScrollView>
     );
   },

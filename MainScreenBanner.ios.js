@@ -12,9 +12,8 @@ var {
 var styles = StyleSheet.create({
   headingWrapper: {
     flexDirection: 'column',
-    marginTop: 20,
-    marginRight: 2,
-    marginLeft: 2
+    backgroundColor: '#6675E3',
+    marginTop: 20
   },
   header: {
     fontSize: 25,
@@ -22,7 +21,7 @@ var styles = StyleSheet.create({
     fontWeight: '700',
     marginBottom: 0,
     backgroundColor: 'transparent',
-    color: '#007C9E'
+    color: 'white'
   },
   subHeader: {
     marginTop: 0,

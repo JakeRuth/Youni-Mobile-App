@@ -18,7 +18,8 @@ var styles = StyleSheet.create({
   postHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    margin: 10
+    backgroundColor: 'white',
+    padding: 10
   },
   posterImage: {
     height: 45,

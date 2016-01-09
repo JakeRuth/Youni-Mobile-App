@@ -16,7 +16,6 @@ var styles = StyleSheet.create({
   numLikes: {
     color: 'darkblue',
     fontSize: 18,
-    marginLeft: 25,
     fontFamily: 'Avenir'
   }
 });

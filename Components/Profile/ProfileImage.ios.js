@@ -19,16 +19,15 @@ var {
 
 var styles = StyleSheet.create({
   profileImageContainer: {
-    alignSelf: 'center',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    width: 150,
-    marginBottom: 5
+    flex: 1,
+    marginTop: -100,
+    marginLeft: 20
   },
   profileImage: {
-    borderRadius: 5,
-    width: 150,
-    height: 150
+    width: 168,
+    height: 168,
+    alignSelf: 'center',
+    marginTop: 4
   }
 });
 

@@ -15,16 +15,18 @@ var {
 var styles = StyleSheet.create({
   followingButtonContainer: {
     flex: 1,
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: 'transparent'
   },
   followingButton: {
-    backgroundColor: 'rgba(0,124,158,.2)',
-    fontSize: 20,
+    backgroundColor: 'transparent',
+    borderColor: '#5375FA',
+    color: '#5375FA',
+    fontSize: 18,
+    fontWeight: '600',
     borderWidth: 1,
-    borderRadius: 5,
-    padding: 5,
-    paddingRight: 10,
-    paddingLeft: 10
+    borderRadius: 1,
+    padding: 5
   }
 });
 
