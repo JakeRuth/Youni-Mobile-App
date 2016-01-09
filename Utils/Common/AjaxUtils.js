@@ -5,10 +5,12 @@ var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com
 
 var AjaxUtils = {
 
+  SERVER_URL: 'http://greedyapi.elasticbeanstalk.com',
+
   ajax: function(url, data, onSuccessCallback, onFailureCallback) {
     var that = this;
     request
-     .post(url)
+     .post(that.SERVER_URL + url)
      .use(prefix)
      .send(data)
      .set('Accept', 'application/json')
@@ -26,8 +28,7 @@ var AjaxUtils = {
     return (
       (res !== undefined) &&
       (res.ok) &&
-      (res.body !== undefined) &&
-      (res.body.success)
+      (res.body !== undefined)
     );
   }
 
