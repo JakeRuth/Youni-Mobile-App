@@ -1,12 +1,6 @@
 'use strict';
 
-var AjaxUtils = require('../Common/AjaxUtils');
-
 var TrendingUtils = {
-
-  ajax: function(url, onSuccessCallback, onFailureCallback) {
-    AjaxUtils.ajax(url, {}, onSuccessCallback, onFailureCallback);
-  },
 
   generateTrendingUserInfo: function(trendingUsers) {
     var trendingUsersJson = [];

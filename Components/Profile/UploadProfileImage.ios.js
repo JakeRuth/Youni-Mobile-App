@@ -6,6 +6,7 @@ var Unicycle = require('../../Unicycle');
 var UIImagePickerManager = require('NativeModules').UIImagePickerManager;
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var uploadProfileImageStore = require('../../stores/profile/UploadProfileImageStore');
+var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 
 var {
   View,
@@ -104,9 +105,10 @@ var UploadProfileImage = React.createClass({
   },
 
   _getImageUploadOptions: function(response) {
+    var url = AjaxUtils.SERVER_URL + '/upload/profilePhoto'
     return {
       uri: response.uri,
-      uploadUrl: 'http://greedyapi.elasticbeanstalk.com/upload/profilePhoto',
+      uploadUrl: url,
       fileName: 'picture', //the name here has no meaning, it could really be anything
       mimeType: 'image/jpeg',
       data: {

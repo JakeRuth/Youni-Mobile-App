@@ -2,7 +2,7 @@
 
 var React = require('react-native');
 var Unicycle = require('../Unicycle');
-var PostUtils = require('../Utils/Post/PostUtils');
+var AjaxUtils = require('../Utils/Common/AjaxUtils');
 
 var createPostStore = Unicycle.createStore({
 
@@ -28,7 +28,7 @@ var createPostStore = Unicycle.createStore({
         shouldShowImagePicker: false
       });
 
-      PostUtils.ajax(
+      AjaxUtils.ajax(
         '/post/create',
         {
           posterUserIdString: userId,

@@ -2,8 +2,6 @@
 
 var React = require('react-native');
 var Unicycle = require('../../Unicycle');
-var request = require('superagent');
-var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com');
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 var UserUtils = require('../../Utils/User/UserUtils');
 
@@ -23,73 +21,82 @@ var editProfileInformationStore = Unicycle.createStore({
     $uploadUserBio: function(userId, bio) {
       var that = this;
 
-      this.set({ isUploadBioRequestInFlight: true });
-      request
-       .post('/user/updateBio')
-       .use(prefix)
-       .send({
-         userIdString: userId,
-         bio: bio
-        })
-       .set('Accept', 'application/json')
-       .end(function(err, res) {
-         if ((res !== undefined) && (res.ok)) {
-           //no feedback required, view was already optimistically updated
-         } else {
-           //TODO: Implement a failed case
-         }
-         that.set({
-           isUploadBioRequestInFlight: false
-         });
-       });
+      this.set({
+        isUploadBioRequestInFlight: true
+      });
+
+      //TODO: Configure some proper feedback in case of failure, etc.
+      AjaxUtils.ajax(
+        '/user/updateBio',
+        {
+          userIdString: userId,
+          bio: bio
+        },
+        (res) => {
+          that.set({
+            isUploadBioRequestInFlight: false
+          });
+        },
+        () => {
+          that.set({
+            isUploadBioRequestInFlight: false
+          });
+        }
+      );
     },
 
     $updateUserFirstName: function(userId, firstName) {
       var that = this;
 
-      this.set({ isUploadFirstNameRequestInFlight: true });
-      request
-       .post('/user/updateFirstName')
-       .use(prefix)
-       .send({
-         userIdString: userId,
-         firstName: firstName
-        })
-       .set('Accept', 'application/json')
-       .end(function(err, res) {
-         if ((res !== undefined) && (res.ok)) {
-           //no feedback required, view was already optimistically updated
-         } else {
-           //TODO: Implement a failed case
-         }
-         that.set({
-           isUploadFirstNameRequestInFlight: false
-         });
-       });
+      this.set({
+        isUploadFirstNameRequestInFlight: true
+      });
+
+      //TODO: Configure some proper feedback in case of failure, etc.
+      AjaxUtils.ajax(
+        '/user/updateFirstName',
+        {
+          userIdString: userId,
+          firstName: firstName
+        },
+        (res) => {
+          that.set({
+            isUploadFirstNameRequestInFlight: false
+          });
+        },
+        () => {
+          that.set({
+            isUploadFirstNameRequestInFlight: false
+          });
+        }
+      );
     },
 
     $updateUserLastName: function(userId, lastName) {
       var that = this;
 
-      this.set({ isUploadLastNameRequestInFlight: true });
-      request
-       .post('/user/updateLastName')
-       .use(prefix)
-       .send({
-         userIdString: userId,
-         lastName: lastName
-        })
-       .set('Accept', 'application/json')
-       .end(function(err, res) {
-         if ((res !== undefined) && (res.ok)) {
-           //no feedback required, view was already optimistically updated
-         } else {
-           //TODO: Implement a failed case
-         }
-         that.set({
-           isUploadLastNameRequestInFlight: false
-         });
-       });
+      this.set({
+        isUploadLastNameRequestInFlight: true
+      });
+
+      //TODO: Configure some proper feedback in case of failure, etc.
+      AjaxUtils.ajax(
+        '/user/updateLastName',
+        {
+          userIdString: userId,
+          lastName: lastName
+        },
+        (res) => {
+          that.set({
+            isUploadLastNameRequestInFlight: false
+          });
+        },
+        () => {
+          that.set({
+            isUploadLastNameRequestInFlight: false
+          });
+        }
+      );
     },
 
     $getBlockedUsers: function(email) {

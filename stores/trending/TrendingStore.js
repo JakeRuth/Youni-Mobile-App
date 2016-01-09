@@ -4,6 +4,7 @@ var React = require('react-native');
 var Unicycle = require('../../Unicycle');
 var immutable = require('immutable');
 var TrendingUtils = require('../../Utils/Trending/TrendingUtils');
+var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 
 var trendingStore = Unicycle.createStore({
 
@@ -18,13 +19,12 @@ var trendingStore = Unicycle.createStore({
     $getTrendingUsers: function() {
       var that = this;
 
-      TrendingUtils.ajax(
+      AjaxUtils.ajax(
         '/trending/getTopUsers',
+        {},
         (res) => {
           that.set({
-            users: immutable.List(
-                TrendingUtils.generateTrendingUserInfo(res.body.users)
-            ),
+            users: immutable.List(TrendingUtils.generateTrendingUserInfo(res.body.users)),
             isTrendingRequestInFlight: false,
             pageLoadError: false
           });

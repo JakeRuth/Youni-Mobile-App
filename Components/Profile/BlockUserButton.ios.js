@@ -4,8 +4,7 @@ var React = require('react-native');
 var searchStore = require('../../stores/SearchStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var Icon = require('react-native-vector-icons/Ionicons');
-var request = require('superagent');
-var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com');
+var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 
 var {
   View,
@@ -73,19 +72,19 @@ var BlockUserButton = React.createClass({
   _blockUser: function () {
     var userId = userLoginMetadataStore.getUserId();
 
-    request
-     .post('/user/block')
-     .use(prefix)
-     .send({
-       requestingUserIdString: userId,
-       userToBlockEmail: this.props.email
-     })
-     .set('Accept', 'application/json')
-     .end(function(err, res) {
-       //TODO: Do not do this optimistically.  Only perform this if the call was successful, if not show an error message
-       //reinitialze search store, now if user searches the blocked user won't show up.
-       searchStore.resetSearchPageAfterBlockingUser();
-     });
+    AjaxUtils.ajax(
+      '/user/block',
+      {
+        requestingUserIdString: userId,
+        userToBlockEmail: this.props.email
+      },
+      (res) => {
+        searchStore.resetSearchPageAfterBlockingUser();
+      },
+      () => {
+        //TODO: Implement fail case
+      }
+    );
   }
 
 });

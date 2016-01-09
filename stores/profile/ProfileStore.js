@@ -2,11 +2,9 @@
 
 var React = require('react-native');
 var Unicycle = require('../../Unicycle');
-var postStore = require('../post/HomePostsStore');//TODO: FixME
 var immutable = require('immutable');
-var request = require('superagent');
-var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com');
 var PostUtils = require('../../Utils/Post/PostUtils');
+var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 
 var INITIAL_PAGE_OFFSET = 0;
 var MAX_POSTS_PER_PAGE = 10;
@@ -31,6 +29,144 @@ var profileStore = Unicycle.createStore({
       });
     },
 
+    $loadUsersProfile(email) {
+      var that = this;
+
+      this.set({
+        isRequestInFlight: true
+      });
+
+      AjaxUtils.ajax(
+        '/user/getProfileInformation',
+        {
+          userEmail: email
+        },
+        (res) => {
+          that.set({
+            isRequestInFlight: false,
+            firstName: res.body.userDetails['firstName'],
+            lastName: res.body.userDetails['lastName'],
+            numFollowers: res.body.userDetails['numFollowers'],
+            bio: res.body.userDetails['bio'],
+            email: res.body.userDetails['email'],
+            profileImageUrl: res.body.userDetails['profileImageUrl']
+          });
+        },
+        () => {
+          that.set({
+            sRequestInFlight: false
+          });
+        }
+      );
+    },
+
+    $getUserPosts(userEmail, userId) {
+      var that = this,
+          offset = this.getFeedPageOffset();
+
+      if (offset == INITIAL_PAGE_OFFSET) {
+        this.set({
+          isUserPostsRequestInFlight: true,
+          posts: []
+        });
+      }
+      else {
+        this.set({
+          isLoadMorePostsRequestInFlight: true
+        });
+      }
+
+      AjaxUtils.ajax(
+        '/user/getPosts',
+        {
+          userEmail: userEmail,
+          requestingUserIdString: userId,
+          maxNumberOfPostsToFetch: MAX_POSTS_PER_PAGE,
+          fetchOffsetAmount: offset
+        },
+        (res) => {
+          var postsArray = PostUtils.createPostsJsonFromGreedy(res.body.posts, offset);
+          var newPosts = immutable.List(postsArray);
+          var allPosts = that.getPosts().concat(newPosts);
+          that.set({
+            posts: allPosts,
+            feedPageOffset: offset + MAX_POSTS_PER_PAGE,
+            isUserPostsRequestInFlight: false,
+            isLoadMorePostsRequestInFlight: false,
+            noMorePostsToFetch: !res.body.moreResults
+          });
+        },
+        () => {that.set({
+          isUserPostsRequestInFlight: false,
+          isLoadMorePostsRequestInFlight: false
+        });
+        }
+      );
+    },
+
+    $likePostFromProfilePage(id, postId, userId) {
+      var that = this,
+          posts = this.get('posts');
+
+      this.set({
+        isLikeRequestInFlight: true
+      });
+
+      AjaxUtils.ajax(
+        '/post/like',
+        {
+          postIdString: postId,
+          userIdString: userId
+        },
+        (res) => {
+          that.set({
+            posts: PostUtils.increaseLikeCount(posts, id),
+            isLikeRequestInFlight: false
+          });
+        },
+        () => {
+          that.set({
+            isLikeRequestInFlight: false
+          });
+        }
+      );
+    },
+
+    $removeLikeProfile(id, postId, userId) {
+      var posts = this.get('posts'),
+          that = this;
+
+      this.set({
+        isLikeRequestInFlight: true
+      });
+
+      AjaxUtils.ajax(
+        '/post/removeLike',
+        {
+          postIdString: postId,
+          userIdString: userId
+        },
+        (res) => {
+          that.set({
+            posts: PostUtils.decreaseLikeCount(posts, id),
+            isLikeRequestInFlight: false
+          });
+        },
+        () => {
+          that.set({
+            isLikeRequestInFlight: false
+          });
+        }
+      );
+    },
+
+    $reInitializeUsersProfileFeedOffset: function() {
+      this.set({
+        feedPageOffset: INITIAL_PAGE_OFFSET,
+        noMorePostsToFetch: false
+      });
+    },
+
     $setBio: function(bio) {
       this.set({
         bio: bio
@@ -52,147 +188,6 @@ var profileStore = Unicycle.createStore({
     $setProfileImageUrl: function(url) {
       this.set({
         profileImageUrl: url
-      });
-    },
-
-    $loadUsersProfile(email) {
-      var that = this;
-
-      this.set({
-        isRequestInFlight: true
-      });
-      request
-       .post('/user/getProfileInformation')
-       .use(prefix)
-       .send({ userEmail: email })
-       .set('Accept', 'application/json')
-       .end(function(err, res) {
-         if ((res !== undefined) && (res.ok)) {
-           that.set({
-             isRequestInFlight: false,
-             firstName: res.body.userDetails['firstName'],
-             lastName: res.body.userDetails['lastName'],
-             numFollowers: res.body.userDetails['numFollowers'],
-             bio: res.body.userDetails['bio'],
-             email: res.body.userDetails['email'],
-             profileImageUrl: res.body.userDetails['profileImageUrl']
-           });
-         } else {
-           //TODO: Implement a failed case
-         }
-       });
-    },
-
-    $getUserPosts(userEmail, userId) {
-      var that = this,
-          offset = this.getFeedPageOffset();
-
-      if (offset == INITIAL_PAGE_OFFSET) {
-        this.set({
-          isUserPostsRequestInFlight: true,
-          posts: []
-        });
-      }
-      else {
-        this.set({
-          isLoadMorePostsRequestInFlight: true
-        });
-      }
-
-      request
-       .post('/user/getPosts')
-       .use(prefix)
-       .send({
-         userEmail: userEmail,
-         requestingUserIdString: userId,
-         maxNumberOfPostsToFetch: MAX_POSTS_PER_PAGE,
-         fetchOffsetAmount: offset
-       })
-       .set('Accept', 'application/json')
-       .end(function(err, res) {
-         if ((res !== undefined) && (res.ok)) {
-           var postsArray = postStore.createPostsJsonFromResponse(res.body.posts, offset);
-           var newPosts = immutable.List(postsArray);
-           var allPosts = that.getPosts().concat(newPosts);
-           that.set({
-             posts: allPosts,
-             feedPageOffset: offset + MAX_POSTS_PER_PAGE,
-             isUserPostsRequestInFlight: false,
-             isLoadMorePostsRequestInFlight: false,
-             noMorePostsToFetch: !res.body.moreResults
-           });
-         }
-         else {
-           //TODO: implement failed case (show user error message or cached results)
-         }
-      });
-    },
-
-    $likePostFromProfilePage(id, postId, userId) {
-      var that = this;
-      var posts = this.get('posts');
-
-      this.set({
-        isLikeRequestInFlight: true
-      });
-
-      request
-       .post('/post/like')
-       .use(prefix)
-       .send({
-         postIdString: postId,
-         userIdString: userId
-       })
-       .set('Accept', 'application/json')
-       .end(function(err, res) {
-         if ((res !== undefined) && (res.ok) && (res.body.success)) {
-           that.updateLikeCountForPost(id)
-         }
-         else {
-           //TODO: implement failed case (show user error message or cached results)
-         }
-         that.set({
-           isLikeRequestInFlight: false
-         });
-      });
-    },
-
-    $removeLikeProfile(id, postId, userId) {
-      var posts = this.get('posts'),
-          that = this;
-
-      this.set({
-        isLikeRequestInFlight: true
-      });
-
-      PostUtils.ajax(
-        '/post/removeLike',
-        {
-          postIdString: postId,
-          userIdString: userId
-        },
-        () => {
-          var post = posts.get(id);
-          post.numLikes--;
-          post.liked = false;
-          posts = posts.set(id, post);
-          that.set({
-            posts: posts,
-            isLikeRequestInFlight: false
-          });
-        },
-        () => {
-          that.set({
-            isLikeRequestInFlight: false
-          });
-        }
-      );
-    },
-
-    $reInitializeUsersProfileFeedOffset: function() {
-      this.set({
-        feedPageOffset: INITIAL_PAGE_OFFSET,
-        noMorePostsToFetch: false
       });
     },
 
@@ -224,8 +219,7 @@ var profileStore = Unicycle.createStore({
     },
 
     isFeedRefreshing: function() {
-      //always return false because the user's profile page feed is not refreshable.
-      //(Note, the profile owner's is refreshable)
+      //always return false because the user's profile page feed is not refreshable
       return false;
     },
 

@@ -2,12 +2,9 @@
 
 var React = require('react-native');
 var Unicycle = require('../../Unicycle');
-var postStore = require('../post/HomePostsStore');//TODO: FixME
 var immutable = require('immutable');
-var request = require('superagent');
-var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com');
 var PostUtils = require('../../Utils/Post/PostUtils');
-var ProfileUtils = require('../../Utils/Profile/ProfileUtils');
+var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 
 var INITIAL_PAGE_OFFSET = 0;
 var MAX_POSTS_PER_PAGE = 10;
@@ -40,36 +37,6 @@ var profileOwnerStore = Unicycle.createStore({
       this._setInitialState();
     },
 
-    $setInSettingsView: function(inSettingsView) {
-      this.set({
-        inSettingsView: inSettingsView
-      });
-    },
-
-    $setBio: function(bio) {
-      this.set({
-        bio: bio
-      });
-    },
-
-    $setFirstName: function(firstName) {
-      this.set({
-        firstName: firstName
-      });
-    },
-
-    $setLastName: function(lastName) {
-      this.set({
-        lastName: lastName
-      });
-    },
-
-    $setProfileImageUrl: function(url) {
-      this.set({
-        profileImageUrl: url
-      });
-    },
-
     $loadOwnerUsersProfile(email) {
       var that = this;
 
@@ -78,7 +45,7 @@ var profileOwnerStore = Unicycle.createStore({
         isRequestInFlight: true
       });
 
-      ProfileUtils.ajax(
+      AjaxUtils.ajax(
         '/user/getProfileInformation',
         {
           userEmail: email
@@ -104,24 +71,25 @@ var profileOwnerStore = Unicycle.createStore({
     },
 
     $deletePost(id, postId, userId) {
+      var posts = this.getPosts();
       //optimistically remove post from list, then call api to delete
-      this._removePost(id);
+      this.set({
+        posts: PostUtils.removePostFromList(posts, id)
+      });
 
-      request
-       .post('/post/delete')
-       .use(prefix)
-       .send({
-         postIdString: postId,
-         userIdString: userId
-       })
-       .set('Accept', 'application/json')
-       .end(function(err, res) {
-         if ((res !== undefined) && (res.ok)) {
-           //TODO: Maybe we should give them some feedback?
-         } else {
-           //TODO: Implement a failed case
-         }
-       });
+      AjaxUtils.ajax(
+        '/post/delete',
+        {
+          postIdString: postId,
+          userIdString: userId
+        },
+        (res) => {
+          //TODO: Implement me!
+        },
+        () => {
+          //TODO: Implement me!
+        }
+      );
     },
 
     $getOwnerUserPosts(userEmail, userId) {
@@ -140,7 +108,7 @@ var profileOwnerStore = Unicycle.createStore({
         });
       }
 
-      ProfileUtils.ajax(
+      AjaxUtils.ajax(
         '/user/getPosts',
         {
           userEmail: userEmail,
@@ -149,7 +117,7 @@ var profileOwnerStore = Unicycle.createStore({
           fetchOffsetAmount: offset
         },
         (res) => {
-          var postsArray = postStore.createPostsJsonFromResponse(res.body.posts, offset),
+          var postsArray = PostUtils.createPostsJsonFromGreedy(res.body.posts, offset),
               newPosts = immutable.List(postsArray),
               allPosts = that.getPosts().concat(newPosts);
           that.set({
@@ -177,7 +145,7 @@ var profileOwnerStore = Unicycle.createStore({
         isProfileOwnerFeedRefreshing: true
       });
 
-      ProfileUtils.ajax(
+      AjaxUtils.ajax(
         '/user/getPosts',
         {
           userEmail: userEmail,
@@ -186,7 +154,7 @@ var profileOwnerStore = Unicycle.createStore({
           fetchOffsetAmount: 0
         },
         (res) => {
-          var postsArray = postStore.createPostsJsonFromResponse(res.body.posts, 0),
+          var postsArray = PostUtils.createPostsJsonFromGreedy(res.body.posts, 0),
               newPosts = immutable.List(postsArray),
               currentPosts = this.getPosts(),
               allPosts = PostUtils.compressNewestPostsIntoCurrentPosts(newPosts, currentPosts);
@@ -226,48 +194,15 @@ var profileOwnerStore = Unicycle.createStore({
         isLikeRequestInFlight: true
       });
 
-      request
-       .post('/post/like')
-       .use(prefix)
-       .send({
-         postIdString: postId,
-         userIdString: userId
-       })
-       .set('Accept', 'application/json')
-       .end(function(err, res) {
-         if ((res !== undefined) && (res.ok) && (res.body.success)) {
-           that.updateLikeCountForPost(id)
-         }
-         else {
-           //TODO: implement failed case (show user error message or cached results)
-         }
-         that.set({
-           isLikeRequestInFlight: false
-         });
-      });
-    },
-
-    $removeLikeProfileOwner(id, postId, userId) {
-      var posts = this.get('posts'),
-          that = this;
-
-      this.set({
-        isLikeRequestInFlight: true
-      });
-
-      PostUtils.ajax(
-        '/post/removeLike',
+      AjaxUtils.ajax(
+        '/post/like',
         {
           postIdString: postId,
           userIdString: userId
         },
-        () => {
-          var post = posts.get(id);
-          post.numLikes--;
-          post.liked = false;
-          posts = posts.set(id, post);
+        (res) => {
           that.set({
-            posts: posts,
+            posts: PostUtils.increaseLikeCount(posts, id),
             isLikeRequestInFlight: false
           });
         },
@@ -279,14 +214,61 @@ var profileOwnerStore = Unicycle.createStore({
       );
     },
 
-    updateLikeCountForPost: function(id) {
-      var posts = this.getPosts(),
-          post = posts.get(id);
-      post.numLikes++;
-      post.liked = true;
-      posts = posts.set(id, post);
+    $removeLikeProfileOwner(id, postId, userId) {
+      var posts = this.get('posts'),
+          that = this;
+
       this.set({
-        posts: posts
+        isLikeRequestInFlight: true
+      });
+
+      AjaxUtils.ajax(
+        '/post/removeLike',
+        {
+          postIdString: postId,
+          userIdString: userId
+        },
+        (res) => {
+          that.set({
+            posts: PostUtils.decreaseLikeCount(posts, id),
+            isLikeRequestInFlight: false
+          });
+        },
+        () => {
+          that.set({
+            isLikeRequestInFlight: false
+          });
+        }
+      );
+    },
+
+    $setInSettingsView: function(inSettingsView) {
+      this.set({
+        inSettingsView: inSettingsView
+      });
+    },
+
+    $setBio: function(bio) {
+      this.set({
+        bio: bio
+      });
+    },
+
+    $setFirstName: function(firstName) {
+      this.set({
+        firstName: firstName
+      });
+    },
+
+    $setLastName: function(lastName) {
+      this.set({
+        lastName: lastName
+      });
+    },
+
+    $setProfileImageUrl: function(url) {
+      this.set({
+        profileImageUrl: url
       });
     },
 
@@ -352,36 +334,6 @@ var profileOwnerStore = Unicycle.createStore({
 
     getFeedPageOffset: function() {
       return this.get('feedPageOffset');
-    },
-
-    _removePost: function(id) {
-      var posts = this.getPosts();
-      posts = posts.delete(id);
-      posts = this._resetPostsJson(posts);
-      this.set({
-        posts: posts
-      });
-    },
-
-    //TODO: Put this method and methods like createPostsJsonFromResponse in a utlitity class
-    _resetPostsJson: function(posts) {
-      var postsJson = [];
-
-      for (var i = 0; i < posts.size; i++) {
-        var post = posts.get(i);
-        postsJson.push({
-          posterProfileImageUrl: post.posterProfileImageUrl,
-          postIdString: post.postIdString,
-          posterName: post.posterName,
-          timestamp: post.timestamp,
-          photoUrl: post.photoUrl,
-          numLikes: post.numLikes,
-          caption: post.caption,
-          liked: post.liked,
-          id: i
-        });
-      }
-      return immutable.List(postsJson);
     },
 
     _setInitialState: function() {

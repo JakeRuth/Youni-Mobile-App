@@ -7,8 +7,7 @@ var loginStore = require('./stores/LoginStore');
 var signUpStore = require('./stores/signUp/SignupStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
 var landingPage = require('./LandingPage');
-var request = require('superagent');
-var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com');
+var AjaxUtils = require('./Utils/Common/AjaxUtils');
 
 var {
   View,
@@ -216,11 +215,12 @@ var LoginPage = React.createClass({
     Unicycle.exec('setInSignUpView', true);
   },
 
-  _onLoginRequest: function(requestIsAnAutoLoginAttemp) {
+  _onLoginRequest: function(requestIsAnAutoLoginAttempt) {
+    var that = this,
+        email = loginStore.getEmail(),
+        password = loginStore.getPassword();
+
     this._savePassword(loginStore.getPassword());
-    var that = this;
-    var email = loginStore.getEmail();
-    var password = loginStore.getPassword();
 
     //fixes weird bug where blank password field validates (cannot replicate at command line with api)
     if (!password) {
@@ -232,29 +232,30 @@ var LoginPage = React.createClass({
 
     Unicycle.exec('setLoginInFlight', true);
 
-    request
-     .post('/api/login')
-     .use(prefix)
-     .send({ username: email, password: password })
-     .set('Accept', 'application/json')
-     .end(function(err, res) {
-       if ((res !== undefined) && (res.ok)) {
-         var userId = res.body.userId,
-             refreshToken = res.body.refreshToken,
-             accessToken = res.body.accessToken,
-             email = res.body.username;
+    AjaxUtils.ajax(
+      '/api/login',
+      {
+        rusername: email,
+        password: password
+      },
+      (res) => {
+        var userId = res.body.userId,
+            refreshToken = res.body.refreshToken,
+            accessToken = res.body.accessToken,
+            email = res.body.username;
 
-         Unicycle.exec('setAllMetadata', accessToken, refreshToken, userId, email);
-         that._saveUserId(userId);
-         that._saveEmail(email);
-         that._saveRefreshToken(refreshToken);
-         that._saveAccessTokenThenLoadHomePage(accessToken);
-       } else {
-         if (!requestIsAnAutoLoginAttemp) {
-           that._alertFailedLogin();
-         }
-       }
-     });
+        Unicycle.exec('setAllMetadata', accessToken, refreshToken, userId, email);
+        that._saveUserId(userId);
+        that._saveEmail(email);
+        that._saveRefreshToken(refreshToken);
+        that._saveAccessTokenThenLoadHomePage(accessToken);
+      },
+      () => {
+        if (!requestIsAnAutoLoginAttempt) {
+          that._alertFailedLogin();
+        }
+      }
+    );
   },
 
   //TODO: Think about a better way to interact with phone storage

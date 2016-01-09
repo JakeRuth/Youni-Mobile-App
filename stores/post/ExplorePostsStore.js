@@ -3,8 +3,7 @@
 var React = require('react-native');
 var Unicycle = require('../../Unicycle');
 var immutable = require('immutable');
-var request = require('superagent');
-var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com');
+var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 var PostUtils = require('../../Utils/Post/PostUtils');
 
 var INITIAL_PAGE_OFFSET = 0;
@@ -48,7 +47,7 @@ var explorePostsStore = Unicycle.createStore({
       });
     }
 
-    PostUtils.ajax(
+    AjaxUtils.ajax(
       '/feed/getExploreFeed',
       {
         userIdString: userId,
@@ -56,7 +55,7 @@ var explorePostsStore = Unicycle.createStore({
         fetchOffsetAmount: offset
       },
       (res) => {
-        var newPosts = immutable.List(that.createPostsJsonFromResponse(res.body.posts, offset));
+        var newPosts = immutable.List(PostUtils.createPostsJsonFromGreedy(res.body.posts, offset));
         var allPosts = that.getPosts().concat(newPosts);
 
         that.set({
@@ -86,7 +85,7 @@ var explorePostsStore = Unicycle.createStore({
       isExploreFeedRefreshing: true
     });
 
-    PostUtils.ajax(
+    AjaxUtils.ajax(
       '/feed/getExploreFeed',
       {
         userIdString: userId,
@@ -94,7 +93,7 @@ var explorePostsStore = Unicycle.createStore({
         fetchOffsetAmount: 0
       },
       (res) => {
-        var newPosts = immutable.List(that.createPostsJsonFromResponse(res.body.posts, 0)),
+        var newPosts = immutable.List(PostUtils.createPostsJsonFromGreedy(res.body.posts, 0)),
             currentPosts = that.getPosts(),
             allPosts = PostUtils.compressNewestPostsIntoCurrentPosts(newPosts, currentPosts);
 
@@ -126,39 +125,31 @@ var explorePostsStore = Unicycle.createStore({
   },
 
   $likeExploreFeedPost(id, postId, userId) {
-    var that = this;
-    var posts = this.get('posts');
+    var that = this,
+        posts = this.get('posts');
 
     this.set({
       isLikeRequestInFlight: true
     });
 
-    request
-     .post('/post/like')
-     .use(prefix)
-     .send({
-       postIdString: postId,
-       userIdString: userId
-     })
-     .set('Accept', 'application/json')
-     .end(function(err, res) {
-       if ((res !== undefined) && (res.ok) && (res.body.success)) {
-         var post = posts.get(id);
-         post.numLikes++;
-         post.liked = true;
-         posts = posts.set(id, post);
-         that.set({
-           posts: posts,
-           isLikeRequestInFlight: false
-         });
-       }
-       else {
-         //TODO: implement failed case (show user error message or cached results)
-         that.set({
-           isLikeRequestInFlight: false
-         });
-       }
-    });
+    AjaxUtils.ajax(
+      '/post/like',
+      {
+        postIdString: postId,
+        userIdString: userId
+      },
+      (res) => {
+        that.set({
+          posts: PostUtils.increaseLikeCount(posts, id),
+          isLikeRequestInFlight: false
+        });
+      },
+      () => {
+        that.set({
+          isLikeRequestInFlight: false
+        });
+      }
+    );
   },
 
   $removeLikeExploreFeed(id, postId, userId) {
@@ -169,19 +160,15 @@ var explorePostsStore = Unicycle.createStore({
       isLikeRequestInFlight: true
     });
 
-    PostUtils.ajax(
+    AjaxUtils.ajax(
       '/post/removeLike',
       {
         postIdString: postId,
         userIdString: userId
       },
-      () => {
-        var post = posts.get(id);
-        post.numLikes--;
-        post.liked = false;
-        posts = posts.set(id, post);
+      (res) => {
         that.set({
-          posts: posts,
+          posts: PostUtils.decreaseLikeCount(posts, id),
           isLikeRequestInFlight: false
         });
       },
@@ -231,27 +218,6 @@ var explorePostsStore = Unicycle.createStore({
 
   getExploreFeedPageOffset: function() {
     return this.get('exploreFeedPageOffset');
-  },
-
-  createPostsJsonFromResponse: function(posts, offset) {
-    var postsJson = [];
-
-    for (var i = offset; i < posts.length + offset; i++) {
-      var post = posts[i - offset];
-      postsJson.push({
-        posterProfileImageUrl: post['posterProfilePictureUrl'],
-        postIdString: post['postIdString'],
-        posterEmail: post['posterEmail'],
-        posterName: post['posterName'],
-        timestamp: post['timestamp'],
-        photoUrl: post['photoUrl'],
-        numLikes: post['numLikes'],
-        caption: post['caption'],
-        liked: post['liked'],
-        id: i
-      });
-    }
-    return postsJson;
   }
 
 });
