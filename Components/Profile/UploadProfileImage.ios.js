@@ -19,19 +19,17 @@ var {
 var styles = StyleSheet.create({
   uploadProfileImageContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 150,
-    width: 150
+    alignItems: 'stretch'
   },
   uploadProfileImageText: {
     textAlign: 'center',
     padding: 5,
-    paddingTop: 7, //for some reason padding: 5 doesn't perfectly center the text
     color: 'red',
     fontWeight: '500',
-    borderWidth: 3,
-    borderColor: 'maroon'
+    borderWidth: 1,
+    borderColor: 'maroon',
+    height: 80,
+    width: null
   }
 });
 
