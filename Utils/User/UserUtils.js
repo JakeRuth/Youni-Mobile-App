@@ -3,12 +3,16 @@
 var UserUtils = {
 
   convertResponseUserListToMap: function(rawUsers) {
-    var usersJson = [];
+    var usersJson = null;
 
-    for (var i = 0; i < rawUsers.length; i++) {
-      var user = this.convertUserToJson(rawUsers[i], i);
-      usersJson.push(user);
+    if (rawUsers) {
+      usersJson = [];
+      for (var i = 0; i < rawUsers.length; i++) {
+        var user = this.convertUserToJson(rawUsers[i], i);
+        usersJson.push(user);
+      }
     }
+    
     return usersJson;
   },
 

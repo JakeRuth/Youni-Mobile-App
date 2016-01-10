@@ -82,7 +82,7 @@ var SearchPage = React.createClass({
   render: function() {
     var inExploreFeedView = searchStore.getInExploreFeedView(),
         isProfileInView = searchStore.getInProfileView(),
-        searchResultsToShow = searchStore.getSearchResults().size != 0,
+        searchResultsToShow = searchStore.getSearchResults() != null,
         searchPageContent;
 
     if (searchStore.isRequestInFlight() || profileStore.isRequestInFlight()) {
