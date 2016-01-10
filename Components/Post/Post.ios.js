@@ -34,7 +34,7 @@ var styles = StyleSheet.create({
     backgroundColor: 'white'
   },
   caption: {
-    fontSize: 20,
+    fontSize: 15,
     borderBottomWidth: 2,
     marginTop: 12,
     marginBottom: 12,

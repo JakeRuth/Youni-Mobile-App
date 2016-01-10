@@ -12,7 +12,7 @@ var {
 var styles = StyleSheet.create({
   headingWrapper: {
     flexDirection: 'column',
-    backgroundColor: '#6675E3',
+    backgroundColor: '#1599ED',
     marginTop: 20
   },
   header: {

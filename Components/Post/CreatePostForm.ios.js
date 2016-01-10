@@ -48,7 +48,7 @@ var styles = StyleSheet.create({
   createPostButton: {
     borderWidth: 1,
     borderRadius: 10,
-    borderColor: '#007C9E'
+    borderColor: '#1599ED'
   },
   createPostText: {
     textAlign: 'center',

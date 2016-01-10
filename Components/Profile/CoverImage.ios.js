@@ -18,7 +18,7 @@ var styles = StyleSheet.create({
     marginBottom: 5
   },
   coverImage: {
-    height: 250
+    height: 125
   }
 });
 
@@ -61,7 +61,7 @@ var CoverImage = React.createClass({
       <Icon
         name='ios-person'
         size={150}
-        color='#007C9E' />
+        color='#1599ED' />
     );
   },
 

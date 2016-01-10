@@ -20,16 +20,16 @@ var {
 var styles = StyleSheet.create({
   profileImageContainer: {
     flex: 1,
-    marginTop: -100,
-    marginLeft: 20,
+    marginTop: -50,
+    marginLeft: 6,
     alignItems: 'stretch'
   },
   profileImage: {
     width: null,
-    height: 160,
+    height: 80,
     flex: 1,
     alignSelf: 'stretch',
-    margin: 4
+    margin: 2
   }
 });
 
@@ -74,7 +74,7 @@ var ProfileImage = React.createClass({
       <Icon
         name='ios-person'
         size={150}
-        color='#007C9E' />
+        color='#1599ED' />
     );
   },
 

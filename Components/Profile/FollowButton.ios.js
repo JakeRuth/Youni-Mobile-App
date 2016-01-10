@@ -12,21 +12,21 @@ var {
 
 var styles = StyleSheet.create({
   followingButtonContainer: {
-    flex: 1,
+    flex: 3,
     alignItems: 'stretch',
     backgroundColor: 'transparent'
   },
   followingButton: {
     backgroundColor: 'transparent',
-    borderColor: '#5375FA',
-    color: '#5375FA',
-    fontSize: 18,
+    borderColor: '#1599ED',
+    color: '#1599ED',
+    fontSize: 13,
     fontWeight: '600',
     borderWidth: 1,
-    borderRadius: 1,
+    borderRadius: 3,
     padding: 5,
-    marginLeft: 5,
-    marginRight: 5,
+    marginLeft: 6,
+    marginRight: 8,
     textAlign: 'center'
   }
 });

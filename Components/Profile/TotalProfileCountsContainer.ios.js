@@ -17,28 +17,32 @@ var styles = StyleSheet.create({
   container: {
     borderTopWidth: .5,
     borderBottomWidth: .5,
+    borderColor: '#F2F2F2',
     flex: 2,
     flexDirection: 'row'
   },
   totalCountContainer: {
     flex: 1,
-    margin: 10
+    margin: 2.5,
+    padding: 6,
   },
   verticalLineSeperator:{
-    borderWidth: 1,
-    marginVertical: 5,
-    borderColor: 'grey'
+    borderWidth: .5,
+    marginVertical: 8,
+    borderColor: '#F2F2F2'
   },
   countLabel: {
     color: '#999',
-    fontSize: 16,
-    textAlign: 'center'
+    fontSize: 10,
+    textAlign: 'center',
+    marginBottom: 1
   },
   countValue: {
-    color: '#5375FA',
+    color: '#1599ED',
     textAlign: 'center',
-    fontSize: 22,
-    fontWeight: '600'
+    fontSize: 15,
+    fontWeight: '600',
+    marginTop: 1
   }
 });
 

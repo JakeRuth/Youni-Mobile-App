@@ -55,7 +55,7 @@ var LoadMorePostsButton = React.createClass({
         <Icon
           name='ios-plus-outline'
           size={60}
-          color='#007C9E' />
+          color='#1599ED' />
 
       </TouchableHighlight>
     );
