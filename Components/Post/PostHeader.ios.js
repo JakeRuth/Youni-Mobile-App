@@ -16,33 +16,42 @@ var {
 
 var styles = StyleSheet.create({
   postHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'white',
-    padding: 10
-  },
-  posterImage: {
-    height: 45,
-    width: 45,
-    borderRadius: 22,
-    marginRight: 10
-  },
-  profileImageAndNameContainer: {
-    flex: 4
-  },
-  profileImageAndName: {
     flex: 1,
     flexDirection: 'row'
   },
+  thumbnailContainer: {
+    flex: 1
+  },
+  thumbnail: {
+    flex: 4,
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  posterImage: {
+    height: 35,
+    width: 35,
+    borderRadius: 18
+  },
+  nameAndTimestampContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    padding: 6,
+    paddingLeft: 8
+  },
   profileName: {
     flex: 1,
-    fontSize: 15,
-    alignSelf: 'center'
+    fontSize: 17,
+    fontWeight: '400',
+    color: '#4C4C4C'
   },
   timestamp: {
     flex: 1,
-    alignSelf: 'center',
-    color: 'darkgray'
+    fontSize: 13,
+    color: '#B2B2B2'
+  },
+  actionButtonContainer: {
+    right: 8,
+    top: 6
   }
 });
 
@@ -60,25 +69,24 @@ var PostHeader = React.createClass({
   },
 
   render: function() {
-    //TODO: Theres probably a better way to branch this logic, worth revisiting when we solve #techdebt
-    var profileImageOrDeleteIcon = <View/>,
-        flagPostIcon = <View/>;
+    var profileImage = <View/>,
+        actionButton = <View/>;
 
     if (this.props.posterProfileImageUrl) {
-      profileImageOrDeleteIcon = (
+      profileImage = (
         <Image style={styles.posterImage} source={{uri: this.props.posterProfileImageUrl}} />
       );
     }
 
     if (this.props.viewerIsPostOwner) {
-      profileImageOrDeleteIcon = (
+      actionButton = (
         <DeletePostIcon
           id={this.props.id}
           postIdString={this.props.postIdString} />
       );
     }
     else {
-      flagPostIcon = (
+      actionButton = (
         <FlagPostIcon postId={this.props.postIdString}/>
       );
     }
@@ -87,21 +95,29 @@ var PostHeader = React.createClass({
       <View style={styles.postHeader}>
 
         <TouchableHighlight
-          style={styles.profileImageAndNameContainer}
+          style={styles.thumbnailContainer}
           onPress={this.onProfilePress}
           underlayColor='transparent'>
 
-          <View style={styles.profileImageAndName}>
-            {profileImageOrDeleteIcon}
-            <Text style={styles.profileName} numberOfLines={1}>
-              {this.props.posterName}
-            </Text>
+          <View style={styles.thumbnail}>
+            {profileImage}
+
+            <View style={styles.nameAndTimestampContainer}>
+              <Text style={styles.profileName} numberOfLines={1}>
+                {this.props.posterName}
+              </Text>
+              <Text style={styles.timestamp}>
+                {this.props.timestamp} ago
+              </Text>
+            </View>
+
           </View>
 
         </TouchableHighlight>
 
-        {flagPostIcon}
-        <Text style={styles.timestamp}>{this.props.timestamp}</Text>
+        <View style={styles.actionButtonContainer}>
+          {actionButton}
+        </View>
 
       </View>
     );

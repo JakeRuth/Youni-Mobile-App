@@ -7,13 +7,14 @@ var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 
 var {
   TouchableHighlight,
-  AlertIOS,
+  ActionSheetIOS,
   StyleSheet
 } = React;
 
 var styles = StyleSheet.create({
-  deletePostIconContainer: {
-    marginRight: 20
+  deleteIcon: {
+    paddingBottom: 15,
+    paddingLeft: 30
   }
 });
 
@@ -27,33 +28,33 @@ var DeletePostIcon = React.createClass({
   render: function() {
     return (
       <TouchableHighlight
+        style={styles.deleteIcon}
         underlayColor='transparent'
-        style={styles.deletePostIconContainer}
         onPress={this._onDeleteIconPress}>
 
         <Icon
-          name='ios-trash-outline'
-          size={45}
-          color='#FF7878' />
+          name='chevron-down'
+          size={15}
+          color='#B2B2B2' />
 
       </TouchableHighlight>
     );
   },
 
   _onDeleteIconPress: function() {
-    AlertIOS.alert(
-      'Delete this post?',
-      '',
-      [
-        {
-          text: 'Yes, delete my post forever.',
-          onPress: this._onConfirmDeletePress
-        },
-        {
-          text: "No it's actually cute, I want to keep it."
-        }
-      ]
-    );
+    ActionSheetIOS.showActionSheetWithOptions({
+      options: [
+        'Delete Post',
+        'Cancel'
+      ],
+      cancelButtonIndex: 1,
+      tintColor: '#1599ED',
+    },
+    (buttonIndex) => {
+      if (buttonIndex === 0) {
+        this._onConfirmDeletePress();
+      }
+    });
   },
 
   _onConfirmDeletePress: function() {

@@ -7,15 +7,14 @@ var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 
 var {
   TouchableHighlight,
-  AlertIOS,
+  ActionSheetIOS,
   StyleSheet
 } = React;
 
 var styles = StyleSheet.create({
-  flagPostIconContainer: {
-    paddingLeft: 30,
-    paddingRight: 30,
-    alignSelf: 'center'
+  flagIcon: {
+    paddingBottom: 15,
+    paddingLeft: 30
   }
 });
 
@@ -28,33 +27,33 @@ var PostHeader = React.createClass({
   render: function() {
     return (
       <TouchableHighlight
+        style={styles.flagIcon}
         underlayColor='transparent'
-        style={styles.flagPostIconContainer}
         onPress={this._onFlagPostIconPress}>
 
         <Icon
-          name='ios-flag-outline'
-          size={30}
-          color='#FF7878' />
+          name='chevron-down'
+          size={15}
+          color='#B2B2B2' />
 
       </TouchableHighlight>
     );
   },
 
   _onFlagPostIconPress: function() {
-    AlertIOS.alert(
-      'Flag this post?',
-      'An email will be sent to Youni to report this post for inappropriate content.',
-      [
-        {
-          text: 'Yes',
-          onPress: this._flagPost
-        },
-        {
-          text: 'No'
-        }
-      ]
-    );
+    ActionSheetIOS.showActionSheetWithOptions({
+      options: [
+        'Flag Post',
+        'Cancel'
+      ],
+      cancelButtonIndex: 1,
+      tintColor: '#1599ED',
+    },
+    (buttonIndex) => {
+      if (buttonIndex === 0) {
+        this._flagPost();
+      }
+    });
   },
 
   _flagPost: function() {

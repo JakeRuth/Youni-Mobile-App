@@ -16,11 +16,6 @@ var {
 } = React;
 
 var styles = StyleSheet.create({
-  postHeader: {
-    flexDirection: 'row',
-    margin: 10,
-    marginTop: 0
-  },
   imageContainer: {
     flex: 1
   },
