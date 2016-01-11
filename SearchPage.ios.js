@@ -93,14 +93,14 @@ var SearchPage = React.createClass({
     }
     else if (isProfileInView) {
       searchPageContent = <ProfilePageBody
-                            viewerIsProfileOwner = {false}
-                            firstName = {profileStore.getFirstName()}
-                            lastName = {profileStore.getLastName()}
-                            bio = {profileStore.getBio()}
-                            numFans = {profileStore.getNumFollowers()}
-                            profileImageUrl = {profileStore.getProfileImageUrl()}
-                            email = {profileStore.getEmail()}
-                          />;
+                            viewerIsProfileOwner={false}
+                            firstName={profileStore.getFirstName()}
+                            lastName={profileStore.getLastName()}
+                            bio={profileStore.getBio()}
+                            numFans={profileStore.getNumFollowers()}
+                            numPosts={profileStore.getNumPosts()}
+                            profileImageUrl={profileStore.getProfileImageUrl()}
+                            email={profileStore.getEmail()}/>;
     }
     else if (searchResultsToShow) {
       searchPageContent = <SearchResultsList/>;

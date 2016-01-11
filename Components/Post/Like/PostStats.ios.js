@@ -50,8 +50,7 @@ var PostStats = React.createClass({
 
         <TouchableHighlight
           onPress={this.props.onStarPress}
-          underlayColor={'transparent'}
-          style={styles.icon}>
+          underlayColor={'transparent'}>
           <Icon
             style={[styles.icon, likedStarIconColor]}
             name={this._getStarIconName()}

@@ -5,7 +5,6 @@ var Unicycle = require('../../Unicycle');
 var trendingStore = require('../../stores/trending/TrendingStore');
 var MainScreenBanner = require('../../MainScreenBanner');
 var TrendingUsersGrid = require('./TrendingUsersGrid');
-var ProfilePageBody = require('../Profile/ProfilePageBody');
 var BackButton = require('../Common/BackButtonBar');
 var ErrorPage = require('../Common/ErrorPage');
 

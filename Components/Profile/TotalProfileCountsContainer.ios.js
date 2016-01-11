@@ -48,6 +48,11 @@ var styles = StyleSheet.create({
 
 var TotalProfileCountsContainer = React.createClass({
 
+  propTypes: {
+    numFans: React.PropTypes.number.isRequired,
+    numPosts: React.PropTypes.number.isRequired
+  },
+
   render: function() {
     return (
       <View style={styles.profileImageContainer}>
@@ -63,7 +68,7 @@ var TotalProfileCountsContainer = React.createClass({
 
         <View style={styles.totalCountContainer}>
           <Text style={styles.countLabel}>Posts</Text>
-          <Text style={styles.countValue}>bitch</Text>
+          <Text style={styles.countValue}>{this.props.numPosts}</Text>
         </View>
 
         <View style={styles.verticalLineSeperator}/>

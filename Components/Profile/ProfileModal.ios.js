@@ -82,14 +82,14 @@ var ProfileModal = React.createClass({
   _renderModalContent: function() {
     return (
       <ProfilePageBody
-        viewerIsProfileOwner = {false}
-        firstName = {profileStore.getFirstName()}
-        lastName = {profileStore.getLastName()}
-        bio = {profileStore.getBio()}
-        numFans = {profileStore.getNumFollowers()}
-        profileImageUrl = {profileStore.getProfileImageUrl()}
-        email = {profileStore.getEmail()}
-      />
+        viewerIsProfileOwner={false}
+        firstName={profileStore.getFirstName()}
+        lastName={profileStore.getLastName()}
+        bio={profileStore.getBio()}
+        numFans={profileStore.getNumFollowers()}
+        profileImageUrl={profileStore.getProfileImageUrl()}
+        email={profileStore.getEmail()}
+        numPosts={profileStore.getNumPosts()}/>
     );
   },
 

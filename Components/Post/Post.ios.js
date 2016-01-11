@@ -15,6 +15,10 @@ var {
 } = React;
 
 var styles = StyleSheet.create({
+  container: {
+    backgroundColor: 'white',
+    marginBottom: 12
+  },
   imageContainer: {
     flex: 1
   },
@@ -46,7 +50,7 @@ var Post = React.createClass({
 
   render: function() {
     return (
-      <View>
+      <View style={styles.container}>
 
         <PostHeader
           id={this.props.id}
@@ -60,8 +64,9 @@ var Post = React.createClass({
 
         <TouchableHighlight onPress={ this._photoOnClickAction(this.props.liked) }>
           <View style={styles.imageContainer}>
-            <Image style={styles.postImage}
-                   source={{uri: this.props.photoUrl}} />
+            <Image
+              style={styles.postImage}
+              source={{uri: this.props.photoUrl}}/>
           </View>
         </TouchableHighlight>
 

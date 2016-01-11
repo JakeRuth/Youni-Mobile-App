@@ -18,6 +18,9 @@ var {
 } = React
 
 var styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#F2F2F2'
+  },
   pullDownToRefreshText: {
     alignSelf: 'center',
     marginTop: -20,
@@ -66,7 +69,9 @@ var PostList = React.createClass({
     }
 
     return (
-      <ScrollView onScroll={this.props.onScroll}>
+      <ScrollView
+        style={styles.container}
+        onScroll={this.props.onScroll}>
 
         {refreshHeader}
         {manualRefreshButton}

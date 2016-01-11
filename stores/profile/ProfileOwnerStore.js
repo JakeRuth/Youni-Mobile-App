@@ -25,6 +25,7 @@ var profileOwnerStore = Unicycle.createStore({
         firstName: '',
         lastName: '',
         numFollowers: null,
+        numPosts: null,
         bio: '',
         profileImageUrl: '',
         email: '',
@@ -58,7 +59,8 @@ var profileOwnerStore = Unicycle.createStore({
             numFollowers: res.body.userDetails['numFollowers'],
             bio: res.body.userDetails['bio'],
             email: res.body.userDetails['email'],
-            profileImageUrl: res.body.userDetails['profileImageUrl']
+            profileImageUrl: res.body.userDetails['profileImageUrl'],
+            numPosts: res.body.userDetails['numPosts']
           });
         },
         () => {
@@ -314,6 +316,10 @@ var profileOwnerStore = Unicycle.createStore({
 
     getNumFollowers: function() {
       return this.get('numFollowers');
+    },
+
+    getNumPosts: function() {
+      return this.get('numPosts');
     },
 
     getBio: function() {
