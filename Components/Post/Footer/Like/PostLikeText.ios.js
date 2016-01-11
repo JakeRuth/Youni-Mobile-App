@@ -1,8 +1,8 @@
 'use strict';
 
 var React = require('react-native');
-var Unicycle = require('../../../Unicycle');
-var postLikeModalStore = require('../../../stores/post/like/PostLikeModalStore');
+var Unicycle = require('../../../../Unicycle');
+var postLikeModalStore = require('../../../../stores/post/like/PostLikeModalStore');
 var PostLikeModal = require('./PostLikeModal')
 
 var {
@@ -17,6 +17,9 @@ var styles = StyleSheet.create({
     color: '#B2B2B2',
     fontSize: 13,
     fontWeight: '600',
+    marginRight: 16
+  },
+  spinner: {
     marginRight: 16
   }
 });
@@ -59,7 +62,9 @@ var PostLikeText = React.createClass({
 
   _renderSmallSpinner: function() {
     return (
-      <ActivityIndicatorIOS size={'small'} style={styles.spinner}/>
+      <ActivityIndicatorIOS
+        size={'small'}
+        style={styles.spinner}/>
     );
   },
 

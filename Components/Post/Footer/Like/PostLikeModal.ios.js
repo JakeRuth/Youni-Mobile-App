@@ -1,8 +1,8 @@
 'use strict';
 
 var React = require('react-native');
-var Unicycle = require('../../../Unicycle');
-var postLikeModalStore = require('../../../stores/post/like/PostLikeModalStore');
+var Unicycle = require('../../../../Unicycle');
+var postLikeModalStore = require('../../../../stores/post/like/PostLikeModalStore');
 
 var {
   View,

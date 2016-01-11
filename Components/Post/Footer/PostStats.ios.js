@@ -2,7 +2,7 @@
 
 var React = require('react-native');
 var Icon = require('react-native-vector-icons/Ionicons');
-var PostLikeText = require('./PostLikeText');
+var PostLikeText = require('./Like/PostLikeText');
 
 var {
   View,

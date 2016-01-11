@@ -1,10 +1,10 @@
 'use strict'
 
 var React = require('react-native');
-var Unicycle = require('../../Unicycle');
-var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
-var PostHeader = require('./PostHeader');
-var PostStats = require('./Like/PostStats');
+var Unicycle = require('../../../Unicycle');
+var userLoginMetadataStore = require('../../../stores/UserLoginMetadataStore');
+var PostHeader = require('../PostHeader');
+var PostStats = require('./PostStats');
 
 var {
   View,
