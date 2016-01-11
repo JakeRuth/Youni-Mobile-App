@@ -30,7 +30,8 @@ var styles = StyleSheet.create({
   posterImage: {
     height: 35,
     width: 35,
-    borderRadius: 18
+    borderRadius: 18,
+    marginLeft: 8
   },
   nameAndTimestampContainer: {
     flex: 1,

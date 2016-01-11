@@ -15,7 +15,6 @@ var {
 var styles = StyleSheet.create({
   postsContainer: {
     flex: 1,
-    padding: 5,
     paddingBottom: 50
   },
   spinnerContainer: {
