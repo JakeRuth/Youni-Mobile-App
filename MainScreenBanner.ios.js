@@ -20,7 +20,6 @@ var styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: '700',
     marginBottom: 0,
-    backgroundColor: 'transparent',
     color: 'white'
   },
   subHeader: {
@@ -28,7 +27,6 @@ var styles = StyleSheet.create({
     fontSize: 15,
     textAlign: 'center',
     marginBottom: 5,
-    backgroundColor: 'transparent',
     color: '#C7C7C7'
   }
 });
