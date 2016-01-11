@@ -14,9 +14,10 @@ var {
 
 var styles = StyleSheet.create({
   numLikes: {
-    color: 'darkblue',
-    fontSize: 18,
-    fontFamily: 'Avenir'
+    color: '#B2B2B2',
+    fontSize: 13,
+    fontWeight: '600',
+    marginRight: 16
   }
 });
 
@@ -71,7 +72,7 @@ var PostLikeText = React.createClass({
       return numLikes + ' like';
     }
     else {
-      return 'no likes... yet';
+      return '';
     }
   }
 

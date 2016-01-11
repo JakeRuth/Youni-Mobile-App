@@ -4,13 +4,12 @@ var React = require('react-native');
 var Unicycle = require('../../Unicycle');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var PostHeader = require('./PostHeader');
-var PostLikeBar = require('./Like/PostLikeBar');
+var PostFooter = require('./PostFooter');
 
 var {
   View,
   Text,
   Image,
-  PixelRatio,
   StyleSheet,
   TouchableHighlight
 } = React;
@@ -23,30 +22,6 @@ var styles = StyleSheet.create({
     flex: 1,
     width: null,
     height: 416
-  },
-  postFooter: {
-    flexDirection: 'column',
-    backgroundColor: 'white'
-  },
-  caption: {
-    fontSize: 15,
-    borderBottomWidth: 2,
-    marginTop: 12,
-    marginBottom: 12,
-    marginLeft: 16,
-    marginRight: 16,
-    color: '#666',
-    borderBottomColor: 'black'
-  },
-  blankLine: {
-    borderWidth: 1 / PixelRatio.get(),
-    borderColor: 'lightgray',
-    marginLeft: 16,
-    marginRight: 16
-  },
-  postSeparator: {
-    borderWidth: 16,
-    borderColor: 'transparent'
   }
 });
 
@@ -90,17 +65,13 @@ var Post = React.createClass({
           </View>
         </TouchableHighlight>
 
-        <View style={styles.postFooter}>
-          <Text style={styles.caption}>{this.props.caption == '_' ? '' : this.props.caption }</Text>{/*TODO: Fix this crap*/}
-            <View style={styles.blankLine} />
-          <PostLikeBar
-            postStore={this.props.postStore}
-            onStarPress={this._onStarPress(this.props.liked)}
-            liked={this.props.liked}
-            numLikes={this.props.numLikes}
-            postIdString={this.props.postIdString} />
-        </View>
-        <View style={styles.postSeparator} />
+        <PostFooter
+          postIdString={this.props.postIdString}
+          postStore={this.props.postStore}
+          numLikes={this.props.numLikes}
+          caption={this.props.caption}
+          liked={this.props.liked}
+          onStarPress={this._onStarPress}/>
 
       </View>
     );

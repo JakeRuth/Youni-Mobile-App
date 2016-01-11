@@ -12,21 +12,21 @@ var {
 } = React
 
 var styles = StyleSheet.create({
-  likeContainer: {
+  postStatsContainer: {
     flex: 1,
     flexDirection: 'row',
-    marginTop: 12,
-    marginBottom: 12,
-    marginLeft: 16,
-    marginRight: 16,
     alignItems: 'center'
   },
-  star: {
-    flex: 1
+  icon: {
+    color: '#B2B2B2',
+    marginTop: 6,
+    marginBottom: 6,
+    marginRight: 8,
+    marginLeft: 8
   }
 });
 
-var PostLikeBar = React.createClass({
+var PostStats = React.createClass({
 
   propTypes: {
     postStore: React.PropTypes.any.isRequired,
@@ -37,15 +37,32 @@ var PostLikeBar = React.createClass({
   },
 
   render: function() {
+    var likedStarIconColor = {};
+
+    if (this.props.liked) {
+      likedStarIconColor = {
+        color: '#1599ED'
+      };
+    }
+
     return (
-      <View style={styles.likeContainer}>
+      <View style={styles.postStatsContainer}>
 
         <TouchableHighlight
           onPress={this.props.onStarPress}
           underlayColor={'transparent'}
-          style={styles.star}>
-          <Icon name={this._getStarIconName()} size={30} color='gold' />
+          style={styles.icon}>
+          <Icon
+            style={[styles.icon, likedStarIconColor]}
+            name={this._getStarIconName()}
+            size={33}/>
         </TouchableHighlight>
+
+        <Icon
+          style={[styles.icon, {flex:1}]}
+          name='ios-chatbubble-outline'
+          size={33}
+          color='gold'/>
 
         <PostLikeText
           postStore={this.props.postStore}
@@ -57,14 +74,17 @@ var PostLikeBar = React.createClass({
   },
 
   _getStarIconName: function() {
-      if (this.props.liked) {
+      if (this.props.postStore.isLikeRequestInFlight()) {
+        return 'ios-star-half';
+      }
+      else if (this.props.liked) {
         return 'ios-star';
       }
       else {
-        return 'android-star-outline';
+        return 'ios-star-outline';
       }
   }
 
 });
 
-module.exports = PostLikeBar;
+module.exports = PostStats;
