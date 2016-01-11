@@ -42,6 +42,9 @@ var Post = React.createClass({
     photoUrl: React.PropTypes.string.isRequired,
     numLikes: React.PropTypes.number.isRequired,
     caption: React.PropTypes.string.isRequired,
+    firstComments: React.PropTypes.array,
+    moreCommentsToShow: React.PropTypes.bool.isRequired,
+    numComments: React.PropTypes.number.isRequired,
     postIdString: React.PropTypes.string.isRequired,
     liked: React.PropTypes.bool.isRequired,
     viewerIsPostOwner: React.PropTypes.bool,
@@ -76,7 +79,10 @@ var Post = React.createClass({
           numLikes={this.props.numLikes}
           caption={this.props.caption}
           liked={this.props.liked}
-          onStarPress={this._onStarPress}/>
+          onStarPress={this._onStarPress}
+          firstComments={this.props.firstComments}
+          moreCommentsToShow={this.props.moreCommentsToShow}
+          numComments={this.props.numComments}/>
 
       </View>
     );

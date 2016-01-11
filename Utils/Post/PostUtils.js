@@ -12,6 +12,9 @@ var PostUtils = {
       postsJson.push({
         posterProfileImageUrl: post['posterProfilePictureUrl'],
         postIdString: post['postIdString'],
+        firstComments: post['firstComments'],
+        moreComments: post['moreComments'],
+        numComments: post['numComments'],
         posterEmail: post['posterEmail'],
         posterName: post['posterName'],
         timestamp: post['timestamp'],

@@ -5,6 +5,7 @@ var Unicycle = require('../../../Unicycle');
 var userLoginMetadataStore = require('../../../stores/UserLoginMetadataStore');
 var PostHeader = require('../PostHeader');
 var PostStats = require('./PostStats');
+var PostCommentsContainer = require('./PostCommentsContainer');
 
 var {
   View,
@@ -15,7 +16,6 @@ var {
 
 var styles = StyleSheet.create({
   postFooter: {
-    flexDirection: 'column',
     backgroundColor: 'white'
   },
   caption: {
@@ -25,11 +25,11 @@ var styles = StyleSheet.create({
     marginBottom: 6,
     color: '#666'
   },
-  blankLine: {
+  captionContainer: {
     borderBottomWidth: 1,
     borderBottomColor: '#E5E5E5',
-    marginLeft: 12,
-    marginRight: 12
+    marginLeft: 8,
+    marginRight: 8
   }
 });
 
@@ -41,7 +41,10 @@ var PostFooter = React.createClass({
     numLikes: React.PropTypes.number.isRequired,
     caption: React.PropTypes.string.isRequired,
     liked: React.PropTypes.bool.isRequired,
-    onStarPress: React.PropTypes.func.isRequired
+    onStarPress: React.PropTypes.func.isRequired,
+    firstComments: React.PropTypes.array,
+    moreCommentsToShow: React.PropTypes.bool.isRequired,
+    numComments: React.PropTypes.number.isRequired
   },
 
   render: function() {
@@ -50,7 +53,7 @@ var PostFooter = React.createClass({
     // TODO: Fix this crap
     if (this.props.caption !== '_') {
       caption = (
-        <View style={styles.blankLine}>
+        <View style={styles.captionContainer}>
           <Text style={styles.caption}>
             {this.props.caption}
           </Text>
@@ -68,6 +71,14 @@ var PostFooter = React.createClass({
           liked={this.props.liked}
           numLikes={this.props.numLikes}
           postIdString={this.props.postIdString} />
+
+        <PostCommentsContainer
+          postIdString={this.props.postIdString}
+          postStore={this.props.postStore}
+          firstComments={this.props.firstComments}
+          moreCommentsToShow={this.props.moreCommentsToShow}
+          numComments={this.props.numComments}/>
+
       </View>
     );
   }
