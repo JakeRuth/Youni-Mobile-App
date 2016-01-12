@@ -2,6 +2,7 @@
 
 var React = require('react-native');
 var Unicycle = require('../../Unicycle')
+var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var DeletePostIcon = require('./DeletePostIcon');
 var FlagPostIcon = require('./FlagPostIcon');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
@@ -65,7 +66,6 @@ var PostHeader = React.createClass({
     posterProfileImageUrl: React.PropTypes.string,
     posterName: React.PropTypes.string.isRequired,
     timestamp: React.PropTypes.string.isRequired,
-    viewerIsPostOwner: React.PropTypes.bool,
     renderedFromProfileView: React.PropTypes.bool,
     hideActionButton: React.PropTypes.bool
   },
@@ -79,12 +79,13 @@ var PostHeader = React.createClass({
         <Image style={styles.posterImage} source={{uri: this.props.posterProfileImageUrl}} />
       );
     }
-
-    if (this.props.viewerIsPostOwner) {
+    
+    if (this._isViewerPostOwner()) {
       actionButton = (
         <DeletePostIcon
           id={this.props.id}
-          postIdString={this.props.postIdString} />
+          postIdString={this.props.postIdString}
+          enabled={this.props.renderedFromProfileView}/>
       );
     }
     else if (!this.props.hideActionButton) {
@@ -128,13 +129,17 @@ var PostHeader = React.createClass({
   onProfilePress: function() {
     var userId;
 
-    if (!this.props.viewerIsPostOwner && !this.props.renderedFromProfileView) {
+    if (!this._isViewerPostOwner() && !this.props.renderedFromProfileView && !this.props.hideActionButton) {
       userId = userLoginMetadataStore.getUserId();
       Unicycle.exec('reInitializeUsersProfileFeedOffset');
       Unicycle.exec('loadUsersProfile', this.props.posterEmail);
       Unicycle.exec('getUserPosts', this.props.posterEmail, userId);
       Unicycle.exec('setProfileModalVisibile', true);
     }
+  },
+
+  _isViewerPostOwner: function() {
+    return this.props.posterEmail === userLoginMetadataStore.getEmail();
   }
 
 });

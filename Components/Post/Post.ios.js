@@ -59,7 +59,6 @@ var Post = React.createClass({
           id={this.props.id}
           postIdString={this.props.postIdString}
           posterEmail={this.props.posterEmail}
-          viewerIsPostOwner={this.props.viewerIsPostOwner}
           posterName={this.props.posterName}
           posterProfileImageUrl={this.props.posterProfileImageUrl}
           timestamp={this.props.timestamp}

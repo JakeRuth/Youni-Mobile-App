@@ -8,7 +8,8 @@ var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var {
   TouchableHighlight,
   ActionSheetIOS,
-  StyleSheet
+  StyleSheet,
+  AlertIOS
 } = React;
 
 var styles = StyleSheet.create({
@@ -22,7 +23,8 @@ var DeletePostIcon = React.createClass({
 
   propTypes: {
     id: React.PropTypes.number.isRequired,
-    postIdString: React.PropTypes.string.isRequired
+    postIdString: React.PropTypes.string.isRequired,
+    enabled: React.PropTypes.string.isRequired
   },
 
   render: function() {
@@ -59,7 +61,21 @@ var DeletePostIcon = React.createClass({
 
   _onConfirmDeletePress: function() {
     var userId = userLoginMetadataStore.getUserId();
-    Unicycle.exec('deletePost', this.props.id, this.props.postIdString, userId);
+
+    if (this.props.enabled) {
+      Unicycle.exec('deletePost', this.props.id, this.props.postIdString, userId);
+    }
+    else {
+      AlertIOS.alert(
+        'You can only delete your posts from your profile page.',
+        '',
+        [
+          {
+            text: 'Got it'
+          }
+        ]
+      );
+    }
   }
 
 });
