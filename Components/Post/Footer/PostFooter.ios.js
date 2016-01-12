@@ -36,6 +36,10 @@ var styles = StyleSheet.create({
 var PostFooter = React.createClass({
 
   propTypes: {
+    posterEmail: React.PropTypes.string.isRequired,
+    posterName: React.PropTypes.string.isRequired,
+    posterProfileImageUrl: React.PropTypes.string.isRequired,
+    timestamp: React.PropTypes.string.isRequired,
     id: React.PropTypes.number.isRequired,
     postStore: React.PropTypes.any.isRequired,
     postIdString: React.PropTypes.string.isRequired,
@@ -75,6 +79,10 @@ var PostFooter = React.createClass({
           postIdString={this.props.postIdString} />
 
         <PostCommentsContainer
+          posterEmail={this.props.posterEmail}
+          posterName={this.props.posterName}
+          posterProfileImageUrl={this.props.posterProfileImageUrl}
+          timestamp={this.props.timestamp}
           id={this.props.id}
           postIdString={this.props.postIdString}
           postStore={this.props.postStore}

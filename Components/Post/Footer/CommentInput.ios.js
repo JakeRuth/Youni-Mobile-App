@@ -2,6 +2,7 @@
 
 var React = require('react-native');
 var Unicycle = require('../../../Unicycle');
+var postCommentsModalStore = require('../../../stores/post/PostCommentsModalStore');
 var userLoginMetadataStore = require('../../../stores/UserLoginMetadataStore');
 
 var {
@@ -113,6 +114,12 @@ var CommentInput = React.createClass({
   },
 
   onPostCommentPress: function() {
+    //TODO: FIX ME BAD
+    postCommentsModalStore.addComment(
+      this.state.commentText,
+      userLoginMetadataStore.getFirstName() + ' ' + userLoginMetadataStore.getLastName()
+    );
+
     this.props.postStore.addCommentOnPost(
       this.props.id,
       this.props.postIdString,

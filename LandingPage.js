@@ -8,6 +8,7 @@ var TrendingPage = require('./Components/Trending/TrendingPage');
 var CreatePostPage = require('./CreatePostPage');
 var ProfileModal = require('./Components/Profile/ProfileModal');
 var BlockedUsersModal = require('./Components/Profile/Settings/BlockedUsersModal');
+var PostCommentsModal = require('./Components/Post/PostCommentsModal');
 var Icon = require('react-native-vector-icons/Ionicons');
 var loginStore = require('./stores/LoginStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
@@ -46,6 +47,7 @@ var LandingPage = React.createClass({
   render: function() {
     return (
       <View style={styles.tabBarContainer}>
+        <PostCommentsModal/>
         <ProfileModal/>
         <BlockedUsersModal/>
 

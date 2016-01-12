@@ -30,6 +30,20 @@ var PostUtils = {
     return postsJson;
   },
 
+  //TODO: Fix me. BAD
+  createCommentsJsonFromGreedy: function(comments) {
+    var commentsJson = [];
+
+    for (var i = comments.length - 1; i >= 0; i--) {
+      var comment = comments[i];
+      commentsJson.push({
+        comment: comment.comment,
+        commenterName: comment.commenterName
+      });
+    }
+    return commentsJson;
+  },
+
   increaseLikeCount: function(posts, id) {
     var post = posts.get(id);
     post.numLikes++;

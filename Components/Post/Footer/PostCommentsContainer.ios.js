@@ -12,6 +12,10 @@ var {
 var PostCommentsContainer = React.createClass({
 
   propTypes: {
+    posterEmail: React.PropTypes.string.isRequired,
+    posterName: React.PropTypes.string.isRequired,
+    posterProfileImageUrl: React.PropTypes.string.isRequired,
+    timestamp: React.PropTypes.string.isRequired,
     id: React.PropTypes.number.isRequired,
     postStore: React.PropTypes.any.isRequired,
     postIdString: React.PropTypes.string.isRequired,
@@ -26,6 +30,13 @@ var PostCommentsContainer = React.createClass({
     if (this.props.firstComments.length) {
       comments = (
         <CommentList
+          id={this.props.id}
+          postIdString={this.props.postIdString}
+          posterEmail={this.props.posterEmail}
+          posterName={this.props.posterName}
+          posterProfileImageUrl={this.props.posterProfileImageUrl}
+          timestamp={this.props.timestamp}
+          postStore={this.props.postStore}
           comments={this.props.firstComments}
           moreCommentsToShow={this.props.moreCommentsToShow}
           numComments={this.props.numComments}/>
