@@ -111,19 +111,16 @@ var SignUpForm = React.createClass({
         <Text style={styles.appName}>Youni</Text>
         <TextInput style={styles.signUpInput}
           value={signUpStore.getSignupFirstName()}
-          clearTextOnFocus={true}
           placeholderTextColor={'grey'}
           placeholder={'First Name'}
           onChangeText={(text) => Unicycle.exec('signUpUpdateFirstName', text)}/>
         <TextInput style={styles.signUpInput}
           value={signUpStore.getSignupLastName()}
-          clearTextOnFocus={true}
           placeholderTextColor={'grey'}
           placeholder={'Last Name'}
           onChangeText={(text) => Unicycle.exec('signUpUpdateLastName', text)}/>
         <TextInput style={styles.signUpInput}
           value={signUpStore.getSignupEmail()}
-          clearTextOnFocus={true}
           placeholderTextColor={'grey'}
           placeholder={'Email'}
           onChangeText={(text) => Unicycle.exec('signUpUpdateEmail', text)}/>
@@ -136,6 +133,7 @@ var SignUpForm = React.createClass({
           onChangeText={(text) => Unicycle.exec('signUpUpdatePassword', text)}/>
         <TextInput style={styles.signUpInput}
           secureTextEntry={true}
+          value={signUpStore.getSignupConfirmPassword()}
           clearTextOnFocus={true}
           placeholderTextColor={'grey'}
           placeholder={'Confirm Password'}
@@ -160,34 +158,82 @@ var SignUpForm = React.createClass({
   },
 
   onSignUpButtonPress: function() {
-    if (this._checkIfPasswordsMatch()) {
-      Unicycle.exec('onSignUpRequest');
+    if (this._assertAllFieldsAreNotBlank()) {
+      this._alertMissingField();
+    }
+    else if (!this._emailMustEndInEdu()) {
+      this._alertEmailIsUnexpected();
+    }
+    else if (!this._doPasswordsMatch()) {
+      this._alertPasswordMismatch();
     }
     else {
-      this._alertPasswordMismatch();
+      Unicycle.exec('onSignUpRequest');
     }
   },
 
-  _checkIfPasswordsMatch: function() {
+  _assertAllFieldsAreNotBlank: function() {
+    var firstName = signUpStore.getSignupFirstName(),
+        lastName = signUpStore.getSignupLastName(),
+        email = signUpStore.getSignupEmail(),
+        password = signUpStore.getSignupPassword(),
+        confirmPassword = signUpStore.getSignupConfirmPassword();
+
+    return (
+      firstName.length === 0 ||
+      lastName.length === 0 ||
+      email.length === 0 ||
+      password.length === 0 ||
+      confirmPassword.length === 0
+    )
+  },
+
+  _emailMustEndInEdu: function() {
+    return signUpStore.getSignupEmail().endsWith('.edu');
+  },
+
+  _doPasswordsMatch: function() {
     var password = signUpStore.getSignupPassword(),
         confirmPassword = signUpStore.getSignupConfirmPassword();
 
-    return password == confirmPassword;
+    return password === confirmPassword;
   },
 
   _goToLoginPage: function() {
     Unicycle.exec('setInSignUpView', false);
   },
 
+  _alertMissingField: function() {
+    AlertIOS.alert(
+      'All fields must be filled.',
+      '',
+      [
+        {
+          text: 'Got it'
+        }
+      ]
+    );
+  },
 
   _alertPasswordMismatch: function() {
-    Unicycle.exec('setSignUpInFlight', false);
     AlertIOS.alert(
       'Ooops',
       'Passwords must be the same!',
       [
         {
-          text: 'Okay'
+          text: 'Got it'
+        }
+      ]
+    );
+  },
+
+  _alertEmailIsUnexpected: function() {
+    AlertIOS.alert(
+      'Unexpected email format.',
+      'Must end with .edu',
+      [
+        {
+          text: 'Got it'
         }
       ]
     );
@@ -199,7 +245,7 @@ var SignUpForm = React.createClass({
       'Confirmation Email Sent!',
       [
         {
-          text: 'OK!',
+          text: 'Got it',
           onPress: () => { Unicycle.exec('setSignUpRequestSuccessful', false) }
         }
       ]
