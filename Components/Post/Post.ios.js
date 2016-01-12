@@ -74,6 +74,7 @@ var Post = React.createClass({
         </TouchableHighlight>
 
         <PostFooter
+          id={this.props.id}
           postIdString={this.props.postIdString}
           postStore={this.props.postStore}
           numLikes={this.props.numLikes}

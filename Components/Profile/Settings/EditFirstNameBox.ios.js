@@ -104,6 +104,7 @@ var EditFirstNameBox = React.createClass({
         firstName = profileOwnerStore.getFirstName();
 
     if (firstName.trim()) {
+      userLoginMetadataStore.setFirstName(firstName);
       Unicycle.exec('updateUserFirstName', userId, firstName);
     }
     else {

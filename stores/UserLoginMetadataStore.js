@@ -10,16 +10,32 @@ var userLoginMetadata = Unicycle.createStore({
         accessToken: '',
         refreshToken: '',
         userId: '',
-        email: ''
+        email: '',
+        firstName: '',
+        lastName: ''
       });
     },
 
-    $setAllMetadata: function (accessToken, refreshToken, userId, email) {
+    $setAllMetadata: function (accessToken, refreshToken, userId, email, firstName, lastName) {
       this.set({
         accessToken: accessToken,
         refreshToken: refreshToken,
         userId: userId,
-        email: email
+        email: email,
+        firstName: firstName,
+        lastName: lastName
+      });
+    },
+
+    setFirstName: function(value) {
+      this.set({
+        firstName: value
+      });
+    },
+
+    setLastName: function(value) {
+      this.set({
+        lastName: value
       });
     },
 
@@ -37,6 +53,14 @@ var userLoginMetadata = Unicycle.createStore({
 
     getEmail: function() {
       return this.get('email');
+    },
+
+    getFirstName: function() {
+      return this.get('firstName');
+    },
+
+    getLastName: function() {
+      return this.get('lastName');
     }
 
 });

@@ -12,6 +12,7 @@ var {
 var PostCommentsContainer = React.createClass({
 
   propTypes: {
+    id: React.PropTypes.number.isRequired,
     postStore: React.PropTypes.any.isRequired,
     postIdString: React.PropTypes.string.isRequired,
     firstComments: React.PropTypes.array,
@@ -35,7 +36,10 @@ var PostCommentsContainer = React.createClass({
       <View>
 
         {comments}
-        <CommentInput/>
+        <CommentInput
+          id={this.props.id}
+          postStore={this.props.postStore}
+          postIdString={this.props.postIdString}/>
 
       </View>
     );

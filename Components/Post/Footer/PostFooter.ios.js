@@ -36,6 +36,7 @@ var styles = StyleSheet.create({
 var PostFooter = React.createClass({
 
   propTypes: {
+    id: React.PropTypes.number.isRequired,
     postStore: React.PropTypes.any.isRequired,
     postIdString: React.PropTypes.string.isRequired,
     numLikes: React.PropTypes.number.isRequired,
@@ -70,9 +71,11 @@ var PostFooter = React.createClass({
           onStarPress={this.props.onStarPress(this.props.liked)}
           liked={this.props.liked}
           numLikes={this.props.numLikes}
+          numComments={this.props.numComments}
           postIdString={this.props.postIdString} />
 
         <PostCommentsContainer
+          id={this.props.id}
           postIdString={this.props.postIdString}
           postStore={this.props.postStore}
           firstComments={this.props.firstComments}

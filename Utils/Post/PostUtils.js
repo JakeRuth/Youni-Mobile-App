@@ -4,6 +4,8 @@ var immutable = require('immutable');
 
 var PostUtils = {
 
+  DEFAULT_MAX_COMMENTS_VISIBLE: 3,
+
   createPostsJsonFromGreedy: function(posts, currentPageOffset) {
     var postsJson = [];
 
@@ -40,6 +42,24 @@ var PostUtils = {
     var post = posts.get(id);
     post.numLikes--;
     post.liked = false;
+    posts = posts.set(id, post);
+    return posts;
+  },
+
+  addComment: function(posts, id, commentText, commenterName) {
+    var post = posts.get(id);
+    post.numComments++;
+
+    if (post.firstComments.length < this.DEFAULT_MAX_COMMENTS_VISIBLE) {
+      post.firstComments.push({
+        comment: commentText,
+        commenterName: commenterName
+      });
+    }
+    else {
+      post.moreComments = true;
+    }
+    
     posts = posts.set(id, post);
     return posts;
   },

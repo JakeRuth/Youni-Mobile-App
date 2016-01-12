@@ -242,9 +242,19 @@ var LoginPage = React.createClass({
         var userId = res.body.userId,
             refreshToken = res.body.refreshToken,
             accessToken = res.body.accessToken,
-            email = res.body.username;
+            email = res.body.username,
+            firstName = res.body.firstName,
+            lastName = res.body.lastName;
 
-        Unicycle.exec('setAllMetadata', accessToken, refreshToken, userId, email);
+        Unicycle.exec(
+          'setAllMetadata',
+          accessToken,
+          refreshToken,
+          userId,
+          email,
+          firstName,
+          lastName
+        );
         that._saveUserId(userId);
         that._saveEmail(email);
         that._saveRefreshToken(refreshToken);
