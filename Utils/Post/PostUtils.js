@@ -11,21 +11,7 @@ var PostUtils = {
 
     for (var i = currentPageOffset; i < posts.length + currentPageOffset; i++) {
       var post = posts[i - currentPageOffset];
-      postsJson.push({
-        posterProfileImageUrl: post['posterProfilePictureUrl'],
-        postIdString: post['postIdString'],
-        firstComments: post['firstComments'],
-        moreComments: post['moreComments'],
-        numComments: post['numComments'],
-        posterEmail: post['posterEmail'],
-        posterName: post['posterName'],
-        timestamp: post['timestamp'],
-        photoUrl: post['photoUrl'],
-        numLikes: post['numLikes'],
-        caption: post['caption'],
-        liked: post['liked'],
-        id: i
-      });
+      postsJson.push(this._getPostJson(post, i));
     }
     return postsJson;
   },
@@ -121,19 +107,27 @@ var PostUtils = {
 
     for (var i = 0; i < posts.size; i++) {
       var post = posts.get(i);
-      postsJson.push({
-        posterProfileImageUrl: post.posterProfileImageUrl,
-        postIdString: post.postIdString,
-        posterName: post.posterName,
-        timestamp: post.timestamp,
-        photoUrl: post.photoUrl,
-        numLikes: post.numLikes,
-        caption: post.caption,
-        liked: post.liked,
-        id: i
-      });
+      postsJson.push(this._getPostJson(post, i));
     }
     return immutable.List(postsJson);
+  },
+
+  _getPostJson: function(post, index) {
+    return {
+      posterProfileImageUrl: post.posterProfilePictureUrl,
+      postIdString: post.postIdString,
+      firstComments: post.firstComments,
+      moreComments: post.moreComments,
+      numComments: post.numComments,
+      posterEmail: post.posterEmail,
+      posterName: post.posterName,
+      timestamp: post.timestamp,
+      photoUrl: post.photoUrl,
+      numLikes: post.numLikes,
+      caption: post.caption,
+      liked: post.liked,
+      id: index
+    };
   }
 
 }
