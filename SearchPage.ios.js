@@ -148,7 +148,8 @@ var SearchPage = React.createClass({
           onChangeText={ (search) => {
             var email = userLoginMetadataStore.getEmail();
             Unicycle.exec('executeSearch', search, email);
-          }} />
+          }}
+          clearButtonMode = 'always' />
       </View>
     );
   }
