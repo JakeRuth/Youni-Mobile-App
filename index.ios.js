@@ -151,8 +151,9 @@ var LoginPage = React.createClass({
 
            <TextInput style={styles.loginInput}
               value={loginStore.getEmail()}
-              clearTextOnFocus={true}
               onChangeText={(text) => Unicycle.exec('updateEmail', text)}
+              placeholderTextColor='grey'
+              placeholder='email'
               keyboardType='email-address'
            />
            <TextInput style={styles.loginInput}
@@ -160,7 +161,7 @@ var LoginPage = React.createClass({
               value={loginStore.getPassword()}
               clearTextOnFocus={true}
               placeholderTextColor='grey'
-              placeholder='Password'
+              placeholder='password'
               onChangeText={(text) => Unicycle.exec('updatePassword', text)}
            />
 

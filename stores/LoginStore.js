@@ -7,7 +7,7 @@ var loginStore = Unicycle.createStore({
 
     init: function () {
       this.set({
-        email: 'Enter your email',
+        email: '',
         password: '',
         loginInFlight: false,
         //defaulted to false so the login page doesn't flash when a user is auto logged in
