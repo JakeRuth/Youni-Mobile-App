@@ -99,10 +99,11 @@ var profileStore = Unicycle.createStore({
             noMorePostsToFetch: !res.body.moreResults
           });
         },
-        () => {that.set({
-          isUserPostsRequestInFlight: false,
-          isLoadMorePostsRequestInFlight: false
-        });
+        () => {
+          that.set({
+            isUserPostsRequestInFlight: false,
+            isLoadMorePostsRequestInFlight: false
+          });
         }
       );
     },
@@ -224,14 +225,17 @@ var profileStore = Unicycle.createStore({
       );
     },
 
-    updateLikeCountForPost: function(id) {
-      var posts = this.getPosts(),
-          post = posts.get(id);
-      post.numLikes++;
-      post.liked = true;
-      posts = posts.set(id, post);
+    incrementFollowersCount: function() {
+      var newFollowerCount = this.get('numFollowers');
       this.set({
-        posts: posts
+        numFollowers: ++newFollowerCount
+      });
+    },
+
+    decrementFollowersCount: function() {
+      var newFollowerCount = this.get('numFollowers');
+      this.set({
+        numFollowers: --newFollowerCount
       });
     },
 
