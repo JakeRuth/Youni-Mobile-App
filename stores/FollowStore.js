@@ -3,7 +3,9 @@
 var React = require('react-native');
 var Unicycle = require('../Unicycle');
 var AjaxUtils = require('../Utils/Common/AjaxUtils');
+var profileStore = require('../stores/profile/ProfileStore');
 
+//TODO: Some of these actions should probably be on the profile stores.
 var followUnfollowStore = Unicycle.createStore({
 
     init: function () {
@@ -54,6 +56,7 @@ var followUnfollowStore = Unicycle.createStore({
           userToFollowEmail: userEmail
         },
         (res) => {
+          profileStore.incrementFollowersCount();
           that.set({
             isRequestInFlight: false,
             isUserFollowingResult: true //TODO: this could be a lie if the call fails
@@ -81,6 +84,7 @@ var followUnfollowStore = Unicycle.createStore({
           userToNotFollowEmail: userEmail
         },
         (res) => {
+          profileStore.decrementFollowersCount();
           that.set({
             isRequestInFlight: false,
             isUserFollowingResult: false

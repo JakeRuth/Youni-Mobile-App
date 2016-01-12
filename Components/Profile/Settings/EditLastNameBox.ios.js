@@ -104,6 +104,7 @@ var EditLastNameBox = React.createClass({
         lastName = profileOwnerStore.getLastName();
 
     if (lastName.trim()) {
+      userLoginMetadataStore.setLastName(lastName);
       Unicycle.exec('updateUserLastName', userId, lastName);
     }
     else {

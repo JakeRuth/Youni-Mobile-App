@@ -151,8 +151,9 @@ var LoginPage = React.createClass({
 
            <TextInput style={styles.loginInput}
               value={loginStore.getEmail()}
-              clearTextOnFocus={true}
               onChangeText={(text) => Unicycle.exec('updateEmail', text)}
+              placeholderTextColor='grey'
+              placeholder='email'
               keyboardType='email-address'
            />
            <TextInput style={styles.loginInput}
@@ -160,7 +161,7 @@ var LoginPage = React.createClass({
               value={loginStore.getPassword()}
               clearTextOnFocus={true}
               placeholderTextColor='grey'
-              placeholder='Password'
+              placeholder='password'
               onChangeText={(text) => Unicycle.exec('updatePassword', text)}
            />
 
@@ -242,9 +243,19 @@ var LoginPage = React.createClass({
         var userId = res.body.userId,
             refreshToken = res.body.refreshToken,
             accessToken = res.body.accessToken,
-            email = res.body.username;
+            email = res.body.username,
+            firstName = res.body.firstName,
+            lastName = res.body.lastName;
 
-        Unicycle.exec('setAllMetadata', accessToken, refreshToken, userId, email);
+        Unicycle.exec(
+          'setAllMetadata',
+          accessToken,
+          refreshToken,
+          userId,
+          email,
+          firstName,
+          lastName
+        );
         that._saveUserId(userId);
         that._saveEmail(email);
         that._saveRefreshToken(refreshToken);

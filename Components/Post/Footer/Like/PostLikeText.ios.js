@@ -15,7 +15,7 @@ var {
 var styles = StyleSheet.create({
   numLikes: {
     color: '#B2B2B2',
-    fontSize: 13,
+    fontSize: 12,
     fontWeight: '600',
     marginRight: 16
   },
@@ -29,7 +29,9 @@ var PostLikeText = React.createClass({
   propTypes: {
     postStore: React.PropTypes.any.isRequired,
     numLikes: React.PropTypes.number.isRequired,
-    postIdString: React.PropTypes.string.isRequired
+    postIdString: React.PropTypes.string.isRequired,
+    numLikes: React.PropTypes.number.isRequired,
+    numComments: React.PropTypes.number.isRequired
   },
 
   render: function() {
@@ -42,7 +44,7 @@ var PostLikeText = React.createClass({
       content = (
         <Text style={styles.numLikes}
             onPress={this._onTextPress}>
-          {this._getLikesText(this.props.numLikes)}
+          {this._getLikesText()}   {this._getCommentsText()}
         </Text>
       );
     }
@@ -69,12 +71,24 @@ var PostLikeText = React.createClass({
   },
 
   //TODO: this should be handled by the api
-  _getLikesText(numLikes) {
-    if (numLikes > 1) {
-      return numLikes + ' likes';
+  _getLikesText() {
+    if (this.props.numLikes > 1) {
+      return this.props.numLikes + ' likes';
     }
-    else if (numLikes === 1) {
-      return numLikes + ' like';
+    else if (this.props.numLikes === 1) {
+      return this.props.numLikes + ' like';
+    }
+    else {
+      return '';
+    }
+  },
+
+  _getCommentsText() {
+    if (this.props.numComments > 1) {
+      return this.props.numComments + ' comments';
+    }
+    else if (this.props.numComments === 1) {
+      return this.props.numComments + ' comment';
     }
     else {
       return '';

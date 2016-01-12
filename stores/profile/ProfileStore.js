@@ -17,6 +17,7 @@ var profileStore = Unicycle.createStore({
         isUserPostsRequestInFlight: false,
         isLoadMorePostsRequestInFlight: false,
         isLikeRequestInFlight: false,
+        isPostCommentRequestInFlight: false,
         noMorePostsToFetch: false,
         firstName: '',
         lastName: '',
@@ -98,10 +99,11 @@ var profileStore = Unicycle.createStore({
             noMorePostsToFetch: !res.body.moreResults
           });
         },
-        () => {that.set({
-          isUserPostsRequestInFlight: false,
-          isLoadMorePostsRequestInFlight: false
-        });
+        () => {
+          that.set({
+            isUserPostsRequestInFlight: false,
+            isLoadMorePostsRequestInFlight: false
+          });
         }
       );
     },
@@ -193,14 +195,47 @@ var profileStore = Unicycle.createStore({
       });
     },
 
-    updateLikeCountForPost: function(id) {
+    addCommentOnPost: function(id, postIdString, userIdString, comment, commenterName, callback) {
       var posts = this.getPosts(),
-          post = posts.get(id);
-      post.numLikes++;
-      post.liked = true;
-      posts = posts.set(id, post);
+          that = this;
+
       this.set({
-        posts: posts
+        isPostCommentRequestInFlight: true
+      });
+
+      AjaxUtils.ajax(
+        '/post/createComment',
+        {
+          postIdString: postIdString,
+          userIdString: userIdString,
+          comment: comment
+        },
+        (res) => {
+          that.set({
+            posts: PostUtils.addComment(posts, id, comment, commenterName),
+            isPostCommentRequestInFlight: false
+          });
+          callback();
+        },
+        () => {
+          that.set({
+            isPostCommentRequestInFlight: false
+          });
+        }
+      );
+    },
+
+    incrementFollowersCount: function() {
+      var newFollowerCount = this.get('numFollowers');
+      this.set({
+        numFollowers: ++newFollowerCount
+      });
+    },
+
+    decrementFollowersCount: function() {
+      var newFollowerCount = this.get('numFollowers');
+      this.set({
+        numFollowers: --newFollowerCount
       });
     },
 
@@ -218,6 +253,10 @@ var profileStore = Unicycle.createStore({
 
     isLikeRequestInFlight: function() {
       return this.get('isLikeRequestInFlight');
+    },
+
+    isPostCommentRequestInFlight: function() {
+      return this.get('isPostCommentRequestInFlight');
     },
 
     isFeedRefreshing: function() {

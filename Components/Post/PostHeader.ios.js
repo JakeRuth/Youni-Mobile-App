@@ -66,7 +66,8 @@ var PostHeader = React.createClass({
     posterName: React.PropTypes.string.isRequired,
     timestamp: React.PropTypes.string.isRequired,
     viewerIsPostOwner: React.PropTypes.bool,
-    renderedFromProfileView: React.PropTypes.bool
+    renderedFromProfileView: React.PropTypes.bool,
+    hideActionButton: React.PropTypes.bool
   },
 
   render: function() {
@@ -86,7 +87,7 @@ var PostHeader = React.createClass({
           postIdString={this.props.postIdString} />
       );
     }
-    else {
+    else if (!this.props.hideActionButton) {
       actionButton = (
         <FlagPostIcon postId={this.props.postIdString}/>
       );

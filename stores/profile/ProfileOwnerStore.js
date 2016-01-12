@@ -20,6 +20,7 @@ var profileOwnerStore = Unicycle.createStore({
         isUserPostsRequestInFlight: false,
         isLoadMorePostsRequestInFlight: false,
         isLikeRequestInFlight: false,
+        isPostCommentRequestInFlight: false,
         isProfileOwnerFeedRefreshing: false,
         noMorePostsToFetch: false,
         firstName: '',
@@ -274,6 +275,36 @@ var profileOwnerStore = Unicycle.createStore({
       });
     },
 
+    addCommentOnPost: function(id, postIdString, userIdString, comment, commenterName, callback) {
+      var posts = this.getPosts(),
+          that = this;
+
+      this.set({
+        isPostCommentRequestInFlight: true
+      });
+
+      AjaxUtils.ajax(
+        '/post/createComment',
+        {
+          postIdString: postIdString,
+          userIdString: userIdString,
+          comment: comment
+        },
+        (res) => {
+          that.set({
+            posts: PostUtils.addComment(posts, id, comment, commenterName),
+            isPostCommentRequestInFlight: false
+          });
+          callback();
+        },
+        () => {
+          that.set({
+            isPostCommentRequestInFlight: false
+          });
+        }
+      );
+    },
+
     anyErrorsLoadingPage: function() {
       return this.get('pageLoadError');
     },
@@ -292,6 +323,10 @@ var profileOwnerStore = Unicycle.createStore({
 
     isLikeRequestInFlight: function() {
       return this.get('isLikeRequestInFlight');
+    },
+
+    isPostCommentRequestInFlight: function() {
+      return this.get('isPostCommentRequestInFlight');
     },
 
     isFeedRefreshing: function() {

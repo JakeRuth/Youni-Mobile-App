@@ -2,6 +2,7 @@
 
 var React = require('react-native');
 var Unicycle = require('../../../Unicycle');
+var postCommentsModalStore = require('../../../stores/post/PostCommentsModalStore');
 var Comment = require('./Comment');
 
 var {
@@ -39,6 +40,13 @@ var styles = StyleSheet.create({
 var CommentList = React.createClass({
 
   propTypes: {
+    id: React.PropTypes.number.isRequired,
+    postIdString: React.PropTypes.string.isRequired,
+    posterEmail: React.PropTypes.string.isRequired,
+    posterName: React.PropTypes.string.isRequired,
+    posterProfileImageUrl: React.PropTypes.string.isRequired,
+    timestamp: React.PropTypes.string.isRequired,
+    postStore: React.PropTypes.any.isRequired,
     comments: React.PropTypes.array,
     moreCommentsToShow: React.PropTypes.bool.isRequired,
     numComments: React.PropTypes.number.isRequired
@@ -80,12 +88,28 @@ var CommentList = React.createClass({
       <TouchableHighlight
         style={styles.viewAllCommentsLink}
         underlayColor='transparent'
-        onPress={()=>{}}>
+        onPress={this._onViewAllCommentsPress}>
         <Text style={styles.viewAllText}>
           View all {this.props.numComments} comments
         </Text>
       </TouchableHighlight>
     );
+  },
+
+  _onViewAllCommentsPress: function() {
+    Unicycle.exec('setProfileModalVisibile', false);
+    postCommentsModalStore.setAllPostInfo(
+      this.props.id,
+      this.props.postIdString,
+      this.props.posterEmail,
+      this.props.posterName,
+      this.props.posterProfileImageUrl,
+      this.props.timestamp,
+      this.props.postStore,
+      this.props.moreCommentsToShow,
+      this.props.numComments
+    );
+    postCommentsModalStore.getAllCommentsForPost(this.props.postIdString);
   }
 
 });

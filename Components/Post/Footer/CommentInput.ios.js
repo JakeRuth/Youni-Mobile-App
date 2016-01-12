@@ -2,13 +2,16 @@
 
 var React = require('react-native');
 var Unicycle = require('../../../Unicycle');
+var postCommentsModalStore = require('../../../stores/post/PostCommentsModalStore');
+var userLoginMetadataStore = require('../../../stores/UserLoginMetadataStore');
 
 var {
   View,
   Text,
   TextInput,
   StyleSheet,
-  TouchableHighlight
+  TouchableHighlight,
+  ActivityIndicatorIOS
 } = React;
 
 var styles = StyleSheet.create({
@@ -47,6 +50,12 @@ var CommentInput = React.createClass({
     };
   },
 
+  propTypes: {
+    id: React.PropTypes.number.isRequired,
+    postStore: React.PropTypes.any.isRequired,
+    postIdString: React.PropTypes.string.isRequired
+  },
+
   render: function() {
     var that = this,
         postCommentButton = <View/>;
@@ -76,17 +85,52 @@ var CommentInput = React.createClass({
   },
 
   _renderPostCommentButton: function() {
+    var content;
+    if (this.props.postStore.isPostCommentRequestInFlight()) {
+      content = (
+        <ActivityIndicatorIOS
+          size={'small'}/>
+      );
+    }
+    else {
+      content = (
+        <TouchableHighlight
+          onPress={this.onPostCommentPress}
+          underlayColor='transparent'>
+
+          <Text style={styles.postCommentButtonLabel}>
+            Post
+          </Text>
+
+        </TouchableHighlight>
+      );
+    }
+
     return (
-      <TouchableHighlight
-        style={styles.postCommentButton}
-        onPress={()=>{}}
-        underlayColor='transparent'>
+      <View style={styles.postCommentButton}>
+        {content}
+      </View>
+    )
+  },
 
-        <Text style={styles.postCommentButtonLabel}>
-          Post
-        </Text>
+  onPostCommentPress: function() {
+    //TODO: FIX ME BAD
+    postCommentsModalStore.addComment(
+      this.state.commentText,
+      userLoginMetadataStore.getFirstName() + ' ' + userLoginMetadataStore.getLastName()
+    );
 
-      </TouchableHighlight>
+    this.props.postStore.addCommentOnPost(
+      this.props.id,
+      this.props.postIdString,
+      userLoginMetadataStore.getUserId(),
+      this.state.commentText,
+      userLoginMetadataStore.getFirstName() + ' ' + userLoginMetadataStore.getLastName(),
+      () => {
+        this.setState({
+          commentText: ''
+        });
+      }
     );
   }
 
