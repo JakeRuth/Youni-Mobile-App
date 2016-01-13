@@ -28,7 +28,8 @@ var homePostsStore = Unicycle.createStore({
       isPostCommentRequestInFlight: false,
       noMorePostsToFetch: false,
       homeFeedPageOffset: INITIAL_PAGE_OFFSET,
-      pageLoadError: false
+      pageLoadError: false,
+      scrollToTopOfPostFeed: false
     });
   },
 
@@ -223,6 +224,12 @@ var homePostsStore = Unicycle.createStore({
     );
   },
 
+  setScrollToTopOfPostFeed: function(value) {
+    this.set({
+      scrollToTopOfPostFeed: value
+    });
+  },
+
   anyErrorsLoadingPage: function() {
     return this.get('pageLoadError');
   },
@@ -257,6 +264,10 @@ var homePostsStore = Unicycle.createStore({
 
   getHomeFeedPageOffset: function() {
     return this.get('homeFeedPageOffset');
+  },
+
+  scrollToTopOfPostFeed: function() {
+    return this.get('scrollToTopOfPostFeed');
   }
 
 });

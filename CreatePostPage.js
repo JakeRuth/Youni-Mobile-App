@@ -3,6 +3,7 @@
 var React = require('react-native');
 var createPostStore = require('./stores/CreatePostStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
+var homePostsStore = require('./stores/post/HomePostsStore');
 var Unicycle = require('./Unicycle');
 var MainScreenBanner = require('./MainScreenBanner');
 var CreatePostForm = require('./Components/Post/CreatePostForm');
@@ -80,6 +81,7 @@ var CreatePostPage = React.createClass({
     }
     else if (postUploadedSuccessfully) {
       Unicycle.exec('setSelectedTab', 'home');
+      homePostsStore.setScrollToTopOfPostFeed(true);
       Unicycle.exec('refreshHomeFeed', userLoginMetadataStore.getUserId());
     }
 

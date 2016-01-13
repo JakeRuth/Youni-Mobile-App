@@ -3,6 +3,7 @@
 var React = require('react-native');
 var Unicycle = require('../../Unicycle');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
+var homePostsStore = require('../../stores/post/HomePostsStore');
 var Post = require('./Post');
 var LoadMorePostsButton = require('./LoadMorePostsButton');
 var Icon = require('react-native-vector-icons/Ionicons');
@@ -52,8 +53,11 @@ var PostList = React.createClass({
   },
 
   render: function() {
-    var refreshHeader,
-        manualRefreshButton = <View/>;
+    var that = this,
+        refreshHeader = <View/>,
+        contentOffset = null,
+        manualRefreshButton = <View/>,
+        scrollToTopOfPostFeed = homePostsStore.scrollToTopOfPostFeed();
 
     if (this.props.refreshable && this.props.postStore.isFeedRefreshing()) {
       refreshHeader = this._renderRefreshingSpinner();
@@ -68,10 +72,16 @@ var PostList = React.createClass({
       manualRefreshButton = this._renderManualRefreshButton();
     }
 
+    if (scrollToTopOfPostFeed) {
+      contentOffset = {x:0,y:0};
+      homePostsStore.setScrollToTopOfPostFeed(false);
+    }
+
     return (
       <ScrollView
         style={styles.container}
-        onScroll={this.props.onScroll}>
+        onScroll={this.props.onScroll}
+        contentOffset={contentOffset}>
 
         {refreshHeader}
         {manualRefreshButton}
