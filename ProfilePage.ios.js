@@ -84,8 +84,7 @@ var ProfilePage = React.createClass({
     return (
       <View style={styles.profilePageContainer}>
         <MainScreenBanner
-          title="My Profile"
-          subTitle="Hey look, its you!"/>
+          title={profileOwnerStore.getFirstName() + ' ' + profileOwnerStore.getLastName()}/>
 
         <LogoutButton navigator={this.props.navigator}/>
         { content }

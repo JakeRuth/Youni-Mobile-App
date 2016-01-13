@@ -52,9 +52,7 @@ var TrendingPage = React.createClass({
 
     return (
       <View style={styles.trendingPageContainer}>
-        <MainScreenBanner
-          title='SUNY Albany'
-          subTitle='Top Trending Students On Campus!'/>
+        <MainScreenBanner title='Trending'/>
         {content}
       </View>
     );

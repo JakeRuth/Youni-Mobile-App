@@ -87,9 +87,7 @@ var HomePage = React.createClass({
 
     return (
       <View style={styles.homePageContainer}>
-        <MainScreenBanner
-          title='Home Feed'
-          subTitle='Posts from the people YOU care about'/>
+        <MainScreenBanner title='Youni'/>
         <View style={styles.feedContainer}>
           { content }
         </View>

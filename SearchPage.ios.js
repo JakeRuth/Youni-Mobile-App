@@ -112,9 +112,7 @@ var SearchPage = React.createClass({
     return (
       <View style={styles.searchPageContainer}>
 
-        <MainScreenBanner
-          title='SUNY Albany'
-          subTitle='Discover other students on campus'/>
+        <MainScreenBanner title='Explore'/>
         {this._renderHeader()}
         {searchPageContent}
 

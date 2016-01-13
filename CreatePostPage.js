@@ -87,9 +87,7 @@ var CreatePostPage = React.createClass({
 
     return (
       <View style={styles.createPostPageContainer}>
-        <MainScreenBanner
-          title="Upload Photo"
-          subTitle="An upload a day keeps the doctor away"/>
+        <MainScreenBanner title='Create Post'/>
         { content }
       </View>
     )
