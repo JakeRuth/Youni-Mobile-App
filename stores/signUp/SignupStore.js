@@ -49,14 +49,24 @@ var signUpStore = Unicycle.createStore({
           password: password,
           schoolName: 'SUNY Albany' //TODO fix me
         },
-        () => {
-          that.set({
-            signUpRequestSuccessful: true,
-            isSignUpRequestUpInFlight: false,
-            setInLoginView: true,
-            setInSignUpView: false,
-            pageLoadError: false
-          });
+        (res) => {
+          //hacky fix to get this to fail if the network isn't recognized by email extension
+          //aka: "We aren't open for your school yet"
+          if (res.body.success) {
+            that.set({
+              signUpRequestSuccessful: true,
+              isSignUpRequestUpInFlight: false,
+              setInLoginView: true,
+              setInSignUpView: false,
+              pageLoadError: false
+            });
+          }
+          else {
+            that.set({
+              pageLoadError: true,
+              isSignUpRequestUpInFlight: false
+            });
+          }
         },
         () => {
           that.set({
@@ -106,6 +116,12 @@ var signUpStore = Unicycle.createStore({
     $setSignUpRequestSuccessful: function(value) {
       this.set({
         signUpRequestSuccessful: value
+      });
+    },
+
+    setPageLoadError: function(value) {
+      this.set({
+        pageLoadError: value
       });
     },
 

@@ -87,6 +87,7 @@ var SignUpForm = React.createClass({
     }
     else if (anyErrorsLoadingPage) {
       this._alertSignUpError();
+      signUpStore.setPageLoadError(false);
     }
 
     if (isSignUpInFlight) {
