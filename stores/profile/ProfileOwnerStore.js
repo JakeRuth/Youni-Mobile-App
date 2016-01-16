@@ -74,10 +74,12 @@ var profileOwnerStore = Unicycle.createStore({
     },
 
     $deletePost(id, postId, userId) {
-      var posts = this.getPosts();
+      var posts = this.getPosts(),
+          numPosts = this.getNumPosts() - 1;
       //optimistically remove post from list, then call api to delete
       this.set({
-        posts: PostUtils.removePostFromList(posts, id)
+        posts: PostUtils.removePostFromList(posts, id),
+        numPosts: numPosts
       });
 
       AjaxUtils.ajax(
