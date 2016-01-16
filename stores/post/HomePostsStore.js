@@ -133,57 +133,60 @@ var homePostsStore = Unicycle.createStore({
   $likeHomeFeedPost(id, postId, userId) {
     var that = this,
         posts = this.get('posts');
+    if (!this.isLikeRequestInFlight()) {
+      this.set({
+        isLikeRequestInFlight: true
+      });
 
-    this.set({
-      isLikeRequestInFlight: true
-    });
-
-    AjaxUtils.ajax(
-      '/post/like',
-      {
-        postIdString: postId,
-        userIdString: userId
-      },
-      () => {
-        that.set({
-          posts: PostUtils.increaseLikeCount(posts, id),
-          isLikeRequestInFlight: false
-        });
-      },
-      () => {
-        that.set({
-          isLikeRequestInFlight: false
-        });
-      }
-    );
+      AjaxUtils.ajax(
+        '/post/like',
+        {
+          postIdString: postId,
+          userIdString: userId
+        },
+        () => {
+          that.set({
+            posts: PostUtils.increaseLikeCount(posts, id),
+            isLikeRequestInFlight: false
+          });
+        },
+        () => {
+          that.set({
+            isLikeRequestInFlight: false
+          });
+        }
+      );
+    }
   },
 
   $removeLikeHomeFeed(id, postId, userId) {
     var posts = this.get('posts'),
         that = this;
 
-    this.set({
-      isLikeRequestInFlight: true
-    });
+    if (!this.isLikeRequestInFlight()) {
+      this.set({
+        isLikeRequestInFlight: true
+      });
 
-    AjaxUtils.ajax(
-      '/post/removeLike',
-      {
-        postIdString: postId,
-        userIdString: userId
-      },
-      () => {
-        that.set({
-          posts: PostUtils.decreaseLikeCount(posts, id),
-          isLikeRequestInFlight: false
-        });
-      },
-      () => {
-        that.set({
-          isLikeRequestInFlight: false
-        });
-      }
-    );
+      AjaxUtils.ajax(
+        '/post/removeLike',
+        {
+          postIdString: postId,
+          userIdString: userId
+        },
+        () => {
+          that.set({
+            posts: PostUtils.decreaseLikeCount(posts, id),
+            isLikeRequestInFlight: false
+          });
+        },
+        () => {
+          that.set({
+            isLikeRequestInFlight: false
+          });
+        }
+      );
+    }
   },
 
   $refreshHomeFeedData: function() {

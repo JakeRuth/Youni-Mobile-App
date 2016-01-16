@@ -193,56 +193,60 @@ var profileOwnerStore = Unicycle.createStore({
       var that = this;
       var posts = this.get('posts');
 
-      this.set({
-        isLikeRequestInFlight: true
-      });
+      if (!this.isLikeRequestInFlight()) {
+        this.set({
+          isLikeRequestInFlight: true
+        });
 
-      AjaxUtils.ajax(
-        '/post/like',
-        {
-          postIdString: postId,
-          userIdString: userId
-        },
-        (res) => {
-          that.set({
-            posts: PostUtils.increaseLikeCount(posts, id),
-            isLikeRequestInFlight: false
-          });
-        },
-        () => {
-          that.set({
-            isLikeRequestInFlight: false
-          });
-        }
-      );
+        AjaxUtils.ajax(
+          '/post/like',
+          {
+            postIdString: postId,
+            userIdString: userId
+          },
+          (res) => {
+            that.set({
+              posts: PostUtils.increaseLikeCount(posts, id),
+              isLikeRequestInFlight: false
+            });
+          },
+          () => {
+            that.set({
+              isLikeRequestInFlight: false
+            });
+          }
+        );
+      }
     },
 
     $removeLikeProfileOwner(id, postId, userId) {
       var posts = this.get('posts'),
           that = this;
 
-      this.set({
-        isLikeRequestInFlight: true
-      });
+      if (!this.isLikeRequestInFlight()) {
+        this.set({
+          isLikeRequestInFlight: true
+        });
 
-      AjaxUtils.ajax(
-        '/post/removeLike',
-        {
-          postIdString: postId,
-          userIdString: userId
-        },
-        (res) => {
-          that.set({
-            posts: PostUtils.decreaseLikeCount(posts, id),
-            isLikeRequestInFlight: false
-          });
-        },
-        () => {
-          that.set({
-            isLikeRequestInFlight: false
-          });
-        }
-      );
+        AjaxUtils.ajax(
+          '/post/removeLike',
+          {
+            postIdString: postId,
+            userIdString: userId
+          },
+          (res) => {
+            that.set({
+              posts: PostUtils.decreaseLikeCount(posts, id),
+              isLikeRequestInFlight: false
+            });
+          },
+          () => {
+            that.set({
+              isLikeRequestInFlight: false
+            });
+          }
+        );
+      }
     },
 
     $setInSettingsView: function(inSettingsView) {
