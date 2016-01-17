@@ -4,6 +4,7 @@ var React = require('react-native');
 var request = require('superagent');
 var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com');
 var loginStore = require('../../stores/LoginStore');
+var RefreshAppContentUtil = require('./RefreshAppContentUtil');
 
 var {
   AsyncStorage
@@ -17,6 +18,9 @@ var AjaxUtils = {
 
   ajax: function(url, data, onSuccessCallback, onFailureCallback) {
     var that = this;
+    
+    RefreshAppContentUtil.activityTrigger();
+
     request
      .post(that.SERVER_URL + url)
      .use(prefix)

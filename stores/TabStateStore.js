@@ -2,6 +2,7 @@
 
 var React = require('react-native');
 var Unicycle = require('../Unicycle');
+var RefreshAppContentUtil = require('../Utils/Common/RefreshAppContentUtil');
 
 var tabStateStore = Unicycle.createStore({
 
@@ -19,6 +20,7 @@ var tabStateStore = Unicycle.createStore({
     },
 
     $setSelectedTab: function(value) {
+      RefreshAppContentUtil.activityTrigger();
       this.set({
         selectedTab: value
       });
