@@ -94,28 +94,14 @@ var explorePostsStore = Unicycle.createStore({
         fetchOffsetAmount: 0
       },
       (res) => {
-        var newPosts = immutable.List(PostUtils.createPostsJsonFromGreedy(res.body.posts, 0)),
-            currentPosts = that.getPosts(),
-            allPosts = PostUtils.compressNewestPostsIntoCurrentPosts(newPosts, currentPosts);
+        var newPosts = immutable.List(PostUtils.createPostsJsonFromGreedy(res.body.posts, 0));
 
-        if (allPosts) {
-          var numPostsAdded = allPosts.size - currentPosts.size,
-              newOffset = originalOffset + numPostsAdded;
-
-          that.set({
-            posts: allPosts,
-            exploreFeedPageOffset: newOffset,
-            isExploreFeedRefreshing: false
-          });
-        }
-        else {
-          that.set({
-            noMorePostsToFetch: false,
-            posts: newPosts,
-            isExploreFeedRefreshing: false,
-            exploreFeedPageOffset: newPosts.size
-          });
-        }
+        that.set({
+          posts: newPosts,
+          exploreFeedPageOffset: newPosts.size,
+          isExploreFeedRefreshing: false,
+          noMorePostsToFetch: !res.body.moreResults
+        });
       },
       () => {
         that.set({

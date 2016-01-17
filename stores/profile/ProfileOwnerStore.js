@@ -160,28 +160,14 @@ var profileOwnerStore = Unicycle.createStore({
         },
         (res) => {
           var postsArray = PostUtils.createPostsJsonFromGreedy(res.body.posts, 0),
-              newPosts = immutable.List(postsArray),
-              currentPosts = this.getPosts(),
-              allPosts = PostUtils.compressNewestPostsIntoCurrentPosts(newPosts, currentPosts);
+              newPosts = immutable.List(postsArray);
 
-          if (allPosts) {
-            var numPostsAdded = allPosts.size - currentPosts.size,
-                newOffset = originalOffset + numPostsAdded;
-
-            that.set({
-              posts: allPosts,
-              feedPageOffset: newOffset,
-              isProfileOwnerFeedRefreshing: false
-            });
-          }
-          else {
-            that.set({
-              noMorePostsToFetch: false,
-              posts: newPosts,
-              isProfileOwnerFeedRefreshing: false,
-              feedPageOffset: newPosts.size
-            });
-          }
+          that.set({
+            posts: newPosts,
+            feedPageOffset: newPosts.size,
+            isProfileOwnerFeedRefreshing: false,
+            noMorePostsToFetch: !res.body.moreResults
+          });
         },
         () => {
           that.set({
