@@ -17,7 +17,6 @@ var {
 var styles = StyleSheet.create({
   exploreFeedContainer: {
     flex: 1,
-    marginTop: 10,
     paddingBottom: 50
   },
   spinnerContainer: {

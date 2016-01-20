@@ -19,17 +19,12 @@ var {
 
 var styles = StyleSheet.create({
   profileImageContainer: {
-    flex: 1,
-    marginTop: -50,
-    marginLeft: 6,
-    alignItems: 'stretch'
+    marginLeft: 10
   },
   profileImage: {
-    width: null,
-    height: 80,
-    flex: 1,
-    alignSelf: 'stretch',
-    margin: 2
+    width: 60,
+    height: 60,
+    borderRadius: 30
   }
 });
 
@@ -62,9 +57,13 @@ var ProfileImage = React.createClass({
 
   renderProfileImage: function() {
     return (
-      <TouchableHighlight onPress={this._onUploadImagePress}>
+      <TouchableHighlight
+        underlayColor='transparent'
+        onPress={this._onUploadImagePress}>
+
         <Image style={styles.profileImage}
                source={{uri: this.props.profileImageUrl}} />
+
       </TouchableHighlight>
     );
   },
@@ -74,7 +73,7 @@ var ProfileImage = React.createClass({
       <Icon
         name='ios-person'
         size={150}
-        color='#1599ED' />
+        color='#0083D4' />
     );
   },
 

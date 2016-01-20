@@ -11,6 +11,7 @@ var MainScreenBanner = require('./MainScreenBanner');
 var ProfilePageBody = require('./Components/Profile/ProfilePageBody');
 var LogoutButton = require('./Components/Common/LogoutButton');
 var ErrorPage = require('./Components/Common/ErrorPage');
+var EditSettingsButton = require('./Components/Profile/Settings/EditSettingsButton');
 
 var {
   View,
@@ -83,11 +84,14 @@ var ProfilePage = React.createClass({
 
     return (
       <View style={styles.profilePageContainer}>
+
         <MainScreenBanner
-          title={profileOwnerStore.getFirstName() + ' ' + profileOwnerStore.getLastName()}/>
+          title=''/>
 
         <LogoutButton navigator={this.props.navigator}/>
-        { content }
+        <EditSettingsButton/>
+
+        {content}
 
       </View>
     );

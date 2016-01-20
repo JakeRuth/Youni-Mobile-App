@@ -201,7 +201,7 @@ var SearchResult = React.createClass({
     else {
       thumbnail = (
         <Icon style={styles.profileImage}
-          name='ios-person' size={40} color='#1599ED' />
+          name='ios-person' size={40} color='#0083D4' />
       );
     }
 

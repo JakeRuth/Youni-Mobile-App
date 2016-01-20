@@ -19,7 +19,7 @@ var styles = StyleSheet.create({
   },
   commenterName: {
     fontSize: 14.5,
-    color: '#1599ED',
+    color: '#0083D4',
     marginRight: 4
   },
   commentText: {

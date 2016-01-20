@@ -38,7 +38,7 @@ var styles = StyleSheet.create({
   },
   postCommentButtonLabel: {
     fontSize: 14.5,
-    color: '#1599ED'
+    color: '#0083D4'
   }
 });
 

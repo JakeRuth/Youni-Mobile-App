@@ -13,8 +13,9 @@ var {
 var styles = StyleSheet.create({
   settingIconContainer: {
     position: 'absolute',
-    top: 30,
-    right: 10
+    top: 21,
+    right: 10,
+    padding: 5
   }
 });
 
@@ -27,7 +28,7 @@ var EditSettingsButton = React.createClass({
         style={styles.settingIconContainer}
         underlayColor='transparent'>
 
-        <Icon name='edit' size={35} color={'white'} />
+        <Icon name='edit' size={20} color={'white'} />
 
       </TouchableHighlight>
     );

@@ -15,33 +15,30 @@ var {
 
 var styles = StyleSheet.create({
   container: {
-    borderTopWidth: .5,
-    borderBottomWidth: .5,
-    borderColor: '#F2F2F2',
-    flex: 2,
-    flexDirection: 'row'
+    flex: 1,
+    flexDirection: 'row',
+    marginBottom: 15
   },
   totalCountContainer: {
     flex: 1,
-    margin: 2.5,
-    padding: 6,
+    padding: 10,
   },
   verticalLineSeperator:{
     borderWidth: .5,
-    marginVertical: 8,
-    borderColor: '#F2F2F2'
+    marginVertical: 7,
+    borderColor: '#ADADAD'
   },
   countLabel: {
-    color: '#999',
-    fontSize: 10,
+    color: '#ADADAD',
+    fontSize: 12,
+    fontWeight: '200',
     textAlign: 'center',
     marginBottom: 1
   },
   countValue: {
-    color: '#1599ED',
+    color: '#0083D4',
     textAlign: 'center',
-    fontSize: 15,
-    fontWeight: '600',
+    fontSize: 20,
     marginTop: 1
   }
 });
@@ -67,8 +64,8 @@ var TotalProfileCountsContainer = React.createClass({
       <View style={styles.container}>
 
         <View style={styles.totalCountContainer}>
-          <Text style={styles.countLabel}>Posts</Text>
-          <Text style={styles.countValue}>{this.props.numPosts}</Text>
+          <Text style={styles.countLabel}>Points</Text>
+          <Text style={styles.countValue}>{'213k'}</Text>
         </View>
 
         <View style={styles.verticalLineSeperator}/>
@@ -76,6 +73,13 @@ var TotalProfileCountsContainer = React.createClass({
         <View style={styles.totalCountContainer}>
           <Text style={styles.countLabel}>Fans</Text>
           <Text style={styles.countValue}>{this.props.numFans}</Text>
+        </View>
+
+        <View style={styles.verticalLineSeperator}/>
+
+        <View style={styles.totalCountContainer}>
+          <Text style={styles.countLabel}>Posts</Text>
+          <Text style={styles.countValue}>{this.props.numPosts}</Text>
         </View>
 
       </View>

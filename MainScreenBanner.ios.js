@@ -13,7 +13,7 @@ var styles = StyleSheet.create({
   headingWrapper: {
     height: 55,
     padding: 16,
-    backgroundColor: '#1599ED'
+    backgroundColor: '#0083D4'
   },
   header: {
     paddingTop: 10,

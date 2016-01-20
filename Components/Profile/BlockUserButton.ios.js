@@ -17,13 +17,10 @@ var {
 var styles = StyleSheet.create({
   blockUserContainer: {
     position: 'absolute',
-    top: 10,
-    right: 10
-  },
-  blockUserText: {
-    color: '#FF7878',
-    fontSize: 10,
-    marginTop: -5
+    top: 0,
+    right: 6,
+    paddingBottom: 8,
+    paddingLeft: 8
   }
 });
 
@@ -42,10 +39,9 @@ var BlockUserButton = React.createClass({
 
         <View>
           <Icon
-            name='sad'
-            size={35}
+            name='alert-circled'
+            size={20}
             color={'#FF7878'} />
-          <Text style={styles.blockUserText}>Block</Text>
         </View>
 
       </TouchableHighlight>

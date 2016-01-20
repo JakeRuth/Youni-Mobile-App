@@ -42,7 +42,7 @@ var PostStats = React.createClass({
 
     if (this.props.liked) {
       likedStarIconColor = {
-        color: '#1599ED'
+        color: '#0083D4'
       };
     }
 

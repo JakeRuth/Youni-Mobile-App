@@ -52,7 +52,7 @@ var LandingPage = React.createClass({
         <BlockedUsersModal/>
 
         <TabBarIOS
-          tintColor="#1599ED">
+          tintColor="#0083D4">
           <Icon.TabBarItem
             title="Home"
             iconName="ios-home-outline"

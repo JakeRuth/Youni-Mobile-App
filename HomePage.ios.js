@@ -22,7 +22,6 @@ var styles = StyleSheet.create({
   },
   feedContainer: {
     flex: 20,
-    marginTop: 10,
     paddingBottom: 50
   },
   emptyPostsMessageContainer: {

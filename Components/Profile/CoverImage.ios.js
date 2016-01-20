@@ -22,6 +22,9 @@ var styles = StyleSheet.create({
   }
 });
 
+// DEPRECATED
+// This component is currently unused due to the re-design effort when Sean left
+// I decided to keep it around if we decide to re introduce this in the future
 var CoverImage = React.createClass({
 
   propTypes: {
@@ -61,7 +64,7 @@ var CoverImage = React.createClass({
       <Icon
         name='ios-person'
         size={150}
-        color='#1599ED' />
+        color='#0083D4' />
     );
   },
 

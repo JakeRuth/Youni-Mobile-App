@@ -41,8 +41,6 @@ var PostList = React.createClass({
 
   propTypes: {
     refreshable: React.PropTypes.bool.isRequired,
-    showManualRefreshButton: React.PropTypes.bool,
-    onManualRefreshButtonPress: React.PropTypes.func,
     postStore: React.PropTypes.any.isRequired,
     posts: React.PropTypes.object.isRequired,
     onScroll: React.PropTypes.func.isRequired,
@@ -56,20 +54,15 @@ var PostList = React.createClass({
     var that = this,
         refreshHeader = <View/>,
         contentOffset = null,
-        manualRefreshButton = <View/>,
         scrollToTopOfPostFeed = homePostsStore.scrollToTopOfPostFeed();
 
     if (this.props.refreshable && this.props.postStore.isFeedRefreshing()) {
       refreshHeader = this._renderRefreshingSpinner();
     }
-    else if (!this.props.showManualRefreshButton){
+    else {
       refreshHeader = (
         <Text style={styles.pullDownToRefreshText}>Pull down to refresh</Text>
       );
-    }
-
-    if (this.props.showManualRefreshButton && !this.props.postStore.isFeedRefreshing()) {
-      manualRefreshButton = this._renderManualRefreshButton();
     }
 
     if (scrollToTopOfPostFeed) {
@@ -84,7 +77,6 @@ var PostList = React.createClass({
         contentOffset={contentOffset}>
 
         {refreshHeader}
-        {manualRefreshButton}
 
         {this._renderPosts()}
         {this._renderLoadMorePostsButton()}

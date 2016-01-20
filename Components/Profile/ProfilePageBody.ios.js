@@ -3,10 +3,8 @@
 var React = require('react-native');
 var Unicycle = require('../../Unicycle');
 var FollowButton = require('./FollowButton');
-var EditSettingsButton = require('./Settings/EditSettingsButton');
 var BlockUserButton = require('./BlockUserButton');
 var ProfileImage = require('./ProfileImage');
-var CoverImage = require('./CoverImage');
 var TotalProfileCountsContainer = require('./TotalProfileCountsContainer');
 var UserPosts = require('./UserPosts');
 var profileOwnerStore = require('../../stores/profile/ProfileOwnerStore');
@@ -23,35 +21,26 @@ var {
 } = React
 
 var styles = StyleSheet.create({
-  profileBodyContent: {
-    backgroundColor: '#f2f2f2',
-    flexDirection: 'column'
-  },
   profileInformationContainer: {
     backgroundColor: 'white'
   },
-  profileImageFollowButtonContainer: {
+  profileHeader: {
     flex: 1,
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginTop: 2
   },
   fullName: {
-    top: 10,
-    fontSize: 23,
-    fontWeight: '400',
-    left: 20,
-    color: '#767676',
-    marginBottom: 10
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#525252',
+    textAlign: 'center',
+    backgroundColor: 'transparent'
   },
   bio: {
-    color: 'grey',
-    alignSelf: 'auto',
-    top: 5,
-    fontSize: 14,
-    fontWeight: '400',
-    marginBottom: 20,
-    marginLeft: 20,
-    marginRight: 20
+    color: '#525252',
+    fontSize: 12,
+    margin: 10
   },
   blankLine: {
     borderWidth: 1,
@@ -88,22 +77,17 @@ var ProfilePageBody = React.createClass({
     var editSettingsIcon = <View/>,
         blockUserIcon = <View/>;
 
-    if (this.props.viewerIsProfileOwner) {
-      editSettingsIcon = <EditSettingsButton/>;
-    }
-    else {
+    if (!this.props.viewerIsProfileOwner) {
       blockUserIcon = <BlockUserButton email={this.props.email}/>;
     }
 
     return (
-      <ScrollView style={styles.profileBodyContent}>
+      <ScrollView
+        onScroll={this.onScroll}>
 
         <View style={styles.profileInformationContainer}>
-          <CoverImage
-            viewerIsProfileOwner={this.props.viewerIsProfileOwner}
-            coverImageUrl={'http://www.gobeyondthebrochure.com/wp-content/uploads/2015/05/SUNY-Albany_LevineJ_5ThingsYouMustDo_4.23_FINAL.jpg'}/>
 
-          <View style={styles.profileImageFollowButtonContainer}>
+          <View style={styles.profileHeader}>
             <ProfileImage
               viewerIsProfileOwner={this.props.viewerIsProfileOwner}
               profileImageUrl={this.props.profileImageUrl}/>
@@ -113,7 +97,6 @@ var ProfilePageBody = React.createClass({
               isRequestInFlight={this._isFollowButtonRequestInFlight()}/>
           </View>
 
-          {editSettingsIcon}
 
           <Text style={styles.fullName}>
             {this.props.firstName + ' ' + this.props.lastName}
@@ -139,6 +122,15 @@ var ProfilePageBody = React.createClass({
     );
   },
 
+  onScroll: function(e) {
+    var userId = userLoginMetadataStore.getUserId(),
+        userEmail = userLoginMetadataStore.getEmail();
+
+    if (this.props.viewerIsProfileOwner && e.nativeEvent.contentOffset.y < -1) {
+      Unicycle.exec('refreshProfileOwnerPosts', userEmail, userId);
+    }
+  },
+
   _getFollowButtonAction: function() {
     if (this.props.viewerIsProfileOwner) {
       this._getAllUsersTheOwnerIsFollowing();
@@ -151,7 +143,8 @@ var ProfilePageBody = React.createClass({
   _isFollowButtonRequestInFlight: function() {
     if (this.props.viewerIsProfileOwner) {
       return false;
-    } else {
+    }
+    else {
       return followUnfollowStore.isRequestInFlight();
     }
   },
