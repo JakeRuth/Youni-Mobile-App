@@ -14,8 +14,6 @@ var {
 
 var styles = StyleSheet.create({
   container: {
-    borderColor: '#E5E5E5',
-    borderBottomWidth: 1,
     marginBottom: 6,
     paddingBottom: 2
   },

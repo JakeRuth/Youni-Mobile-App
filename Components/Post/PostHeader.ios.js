@@ -21,39 +21,37 @@ var styles = StyleSheet.create({
     flexDirection: 'row'
   },
   thumbnailContainer: {
-    flex: 1
+    flex: 4,
+    padding: 5
   },
   thumbnail: {
-    flex: 4,
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center'
   },
   posterImage: {
     height: 35,
     width: 35,
-    borderRadius: 18,
-    marginLeft: 8
-  },
-  nameAndTimestampContainer: {
-    flex: 1,
-    flexDirection: 'column',
-    padding: 6,
-    paddingLeft: 8
+    borderRadius: 18
   },
   profileName: {
     flex: 1,
     fontSize: 17,
     fontWeight: '400',
-    color: '#4C4C4C'
+    color: '#4C4C4C',
+    marginLeft: 5
   },
   timestamp: {
     flex: 1,
-    fontSize: 13,
-    color: '#B2B2B2'
+    alignSelf: 'center',
+    textAlign: 'right',
+    fontSize: 10,
+    color: '#ADADAD'
   },
   actionButtonContainer: {
     right: 8,
-    top: 6
+    top: 6,
+    backgroundColor: 'transparent'
   }
 });
 
@@ -101,22 +99,19 @@ var PostHeader = React.createClass({
           style={styles.thumbnailContainer}
           onPress={this.onProfilePress}
           underlayColor='transparent'>
-
           <View style={styles.thumbnail}>
-            {profileImage}
 
-            <View style={styles.nameAndTimestampContainer}>
-              <Text style={styles.profileName} numberOfLines={1}>
-                {this.props.posterName}
-              </Text>
-              <Text style={styles.timestamp}>
-                {this.props.timestamp} ago
-              </Text>
-            </View>
+            {profileImage}
+            <Text style={styles.profileName} numberOfLines={1}>
+              {this.props.posterName}
+            </Text>
 
           </View>
-
         </TouchableHighlight>
+
+        <Text style={styles.timestamp}>
+          {this.props.timestamp}
+        </Text>
 
         <View style={styles.actionButtonContainer}>
           {actionButton}

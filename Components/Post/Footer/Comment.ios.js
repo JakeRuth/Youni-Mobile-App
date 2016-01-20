@@ -13,19 +13,18 @@ var styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'row',
-    paddingBottom: 4,
     marginLeft: 8,
     marginRight: 8
   },
   commenterName: {
-    fontSize: 14.5,
+    fontSize: 12,
     color: '#0083D4',
     marginRight: 4
   },
   commentText: {
     flex: 1,
-    fontSize: 14.5,
-    color: '#666666'
+    fontSize: 12,
+    color: '#525252'
   }
 });
 
@@ -40,7 +39,7 @@ var Comment = React.createClass({
     return (
       <View style={styles.container}>
         <Text style={styles.commenterName}>
-          {this.props.commenterName}
+          {this.props.commenterName}:
         </Text>
         <Text style={styles.commentText}>
           {this.props.commentText}

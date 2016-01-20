@@ -24,20 +24,20 @@ var styles = StyleSheet.create({
   },
   commentInput: {
     flex: 1,
-    backgroundColor: '#F2F2F2',
-    color: '#4C4C4C',
-    fontSize: 14.5,
-    fontWeight: '500',
-    height: 32,
+    backgroundColor: '#EBF7FF',
+    color: '#525252',
+    fontSize: 12,
+    height: 25,
     paddingLeft: 6,
-    paddingRight: 6
+    paddingRight: 6,
+    borderRadius: 2
   },
   postCommentButton: {
     alignSelf: 'center',
-    marginLeft: 8
+    paddingLeft: 8
   },
   postCommentButtonLabel: {
-    fontSize: 14.5,
+    fontSize: 12,
     color: '#0083D4'
   }
 });
@@ -70,7 +70,7 @@ var CommentInput = React.createClass({
         <TextInput style={styles.commentInput}
           value={this.state.commentText}
           placeholder='Add a comment...'
-          placeholderTextColor='#B2B2B2'
+          placeholderTextColor='#ADADAD'
           maxLength={200}
           multiline={true}
           onChangeText={ (commentText) => {

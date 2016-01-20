@@ -14,9 +14,8 @@ var {
 
 var styles = StyleSheet.create({
   numLikes: {
-    color: '#B2B2B2',
-    fontSize: 12,
-    fontWeight: '600',
+    fontSize: 10,
+    color: '#ADADAD',
     marginRight: 16
   },
   spinner: {
@@ -44,7 +43,7 @@ var PostLikeText = React.createClass({
       content = (
         <Text style={styles.numLikes}
             onPress={this._onTextPress}>
-          {this._getLikesText()}   {this._getCommentsText()}
+          {this._getCommentsText()}   {this._getLikesText()}
         </Text>
       );
     }

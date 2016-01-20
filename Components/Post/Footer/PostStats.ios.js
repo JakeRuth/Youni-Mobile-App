@@ -42,7 +42,7 @@ var PostStats = React.createClass({
 
     if (this.props.liked) {
       likedStarIconColor = {
-        color: '#0083D4'
+        color: '#FCDD00'
       };
     }
 
@@ -62,7 +62,7 @@ var PostStats = React.createClass({
           style={[styles.icon, {flex:1}]}
           name='ios-chatbubble-outline'
           size={33}
-          color='gold'/>
+          color='#0083D4'/>
 
         <PostLikeText
           numComments={this.props.numComments}

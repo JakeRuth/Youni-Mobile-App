@@ -19,15 +19,12 @@ var styles = StyleSheet.create({
     backgroundColor: 'white'
   },
   caption: {
-    fontSize: 14,
+    fontSize: 15,
     fontWeight: '400',
     marginTop: 6,
-    marginBottom: 6,
-    color: '#666'
+    color: '#525252'
   },
   captionContainer: {
-    borderBottomWidth: 1,
-    borderBottomColor: '#E5E5E5',
     marginLeft: 8,
     marginRight: 8
   }
