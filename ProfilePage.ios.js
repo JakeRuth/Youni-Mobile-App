@@ -20,6 +20,9 @@ var {
 } = React
 
 var styles = StyleSheet.create({
+  profilePageContainer: {
+    flex: 1
+  },
   spinnerContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -80,7 +83,7 @@ var ProfilePage = React.createClass({
     }
 
     return (
-      <View>
+      <View style={styles.profilePageContainer}>
 
         <MainScreenBanner
           title=''/>

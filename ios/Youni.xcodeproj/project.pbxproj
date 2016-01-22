@@ -27,7 +27,6 @@
 		9025E78B1C1143B800530B87 /* RCTFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9025E78A1C1143B800530B87 /* RCTFileTransfer.m */; };
 		906790D61C113E9F00CA4FB2 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 906790D51C113E9F00CA4FB2 /* Ionicons.ttf */; };
 		906790E71C113F9E00CA4FB2 /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 906790E61C113F8700CA4FB2 /* libRNVectorIcons.a */; };
-		906790EE1C1141A400CA4FB2 /* libRNSearchBar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 906790ED1C11419B00CA4FB2 /* libRNSearchBar.a */; };
 		906790F21C1141ED00CA4FB2 /* UIImagePickerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 906790F11C1141ED00CA4FB2 /* UIImagePickerManager.m */; };
 /* End PBXBuildFile section */
 
@@ -169,7 +168,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				906790EE1C1141A400CA4FB2 /* libRNSearchBar.a in Frameworks */,
 				906790E71C113F9E00CA4FB2 /* libRNVectorIcons.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
