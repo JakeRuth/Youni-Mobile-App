@@ -22,9 +22,9 @@ var styles = StyleSheet.create({
     marginLeft: 10
   },
   profileImage: {
-    width: 60,
-    height: 60,
-    borderRadius: 30
+    width: 100,
+    height: 100,
+    borderRadius: 50
   }
 });
 
