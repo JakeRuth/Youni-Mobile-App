@@ -18,8 +18,6 @@ var styles = StyleSheet.create({
     paddingBottom: 2
   },
   contentSeparatorLine: {
-    borderBottomWidth: 1,
-    borderBottomColor: '#E5E5E5',
     marginLeft: 8,
     marginRight: 8,
     marginBottom: 6

@@ -14,7 +14,7 @@ var {
 
 var styles = StyleSheet.create({
   numLikes: {
-    fontSize: 10,
+    fontSize: 13,
     color: '#ADADAD',
     marginRight: 16
   },
