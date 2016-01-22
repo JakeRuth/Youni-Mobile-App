@@ -20,9 +20,6 @@ var {
 } = React
 
 var styles = StyleSheet.create({
-  profilePageContainer: {
-    flex: 1
-  },
   spinnerContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -83,7 +80,7 @@ var ProfilePage = React.createClass({
     }
 
     return (
-      <View style={styles.profilePageContainer}>
+      <View>
 
         <MainScreenBanner
           title=''/>
@@ -103,8 +100,7 @@ var ProfilePage = React.createClass({
         <ActivityIndicatorIOS
           size="small"
           color="black"
-          animating={true}
-          style={styles.spinner} />
+          animating={true}/>
       </View>
     );
   },
