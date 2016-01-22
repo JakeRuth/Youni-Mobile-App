@@ -30,9 +30,9 @@ var styles = StyleSheet.create({
     alignItems: 'center'
   },
   posterImage: {
-    height: 35,
-    width: 35,
-    borderRadius: 18
+    height: 45,
+    width: 45,
+    borderRadius: 22.5
   },
   profileName: {
     flex: 1,
@@ -45,7 +45,7 @@ var styles = StyleSheet.create({
     flex: 1,
     alignSelf: 'center',
     textAlign: 'right',
-    fontSize: 10,
+    fontSize: 13,
     color: '#ADADAD'
   },
   actionButtonContainer: {

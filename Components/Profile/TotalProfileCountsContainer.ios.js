@@ -22,11 +22,6 @@ var styles = StyleSheet.create({
     flex: 1,
     padding: 10,
   },
-  verticalLineSeperator:{
-    borderWidth: .5,
-    marginVertical: 7,
-    borderColor: '#ADADAD'
-  },
   countLabel: {
     color: '#ADADAD',
     fontSize: 12,
@@ -37,7 +32,7 @@ var styles = StyleSheet.create({
   countValue: {
     color: '#0083D4',
     textAlign: 'center',
-    fontSize: 20,
+    fontSize: 18,
     marginTop: 1
   }
 });
@@ -67,14 +62,10 @@ var TotalProfileCountsContainer = React.createClass({
           <Text style={styles.countValue}>{'213k'}</Text>
         </View>
 
-        <View style={styles.verticalLineSeperator}/>
-
         <View style={styles.totalCountContainer}>
           <Text style={styles.countLabel}>Fans</Text>
           <Text style={styles.countValue}>{this.props.numFans}</Text>
         </View>
-
-        <View style={styles.verticalLineSeperator}/>
 
         <View style={styles.totalCountContainer}>
           <Text style={styles.countLabel}>Posts</Text>
