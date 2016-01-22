@@ -1,7 +1,14 @@
 'use strict';
 
+var React = require('react-native');
 var Unicycle = require('../../Unicycle');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
+var request = require('superagent');
+var prefix = require('superagent-prefix')('http://localhost:8080/Greedy');
+
+var {
+  AsyncStorage
+} = React;
 
 // the purpose of this file is to refresh the app content after every 15 minutes
 // of inactivity.  So if there were no tab switches, or no ajax calls for 15
@@ -25,18 +32,47 @@ var RefreshAppContentUtil = {
   _startTimer: function() {
     var that = this;
     this.refreshDataTimer = setInterval(function() {
-      that._refreshCriticalAppData();
+      that._refreshApp();
     }, that.refreshDataInterval);
   },
 
-  _refreshCriticalAppData: function() {
-    var email = userLoginMetadataStore.getEmail(),
+  _refreshApp: function() {
+    var that = this,
+        email = userLoginMetadataStore.getEmail(),
         userId = userLoginMetadataStore.getUserId();
 
-    Unicycle.exec('loadOwnerUsersProfile', email);
-    Unicycle.exec('refreshHomeFeed', userId);
-    Unicycle.exec('refreshExploreFeed', userId);
-    Unicycle.exec('getTrendingUsers');
+    AsyncStorage.getItem('password').then((password) => {
+      that._horribleCopiedMethodBecauseAjaxUtilsCantBeRequiredHereAndIDontKnowWhyImPissed(
+        '/api/login',
+        {
+          username: email,
+          password: password
+        },
+        (res) => {
+          Unicycle.exec('loadOwnerUsersProfile', email);
+          Unicycle.exec('refreshHomeFeed', userId);
+          Unicycle.exec('refreshExploreFeed', userId);
+          Unicycle.exec('getTrendingUsers');
+        },
+        () => {
+
+        }
+      );
+    }).done();
+  },
+
+  //TODO: FIIIXX
+  _horribleCopiedMethodBecauseAjaxUtilsCantBeRequiredHereAndIDontKnowWhyImPissed: function(url, data, onSuccessCallback, onFailureCallback) {
+    var that = this;
+
+    request
+     .post(that.SERVER_URL + url)
+     .use(prefix)
+     .send(data)
+     .set('Accept', 'application/json')
+     .end(function(err, res) {
+       onSuccessCallback();
+     });
   }
 
 }
