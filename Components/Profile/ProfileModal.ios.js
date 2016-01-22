@@ -5,6 +5,7 @@ var Unicycle = require('../../Unicycle');
 var profileModalStore = require('../../stores/profile/ProfileModalStore');
 var profileStore = require('../../stores/profile/ProfileStore');
 var ProfilePageBody = require('./ProfilePageBody');
+var MainScreenBanner = require('../../MainScreenBanner');
 
 var {
   View,
@@ -19,7 +20,6 @@ var {
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 25,
     paddingBottom: 10
   },
   closeModalButton: {
@@ -69,6 +69,8 @@ var ProfileModal = React.createClass({
 
           <View style={styles.container}>
 
+            <MainScreenBanner
+              title={profileStore.getFirstName() + ' ' + profileStore.getLastName()}/>
             {content}
             {this._renderCloseModalButton()}
 

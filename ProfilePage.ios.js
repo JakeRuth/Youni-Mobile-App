@@ -86,7 +86,7 @@ var ProfilePage = React.createClass({
       <View style={styles.profilePageContainer}>
 
         <MainScreenBanner
-          title=''/>
+          title={profileOwnerStore.getFirstName() + ' ' + profileOwnerStore.getLastName()}/>
 
         <LogoutButton navigator={this.props.navigator}/>
         <EditSettingsButton/>

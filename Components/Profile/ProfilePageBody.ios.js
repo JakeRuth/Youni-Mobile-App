@@ -30,13 +30,6 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 2
   },
-  fullName: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: '#525252',
-    textAlign: 'center',
-    backgroundColor: 'transparent'
-  },
   bio: {
     color: '#525252',
     fontSize: 12,
@@ -96,11 +89,6 @@ var ProfilePageBody = React.createClass({
               onButtonPress={this._getFollowButtonAction}
               isRequestInFlight={this._isFollowButtonRequestInFlight()}/>
           </View>
-
-
-          <Text style={styles.fullName}>
-            {this.props.firstName + ' ' + this.props.lastName}
-          </Text>
 
           {blockUserIcon}
           <Text style={styles.bio}>
