@@ -96,8 +96,9 @@ var CreatePostPage = React.createClass({
   showImagePicker: function() {
     Unicycle.exec('setIsImageUploading', true);
 
-    UIImagePickerManager.showImagePicker(this._getImagePickerOptions(), (didCancel, response) => {
-      if (!didCancel) {
+    UIImagePickerManager.showImagePicker(this._getImagePickerOptions(), (response) => {
+      console.log(response)
+      if (!response.didCancel) {
         var uri = response.uri.replace('file://', '');
         Unicycle.exec('setWasImageSelected', true);
         Unicycle.exec('setImageUri', uri);
@@ -106,6 +107,7 @@ var CreatePostPage = React.createClass({
             var imageId = this._hackyWayToGetPictureIdFromDumbStringThatShouldBeAMap(res.data);
             Unicycle.exec('setImageId', imageId)
             Unicycle.exec('setIsImageUploading', false);
+            console.log('uploaded photo! ', res)
       	});
       }
       else {
@@ -118,15 +120,12 @@ var CreatePostPage = React.createClass({
 
   _getImagePickerOptions: function() {
     return {
+      title: 'Upload a photo to share',
       maxWidth: 416, //TODO
       maxHeight: 416, //TODO
       quality: .5, //TODO
       allowsEditing: true, //TODO
-      noData: true,
-      storageOptions: {
-        skipBackup: true,
-        path: 'Youni'
-      }
+      noData: false
     };
   },
 
