@@ -97,7 +97,6 @@ var CreatePostPage = React.createClass({
     Unicycle.exec('setIsImageUploading', true);
 
     UIImagePickerManager.showImagePicker(this._getImagePickerOptions(), (response) => {
-      console.log(response)
       if (!response.didCancel) {
         var uri = response.uri.replace('file://', '');
         Unicycle.exec('setWasImageSelected', true);
@@ -107,7 +106,6 @@ var CreatePostPage = React.createClass({
             var imageId = this._hackyWayToGetPictureIdFromDumbStringThatShouldBeAMap(res.data);
             Unicycle.exec('setImageId', imageId)
             Unicycle.exec('setIsImageUploading', false);
-            console.log('uploaded photo! ', res)
       	});
       }
       else {
