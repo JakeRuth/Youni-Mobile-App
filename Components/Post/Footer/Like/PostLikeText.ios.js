@@ -29,7 +29,6 @@ var PostLikeText = React.createClass({
     postStore: React.PropTypes.any.isRequired,
     numLikes: React.PropTypes.number.isRequired,
     postIdString: React.PropTypes.string.isRequired,
-    numLikes: React.PropTypes.number.isRequired,
     numComments: React.PropTypes.number.isRequired
   },
 
