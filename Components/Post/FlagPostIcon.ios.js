@@ -2,7 +2,7 @@
 
 var React = require('react-native');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
-var Icon = require('react-native-vector-icons/Ionicons');
+var Icon = require('react-native-vector-icons/MaterialIcons');
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 
 var {
@@ -12,9 +12,9 @@ var {
 } = React;
 
 var styles = StyleSheet.create({
-  flagIcon: {
-    paddingBottom: 15,
-    paddingLeft: 30
+  flagIconContainer: {
+    paddingLeft: 30,
+    paddingTop: 15
   }
 });
 
@@ -27,13 +27,13 @@ var PostHeader = React.createClass({
   render: function() {
     return (
       <TouchableHighlight
-        style={styles.flagIcon}
+        style={styles.flagIconContainer}
         underlayColor='transparent'
         onPress={this._onFlagPostIconPress}>
 
         <Icon
-          name='chevron-down'
-          size={15}
+          name='more-vert'
+          size={23}
           color='#B2B2B2' />
 
       </TouchableHighlight>

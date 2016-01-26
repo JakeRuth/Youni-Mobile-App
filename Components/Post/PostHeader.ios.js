@@ -49,8 +49,7 @@ var styles = StyleSheet.create({
     color: '#ADADAD'
   },
   actionButtonContainer: {
-    right: 8,
-    top: 6,
+    flex: 1,
     backgroundColor: 'transparent'
   }
 });

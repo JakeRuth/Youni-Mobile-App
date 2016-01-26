@@ -2,7 +2,7 @@
 
 var React = require('react-native');
 var Unicycle = require('../../Unicycle');
-var Icon = require('react-native-vector-icons/Ionicons');
+var Icon = require('react-native-vector-icons/MaterialIcons');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 
 var {
@@ -13,9 +13,9 @@ var {
 } = React;
 
 var styles = StyleSheet.create({
-  deleteIcon: {
-    paddingBottom: 15,
-    paddingLeft: 30
+  deleteIconContainer: {
+    paddingLeft: 30,
+    paddingTop: 15
   }
 });
 
@@ -30,13 +30,13 @@ var DeletePostIcon = React.createClass({
   render: function() {
     return (
       <TouchableHighlight
-        style={styles.deleteIcon}
+        style={styles.deleteIconContainer}
         underlayColor='transparent'
         onPress={this._onDeleteIconPress}>
 
         <Icon
-          name='chevron-down'
-          size={15}
+          name='more-vert'
+          size={23}
           color='#B2B2B2' />
 
       </TouchableHighlight>
