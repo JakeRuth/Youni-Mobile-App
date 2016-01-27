@@ -25,6 +25,7 @@ var UserUtils = {
       email: user['email'],
       profileImageUrl: user['profileImageUrl'],
       numPosts: user['numPosts'],
+      totalPoints: user['allTimePoints'],
       id: id
     };
   }
