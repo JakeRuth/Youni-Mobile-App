@@ -18,75 +18,66 @@ var {
 
 var styles = StyleSheet.create({
   postFormContainer: {
-    flex: 1
+    flex: 1,
+    padding: 5
+  },
+  postInformation: {
+    flex: 1,
+    flexDirection: 'row'
   },
   postImage: {
-    alignSelf: 'center',
-    width: 320,
-    height: 320
+    width: 110,
+    height: 110
   },
   captionInput: {
-    margin: 10,
-    paddingLeft: 10,
-    paddingRight: 10,
-    height: 45,
-    borderRadius: 10,
-    borderColor: 'gray',
-    borderWidth: 1
-  },
-  submitPostContainer: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  cancelText: {
-    fontSize: 10,
-    paddingLeft: 15,
-    color: '#FF7878'
+    height: 110,
+    marginLeft: 6,
+    padding: 5,
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderRadius: 1
   },
   createPostButton: {
-    borderWidth: 1,
-    borderRadius: 10,
-    borderColor: '#0083D4'
+    alignSelf: 'center',
+    backgroundColor: '#0083D4',
+    borderRadius: 1,
+    margin: 10,
+    marginBottom: 0
   },
   createPostText: {
     textAlign: 'center',
-    fontSize: 30,
+    color: 'white',
+    fontSize: 20,
     margin: 5
+  },
+  cancelText: {
+    textAlign: 'center',
+    fontSize: 10,
+    padding: 15,
+    paddingTop: 5,
+    color: '#FF7878'
   },
   spinnerContainer: {
     alignItems: 'center'
-  },
-  hackyIosKeyPadBump: {
-    marginTop: 300
   }
 });
 
 var CreatePostForm = React.createClass({
-
-  getInitialState: function() {
-    return {
-      isTextInputSelected: false
-    };
-  },
 
   propTypes: {
     imageUri: React.PropTypes.string.isRequired
   },
 
   render: function() {
-    var imageId = createPostStore.getImageId(),
-        hackyIosKeyPadBump = <View/>,
+    var imageUploadedSuccessfully = createPostStore.getImageId(),
         postButton;
 
-    if (this.state.isTextInputSelected) {
-      hackyIosKeyPadBump = <View style={styles.hackyIosKeyPadBump} />
-    }
-
-    if (imageId) {
+    if (imageUploadedSuccessfully) {
       postButton = (
-        <TouchableHighlight onPress={this._onSubmitPost} style={styles.createPostButton}>
+        <TouchableHighlight
+          style={styles.createPostButton}
+          onPress={this._onSubmitPost}>
           <Text style={styles.createPostText}>Post to Youni</Text>
         </TouchableHighlight>
       );
@@ -103,28 +94,27 @@ var CreatePostForm = React.createClass({
     return (
       <ScrollView>
         <View style={styles.postFormContainer}>
-          <Image style={styles.postImage} source={{uri: this.props.imageUri, isStatic: true}} />
 
-          <TextInput
-            style={styles.captionInput}
-            onChangeText={(text) => Unicycle.exec('setCaption', text)}
-            value={createPostStore.getCaption()}
-            multiline={true}
-            maxLength={183} //TODO: think about this value more, is this a just limit?
-            textAlign={'center'}
-            onFocus={() => { this.setState({ isTextInputSelected: true }) } }
-          />
+          <View style={styles.postInformation}>
+            <Image
+              style={styles.postImage}
+              source={{uri: this.props.imageUri, isStatic: true}} />
+            <TextInput
+              style={styles.captionInput}
+              onChangeText={(text) => Unicycle.exec('setCaption', text)}
+              value={createPostStore.getCaption()}
+              multiline={true}
+              maxLength={185}/>
+          </View>
 
-          <View style={styles.submitPostContainer}>
-            { postButton }
+          <View style={styles.actionButtons}>
+            {postButton}
             <Text
               style={styles.cancelText}
               onPress={this._onCancelTextClick} >
               Cancel
             </Text>
           </View>
-
-          { hackyIosKeyPadBump }
 
         </View>
       </ScrollView>
