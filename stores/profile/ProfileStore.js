@@ -34,8 +34,12 @@ var profileStore = Unicycle.createStore({
     $loadUsersProfile(email) {
       var that = this;
 
+      // first name and last name need to be cleared so the banner doesn't
+      // show the previous name while loading the profile info
       this.set({
-        isRequestInFlight: true
+        isRequestInFlight: true,
+        firstName: '',
+        lastName: ''
       });
 
       AjaxUtils.ajax(
