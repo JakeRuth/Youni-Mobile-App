@@ -12,42 +12,72 @@ var {
 } = React
 
 var styles = StyleSheet.create({
-  trendingUserFirstName: {
-    textAlign: 'center',
-    width: PixelRatio.getPixelSizeForLayoutSize(75)
-  },
-  row: {
+  container: {
     flex: 1,
+    padding: 5,
+    flexDirection: 'row',
+    borderBottomWidth: .5,
+    borderBottomColor: '#525252'
+  },
+  ranking: {
+    alignSelf: 'center',
+    fontSize: 15,
+    marginRight: 5,
+    color: '#525252'
+  },
+  name: {
+    flex: 1,
+    alignSelf: 'center',
+    fontSize: 20,
+    color: '#525252',
+    marginLeft: 15,
+    marginRight: 15
+  },
+  points: {
+    alignSelf: 'center',
+    right: 5
+  },
+  image: {
     justifyContent: 'center',
-    margin: 2,
-    width: PixelRatio.getPixelSizeForLayoutSize(75),
-    height: PixelRatio.getPixelSizeForLayoutSize(75),
-    backgroundColor: '#F6F6F6',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderRadius: PixelRatio.getPixelSizeForLayoutSize(37),
-    borderColor: '#CCC'
+    width: PixelRatio.getPixelSizeForLayoutSize(30),
+    height: PixelRatio.getPixelSizeForLayoutSize(30),
+    borderWidth: .5,
+    borderRadius: PixelRatio.getPixelSizeForLayoutSize(15),
+    borderColor: '#525252'
   }
 });
 
 var TrendingUser = React.createClass({
 
   propTypes: {
+    ranking: React.PropTypes.number.isRequired,
     firstName: React.PropTypes.string.isRequired,
-    lastName: React.PropTypes.string.isRequired,
-    bio: React.PropTypes.string,
-    numFans: React.PropTypes.number.isRequired,
     profileImageUrl: React.PropTypes.string.isRequired,
-    email: React.PropTypes.string.isRequired,
-    id: React.PropTypes.number.isRequired
+    points: React.PropTypes.number.isRequired
   },
 
   render: function() {
     return (
-      <View >
-        <Text style={styles.trendingUserFirstName}>{this.props.firstName}</Text>
-        <Image style={styles.row}
-               source={{uri: this.props.profileImageUrl}} />
+      <View style={styles.container}>
+
+        <Text style={styles.ranking}>
+          #{this.props.ranking}
+        </Text>
+
+        <Image
+          style={styles.image}
+          source={{uri: this.props.profileImageUrl}}/>
+
+        <Text
+          style={styles.name}
+          numberOfLines={1}>
+          {this.props.firstName}
+        </Text>
+
+        <Text style={styles.points}>
+          {this.props.points}
+        </Text>
+
       </View>
     );
   }
