@@ -4,24 +4,18 @@ var React = require('react-native');
 var Unicycle = require('../../Unicycle');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var PostList = require('../../Components/Post/PostList');
+var Spinner = require('../Common/Spinner');
 
 var {
   View,
   Text,
-  StyleSheet,
-  ActivityIndicatorIOS
+  StyleSheet
 } = React
 
 var styles = StyleSheet.create({
   postsContainer: {
     flex: 1,
     paddingBottom: 50
-  },
-  spinnerContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20
   }
 });
 
@@ -43,7 +37,7 @@ var UserPosts = React.createClass({
         content;
 
     if (loadingPosts) {
-      content = this.renderLoadingSpinner();
+      content = <Spinner />;
     }
     else {
       content = (
@@ -62,19 +56,6 @@ var UserPosts = React.createClass({
     return (
       <View style={styles.postsContainer}>
         {content}
-      </View>
-    );
-  },
-
-  renderLoadingSpinner: function() {
-    return (
-      <View style={styles.spinnerContainer}>
-        <ActivityIndicatorIOS
-          size='small'
-          color='black'
-          animating={true}
-          style={styles.spinner} />
-        <Text>Loading posts...</Text>
       </View>
     );
   },

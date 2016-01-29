@@ -7,13 +7,14 @@ var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
 var MainScreenBanner = require('./MainScreenBanner');
 var PostList = require('./Components/Post/PostList');
 var ErrorPage = require('./Components/Common/ErrorPage');
+var Spinner = require('./Components/Common/Spinner');
+
 
 var {
   View,
   Text,
   StyleSheet,
-  AppRegistry,
-  ActivityIndicatorIOS
+  AppRegistry
 } = React
 
 var styles = StyleSheet.create({
@@ -38,11 +39,6 @@ var styles = StyleSheet.create({
   noPostSubTitle: {
     textAlign: 'center',
     color: 'gray'
-  },
-  spinnerContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
   }
 });
 
@@ -64,7 +60,7 @@ var HomePage = React.createClass({
         content;
 
     if (loadingPosts) {
-      content = this.renderLoadingSpinner();
+      content = <Spinner />;
     }
     else if (anyErrorsLoadingPage) {
       content = <ErrorPage reloadButtonAction={this._requestHomeFeed}/>
@@ -102,19 +98,7 @@ var HomePage = React.createClass({
       </View>
     );
   },
-
-  renderLoadingSpinner: function() {
-    return (
-      <View style={styles.spinnerContainer}>
-        <ActivityIndicatorIOS
-          size="small"
-          color="black"
-          animating={true}
-          style={styles.spinner} />
-      </View>
-    );
-  },
-
+  
   handleScroll(e) {
     var inifiniteScrollThreshold = -1,
         userId = userLoginMetadataStore.getUserId();

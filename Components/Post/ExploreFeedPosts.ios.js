@@ -6,23 +6,18 @@ var explorePostsStore = require('../../stores/post/ExplorePostsStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var PostList = require('./PostList');
 var ErrorPage = require('../Common/ErrorPage');
+var Spinner = require('../Common/Spinner');
 
 var {
   View,
   Text,
-  StyleSheet,
-  ActivityIndicatorIOS
+  StyleSheet
 } = React
 
 var styles = StyleSheet.create({
   exploreFeedContainer: {
     flex: 1,
     paddingBottom: 50
-  },
-  spinnerContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
   }
 });
 
@@ -39,7 +34,7 @@ var ExploreFeedPosts = React.createClass({
         content;
 
     if (loadingPosts) {
-      content = this.renderLoadingSpinner();
+      content = <Spinner />;
     }
     else if (anyErrorsLoadingPage) {
       content = <ErrorPage reloadButtonAction={this._onErrorPageReload}/>
@@ -59,17 +54,6 @@ var ExploreFeedPosts = React.createClass({
     return (
       <View style={styles.exploreFeedContainer}>
         {content}
-      </View>
-    );
-  },
-
-  renderLoadingSpinner: function() {
-    return (
-      <View style={styles.spinnerContainer}>
-        <ActivityIndicatorIOS
-          size="small"
-          color="black"
-          animating={true}/>
       </View>
     );
   },
