@@ -23,21 +23,9 @@ var styles = StyleSheet.create({
   createPostPageContainer: {
     flex: 1
   },
-  postUploadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  postUploadingMessage: {
-    fontSize: 20,
-    fontFamily: 'Futura-Medium'
-  },
   spinner: {
-    margin: 30
-  },
-  universityMessage: {
-    color: 'purple',
-    fontFamily: 'ChalkboardSE-Bold'
+    flex: 1,
+    alignSelf: 'center'
   }
 });
 
@@ -61,7 +49,7 @@ var CreatePostPage = React.createClass({
         content = <View/>;
 
     if (isPostRequestInFlight) {
-      content = this.renderPostUploadingContent();
+      content = <ActivityIndicatorIOS style={styles.spinner}/>;
     }
     else if (anyErrorsLoadingPage) {
       content = (
@@ -142,17 +130,6 @@ var CreatePostPage = React.createClass({
     var start = ugly.indexOf("pictureId") + 12;
     var end = ugly.indexOf("message") - 3;
     return ugly.substring(start, end);
-  },
-
-  //TODO: The universityMessage should come from the API
-  renderPostUploadingContent: function() {
-    return (
-      <View style={styles.postUploadingContainer}>
-        <Text style={styles.postUploadingMessage}>Post uploading to Youni</Text>
-        <ActivityIndicatorIOS style={styles.spinner} />
-        <Text style={styles.universityMessage}>Let's go Great Danes!</Text>
-      </View>
-    );
   }
 
 });

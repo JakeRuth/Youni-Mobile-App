@@ -57,6 +57,7 @@ var ProfilePageBody = React.createClass({
     bio: React.PropTypes.string,
     numFans: React.PropTypes.number.isRequired,
     numPosts: React.PropTypes.number.isRequired,
+    totalPoints: React.PropTypes.string.isRequired,
     profileImageUrl: React.PropTypes.string.isRequired,
     email: React.PropTypes.string.isRequired,
     viewerIsProfileOwner: React.PropTypes.bool.isRequired
@@ -96,6 +97,7 @@ var ProfilePageBody = React.createClass({
           </Text>
 
           <TotalProfileCountsContainer
+            totalPoints={this.props.totalPoints}
             numFans={this.props.numFans}
             numPosts={this.props.numPosts}/>
 

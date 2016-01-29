@@ -99,6 +99,7 @@ var SearchPage = React.createClass({
                             bio={profileStore.getBio()}
                             numFans={profileStore.getNumFollowers()}
                             numPosts={profileStore.getNumPosts()}
+                            totalPoints={profileStore.getTotalPoints()}
                             profileImageUrl={profileStore.getProfileImageUrl()}
                             email={profileStore.getEmail()}/>;
     }

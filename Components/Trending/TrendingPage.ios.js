@@ -4,12 +4,13 @@ var React = require('react-native');
 var Unicycle = require('../../Unicycle');
 var trendingStore = require('../../stores/trending/TrendingStore');
 var MainScreenBanner = require('../../MainScreenBanner');
-var TrendingUsersGrid = require('./TrendingUsersGrid');
+var TrendingUsersList = require('./TrendingUsersList');
 var BackButton = require('../Common/BackButtonBar');
 var ErrorPage = require('../Common/ErrorPage');
 
 var {
   View,
+  Text,
   StyleSheet,
   ActivityIndicatorIOS
 } = React
@@ -17,6 +18,18 @@ var {
 var styles = StyleSheet.create({
   trendingPageContainer: {
     flex: 1
+  },
+  pageHeaderText: {
+    textAlign: 'center',
+    color: '#525252',
+    fontSize: 18,
+    padding: 5
+  },
+  contentSeparator: {
+    borderWidth: .5,
+    borderColor: '#525252',
+    marginLeft: 45,
+    marginRight: 45
   },
   spinnerContainer: {
     flex: 1,
@@ -47,13 +60,19 @@ var TrendingPage = React.createClass({
       content = <ErrorPage reloadButtonAction={this._onErrorPageReload}/>
     }
     else {
-      content = <TrendingUsersGrid/>;
+      content = <TrendingUsersList/>;
     }
 
     return (
       <View style={styles.trendingPageContainer}>
+
         <MainScreenBanner title='Trending'/>
+        <Text style={styles.pageHeaderText}>
+          Top Trending Users This Week!
+        </Text>
+        <View style={styles.contentSeparator}/>
         {content}
+
       </View>
     );
   },

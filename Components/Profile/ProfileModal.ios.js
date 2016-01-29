@@ -89,6 +89,7 @@ var ProfileModal = React.createClass({
         lastName={profileStore.getLastName()}
         bio={profileStore.getBio()}
         numFans={profileStore.getNumFollowers()}
+        totalPoints={profileStore.getTotalPoints()}
         profileImageUrl={profileStore.getProfileImageUrl()}
         email={profileStore.getEmail()}
         numPosts={profileStore.getNumPosts()}/>
