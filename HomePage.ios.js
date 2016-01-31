@@ -64,24 +64,16 @@ var HomePage = React.createClass({
         content;
 
     if (loadingPosts) {
-      content = this.renderLoadingSpinner();
+      content = this._renderLoadingSpinner();
     }
     else if (anyErrorsLoadingPage) {
       content = <ErrorPage reloadButtonAction={this._requestHomeFeed}/>
     }
     else if (homeFeedPosts.size) {
-      content = (
-        <PostList
-          refreshable={true}
-          postStore={homePostsStore}
-          posts={homeFeedPosts}
-          onScroll={this.handleScroll}
-          onLoadMorePostsPress={this.onLoadMorePostsPress}
-          isLoadMorePostsRequestInFlight={homePostsStore.isLoadMorePostsRequestInFlight()} />
-      );
+      content = this._renderPosts(homeFeedPosts);
     }
     else {
-      content = this.renderEmptyPostsMessage();
+      content = this._renderEmptyPostsMessage();
     }
 
     return (
@@ -90,27 +82,6 @@ var HomePage = React.createClass({
         <View style={styles.feedContainer}>
           { content }
         </View>
-      </View>
-    );
-  },
-
-  renderEmptyPostsMessage: function() {
-    return (
-      <View style={styles.emptyPostsMessageContainer}>
-        <Text style={styles.noPostsTitle}>No posts from any one you are following</Text>
-        <Text style={styles.noPostSubTitle}>As you follow your friends, only their posts will show up in this feed</Text>
-      </View>
-    );
-  },
-
-  renderLoadingSpinner: function() {
-    return (
-      <View style={styles.spinnerContainer}>
-        <ActivityIndicatorIOS
-          size="small"
-          color="black"
-          animating={true}
-          style={styles.spinner} />
       </View>
     );
   },
@@ -124,9 +95,37 @@ var HomePage = React.createClass({
     }
   },
 
-  onLoadMorePostsPress: function() {
-    var userId = userLoginMetadataStore.getUserId();
-    Unicycle.exec('requestHomeFeed', userId);
+  _renderPosts: function(posts) {
+    return (
+      <PostList
+        refreshable={true}
+        postStore={homePostsStore}
+        posts={posts}
+        onScroll={this.handleScroll}
+        onLoadMorePostsPress={this._requestHomeFeed}
+        isLoadMorePostsRequestInFlight={homePostsStore.isLoadMorePostsRequestInFlight()} />
+    );
+  },
+
+  _renderEmptyPostsMessage: function() {
+    return (
+      <View style={styles.emptyPostsMessageContainer}>
+        <Text style={styles.noPostsTitle}>No posts from any one you are following</Text>
+        <Text style={styles.noPostSubTitle}>As you follow your friends, only their posts will show up in this feed</Text>
+      </View>
+    );
+  },
+
+  _renderLoadingSpinner: function() {
+    return (
+      <View style={styles.spinnerContainer}>
+        <ActivityIndicatorIOS
+          size="small"
+          color="black"
+          animating={true}
+          style={styles.spinner} />
+      </View>
+    );
   },
 
   _requestHomeFeed: function() {
