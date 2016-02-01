@@ -153,7 +153,7 @@ var LoginPage = React.createClass({
               value={loginStore.getEmail()}
               onChangeText={(text) => Unicycle.exec('updateEmail', text)}
               placeholderTextColor='grey'
-              placeholder='email'
+              placeholder='email@college.edu'
               keyboardType='email-address'
            />
            <TextInput style={styles.loginInput}
