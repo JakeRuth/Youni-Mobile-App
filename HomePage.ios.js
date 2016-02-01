@@ -131,6 +131,7 @@ var HomePage = React.createClass({
   _requestHomeFeed: function() {
     var id = userLoginMetadataStore.getUserId();
     Unicycle.exec('requestHomeFeed', id);
+    Unicycle.exec('requestExploreFeed', id);
   }
 
 });
