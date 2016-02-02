@@ -7,14 +7,13 @@ var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
 var MainScreenBanner = require('./MainScreenBanner');
 var PostList = require('./Components/Post/PostList');
 var ErrorPage = require('./Components/Common/ErrorPage');
-var Spinner = require('./Components/Common/Spinner');
-
 
 var {
   View,
   Text,
   StyleSheet,
-  AppRegistry
+  AppRegistry,
+  ActivityIndicatorIOS
 } = React
 
 var styles = StyleSheet.create({
@@ -39,6 +38,11 @@ var styles = StyleSheet.create({
   noPostSubTitle: {
     textAlign: 'center',
     color: 'gray'
+  },
+  spinnerContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });
 
@@ -50,7 +54,7 @@ var HomePage = React.createClass({
   ],
 
   componentDidMount: function() {
-    this._requestHomeFeed();
+    this._requestFeeds();
   },
 
   render: function() {
@@ -60,24 +64,16 @@ var HomePage = React.createClass({
         content;
 
     if (loadingPosts) {
-      content = <Spinner />;
+      content = this._renderLoadingSpinner();
     }
     else if (anyErrorsLoadingPage) {
-      content = <ErrorPage reloadButtonAction={this._requestHomeFeed}/>
+      content = <ErrorPage reloadButtonAction={this._requestFeeds}/>
     }
     else if (homeFeedPosts.size) {
-      content = (
-        <PostList
-          refreshable={true}
-          postStore={homePostsStore}
-          posts={homeFeedPosts}
-          onScroll={this.handleScroll}
-          onLoadMorePostsPress={this.onLoadMorePostsPress}
-          isLoadMorePostsRequestInFlight={homePostsStore.isLoadMorePostsRequestInFlight()} />
-      );
+      content = this._renderPosts(homeFeedPosts);
     }
     else {
-      content = this.renderEmptyPostsMessage();
+      content = this._renderEmptyPostsMessage();
     }
 
     return (
@@ -90,15 +86,6 @@ var HomePage = React.createClass({
     );
   },
 
-  renderEmptyPostsMessage: function() {
-    return (
-      <View style={styles.emptyPostsMessageContainer}>
-        <Text style={styles.noPostsTitle}>No posts from any one you are following</Text>
-        <Text style={styles.noPostSubTitle}>As you follow your friends, only their posts will show up in this feed</Text>
-      </View>
-    );
-  },
-  
   handleScroll(e) {
     var inifiniteScrollThreshold = -1,
         userId = userLoginMetadataStore.getUserId();
@@ -108,14 +95,43 @@ var HomePage = React.createClass({
     }
   },
 
-  onLoadMorePostsPress: function() {
-    var userId = userLoginMetadataStore.getUserId();
-    Unicycle.exec('requestHomeFeed', userId);
+  _renderPosts: function(posts) {
+    return (
+      <PostList
+        refreshable={true}
+        postStore={homePostsStore}
+        posts={posts}
+        onScroll={this.handleScroll}
+        onLoadMorePostsPress={this._requestFeeds}
+        isLoadMorePostsRequestInFlight={homePostsStore.isLoadMorePostsRequestInFlight()} />
+    );
   },
 
-  _requestHomeFeed: function() {
+  _renderEmptyPostsMessage: function() {
+    return (
+      <View style={styles.emptyPostsMessageContainer}>
+        <Text style={styles.noPostsTitle}>No posts from any one you are following</Text>
+        <Text style={styles.noPostSubTitle}>As you follow your friends, only their posts will show up in this feed</Text>
+      </View>
+    );
+  },
+
+  _renderLoadingSpinner: function() {
+    return (
+      <View style={styles.spinnerContainer}>
+        <ActivityIndicatorIOS
+          size="small"
+          color="black"
+          animating={true}
+          style={styles.spinner} />
+      </View>
+    );
+  },
+
+  _requestFeeds: function() {
     var id = userLoginMetadataStore.getUserId();
     Unicycle.exec('requestHomeFeed', id);
+    Unicycle.exec('requestExploreFeed', id);
   }
 
 });

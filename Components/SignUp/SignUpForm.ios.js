@@ -4,6 +4,7 @@ var React = require('react-native');
 var loginStore = require('../../stores/LoginStore');
 var signUpStore = require('../../stores/signUp/SignupStore');
 var Unicycle = require('../../Unicycle');
+var RadioButtons = require('../Common/RadioButtons');
 
 var {
   View,
@@ -43,6 +44,14 @@ var styles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: 'transparent',
     fontWeight: 'bold'
+  },
+  maleFemaleInputContainer: {
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    width: 250,
+    padding: 5,
+    color: 'white',
+    borderRadius: 5,
+    textAlign: 'center'
   },
   signUpButton: {
     flex: 1,
@@ -123,7 +132,7 @@ var SignUpForm = React.createClass({
         <TextInput style={styles.signUpInput}
           value={signUpStore.getSignupEmail()}
           placeholderTextColor={'grey'}
-          placeholder={'Email'}
+          placeholder={'email@college.edu'}
           onChangeText={(text) => Unicycle.exec('signUpUpdateEmail', text)}/>
         <TextInput style={styles.signUpInput}
           secureTextEntry={true}
@@ -139,6 +148,11 @@ var SignUpForm = React.createClass({
           placeholderTextColor={'grey'}
           placeholder={'Confirm Password'}
           onChangeText={(text) => Unicycle.exec('signUpUpdateConfirmPassword', text)}/>
+        <View style={styles.maleFemaleInputContainer}>
+          <RadioButtons
+            labels={['male', 'female']}
+            customOnButtonPress={(label) => {Unicycle.exec('signUpUpdateSex', label);}}/>
+        </View>
 
         <TouchableHighlight
           style={styles.signUpButton}
@@ -178,14 +192,16 @@ var SignUpForm = React.createClass({
         lastName = signUpStore.getSignupLastName(),
         email = signUpStore.getSignupEmail(),
         password = signUpStore.getSignupPassword(),
-        confirmPassword = signUpStore.getSignupConfirmPassword();
+        confirmPassword = signUpStore.getSignupConfirmPassword(),
+        sex = signUpStore.getSex();
 
     return (
       firstName.length === 0 ||
       lastName.length === 0 ||
       email.length === 0 ||
       password.length === 0 ||
-      confirmPassword.length === 0
+      confirmPassword.length === 0 ||
+      sex === null
     )
   },
 
@@ -242,8 +258,8 @@ var SignUpForm = React.createClass({
 
   _alertOnSuccessfulSignUp: function() {
     AlertIOS.alert(
-      'Yay!',
       'Confirmation Email Sent!',
+      '',
       [
         {
           text: 'Got it',
@@ -255,7 +271,7 @@ var SignUpForm = React.createClass({
 
   _alertSignUpError: function() {
     AlertIOS.alert(
-      'Sorry, there was an error creating your account.',
+      'Thanks for joining the Youni Wait List! We’ll reach out to you when we open at your school!.',
       '',
       [
         {

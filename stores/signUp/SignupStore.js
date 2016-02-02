@@ -13,6 +13,7 @@ var signUpStore = Unicycle.createStore({
         email: '',
         password: '',
         confirmPassword: '',
+        sex: null,
         inSignUpView: false,
         isSignUpRequestUpInFlight: false,
         signUpRequestSuccessful: false,
@@ -25,7 +26,8 @@ var signUpStore = Unicycle.createStore({
           firstName = this.getSignupFirstName(),
           lastName = this.getSignupLastName(),
           email = this.getSignupEmail(),
-          password = this.getSignupPassword();
+          password = this.getSignupPassword(),
+          sex = this.getSex();
 
       //fixes weird bug where blank password field validates (cannot replicate at command line with api)
       if (!password) {
@@ -47,6 +49,7 @@ var signUpStore = Unicycle.createStore({
           lastName: lastName,
           email: email,
           password: password,
+          isFemale: sex === 'female',
           schoolName: 'SUNY Albany' //TODO fix me
         },
         (res) => {
@@ -107,6 +110,12 @@ var signUpStore = Unicycle.createStore({
       });
     },
 
+    $signUpUpdateSex: function(sex) {
+      this.set({
+        sex: sex
+      });
+    },
+
     $setInSignUpView: function(isInFlight) {
       this.set({
         inSignUpView: isInFlight
@@ -155,6 +164,10 @@ var signUpStore = Unicycle.createStore({
 
     getSignupConfirmPassword: function() {
       return this.get('confirmPassword');
+    },
+
+    getSex: function() {
+      return this.get('sex');
     },
 
     getSignUpRequestSuccessful: function() {

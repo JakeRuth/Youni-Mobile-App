@@ -74,11 +74,6 @@ var SearchPage = React.createClass({
     Unicycle.listenTo(profileStore)
   ],
 
-  componentDidMount: function() {
-    var userId = userLoginMetadataStore.getUserId();
-    Unicycle.exec('requestExploreFeed', userId);
-  },
-
   render: function() {
     var inExploreFeedView = searchStore.getInExploreFeedView(),
         isProfileInView = searchStore.getInProfileView(),
