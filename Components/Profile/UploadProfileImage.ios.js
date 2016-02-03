@@ -9,7 +9,7 @@ var uploadProfileImageStore = require('../../stores/profile/UploadProfileImageSt
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 
 var {
-  View,
+  TouchableHighlight,
   Text,
   StyleSheet,
   NativeModules,
@@ -18,18 +18,18 @@ var {
 
 var styles = StyleSheet.create({
   uploadProfileImageContainer: {
-    flex: 1,
-    alignItems: 'stretch'
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    borderWidth: .5,
+    borderColor: 'maroon'
   },
   uploadProfileImageText: {
+    marginTop: 25,
+    backgroundColor: 'transparent',
     textAlign: 'center',
     padding: 5,
-    color: 'red',
-    fontWeight: '500',
-    borderWidth: 1,
-    borderColor: 'maroon',
-    height: 80,
-    width: null
+    color: 'maroon'
   }
 });
 
@@ -49,18 +49,19 @@ var UploadProfileImage = React.createClass({
     }
 
     return (
-      <View style={styles.uploadProfileImageContainer}>
-        { content }
-      </View>
+      <TouchableHighlight
+        style={styles.uploadProfileImageContainer}
+        underlayColor={'transparent'}
+        onPress={this._onUploadImagePress}>
+        {content}
+      </TouchableHighlight>
     );
   },
 
   _renderUploadPhotoPrompt: function() {
     return (
-      <Text
-        style={styles.uploadProfileImageText}
-        onPress={this._onUploadImagePress}>
-        tap here to upload profile picture
+      <Text style={styles.uploadProfileImageText}>
+        Upload Profile Photo
       </Text>
     );
   },
@@ -75,8 +76,8 @@ var UploadProfileImage = React.createClass({
   },
 
   _onUploadImagePress: function() {
-    UIImagePickerManager.showImagePicker(this._getImagePickerOptions(), (didCancel, response) => {
-      if (!didCancel) {
+    UIImagePickerManager.showImagePicker(this._getImagePickerOptions(), (response) => {
+      if (!response.didCancel) {
         Unicycle.exec('setIsUploadProfileImageRequestInFlight', true);
 
   			NativeModules.FileTransfer.upload(this._getImageUploadOptions(response), (err, res) => {
@@ -92,7 +93,7 @@ var UploadProfileImage = React.createClass({
     return {
       maxWidth: 640, //TODO
       maxHeight: 640, //TODO
-      quality: .5, //TODO
+      quality: 1, //TODO
       allowsEditing: true, //TODO
       noData: true,
       storageOptions: {

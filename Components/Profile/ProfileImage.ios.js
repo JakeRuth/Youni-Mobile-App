@@ -42,7 +42,7 @@ var ProfileImage = React.createClass({
       content = this.renderProfileImage();
     }
     else if (this.props.viewerIsProfileOwner) {
-      content = <UploadProfileImage />;
+      content = <UploadProfileImage/>;
     }
     else {
       content = this.renderBlankProfileIcon();
