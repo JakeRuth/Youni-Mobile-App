@@ -199,7 +199,7 @@ var LoginPage = React.createClass({
             password = response[1][1];
         Unicycle.exec('updateEmail', email);
         Unicycle.exec('updatePassword', password);
-        this._onLoginRequest(true);
+        this._onLoginRequest();
       }
       //ensure login page shows if the user logs out
       Unicycle.exec('setShouldRenderLoginPage', true);
@@ -216,7 +216,7 @@ var LoginPage = React.createClass({
     Unicycle.exec('setInSignUpView', true);
   },
 
-  _onLoginRequest: function(requestIsAnAutoLoginAttempt) {
+  _onLoginRequest: function() {
     var that = this,
         email = loginStore.getEmail(),
         password = loginStore.getPassword();
@@ -262,9 +262,7 @@ var LoginPage = React.createClass({
         that._saveAccessTokenThenLoadHomePage(accessToken);
       },
       () => {
-        if (!requestIsAnAutoLoginAttempt) {
-          that._alertFailedLogin();
-        }
+        that._alertFailedLogin();
       }
     );
   },
