@@ -6,6 +6,7 @@ var Spinner = require('../Common/Spinner');
 
 var {
   View,
+  Text,
   TouchableHighlight,
   StyleSheet
 } = React
@@ -13,6 +14,13 @@ var {
 var styles = StyleSheet.create({
   loadMoreIconContainer: {
     alignSelf: 'center'
+  },
+  loadMorePostsText: {
+    padding: 10,
+    margin: 5,
+    backgroundColor: 'white',
+    color: '#525252',
+    borderRadius: 20
   }
 });
 
@@ -28,9 +36,9 @@ var LoadMorePostsButton = React.createClass({
 
     if (this.props.loadMorePostsRequestInFlight) {
       content = (
-          <Spinner
-            color={'black'}/>
-        );
+        <Spinner
+          color='black' />
+      );
     }
     else {
       content = this.renderLoadMorePostsButton();
@@ -50,10 +58,9 @@ var LoadMorePostsButton = React.createClass({
         underlayColor='transparent'
         onPress={this.props.onLoadMorePostsPress}>
 
-        <Icon
-          name='ios-plus-outline'
-          size={60}
-          color='#0083D4' />
+        <Text style={styles.loadMorePostsText}>
+          Load more posts...
+        </Text>
 
       </TouchableHighlight>
     );
