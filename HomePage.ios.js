@@ -54,7 +54,7 @@ var HomePage = React.createClass({
   ],
 
   componentDidMount: function() {
-    this._requestFeeds();
+    this._requestHomeFeed();
   },
 
   render: function() {
@@ -67,7 +67,7 @@ var HomePage = React.createClass({
       content = this._renderLoadingSpinner();
     }
     else if (anyErrorsLoadingPage) {
-      content = <ErrorPage reloadButtonAction={this._requestFeeds}/>
+      content = <ErrorPage reloadButtonAction={this._requestHomeFeed}/>
     }
     else if (homeFeedPosts.size) {
       content = this._renderPosts(homeFeedPosts);
@@ -102,7 +102,7 @@ var HomePage = React.createClass({
         postStore={homePostsStore}
         posts={posts}
         onScroll={this.handleScroll}
-        onLoadMorePostsPress={this._requestFeeds}
+        onLoadMorePostsPress={this._requestHomeFeed}
         isLoadMorePostsRequestInFlight={homePostsStore.isLoadMorePostsRequestInFlight()} />
     );
   },
@@ -128,10 +128,9 @@ var HomePage = React.createClass({
     );
   },
 
-  _requestFeeds: function() {
+  _requestHomeFeed: function() {
     var id = userLoginMetadataStore.getUserId();
     Unicycle.exec('requestHomeFeed', id);
-    Unicycle.exec('requestExploreFeed', id);
   }
 
 });
