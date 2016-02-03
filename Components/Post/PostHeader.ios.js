@@ -18,6 +18,7 @@ var {
 var styles = StyleSheet.create({
   postHeader: {
     flex: 1,
+    minHeight: 45,
     flexDirection: 'row'
   },
   thumbnailContainer: {
@@ -50,6 +51,7 @@ var styles = StyleSheet.create({
   },
   actionButtonContainer: {
     flex: 1,
+    alignSelf: 'center',
     backgroundColor: 'transparent'
   }
 });
@@ -68,15 +70,8 @@ var PostHeader = React.createClass({
   },
 
   render: function() {
-    var profileImage = <View/>,
-        actionButton = <View/>;
+    var actionButton = <View/>;
 
-    if (this.props.posterProfileImageUrl) {
-      profileImage = (
-        <Image style={styles.posterImage} source={{uri: this.props.posterProfileImageUrl}} />
-      );
-    }
-    
     if (this._isViewerPostOwner()) {
       actionButton = (
         <DeletePostIcon
@@ -100,8 +95,13 @@ var PostHeader = React.createClass({
           underlayColor='transparent'>
           <View style={styles.thumbnail}>
 
-            {profileImage}
-            <Text style={styles.profileName} numberOfLines={1}>
+            {/* This image may not exist!!! */}
+            <Image
+              style={styles.posterImage}
+              source={{uri: this.props.posterProfileImageUrl}} />
+            <Text
+              style={styles.profileName}
+              numberOfLines={1}>
               {this.props.posterName}
             </Text>
 
