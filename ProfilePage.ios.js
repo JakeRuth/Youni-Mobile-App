@@ -30,7 +30,8 @@ var styles = StyleSheet.create({
 var ProfilePage = React.createClass({
 
   propTypes: {
-    email: React.PropTypes.string.isRequired
+    email: React.PropTypes.string.isRequired,
+    navigator: React.PropTypes.any.isRequired
   },
 
   mixins: [
@@ -67,18 +68,17 @@ var ProfilePage = React.createClass({
       content = <GetAllFollowingPage/>;
     }
     else {
-      content = (
-        <ProfilePageBody
-          viewerIsProfileOwner={true}
-          firstName={profileOwnerStore.getFirstName()}
-          lastName={profileOwnerStore.getLastName()}
-          bio={profileOwnerStore.getBio()}
-          numFans={profileOwnerStore.getNumFollowers()}
-          numPosts={profileOwnerStore.getNumPosts()}
-          totalPoints={profileOwnerStore.getTotalPoints()}
-          profileImageUrl={profileOwnerStore.getProfileImageUrl()}
-          email={this.props.email}/>
-      );
+      content = <ProfilePageBody
+                  viewerIsProfileOwner={true}
+                  firstName={profileOwnerStore.getFirstName()}
+                  lastName={profileOwnerStore.getLastName()}
+                  bio={profileOwnerStore.getBio()}
+                  numFans={profileOwnerStore.getNumFollowers()}
+                  numPosts={profileOwnerStore.getNumPosts()}
+                  totalPoints={profileOwnerStore.getTotalPoints()}
+                  profileImageUrl={profileOwnerStore.getProfileImageUrl()}
+                  email={this.props.email}
+                  navigator={this.props.navigator} />;
     }
 
     return (
@@ -87,7 +87,7 @@ var ProfilePage = React.createClass({
         <MainScreenBanner
           title={profileOwnerStore.getFirstName() + ' ' + profileOwnerStore.getLastName()}/>
 
-        <LogoutButton/>
+        <LogoutButton navigator={this.props.navigator}/>
         <EditSettingsButton/>
 
         {content}

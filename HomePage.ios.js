@@ -7,13 +7,13 @@ var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
 var MainScreenBanner = require('./MainScreenBanner');
 var PostList = require('./Components/Post/PostList');
 var ErrorPage = require('./Components/Common/ErrorPage');
-var Spinner = require('./Components/Common/Spinner');
 
 var {
   View,
   Text,
   StyleSheet,
-  AppRegistry
+  AppRegistry,
+  ActivityIndicatorIOS
 } = React
 
 var styles = StyleSheet.create({
@@ -38,6 +38,11 @@ var styles = StyleSheet.create({
   noPostSubTitle: {
     textAlign: 'center',
     color: 'gray'
+  },
+  spinnerContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });
 
@@ -49,7 +54,7 @@ var HomePage = React.createClass({
   ],
 
   componentDidMount: function() {
-    this._requestFeeds();
+    this._requestHomeFeed();
   },
 
   render: function() {
@@ -59,11 +64,10 @@ var HomePage = React.createClass({
         content;
 
     if (loadingPosts) {
-      content = <Spinner
-        color='black'/>;
+      content = this._renderLoadingSpinner();
     }
     else if (anyErrorsLoadingPage) {
-      content = <ErrorPage reloadButtonAction={this._requestFeeds}/>
+      content = <ErrorPage reloadButtonAction={this._requestHomeFeed}/>
     }
     else if (homeFeedPosts.size) {
       content = this._renderPosts(homeFeedPosts);
@@ -98,7 +102,7 @@ var HomePage = React.createClass({
         postStore={homePostsStore}
         posts={posts}
         onScroll={this.handleScroll}
-        onLoadMorePostsPress={this._requestFeeds}
+        onLoadMorePostsPress={this._requestHomeFeed}
         isLoadMorePostsRequestInFlight={homePostsStore.isLoadMorePostsRequestInFlight()} />
     );
   },
@@ -112,10 +116,21 @@ var HomePage = React.createClass({
     );
   },
 
-  _requestFeeds: function() {
+  _renderLoadingSpinner: function() {
+    return (
+      <View style={styles.spinnerContainer}>
+        <ActivityIndicatorIOS
+          size="small"
+          color="black"
+          animating={true}
+          style={styles.spinner} />
+      </View>
+    );
+  },
+
+  _requestHomeFeed: function() {
     var id = userLoginMetadataStore.getUserId();
     Unicycle.exec('requestHomeFeed', id);
-    Unicycle.exec('requestExploreFeed', id);
   }
 
 });

@@ -28,6 +28,10 @@ var ExploreFeedPosts = React.createClass({
     Unicycle.listenTo(userLoginMetadataStore)
   ],
 
+  componentDidMount: function() {
+    this._requestExploreFeed();
+  },
+
   render: function() {
     var loadingPosts = explorePostsStore.isRequestInFlight(),
         anyErrorsLoadingPage = explorePostsStore.anyErrorsLoadingPage(),
@@ -40,7 +44,7 @@ var ExploreFeedPosts = React.createClass({
       );
     }
     else if (anyErrorsLoadingPage) {
-      content = <ErrorPage reloadButtonAction={this._onErrorPageReload}/>
+      content = <ErrorPage reloadButtonAction={this._requestExploreFeed}/>
     }
     else {
       content = (
@@ -49,7 +53,7 @@ var ExploreFeedPosts = React.createClass({
           postStore={explorePostsStore}
           posts={explorePostsStore.getPosts()}
           onScroll={this.handleScroll}
-          onLoadMorePostsPress={this.onLoadMorePostsPress}
+          onLoadMorePostsPress={this._requestExploreFeed}
           isLoadMorePostsRequestInFlight={explorePostsStore.isLoadMorePostsRequestInFlight()} />
       );
     }
@@ -70,14 +74,9 @@ var ExploreFeedPosts = React.createClass({
     }
   },
 
-  onLoadMorePostsPress: function() {
+  _requestExploreFeed: function() {
     var userId = userLoginMetadataStore.getUserId();
     Unicycle.exec('requestExploreFeed', userId);
-  },
-
-  _onErrorPageReload: function() {
-    var id = userLoginMetadataStore.getUserId();
-    Unicycle.exec('requestExploreFeed', id);
   }
 
 });
