@@ -9,6 +9,7 @@ var userLoginMetadataStore = require('../stores/UserLoginMetadataStore');
 var globalAppPageStateStore = require('../stores/GlobalAppPageStateStore');
 var AjaxUtils = require('../Utils/Common/AjaxUtils');
 var PAGE_KEYS = require('../Utils/Enums/PageNameEnum');
+var Spinner = require('./Common/Spinner');
 
 var {
   View,
@@ -18,8 +19,7 @@ var {
   Image,
   TextInput,
   AlertIOS,
-  AsyncStorage,
-  ActivityIndicatorIOS
+  AsyncStorage
 } = React;
 
 var styles = StyleSheet.create({
@@ -74,16 +74,6 @@ var styles = StyleSheet.create({
     backgroundColor: 'transparent',
     fontWeight: 'bold'
   },
-  spinnerContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  spinner: {
-    flex: 1,
-    backgroundColor: 'transparent',
-    marginTop: 27 //used to make this spinner match up with the home page spinner
-  },
   signUpOptionDescText: {
     fontSize: 20,
     color: 'white',
@@ -116,7 +106,10 @@ var LoginPage = React.createClass({
         content;
 
     if (isLoginInFlight || !shouldRenderLoginPage) {
-      content = this.renderLoadingSpinner();
+      content = (
+        <Spinner
+          color="red"/>
+      );
     }
     else if (isInSignUpView){
       content =  (
@@ -175,18 +168,6 @@ var LoginPage = React.createClass({
          </View>
 
      </Image>
-    );
-  },
-
-  renderLoadingSpinner: function() {
-    return (
-      <View style={styles.spinnerContainer}>
-        <ActivityIndicatorIOS
-          size="small"
-          color="black"
-          animating={true}
-          style={styles.spinner} />
-      </View>
     );
   },
 

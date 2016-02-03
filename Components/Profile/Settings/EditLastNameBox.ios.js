@@ -6,14 +6,14 @@ var profileOwnerStore = require('../../../stores/profile/ProfileOwnerStore');
 var editProfileInformationStore = require('../../../stores/profile/EditProfileInformationStore');
 var userLoginMetadataStore = require('../../../stores/UserLoginMetadataStore');
 var SubmitActionButtons = require('./SubmitActionButtons');
+var Spinner = require('../../Common/Spinner');
 
 var {
   View,
   Text,
   TextInput,
   StyleSheet,
-  AlertIOS,
-  ActivityIndicatorIOS
+  AlertIOS
 } = React
 
 var styles = StyleSheet.create({
@@ -63,7 +63,10 @@ var EditLastNameBox = React.createClass({
         actionButtons;
 
     if (isUploadLastNameRequestInFlight) {
-      actionButtons = this.renderSpinner();
+      actionButtons = <View style={styles.spinnerContainer}>
+        <Spinner
+          color={'black'}/>
+      </View>
     }
     else {
       actionButtons = (
@@ -87,14 +90,6 @@ var EditLastNameBox = React.createClass({
         </View>
         {actionButtons}
 
-      </View>
-    );
-  },
-
-  renderSpinner: function() {
-    return (
-      <View style={styles.spinnerContainer}>
-        <ActivityIndicatorIOS color='black' size={'small'} />
       </View>
     );
   },

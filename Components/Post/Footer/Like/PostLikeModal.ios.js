@@ -76,7 +76,10 @@ var PostLikeModal = React.createClass({
     }
 
     if (isRequestInFlight) {
-      content = <Spinner />;
+      content = (
+        <Spinner
+          color={'black'}/>
+      );
     }
     else {
       content = this._renderModalContent(likerList);

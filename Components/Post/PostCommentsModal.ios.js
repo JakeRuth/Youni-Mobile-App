@@ -5,6 +5,7 @@ var Unicycle = require('../../Unicycle');
 var postCommentsModalStore = require('../../stores/post/PostCommentsModalStore');
 var PostHeader = require('../../Components/Post/PostHeader');
 var PostCommentsContainer = require('../../Components/Post/Footer/PostCommentsContainer');
+var Spinner = require('../Common/Spinner');
 
 var {
   View,
@@ -12,8 +13,7 @@ var {
   Modal,
   ScrollView,
   StyleSheet,
-  TouchableHighlight,
-  ActivityIndicatorIOS
+  TouchableHighlight
 } = React
 
 var styles = StyleSheet.create({
@@ -32,11 +32,6 @@ var styles = StyleSheet.create({
     paddingTop: 5,
     paddingBottom: 5,
     borderRadius: 3
-  },
-  spinnerContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
   }
 });
 
@@ -56,7 +51,10 @@ var PostCommentsModal = React.createClass({
         content;
 
     if (isRequestInFlight) {
-      content = this._renderSmallSpinner();
+      content = (
+          <Spinner
+            color={'black'}/>
+        );
     }
     else {
       content = this._renderModalContent();
@@ -118,17 +116,6 @@ var PostCommentsModal = React.createClass({
         style={styles.closeModalButton}>
         <Text>Close</Text>
       </TouchableHighlight>
-    );
-  },
-
-  _renderSmallSpinner: function() {
-    return (
-      <View style={styles.spinnerContainer}>
-        <ActivityIndicatorIOS
-          size="small"
-          color="black"
-          animating={true} />
-      </View>
     );
   }
 

@@ -22,11 +22,6 @@ var {
 var styles = StyleSheet.create({
   profilePageContainer: {
     flex: 1
-  },
-  spinnerContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
   }
 });
 
@@ -63,7 +58,10 @@ var ProfilePage = React.createClass({
       content = <EditSettingsPage/>;
     }
     else if (isRequestInFlight) {
-      content = <Spinner />;
+      content = (
+        <Spinner
+          color={'black'}/>
+      );
     }
     else if (inFollowingView) {
       content = <GetAllFollowingPage/>;

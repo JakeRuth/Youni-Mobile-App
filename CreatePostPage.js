@@ -10,22 +10,18 @@ var CreatePostForm = require('./Components/Post/CreatePostForm');
 var ErrorPage = require('./Components/Common/ErrorPage');
 var UIImagePickerManager = require('NativeModules').UIImagePickerManager;
 var AjaxUtils = require('./Utils/Common/AjaxUtils');
+var Spinner = require('./Components/Common/Spinner');
 
 var {
   View,
   Text,
   StyleSheet,
-  ActivityIndicatorIOS,
   NativeModules
 } = React
 
 var styles = StyleSheet.create({
   createPostPageContainer: {
     flex: 1
-  },
-  spinner: {
-    flex: 1,
-    alignSelf: 'center'
   }
 });
 
@@ -49,7 +45,10 @@ var CreatePostPage = React.createClass({
         content = <View/>;
 
     if (isPostRequestInFlight) {
-      content = <ActivityIndicatorIOS style={styles.spinner}/>;
+      content = (
+        <Spinner
+          color='black'/>
+      );
     }
     else if (anyErrorsLoadingPage) {
       content = (

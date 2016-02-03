@@ -4,12 +4,12 @@ var React = require('react-native');
 var AllFollowingResultList = require('./AllFollowingResultList');
 var getAllFollowingStore = require('../../stores/user/GetAllFollowingStore');
 var BackButtonBar = require('../Common/BackButtonBar');
+var Spinner = require('../Common/Spinner');
 
 var {
   View,
   Text,
-  StyleSheet,
-  ActivityIndicatorIOS
+  StyleSheet
 } = React
 
 var styles = StyleSheet.create({
@@ -20,11 +20,6 @@ var styles = StyleSheet.create({
     fontSize: 20,
     textAlign: 'center',
     margin: 10
-  },
-  spinnerContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
   }
 });
 
@@ -63,13 +58,8 @@ var PageLoading = React.createClass({
 
   render: function() {
     return (
-      <View style={styles.spinnerContainer}>
-        <ActivityIndicatorIOS
-          size="small"
-          color="black"
-          animating={true}
-          style={styles.spinner} />
-      </View>
+      <Spinner
+        color={'black'}/>
     );
   }
 

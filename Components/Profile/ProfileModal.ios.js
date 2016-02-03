@@ -6,6 +6,7 @@ var profileModalStore = require('../../stores/profile/ProfileModalStore');
 var profileStore = require('../../stores/profile/ProfileStore');
 var ProfilePageBody = require('./ProfilePageBody');
 var MainScreenBanner = require('../../MainScreenBanner');
+var Spinner = require('../Common/Spinner');
 
 var {
   View,
@@ -13,8 +14,7 @@ var {
   Modal,
   ScrollView,
   StyleSheet,
-  TouchableHighlight,
-  ActivityIndicatorIOS
+  TouchableHighlight
 } = React
 
 var styles = StyleSheet.create({
@@ -30,11 +30,6 @@ var styles = StyleSheet.create({
     paddingTop: 5,
     paddingBottom: 5,
     borderRadius: 3
-  },
-  spinnerContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
   }
 });
 
@@ -55,7 +50,10 @@ var ProfileModal = React.createClass({
         content;
 
     if (isRequestInFlight) {
-      content = this._renderSmallSpinner();
+      content = (
+          <Spinner
+            color={'black'}/>
+        );
     }
     else {
       content = this._renderModalContent();
@@ -103,17 +101,6 @@ var ProfileModal = React.createClass({
         style={styles.closeModalButton}>
         <Text>Close</Text>
       </TouchableHighlight>
-    );
-  },
-
-  _renderSmallSpinner: function() {
-    return (
-      <View style={styles.spinnerContainer}>
-        <ActivityIndicatorIOS
-          size="small"
-          color="black"
-          animating={true} />
-      </View>
     );
   }
 

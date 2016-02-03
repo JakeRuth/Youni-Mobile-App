@@ -34,7 +34,10 @@ var ExploreFeedPosts = React.createClass({
         content;
 
     if (loadingPosts) {
-      content = <Spinner />;
+      content = (
+        <Spinner
+          color={'black'}/>
+      );
     }
     else if (anyErrorsLoadingPage) {
       content = <ErrorPage reloadButtonAction={this._onErrorPageReload}/>

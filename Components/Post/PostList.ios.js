@@ -52,7 +52,10 @@ var PostList = React.createClass({
         scrollToTopOfPostFeed = homePostsStore.scrollToTopOfPostFeed();
 
     if (this.props.refreshable && this.props.postStore.isFeedRefreshing()) {
-      refreshHeader = <Spinner />;
+      refreshHeader = (
+        <Spinner
+          color={'black'}/>
+      );
     }
     else {
       refreshHeader = (

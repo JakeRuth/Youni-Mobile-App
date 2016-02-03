@@ -2,12 +2,12 @@
 
 var React = require('react-native');
 var followStore = require('../../stores/FollowStore');
+var Spinner = require('../Common/Spinner');
 
 var {
   View,
   Text,
-  StyleSheet,
-  ActivityIndicatorIOS
+  StyleSheet
 } = React
 
 var styles = StyleSheet.create({
@@ -41,7 +41,10 @@ var FollowingButton = React.createClass({
   render: function() {
     var content;
     if (this.props.isRequestInFlight) {
-      content = this._renderSmallSpinner();
+      content = (
+          <Spinner
+            color={'black'}/>
+        );
     }
     else {
       content = this._renderButton();
@@ -69,15 +72,6 @@ var FollowingButton = React.createClass({
     else {
       return followStore.getIsUserFollowingResult() ? 'Unfollow' : 'Follow';
     }
-  },
-
-  _renderSmallSpinner: function() {
-    return (
-      <ActivityIndicatorIOS
-        size="small"
-        color="black"
-        animating={true}/>
-    )
   }
 
 });

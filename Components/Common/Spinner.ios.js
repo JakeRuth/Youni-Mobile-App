@@ -7,31 +7,32 @@ var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 
 var {
   View,
-  Image,
-  Text,
   StyleSheet,
-  NativeModules,
-  TouchableHighlight,
   ActivityIndicatorIOS
 } = React
 
 var styles = StyleSheet.create({
-  spinnerContainer: {
-    borderRadius: 10,
-    alignItems: 'center',
-    padding: 10
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });
 
 var Spinner = React.createClass({
 
-    render: function() {
-      return(
-        <View style={styles.spinnerContainer}>
-          <ActivityIndicatorIOS size={'small'} color="red"/>
+  propTypes: {
+    color: React.PropTypes.string.isRequired
+  },
+
+  render: function() {
+    return(
+      <View style={styles.container}>
+        <ActivityIndicatorIOS size={'small'}
+          color={this.props.color}/>
         </View>
       );
     }
-});
+  });
 
 module.exports = Spinner;

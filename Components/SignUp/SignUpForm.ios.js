@@ -5,6 +5,7 @@ var loginStore = require('../../stores/LoginStore');
 var signUpStore = require('../../stores/signUp/SignupStore');
 var Unicycle = require('../../Unicycle');
 var RadioButtons = require('../Common/RadioButtons');
+var Spinner = require('../Common/Spinner');
 
 var {
   View,
@@ -13,7 +14,6 @@ var {
   StyleSheet,
   AlertIOS,
   ScrollView,
-  ActivityIndicatorIOS,
   TouchableHighlight
 } = React
 
@@ -69,11 +69,6 @@ var styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 20
   },
-  spinner: {
-    flex: 1,
-    marginTop: 100,
-    backgroundColor: 'transparent'
-  },
   hackyIosKeyPadBump: {
     marginTop: 350
   }
@@ -100,7 +95,10 @@ var SignUpForm = React.createClass({
     }
 
     if (isSignUpInFlight) {
-      content = this.renderLoadingSpinner();
+      content = (
+        <Spinner
+          color='black' />
+      );
     }
     else {
       content = this.renderSignUpForm();
@@ -282,18 +280,6 @@ var SignUpForm = React.createClass({
           text: 'Ok'
         }
       ]
-    );
-  },
-
-  renderLoadingSpinner: function() {
-    return (
-      <View style={styles.spinnerContainer}>
-        <ActivityIndicatorIOS
-          size="large"
-          color="white"
-          animating={true}
-          style={styles.spinner} />
-      </View>
     );
   }
 

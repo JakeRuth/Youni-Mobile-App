@@ -7,13 +7,13 @@ var UIImagePickerManager = require('NativeModules').UIImagePickerManager;
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var uploadProfileImageStore = require('../../stores/profile/UploadProfileImageStore');
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
+var Spinner = require('../Common/Spinner');
 
 var {
   View,
   Text,
   StyleSheet,
-  NativeModules,
-  ActivityIndicatorIOS
+  NativeModules
 } = React
 
 var styles = StyleSheet.create({
@@ -42,7 +42,10 @@ var UploadProfileImage = React.createClass({
   render: function() {
     var content;
     if (uploadProfileImageStore.isUploadProfileImageRequestInFlight()) {
-      content = this._renderSpinner();
+      content = (
+        <Spinner
+          color='black'/>
+      );
     }
     else {
       content = this._renderUploadPhotoPrompt();
@@ -62,15 +65,6 @@ var UploadProfileImage = React.createClass({
         onPress={this._onUploadImagePress}>
         tap here to upload profile picture
       </Text>
-    );
-  },
-
-  _renderSpinner: function() {
-    return (
-      <ActivityIndicatorIOS
-        size="small"
-        color="black"
-        animating={true} />
     );
   },
 

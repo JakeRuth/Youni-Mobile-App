@@ -3,13 +3,13 @@
 var React = require('react-native');
 var Unicycle = require('../../../../Unicycle');
 var postLikeModalStore = require('../../../../stores/post/like/PostLikeModalStore');
-var PostLikeModal = require('./PostLikeModal')
+var PostLikeModal = require('./PostLikeModal');
+var Spinner = require('../../../Common/Spinner');
 
 var {
   View,
   Text,
-  StyleSheet,
-  ActivityIndicatorIOS
+  StyleSheet
 } = React
 
 var styles = StyleSheet.create({
@@ -18,7 +18,7 @@ var styles = StyleSheet.create({
     color: '#ADADAD',
     marginRight: 16
   },
-  spinner: {
+  spinnerPosition: {
     marginRight: 16
   }
 });
@@ -36,7 +36,12 @@ var PostLikeText = React.createClass({
     var content;
 
     if (this.props.postStore.isLikeRequestInFlight()) {
-      content = this._renderSmallSpinner();
+      content = (
+        <View style={styles.spinnerPosition}>
+          <Spinner
+            color={'black'}/>
+        </View>
+      );
     }
     else {
       content = (
@@ -58,14 +63,6 @@ var PostLikeText = React.createClass({
   _onTextPress: function() {
     Unicycle.exec('setIsModalVisible', true);
     Unicycle.exec('getLikersForPost', this.props.postIdString);
-  },
-
-  _renderSmallSpinner: function() {
-    return (
-      <ActivityIndicatorIOS
-        size={'small'}
-        style={styles.spinner}/>
-    );
   },
 
   //TODO: this should be handled by the api
