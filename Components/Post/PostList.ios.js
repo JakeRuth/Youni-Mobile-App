@@ -53,8 +53,7 @@ var PostList = React.createClass({
 
     if (this.props.refreshable && this.props.postStore.isFeedRefreshing()) {
       refreshHeader = (
-        <Spinner
-          color={'black'}/>
+        <Spinner/>
       );
     }
     else {

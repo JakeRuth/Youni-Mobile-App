@@ -20,17 +20,13 @@ var styles = StyleSheet.create({
 });
 
 var Spinner = React.createClass({
-
-  propTypes: {
-    color: React.PropTypes.string.isRequired
-  },
-
   render: function() {
     return(
       <View style={styles.container}>
-        <ActivityIndicatorIOS size={'small'}
-          color={this.props.color}/>
-        </View>
+        <ActivityIndicatorIOS
+          size={'small'}
+          color={'black'}/>
+      </View>
       );
     }
   });

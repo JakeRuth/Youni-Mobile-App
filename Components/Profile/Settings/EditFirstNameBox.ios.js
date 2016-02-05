@@ -64,8 +64,7 @@ var EditFirstNameBox = React.createClass({
 
     if (isUploadFirstNameRequestInFlight) {
       actionButtons = <View style={styles.spinnerContainer}>
-        <Spinner
-          color={'black'}/>
+        <Spinner/>
       </View>
     }
     else {

@@ -36,8 +36,7 @@ var LoadMorePostsButton = React.createClass({
 
     if (this.props.loadMorePostsRequestInFlight) {
       content = (
-        <Spinner
-          color='black' />
+        <Spinner/>
       );
     }
     else {

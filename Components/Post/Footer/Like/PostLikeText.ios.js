@@ -18,7 +18,7 @@ var styles = StyleSheet.create({
     color: '#ADADAD',
     marginRight: 16
   },
-  spinnerPosition: {
+  spinnerContainer: {
     marginRight: 16
   }
 });
@@ -37,9 +37,8 @@ var PostLikeText = React.createClass({
 
     if (this.props.postStore.isLikeRequestInFlight()) {
       content = (
-        <View style={styles.spinnerPosition}>
-          <Spinner
-            color={'black'}/>
+        <View style={styles.spinnerContainer}>
+          <Spinner/>
         </View>
       );
     }

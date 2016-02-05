@@ -52,8 +52,7 @@ var PostCommentsModal = React.createClass({
 
     if (isRequestInFlight) {
       content = (
-          <Spinner
-            color={'black'}/>
+          <Spinner/>
         );
     }
     else {

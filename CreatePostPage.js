@@ -46,8 +46,7 @@ var CreatePostPage = React.createClass({
 
     if (isPostRequestInFlight) {
       content = (
-        <Spinner
-          color='black'/>
+        <Spinner/>
       );
     }
     else if (anyErrorsLoadingPage) {

@@ -39,8 +39,7 @@ var ExploreFeedPosts = React.createClass({
 
     if (loadingPosts) {
       content = (
-        <Spinner
-          color={'black'}/>
+        <Spinner/>
       );
     }
     else if (anyErrorsLoadingPage) {

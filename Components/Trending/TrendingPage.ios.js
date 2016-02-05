@@ -55,8 +55,7 @@ var TrendingPage = React.createClass({
 
     if (isRequestInFlight) {
       content = (
-        <Spinner
-          color={'black'}/>
+        <Spinner/>
       );
     }
     else if (anyErrorsLoadingPage) {

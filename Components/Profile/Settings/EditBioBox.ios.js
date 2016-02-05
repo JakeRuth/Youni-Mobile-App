@@ -56,8 +56,7 @@ var EditBioBox = React.createClass({
         actionButtons;
 
     if (isUploadBioRequestInFlight) {
-      actionButtons = <Spinner
-        color={'black'}/>;
+      actionButtons = <Spinner/>;
     }
     else {
       actionButtons = (

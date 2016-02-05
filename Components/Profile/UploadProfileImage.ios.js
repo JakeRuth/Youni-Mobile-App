@@ -43,8 +43,7 @@ var UploadProfileImage = React.createClass({
     var content;
     if (uploadProfileImageStore.isUploadProfileImageRequestInFlight()) {
       content = (
-        <Spinner
-          color='black'/>
+        <Spinner/>
       );
     }
     else {

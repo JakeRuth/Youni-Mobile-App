@@ -64,8 +64,7 @@ var EditLastNameBox = React.createClass({
 
     if (isUploadLastNameRequestInFlight) {
       actionButtons = <View style={styles.spinnerContainer}>
-        <Spinner
-          color={'black'}/>
+        <Spinner/>
       </View>
     }
     else {

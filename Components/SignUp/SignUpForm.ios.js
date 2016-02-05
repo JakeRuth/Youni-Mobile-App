@@ -96,8 +96,7 @@ var SignUpForm = React.createClass({
 
     if (isSignUpInFlight) {
       content = (
-        <Spinner
-          color='black' />
+        <Spinner/>
       );
     }
     else {

@@ -30,8 +30,7 @@ var styles = StyleSheet.create({
 var ProfilePage = React.createClass({
 
   propTypes: {
-    email: React.PropTypes.string.isRequired,
-    navigator: React.PropTypes.any.isRequired
+    email: React.PropTypes.string.isRequired
   },
 
   mixins: [
@@ -60,25 +59,25 @@ var ProfilePage = React.createClass({
     }
     else if (isRequestInFlight) {
       content = (
-        <Spinner
-          color={'black'}/>
+        <Spinner/>
       );
     }
     else if (inFollowingView) {
       content = <GetAllFollowingPage/>;
     }
     else {
-      content = <ProfilePageBody
-                  viewerIsProfileOwner={true}
-                  firstName={profileOwnerStore.getFirstName()}
-                  lastName={profileOwnerStore.getLastName()}
-                  bio={profileOwnerStore.getBio()}
-                  numFans={profileOwnerStore.getNumFollowers()}
-                  numPosts={profileOwnerStore.getNumPosts()}
-                  totalPoints={profileOwnerStore.getTotalPoints()}
-                  profileImageUrl={profileOwnerStore.getProfileImageUrl()}
-                  email={this.props.email}
-                  navigator={this.props.navigator} />;
+      content = (
+        <ProfilePageBody
+          viewerIsProfileOwner={true}
+          firstName={profileOwnerStore.getFirstName()}
+          lastName={profileOwnerStore.getLastName()}
+          bio={profileOwnerStore.getBio()}
+          numFans={profileOwnerStore.getNumFollowers()}
+          numPosts={profileOwnerStore.getNumPosts()}
+          totalPoints={profileOwnerStore.getTotalPoints()}
+          profileImageUrl={profileOwnerStore.getProfileImageUrl()}
+          email={this.props.email}/>
+      );
     }
 
     return (
@@ -87,7 +86,7 @@ var ProfilePage = React.createClass({
         <MainScreenBanner
           title={profileOwnerStore.getFirstName() + ' ' + profileOwnerStore.getLastName()}/>
 
-        <LogoutButton navigator={this.props.navigator}/>
+        <LogoutButton/>
         <EditSettingsButton/>
 
         {content}

@@ -38,8 +38,7 @@ var UserPosts = React.createClass({
 
     if (loadingPosts) {
       content = (
-        <Spinner
-          color={'black'}/>
+        <Spinner/>
       );
     }
     else {

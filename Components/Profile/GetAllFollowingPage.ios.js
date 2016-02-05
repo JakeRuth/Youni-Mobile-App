@@ -58,8 +58,7 @@ var PageLoading = React.createClass({
 
   render: function() {
     return (
-      <Spinner
-        color={'black'}/>
+      <Spinner/>
     );
   }
 

@@ -225,8 +225,7 @@ var SearchResultLoading = React.createClass({
 
   render: function() {
     return (
-      <Spinner
-        color="red"/>
+      <Spinner/>
     );
   }
 

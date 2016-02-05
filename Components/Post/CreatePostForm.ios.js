@@ -85,8 +85,7 @@ var CreatePostForm = React.createClass({
     else {
       postButton = (
         <View style={styles.uploadStatus}>
-          <Spinner
-            color='black'/>
+          <Spinner/>
           <Text>Image uploading...</Text>
         </View>
       );
