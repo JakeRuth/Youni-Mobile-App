@@ -56,10 +56,13 @@ var followUnfollowStore = Unicycle.createStore({
           userToFollowEmail: userEmail
         },
         (res) => {
-          profileStore.incrementFollowersCount();
+          if (res.body.success) {
+            profileStore.incrementFollowersCount();
+          }
+
           that.set({
             isRequestInFlight: false,
-            isUserFollowingResult: true //TODO: this could be a lie if the call fails
+            isUserFollowingResult: res.body.success
           });
         },
         () => {

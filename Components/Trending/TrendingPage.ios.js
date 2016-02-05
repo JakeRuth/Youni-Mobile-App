@@ -13,7 +13,7 @@ var {
   Text,
   StyleSheet,
   ActivityIndicatorIOS
-} = React
+} = React;
 
 var styles = StyleSheet.create({
   trendingPageContainer: {

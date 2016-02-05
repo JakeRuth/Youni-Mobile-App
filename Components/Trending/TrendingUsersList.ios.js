@@ -12,7 +12,7 @@ var {
   StyleSheet,
   PixelRatio,
   TouchableHighlight
-} = React
+} = React;
 
 var styles = StyleSheet.create({
   container: {
@@ -61,12 +61,15 @@ var TrendingUsersList = React.createClass({
   },
 
   onTrendingUserPress: function(email) {
-    var userId = userLoginMetadataStore.getUserId();
+    var userId = userLoginMetadataStore.getUserId(),
+        userEmail = userLoginMetadataStore.getEmail();
 
-    Unicycle.exec('reInitializeUsersProfileFeedOffset');
-    Unicycle.exec('loadUsersProfile', email);
-    Unicycle.exec('getUserPosts', email, userId);
-    Unicycle.exec('setProfileModalVisibile', true);
+    if (userEmail !== email) {
+      Unicycle.exec('reInitializeUsersProfileFeedOffset');
+      Unicycle.exec('loadUsersProfile', email);
+      Unicycle.exec('getUserPosts', email, userId);
+      Unicycle.exec('setProfileModalVisibile', true);
+    }
   }
 
 });

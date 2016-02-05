@@ -9,7 +9,7 @@ var {
   Image,
   StyleSheet,
   PixelRatio
-} = React
+} = React;
 
 var styles = StyleSheet.create({
   container: {
