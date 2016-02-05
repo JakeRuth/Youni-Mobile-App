@@ -13,8 +13,7 @@ var {
 
 var styles = StyleSheet.create({
   flagIconContainer: {
-    paddingLeft: 30,
-    paddingTop: 15
+    paddingLeft: 30
   }
 });
 
