@@ -90,8 +90,8 @@ var BlockedUsersModal = React.createClass({
 
     if (isRequestInFlight || isRemoveBlockRequestInFlight) {
       content = (
-          <Spinner/>
-        );
+        <Spinner/>
+      );
     }
     else if (blockedUsers.size != 0) {
       content = this._renderModalContent(blockedUsers);

@@ -42,8 +42,8 @@ var FollowingButton = React.createClass({
     var content;
     if (this.props.isRequestInFlight) {
       content = (
-          <Spinner/>
-        );
+        <Spinner/>
+      );
     }
     else {
       content = this._renderButton();

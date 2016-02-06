@@ -63,9 +63,11 @@ var EditFirstNameBox = React.createClass({
         actionButtons;
 
     if (isUploadFirstNameRequestInFlight) {
-      actionButtons = <View style={styles.spinnerContainer}>
-        <Spinner/>
-      </View>
+      actionButtons = (
+        <View style={styles.spinnerContainer}>
+          <Spinner/>
+        </View>
+      );
     }
     else {
       actionButtons = (

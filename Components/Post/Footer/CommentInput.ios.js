@@ -88,8 +88,8 @@ var CommentInput = React.createClass({
     var content;
     if (this.props.postStore.isPostCommentRequestInFlight()) {
       content = (
-          <Spinner/>
-        );
+        <Spinner/>
+      );
     }
     else {
       content = (

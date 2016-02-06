@@ -52,8 +52,8 @@ var PostCommentsModal = React.createClass({
 
     if (isRequestInFlight) {
       content = (
-          <Spinner/>
-        );
+        <Spinner/>
+      );
     }
     else {
       content = this._renderModalContent();
