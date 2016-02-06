@@ -7,6 +7,7 @@ var homePostsStore = require('../../stores/post/HomePostsStore');
 var Post = require('./Post');
 var LoadMorePostsButton = require('./LoadMorePostsButton');
 var Icon = require('react-native-vector-icons/Ionicons');
+var Spinner = require('../Common/Spinner');
 
 var {
   View,
@@ -14,7 +15,6 @@ var {
   StyleSheet,
   AppRegistry,
   ScrollView,
-  ActivityIndicatorIOS,
   TouchableHighlight
 } = React
 
@@ -28,11 +28,6 @@ var styles = StyleSheet.create({
     color: 'gray'
   },
   refreshIconContainer: {
-    alignItems: 'center'
-  },
-  spinnerContainer: {
-    height: 40,
-    justifyContent: 'center',
     alignItems: 'center'
   }
 });
@@ -57,7 +52,9 @@ var PostList = React.createClass({
         scrollToTopOfPostFeed = homePostsStore.scrollToTopOfPostFeed();
 
     if (this.props.refreshable && this.props.postStore.isFeedRefreshing()) {
-      refreshHeader = this._renderRefreshingSpinner();
+      refreshHeader = (
+        <Spinner/>
+      );
     }
     else {
       refreshHeader = (
@@ -134,17 +131,6 @@ var PostList = React.createClass({
           size={35}
           color={'gray'} />
       </TouchableHighlight>
-    );
-  },
-
-  _renderRefreshingSpinner: function() {
-    return (
-      <View style={styles.spinnerContainer}>
-        <ActivityIndicatorIOS
-          size="small"
-          color="black"
-          animating={true}/>
-      </View>
     );
   },
 

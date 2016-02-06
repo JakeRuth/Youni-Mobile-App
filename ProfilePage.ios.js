@@ -12,21 +12,16 @@ var ProfilePageBody = require('./Components/Profile/ProfilePageBody');
 var LogoutButton = require('./Components/Common/LogoutButton');
 var ErrorPage = require('./Components/Common/ErrorPage');
 var EditSettingsButton = require('./Components/Profile/Settings/EditSettingsButton');
+var Spinner = require('./Components/Common/Spinner');
 
 var {
   View,
-  StyleSheet,
-  ActivityIndicatorIOS
+  StyleSheet
 } = React
 
 var styles = StyleSheet.create({
   profilePageContainer: {
     flex: 1
-  },
-  spinnerContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
   }
 });
 
@@ -63,7 +58,9 @@ var ProfilePage = React.createClass({
       content = <EditSettingsPage/>;
     }
     else if (isRequestInFlight) {
-      content = this._renderLoadingSpinner();
+      content = (
+        <Spinner/>
+      );
     }
     else if (inFollowingView) {
       content = <GetAllFollowingPage/>;
@@ -94,17 +91,6 @@ var ProfilePage = React.createClass({
 
         {content}
 
-      </View>
-    );
-  },
-
-  _renderLoadingSpinner: function() {
-    return (
-      <View style={styles.spinnerContainer}>
-        <ActivityIndicatorIOS
-          size="small"
-          color="black"
-          animating={true}/>
       </View>
     );
   },

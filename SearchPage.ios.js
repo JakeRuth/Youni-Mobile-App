@@ -11,6 +11,7 @@ var ExploreFeedPosts = require('./Components/Post/ExploreFeedPosts');
 var ProfilePageBody = require('./Components/Profile/ProfilePageBody');
 var BackButton = require('./Components/Common/BackButtonBar');
 var EmptyResults = require('./Components/Common/EmptyResults');
+var Spinner = require('./Components/Common/Spinner');
 
 var {
   View,
@@ -19,8 +20,7 @@ var {
   TextInput,
   StyleSheet,
   ScrollView,
-  TouchableHighlight,
-  ActivityIndicatorIOS
+  TouchableHighlight
 } = React
 
 var styles = StyleSheet.create({
@@ -59,11 +59,6 @@ var styles = StyleSheet.create({
     borderWidth: .3,
     borderColor: 'black',
     margin: 5
-  },
-  spinnerContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
   }
 });
 
@@ -230,13 +225,7 @@ var SearchResultLoading = React.createClass({
 
   render: function() {
     return (
-      <View style={styles.spinnerContainer}>
-        <ActivityIndicatorIOS
-          size="small"
-          color="black"
-          animating={true}
-          style={styles.spinner} />
-      </View>
+      <Spinner/>
     );
   }
 

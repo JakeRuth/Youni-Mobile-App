@@ -3,6 +3,7 @@
 var React = require('react-native');
 var Unicycle = require('../../../../Unicycle');
 var postLikeModalStore = require('../../../../stores/post/like/PostLikeModalStore');
+var Spinner = require('../../../Common/Spinner');
 
 var {
   View,
@@ -10,8 +11,7 @@ var {
   Modal,
   ScrollView,
   StyleSheet,
-  TouchableHighlight,
-  ActivityIndicatorIOS
+  TouchableHighlight
 } = React
 
 var styles = StyleSheet.create({
@@ -76,7 +76,9 @@ var PostLikeModal = React.createClass({
     }
 
     if (isRequestInFlight) {
-      content = this._renderSmallSpinner();
+      content = (
+        <Spinner/>
+      );
     }
     else {
       content = this._renderModalContent(likerList);
@@ -125,14 +127,6 @@ var PostLikeModal = React.createClass({
       <Text style={styles.displayName}>
         {displayName}
       </Text>
-    );
-  },
-
-  _renderSmallSpinner: function() {
-    return (
-      <View style={styles.modalContainer}>
-        <ActivityIndicatorIOS size={'small'} />
-      </View>
     );
   },
 

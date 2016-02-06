@@ -2,13 +2,13 @@
 
 var React = require('react-native');
 var Icon = require('react-native-vector-icons/Ionicons');
+var Spinner = require('../Common/Spinner');
 
 var {
   View,
   Text,
   TouchableHighlight,
-  StyleSheet,
-  ActivityIndicatorIOS
+  StyleSheet
 } = React
 
 var styles = StyleSheet.create({
@@ -21,11 +21,6 @@ var styles = StyleSheet.create({
     backgroundColor: 'white',
     color: '#525252',
     borderRadius: 20
-  },
-  spinnerContainer: {
-    alignSelf: 'center',
-    paddingTop: 20,
-    paddingBottom: 20
   }
 });
 
@@ -40,7 +35,9 @@ var LoadMorePostsButton = React.createClass({
     var content;
 
     if (this.props.loadMorePostsRequestInFlight) {
-      content = this.renderLoadingSpinner();
+      content = (
+        <Spinner/>
+      );
     }
     else {
       content = this.renderLoadMorePostsButton();
@@ -66,19 +63,7 @@ var LoadMorePostsButton = React.createClass({
 
       </TouchableHighlight>
     );
-  },
-
-  renderLoadingSpinner: function() {
-    return (
-      <View style={styles.spinnerContainer}>
-        <ActivityIndicatorIOS
-          size="small"
-          color="black"
-          animating={true}
-          style={styles.spinner} />
-      </View>
-    );
-  },
+  }
 
 });
 
