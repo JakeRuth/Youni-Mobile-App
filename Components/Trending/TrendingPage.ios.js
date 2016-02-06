@@ -7,13 +7,13 @@ var MainScreenBanner = require('../../MainScreenBanner');
 var TrendingUsersList = require('./TrendingUsersList');
 var BackButton = require('../Common/BackButtonBar');
 var ErrorPage = require('../Common/ErrorPage');
-var Spinner = require('../Common/Spinner');
 
 var {
   View,
   Text,
-  StyleSheet
-} = React
+  StyleSheet,
+  ActivityIndicatorIOS
+} = React;
 
 var styles = StyleSheet.create({
   trendingPageContainer: {
@@ -54,9 +54,7 @@ var TrendingPage = React.createClass({
         content;
 
     if (isRequestInFlight) {
-      content = (
-        <Spinner/>
-      );
+      content = this._renderLoadingSpinner();
     }
     else if (anyErrorsLoadingPage) {
       content = <ErrorPage reloadButtonAction={this._onErrorPageReload}/>
@@ -75,6 +73,17 @@ var TrendingPage = React.createClass({
         <View style={styles.contentSeparator}/>
         {content}
 
+      </View>
+    );
+  },
+
+  _renderLoadingSpinner: function() {
+    return (
+      <View style={styles.spinnerContainer}>
+        <ActivityIndicatorIOS
+          size="small"
+          color="black"
+          animating={true} />
       </View>
     );
   },
