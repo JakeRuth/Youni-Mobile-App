@@ -8,6 +8,7 @@ var UIImagePickerManager = require('NativeModules').UIImagePickerManager;
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var uploadProfileImageStore = require('../../stores/profile/UploadProfileImageStore');
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
+var Spinner = require('../Common/Spinner');
 
 var {
   View,
@@ -15,10 +16,12 @@ var {
   StyleSheet,
   NativeModules,
   TouchableHighlight
-} = React
+} = React;
 
 var styles = StyleSheet.create({
   profileImageContainer: {
+    width: 100,
+    height: 100,
     marginLeft: 10
   },
   profileImage: {
@@ -35,14 +38,25 @@ var ProfileImage = React.createClass({
     profileImageUrl: React.PropTypes.string
   },
 
+  mixins: [
+      Unicycle.listenTo(uploadProfileImageStore)
+  ],
+
   render: function() {
     var content;
 
-    if (this.props.profileImageUrl) {
+    if (uploadProfileImageStore.isUploadProfileImageRequestInFlight()) {
+      content = (
+          <Spinner/>
+      );
+    }
+    else if (this.props.profileImageUrl) {
       content = this.renderProfileImage();
     }
     else if (this.props.viewerIsProfileOwner) {
-      content = <UploadProfileImage/>;
+      content = (
+          <UploadProfileImage onUploadPhotoPress={this._onUploadImagePress}/>
+      );
     }
     else {
       content = this.renderBlankProfileIcon();
@@ -61,8 +75,9 @@ var ProfileImage = React.createClass({
         underlayColor='transparent'
         onPress={this._onUploadImagePress}>
 
-        <Image style={styles.profileImage}
-               source={{uri: this.props.profileImageUrl}} />
+        <Image
+            style={styles.profileImage}
+            source={{uri: this.props.profileImageUrl}}/>
 
       </TouchableHighlight>
     );
@@ -80,15 +95,15 @@ var ProfileImage = React.createClass({
   //TODO: ALL these function are repeated, stop the ugly!!!!!
   _onUploadImagePress: function() {
     if (this.props.viewerIsProfileOwner) {
-      UIImagePickerManager.showImagePicker(this._getImagePickerOptions(), (didCancel, response) => {
-        if (!didCancel) {
-          Unicycle.exec('setIsUploadProfileImageRequestInFlight', true);
+      UIImagePickerManager.showImagePicker(this._getImagePickerOptions(), (response) => {
+        if (!response.didCancel) {
+          uploadProfileImageStore.setIsUploadProfileImageRequestInFlight(true);
 
-    			NativeModules.FileTransfer.upload(this._getImageUploadOptions(response), (err, res) => {
+          NativeModules.FileTransfer.upload(this._getImageUploadOptions(response), (err, res) => {
             var imageUrl = this._hackyWayToGetPictureUrlFromDumbStringThatShouldBeAMap(res.data);
             Unicycle.exec('setProfileImageUrl', imageUrl);
-            Unicycle.exec('setIsUploadProfileImageRequestInFlight', true);
-        	});
+            uploadProfileImageStore.setIsUploadProfileImageRequestInFlight(false);
+          });
         }
       });
     }
@@ -100,16 +115,12 @@ var ProfileImage = React.createClass({
       maxHeight: 640, //TODO
       quality: .5, //TODO
       allowsEditing: true, //TODO
-      noData: true,
-      storageOptions: {
-        skipBackup: true,
-        path: 'Youni'
-      }
+      noData: true
     };
   },
 
   _getImageUploadOptions: function(response) {
-    var url = AjaxUtils.SERVER_URL + '/upload/profilePhoto'
+    var url = AjaxUtils.SERVER_URL + '/upload/profilePhoto';
     return {
       uri: response.uri,
       uploadUrl: url,

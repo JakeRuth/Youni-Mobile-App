@@ -11,7 +11,7 @@ var uploadProfileImageStore = Unicycle.createStore({
       });
     },
 
-    $setIsUploadProfileImageRequestInFlight: function(inFlight) {
+    setIsUploadProfileImageRequestInFlight: function(inFlight) {
       this.set({
         isUploadProfileImageRequestInFlight: inFlight
       });
