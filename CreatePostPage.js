@@ -91,10 +91,10 @@ var CreatePostPage = React.createClass({
         Unicycle.exec('setImageUri', uri);
 
   			NativeModules.FileTransfer.upload(this._getImageUploadOptions(response), (err, res) => {
-            var imageId = this._hackyWayToGetPictureIdFromDumbStringThatShouldBeAMap(res.data);
-            Unicycle.exec('setImageId', imageId)
-            Unicycle.exec('setIsImageUploading', false);
-      	});
+              var imageId = this._hackyWayToGetPictureIdFromDumbStringThatShouldBeAMap(res.data);
+              Unicycle.exec('setImageId', imageId)
+              Unicycle.exec('setIsImageUploading', false);
+          });
       }
       else {
         Unicycle.exec('setShouldShowImagePickerForPost', false);

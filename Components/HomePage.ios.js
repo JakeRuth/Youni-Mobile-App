@@ -1,12 +1,12 @@
 'use strict';
 
 var React = require('react-native');
-var Unicycle = require('./Unicycle');
-var homePostsStore = require('./stores/post/HomePostsStore');
-var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
-var MainScreenBanner = require('./MainScreenBanner');
-var PostList = require('./Components/Post/PostList');
-var ErrorPage = require('./Components/Common/ErrorPage');
+var Unicycle = require('../Unicycle');
+var homePostsStore = require('../stores/post/HomePostsStore');
+var userLoginMetadataStore = require('../stores/UserLoginMetadataStore');
+var MainScreenBanner = require('../MainScreenBanner');
+var PostList = require('../Components/Post/PostList');
+var ErrorPage = require('../Components/Common/ErrorPage');
 
 var {
   View,
@@ -14,7 +14,7 @@ var {
   StyleSheet,
   AppRegistry,
   ActivityIndicatorIOS
-} = React
+} = React;
 
 var styles = StyleSheet.create({
   homePageContainer: {

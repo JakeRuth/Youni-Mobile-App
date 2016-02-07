@@ -1,7 +1,7 @@
-'use strict'
+'use strict';
 
 var React = require('react-native');
-var HomePage = require('./HomePage');
+var HomePage = require('./Components/HomePage');
 var SearchPage = require('./SearchPage');
 var ProfilePage = require('./ProfilePage');
 var TrendingPage = require('./Components/Trending/TrendingPage');
