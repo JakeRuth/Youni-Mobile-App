@@ -4,6 +4,7 @@ var React = require('react-native');
 var Unicycle = require('../../../Unicycle');
 var editProfileInformationStore = require('../../../stores/profile/EditProfileInformationStore');
 var userLoginMetadataStore = require('../../../stores/UserLoginMetadataStore');
+var Spinner = require('../../Common/Spinner');
 
 var {
   View,
@@ -11,8 +12,7 @@ var {
   Modal,
   ScrollView,
   StyleSheet,
-  TouchableHighlight,
-  ActivityIndicatorIOS
+  TouchableHighlight
 } = React
 
 var styles = StyleSheet.create({
@@ -68,11 +68,6 @@ var styles = StyleSheet.create({
     paddingTop: 5,
     paddingBottom: 5,
     borderRadius: 3
-  },
-  spinnerContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
   }
 });
 
@@ -94,7 +89,9 @@ var BlockedUsersModal = React.createClass({
         content;
 
     if (isRequestInFlight || isRemoveBlockRequestInFlight) {
-      content = this._renderSmallSpinner();
+      content = (
+        <Spinner/>
+      );
     }
     else if (blockedUsers.size != 0) {
       content = this._renderModalContent(blockedUsers);
@@ -190,17 +187,6 @@ var BlockedUsersModal = React.createClass({
         style={styles.closeModalButton}>
         <Text>Close</Text>
       </TouchableHighlight>
-    );
-  },
-
-  _renderSmallSpinner: function() {
-    return (
-      <View style={styles.spinnerContainer}>
-        <ActivityIndicatorIOS
-          size="small"
-          color="black"
-          animating={true} />
-      </View>
     );
   },
 

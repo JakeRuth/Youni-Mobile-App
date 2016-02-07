@@ -4,14 +4,14 @@ var React = require('react-native');
 var Unicycle = require('../../../Unicycle');
 var postCommentsModalStore = require('../../../stores/post/PostCommentsModalStore');
 var userLoginMetadataStore = require('../../../stores/UserLoginMetadataStore');
+var Spinner = require('../../Common/Spinner');
 
 var {
   View,
   Text,
   TextInput,
   StyleSheet,
-  TouchableHighlight,
-  ActivityIndicatorIOS
+  TouchableHighlight
 } = React;
 
 var styles = StyleSheet.create({
@@ -88,8 +88,7 @@ var CommentInput = React.createClass({
     var content;
     if (this.props.postStore.isPostCommentRequestInFlight()) {
       content = (
-        <ActivityIndicatorIOS
-          size={'small'}/>
+        <Spinner/>
       );
     }
     else {

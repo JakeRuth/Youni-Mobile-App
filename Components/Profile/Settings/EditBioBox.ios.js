@@ -7,14 +7,14 @@ var profileOwnerStore = require('../../../stores/profile/ProfileOwnerStore');
 var editProfileInformationStore = require('../../../stores/profile/EditProfileInformationStore');
 var userLoginMetadataStore = require('../../../stores/UserLoginMetadataStore');
 var SubmitActionButtons = require('./SubmitActionButtons');
+var Spinner = require('../../Common/Spinner');
 
 var {
   View,
   Text,
   TextInput,
   TouchableHighlight,
-  StyleSheet,
-  ActivityIndicatorIOS
+  StyleSheet
 } = React
 
 var styles = StyleSheet.create({
@@ -56,7 +56,7 @@ var EditBioBox = React.createClass({
         actionButtons;
 
     if (isUploadBioRequestInFlight) {
-      actionButtons = this.renderSpinner();
+      actionButtons = <Spinner/>;
     }
     else {
       actionButtons = (
@@ -80,12 +80,6 @@ var EditBioBox = React.createClass({
         {actionButtons}
 
       </View>
-    );
-  },
-
-  renderSpinner: function() {
-    return (
-      <ActivityIndicatorIOS color='black' size={'small'} />
     );
   },
 

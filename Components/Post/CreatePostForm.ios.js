@@ -4,6 +4,7 @@ var React = require('react-native');
 var createPostStore = require('../../stores/CreatePostStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var Unicycle = require('../../Unicycle');
+var Spinner = require('../Common/Spinner');
 
 var {
   View,
@@ -12,8 +13,7 @@ var {
   TextInput,
   ScrollView,
   StyleSheet,
-  TouchableHighlight,
-  ActivityIndicatorIOS
+  TouchableHighlight
 } = React
 
 var styles = StyleSheet.create({
@@ -58,7 +58,7 @@ var styles = StyleSheet.create({
     paddingTop: 5,
     color: '#FF7878'
   },
-  spinnerContainer: {
+  uploadStatus: {
     alignItems: 'center'
   }
 });
@@ -84,8 +84,8 @@ var CreatePostForm = React.createClass({
     }
     else {
       postButton = (
-        <View style={styles.spinnerContainer}>
-          <ActivityIndicatorIOS/>
+        <View style={styles.uploadStatus}>
+          <Spinner/>
           <Text>Image uploading...</Text>
         </View>
       );
