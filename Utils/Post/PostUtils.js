@@ -98,6 +98,6 @@ var PostUtils = {
     };
   }
 
-}
+};
 
 module.exports = PostUtils;

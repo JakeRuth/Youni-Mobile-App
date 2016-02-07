@@ -7,6 +7,7 @@ var userLoginMetadataStore = require('../stores/UserLoginMetadataStore');
 var MainScreenBanner = require('../MainScreenBanner');
 var PostList = require('../Components/Post/PostList');
 var ErrorPage = require('../Components/Common/ErrorPage');
+var CacheUtils = require('../Utils/Common/CacheUtils');
 
 var {
   View,
@@ -54,7 +55,7 @@ var HomePage = React.createClass({
   ],
 
   componentDidMount: function() {
-    this._requestHomeFeed();
+    CacheUtils.loadHomeFeed();
   },
 
   render: function() {

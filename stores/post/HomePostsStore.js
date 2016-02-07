@@ -5,6 +5,7 @@ var Unicycle = require('../../Unicycle');
 var immutable = require('immutable');
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 var PostUtils = require('../../Utils/Post/PostUtils');
+var CacheUtils = require('../../Utils/Common/CacheUtils');
 
 var INITIAL_PAGE_OFFSET = 0;
 var MAX_POSTS_PER_PAGE = 10;
@@ -21,7 +22,7 @@ var homePostsStore = Unicycle.createStore({
   init: function() {
     this.set({
       posts: [],
-      isRequestInFlight: false,
+      isRequestInFlight: true,
       isHomeFeedRefreshing: false,
       isLoadMorePostsRequestInFlight: false,
       isLikeRequestInFlight: false,
@@ -61,6 +62,10 @@ var homePostsStore = Unicycle.createStore({
         var newPosts = immutable.List(PostUtils.createPostsJsonFromGreedy(res.body.posts, offset));
         var allPosts = that.getPosts().concat(newPosts);
 
+        if (offset == INITIAL_PAGE_OFFSET) {
+          CacheUtils.saveHomeFeedPosts(res.body.posts);
+        }
+
         that.set({
           posts: allPosts,
           homeFeedPageOffset: offset + MAX_POSTS_PER_PAGE,
@@ -84,8 +89,7 @@ var homePostsStore = Unicycle.createStore({
   },
 
   $refreshHomeFeed(userId) {
-    var that = this,
-        originalOffset = this.getHomeFeedPageOffset();
+    var that = this;
 
     this.set({
       isHomeFeedRefreshing: true
@@ -100,17 +104,20 @@ var homePostsStore = Unicycle.createStore({
       },
       (res) => {
         var newPosts = immutable.List(PostUtils.createPostsJsonFromGreedy(res.body.posts, 0));
+        CacheUtils.saveHomeFeedPosts(res.body.posts);
 
         that.set({
           homeFeedPageOffset: newPosts.size,
           posts: newPosts,
           isHomeFeedRefreshing: false,
+          isRequestInFlight: false,
           noMorePostsToFetch: !res.body.moreResults
         });
       },
       () => {
         that.set({
-          isHomeFeedRefreshing: false
+          isHomeFeedRefreshing: false,
+          isRequestInFlight: false,
         });
       }
     );
@@ -180,6 +187,15 @@ var homePostsStore = Unicycle.createStore({
       homeFeedPageOffset: INITIAL_PAGE_OFFSET,
       noMorePostsToFetch: false,
       posts: []
+    });
+  },
+
+  $setHomeFeedPosts: function(postsJson) {
+    var posts = immutable.List(PostUtils.createPostsJsonFromGreedy(postsJson, 0));
+    this.set({
+      posts: posts,
+      isHomeFeedRefreshing: false,
+      isRequestInFlight: false
     });
   },
 
