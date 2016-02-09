@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 var React = require('react-native');
 var Unicycle = require('../../Unicycle');
@@ -33,20 +33,7 @@ var Post = React.createClass({
 
   propTypes: {
     postStore: React.PropTypes.any.isRequired,
-    id: React.PropTypes.number.isRequired,
-    //cannot be required because not all user's will have uploaded a profile pic
-    posterProfileImageUrl: React.PropTypes.string,
-    posterEmail: React.PropTypes.string.isRequired,
-    posterName: React.PropTypes.string.isRequired,
-    timestamp: React.PropTypes.string.isRequired,
-    photoUrl: React.PropTypes.string.isRequired,
-    numLikes: React.PropTypes.number.isRequired,
-    caption: React.PropTypes.string.isRequired,
-    firstComments: React.PropTypes.array,
-    moreCommentsToShow: React.PropTypes.bool.isRequired,
-    numComments: React.PropTypes.number.isRequired,
-    postIdString: React.PropTypes.string.isRequired,
-    liked: React.PropTypes.bool.isRequired,
+    post: React.PropTypes.object.isRequired,
     viewerIsPostOwner: React.PropTypes.bool,
     renderedFromProfileView: React.PropTypes.bool
   },
@@ -56,37 +43,37 @@ var Post = React.createClass({
       <View style={styles.container}>
 
         <PostHeader
-          id={this.props.id}
-          postIdString={this.props.postIdString}
-          posterEmail={this.props.posterEmail}
-          posterName={this.props.posterName}
-          posterProfileImageUrl={this.props.posterProfileImageUrl}
-          timestamp={this.props.timestamp}
+          id={this.props.post.id}
+          postIdString={this.props.post.postIdString}
+          posterEmail={this.props.post.posterEmail}
+          posterName={this.props.post.posterName}
+          posterProfileImageUrl={this.props.post.posterProfileImageUrl}
+          timestamp={this.props.post.timestamp}
           renderedFromProfileView={this.props.renderedFromProfileView}/>
 
-        <TouchableHighlight onPress={ this._photoOnClickAction(this.props.liked) }>
+        <TouchableHighlight onPress={ this._photoOnClickAction(this.props.post.liked) }>
           <View style={styles.imageContainer}>
             <Image
               style={styles.postImage}
-              source={{uri: this.props.photoUrl}}/>
+              source={{uri: this.props.post.photoUrl}}/>
           </View>
         </TouchableHighlight>
 
         <PostFooter
-          id={this.props.id}
-          posterEmail={this.props.posterEmail}
-          posterName={this.props.posterName}
-          posterProfileImageUrl={this.props.posterProfileImageUrl}
-          timestamp={this.props.timestamp}
-          postIdString={this.props.postIdString}
+          id={this.props.post.id}
+          posterEmail={this.props.post.posterEmail}
+          posterName={this.props.post.posterName}
+          posterProfileImageUrl={this.props.post.posterProfileImageUrl}
+          timestamp={this.props.post.timestamp}
+          postIdString={this.props.post.postIdString}
           postStore={this.props.postStore}
-          numLikes={this.props.numLikes}
-          caption={this.props.caption}
-          liked={this.props.liked}
+          numLikes={this.props.post.numLikes}
+          caption={this.props.post.caption}
+          liked={this.props.post.liked}
           onStarPress={this._onStarPress}
-          firstComments={this.props.firstComments}
-          moreCommentsToShow={this.props.moreCommentsToShow}
-          numComments={this.props.numComments}/>
+          firstComments={this.props.post.firstComments}
+          moreCommentsToShow={this.props.post.moreCommentsToShow}
+          numComments={this.props.post.numComments}/>
 
       </View>
     );
@@ -113,13 +100,13 @@ var Post = React.createClass({
   _likePost: function() {
     var action = this._getOnPhotoClickActionName(),
         userId = userLoginMetadataStore.getUserId();
-    Unicycle.exec(action, this.props.id, this.props.postIdString, userId);
+    Unicycle.exec(action, this.props.post.id, this.props.post.postIdString, userId);
   },
 
   _unlikePost: function() {
     var action = this._getOnStarClickActionName(),
         userId = userLoginMetadataStore.getUserId();
-    Unicycle.exec(action, this.props.id, this.props.postIdString, userId);
+    Unicycle.exec(action, this.props.post.id, this.props.post.postIdString, userId);
   },
 
   //TODO: Figure out a better way to do this

@@ -104,7 +104,7 @@ var HomePage = React.createClass({
         posts={posts}
         onScroll={this.handleScroll}
         onLoadMorePostsPress={this._requestHomeFeed}
-        isLoadMorePostsRequestInFlight={homePostsStore.isLoadMorePostsRequestInFlight()} />
+        isLoadMorePostsRequestInFlight={homePostsStore.isLoadMorePostsRequestInFlight()}/>
     );
   },
 

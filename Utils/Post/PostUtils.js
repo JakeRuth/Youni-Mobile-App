@@ -85,7 +85,7 @@ var PostUtils = {
       posterProfileImageUrl: post.posterProfilePictureUrl,
       postIdString: post.postIdString,
       firstComments: post.firstComments,
-      moreComments: post.moreComments,
+      moreCommentsToShow: post.moreComments,
       numComments: post.numComments,
       posterEmail: post.posterEmail,
       posterName: post.posterName,

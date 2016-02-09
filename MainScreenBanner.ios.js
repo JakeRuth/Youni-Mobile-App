@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 var React = require('react-native');
 
@@ -10,14 +10,14 @@ var {
 } = React;
 
 var styles = StyleSheet.create({
-  headingWrapper: {
+  container: {
     height: 55,
     padding: 16,
     backgroundColor: '#0083D4'
   },
   header: {
     paddingTop: 10,
-    fontSize: 17,
+    fontSize: 20,
     fontWeight: '500',
     textAlign: 'center',
     color: 'white'
@@ -32,7 +32,7 @@ var MainScreenBanner = React.createClass({
 
   render: function() {
     return (
-      <View style={styles.headingWrapper}>
+      <View style={styles.container}>
         <Text style={styles.header}>
           {this.props.title}
         </Text>

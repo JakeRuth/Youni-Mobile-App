@@ -9,7 +9,7 @@ var {
   Text,
   StyleSheet,
   TouchableHighlight
-} = React
+} = React;
 
 var styles = StyleSheet.create({
   backButtonContainer: {
@@ -25,6 +25,7 @@ var styles = StyleSheet.create({
   }
 });
 
+// DO NOT USE #Deprecated.  Use BackArrow instead
 var BackButtonBar = React.createClass({
 
   propTypes: {

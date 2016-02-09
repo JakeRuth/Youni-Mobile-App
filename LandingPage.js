@@ -6,6 +6,8 @@ var SearchPage = require('./SearchPage');
 var ProfilePage = require('./ProfilePage');
 var TrendingPage = require('./Components/Trending/TrendingPage');
 var CreatePostPage = require('./CreatePostPage');
+var OverlayPage = require('./Components/Common/OverlayPage');
+var Post = require('./Components/Post/Post');
 var ProfileModal = require('./Components/Profile/ProfileModal');
 var BlockedUsersModal = require('./Components/Profile/Settings/BlockedUsersModal');
 var PostCommentsModal = require('./Components/Post/PostCommentsModal');
@@ -13,6 +15,7 @@ var Icon = require('react-native-vector-icons/Ionicons');
 var loginStore = require('./stores/LoginStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
 var tabStateStore = require('./stores/TabStateStore');
+var explorePostsStore = require('./stores/post/ExplorePostsStore');
 var Unicycle = require('./Unicycle');
 
 var {
@@ -33,7 +36,8 @@ var LandingPage = React.createClass({
 
   mixins: [
     Unicycle.listenTo(loginStore),
-    Unicycle.listenTo(tabStateStore)
+    Unicycle.listenTo(tabStateStore),
+    Unicycle.listenTo(explorePostsStore)
   ],
 
   componentDidMount: function() {
@@ -45,6 +49,22 @@ var LandingPage = React.createClass({
   },
 
   render: function() {
+    var singlePost = null,
+        selectedPost = explorePostsStore.getSelectedPost();
+
+    if (selectedPost) {
+      var post = (
+          <Post
+              postStore={explorePostsStore}
+              post={selectedPost}/>
+      );
+      singlePost = (
+          <OverlayPage
+              content={post}
+              onBackArrowPress={() => {explorePostsStore.setSelectedPostId(null);}}/>
+      );
+    }
+
     return (
       <View style={styles.tabBarContainer}>
         <PostCommentsModal/>
@@ -109,6 +129,8 @@ var LandingPage = React.createClass({
               email={userLoginMetadataStore.getEmail()}/>
           </Icon.TabBarItem>
         </TabBarIOS>
+
+        {singlePost}
       </View>
     );
   },

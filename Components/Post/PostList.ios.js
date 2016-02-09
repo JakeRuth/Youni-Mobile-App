@@ -5,6 +5,7 @@ var Unicycle = require('../../Unicycle');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var homePostsStore = require('../../stores/post/HomePostsStore');
 var Post = require('./Post');
+var PostGrid = require('./PostGrid');
 var LoadMorePostsButton = require('./LoadMorePostsButton');
 var Icon = require('react-native-vector-icons/Ionicons');
 var Spinner = require('../Common/Spinner');
@@ -16,7 +17,7 @@ var {
   AppRegistry,
   ScrollView,
   TouchableHighlight
-} = React
+} = React;
 
 var styles = StyleSheet.create({
   container: {
@@ -42,12 +43,12 @@ var PostList = React.createClass({
     onLoadMorePostsPress: React.PropTypes.func.isRequired,
     isLoadMorePostsRequestInFlight: React.PropTypes.bool,
     viewerIsPostOwner: React.PropTypes.bool,
-    renderedFromProfileView: React.PropTypes.bool
+    renderedFromProfileView: React.PropTypes.bool,
+    gridViewEnabled: React.PropTypes.bool
   },
 
   render: function() {
-    var that = this,
-        refreshHeader = <View/>,
+    var refreshHeader = <View/>,
         contentOffset = null,
         scrollToTopOfPostFeed = homePostsStore.scrollToTopOfPostFeed();
 
@@ -83,25 +84,25 @@ var PostList = React.createClass({
   },
 
   _renderPosts: function() {
-    var postsJson = this.props.posts;
+    if (this.props.gridViewEnabled) {
+      return (
+        <PostGrid
+          posts={this.props.posts}
+          postStore={this.props.postStore}
+          viewerIsPostOwner={this.props.viewerIsPostOwner}/>
+      );
+    }
+    else {
+      return this._renderPostsSequentially(this.props.posts);
+    }
+  },
+
+  _renderPostsSequentially: function(postsJson) {
     var posts = [];
     for (var i = 0; i<postsJson.size; i++) {
       var post = postsJson.get(i);
       posts.push(
-        <Post id={post.id}
-              postIdString={post.postIdString}
-              posterProfileImageUrl={post.posterProfileImageUrl}
-              posterEmail={post.posterEmail}
-              posterName={post.posterName}
-              timestamp={post.timestamp}
-              photoUrl={post.photoUrl}
-              numLikes={post.numLikes}
-              firstComments={post.firstComments}
-              moreCommentsToShow={post.moreComments}
-              numComments={post.numComments}
-              caption={post.caption}
-              liked={post.liked}
-              key={post.id}
+        <Post post={post}
               postStore={this.props.postStore}
               renderedFromProfileView={this.props.renderedFromProfileView}
               viewerIsPostOwner={this.props.viewerIsPostOwner}/>

@@ -6,7 +6,7 @@ var {
   View,
   StyleSheet,
   ActivityIndicatorIOS
-} = React
+} = React;
 
 var styles = StyleSheet.create({
   container: {
@@ -24,8 +24,8 @@ var Spinner = React.createClass({
           size={'small'}
           color={'black'}/>
       </View>
-      );
-    }
-  });
+    );
+  }
+});
 
 module.exports = Spinner;

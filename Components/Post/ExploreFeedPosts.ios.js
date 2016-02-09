@@ -12,7 +12,7 @@ var {
   View,
   Text,
   StyleSheet
-} = React
+} = React;
 
 var styles = StyleSheet.create({
   exploreFeedContainer: {
@@ -53,7 +53,8 @@ var ExploreFeedPosts = React.createClass({
           posts={explorePostsStore.getPosts()}
           onScroll={this.handleScroll}
           onLoadMorePostsPress={this._requestExploreFeed}
-          isLoadMorePostsRequestInFlight={explorePostsStore.isLoadMorePostsRequestInFlight()} />
+          isLoadMorePostsRequestInFlight={explorePostsStore.isLoadMorePostsRequestInFlight()}
+          gridViewEnabled={true}/>
       );
     }
 
