@@ -3,8 +3,9 @@
 var React = require('react-native');
 var Unicycle = require('./../../../Unicycle');
 var AjaxUtils = require('../../../Utils/Common/AjaxUtils');
+var UserUtils = require('../../../Utils/User/UserUtils');
 
-var postLikeModalStore = Unicycle.createStore({
+var postLikePopupStore = Unicycle.createStore({
 
   init: function() {
     this.set({
@@ -14,11 +15,18 @@ var postLikeModalStore = Unicycle.createStore({
     });
   },
 
-  $getLikersForPost(postId) {
+  setVisibility: function(value) {
+    this.set({
+      isVisible: value
+    });
+  },
+
+  getLikersForPost(postId) {
     var that = this;
 
     this.set({
-      isRequestInFlight: true
+      isRequestInFlight: true,
+      isVisible: true
     });
 
     AjaxUtils.ajax(
@@ -28,25 +36,20 @@ var postLikeModalStore = Unicycle.createStore({
       },
       (res) => {
         that.set({
-          likers: res.body.users,
+          likers: UserUtils.convertResponseUserListToMap(res.body.userDetails),
           isRequestInFlight: false
         });
       },
       () => {
         that.set({
-          isRequestInFlight: false
+          isRequestInFlight: false,
+          isVisible: false
         });
       }
     );
   },
 
-  $setIsModalVisible: function(isVisible) {
-    this.set({
-      isVisible: isVisible
-    });
-  },
-
-  getIsVisible: function() {
+  isVisible: function() {
     return this.get('isVisible');
   },
 
@@ -60,4 +63,4 @@ var postLikeModalStore = Unicycle.createStore({
 
 });
 
-module.exports = postLikeModalStore;
+module.exports = postLikePopupStore;

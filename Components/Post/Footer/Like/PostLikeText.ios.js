@@ -2,15 +2,15 @@
 
 var React = require('react-native');
 var Unicycle = require('../../../../Unicycle');
-var postLikeModalStore = require('../../../../stores/post/like/PostLikeModalStore');
-var PostLikeModal = require('./PostLikeModal');
+var postLikePopupStore = require('../../../../stores/post/like/PostLikePopupStore');
+var PostLikesList = require('./PostLikesList');
 var Spinner = require('../../../Common/Spinner');
 
 var {
   View,
   Text,
   StyleSheet
-} = React
+} = React;
 
 var styles = StyleSheet.create({
   numLikes: {
@@ -53,15 +53,13 @@ var PostLikeText = React.createClass({
 
     return (
       <View>
-        <PostLikeModal postIdString={this.props.postIdString}/>
         {content}
       </View>
     );
   },
 
   _onTextPress: function() {
-    Unicycle.exec('setIsModalVisible', true);
-    Unicycle.exec('getLikersForPost', this.props.postIdString);
+    postLikePopupStore.getLikersForPost(this.props.postIdString);
   },
 
   //TODO: this should be handled by the api

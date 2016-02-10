@@ -8,6 +8,7 @@ var TrendingPage = require('./Components/Trending/TrendingPage');
 var CreatePostPage = require('./CreatePostPage');
 var OverlayPage = require('./Components/Common/OverlayPage');
 var Post = require('./Components/Post/Post');
+var PostLikesList = require('./Components/Post/Footer/Like/PostLikesList');
 var ProfileModal = require('./Components/Profile/ProfileModal');
 var BlockedUsersModal = require('./Components/Profile/Settings/BlockedUsersModal');
 var PostCommentsModal = require('./Components/Post/PostCommentsModal');
@@ -16,6 +17,7 @@ var loginStore = require('./stores/LoginStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
 var tabStateStore = require('./stores/TabStateStore');
 var explorePostsStore = require('./stores/post/ExplorePostsStore');
+var postLikePopupStore = require('./stores/post/like/PostLikePopupStore');
 var Unicycle = require('./Unicycle');
 
 var {
@@ -37,7 +39,8 @@ var LandingPage = React.createClass({
   mixins: [
     Unicycle.listenTo(loginStore),
     Unicycle.listenTo(tabStateStore),
-    Unicycle.listenTo(explorePostsStore)
+    Unicycle.listenTo(explorePostsStore),
+    Unicycle.listenTo(postLikePopupStore)
   ],
 
   componentDidMount: function() {
@@ -50,6 +53,7 @@ var LandingPage = React.createClass({
 
   render: function() {
     var singlePost = null,
+        postLikesPopup = null,
         selectedPost = explorePostsStore.getSelectedPost();
 
     if (selectedPost) {
@@ -62,6 +66,14 @@ var LandingPage = React.createClass({
           <OverlayPage
               content={post}
               onBackArrowPress={() => {explorePostsStore.setSelectedPostId(null);}}/>
+      );
+    }
+
+    if (postLikePopupStore.isVisible()) {
+      postLikesPopup = (
+          <OverlayPage
+              content={<PostLikesList/>}
+              onBackArrowPress={() => {postLikePopupStore.setVisibility(false);}}/>
       );
     }
 
@@ -130,6 +142,7 @@ var LandingPage = React.createClass({
           </Icon.TabBarItem>
         </TabBarIOS>
 
+        {postLikesPopup}
         {singlePost}
       </View>
     );
