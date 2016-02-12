@@ -3,12 +3,13 @@
 var React = require('react-native');
 var Unicycle = require('../../../Unicycle');
 var Icon = require('react-native-vector-icons/Ionicons');
+var editProfileInformationStore = require('../../../stores/profile/EditProfileInformationStore');
 
 var {
   View,
   TouchableHighlight,
   StyleSheet
-} = React
+} = React;
 
 var styles = StyleSheet.create({
   settingIconContainer: {
@@ -35,7 +36,7 @@ var EditSettingsButton = React.createClass({
   },
 
   _onSettingsButtonClick: function() {
-    Unicycle.exec('setInSettingsView', true);
+    editProfileInformationStore.setVisibility(true);
   }
 
 });

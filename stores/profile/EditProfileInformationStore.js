@@ -9,6 +9,7 @@ var editProfileInformationStore = Unicycle.createStore({
 
     init: function () {
       this.set({
+        isSettingPageVisible: false,
         isUploadBioRequestInFlight: false,
         isUploadFirstNameRequestInFlight: false,
         isUploadLastNameRequestInFlight: false,
@@ -160,6 +161,16 @@ var editProfileInformationStore = Unicycle.createStore({
       this.set({
         isBlockedUsersModalVisible: value
       });
+    },
+
+    setVisibility: function(isVisible) {
+      this.set({
+        isVisible: isVisible
+      });
+    },
+
+    isVisible: function() {
+      return this.get('isVisible');
     },
 
     isBlockedUsersModalVisible: function() {

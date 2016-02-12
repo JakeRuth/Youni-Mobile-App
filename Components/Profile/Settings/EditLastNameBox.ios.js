@@ -14,7 +14,7 @@ var {
   TextInput,
   StyleSheet,
   AlertIOS
-} = React
+} = React;
 
 var styles = StyleSheet.create({
   updateLastNameContainer: {
@@ -84,9 +84,9 @@ var EditLastNameBox = React.createClass({
         <View style={styles.updateLastNameInputContainer}>
           <TextInput
             style={styles.updateLastNameInput}
-            onChangeText={(text) => Unicycle.exec('setLastName', text)}
+            onChangeText={(text) => profileOwnerStore.setLastName(text)}
             value={profileOwnerStore.getLastName()}
-            maxLength={25} //Hopefully someone doesnt have a 25+ cahracter first name?
+            maxLength={25} //Hopefully someone doesn't have a 25+ chracter first name?
           />
         </View>
         {actionButtons}
@@ -115,7 +115,7 @@ var EditLastNameBox = React.createClass({
   },
 
   _onCancelUpdateLastNamePress: function() {
-    Unicycle.exec('setLastName', this.state.originalFirstName);
+    profileOwnerStore.setLastName(this.state.originalFirstName);
   }
 
 });

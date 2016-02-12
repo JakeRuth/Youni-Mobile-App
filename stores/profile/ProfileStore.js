@@ -181,30 +181,6 @@ var profileStore = Unicycle.createStore({
       });
     },
 
-    $setBio: function(bio) {
-      this.set({
-        bio: bio
-      });
-    },
-
-    $setFirstName: function(firstName) {
-      this.set({
-        firstName: firstName
-      });
-    },
-
-    $setLastName: function(lastName) {
-      this.set({
-        lastName: lastName
-      });
-    },
-
-    $setProfileImageUrl: function(url) {
-      this.set({
-        profileImageUrl: url
-      });
-    },
-
     addCommentOnPost: function(id, postIdString, userIdString, comment, commenterName, callback) {
       var posts = this.getPosts(),
           that = this;

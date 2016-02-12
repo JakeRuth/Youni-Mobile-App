@@ -15,7 +15,6 @@ var profileOwnerStore = Unicycle.createStore({
       //TODO: Figure out why we can't call `this._setInitialState()` here...
       this.set({
         pageLoadError: false,
-        inSettingsView: false,
         isRequestInFlight: false,
         isUserPostsRequestInFlight: false,
         isLoadMorePostsRequestInFlight: false,
@@ -239,28 +238,22 @@ var profileOwnerStore = Unicycle.createStore({
       }
     },
 
-    $setInSettingsView: function(inSettingsView) {
-      this.set({
-        inSettingsView: inSettingsView
-      });
+    setBio: function(bio) {
+        this.set({
+            bio: bio
+        });
     },
 
-    $setBio: function(bio) {
-      this.set({
-        bio: bio
-      });
+    setFirstName: function(firstName) {
+        this.set({
+            firstName: firstName
+        });
     },
 
-    $setFirstName: function(firstName) {
-      this.set({
-        firstName: firstName
-      });
-    },
-
-    $setLastName: function(lastName) {
-      this.set({
-        lastName: lastName
-      });
+    setLastName: function(lastName) {
+        this.set({
+            lastName: lastName
+        });
     },
 
     $setProfileImageUrl: function(url) {
@@ -331,10 +324,6 @@ var profileOwnerStore = Unicycle.createStore({
       return this.get('noMorePostsToFetch');
     },
 
-    getInSettingsView: function() {
-      return this.get('inSettingsView');
-    },
-
     getFirstName: function() {
       return this.get('firstName');
     },
@@ -377,7 +366,6 @@ var profileOwnerStore = Unicycle.createStore({
 
     _setInitialState: function() {
       this.set({
-        inSettingsView: false,
         isRequestInFlight: false,
         isUserPostsRequestInFlight: false,
         isLoadMorePostsRequestInFlight: false,

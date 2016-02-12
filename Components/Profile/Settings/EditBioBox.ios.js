@@ -15,7 +15,7 @@ var {
   TextInput,
   TouchableHighlight,
   StyleSheet
-} = React
+} = React;
 
 var styles = StyleSheet.create({
   updateBioContainer: {
@@ -72,10 +72,10 @@ var EditBioBox = React.createClass({
         <Text style={styles.updateBioText}>Update bio</Text>
         <TextInput
           style={styles.updateBioInput}
-          onChangeText={(text) => Unicycle.exec('setBio', text)}
+          onChangeText={(text) => profileOwnerStore.setBio(text)}
           value={profileOwnerStore.getBio()}
           multiline={true}
-          maxLength={300} //TODO: think about this value more, is this a just limit?
+          maxLength={140}
         />
         {actionButtons}
 
@@ -90,7 +90,7 @@ var EditBioBox = React.createClass({
   },
 
   _onCancelUpdateBioPress: function() {
-    Unicycle.exec('setBio', this.state.originalBio);
+    profileOwnerStore.setBio(this.state.originalBio);
   }
 
 });

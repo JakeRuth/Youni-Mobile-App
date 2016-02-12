@@ -10,16 +10,19 @@ var OverlayPage = require('./Components/Common/OverlayPage');
 var Post = require('./Components/Post/Post');
 var PostLikesList = require('./Components/Post/Footer/Like/PostLikesList');
 var GetAllFollowingPage = require('./Components/Profile/GetAllFollowingPage');
+var EditSettingsPage = require('./Components/Profile/Settings/EditSettingsPage');
 var ProfileModal = require('./Components/Profile/ProfileModal');
 var BlockedUsersModal = require('./Components/Profile/Settings/BlockedUsersModal');
 var PostCommentsModal = require('./Components/Post/PostCommentsModal');
 var Icon = require('react-native-vector-icons/Ionicons');
 var loginStore = require('./stores/LoginStore');
+var profileOwnerStore = require('./stores/profile/ProfileOwnerStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
 var tabStateStore = require('./stores/TabStateStore');
 var explorePostsStore = require('./stores/post/ExplorePostsStore');
 var postLikePopupStore = require('./stores/post/like/PostLikePopupStore');
 var getAllFollowingStore = require('./stores/user/GetAllFollowingStore');
+var editProfileInformationStore = require('./stores/profile/EditProfileInformationStore');
 var Unicycle = require('./Unicycle');
 
 var {
@@ -43,7 +46,8 @@ var LandingPage = React.createClass({
     Unicycle.listenTo(tabStateStore),
     Unicycle.listenTo(explorePostsStore),
     Unicycle.listenTo(postLikePopupStore),
-    Unicycle.listenTo(getAllFollowingStore)
+    Unicycle.listenTo(getAllFollowingStore),
+    Unicycle.listenTo(editProfileInformationStore)
   ],
 
   componentDidMount: function() {
@@ -58,6 +62,7 @@ var LandingPage = React.createClass({
     var singlePostPopup = null,
         postLikesPopup = null,
         followingListForUserPopup = null,
+        editProfileInformationPopup = null,
         selectedPost = explorePostsStore.getSelectedPost();
 
     if (selectedPost) {
@@ -88,6 +93,15 @@ var LandingPage = React.createClass({
               content={<GetAllFollowingPage/>}
               onBackArrowPress={() => {getAllFollowingStore.setVisibility(false);}}
               bannerTitle='Following'/>
+      );
+    }
+
+    if (editProfileInformationStore.isVisible()) {
+      editProfileInformationPopup = (
+          <OverlayPage
+              content={<EditSettingsPage/>}
+              onBackArrowPress={() => {editProfileInformationStore.setVisibility(false);}}
+              bannerTitle='Edit'/>
       );
     }
 
@@ -159,6 +173,7 @@ var LandingPage = React.createClass({
         {postLikesPopup}
         {singlePostPopup}
         {followingListForUserPopup}
+        {editProfileInformationPopup}
       </View>
     );
   },

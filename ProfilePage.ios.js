@@ -4,7 +4,6 @@ var React = require('react-native');
 var Unicycle = require('./Unicycle');
 var profileOwnerStore = require('./stores/profile/ProfileOwnerStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
-var EditSettingsPage = require('./Components/Profile/Settings/EditSettingsPage');
 var MainScreenBanner = require('./MainScreenBanner');
 var ProfilePageBody = require('./Components/Profile/ProfilePageBody');
 var LogoutButton = require('./Components/Common/LogoutButton');
@@ -43,15 +42,11 @@ var ProfilePage = React.createClass({
 
   render: function() {
     var isRequestInFlight = profileOwnerStore.isRequestInFlight(),
-        inSettingsView = profileOwnerStore.getInSettingsView(),
         anyErrorsLoadingPage = profileOwnerStore.anyErrorsLoadingPage(),
         content;
 
     if (anyErrorsLoadingPage) {
       content = <ErrorPage reloadButtonAction={this._onErrorPageReload}/>;
-    }
-    else if (inSettingsView) {
-      content = <EditSettingsPage/>;
     }
     else if (isRequestInFlight) {
       content = (
