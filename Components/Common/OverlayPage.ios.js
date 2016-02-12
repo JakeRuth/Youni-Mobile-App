@@ -21,13 +21,14 @@ var OverlayPage = React.createClass({
 
     propTypes: {
         content: React.PropTypes.element.isRequired,
-        onBackArrowPress: React.PropTypes.func.isRequired
+        onBackArrowPress: React.PropTypes.func.isRequired,
+        bannerTitle: React.PropTypes.string
     },
 
     render: function() {
         return (
             <View style={styles.container}>
-                <MainScreenBanner title=''/>
+                <MainScreenBanner title={this.props.bannerTitle}/>
                 <ScrollView>
                     {this.props.content}
                 </ScrollView>

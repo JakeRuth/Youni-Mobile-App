@@ -73,7 +73,8 @@ var LandingPage = React.createClass({
       postLikesPopup = (
           <OverlayPage
               content={<PostLikesList/>}
-              onBackArrowPress={() => {postLikePopupStore.setVisibility(false);}}/>
+              onBackArrowPress={() => {postLikePopupStore.setVisibility(false);}}
+              bannerTitle='Likes'/>
       );
     }
 
