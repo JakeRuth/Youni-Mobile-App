@@ -30,7 +30,7 @@ var styles = StyleSheet.create({
   }
 });
 
-var FollowingButton = React.createClass({
+var FollowButton = React.createClass({
 
   propTypes: {
     isRequestInFlight: React.PropTypes.bool.isRequired,
@@ -75,4 +75,4 @@ var FollowingButton = React.createClass({
 
 });
 
-module.exports = FollowingButton;
+module.exports = FollowButton;

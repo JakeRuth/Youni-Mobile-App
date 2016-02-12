@@ -11,17 +11,16 @@ var getAllFollowingStore = Unicycle.createStore({
       this.set({
         allFollowing: [],
         isRequestInFlight: false,
-        isInView: false
+        isVisible: false
       });
     },
 
-    $getFollowing(userEmail) {
-      var allFollowing = [],
-          that = this;
+    getFollowing(userEmail) {
+      var that = this;
 
       this.set({
         isRequestInFlight: true,
-        isInView: true
+        isVisible: true
       });
 
       AjaxUtils.ajax(
@@ -43,9 +42,9 @@ var getAllFollowingStore = Unicycle.createStore({
       );
     },
 
-    setIsInView(isInView) {
+    setVisibility(isVisible) {
       this.set({
-        isInView: isInView
+        isVisible: isVisible
       });
     },
 
@@ -57,8 +56,8 @@ var getAllFollowingStore = Unicycle.createStore({
       return this.get('allFollowing');
     },
 
-    getIsInView: function() {
-      return this.get('isInView');
+    isVisible: function() {
+      return this.get('isVisible');
     }
 
 });

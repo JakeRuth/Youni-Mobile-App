@@ -3,23 +3,23 @@
 var React = require('react-native');
 var AllFollowingResultList = require('./AllFollowingResultList');
 var getAllFollowingStore = require('../../stores/user/GetAllFollowingStore');
-var BackButtonBar = require('../Common/BackButtonBar');
 var Spinner = require('../Common/Spinner');
 
 var {
   View,
   Text,
   StyleSheet
-} = React
+} = React;
 
 var styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
   getAllFollowingPageContainer: {
     flex: 1
   },
-  title: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10
+  spinnerContainer: {
+    paddingTop: 10
   }
 });
 
@@ -31,34 +31,20 @@ var GetAllFollowingPage = React.createClass({
         content;
 
     if (isRequestInFlight) {
-      content = <PageLoading/>;
+      content = (
+          <View style={styles.spinnerContainer}>
+            <Spinner/>
+          </View>
+      );
     }
     else {
-      content = <AllFollowingResultList users={allFollowing} />
+      content = <AllFollowingResultList users={allFollowing}/>
     }
 
     return (
-      <View style={{flex:1}}>
-        <BackButtonBar buttonOnPress={this._onBackButtonPress}/>
-        <View style={styles.getAllFollowingPageContainer}>
-          <Text style={styles.title}>{"Classmates I'm Following"}</Text>
-          { content }
-        </View>
+      <View style={styles.container}>
+        { content }
       </View>
-    );
-  },
-
-  _onBackButtonPress: function() {
-    getAllFollowingStore.setIsInView(false);
-  }
-
-});
-
-var PageLoading = React.createClass({
-
-  render: function() {
-    return (
-      <Spinner/>
     );
   }
 

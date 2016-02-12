@@ -14,15 +14,14 @@ var {
   StyleSheet,
   ScrollView,
   TouchableHighlight
-} = React
+} = React;
 
 var styles = StyleSheet.create({
   allFollowingListContainer: {
     flex: 1
   },
   scrollBar: {
-    backgroundColor: 'transparent',
-    marginBottom: 40 //needed so tab bar doesn't cut off bottom of screen
+    backgroundColor: 'transparent'
   },
   result: {
     flexDirection: 'row',

@@ -3,10 +3,8 @@
 var React = require('react-native');
 var Unicycle = require('./Unicycle');
 var profileOwnerStore = require('./stores/profile/ProfileOwnerStore');
-var getAllFollowingStore = require('./stores/user/GetAllFollowingStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
 var EditSettingsPage = require('./Components/Profile/Settings/EditSettingsPage');
-var GetAllFollowingPage = require('./Components/Profile/GetAllFollowingPage');
 var MainScreenBanner = require('./MainScreenBanner');
 var ProfilePageBody = require('./Components/Profile/ProfilePageBody');
 var LogoutButton = require('./Components/Common/LogoutButton');
@@ -17,7 +15,7 @@ var Spinner = require('./Components/Common/Spinner');
 var {
   View,
   StyleSheet
-} = React
+} = React;
 
 var styles = StyleSheet.create({
   profilePageContainer: {
@@ -34,8 +32,7 @@ var ProfilePage = React.createClass({
   },
 
   mixins: [
-    Unicycle.listenTo(profileOwnerStore),
-    Unicycle.listenTo(getAllFollowingStore)
+    Unicycle.listenTo(profileOwnerStore)
   ],
 
   componentDidMount: function() {
@@ -47,7 +44,6 @@ var ProfilePage = React.createClass({
   render: function() {
     var isRequestInFlight = profileOwnerStore.isRequestInFlight(),
         inSettingsView = profileOwnerStore.getInSettingsView(),
-        inFollowingView = getAllFollowingStore.getIsInView(),
         anyErrorsLoadingPage = profileOwnerStore.anyErrorsLoadingPage(),
         content;
 
@@ -61,9 +57,6 @@ var ProfilePage = React.createClass({
       content = (
         <Spinner/>
       );
-    }
-    else if (inFollowingView) {
-      content = <GetAllFollowingPage/>;
     }
     else {
       content = (

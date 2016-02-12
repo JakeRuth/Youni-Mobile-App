@@ -11,6 +11,7 @@ var profileOwnerStore = require('../../stores/profile/ProfileOwnerStore');
 var profileStore = require('../../stores/profile/ProfileStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var followUnfollowStore = require('../../stores/FollowStore');
+var getAllFollowingStore = require('../../stores/user/GetAllFollowingStore');
 
 var {
   View,
@@ -18,7 +19,7 @@ var {
   Image,
   StyleSheet,
   ScrollView
-} = React
+} = React;
 
 var styles = StyleSheet.create({
   profileInformationContainer: {
@@ -68,8 +69,7 @@ var ProfilePageBody = React.createClass({
   ],
 
   render: function() {
-    var editSettingsIcon = <View/>,
-        blockUserIcon = <View/>;
+    var blockUserIcon = <View/>;
 
     if (!this.props.viewerIsProfileOwner) {
       blockUserIcon = <BlockUserButton email={this.props.email}/>;
@@ -140,8 +140,8 @@ var ProfilePageBody = React.createClass({
   },
 
   _getAllUsersTheOwnerIsFollowing: function() {
-    var userEmail = userLoginMetadataStore.getEmail()
-    Unicycle.exec('getFollowing', userEmail);
+    var userEmail = userLoginMetadataStore.getEmail();
+    getAllFollowingStore.getFollowing(userEmail);
   },
 
   _followOrUnfollowUser: function() {
@@ -152,19 +152,6 @@ var ProfilePageBody = React.createClass({
     }
     else {
       Unicycle.exec('follow', userId, this.props.email);
-    }
-  },
-
-  //TODO: This is more then likely something we want to api to handle
-  _getFansText: function(numFans) {
-    if (numFans == 0) {
-      return 'No fans :(';
-    }
-    else if (numFans == 1) {
-      return numFans + ' fan';
-    }
-    else {
-      return numFans + ' fans';
     }
   },
 

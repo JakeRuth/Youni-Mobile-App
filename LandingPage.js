@@ -9,6 +9,7 @@ var CreatePostPage = require('./CreatePostPage');
 var OverlayPage = require('./Components/Common/OverlayPage');
 var Post = require('./Components/Post/Post');
 var PostLikesList = require('./Components/Post/Footer/Like/PostLikesList');
+var GetAllFollowingPage = require('./Components/Profile/GetAllFollowingPage');
 var ProfileModal = require('./Components/Profile/ProfileModal');
 var BlockedUsersModal = require('./Components/Profile/Settings/BlockedUsersModal');
 var PostCommentsModal = require('./Components/Post/PostCommentsModal');
@@ -18,6 +19,7 @@ var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
 var tabStateStore = require('./stores/TabStateStore');
 var explorePostsStore = require('./stores/post/ExplorePostsStore');
 var postLikePopupStore = require('./stores/post/like/PostLikePopupStore');
+var getAllFollowingStore = require('./stores/user/GetAllFollowingStore');
 var Unicycle = require('./Unicycle');
 
 var {
@@ -40,7 +42,8 @@ var LandingPage = React.createClass({
     Unicycle.listenTo(loginStore),
     Unicycle.listenTo(tabStateStore),
     Unicycle.listenTo(explorePostsStore),
-    Unicycle.listenTo(postLikePopupStore)
+    Unicycle.listenTo(postLikePopupStore),
+    Unicycle.listenTo(getAllFollowingStore)
   ],
 
   componentDidMount: function() {
@@ -52,8 +55,9 @@ var LandingPage = React.createClass({
   },
 
   render: function() {
-    var singlePost = null,
+    var singlePostPopup = null,
         postLikesPopup = null,
+        followingListForUserPopup = null,
         selectedPost = explorePostsStore.getSelectedPost();
 
     if (selectedPost) {
@@ -62,7 +66,7 @@ var LandingPage = React.createClass({
               postStore={explorePostsStore}
               post={selectedPost}/>
       );
-      singlePost = (
+      singlePostPopup = (
           <OverlayPage
               content={post}
               onBackArrowPress={() => {explorePostsStore.setSelectedPostId(null);}}/>
@@ -75,6 +79,15 @@ var LandingPage = React.createClass({
               content={<PostLikesList/>}
               onBackArrowPress={() => {postLikePopupStore.setVisibility(false);}}
               bannerTitle='Likes'/>
+      );
+    }
+
+    if (getAllFollowingStore.isVisible()) {
+      followingListForUserPopup = (
+          <OverlayPage
+              content={<GetAllFollowingPage/>}
+              onBackArrowPress={() => {getAllFollowingStore.setVisibility(false);}}
+              bannerTitle='Following'/>
       );
     }
 
@@ -144,7 +157,8 @@ var LandingPage = React.createClass({
         </TabBarIOS>
 
         {postLikesPopup}
-        {singlePost}
+        {singlePostPopup}
+        {followingListForUserPopup}
       </View>
     );
   },
