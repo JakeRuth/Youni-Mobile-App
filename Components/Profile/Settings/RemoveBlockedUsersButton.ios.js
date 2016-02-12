@@ -8,14 +8,11 @@ var {
   TouchableHighlight,
   Text,
   StyleSheet
-} = React
+} = React;
 
 var styles = StyleSheet.create({
   showBlockedUsersButton: {
-    borderWidth: 1,
-    borderColor: 'black',
-    margin: 10,
-    backgroundColor: '#DBDBDB'
+    margin: 10
   },
   buttonLabel: {
     fontSize: 20,

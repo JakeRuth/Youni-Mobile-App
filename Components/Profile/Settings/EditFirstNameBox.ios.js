@@ -20,9 +20,7 @@ var styles = StyleSheet.create({
   updateFirstNameContainer: {
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: '#DBDBDB',
     borderWidth: 1,
-    borderRadius: 10,
     margin: 5,
     padding: 10,
     alignItems: 'center'
@@ -30,7 +28,8 @@ var styles = StyleSheet.create({
   updateFirstNameText: {
     flex: 2,
     textAlign: 'center',
-    fontSize: 10
+    fontSize: 15,
+    padding: 5
   },
   updateFirstNameInputContainer: {
     flex: 5

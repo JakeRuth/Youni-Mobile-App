@@ -21,16 +21,15 @@ var styles = StyleSheet.create({
   updateBioContainer: {
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: '#DBDBDB',
     borderWidth: 1,
-    borderRadius: 10,
     margin: 5,
     padding: 10
   },
   updateBioText: {
     flex: 2,
     textAlign: 'center',
-    fontSize: 10
+    fontSize: 15,
+    padding: 5
   },
   updateBioInput: {
     flex: 5,
