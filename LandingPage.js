@@ -1,25 +1,29 @@
 'use strict';
 
 var React = require('react-native');
+var Unicycle = require('./Unicycle');
+var Icon = require('react-native-vector-icons/Ionicons');
+
 var HomePage = require('./Components/HomePage');
 var SearchPage = require('./SearchPage');
 var ProfilePage = require('./ProfilePage');
 var TrendingPage = require('./Components/Trending/TrendingPage');
 var CreatePostPage = require('./CreatePostPage');
 var OverlayPage = require('./Components/Common/OverlayPage');
+
 var PostPopup = require('./Components/PopupPages/PostPopup');
 var PostLikesPopup = require('./Components/PopupPages/PostLikesPopup');
 var UserFollowingListPopup = require('./Components/PopupPages/UserFollowingListPopup');
+var BlockedUsersPopup = require('./Components/PopupPages/BlockedUsersPopup');
+
 var EditSettingsPage = require('./Components/Profile/Settings/EditSettingsPage');
 var ProfileModal = require('./Components/Profile/ProfileModal');
-var BlockedUsersPage = require('./Components/Profile/Settings/BlockedUsersPage');
 var PostCommentsModal = require('./Components/Post/PostCommentsModal');
-var Icon = require('react-native-vector-icons/Ionicons');
+
 var loginStore = require('./stores/LoginStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
 var tabStateStore = require('./stores/TabStateStore');
 var editProfileInformationStore = require('./stores/profile/EditProfileInformationStore');
-var Unicycle = require('./Unicycle');
 
 var {
   View,
@@ -52,8 +56,7 @@ var LandingPage = React.createClass({
   },
 
   render: function() {
-    var editProfileInformationPopup = null,
-        blockedUsersPopup = null;
+    var editProfileInformationPopup = null;
 
     if (editProfileInformationStore.isVisible()) {
       editProfileInformationPopup = (
@@ -61,15 +64,6 @@ var LandingPage = React.createClass({
               content={<EditSettingsPage/>}
               onBackArrowPress={() => {editProfileInformationStore.setVisibility(false);}}
               bannerTitle='Edit'/>
-      );
-    }
-
-    if (editProfileInformationStore.isBlockedPageVisible()) {
-      blockedUsersPopup = (
-          <OverlayPage
-              content={<BlockedUsersPage/>}
-              onBackArrowPress={() => {editProfileInformationStore.setBlockedPageVisibility(false);}}
-              bannerTitle='Blocked'/>
       );
     }
 
@@ -141,7 +135,7 @@ var LandingPage = React.createClass({
         <PostLikesPopup/>
         <PostPopup/>
         <UserFollowingListPopup/>
-        {blockedUsersPopup}
+        <BlockedUsersPopup/>
         {editProfileInformationPopup}
       </View>
     );
