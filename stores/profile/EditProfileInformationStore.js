@@ -10,11 +10,11 @@ var editProfileInformationStore = Unicycle.createStore({
     init: function () {
       this.set({
         isSettingPageVisible: false,
+        isBlockedUsersPageVisible: false,
         isUploadBioRequestInFlight: false,
         isUploadFirstNameRequestInFlight: false,
         isUploadLastNameRequestInFlight: false,
         isGetBlockedUsersRequestInFlight: false,
-        isBlockedUsersModalVisible: false,
         blockedUsers: []
       });
     },
@@ -104,7 +104,7 @@ var editProfileInformationStore = Unicycle.createStore({
       var that = this;
 
       this.set({
-        isBlockedUsersModalVisible: true,
+        isBlockedUsersPageVisible: true,
         isGetBlockedUsersRequestInFlight: true
       });
 
@@ -122,6 +122,7 @@ var editProfileInformationStore = Unicycle.createStore({
         },
         () => {
           that.set({
+            isBlockedUsersPageVisible: false,
             isGetBlockedUsersRequestInFlight: false,
             blockedUsers: []
           });
@@ -129,7 +130,7 @@ var editProfileInformationStore = Unicycle.createStore({
       );
     },
 
-    $removeBlock: function(userId, userToUnBlockEmail) {
+    $removeBlock: function(userIndex, userId, userToUnBlockEmail) {
       var that = this;
 
       this.set({
@@ -144,23 +145,16 @@ var editProfileInformationStore = Unicycle.createStore({
         },
         (res) => {
           that.set({
-            isRemoveBlockRequestInFlight: false,
-            isBlockedUsersModalVisible: false
+            blockedUsers: UserUtils.removeUserFromList(that.getBlockedUsers(), userIndex),
+            isRemoveBlockRequestInFlight: false
           });
         },
         () => {
           that.set({
-            isRemoveBlockRequestInFlight: false,
-            isBlockedUsersModalVisible: false
+            isRemoveBlockRequestInFlight: false
           });
         }
       );
-    },
-
-    $setBlockedUsersModalVisible: function(value) {
-      this.set({
-        isBlockedUsersModalVisible: value
-      });
     },
 
     setVisibility: function(isVisible) {
@@ -169,12 +163,18 @@ var editProfileInformationStore = Unicycle.createStore({
       });
     },
 
+    setBlockedPageVisibility: function(isVisible) {
+      this.set({
+        isBlockedUsersPageVisible: isVisible
+      });
+    },
+
     isVisible: function() {
       return this.get('isVisible');
     },
 
-    isBlockedUsersModalVisible: function() {
-      return this.get('isBlockedUsersModalVisible');
+    isBlockedPageVisible: function() {
+      return this.get('isBlockedUsersPageVisible');
     },
 
     isUploadBioRequestInFlight: function() {

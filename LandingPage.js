@@ -12,7 +12,7 @@ var PostLikesList = require('./Components/Post/Footer/Like/PostLikesList');
 var GetAllFollowingPage = require('./Components/Profile/GetAllFollowingPage');
 var EditSettingsPage = require('./Components/Profile/Settings/EditSettingsPage');
 var ProfileModal = require('./Components/Profile/ProfileModal');
-var BlockedUsersModal = require('./Components/Profile/Settings/BlockedUsersModal');
+var BlockedUsersPage = require('./Components/Profile/Settings/BlockedUsersPage');
 var PostCommentsModal = require('./Components/Post/PostCommentsModal');
 var Icon = require('react-native-vector-icons/Ionicons');
 var loginStore = require('./stores/LoginStore');
@@ -63,6 +63,7 @@ var LandingPage = React.createClass({
         postLikesPopup = null,
         followingListForUserPopup = null,
         editProfileInformationPopup = null,
+        blockedUsersPopup = null,
         selectedPost = explorePostsStore.getSelectedPost();
 
     if (selectedPost) {
@@ -105,11 +106,19 @@ var LandingPage = React.createClass({
       );
     }
 
+    if (editProfileInformationStore.isBlockedPageVisible()) {
+      blockedUsersPopup = (
+          <OverlayPage
+              content={<BlockedUsersPage/>}
+              onBackArrowPress={() => {editProfileInformationStore.setBlockedPageVisibility(false);}}
+              bannerTitle='Blocked'/>
+      );
+    }
+
     return (
       <View style={styles.tabBarContainer}>
         <PostCommentsModal/>
         <ProfileModal/>
-        <BlockedUsersModal/>
 
         <TabBarIOS
           tintColor="#0083D4">
@@ -170,9 +179,11 @@ var LandingPage = React.createClass({
           </Icon.TabBarItem>
         </TabBarIOS>
 
+        { /* The order here is very important! */ }
         {postLikesPopup}
         {singlePostPopup}
         {followingListForUserPopup}
+        {blockedUsersPopup}
         {editProfileInformationPopup}
       </View>
     );

@@ -9,38 +9,21 @@ var Spinner = require('../../Common/Spinner');
 var {
   View,
   Text,
-  Modal,
   ScrollView,
   StyleSheet,
   TouchableHighlight
-} = React
+} = React;
 
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent: 'center',
-    paddingTop: 25,
-    paddingBottom: 10
-  },
-  modalContainer: {
-    borderRadius: 10,
     alignItems: 'center',
-    backgroundColor: '#FFF',
-    padding: 10,
-    margin: 10
-  },
-  modalHeader: {
-    color: 'darkgray',
-    alignSelf: 'center'
-  },
-  likerListContainer: {
-    alignItems: 'center'
+    justifyContent: 'center',
+    paddingTop: 15
   },
   likerListScroll: {
     margin: 20,
-    padding: 20,
-    height: 200
+    padding: 20
   },
   blockedUserContainer: {
     flex: 1,
@@ -59,31 +42,17 @@ var styles = StyleSheet.create({
     margin: 3,
     borderWidth: 1,
     borderColor: '#FF7878'
-  },
-  closeModalButton: {
-    alignSelf: 'center',
-    backgroundColor: '#FF7878',
-    marginTop: 10,
-    padding: 10,
-    paddingTop: 5,
-    paddingBottom: 5,
-    borderRadius: 3
   }
 });
 
-var BlockedUsersModal = React.createClass({
+var BlockedUsersPage = React.createClass({
 
   mixins: [
     Unicycle.listenTo(editProfileInformationStore)
   ],
 
-  _setModalVisibility(isVisible) {
-    Unicycle.exec('setBlockedUsersModalVisible', isVisible);
-  },
-
   render: function() {
-    var isModalVisible = editProfileInformationStore.isBlockedUsersModalVisible(),
-        isRequestInFlight = editProfileInformationStore.isGetBlockedUsersRequestInFlight(),
+    var isRequestInFlight = editProfileInformationStore.isGetBlockedUsersRequestInFlight(),
         isRemoveBlockRequestInFlight = editProfileInformationStore.isRemoveBlockRequestInFlight(),
         blockedUsers =  editProfileInformationStore.getBlockedUsers(),
         content;
@@ -101,37 +70,17 @@ var BlockedUsersModal = React.createClass({
     }
 
     return (
-      <View>
-        <Modal
-          animated={false}
-          transparent={true}
-          visible={isModalVisible}>
-
-          <View style={styles.container}>
-
-            <View style={styles.modalContainer}>
-              {content}
-            </View>
-            {this._renderCloseModalButton()}
-
-          </View>
-
-        </Modal>
+      <View style={styles.container}>
+        {content}
       </View>
     );
   },
 
   _renderModalContent: function(blockedUsers) {
     return (
-      <View>
-        <Text style={styles.modalHeader}>Users you have blocked.</Text>
-
-        <ScrollView style={styles.likerListScroll}>
-          <View style={styles.likerListContainer}>
-            {this._renderBlockedUsers(blockedUsers)}
-          </View>
-        </ScrollView>
-      </View>
+      <ScrollView style={styles.likerListScroll}>
+        {this._renderBlockedUsers(blockedUsers)}
+      </ScrollView>
     );
   },
 
@@ -157,7 +106,7 @@ var BlockedUsersModal = React.createClass({
         <TouchableHighlight
           underlayColor='transparent'
           onPress={() => {
-            this._onUnBlockButtonPress(user.get('email'));
+            this._onUnBlockButtonPress(user);
           }}>
 
           <Text style={styles.removeBlockButton}>
@@ -180,21 +129,12 @@ var BlockedUsersModal = React.createClass({
     );
   },
 
-  _renderCloseModalButton: function() {
-    return (
-      <TouchableHighlight
-        onPress={() => {this._setModalVisibility(false)}}
-        style={styles.closeModalButton}>
-        <Text>Close</Text>
-      </TouchableHighlight>
-    );
-  },
-
-  _onUnBlockButtonPress: function(userToUnBlockEmail) {
+  _onUnBlockButtonPress: function(user) {
     var userId = userLoginMetadataStore.getUserId();
-    Unicycle.exec('removeBlock', userId, userToUnBlockEmail);
+    // user 'id' here is just the index of the user in the list.
+    Unicycle.exec('removeBlock', user.get('id'), userId, user.get('email'));
   }
 
 });
 
-module.exports = BlockedUsersModal;
+module.exports = BlockedUsersPage;
