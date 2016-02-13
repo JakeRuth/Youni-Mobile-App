@@ -57,7 +57,8 @@ var explorePostsStore = Unicycle.createStore({
         fetchOffsetAmount: offset
       },
       (res) => {
-        var newPosts = immutable.List(PostUtils.createPostsJsonFromGreedy(res.body.posts, offset));
+        var currentPostsSize = this.getPosts().size;
+        var newPosts = immutable.List(PostUtils.createPostsJsonFromGreedy(res.body.posts, currentPostsSize));
         var allPosts = that.getPosts().concat(newPosts);
 
         that.set({

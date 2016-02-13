@@ -123,7 +123,8 @@ var profileOwnerStore = Unicycle.createStore({
           fetchOffsetAmount: offset
         },
         (res) => {
-          var postsArray = PostUtils.createPostsJsonFromGreedy(res.body.posts, offset),
+          var currentPostsSize = this.getPosts().size,
+              postsArray = PostUtils.createPostsJsonFromGreedy(res.body.posts, currentPostsSize),
               newPosts = immutable.List(postsArray),
               allPosts = that.getPosts().concat(newPosts);
           that.set({

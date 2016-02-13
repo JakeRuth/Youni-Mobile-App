@@ -59,7 +59,8 @@ var homePostsStore = Unicycle.createStore({
         fetchOffsetAmount: offset
       },
       (res) => {
-        var newPosts = immutable.List(PostUtils.createPostsJsonFromGreedy(res.body.posts, offset));
+        var currentPostsSize = this.getPosts().size;
+        var newPosts = immutable.List(PostUtils.createPostsJsonFromGreedy(res.body.posts, currentPostsSize));
         var allPosts = that.getPosts().concat(newPosts);
 
         if (offset == INITIAL_PAGE_OFFSET) {
