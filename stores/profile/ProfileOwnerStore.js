@@ -145,8 +145,7 @@ var profileOwnerStore = Unicycle.createStore({
     },
 
     $refreshProfileOwnerPosts: function(userEmail, userId) {
-      var that = this,
-          originalOffset = this.getFeedPageOffset();
+      var that = this;
 
       this.set({
         isProfileOwnerFeedRefreshing: true

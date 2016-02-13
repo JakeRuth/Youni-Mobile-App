@@ -81,8 +81,7 @@ var explorePostsStore = Unicycle.createStore({
   },
 
   $refreshExploreFeed: function(userId) {
-    var that = this,
-        originalOffset = this.getExploreFeedPageOffset();
+    var that = this;
 
     this.set({
       isExploreFeedRefreshing: true
