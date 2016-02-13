@@ -8,7 +8,7 @@ var TrendingPage = require('./Components/Trending/TrendingPage');
 var CreatePostPage = require('./CreatePostPage');
 var OverlayPage = require('./Components/Common/OverlayPage');
 var PostPopup = require('./Components/PopupPages/PostPopup');
-var PostLikesList = require('./Components/Post/Footer/Like/PostLikesList');
+var PostLikesPopup = require('./Components/PopupPages/PostLikesPopup');
 var GetAllFollowingPage = require('./Components/Profile/GetAllFollowingPage');
 var EditSettingsPage = require('./Components/Profile/Settings/EditSettingsPage');
 var ProfileModal = require('./Components/Profile/ProfileModal');
@@ -16,10 +16,8 @@ var BlockedUsersPage = require('./Components/Profile/Settings/BlockedUsersPage')
 var PostCommentsModal = require('./Components/Post/PostCommentsModal');
 var Icon = require('react-native-vector-icons/Ionicons');
 var loginStore = require('./stores/LoginStore');
-var profileOwnerStore = require('./stores/profile/ProfileOwnerStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
 var tabStateStore = require('./stores/TabStateStore');
-var postLikePopupStore = require('./stores/post/like/PostLikePopupStore');
 var getAllFollowingStore = require('./stores/user/GetAllFollowingStore');
 var editProfileInformationStore = require('./stores/profile/EditProfileInformationStore');
 var Unicycle = require('./Unicycle');
@@ -43,7 +41,6 @@ var LandingPage = React.createClass({
   mixins: [
     Unicycle.listenTo(loginStore),
     Unicycle.listenTo(tabStateStore),
-    Unicycle.listenTo(postLikePopupStore),
     Unicycle.listenTo(getAllFollowingStore),
     Unicycle.listenTo(editProfileInformationStore)
   ],
@@ -57,19 +54,9 @@ var LandingPage = React.createClass({
   },
 
   render: function() {
-    var postLikesPopup = null,
-        followingListForUserPopup = null,
+    var followingListForUserPopup = null,
         editProfileInformationPopup = null,
         blockedUsersPopup = null;
-
-    if (postLikePopupStore.isVisible()) {
-      postLikesPopup = (
-          <OverlayPage
-              content={<PostLikesList/>}
-              onBackArrowPress={() => {postLikePopupStore.setVisibility(false);}}
-              bannerTitle='Likes'/>
-      );
-    }
 
     if (getAllFollowingStore.isVisible()) {
       followingListForUserPopup = (
@@ -163,7 +150,7 @@ var LandingPage = React.createClass({
         </TabBarIOS>
 
         { /* The order here is very important! */ }
-        {postLikesPopup}
+        <PostLikesPopup/>
         <PostPopup/>
         {followingListForUserPopup}
         {blockedUsersPopup}
