@@ -41,7 +41,7 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     width: PixelRatio.getPixelSizeForLayoutSize(30),
     height: PixelRatio.getPixelSizeForLayoutSize(30),
-    borderWidth: .5,
+    borderWidth: StyleSheet.hairlineWidth,
     borderRadius: PixelRatio.getPixelSizeForLayoutSize(15),
     borderColor: '#525252'
   }

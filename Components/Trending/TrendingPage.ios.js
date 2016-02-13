@@ -26,7 +26,7 @@ var styles = StyleSheet.create({
     padding: 5
   },
   contentSeparator: {
-    borderWidth: .5,
+    borderWidth: StyleSheet.hairlineWidth,
     borderColor: '#525252',
     marginLeft: 45,
     marginRight: 45
