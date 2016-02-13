@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 var React = require('react-native');
 var Unicycle = require('../../../Unicycle');
@@ -57,8 +57,7 @@ var CommentInput = React.createClass({
   },
 
   render: function() {
-    var that = this,
-        postCommentButton = <View/>;
+    var postCommentButton = <View/>;
 
     if (this.state.commentText.length > 0) {
       postCommentButton = this._renderPostCommentButton();
@@ -67,7 +66,8 @@ var CommentInput = React.createClass({
     return (
       <View style={styles.container}>
 
-        <TextInput style={styles.commentInput}
+        <TextInput
+          style={styles.commentInput}
           value={this.state.commentText}
           placeholder='Add a comment...'
           placeholderTextColor='#ADADAD'
@@ -94,7 +94,7 @@ var CommentInput = React.createClass({
     else {
       content = (
         <TouchableHighlight
-          onPress={this.onPostCommentPress}
+          onPress={this._onPostCommentPress}
           underlayColor='transparent'>
 
           <Text style={styles.postCommentButtonLabel}>
@@ -112,7 +112,7 @@ var CommentInput = React.createClass({
     )
   },
 
-  onPostCommentPress: function() {
+  _onPostCommentPress: function() {
     //TODO: FIX ME BAD
     postCommentsModalStore.addComment(
       this.state.commentText,
