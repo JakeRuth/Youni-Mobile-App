@@ -7,7 +7,7 @@ var ProfilePage = require('./ProfilePage');
 var TrendingPage = require('./Components/Trending/TrendingPage');
 var CreatePostPage = require('./CreatePostPage');
 var OverlayPage = require('./Components/Common/OverlayPage');
-var Post = require('./Components/Post/Post');
+var PostPopup = require('./Components/PopupPages/PostPopup');
 var PostLikesList = require('./Components/Post/Footer/Like/PostLikesList');
 var GetAllFollowingPage = require('./Components/Profile/GetAllFollowingPage');
 var EditSettingsPage = require('./Components/Profile/Settings/EditSettingsPage');
@@ -19,7 +19,6 @@ var loginStore = require('./stores/LoginStore');
 var profileOwnerStore = require('./stores/profile/ProfileOwnerStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
 var tabStateStore = require('./stores/TabStateStore');
-var explorePostsStore = require('./stores/post/ExplorePostsStore');
 var postLikePopupStore = require('./stores/post/like/PostLikePopupStore');
 var getAllFollowingStore = require('./stores/user/GetAllFollowingStore');
 var editProfileInformationStore = require('./stores/profile/EditProfileInformationStore');
@@ -44,7 +43,6 @@ var LandingPage = React.createClass({
   mixins: [
     Unicycle.listenTo(loginStore),
     Unicycle.listenTo(tabStateStore),
-    Unicycle.listenTo(explorePostsStore),
     Unicycle.listenTo(postLikePopupStore),
     Unicycle.listenTo(getAllFollowingStore),
     Unicycle.listenTo(editProfileInformationStore)
@@ -59,25 +57,10 @@ var LandingPage = React.createClass({
   },
 
   render: function() {
-    var singlePostPopup = null,
-        postLikesPopup = null,
+    var postLikesPopup = null,
         followingListForUserPopup = null,
         editProfileInformationPopup = null,
-        blockedUsersPopup = null,
-        selectedPost = explorePostsStore.getSelectedPost();
-
-    if (selectedPost) {
-      var post = (
-          <Post
-              postStore={explorePostsStore}
-              post={selectedPost}/>
-      );
-      singlePostPopup = (
-          <OverlayPage
-              content={post}
-              onBackArrowPress={() => {explorePostsStore.setSelectedPostId(null);}}/>
-      );
-    }
+        blockedUsersPopup = null;
 
     if (postLikePopupStore.isVisible()) {
       postLikesPopup = (
@@ -181,7 +164,7 @@ var LandingPage = React.createClass({
 
         { /* The order here is very important! */ }
         {postLikesPopup}
-        {singlePostPopup}
+        <PostPopup/>
         {followingListForUserPopup}
         {blockedUsersPopup}
         {editProfileInformationPopup}
