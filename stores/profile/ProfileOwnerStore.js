@@ -166,7 +166,7 @@ var profileOwnerStore = Unicycle.createStore({
 
           that.set({
             posts: newPosts,
-            feedPageOffset: newPosts.size,
+            feedPageOffset: MAX_POSTS_PER_PAGE,
             isProfileOwnerFeedRefreshing: false,
             noMorePostsToFetch: !res.body.moreResults
           });

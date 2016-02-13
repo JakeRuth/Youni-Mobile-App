@@ -100,7 +100,7 @@ var explorePostsStore = Unicycle.createStore({
 
         that.set({
           posts: newPosts,
-          exploreFeedPageOffset: newPosts.size,
+          exploreFeedPageOffset: MAX_POSTS_PER_PAGE,
           isExploreFeedRefreshing: false,
           noMorePostsToFetch: !res.body.moreResults
         });

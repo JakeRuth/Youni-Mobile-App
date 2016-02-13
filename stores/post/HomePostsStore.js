@@ -108,7 +108,7 @@ var homePostsStore = Unicycle.createStore({
         CacheUtils.saveHomeFeedPosts(res.body.posts);
 
         that.set({
-          homeFeedPageOffset: newPosts.size,
+          homeFeedPageOffset: MAX_POSTS_PER_PAGE,
           posts: newPosts,
           isHomeFeedRefreshing: false,
           isRequestInFlight: false,
