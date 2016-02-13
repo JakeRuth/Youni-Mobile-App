@@ -9,7 +9,7 @@ var CreatePostPage = require('./CreatePostPage');
 var OverlayPage = require('./Components/Common/OverlayPage');
 var PostPopup = require('./Components/PopupPages/PostPopup');
 var PostLikesPopup = require('./Components/PopupPages/PostLikesPopup');
-var GetAllFollowingPage = require('./Components/Profile/GetAllFollowingPage');
+var UserFollowingListPopup = require('./Components/PopupPages/UserFollowingListPopup');
 var EditSettingsPage = require('./Components/Profile/Settings/EditSettingsPage');
 var ProfileModal = require('./Components/Profile/ProfileModal');
 var BlockedUsersPage = require('./Components/Profile/Settings/BlockedUsersPage');
@@ -18,7 +18,6 @@ var Icon = require('react-native-vector-icons/Ionicons');
 var loginStore = require('./stores/LoginStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
 var tabStateStore = require('./stores/TabStateStore');
-var getAllFollowingStore = require('./stores/user/GetAllFollowingStore');
 var editProfileInformationStore = require('./stores/profile/EditProfileInformationStore');
 var Unicycle = require('./Unicycle');
 
@@ -41,7 +40,6 @@ var LandingPage = React.createClass({
   mixins: [
     Unicycle.listenTo(loginStore),
     Unicycle.listenTo(tabStateStore),
-    Unicycle.listenTo(getAllFollowingStore),
     Unicycle.listenTo(editProfileInformationStore)
   ],
 
@@ -54,18 +52,8 @@ var LandingPage = React.createClass({
   },
 
   render: function() {
-    var followingListForUserPopup = null,
-        editProfileInformationPopup = null,
+    var editProfileInformationPopup = null,
         blockedUsersPopup = null;
-
-    if (getAllFollowingStore.isVisible()) {
-      followingListForUserPopup = (
-          <OverlayPage
-              content={<GetAllFollowingPage/>}
-              onBackArrowPress={() => {getAllFollowingStore.setVisibility(false);}}
-              bannerTitle='Following'/>
-      );
-    }
 
     if (editProfileInformationStore.isVisible()) {
       editProfileInformationPopup = (
@@ -152,7 +140,7 @@ var LandingPage = React.createClass({
         { /* The order here is very important! */ }
         <PostLikesPopup/>
         <PostPopup/>
-        {followingListForUserPopup}
+        <UserFollowingListPopup/>
         {blockedUsersPopup}
         {editProfileInformationPopup}
       </View>
