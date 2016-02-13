@@ -15,15 +15,14 @@ var PostPopup = require('./Components/PopupPages/PostPopup');
 var PostLikesPopup = require('./Components/PopupPages/PostLikesPopup');
 var UserFollowingListPopup = require('./Components/PopupPages/UserFollowingListPopup');
 var BlockedUsersPopup = require('./Components/PopupPages/BlockedUsersPopup');
+var EditProfilePopup = require('./Components/PopupPages/EditProfilePopup');
 
-var EditSettingsPage = require('./Components/Profile/Settings/EditSettingsPage');
 var ProfileModal = require('./Components/Profile/ProfileModal');
 var PostCommentsModal = require('./Components/Post/PostCommentsModal');
 
 var loginStore = require('./stores/LoginStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
 var tabStateStore = require('./stores/TabStateStore');
-var editProfileInformationStore = require('./stores/profile/EditProfileInformationStore');
 
 var {
   View,
@@ -43,8 +42,7 @@ var LandingPage = React.createClass({
 
   mixins: [
     Unicycle.listenTo(loginStore),
-    Unicycle.listenTo(tabStateStore),
-    Unicycle.listenTo(editProfileInformationStore)
+    Unicycle.listenTo(tabStateStore)
   ],
 
   componentDidMount: function() {
@@ -56,17 +54,6 @@ var LandingPage = React.createClass({
   },
 
   render: function() {
-    var editProfileInformationPopup = null;
-
-    if (editProfileInformationStore.isVisible()) {
-      editProfileInformationPopup = (
-          <OverlayPage
-              content={<EditSettingsPage/>}
-              onBackArrowPress={() => {editProfileInformationStore.setVisibility(false);}}
-              bannerTitle='Edit'/>
-      );
-    }
-
     return (
       <View style={styles.tabBarContainer}>
         <PostCommentsModal/>
@@ -136,7 +123,7 @@ var LandingPage = React.createClass({
         <PostPopup/>
         <UserFollowingListPopup/>
         <BlockedUsersPopup/>
-        {editProfileInformationPopup}
+        <EditProfilePopup/>
       </View>
     );
   },
