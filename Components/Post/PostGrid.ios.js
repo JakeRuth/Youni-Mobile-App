@@ -42,11 +42,23 @@ var PostGrid = React.createClass({
     return posts;
   },
 
-  _renderPostRow: function(leftPost, rightPost) {
+  _renderPostRow: function(leftPostJson, rightPostJson) {
+    var leftPost, rightPost;
+
+    // it is possible for these to be blank if the total post count wasn't 10 (page size)
+    // one case where this happens is when the requesting user has user's blocked and the posts are filtered
+    // out of the results (so less then 10 are returned)
+    if (leftPostJson) {
+      leftPost = <PostGridThumbnail post={leftPostJson}/>;
+    }
+    if (rightPostJson) {
+      rightPost = <PostGridThumbnail post={rightPostJson}/>;
+    }
+
     return (
       <View style={styles.postRow}>
-        <PostGridThumbnail post={leftPost}/>
-        <PostGridThumbnail post={rightPost}/>
+        {leftPost}
+        {rightPost}
       </View>
     );
   }
