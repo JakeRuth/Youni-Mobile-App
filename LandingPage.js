@@ -24,6 +24,7 @@ var loginStore = require('./stores/LoginStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
 var tabStateStore = require('./stores/TabStateStore');
 var explorePostsStore = require('./stores/post/ExplorePostsStore');
+var postLikePopupStore = require('./stores/post/like/PostLikePopupStore');
 
 var {
   View,
@@ -44,7 +45,8 @@ var LandingPage = React.createClass({
   mixins: [
     Unicycle.listenTo(loginStore),
     Unicycle.listenTo(tabStateStore),
-    Unicycle.listenTo(explorePostsStore)
+    Unicycle.listenTo(explorePostsStore),
+    Unicycle.listenTo(postLikePopupStore)
   ],
 
   componentDidMount: function() {
@@ -121,7 +123,7 @@ var LandingPage = React.createClass({
         </TabBarIOS>
 
         { /* The order here is very important! */ }
-        <PostLikesPopup/>
+        <PostLikesPopup likerUsers={postLikePopupStore.getLikerDisplayNames()}/>
         <PostPopup post={explorePostsStore.getSelectedPost()}/>
         <UserFollowingListPopup/>
         <BlockedUsersPopup/>

@@ -37,6 +37,10 @@ var styles = StyleSheet.create({
 
 var PostLikesList = React.createClass({
 
+  propTypes: {
+    likerUsers: React.PropTypes.array.isRequired
+  },
+
   mixins: [
     Unicycle.listenTo(postLikePopupStore)
   ],
@@ -52,7 +56,7 @@ var PostLikesList = React.createClass({
       );
     }
     else {
-      var users = postLikePopupStore.getLikerDisplayNames();
+      var users = this.props.likerUsers;
       for (var i = 0; i < users.size; i++) {
         userRow.push(
             this._renderUser(users.get(i))

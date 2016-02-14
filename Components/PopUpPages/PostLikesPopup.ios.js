@@ -12,6 +12,10 @@ var {
 
 var PostLikesPopup = React.createClass({
 
+    propTypes: {
+        likerUsers: React.PropTypes.array.isRequired
+    },
+
     mixins: [
         Unicycle.listenTo(postLikePopupStore)
     ],
@@ -20,7 +24,7 @@ var PostLikesPopup = React.createClass({
         if (postLikePopupStore.isVisible()) {
             return (
                 <OverlayPage
-                    content={<PostLikesList/>}
+                    content={<PostLikesList likerUsers={this.props.likerUsers}/>}
                     onBackArrowPress={() => {postLikePopupStore.setVisibility(false);}}
                     bannerTitle='Likes'/>
             );
