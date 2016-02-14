@@ -23,6 +23,7 @@ var PostCommentsModal = require('./Components/Post/PostCommentsModal');
 var loginStore = require('./stores/LoginStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
 var tabStateStore = require('./stores/TabStateStore');
+var explorePostsStore = require('./stores/post/ExplorePostsStore');
 
 var {
   View,
@@ -42,7 +43,8 @@ var LandingPage = React.createClass({
 
   mixins: [
     Unicycle.listenTo(loginStore),
-    Unicycle.listenTo(tabStateStore)
+    Unicycle.listenTo(tabStateStore),
+    Unicycle.listenTo(explorePostsStore)
   ],
 
   componentDidMount: function() {
@@ -120,7 +122,7 @@ var LandingPage = React.createClass({
 
         { /* The order here is very important! */ }
         <PostLikesPopup/>
-        <PostPopup/>
+        <PostPopup post={explorePostsStore.getSelectedPost()}/>
         <UserFollowingListPopup/>
         <BlockedUsersPopup/>
         <EditProfilePopup/>

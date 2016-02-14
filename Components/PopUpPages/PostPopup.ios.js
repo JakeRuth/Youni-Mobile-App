@@ -1,7 +1,6 @@
 'use strict';
 
 var React = require('react-native');
-var Unicycle = require('../../Unicycle');
 var Post = require('../Post/Post');
 var OverlayPage = require('../Common/OverlayPage');
 var explorePostsStore = require('../../stores/post/ExplorePostsStore');
@@ -12,17 +11,15 @@ var {
 
 var PostPopup = React.createClass({
 
-    mixins: [
-        Unicycle.listenTo(explorePostsStore)
-    ],
+    propTypes: {
+        post: React.PropTypes.object.isRequired
+    },
 
     render: function() {
-        var selectedPost = explorePostsStore.getSelectedPost();
-
-        if (selectedPost) {
+        if (this.props.post) {
             return (
                 <OverlayPage
-                    content={this._renderPost(selectedPost)}
+                    content={this._renderPost(this.props.post)}
                     onBackArrowPress={() => {explorePostsStore.setSelectedPostId(null);}}/>
             );
         }
