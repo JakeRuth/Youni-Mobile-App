@@ -27,7 +27,8 @@ var styles = StyleSheet.create({
 var ProfilePage = React.createClass({
 
   propTypes: {
-    email: React.PropTypes.string.isRequired
+    email: React.PropTypes.string.isRequired,
+    navigator: React.PropTypes.object.isRequired
   },
 
   mixins: [
@@ -74,7 +75,7 @@ var ProfilePage = React.createClass({
         <MainScreenBanner
           title={profileOwnerStore.getFirstName() + ' ' + profileOwnerStore.getLastName()}/>
 
-        <LogoutButton/>
+        <LogoutButton navigator={this.props.navigator}/>
         <EditSettingsButton/>
 
         {content}

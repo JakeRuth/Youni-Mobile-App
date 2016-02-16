@@ -2,15 +2,13 @@
 
 var React = require('react-native');
 var Unicycle = require('../../Unicycle');
-var globalAppPageStateStore = require('../../stores/GlobalAppPageStateStore');
-var PAGE_KEYS = require('../../Utils/Enums/PageNameEnum');
 
 var {
   TouchableHighlight,
   Text,
   StyleSheet,
   AsyncStorage
-} = React
+} = React;
 
 var styles = StyleSheet.create({
   logoutButtonContainer: {
@@ -28,6 +26,10 @@ var styles = StyleSheet.create({
 });
 
 var LogoutButton = React.createClass({
+
+  propTypes: {
+    navigator: React.PropTypes.object.isRequired
+  },
 
   render: function() {
     return (
@@ -47,7 +49,7 @@ var LogoutButton = React.createClass({
     Unicycle.exec('refreshHomeFeedData');
     Unicycle.exec('refreshExploreFeedData');
     Unicycle.exec('reInitProfilePageState');
-    globalAppPageStateStore.setCurrentPage(PAGE_KEYS.loginPage);
+    this.props.navigator.popToTop();
   }
 
 });

@@ -2,7 +2,6 @@
 
 var React = require('react-native');
 var Icon = require('react-native-vector-icons/Ionicons');
-var globalAppPageStateStore = require('../../stores/GlobalAppPageStateStore');
 
 var {
     View,

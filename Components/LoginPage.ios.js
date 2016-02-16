@@ -1,14 +1,13 @@
 'use strict';
 
 var React = require('react-native');
+var LandingPage = require('../LandingPage');
 var SignUpForm = require('./SignUp/SignUpForm');
 var Unicycle = require('../Unicycle');
 var loginStore = require('../stores/LoginStore');
 var signUpStore = require('../stores/signUp/SignupStore');
 var userLoginMetadataStore = require('../stores/UserLoginMetadataStore');
-var globalAppPageStateStore = require('../stores/GlobalAppPageStateStore');
 var AjaxUtils = require('../Utils/Common/AjaxUtils');
-var PAGE_KEYS = require('../Utils/Enums/PageNameEnum');
 
 var {
     View,
@@ -258,7 +257,10 @@ var LoginPage = React.createClass({
                 that._saveEmail(email);
                 that._saveRefreshToken(refreshToken);
                 that._saveAccessTokenThenLoadHomePage(accessToken);
-                globalAppPageStateStore.setCurrentPage(PAGE_KEYS.landingPage);
+
+                that.props.navigator.push({
+                  component: LandingPage
+                });
             },
             () => {
                 that._alertFailedLogin();
