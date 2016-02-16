@@ -63,64 +63,7 @@ var LandingPage = React.createClass({
         <PostCommentsModal/>
         <ProfileModal/>
 
-        <TabBarIOS
-          tintColor="#0083D4">
-          <Icon.TabBarItem
-            title="Home"
-            iconName="ios-home-outline"
-            selectedIconName="ios-home-outline"
-            selected={tabStateStore.getSelectedTab() === 'home'}
-            onPress={() => {
-              this._transitionState('home');
-            }}>
-            <HomePage/>
-          </Icon.TabBarItem>
-          <Icon.TabBarItem
-            title="Explore"
-            iconName="ios-search"
-            selectedIconName="ios-search"
-            selected={tabStateStore.getSelectedTab() === 'search'}
-            onPress={() => {
-              Unicycle.exec('setInProfileView', false);
-              Unicycle.exec('setInExploreFeedView', true);
-              this._transitionState('search');
-            }}>
-            <SearchPage/>
-          </Icon.TabBarItem>
-          <Icon.TabBarItem
-            title="Take Photo"
-            iconName="ios-camera-outline"
-            selectedIconName="ios-camera-outline"
-            selected={tabStateStore.getSelectedTab() === 'takePhoto'}
-            onPress={() => {
-              Unicycle.exec('setAnyErrorsOnCreatePostPage', false);
-              Unicycle.exec('setShouldShowImagePickerForPost', true);
-              this._transitionState('takePhoto');
-            }}>
-            <CreatePostPage previousTab={tabStateStore.getPreviousTab()}/>
-          </Icon.TabBarItem>
-          <Icon.TabBarItem
-            title="Trending"
-            iconName="fireball"
-            selectedIconName="fireball"
-            selected={tabStateStore.getSelectedTab() === 'trend'}
-            onPress={() => {
-              this._transitionState('trend');
-            }}>
-            <TrendingPage/>
-          </Icon.TabBarItem>
-          <Icon.TabBarItem
-            title="Profile"
-            iconName="ios-people-outline"
-            selectedIconName="ios-people-outline"
-            selected={tabStateStore.getSelectedTab() === 'profile'}
-            onPress={() => {
-              this._transitionState('profile');
-            }}>
-            <ProfilePage
-              email={userLoginMetadataStore.getEmail()}/>
-          </Icon.TabBarItem>
-        </TabBarIOS>
+        {this._renderTabBar()}
 
         { /* The order here is very important! */ }
         <PostLikesPopup likerUsers={postLikePopupStore.getLikerDisplayNames()}/>
@@ -128,7 +71,103 @@ var LandingPage = React.createClass({
         <UserFollowingListPopup/>
         <BlockedUsersPopup/>
         <EditProfilePopup/>
+
       </View>
+    );
+  },
+
+  _renderTabBar: function() {
+    return (
+      <TabBarIOS
+        tintColor="#0083D4">
+
+        {this._renderHomeTab()}
+        {this._renderExploreTab()}
+        {this._renderTakePhotoTab()}
+        {this._renderTrendingTab()}
+        {this._renderProfileTab()}
+
+      </TabBarIOS>
+    );
+  },
+
+  _renderHomeTab: function() {
+    return (
+      <Icon.TabBarItem
+        title="Home"
+        iconName="ios-home-outline"
+        selectedIconName="ios-home-outline"
+        selected={tabStateStore.getSelectedTab() === 'home'}
+        onPress={() => {
+              this._transitionState('home');
+            }}>
+        <HomePage/>
+      </Icon.TabBarItem>
+    );
+  },
+
+  _renderExploreTab: function() {
+    return (
+      <Icon.TabBarItem
+        title="Explore"
+        iconName="ios-search"
+        selectedIconName="ios-search"
+        selected={tabStateStore.getSelectedTab() === 'search'}
+        onPress={() => {
+              Unicycle.exec('setInProfileView', false);
+              Unicycle.exec('setInExploreFeedView', true);
+              this._transitionState('search');
+            }}>
+        <SearchPage/>
+      </Icon.TabBarItem>
+    );
+  },
+
+  _renderTakePhotoTab: function() {
+    return (
+      <Icon.TabBarItem
+        title="Take Photo"
+        iconName="ios-camera-outline"
+        selectedIconName="ios-camera-outline"
+        selected={tabStateStore.getSelectedTab() === 'takePhoto'}
+        onPress={() => {
+              Unicycle.exec('setAnyErrorsOnCreatePostPage', false);
+              Unicycle.exec('setShouldShowImagePickerForPost', true);
+              this._transitionState('takePhoto');
+            }}>
+        <CreatePostPage previousTab={tabStateStore.getPreviousTab()}/>
+      </Icon.TabBarItem>
+    );
+  },
+
+  _renderTrendingTab: function() {
+    return (
+      <Icon.TabBarItem
+        title="Trending"
+        iconName="fireball"
+        selectedIconName="fireball"
+        selected={tabStateStore.getSelectedTab() === 'trend'}
+        onPress={() => {
+              this._transitionState('trend');
+            }}>
+        <TrendingPage/>
+      </Icon.TabBarItem>
+    );
+  },
+
+  _renderProfileTab: function() {
+    return (
+      <Icon.TabBarItem
+        title="Profile"
+        iconName="ios-people-outline"
+        selectedIconName="ios-people-outline"
+        selected={tabStateStore.getSelectedTab() === 'profile'}
+        onPress={() => {
+              this._transitionState('profile');
+            }}>
+        <ProfilePage
+          email={userLoginMetadataStore.getEmail()}/>
+      </Icon.TabBarItem>
     );
   },
 
