@@ -77,7 +77,7 @@ var ProfilePage = React.createClass({
           title={profileOwnerStore.getFirstName() + ' ' + profileOwnerStore.getLastName()}/>
 
         <LogoutButton navigator={this.props.navigator}/>
-        <EditSettingsButton/>
+        <EditSettingsButton navigator={this.props.navigator}/>
 
         {content}
 

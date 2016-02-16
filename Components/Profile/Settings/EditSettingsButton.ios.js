@@ -3,7 +3,7 @@
 var React = require('react-native');
 var Unicycle = require('../../../Unicycle');
 var Icon = require('react-native-vector-icons/Ionicons');
-var editProfileInformationStore = require('../../../stores/profile/EditProfileInformationStore');
+var EditProfilePopup = require('../../PopupPages/EditProfilePopup');
 
 var {
   View,
@@ -22,6 +22,10 @@ var styles = StyleSheet.create({
 
 var EditSettingsButton = React.createClass({
 
+  propTypes: {
+    navigator: React.PropTypes.object.isRequired
+  },
+
   render: function() {
     return (
       <TouchableHighlight
@@ -36,7 +40,9 @@ var EditSettingsButton = React.createClass({
   },
 
   _onSettingsButtonClick: function() {
-    editProfileInformationStore.setVisibility(true);
+    this.props.navigator.push({
+      component: EditProfilePopup
+    });
   }
 
 });

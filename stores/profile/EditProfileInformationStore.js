@@ -9,12 +9,12 @@ var editProfileInformationStore = Unicycle.createStore({
 
     init: function () {
       this.set({
-        isSettingPageVisible: false,
         isBlockedUsersPageVisible: false,
         isUploadBioRequestInFlight: false,
         isUploadFirstNameRequestInFlight: false,
         isUploadLastNameRequestInFlight: false,
         isGetBlockedUsersRequestInFlight: false,
+        isRemoveBlockRequestInFlight: false,
         blockedUsers: []
       });
     },
@@ -155,16 +155,6 @@ var editProfileInformationStore = Unicycle.createStore({
           });
         }
       );
-    },
-
-    setVisibility: function(isVisible) {
-      this.set({
-        isVisible: isVisible
-      });
-    },
-
-    isVisible: function() {
-      return this.get('isVisible');
     },
 
     isUploadBioRequestInFlight: function() {

@@ -13,8 +13,6 @@ var OverlayPage = require('./Components/Common/OverlayPage');
 
 var PostPopup = require('./Components/PopupPages/PostPopup');
 var PostLikesPopup = require('./Components/PopupPages/PostLikesPopup');
-var BlockedUsersPopup = require('./Components/PopupPages/BlockedUsersPopup');
-var EditProfilePopup = require('./Components/PopupPages/EditProfilePopup');
 
 var ProfileModal = require('./Components/Profile/ProfileModal');
 var PostCommentsModal = require('./Components/Post/PostCommentsModal');
@@ -71,7 +69,6 @@ var LandingPage = React.createClass({
         { /* The order here is very important! */ }
         <PostLikesPopup likerUsers={postLikePopupStore.getLikerDisplayNames()}/>
         <PostPopup post={explorePostsStore.getSelectedPost()}/>
-        <EditProfilePopup navigator={this.props.navigator}/>
 
       </View>
     );

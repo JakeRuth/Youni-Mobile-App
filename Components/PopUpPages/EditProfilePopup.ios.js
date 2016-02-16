@@ -21,19 +21,12 @@ var EditProfilePopup = React.createClass({
   ],
 
   render: function () {
-    if (editProfileInformationStore.isVisible()) {
-      return (
-        <OverlayPage
-          content={<EditSettingsPage navigator={this.props.navigator}/>}
-          onBackArrowPress={() => {editProfileInformationStore.setVisibility(false);}}
-          bannerTitle='Edit'/>
-      );
-    }
-    else {
-      return (
-        <View/>
-      );
-    }
+    return (
+      <OverlayPage
+        content={<EditSettingsPage navigator={this.props.navigator}/>}
+        onBackArrowPress={() => {this.props.navigator.pop();}}
+        bannerTitle='Edit'/>
+    );
   }
 
 });
