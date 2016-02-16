@@ -11,15 +11,12 @@ var TrendingPage = require('./Components/Trending/TrendingPage');
 var CreatePostPage = require('./CreatePostPage');
 var OverlayPage = require('./Components/Common/OverlayPage');
 
-var PostPopup = require('./Components/PopupPages/PostPopup');
-
 var ProfileModal = require('./Components/Profile/ProfileModal');
 var PostCommentsModal = require('./Components/Post/PostCommentsModal');
 
 var loginStore = require('./stores/LoginStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
 var tabStateStore = require('./stores/TabStateStore');
-var explorePostsStore = require('./stores/post/ExplorePostsStore');
 
 var {
   View,
@@ -43,8 +40,7 @@ var LandingPage = React.createClass({
 
   mixins: [
     Unicycle.listenTo(loginStore),
-    Unicycle.listenTo(tabStateStore),
-    Unicycle.listenTo(explorePostsStore)
+    Unicycle.listenTo(tabStateStore)
   ],
 
   componentDidMount: function() {
@@ -62,9 +58,6 @@ var LandingPage = React.createClass({
         <ProfileModal navigator={this.props.navigator}/>
 
         {this._renderTabBar()}
-
-        { /* The order here is very important! */ }
-        <PostPopup post={explorePostsStore.getSelectedPost()} navigator={this.props.navigator}/>
 
       </View>
     );

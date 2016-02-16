@@ -90,7 +90,8 @@ var PostList = React.createClass({
         <PostGrid
           posts={this.props.posts}
           postStore={this.props.postStore}
-          viewerIsPostOwner={this.props.viewerIsPostOwner}/>
+          viewerIsPostOwner={this.props.viewerIsPostOwner}
+          navigator={this.props.navigator}/>
       );
     }
     else {

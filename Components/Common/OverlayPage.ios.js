@@ -40,7 +40,7 @@ var OverlayPage = React.createClass({
     },
 
     render: function() {
-        var contentOffset = null;
+        var contentOffset = {x:0,y:20};
 
         if (this.state.hasKeyboardBeenShownAtLeastOnce) {
             contentOffset = {

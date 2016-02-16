@@ -21,7 +21,6 @@ var explorePostsStore = Unicycle.createStore({
   init: function() {
     this.set({
       posts: [],
-      selectedPostId: null,
       isRequestInFlight: false,
       isExploreFeedRefreshing: false,
       isLoadMorePostsRequestInFlight: false,
@@ -180,12 +179,6 @@ var explorePostsStore = Unicycle.createStore({
     });
   },
 
-  setSelectedPostId: function(postId) {
-    this.set({
-      selectedPostId: postId
-    });
-  },
-
   addCommentOnPost: function(id, postIdString, userIdString, comment, commenterName, callback) {
     var posts = this.getPosts(),
         that = this;
@@ -218,12 +211,6 @@ var explorePostsStore = Unicycle.createStore({
 
   anyErrorsLoadingPage: function() {
     return this.get('pageLoadError');
-  },
-
-  getSelectedPost: function() {
-    var posts = this.getPosts(),
-        selectPostId = this.get('selectedPostId');
-    return posts.get(selectPostId);
   },
 
   isRequestInFlight: function() {

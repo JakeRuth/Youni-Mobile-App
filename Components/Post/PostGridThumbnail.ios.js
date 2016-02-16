@@ -3,6 +3,7 @@
 var React = require('react-native');
 var Icon = require('react-native-vector-icons/Ionicons');
 var explorePostsStore = require('../../stores/post/ExplorePostsStore');
+var PostPopup = require('../PopupPages/PostPopup');
 
 var {
   View,
@@ -69,7 +70,12 @@ var PostGridThumbnail = React.createClass({
       <TouchableHighlight
           style={styles.container}
           underlayColor='transparent'
-          onPress={() => {explorePostsStore.setSelectedPostId(this.props.post.id);}}>
+          onPress={() => {
+            this.props.navigator.push({
+              component: PostPopup,
+              passProps: {post: this.props.post}
+            })
+          }}>
 
         <View>
           <Image

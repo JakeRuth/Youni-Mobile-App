@@ -6,39 +6,32 @@ var OverlayPage = require('../Common/OverlayPage');
 var explorePostsStore = require('../../stores/post/ExplorePostsStore');
 
 var {
-    View
+  View
 } = React;
 
 var PostPopup = React.createClass({
 
-    propTypes: {
-        post: React.PropTypes.object.isRequired,
-        navigator: React.PropTypes.object.isRequired
-    },
+  propTypes: {
+    post: React.PropTypes.object.isRequired,
+    navigator: React.PropTypes.object.isRequired
+  },
 
-    render: function() {
-        if (this.props.post) {
-            return (
-                <OverlayPage
-                    content={this._renderPost(this.props.post)}
-                    onBackArrowPress={() => {explorePostsStore.setSelectedPostId(null);}}/>
-            );
-        }
-        else {
-            return (
-                <View/>
-            );
-        }
-    },
+  render: function () {
+    return (
+      <OverlayPage
+        content={this._renderPost(this.props.post)}
+        onBackArrowPress={() => {this.props.navigator.pop();}}/>
+    );
+  },
 
-    _renderPost: function(selectedPost) {
-        return (
-            <Post
-                postStore={explorePostsStore}
-                post={selectedPost}
-                navigator={this.props.navigator}/>
-        );
-    }
+  _renderPost: function (selectedPost) {
+    return (
+      <Post
+        postStore={explorePostsStore}
+        post={selectedPost}
+        navigator={this.props.navigator}/>
+    );
+  }
 
 });
 
