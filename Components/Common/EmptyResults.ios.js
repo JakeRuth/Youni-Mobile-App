@@ -2,7 +2,6 @@
 
 var React = require('react-native');
 var Unicycle = require('../../Unicycle');
-var getAllFollowingStore = require('../../stores/user/GetAllFollowingStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 
 var {

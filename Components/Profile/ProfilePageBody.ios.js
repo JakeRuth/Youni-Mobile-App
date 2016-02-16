@@ -7,11 +7,11 @@ var BlockUserButton = require('./BlockUserButton');
 var ProfileImage = require('./ProfileImage');
 var TotalProfileCountsContainer = require('./TotalProfileCountsContainer');
 var UserPosts = require('./UserPosts');
+var UserFollowingListPopup = require('../PopupPages/UserFollowingListPopup');
 var profileOwnerStore = require('../../stores/profile/ProfileOwnerStore');
 var profileStore = require('../../stores/profile/ProfileStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var followUnfollowStore = require('../../stores/FollowStore');
-var getAllFollowingStore = require('../../stores/user/GetAllFollowingStore');
 
 var {
   View,
@@ -53,6 +53,7 @@ var ProfilePageBody = React.createClass({
   },
 
   propTypes: {
+    navigator: React.PropTypes.object.isRequired,
     firstName: React.PropTypes.string.isRequired,
     lastName: React.PropTypes.string.isRequired,
     bio: React.PropTypes.string,
@@ -140,8 +141,9 @@ var ProfilePageBody = React.createClass({
   },
 
   _getAllUsersTheOwnerIsFollowing: function() {
-    var userEmail = userLoginMetadataStore.getEmail();
-    getAllFollowingStore.getFollowing(userEmail);
+    this.props.navigator.push({
+      component: UserFollowingListPopup
+    });
   },
 
   _followOrUnfollowUser: function() {

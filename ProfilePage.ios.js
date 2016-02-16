@@ -57,6 +57,7 @@ var ProfilePage = React.createClass({
     else {
       content = (
         <ProfilePageBody
+          navigator={this.props.navigator}
           viewerIsProfileOwner={true}
           firstName={profileOwnerStore.getFirstName()}
           lastName={profileOwnerStore.getLastName()}

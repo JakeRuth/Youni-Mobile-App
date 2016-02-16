@@ -2,7 +2,6 @@
 
 var React = require('react-native');
 var AllFollowingResultList = require('./AllFollowingResultList');
-var getAllFollowingStore = require('../../stores/user/GetAllFollowingStore');
 var Spinner = require('../Common/Spinner');
 
 var {
@@ -25,20 +24,23 @@ var styles = StyleSheet.create({
 
 var GetAllFollowingPage = React.createClass({
 
-  render: function() {
-    var isRequestInFlight = getAllFollowingStore.isRequestInFlight(),
-        allFollowing = getAllFollowingStore.getAllFollowing(),
-        content;
+  propTypes: {
+    loading: React.PropTypes.bool.isRequired,
+    users: React.PropTypes.array.isRequired
+  },
 
-    if (isRequestInFlight) {
+  render: function () {
+    var content;
+
+    if (this.props.loading) {
       content = (
-          <View style={styles.spinnerContainer}>
-            <Spinner/>
-          </View>
+        <View style={styles.spinnerContainer}>
+          <Spinner/>
+        </View>
       );
     }
     else {
-      content = <AllFollowingResultList users={allFollowing}/>
+      content = <AllFollowingResultList users={this.props.users}/>
     }
 
     return (

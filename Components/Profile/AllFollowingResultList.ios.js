@@ -3,7 +3,6 @@
 var React = require('react-native');
 var Icon = require('react-native-vector-icons/Ionicons');
 var Unicycle = require('../../Unicycle');
-var getAllFollowingStore = require('../../stores/user/GetAllFollowingStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var EmptyResults = require('../Common/EmptyResults');
 
@@ -49,17 +48,17 @@ var styles = StyleSheet.create({
 var AllFollowingResultList = React.createClass({
 
   propTypes: {
-    users: React.PropTypes.object.isRequired
+    users: React.PropTypes.array.isRequired
   },
 
   render: function() {
     var content;
 
-    if (!this.props.users.size) {
+    if (!this.props.users.length) {
       content = <EmptyResults message={"You aren't following anyone!"}/>
     }
     else {
-      content = this.renderResultList();
+      content = this.renderResultList(this.props.users);
     }
 
     return (
@@ -69,15 +68,13 @@ var AllFollowingResultList = React.createClass({
     );
   },
 
-  renderResultList: function() {
-    var usersJson = this.props.users;
+  renderResultList: function(users) {
     var userResults = [];
-
-    for (var i = 0; i < usersJson.size; i++) {
+    for (var i = 0; i < users.length; i++) {
       userResults.push(
         <Result
           key={i}
-          user={usersJson.get(i)} />
+          user={users[i]}/>
       );
     }
 
@@ -97,16 +94,11 @@ var Result = React.createClass({
   },
 
   render: function() {
-    var user = this.props.user;
-    var firstName = user.get('firstName'),
-        lastName = user.get('lastName'),
-        email = user.get('email'),
-        profileImageUrl = user.get('profileImageUrl'),
-        thumbnail;
+    var thumbnail;
 
-    if (profileImageUrl) {
+    if (this.props.user.profileImageUrl) {
       thumbnail = (
-        <Image style={styles.profileImage} source={{uri: profileImageUrl}} />
+        <Image style={styles.profileImage} source={{uri: this.props.user.profileImageUrl}}/>
       );
     }
     else {
@@ -119,12 +111,14 @@ var Result = React.createClass({
     return (
       <View>
         <TouchableHighlight
-          underlayColor='lightgray'
-          onPress={this.onResultPress}>
+          underlayColor='transparent'
+          onPress={this._onResultPress}>
 
           <View style={styles.result}>
             {thumbnail}
-            <Text style={styles.fullName} numberOfLines={1}>{firstName} {lastName}</Text>
+            <Text style={styles.fullName} numberOfLines={1}>
+              {this.props.user.firstName} {this.props.user.lastName}
+            </Text>
           </View>
 
         </TouchableHighlight>
@@ -133,9 +127,9 @@ var Result = React.createClass({
     );
   },
 
-  onResultPress: function() {
+  _onResultPress: function() {
     var userId = userLoginMetadataStore.getUserId(),
-        userEmail = this.props.user.get('email');
+        userEmail = this.props.user.email;
 
     Unicycle.exec('reInitializeUsersProfileFeedOffset');
     Unicycle.exec('loadUsersProfile', userEmail);
