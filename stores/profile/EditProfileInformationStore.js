@@ -100,7 +100,7 @@ var editProfileInformationStore = Unicycle.createStore({
       );
     },
 
-    $getBlockedUsers: function(email) {
+    requestBlockedUsers: function(email) {
       var that = this;
 
       this.set({
@@ -163,18 +163,8 @@ var editProfileInformationStore = Unicycle.createStore({
       });
     },
 
-    setBlockedPageVisibility: function(isVisible) {
-      this.set({
-        isBlockedUsersPageVisible: isVisible
-      });
-    },
-
     isVisible: function() {
       return this.get('isVisible');
-    },
-
-    isBlockedPageVisible: function() {
-      return this.get('isBlockedUsersPageVisible');
     },
 
     isUploadBioRequestInFlight: function() {

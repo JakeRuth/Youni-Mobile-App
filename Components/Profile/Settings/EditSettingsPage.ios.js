@@ -14,6 +14,10 @@ var {
 
 var EditSettingsPage = React.createClass({
 
+  propTypes: {
+    navigator: React.PropTypes.object.isRequired
+  },
+
   mixins: [
     Unicycle.listenTo(profileOwnerStore)
   ],
@@ -24,7 +28,7 @@ var EditSettingsPage = React.createClass({
         <EditBioBox/>
         <EditFirstNameBox/>
         <EditLastNameBox/>
-        <RemoveBlockedUsersButton/>
+        <RemoveBlockedUsersButton navigator={this.props.navigator}/>
       </View>
     );
   }

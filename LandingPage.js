@@ -41,6 +41,10 @@ var styles = StyleSheet.create({
 
 var LandingPage = React.createClass({
 
+  propTypes: {
+    navigator: React.PropTypes.object.isRequired
+  },
+
   mixins: [
     Unicycle.listenTo(loginStore),
     Unicycle.listenTo(tabStateStore),
@@ -67,8 +71,7 @@ var LandingPage = React.createClass({
         { /* The order here is very important! */ }
         <PostLikesPopup likerUsers={postLikePopupStore.getLikerDisplayNames()}/>
         <PostPopup post={explorePostsStore.getSelectedPost()}/>
-        <BlockedUsersPopup/>
-        <EditProfilePopup/>
+        <EditProfilePopup navigator={this.props.navigator}/>
 
       </View>
     );

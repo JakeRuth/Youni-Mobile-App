@@ -2,7 +2,6 @@
 
 var React = require('react-native');
 var Unicycle = require('../../../Unicycle');
-var editProfileInformationStore = require('../../../stores/profile/EditProfileInformationStore');
 var userLoginMetadataStore = require('../../../stores/UserLoginMetadataStore');
 var Spinner = require('../../Common/Spinner');
 
@@ -47,23 +46,21 @@ var styles = StyleSheet.create({
 
 var BlockedUsersPage = React.createClass({
 
-  mixins: [
-    Unicycle.listenTo(editProfileInformationStore)
-  ],
+  propTypes: {
+    loading: React.PropTypes.bool.isRequired,
+    users: React.PropTypes.object.isRequired
+  },
 
   render: function() {
-    var isRequestInFlight = editProfileInformationStore.isGetBlockedUsersRequestInFlight(),
-        isRemoveBlockRequestInFlight = editProfileInformationStore.isRemoveBlockRequestInFlight(),
-        blockedUsers =  editProfileInformationStore.getBlockedUsers(),
-        content;
+    var content;
 
-    if (isRequestInFlight || isRemoveBlockRequestInFlight) {
+    if (this.props.loading) {
       content = (
         <Spinner/>
       );
     }
-    else if (blockedUsers.size != 0) {
-      content = this._renderModalContent(blockedUsers);
+    else if (this.props.users.size != 0) {
+      content = this._renderBlockedUsersList(this.props.users);
     }
     else {
       content = this._renderNoBlockedUsersMessage();
@@ -76,20 +73,11 @@ var BlockedUsersPage = React.createClass({
     );
   },
 
-  _renderModalContent: function(blockedUsers) {
-    return (
-      <ScrollView style={styles.likerListScroll}>
-        {this._renderBlockedUsers(blockedUsers)}
-      </ScrollView>
-    );
-  },
-
-  _renderBlockedUsers: function(blockedUsers) {
+  _renderBlockedUsersList: function(blockedUsers) {
     var userListItems = [];
 
     for (var i = 0; i < blockedUsers.size; i++) {
-      var user = blockedUsers.get(i);
-      userListItems.push(this._renderBlockedUser(user));
+      userListItems.push(this._renderBlockedUser(blockedUsers.get(i)));
     }
 
     return (
@@ -110,7 +98,7 @@ var BlockedUsersPage = React.createClass({
           }}>
 
           <Text style={styles.removeBlockButton}>
-            Unblock
+            Remove block
           </Text>
 
         </TouchableHighlight>
@@ -125,14 +113,14 @@ var BlockedUsersPage = React.createClass({
 
   _renderNoBlockedUsersMessage: function() {
     return (
-      <Text>You have not blocked anyone.</Text>
+      <Text>You have not blocked anyone</Text>
     );
   },
 
   _onUnBlockButtonPress: function(user) {
-    var userId = userLoginMetadataStore.getUserId();
+    var loggedInUserId = userLoginMetadataStore.getUserId();
     // user 'id' here is just the index of the user in the list.
-    Unicycle.exec('removeBlock', user.get('id'), userId, user.get('email'));
+    Unicycle.exec('removeBlock', user.get('id'), loggedInUserId, user.get('email'));
   }
 
 });

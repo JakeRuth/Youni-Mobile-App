@@ -5,32 +5,43 @@ var Unicycle = require('../../Unicycle');
 var BlockedUsersPage = require('../Profile/Settings/BlockedUsersPage');
 var OverlayPage = require('../Common/OverlayPage');
 var editProfileInformationStore = require('../../stores/profile/EditProfileInformationStore');
-
-var {
-    View
-} = React;
+var userLoginMetaDataStore = require('../../stores/UserLoginMetadataStore');
 
 var BlockedUsersPopup = React.createClass({
 
-    mixins: [
-        Unicycle.listenTo(editProfileInformationStore)
-    ],
+  propTypes: {
+    navigator: React.PropTypes.object.isRequired
+  },
 
-    render: function() {
-        if (editProfileInformationStore.isBlockedPageVisible()) {
-            return (
-                <OverlayPage
-                    content={<BlockedUsersPage/>}
-                    onBackArrowPress={() => {editProfileInformationStore.setBlockedPageVisibility(false);}}
-                    bannerTitle='Blocked'/>
-            );
-        }
-        else {
-            return (
-                <View/>
-            );
-        }
-    }
+  mixins: [
+    Unicycle.listenTo(editProfileInformationStore)
+  ],
+
+  componentDidMount() {
+    var that = this,
+        userEmail = userLoginMetaDataStore.getEmail();
+
+    editProfileInformationStore.requestBlockedUsers(userEmail);
+  },
+
+  render: function () {
+    var isContentLoading = (
+      editProfileInformationStore.isGetBlockedUsersRequestInFlight() ||
+      editProfileInformationStore.isRemoveBlockRequestInFlight()
+    );
+    var pageContent = (
+      <BlockedUsersPage
+        loading={isContentLoading}
+        users={editProfileInformationStore.getBlockedUsers()}/>
+    );
+
+    return (
+      <OverlayPage
+        content={pageContent}
+        onBackArrowPress={() => {this.props.navigator.pop();}}
+        bannerTitle='Blocked'/>
+    );
+  }
 
 });
 

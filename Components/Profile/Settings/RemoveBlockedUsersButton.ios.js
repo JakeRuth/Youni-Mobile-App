@@ -1,8 +1,7 @@
 'use strict';
 
 var React = require('react-native');
-var Unicycle = require('../../../Unicycle');
-var userLoginMetadataStore = require('../../../stores/UserLoginMetadataStore');
+var BlockedUsersPopup = require('../../PopupPages/BlockedUsersPopup');
 
 var {
   TouchableHighlight,
@@ -22,6 +21,10 @@ var styles = StyleSheet.create({
 
 var RemoveBlockedUsersButton = React.createClass({
 
+  propTypes: {
+    navigator: React.PropTypes.object.isRequired
+  },
+
   render: function() {
     return (
       <TouchableHighlight
@@ -36,8 +39,9 @@ var RemoveBlockedUsersButton = React.createClass({
   },
 
   _onButtonPress: function() {
-    var email = userLoginMetadataStore.getEmail();
-    Unicycle.exec('getBlockedUsers', email);
+    this.props.navigator.push({
+      component: BlockedUsersPopup
+    });
   }
 
 });

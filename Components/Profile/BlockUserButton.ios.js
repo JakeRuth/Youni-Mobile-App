@@ -51,7 +51,7 @@ var BlockUserButton = React.createClass({
   _onBlockUserIconPress: function () {
     AlertIOS.alert(
       'Permanently block this user?',
-      'You cannot undo this action.',
+      'You can always unblock users from the settings page',
       [
         {
           text: 'Yes',

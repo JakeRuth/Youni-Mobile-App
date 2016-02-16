@@ -7,30 +7,34 @@ var OverlayPage = require('../Common/OverlayPage');
 var editProfileInformationStore = require('../../stores/profile/EditProfileInformationStore');
 
 var {
-    View
+  View
 } = React;
 
 var EditProfilePopup = React.createClass({
 
-    mixins: [
-        Unicycle.listenTo(editProfileInformationStore)
-    ],
+  propTypes: {
+    navigator: React.PropTypes.object.isRequired
+  },
 
-    render: function() {
-        if (editProfileInformationStore.isVisible()) {
-            return (
-                <OverlayPage
-                    content={<EditSettingsPage/>}
-                    onBackArrowPress={() => {editProfileInformationStore.setVisibility(false);}}
-                    bannerTitle='Edit'/>
-            );
-        }
-        else {
-            return (
-                <View/>
-            );
-        }
+  mixins: [
+    Unicycle.listenTo(editProfileInformationStore)
+  ],
+
+  render: function () {
+    if (editProfileInformationStore.isVisible()) {
+      return (
+        <OverlayPage
+          content={<EditSettingsPage navigator={this.props.navigator}/>}
+          onBackArrowPress={() => {editProfileInformationStore.setVisibility(false);}}
+          bannerTitle='Edit'/>
+      );
     }
+    else {
+      return (
+        <View/>
+      );
+    }
+  }
 
 });
 

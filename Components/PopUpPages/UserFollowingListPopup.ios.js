@@ -7,10 +7,6 @@ var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 var UserUtils = require('../../Utils/User/UserUtils');
 var userLoginMetaDataStore = require('../../stores/UserLoginMetadataStore');
 
-var {
-  View
-} = React;
-
 var UserFollowingListPopup = React.createClass({
 
   propTypes: {
