@@ -121,7 +121,7 @@ var PostGridThumbnail = React.createClass({
                 style={styles.icon}
                 name={'ios-chatbubble-outline'}
                 size={20}
-                color={'#0083D4'}/>
+                color={'#00D8F0'}/>
           </View>
       );
     }
