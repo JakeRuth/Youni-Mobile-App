@@ -2,7 +2,6 @@
 
 var React = require('react-native');
 var Unicycle = require('../../../../Unicycle');
-var postLikePopupStore = require('../../../../stores/post/like/PostLikePopupStore');
 var Spinner = require('../../../Common/Spinner');
 
 var {
@@ -13,9 +12,6 @@ var {
 } = React;
 
 var styles = StyleSheet.create({
-  container: {
-    paddingTop: 15
-  },
   userRow: {
     flex: 1,
     flexDirection: 'row',
@@ -38,35 +34,30 @@ var styles = StyleSheet.create({
 var PostLikesList = React.createClass({
 
   propTypes: {
-    likerUsers: React.PropTypes.array.isRequired
+    loading: React.PropTypes.bool.isRequired,
+    users: React.PropTypes.array.isRequired
   },
 
-  mixins: [
-    Unicycle.listenTo(postLikePopupStore)
-  ],
-
   render: function() {
-    var isRequestInFlight = postLikePopupStore.isRequestInFlight(),
-        userRow = [],
+    var userRows = [],
         content;
 
-    if (isRequestInFlight) {
+    if (this.props.loading) {
       content = (
         <Spinner/>
       );
     }
     else {
-      var users = this.props.likerUsers;
-      for (var i = 0; i < users.size; i++) {
-        userRow.push(
-            this._renderUser(users.get(i))
+      for (var i = 0; i < this.props.users.length; i++) {
+        userRows.push(
+            this._renderUser(this.props.users[i])
         );
       }
-      content = userRow;
+      content = userRows;
     }
 
     return (
-      <View style={styles.container}>
+      <View>
         {content}
       </View>
     );
@@ -78,9 +69,9 @@ var PostLikesList = React.createClass({
 
         <Image
             style={styles.userImage}
-            source={{uri: user.get('profileImageUrl')}}/>
+            source={{uri: user.profileImageUrl}}/>
         <Text style={styles.displayName}>
-          {user.get('firstName')} {user.get('lastName')}
+          {user.firstName} {user.lastName}
         </Text>
 
       </View>

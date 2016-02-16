@@ -60,7 +60,8 @@ var styles = StyleSheet.create({
 var PostGridThumbnail = React.createClass({
 
   propTypes: {
-    post: React.PropTypes.object.isRequired
+    post: React.PropTypes.object.isRequired,
+    navigator: React.PropTypes.object.isRequired
   },
 
   render: function() {

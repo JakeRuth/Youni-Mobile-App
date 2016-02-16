@@ -2,9 +2,8 @@
 
 var React = require('react-native');
 var Unicycle = require('../../../../Unicycle');
-var postLikePopupStore = require('../../../../stores/post/like/PostLikePopupStore');
-var PostLikesList = require('./PostLikesList');
 var Spinner = require('../../../Common/Spinner');
+var PostLikesPopup = require('../../../PopupPages/PostLikesPopup');
 
 var {
   View,
@@ -29,7 +28,8 @@ var PostLikeText = React.createClass({
     postStore: React.PropTypes.any.isRequired,
     numLikes: React.PropTypes.number.isRequired,
     postIdString: React.PropTypes.string.isRequired,
-    numComments: React.PropTypes.number.isRequired
+    numComments: React.PropTypes.number.isRequired,
+    navigator: React.PropTypes.object.isRequired
   },
 
   render: function() {
@@ -59,7 +59,10 @@ var PostLikeText = React.createClass({
   },
 
   _onTextPress: function() {
-    postLikePopupStore.getLikersForPost(this.props.postIdString);
+    this.props.navigator.push({
+      component: PostLikesPopup,
+      passProps: {postId: this.props.postIdString}
+    });
   },
 
   //TODO: this should be handled by the api

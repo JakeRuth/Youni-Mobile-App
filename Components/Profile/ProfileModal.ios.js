@@ -35,6 +35,10 @@ var styles = StyleSheet.create({
 
 var ProfileModal = React.createClass({
 
+  propTypes: {
+    navigator: React.PropTypes.object.isRequired
+  },
+
   mixins: [
     Unicycle.listenTo(profileModalStore),
     Unicycle.listenTo(profileStore)
@@ -89,7 +93,8 @@ var ProfileModal = React.createClass({
         totalPoints={profileStore.getTotalPoints()}
         profileImageUrl={profileStore.getProfileImageUrl()}
         email={profileStore.getEmail()}
-        numPosts={profileStore.getNumPosts()}/>
+        numPosts={profileStore.getNumPosts()}
+        navigator={this.props.navigator}/>
     );
   },
 

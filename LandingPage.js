@@ -12,7 +12,6 @@ var CreatePostPage = require('./CreatePostPage');
 var OverlayPage = require('./Components/Common/OverlayPage');
 
 var PostPopup = require('./Components/PopupPages/PostPopup');
-var PostLikesPopup = require('./Components/PopupPages/PostLikesPopup');
 
 var ProfileModal = require('./Components/Profile/ProfileModal');
 var PostCommentsModal = require('./Components/Post/PostCommentsModal');
@@ -21,7 +20,6 @@ var loginStore = require('./stores/LoginStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
 var tabStateStore = require('./stores/TabStateStore');
 var explorePostsStore = require('./stores/post/ExplorePostsStore');
-var postLikePopupStore = require('./stores/post/like/PostLikePopupStore');
 
 var {
   View,
@@ -46,8 +44,7 @@ var LandingPage = React.createClass({
   mixins: [
     Unicycle.listenTo(loginStore),
     Unicycle.listenTo(tabStateStore),
-    Unicycle.listenTo(explorePostsStore),
-    Unicycle.listenTo(postLikePopupStore)
+    Unicycle.listenTo(explorePostsStore)
   ],
 
   componentDidMount: function() {
@@ -62,13 +59,12 @@ var LandingPage = React.createClass({
     return (
       <View style={styles.tabBarContainer}>
         <PostCommentsModal/>
-        <ProfileModal/>
+        <ProfileModal navigator={this.props.navigator}/>
 
         {this._renderTabBar()}
 
         { /* The order here is very important! */ }
-        <PostLikesPopup likerUsers={postLikePopupStore.getLikerDisplayNames()}/>
-        <PostPopup post={explorePostsStore.getSelectedPost()}/>
+        <PostPopup post={explorePostsStore.getSelectedPost()} navigator={this.props.navigator}/>
 
       </View>
     );
@@ -99,7 +95,7 @@ var LandingPage = React.createClass({
         onPress={() => {
               this._transitionState('home');
             }}>
-        <HomePage/>
+        <HomePage navigator={this.props.navigator}/>
       </Icon.TabBarItem>
     );
   },
@@ -116,7 +112,7 @@ var LandingPage = React.createClass({
               Unicycle.exec('setInExploreFeedView', true);
               this._transitionState('search');
             }}>
-        <SearchPage/>
+        <SearchPage navigator={this.props.navigator}/>
       </Icon.TabBarItem>
     );
   },

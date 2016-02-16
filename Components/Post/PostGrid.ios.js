@@ -20,7 +20,8 @@ var PostGrid = React.createClass({
   propTypes: {
     posts: React.PropTypes.object.isRequired,
     postStore: React.PropTypes.any.isRequired,
-    viewerIsPostOwner: React.PropTypes.bool
+    viewerIsPostOwner: React.PropTypes.bool,
+    navigator: React.PropTypes.object.isRequired
   },
 
   render: function() {
@@ -49,10 +50,18 @@ var PostGrid = React.createClass({
     // one case where this happens is when the requesting user has user's blocked and the posts are filtered
     // out of the results (so less then 10 are returned)
     if (leftPostJson) {
-      leftPost = <PostGridThumbnail post={leftPostJson}/>;
+      leftPost = (
+        <PostGridThumbnail
+          post={leftPostJson}
+          navigator={this.props.navigator}/>
+      );
     }
     if (rightPostJson) {
-      rightPost = <PostGridThumbnail post={rightPostJson}/>;
+      rightPost = (
+        <PostGridThumbnail
+          post={rightPostJson}
+          navigator={this.props.navigator}/>
+      );
     }
 
     return (

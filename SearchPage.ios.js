@@ -64,6 +64,10 @@ var styles = StyleSheet.create({
 
 var SearchPage = React.createClass({
 
+  propTypes: {
+    navigator: React.PropTypes.object.isRequired
+  },
+
   mixins: [
     Unicycle.listenTo(searchStore),
     Unicycle.listenTo(profileStore)
@@ -79,7 +83,7 @@ var SearchPage = React.createClass({
       searchPageContent = <SearchResultLoading/>;
     }
     else if (inExploreFeedView) {
-      searchPageContent = <ExploreFeedPosts/>;
+      searchPageContent = <ExploreFeedPosts navigator={this.props.navigator}/>;
     }
     else if (isProfileInView) {
       searchPageContent = <ProfilePageBody
@@ -91,7 +95,8 @@ var SearchPage = React.createClass({
                             numPosts={profileStore.getNumPosts()}
                             totalPoints={profileStore.getTotalPoints()}
                             profileImageUrl={profileStore.getProfileImageUrl()}
-                            email={profileStore.getEmail()}/>;
+                            email={profileStore.getEmail()}
+                            navigator={this.props.navigator}/>;
     }
     else if (searchResultsToShow) {
       searchPageContent = <SearchResultsList/>;

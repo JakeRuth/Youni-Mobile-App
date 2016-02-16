@@ -34,7 +34,8 @@ var PostStats = React.createClass({
     numLikes: React.PropTypes.number.isRequired,
     liked: React.PropTypes.bool.isRequired,
     postIdString: React.PropTypes.string.isRequired,
-    numComments: React.PropTypes.number.isRequired
+    numComments: React.PropTypes.number.isRequired,
+    navigator: React.PropTypes.object.isRequired
   },
 
   render: function() {
@@ -65,6 +66,7 @@ var PostStats = React.createClass({
           color='#0083D4'/>
 
         <PostLikeText
+          navigator={this.props.navigator}
           numComments={this.props.numComments}
           postStore={this.props.postStore}
           numLikes={this.props.numLikes}

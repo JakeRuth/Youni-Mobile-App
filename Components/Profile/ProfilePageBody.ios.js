@@ -108,7 +108,8 @@ var ProfilePageBody = React.createClass({
           profileStore={this._getProfileStoreForUserPosts()}
           userName={this.props.firstName + ' ' + this.props.lastName}
           userEmail={this.props.email}
-          viewerIsProfileOwner={this.props.viewerIsProfileOwner} />
+          viewerIsProfileOwner={this.props.viewerIsProfileOwner}
+          navigator={this.props.navigator}/>
       </ScrollView>
     );
   },

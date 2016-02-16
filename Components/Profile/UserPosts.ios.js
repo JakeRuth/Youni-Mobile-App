@@ -25,7 +25,8 @@ var UserPosts = React.createClass({
     profileStore: React.PropTypes.any.isRequired,
     userName: React.PropTypes.string.isRequired,
     userEmail: React.PropTypes.string.isRequired,
-    viewerIsProfileOwner: React.PropTypes.bool
+    viewerIsProfileOwner: React.PropTypes.bool,
+    navigator: React.PropTypes.object.isRequired
   },
 
   componentDidMount: function() {
@@ -51,7 +52,8 @@ var UserPosts = React.createClass({
           onLoadMorePostsPress={this.onLoadMorePostsPress}
           isLoadMorePostsRequestInFlight={this.props.profileStore.isLoadMorePostsRequestInFlight()}
           viewerIsPostOwner={this.props.viewerIsProfileOwner}
-          renderedFromProfileView={true}/>
+          renderedFromProfileView={true}
+          navigator={this.props.navigator}/>
       );
     }
 

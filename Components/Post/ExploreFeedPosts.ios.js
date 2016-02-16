@@ -23,6 +23,10 @@ var styles = StyleSheet.create({
 
 var ExploreFeedPosts = React.createClass({
 
+  propTypes: {
+    navigator: React.PropTypes.object.isRequired
+  },
+
   mixins: [
     Unicycle.listenTo(explorePostsStore),
     Unicycle.listenTo(userLoginMetadataStore)
@@ -54,7 +58,8 @@ var ExploreFeedPosts = React.createClass({
           onScroll={this.handleScroll}
           onLoadMorePostsPress={this._requestExploreFeed}
           isLoadMorePostsRequestInFlight={explorePostsStore.isLoadMorePostsRequestInFlight()}
-          gridViewEnabled={true}/>
+          gridViewEnabled={true}
+          navigator={this.props.navigator}/>
       );
     }
 

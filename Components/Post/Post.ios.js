@@ -35,7 +35,8 @@ var Post = React.createClass({
     postStore: React.PropTypes.any.isRequired,
     post: React.PropTypes.object.isRequired,
     viewerIsPostOwner: React.PropTypes.bool,
-    renderedFromProfileView: React.PropTypes.bool
+    renderedFromProfileView: React.PropTypes.bool,
+    navigator: React.PropTypes.object.isRequired
   },
 
   render: function() {
@@ -73,7 +74,8 @@ var Post = React.createClass({
           onStarPress={this._onStarPress}
           firstComments={this.props.post.firstComments}
           moreCommentsToShow={this.props.post.moreCommentsToShow}
-          numComments={this.props.post.numComments}/>
+          numComments={this.props.post.numComments}
+          navigator={this.props.navigator}/>
 
       </View>
     );

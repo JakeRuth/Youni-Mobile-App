@@ -44,7 +44,8 @@ var PostList = React.createClass({
     isLoadMorePostsRequestInFlight: React.PropTypes.bool,
     viewerIsPostOwner: React.PropTypes.bool,
     renderedFromProfileView: React.PropTypes.bool,
-    gridViewEnabled: React.PropTypes.bool
+    gridViewEnabled: React.PropTypes.bool,
+    navigator: React.PropTypes.object.isRequired
   },
 
   render: function() {
@@ -105,7 +106,8 @@ var PostList = React.createClass({
         <Post post={post}
               postStore={this.props.postStore}
               renderedFromProfileView={this.props.renderedFromProfileView}
-              viewerIsPostOwner={this.props.viewerIsPostOwner}/>
+              viewerIsPostOwner={this.props.viewerIsPostOwner}
+              navigator={this.props.navigator}/>
       );
     }
     return posts;

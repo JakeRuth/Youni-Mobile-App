@@ -46,7 +46,8 @@ var PostFooter = React.createClass({
     onStarPress: React.PropTypes.func.isRequired,
     firstComments: React.PropTypes.array,
     moreCommentsToShow: React.PropTypes.bool.isRequired,
-    numComments: React.PropTypes.number.isRequired
+    numComments: React.PropTypes.number.isRequired,
+    navigator: React.PropTypes.object.isRequired
   },
 
   render: function() {
@@ -68,6 +69,7 @@ var PostFooter = React.createClass({
         {caption}
 
         <PostStats
+          navigator={this.props.navigator}
           postStore={this.props.postStore}
           onStarPress={this.props.onStarPress(this.props.liked)}
           liked={this.props.liked}

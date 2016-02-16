@@ -6,10 +6,6 @@ var EditSettingsPage = require('../Profile/Settings/EditSettingsPage');
 var OverlayPage = require('../Common/OverlayPage');
 var editProfileInformationStore = require('../../stores/profile/EditProfileInformationStore');
 
-var {
-  View
-} = React;
-
 var EditProfilePopup = React.createClass({
 
   propTypes: {

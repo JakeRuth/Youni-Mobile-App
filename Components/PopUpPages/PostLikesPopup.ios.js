@@ -1,40 +1,60 @@
 'use strict';
 
 var React = require('react-native');
-var Unicycle = require('../../Unicycle');
 var PostLikesList = require('../Post/Footer/Like/PostLikesList');
 var OverlayPage = require('../Common/OverlayPage');
-var postLikePopupStore = require('../../stores/post/like/PostLikePopupStore');
-
-var {
-    View
-} = React;
+var AjaxUtils = require('../../Utils/Common/AjaxUtils');
+var UserUtils = require('../../Utils/User/UserUtils');
 
 var PostLikesPopup = React.createClass({
 
-    propTypes: {
-        likerUsers: React.PropTypes.array.isRequired
-    },
+  propTypes: {
+    navigator: React.PropTypes.object.isRequired,
+    postId: React.PropTypes.string.isRequired
+  },
 
-    mixins: [
-        Unicycle.listenTo(postLikePopupStore)
-    ],
+  getInitialState: function() {
+    return {
+      loading: true,
+      users: []
+    };
+  },
 
-    render: function() {
-        if (postLikePopupStore.isVisible()) {
-            return (
-                <OverlayPage
-                    content={<PostLikesList likerUsers={this.props.likerUsers}/>}
-                    onBackArrowPress={() => {postLikePopupStore.setVisibility(false);}}
-                    bannerTitle='Likes'/>
-            );
-        }
-        else {
-            return (
-                <View/>
-            );
-        }
-    }
+  componentDidMount() {
+    var that = this;
+
+    AjaxUtils.ajax(
+      '/post/getLikerDisplayNames',
+      {
+        postIdString: this.props.postId
+      },
+      (res) => {
+        that.setState({
+          users: UserUtils.convertResponseUserListToMap(res.body.userDetails),
+          loading: false
+        });
+      },
+      () => {
+        that.setState({
+          loading: false
+        });
+      }
+    );
+  },
+
+  render: function () {
+    var pageContent = (
+      <PostLikesList
+        loading={this.state.loading}
+        users={this.state.users}/>
+    );
+    return (
+      <OverlayPage
+        content={pageContent}
+        onBackArrowPress={() => {this.props.navigator.pop();}}
+        bannerTitle='Likes'/>
+    );
+  }
 
 });
 

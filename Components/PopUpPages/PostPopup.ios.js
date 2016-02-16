@@ -12,7 +12,8 @@ var {
 var PostPopup = React.createClass({
 
     propTypes: {
-        post: React.PropTypes.object.isRequired
+        post: React.PropTypes.object.isRequired,
+        navigator: React.PropTypes.object.isRequired
     },
 
     render: function() {
@@ -34,7 +35,8 @@ var PostPopup = React.createClass({
         return (
             <Post
                 postStore={explorePostsStore}
-                post={selectedPost}/>
+                post={selectedPost}
+                navigator={this.props.navigator}/>
         );
     }
 

@@ -49,6 +49,10 @@ var styles = StyleSheet.create({
 
 var HomePage = React.createClass({
 
+  propTypes: {
+    navigator: React.PropTypes.object.isRequired
+  },
+
   mixins: [
     Unicycle.listenTo(homePostsStore),
     Unicycle.listenTo(userLoginMetadataStore)
@@ -104,7 +108,8 @@ var HomePage = React.createClass({
         posts={posts}
         onScroll={this.handleScroll}
         onLoadMorePostsPress={this._requestHomeFeed}
-        isLoadMorePostsRequestInFlight={homePostsStore.isLoadMorePostsRequestInFlight()}/>
+        isLoadMorePostsRequestInFlight={homePostsStore.isLoadMorePostsRequestInFlight()}
+        navigator={this.props.navigator}/>
     );
   },
 
