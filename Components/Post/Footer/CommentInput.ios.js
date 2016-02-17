@@ -70,7 +70,7 @@ var CommentInput = React.createClass({
           value={this.state.commentText}
           placeholder='Add a comment...'
           placeholderTextColor='#ADADAD'
-          maxLength={200}
+          maxLength={120}
           multiline={true}
           onChangeText={ (commentText) => {
             this.setState({

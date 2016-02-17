@@ -14,16 +14,13 @@ var {
 var styles = StyleSheet.create({
   container: {
     marginBottom: 6,
+    marginLeft: 6,
+    marginRight: 6,
     paddingBottom: 2
   },
-  contentSeparatorLine: {
-    marginLeft: 8,
-    marginRight: 8,
-    marginBottom: 6
-  },
   viewAllCommentsLink: {
-    marginLeft: 8,
-    marginBottom: 6
+    marginBottom: 6,
+    marginTop: 6
   },
   viewAllText: {
     fontSize: 13,
@@ -51,7 +48,6 @@ var CommentList = React.createClass({
     return (
       <View style={styles.container}>
 
-        <View style={styles.contentSeparatorLine}/>
         {viewAllComments}
         {this._renderComments()}
 
