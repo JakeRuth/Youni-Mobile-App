@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 var React = require('react-native');
 var Unicycle = require('../../../Unicycle');
@@ -6,6 +6,7 @@ var userLoginMetadataStore = require('../../../stores/UserLoginMetadataStore');
 var PostHeader = require('../PostHeader');
 var PostStats = require('./PostStats');
 var PostCommentsContainer = require('./PostCommentsContainer');
+var PostCommentsPopup = require('../../PopupPages/PostCommentsPopup');
 
 var {
   View,
@@ -33,20 +34,9 @@ var styles = StyleSheet.create({
 var PostFooter = React.createClass({
 
   propTypes: {
-    posterEmail: React.PropTypes.string.isRequired,
-    posterName: React.PropTypes.string.isRequired,
-    posterProfileImageUrl: React.PropTypes.string.isRequired,
-    timestamp: React.PropTypes.string.isRequired,
-    id: React.PropTypes.number.isRequired,
+    post: React.PropTypes.object.isRequired,
     postStore: React.PropTypes.any.isRequired,
-    postIdString: React.PropTypes.string.isRequired,
-    numLikes: React.PropTypes.number.isRequired,
-    caption: React.PropTypes.string.isRequired,
-    liked: React.PropTypes.bool.isRequired,
     onStarPress: React.PropTypes.func.isRequired,
-    firstComments: React.PropTypes.array,
-    moreCommentsToShow: React.PropTypes.bool.isRequired,
-    numComments: React.PropTypes.number.isRequired,
     navigator: React.PropTypes.object.isRequired
   },
 
@@ -54,11 +44,11 @@ var PostFooter = React.createClass({
     var caption = <View/>;
 
     // TODO: Fix this crap
-    if (this.props.caption !== '_') {
+    if (this.props.post.caption !== '_') {
       caption = (
         <View style={styles.captionContainer}>
           <Text style={styles.caption}>
-            {this.props.caption}
+            {this.props.post.caption}
           </Text>
         </View>
       );
@@ -71,23 +61,14 @@ var PostFooter = React.createClass({
         <PostStats
           navigator={this.props.navigator}
           postStore={this.props.postStore}
-          onStarPress={this.props.onStarPress(this.props.liked)}
-          liked={this.props.liked}
-          numLikes={this.props.numLikes}
-          numComments={this.props.numComments}
-          postIdString={this.props.postIdString} />
+          onStarPress={this.props.onStarPress(this.props.post.liked)}
+          post={this.props.post}/>
 
         <PostCommentsContainer
-          posterEmail={this.props.posterEmail}
-          posterName={this.props.posterName}
-          posterProfileImageUrl={this.props.posterProfileImageUrl}
-          timestamp={this.props.timestamp}
-          id={this.props.id}
-          postIdString={this.props.postIdString}
+          postCommentsPopupComponent={PostCommentsPopup}
+          post={this.props.post}
           postStore={this.props.postStore}
-          firstComments={this.props.firstComments}
-          moreCommentsToShow={this.props.moreCommentsToShow}
-          numComments={this.props.numComments}/>
+          navigator={this.props.navigator}/>
 
       </View>
     );

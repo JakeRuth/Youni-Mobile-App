@@ -12,7 +12,6 @@ var CreatePostPage = require('./CreatePostPage');
 var OverlayPage = require('./Components/Common/OverlayPage');
 
 var ProfileModal = require('./Components/Profile/ProfileModal');
-var PostCommentsModal = require('./Components/Post/PostCommentsModal');
 
 var loginStore = require('./stores/LoginStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
@@ -54,7 +53,6 @@ var LandingPage = React.createClass({
   render: function() {
     return (
       <View style={styles.tabBarContainer}>
-        <PostCommentsModal/>
         <ProfileModal navigator={this.props.navigator}/>
 
         {this._renderTabBar()}

@@ -61,20 +61,9 @@ var Post = React.createClass({
         </TouchableHighlight>
 
         <PostFooter
-          id={this.props.post.id}
-          posterEmail={this.props.post.posterEmail}
-          posterName={this.props.post.posterName}
-          posterProfileImageUrl={this.props.post.posterProfileImageUrl}
-          timestamp={this.props.post.timestamp}
-          postIdString={this.props.post.postIdString}
+          post={this.props.post}
           postStore={this.props.postStore}
-          numLikes={this.props.post.numLikes}
-          caption={this.props.post.caption}
-          liked={this.props.post.liked}
           onStarPress={this._onStarPress}
-          firstComments={this.props.post.firstComments}
-          moreCommentsToShow={this.props.post.moreCommentsToShow}
-          numComments={this.props.post.numComments}
           navigator={this.props.navigator}/>
 
       </View>

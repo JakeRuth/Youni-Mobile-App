@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 var React = require('react-native');
 var Unicycle = require('../../../Unicycle');
@@ -12,34 +12,22 @@ var {
 var PostCommentsContainer = React.createClass({
 
   propTypes: {
-    posterEmail: React.PropTypes.string.isRequired,
-    posterName: React.PropTypes.string.isRequired,
-    posterProfileImageUrl: React.PropTypes.string.isRequired,
-    timestamp: React.PropTypes.string.isRequired,
-    id: React.PropTypes.number.isRequired,
+    postCommentsPopupComponent: React.PropTypes.element,
+    post: React.PropTypes.object.isRequired,
     postStore: React.PropTypes.any.isRequired,
-    postIdString: React.PropTypes.string.isRequired,
-    firstComments: React.PropTypes.array,
-    moreCommentsToShow: React.PropTypes.bool.isRequired,
-    numComments: React.PropTypes.number.isRequired,
+    navigator: React.PropTypes.object.isRequired
   },
 
   render: function() {
     var comments = <View/>;
 
-    if (this.props.firstComments.length) {
+    if (this.props.post.firstComments.length) {
       comments = (
         <CommentList
-          id={this.props.id}
-          postIdString={this.props.postIdString}
-          posterEmail={this.props.posterEmail}
-          posterName={this.props.posterName}
-          posterProfileImageUrl={this.props.posterProfileImageUrl}
-          timestamp={this.props.timestamp}
+          postCommentsPopupComponent={this.props.postCommentsPopupComponent}
+          post={this.props.post}
           postStore={this.props.postStore}
-          comments={this.props.firstComments}
-          moreCommentsToShow={this.props.moreCommentsToShow}
-          numComments={this.props.numComments}/>
+          navigator={this.props.navigator}/>
       );
     }
 
@@ -48,9 +36,9 @@ var PostCommentsContainer = React.createClass({
 
         {comments}
         <CommentInput
-          id={this.props.id}
+          id={this.props.post.id}
           postStore={this.props.postStore}
-          postIdString={this.props.postIdString}/>
+          postIdString={this.props.post.postIdString}/>
 
       </View>
     );

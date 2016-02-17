@@ -31,17 +31,14 @@ var PostStats = React.createClass({
   propTypes: {
     postStore: React.PropTypes.any.isRequired,
     onStarPress: React.PropTypes.func,
-    numLikes: React.PropTypes.number.isRequired,
-    liked: React.PropTypes.bool.isRequired,
-    postIdString: React.PropTypes.string.isRequired,
-    numComments: React.PropTypes.number.isRequired,
+    post: React.PropTypes.object.isRequired,
     navigator: React.PropTypes.object.isRequired
   },
 
   render: function() {
     var likedStarIconColor = {};
 
-    if (this.props.liked) {
+    if (this.props.post.liked) {
       likedStarIconColor = {
         color: '#FCDD00'
       };
@@ -67,10 +64,10 @@ var PostStats = React.createClass({
 
         <PostLikeText
           navigator={this.props.navigator}
-          numComments={this.props.numComments}
+          numComments={this.props.post.numComments}
           postStore={this.props.postStore}
-          numLikes={this.props.numLikes}
-          postIdString={this.props.postIdString} />
+          numLikes={this.props.post.numLikes}
+          postIdString={this.props.post.postIdString} />
 
       </View>
     );
@@ -80,7 +77,7 @@ var PostStats = React.createClass({
       if (this.props.postStore.isLikeRequestInFlight()) {
         return 'ios-star-half';
       }
-      else if (this.props.liked) {
+      else if (this.props.post.liked) {
         return 'ios-star';
       }
       else {

@@ -59,7 +59,7 @@ var ProfilePageBody = React.createClass({
     bio: React.PropTypes.string,
     numFans: React.PropTypes.number.isRequired,
     numPosts: React.PropTypes.number.isRequired,
-    totalPoints: React.PropTypes.string.isRequired,
+    totalPoints: React.PropTypes.number.isRequired,
     profileImageUrl: React.PropTypes.string.isRequired,
     email: React.PropTypes.string.isRequired,
     viewerIsProfileOwner: React.PropTypes.bool.isRequired

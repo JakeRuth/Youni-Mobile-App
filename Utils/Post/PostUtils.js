@@ -57,7 +57,7 @@ var PostUtils = {
       });
     }
     else {
-      post.moreComments = true;
+      post.moreCommentsToShow = true;
     }
     
     posts = posts.set(id, post);
@@ -68,6 +68,10 @@ var PostUtils = {
     posts = posts.delete(postId);
     posts = this._resetPostsJson(posts);
     return posts;
+  },
+
+  trimPostCommentForFeed: function(post) {
+    post.firstComments = post.firstComments.slice(0, this.DEFAULT_MAX_COMMENTS_VISIBLE);
   },
 
   _resetPostsJson: function(posts) {

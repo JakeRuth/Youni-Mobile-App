@@ -1,8 +1,7 @@
-'use strict'
+'use strict';
 
 var React = require('react-native');
 var Unicycle = require('../../../Unicycle');
-var postCommentsModalStore = require('../../../stores/post/PostCommentsModalStore');
 var Comment = require('./Comment');
 
 var {
@@ -36,22 +35,16 @@ var styles = StyleSheet.create({
 var CommentList = React.createClass({
 
   propTypes: {
-    id: React.PropTypes.number.isRequired,
-    postIdString: React.PropTypes.string.isRequired,
-    posterEmail: React.PropTypes.string.isRequired,
-    posterName: React.PropTypes.string.isRequired,
-    posterProfileImageUrl: React.PropTypes.string.isRequired,
-    timestamp: React.PropTypes.string.isRequired,
+    post: React.PropTypes.object.isRequired,
     postStore: React.PropTypes.any.isRequired,
-    comments: React.PropTypes.array,
-    moreCommentsToShow: React.PropTypes.bool.isRequired,
-    numComments: React.PropTypes.number.isRequired
+    navigator: React.PropTypes.object.isRequired,
+    postCommentsPopupComponent: React.PropTypes.element
   },
 
   render: function() {
     var viewAllComments = <View/>;
 
-    if (this.props.moreCommentsToShow) {
+    if (this.props.post.moreCommentsToShow) {
       viewAllComments = this._renderViewAllCommentsLink();
     }
 
@@ -68,8 +61,8 @@ var CommentList = React.createClass({
 
   _renderComments: function() {
     var comments = [];
-    for (var i = 0; i<this.props.comments.length; i++) {
-      var commentJson = this.props.comments[i];
+    for (var i = 0; i<this.props.post.firstComments.length; i++) {
+      var commentJson = this.props.post.firstComments[i];
       comments.push(
         <Comment
           commenterName={commentJson.commenterName}
@@ -86,26 +79,20 @@ var CommentList = React.createClass({
         underlayColor='transparent'
         onPress={this._onViewAllCommentsPress}>
         <Text style={styles.viewAllText}>
-          View all {this.props.numComments} comments
+          View all {this.props.post.numComments} comments
         </Text>
       </TouchableHighlight>
     );
   },
 
   _onViewAllCommentsPress: function() {
-    Unicycle.exec('setProfileModalVisibile', false);
-    postCommentsModalStore.setAllPostInfo(
-      this.props.id,
-      this.props.postIdString,
-      this.props.posterEmail,
-      this.props.posterName,
-      this.props.posterProfileImageUrl,
-      this.props.timestamp,
-      this.props.postStore,
-      this.props.moreCommentsToShow,
-      this.props.numComments
-    );
-    postCommentsModalStore.getAllCommentsForPost(this.props.postIdString);
+    this.props.navigator.push({
+      component: this.props.postCommentsPopupComponent,
+      passProps: {
+        post: this.props.post,
+        postStore: this.props.postStore
+      }
+    });
   }
 
 });
