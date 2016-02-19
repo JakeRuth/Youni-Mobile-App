@@ -6,7 +6,6 @@ var FollowButton = require('./FollowButton');
 var BlockUserButton = require('./BlockUserButton');
 var ProfileImage = require('./ProfileImage');
 var TotalProfileCountsContainer = require('./TotalProfileCountsContainer');
-var UserPosts = require('./UserPosts');
 var UserFollowingListPopup = require('../PopupPages/UserFollowingListPopup');
 var profileOwnerStore = require('../../stores/profile/ProfileOwnerStore');
 var profileStore = require('../../stores/profile/ProfileStore');
@@ -48,32 +47,21 @@ var ProfilePageBody = React.createClass({
     var userId;
     if (!this.props.viewerIsProfileOwner) {
       userId = userLoginMetadataStore.getUserId();
-      Unicycle.exec('isUserFollowing', userId, this.props.email);
+      Unicycle.exec('isUserFollowing', userId, this.props.user.email);
     }
   },
 
   propTypes: {
     navigator: React.PropTypes.object.isRequired,
-    firstName: React.PropTypes.string.isRequired,
-    lastName: React.PropTypes.string.isRequired,
-    bio: React.PropTypes.string,
-    numFans: React.PropTypes.number.isRequired,
-    numPosts: React.PropTypes.number.isRequired,
-    totalPoints: React.PropTypes.number.isRequired,
-    profileImageUrl: React.PropTypes.string.isRequired,
-    email: React.PropTypes.string.isRequired,
+    user: React.PropTypes.object.isRequired,
     viewerIsProfileOwner: React.PropTypes.bool.isRequired
   },
-
-  mixins: [
-    Unicycle.listenTo(followUnfollowStore)
-  ],
 
   render: function() {
     var blockUserIcon = <View/>;
 
     if (!this.props.viewerIsProfileOwner) {
-      blockUserIcon = <BlockUserButton email={this.props.email}/>;
+      blockUserIcon = <BlockUserButton email={this.props.user.email}/>;
     }
 
     return (
@@ -85,7 +73,7 @@ var ProfilePageBody = React.createClass({
           <View style={styles.profileHeader}>
             <ProfileImage
               viewerIsProfileOwner={this.props.viewerIsProfileOwner}
-              profileImageUrl={this.props.profileImageUrl}/>
+              profileImageUrl={this.props.user.profileImageUrl}/>
             <FollowButton
               viewerIsProfileOwner={this.props.viewerIsProfileOwner}
               onButtonPress={this._getFollowButtonAction}
@@ -94,22 +82,15 @@ var ProfilePageBody = React.createClass({
 
           {blockUserIcon}
           <Text style={styles.bio}>
-            {this.props.bio}
+            {this.props.user.bio}
           </Text>
 
           <TotalProfileCountsContainer
-            totalPoints={this.props.totalPoints}
-            numFans={this.props.numFans}
-            numPosts={this.props.numPosts}/>
+            totalPoints={this.props.user.totalPoints}
+            numFollowers={this.props.user.numFollowers}
+            numPosts={this.props.user.numPosts}/>
 
         </View>
-
-        <UserPosts
-          profileStore={this._getProfileStoreForUserPosts()}
-          userName={this.props.firstName + ' ' + this.props.lastName}
-          userEmail={this.props.email}
-          viewerIsProfileOwner={this.props.viewerIsProfileOwner}
-          navigator={this.props.navigator}/>
       </ScrollView>
     );
   },
@@ -151,10 +132,10 @@ var ProfilePageBody = React.createClass({
     var userId = userLoginMetadataStore.getUserId();
 
     if (followUnfollowStore.getIsUserFollowingResult()) {
-      Unicycle.exec('unfollow', userId, this.props.email);
+      Unicycle.exec('unfollow', userId, this.props.user.email);
     }
     else {
-      Unicycle.exec('follow', userId, this.props.email);
+      Unicycle.exec('follow', userId, this.props.user.email);
     }
   },
 

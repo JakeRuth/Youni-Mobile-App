@@ -61,6 +61,10 @@ var userLoginMetadata = Unicycle.createStore({
 
     getLastName: function() {
       return this.get('lastName');
+    },
+
+    getFullName: function() {
+      return this.getFirstName() + ' ' + this.getLastName();
     }
 
 });

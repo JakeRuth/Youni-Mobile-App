@@ -29,9 +29,9 @@ var styles = StyleSheet.create({
 var PostStats = React.createClass({
 
   propTypes: {
-    postStore: React.PropTypes.any.isRequired,
     onStarPress: React.PropTypes.func,
     post: React.PropTypes.object.isRequired,
+    isLikeRequestInFlight: React.PropTypes.bool,
     navigator: React.PropTypes.object.isRequired
   },
 
@@ -65,7 +65,7 @@ var PostStats = React.createClass({
         <PostLikeText
           navigator={this.props.navigator}
           numComments={this.props.post.numComments}
-          postStore={this.props.postStore}
+          loading={this.props.isLikeRequestInFlight}
           numLikes={this.props.post.numLikes}
           postIdString={this.props.post.postIdString} />
 
@@ -74,7 +74,7 @@ var PostStats = React.createClass({
   },
 
   _getStarIconName: function() {
-      if (this.props.postStore.isLikeRequestInFlight()) {
+      if (this.props.isLikeRequestInFlight) {
         return 'ios-star-half';
       }
       else if (this.props.post.liked) {

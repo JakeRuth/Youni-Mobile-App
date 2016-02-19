@@ -51,14 +51,15 @@ var CommentInput = React.createClass({
 
   propTypes: {
     id: React.PropTypes.number.isRequired,
-    postStore: React.PropTypes.any.isRequired,
-    postIdString: React.PropTypes.string.isRequired
+    postIdString: React.PropTypes.string.isRequired,
+    onSubmitComment: React.PropTypes.func.isRequired,
+    isCommentRequestInFlight: React.PropTypes.bool.isRequired
   },
 
   render: function() {
     var postCommentButton = <View/>;
 
-    if (this.state.commentText.length > 0) {
+    if (this.state.commentText.length > 0 || this.props.isCommentRequestInFlight) {
       postCommentButton = this._renderPostCommentButton();
     }
 
@@ -85,7 +86,7 @@ var CommentInput = React.createClass({
 
   _renderPostCommentButton: function() {
     var content;
-    if (this.props.postStore.isPostCommentRequestInFlight()) {
+    if (this.props.isCommentRequestInFlight) {
       content = (
         <Spinner/>
       );
@@ -93,7 +94,12 @@ var CommentInput = React.createClass({
     else {
       content = (
         <TouchableHighlight
-          onPress={this._onPostCommentPress}
+          onPress={() => {
+            this.props.onSubmitComment(this.state.commentText);
+            this.setState({
+              commentText: ''
+            });
+          }}
           underlayColor='transparent'>
 
           <Text style={styles.postCommentButtonLabel}>
@@ -109,21 +115,6 @@ var CommentInput = React.createClass({
         {content}
       </View>
     )
-  },
-
-  _onPostCommentPress: function() {
-    this.props.postStore.addCommentOnPost(
-      this.props.id,
-      this.props.postIdString,
-      userLoginMetadataStore.getUserId(),
-      this.state.commentText,
-      userLoginMetadataStore.getFirstName() + ' ' + userLoginMetadataStore.getLastName(),
-      () => {
-        this.setState({
-          commentText: ''
-        });
-      }
-    );
   }
 
 });

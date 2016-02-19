@@ -25,7 +25,6 @@ var explorePostsStore = Unicycle.createStore({
       isExploreFeedRefreshing: false,
       isLoadMorePostsRequestInFlight: false,
       isLikeRequestInFlight: false,
-      isPostCommentRequestInFlight: false,
       noMorePostsToFetch: false,
       exploreFeedPageOffset: INITIAL_PAGE_OFFSET,
       pageLoadError: false,
@@ -183,10 +182,6 @@ var explorePostsStore = Unicycle.createStore({
     var posts = this.getPosts(),
         that = this;
 
-    this.set({
-      isPostCommentRequestInFlight: true
-    });
-
     AjaxUtils.ajax(
       '/post/createComment',
       {
@@ -196,15 +191,12 @@ var explorePostsStore = Unicycle.createStore({
       },
       (res) => {
         that.set({
-          posts: PostUtils.addComment(posts, id, comment, commenterName),
-          isPostCommentRequestInFlight: false
+          posts: PostUtils.addComment(posts, id, comment, commenterName)
         });
         callback();
       },
       () => {
-        that.set({
-          isPostCommentRequestInFlight: false
-        });
+        callback();
       }
     );
   },
@@ -227,10 +219,6 @@ var explorePostsStore = Unicycle.createStore({
 
   isLikeRequestInFlight: function() {
     return this.get('isLikeRequestInFlight');
-  },
-
-  isPostCommentRequestInFlight: function() {
-    return this.get('isPostCommentRequestInFlight');
   },
 
   getNoMorePostsToFetch: function() {

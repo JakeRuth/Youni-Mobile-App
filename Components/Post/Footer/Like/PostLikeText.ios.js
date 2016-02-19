@@ -25,17 +25,17 @@ var styles = StyleSheet.create({
 var PostLikeText = React.createClass({
 
   propTypes: {
-    postStore: React.PropTypes.any.isRequired,
     numLikes: React.PropTypes.number.isRequired,
     postIdString: React.PropTypes.string.isRequired,
     numComments: React.PropTypes.number.isRequired,
-    navigator: React.PropTypes.object.isRequired
+    navigator: React.PropTypes.object.isRequired,
+    loading: React.PropTypes.bool.isRequired
   },
 
   render: function() {
     var content;
 
-    if (this.props.postStore.isLikeRequestInFlight()) {
+    if (this.props.loading) {
       content = (
         <View style={styles.spinnerContainer}>
           <Spinner/>

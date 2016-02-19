@@ -42,6 +42,8 @@ var PostList = React.createClass({
     onScroll: React.PropTypes.func.isRequired,
     onLoadMorePostsPress: React.PropTypes.func.isRequired,
     isLoadMorePostsRequestInFlight: React.PropTypes.bool,
+    noMorePostsToFetch: React.PropTypes.bool.isRequired,
+    isFeedRefreshing: React.PropTypes.bool,
     viewerIsPostOwner: React.PropTypes.bool,
     renderedFromProfileView: React.PropTypes.bool,
     gridViewEnabled: React.PropTypes.bool,
@@ -53,7 +55,7 @@ var PostList = React.createClass({
         contentOffset = null,
         scrollToTopOfPostFeed = homePostsStore.scrollToTopOfPostFeed();
 
-    if (this.props.refreshable && this.props.postStore.isFeedRefreshing()) {
+    if (this.props.refreshable && this.props.isFeedRefreshing) {
       refreshHeader = (
         <Spinner/>
       );
@@ -89,7 +91,6 @@ var PostList = React.createClass({
       return (
         <PostGrid
           posts={this.props.posts}
-          postStore={this.props.postStore}
           viewerIsPostOwner={this.props.viewerIsPostOwner}
           navigator={this.props.navigator}/>
       );
@@ -101,42 +102,29 @@ var PostList = React.createClass({
 
   _renderPostsSequentially: function(postsJson) {
     var posts = [];
-    for (var i = 0; i<postsJson.size; i++) {
+    for (var i = 0; i < postsJson.size; i++) {
       var post = postsJson.get(i);
       posts.push(
-        <Post post={post}
-              postStore={this.props.postStore}
-              renderedFromProfileView={this.props.renderedFromProfileView}
-              viewerIsPostOwner={this.props.viewerIsPostOwner}
-              navigator={this.props.navigator}/>
+        <Post
+          post={post}
+          postStore={this.props.postStore}
+          renderedFromProfileView={this.props.renderedFromProfileView}
+          viewerIsPostOwner={this.props.viewerIsPostOwner}
+          navigator={this.props.navigator}/>
       );
     }
     return posts;
   },
 
   _renderLoadMorePostsButton: function() {
-    if (!this.props.postStore.getNoMorePostsToFetch()) {
+    if (!this.props.noMorePostsToFetch) {
       return (
           <LoadMorePostsButton
             onLoadMorePostsPress={this.props.onLoadMorePostsPress}
             loadMorePostsRequestInFlight={this.props.isLoadMorePostsRequestInFlight}/>
       );
     }
-  },
-
-  _renderManualRefreshButton: function() {
-    return (
-      <TouchableHighlight
-        style={styles.refreshIconContainer}
-        underlayColor='transparent'
-        onPress={this.props.onManualRefreshButtonPress}>
-        <Icon
-          name='refresh'
-          size={35}
-          color={'gray'} />
-      </TouchableHighlight>
-    );
-  },
+  }
 
 });
 

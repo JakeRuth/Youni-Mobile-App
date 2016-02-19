@@ -36,7 +36,16 @@ var Post = React.createClass({
     post: React.PropTypes.object.isRequired,
     viewerIsPostOwner: React.PropTypes.bool,
     renderedFromProfileView: React.PropTypes.bool,
+    likePhotoAction: React.PropTypes.func,
+    unlikePhotoAction: React.PropTypes.func,
     navigator: React.PropTypes.object.isRequired
+  },
+
+  getInitialState: function() {
+    return {
+      isLikeRequestInFlight: false,
+      isCommentRequestInFlight: false
+    };
   },
 
   render: function() {
@@ -62,11 +71,31 @@ var Post = React.createClass({
 
         <PostFooter
           post={this.props.post}
-          postStore={this.props.postStore}
           onStarPress={this._onStarPress}
+          isLikeRequestInFlight={this.state.isLikeRequestInFlight || this.props.postStore.isLikeRequestInFlight()}
+          onSubmitComment={this._onSubmitComment}
+          isCommentRequestInFlight={this.state.isCommentRequestInFlight}
           navigator={this.props.navigator}/>
 
       </View>
+    );
+  },
+
+  _onSubmitComment: function(comment) {
+    this.setState({
+      isCommentRequestInFlight: true
+    });
+    this.props.postStore.addCommentOnPost(
+      this.props.post.id,
+      this.props.post.postIdString,
+      userLoginMetadataStore.getUserId(),
+      comment,
+      userLoginMetadataStore.getFullName(),
+      () => {
+        this.setState({
+          isCommentRequestInFlight: false
+        });
+      }
     );
   },
 
@@ -89,54 +118,60 @@ var Post = React.createClass({
   },
 
   _likePost: function() {
-    var action = this._getOnPhotoClickActionName(),
-        userId = userLoginMetadataStore.getUserId();
-    Unicycle.exec(action, this.props.post.id, this.props.post.postIdString, userId);
+    if (this.props.likePhotoAction) {
+      this.setState({
+        isLikeRequestInFlight: true
+      });
+
+      this.props.likePhotoAction(() => {
+        this.setState({
+          isLikeRequestInFlight: false
+        });
+      });
+    }
+    else {
+      var action = this._getOnPhotoClickActionName(),
+          userId = userLoginMetadataStore.getUserId();
+      Unicycle.exec(action, this.props.post.id, this.props.post.postIdString, userId);
+    }
   },
 
   _unlikePost: function() {
-    var action = this._getOnStarClickActionName(),
-        userId = userLoginMetadataStore.getUserId();
-    Unicycle.exec(action, this.props.post.id, this.props.post.postIdString, userId);
+    if (this.props.unlikePhotoAction) {
+      this.setState({
+        isLikeRequestInFlight: true
+      });
+
+      this.props.unlikePhotoAction(() => {
+        this.setState({
+          isLikeRequestInFlight: false
+        });
+      });
+    }
+    else {
+      var action = this._getOnStarClickActionName(),
+          userId = userLoginMetadataStore.getUserId();
+      Unicycle.exec(action, this.props.post.id, this.props.post.postIdString, userId);
+    }
   },
 
   //TODO: Figure out a better way to do this
   _getOnPhotoClickActionName: function() {
-    if (this.props.renderedFromProfileView) {
-      if (this.props.viewerIsPostOwner) {
-        return 'likePostFromOwnerProfilePage';
-      }
-      else {
-        return 'likePostFromProfilePage';
-      }
+    if (this.props.postStore.isHomeFeed()) {
+      return 'likeHomeFeedPost';
     }
     else {
-      if (this.props.postStore.isHomeFeed()) {
-        return 'likeHomeFeedPost';
-      }
-      else {
-        return 'likeExploreFeedPost';
-      }
+      return 'likeExploreFeedPost';
     }
   },
 
   //TODO: Figure out a better way to do this
   _getOnStarClickActionName: function() {
-    if (this.props.renderedFromProfileView) {
-      if (this.props.viewerIsPostOwner) {
-        return 'removeLikeProfileOwner';
-      }
-      else {
-        return 'removeLikeProfile';
-      }
+    if (this.props.postStore.isHomeFeed()) {
+      return 'removeLikeHomeFeed';
     }
     else {
-      if (this.props.postStore.isHomeFeed()) {
-        return 'removeLikeHomeFeed';
-      }
-      else {
-        return 'removeLikeExploreFeed';
-      }
+      return 'removeLikeExploreFeed';
     }
   }
 

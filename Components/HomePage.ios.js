@@ -104,11 +104,13 @@ var HomePage = React.createClass({
     return (
       <PostList
         refreshable={true}
+        isFeedRefreshing={homePostsStore.isFeedRefreshing()}
         postStore={homePostsStore}
         posts={posts}
         onScroll={this.handleScroll}
         onLoadMorePostsPress={this._requestHomeFeed}
         isLoadMorePostsRequestInFlight={homePostsStore.isLoadMorePostsRequestInFlight()}
+        noMorePostsToFetch={homePostsStore.getNoMorePostsToFetch()}
         navigator={this.props.navigator}/>
     );
   },

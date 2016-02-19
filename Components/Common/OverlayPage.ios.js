@@ -34,7 +34,7 @@ var OverlayPage = React.createClass({
     },
 
     propTypes: {
-        content: React.PropTypes.element.isRequired,
+        content: React.PropTypes.any.isRequired,
         onBackArrowPress: React.PropTypes.func.isRequired,
         bannerTitle: React.PropTypes.string
     },

@@ -11,8 +11,7 @@ var PostCommentsPopup = require('../../PopupPages/PostCommentsPopup');
 var {
   View,
   Text,
-  StyleSheet,
-  TouchableHighlight
+  StyleSheet
 } = React;
 
 var styles = StyleSheet.create({
@@ -35,9 +34,11 @@ var PostFooter = React.createClass({
 
   propTypes: {
     post: React.PropTypes.object.isRequired,
-    postStore: React.PropTypes.any.isRequired,
     onStarPress: React.PropTypes.func.isRequired,
-    navigator: React.PropTypes.object.isRequired
+    isLikeRequestInFlight: React.PropTypes.bool,
+    navigator: React.PropTypes.object.isRequired,
+    onSubmitComment: React.PropTypes.func.isRequired,
+    isCommentRequestInFlight: React.PropTypes.bool.isRequired
   },
 
   render: function() {
@@ -60,15 +61,16 @@ var PostFooter = React.createClass({
 
         <PostStats
           navigator={this.props.navigator}
-          postStore={this.props.postStore}
           onStarPress={this.props.onStarPress(this.props.post.liked)}
+          isLikeRequestInFlight={this.props.isLikeRequestInFlight}
           post={this.props.post}/>
 
         <PostCommentsContainer
           postCommentsPopupComponent={PostCommentsPopup}
           post={this.props.post}
-          postStore={this.props.postStore}
-          navigator={this.props.navigator}/>
+          navigator={this.props.navigator}
+          onSubmitComment={this.props.onSubmitComment}
+          isCommentRequestInFlight={this.props.isCommentRequestInFlight}/>
 
       </View>
     );

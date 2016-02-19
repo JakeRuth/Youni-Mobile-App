@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react-native');
+var Unicycle = require('../../Unicycle');
 var Post = require('../Post/Post');
 var OverlayPage = require('../Common/OverlayPage');
 var explorePostsStore = require('../../stores/post/ExplorePostsStore');
@@ -16,6 +17,10 @@ var PostPopup = React.createClass({
     navigator: React.PropTypes.object.isRequired
   },
 
+  mixins: [
+    Unicycle.listenTo(explorePostsStore)
+  ],
+
   render: function () {
     return (
       <OverlayPage
@@ -24,11 +29,12 @@ var PostPopup = React.createClass({
     );
   },
 
-  _renderPost: function (selectedPost) {
+  _renderPost: function (post) {
     return (
       <Post
         postStore={explorePostsStore}
-        post={selectedPost}
+        post={post}
+        isLikeRequestInFlight={explorePostsStore.isLikeRequestInFlight()}
         navigator={this.props.navigator}/>
     );
   }

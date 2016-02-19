@@ -6,6 +6,7 @@ var profileOwnerStore = require('./stores/profile/ProfileOwnerStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
 var MainScreenBanner = require('./MainScreenBanner');
 var ProfilePageBody = require('./Components/Profile/ProfilePageBody');
+var UserPosts = require('./Components/Profile/UserPosts');
 var LogoutButton = require('./Components/Common/LogoutButton');
 var ErrorPage = require('./Components/Common/ErrorPage');
 var EditSettingsButton = require('./Components/Profile/Settings/EditSettingsButton');
@@ -13,6 +14,7 @@ var Spinner = require('./Components/Common/Spinner');
 
 var {
   View,
+  ScrollView,
   StyleSheet
 } = React;
 
@@ -22,8 +24,6 @@ var styles = StyleSheet.create({
   }
 });
 
-//This is a super raw page, it is likely going to be completely re-written when
-//we finalize a new design
 var ProfilePage = React.createClass({
 
   propTypes: {
@@ -36,9 +36,8 @@ var ProfilePage = React.createClass({
   ],
 
   componentDidMount: function() {
-    if (profileOwnerStore.getPosts().size === 0) {
-      Unicycle.exec('loadOwnerUsersProfile', this.props.email);
-    }
+    Unicycle.exec('loadOwnerUsersProfile', this.props.email);
+    this._requestProfilePosts();
   },
 
   render: function() {
@@ -56,17 +55,24 @@ var ProfilePage = React.createClass({
     }
     else {
       content = (
-        <ProfilePageBody
-          navigator={this.props.navigator}
-          viewerIsProfileOwner={true}
-          firstName={profileOwnerStore.getFirstName()}
-          lastName={profileOwnerStore.getLastName()}
-          bio={profileOwnerStore.getBio()}
-          numFans={profileOwnerStore.getNumFollowers()}
-          numPosts={profileOwnerStore.getNumPosts()}
-          totalPoints={profileOwnerStore.getTotalPoints()}
-          profileImageUrl={profileOwnerStore.getProfileImageUrl()}
-          email={this.props.email}/>
+        <ScrollView>
+
+          <ProfilePageBody
+            navigator={this.props.navigator}
+            viewerIsProfileOwner={true}
+            user={profileOwnerStore.getUserJson()}/>
+
+          <UserPosts
+            posts={profileOwnerStore.getPosts()}
+            profileStore={profileOwnerStore}
+            onLoadMorePostsPress={this._requestProfilePosts}
+            noMorePostsToFetch={profileOwnerStore.getNoMorePostsToFetch()}
+            viewerIsProfileOwner={true}
+            loading={profileOwnerStore.isUserPostsRequestInFlight()}
+            isNextPageLoading={profileOwnerStore.isLoadMorePostsRequestInFlight()}
+            navigator={this.props.navigator}/>
+
+        </ScrollView>
       );
     }
 
@@ -85,9 +91,14 @@ var ProfilePage = React.createClass({
     );
   },
 
+  _requestProfilePosts: function() {
+    var userId = userLoginMetadataStore.getUserId(),
+        email = userLoginMetadataStore.getEmail();
+    Unicycle.exec('getOwnerUserPosts', email, userId);
+  },
+
   _onErrorPageReload: function() {
-    var email = userLoginMetadataStore.getEmail();
-    Unicycle.exec('loadOwnerUsersProfile', email);
+    Unicycle.exec('loadOwnerUsersProfile', this.props.email);
   }
 
 });

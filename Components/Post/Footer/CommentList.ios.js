@@ -14,8 +14,8 @@ var {
 var styles = StyleSheet.create({
   container: {
     marginBottom: 6,
-    marginLeft: 6,
-    marginRight: 6,
+    marginLeft: 8,
+    marginRight: 8,
     paddingBottom: 2
   },
   viewAllCommentsLink: {
@@ -33,15 +33,14 @@ var CommentList = React.createClass({
 
   propTypes: {
     post: React.PropTypes.object.isRequired,
-    postStore: React.PropTypes.any.isRequired,
-    navigator: React.PropTypes.object.isRequired,
-    postCommentsPopupComponent: React.PropTypes.element
+    navigator: React.PropTypes.object,
+    postCommentsPopupComponent: React.PropTypes.any
   },
 
   render: function() {
     var viewAllComments = <View/>;
 
-    if (this.props.post.moreCommentsToShow) {
+    if (this.props.post.moreCommentsToShow && this.props.navigator) {
       viewAllComments = this._renderViewAllCommentsLink();
     }
 
@@ -85,8 +84,7 @@ var CommentList = React.createClass({
     this.props.navigator.push({
       component: this.props.postCommentsPopupComponent,
       passProps: {
-        post: this.props.post,
-        postStore: this.props.postStore
+        post: this.props.post
       }
     });
   }

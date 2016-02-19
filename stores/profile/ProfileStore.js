@@ -33,40 +33,7 @@ var profileStore = Unicycle.createStore({
     },
 
     $loadUsersProfile(email) {
-      var that = this;
 
-      // first name and last name need to be cleared so the banner doesn't
-      // show the previous name while loading the profile info
-      this.set({
-        isRequestInFlight: true,
-        firstName: '',
-        lastName: ''
-      });
-
-      AjaxUtils.ajax(
-        '/user/getProfileInformation',
-        {
-          userEmail: email
-        },
-        (res) => {
-          that.set({
-            isRequestInFlight: false,
-            firstName: res.body.userDetails['firstName'],
-            lastName: res.body.userDetails['lastName'],
-            numFollowers: res.body.userDetails['numFollowers'],
-            bio: res.body.userDetails['bio'],
-            email: res.body.userDetails['email'],
-            profileImageUrl: res.body.userDetails['profileImageUrl'],
-            numPosts: res.body.userDetails['numPosts'],
-            totalPoints: res.body.userDetails['allTimePoints']
-          });
-        },
-        () => {
-          that.set({
-            sRequestInFlight: false
-          });
-        }
-      );
     },
 
     $getUserPosts(userEmail, userId) {
@@ -181,7 +148,7 @@ var profileStore = Unicycle.createStore({
       });
     },
 
-    addCommentOnPost: function(id, postIdString, userIdString, comment, commenterName, callback) {
+    addCommentOnPost: function(id, postIdString, userIdString, comment, commenterName) {
       var posts = this.getPosts(),
           that = this;
 
@@ -201,7 +168,6 @@ var profileStore = Unicycle.createStore({
             posts: PostUtils.addComment(posts, id, comment, commenterName),
             isPostCommentRequestInFlight: false
           });
-          callback();
         },
         () => {
           that.set({

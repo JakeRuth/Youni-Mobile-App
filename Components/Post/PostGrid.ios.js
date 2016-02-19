@@ -19,7 +19,6 @@ var PostGrid = React.createClass({
 
   propTypes: {
     posts: React.PropTypes.object.isRequired,
-    postStore: React.PropTypes.any.isRequired,
     viewerIsPostOwner: React.PropTypes.bool,
     navigator: React.PropTypes.object.isRequired
   },

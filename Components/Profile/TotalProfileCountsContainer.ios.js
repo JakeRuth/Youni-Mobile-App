@@ -41,7 +41,7 @@ var TotalProfileCountsContainer = React.createClass({
 
   propTypes: {
     totalPoints: React.PropTypes.string.isRequired,
-    numFans: React.PropTypes.number.isRequired,
+    numFollowers: React.PropTypes.number.isRequired,
     numPosts: React.PropTypes.number.isRequired
   },
 
@@ -65,7 +65,7 @@ var TotalProfileCountsContainer = React.createClass({
 
         <View style={styles.totalCountContainer}>
           <Text style={styles.countLabel}>Fans</Text>
-          <Text style={styles.countValue}>{this.props.numFans}</Text>
+          <Text style={styles.countValue}>{this.props.numFollowers}</Text>
         </View>
 
         <View style={styles.totalCountContainer}>

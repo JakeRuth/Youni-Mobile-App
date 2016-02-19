@@ -11,8 +11,6 @@ var TrendingPage = require('./Components/Trending/TrendingPage');
 var CreatePostPage = require('./CreatePostPage');
 var OverlayPage = require('./Components/Common/OverlayPage');
 
-var ProfileModal = require('./Components/Profile/ProfileModal');
-
 var loginStore = require('./stores/LoginStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
 var tabStateStore = require('./stores/TabStateStore');
@@ -53,10 +51,7 @@ var LandingPage = React.createClass({
   render: function() {
     return (
       <View style={styles.tabBarContainer}>
-        <ProfileModal navigator={this.props.navigator}/>
-
         {this._renderTabBar()}
-
       </View>
     );
   },

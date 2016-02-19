@@ -53,11 +53,13 @@ var ExploreFeedPosts = React.createClass({
       content = (
         <PostList
           refreshable={true}
+          isFeedRefreshing={explorePostsStore.isFeedRefreshing()}
           postStore={explorePostsStore}
           posts={explorePostsStore.getPosts()}
           onScroll={this.handleScroll}
           onLoadMorePostsPress={this._requestExploreFeed}
           isLoadMorePostsRequestInFlight={explorePostsStore.isLoadMorePostsRequestInFlight()}
+          noMorePostsToFetch={explorePostsStore.getNoMorePostsToFetch()}
           gridViewEnabled={true}
           navigator={this.props.navigator}/>
       );
