@@ -61,7 +61,8 @@ var CommentList = React.createClass({
       comments.push(
         <Comment
           commenterName={commentJson.commenterName}
-          commentText={commentJson.comment}/>
+          commentText={commentJson.comment}
+          key={i}/>
       );
     }
     return comments;

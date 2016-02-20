@@ -25,6 +25,7 @@ var RootNavigator = React.createClass({
           style={styles.container}
           navigationBarHidden={true}
           initialRoute={{
+            title: '', // React Native as of 0.18.0 throws a warning if this isn't specified
             component: LoginPage
           }}/>
     );

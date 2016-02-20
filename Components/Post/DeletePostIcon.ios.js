@@ -23,7 +23,7 @@ var DeletePostIcon = React.createClass({
   propTypes: {
     id: React.PropTypes.number.isRequired,
     postIdString: React.PropTypes.string.isRequired,
-    enabled: React.PropTypes.string.isRequired
+    enabled: React.PropTypes.string
   },
 
   render: function() {

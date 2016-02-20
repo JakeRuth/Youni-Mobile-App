@@ -111,6 +111,7 @@ var PostList = React.createClass({
           renderedFromProfileView={this.props.renderedFromProfileView}
           viewerIsPostOwner={this.props.viewerIsPostOwner}
           navigator={this.props.navigator}/>
+          key={i}/>
       );
     }
     return posts;
