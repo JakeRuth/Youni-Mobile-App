@@ -25,11 +25,11 @@ var styles = StyleSheet.create({
   posterProfileImage: {
     top: 2,
     left: 2,
-    height: 40,
-    width: 40,
-    borderRadius: 20,
-    borderWidth: .5,
-    borderColor: 'white'
+    height: 30,
+    width: 30,
+    borderRadius: 15,
+    borderWidth: 1,
+    borderColor: 'lightgray'
   },
   postStats: {
     marginTop: -20,
