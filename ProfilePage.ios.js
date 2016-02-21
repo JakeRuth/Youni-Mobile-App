@@ -70,7 +70,9 @@ var ProfilePage = React.createClass({
             viewerIsProfileOwner={true}
             loading={profileOwnerStore.isUserPostsRequestInFlight()}
             isNextPageLoading={profileOwnerStore.isLoadMorePostsRequestInFlight()}
-            navigator={this.props.navigator}/>
+            navigator={this.props.navigator}
+            unlikePhotoAction={this._unlikePhotoAction}
+            likePhotoAction={this._likePhotoAction}/>
 
         </ScrollView>
       );
@@ -89,6 +91,14 @@ var ProfilePage = React.createClass({
 
       </View>
     );
+  },
+
+  _likePhotoAction(postIndex, postId, userId, callback) {
+    Unicycle.exec('likePostFromOwnerProfilePage', postIndex, postId, userId, callback);
+  },
+
+  _unlikePhotoAction(postIndex, postId, userId, callback) {
+    Unicycle.exec('removeLikeProfileOwner', postIndex, postId, userId, callback);
   },
 
   _requestProfilePosts: function() {

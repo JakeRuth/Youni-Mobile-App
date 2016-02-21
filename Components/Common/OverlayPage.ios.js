@@ -36,13 +36,14 @@ var OverlayPage = React.createClass({
     propTypes: {
         content: React.PropTypes.any.isRequired,
         onBackArrowPress: React.PropTypes.func.isRequired,
-        bannerTitle: React.PropTypes.string
+        bannerTitle: React.PropTypes.string,
+        bumpContentUpWhenKeyboardShows: React.PropTypes.bool
     },
 
     render: function() {
         var contentOffset = {x:0,y:20};
 
-        if (this.state.hasKeyboardBeenShownAtLeastOnce) {
+        if (this.props.bumpContentUpWhenKeyboardShows && this.state.hasKeyboardBeenShownAtLeastOnce) {
             contentOffset = {
                 x: 0,
                 y: this._computePositionToScrollToWhenKeyboardDisplayed()

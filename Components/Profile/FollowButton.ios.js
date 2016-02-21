@@ -1,7 +1,6 @@
 'use strict';
 
 var React = require('react-native');
-var followStore = require('../../stores/FollowStore');
 var Spinner = require('../Common/Spinner');
 
 var {
@@ -35,7 +34,8 @@ var FollowButton = React.createClass({
   propTypes: {
     isRequestInFlight: React.PropTypes.bool.isRequired,
     onButtonPress: React.PropTypes.func.isRequired,
-    viewerIsProfileOwner: React.PropTypes.bool.isRequired
+    viewerIsProfileOwner: React.PropTypes.bool.isRequired,
+    isUserFollowing: React.PropTypes.bool
   },
 
   render: function() {
@@ -69,7 +69,7 @@ var FollowButton = React.createClass({
       return 'Following';
     }
     else {
-      return followStore.getIsUserFollowingResult() ? 'Unfollow' : 'Follow';
+      return this.props.isUserFollowing ? 'Unfollow' : 'Follow';
     }
   }
 

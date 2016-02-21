@@ -36,13 +36,13 @@ var PostGrid = React.createClass({
     var posts = [];
     for (var i = 0; i<postsJson.size; i+=2) {
       posts.push(
-        this._renderPostRow(postsJson.get(i), postsJson.get(i + 1))
+        this._renderPostRow(postsJson.get(i), postsJson.get(i + 1), i)
       );
     }
     return posts;
   },
 
-  _renderPostRow: function(leftPostJson, rightPostJson) {
+  _renderPostRow: function(leftPostJson, rightPostJson, index) {
     var leftPost, rightPost;
 
     // it is possible for these to be blank if the total post count wasn't 10 (page size)
@@ -64,7 +64,9 @@ var PostGrid = React.createClass({
     }
 
     return (
-      <View style={styles.postRow}>
+      <View
+        style={styles.postRow}
+        key={index}>
         {leftPost}
         {rightPost}
       </View>

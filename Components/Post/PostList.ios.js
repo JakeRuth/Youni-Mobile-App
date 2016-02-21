@@ -1,8 +1,6 @@
 'use strict';
 
 var React = require('react-native');
-var Unicycle = require('../../Unicycle');
-var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var homePostsStore = require('../../stores/post/HomePostsStore');
 var Post = require('./Post');
 var PostGrid = require('./PostGrid');
@@ -47,7 +45,10 @@ var PostList = React.createClass({
     viewerIsPostOwner: React.PropTypes.bool,
     renderedFromProfileView: React.PropTypes.bool,
     gridViewEnabled: React.PropTypes.bool,
-    navigator: React.PropTypes.object.isRequired
+    navigator: React.PropTypes.object.isRequired,
+    likePhotoAction: React.PropTypes.func,
+    unlikePhotoAction: React.PropTypes.func,
+    submitCommentAction: React.PropTypes.func
   },
 
   render: function() {
@@ -110,7 +111,10 @@ var PostList = React.createClass({
           postStore={this.props.postStore}
           renderedFromProfileView={this.props.renderedFromProfileView}
           viewerIsPostOwner={this.props.viewerIsPostOwner}
-          navigator={this.props.navigator}/>
+          navigator={this.props.navigator}
+          likePhotoAction={this.props.likePhotoAction}
+          unlikePhotoAction={this.props.unlikePhotoAction}
+          submitCommentAction={this.props.submitCommentAction}
           key={i}/>
       );
     }

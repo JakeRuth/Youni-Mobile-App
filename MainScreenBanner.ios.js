@@ -27,7 +27,7 @@ var styles = StyleSheet.create({
 var MainScreenBanner = React.createClass({
 
   propTypes: {
-    title: React.PropTypes.string.isRequired
+    title: React.PropTypes.string
   },
 
   render: function() {

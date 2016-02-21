@@ -40,7 +40,11 @@ var styles = StyleSheet.create({
 var TotalProfileCountsContainer = React.createClass({
 
   propTypes: {
-    totalPoints: React.PropTypes.string.isRequired,
+    // TODO: Fix.  It should always be a number.
+    totalPoints: React.PropTypes.oneOfType([
+      React.PropTypes.number,
+      React.PropTypes.string
+    ]),
     numFollowers: React.PropTypes.number.isRequired,
     numPosts: React.PropTypes.number.isRequired
   },
@@ -53,7 +57,6 @@ var TotalProfileCountsContainer = React.createClass({
     );
   },
 
-  //TODO: Once posts come from api, use that value!!!
   renderPostsAndFansCounterContainer: function() {
     return (
       <View style={styles.container}>

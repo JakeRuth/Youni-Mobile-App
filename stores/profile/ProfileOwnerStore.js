@@ -178,7 +178,7 @@ var profileOwnerStore = Unicycle.createStore({
       );
     },
 
-    $likePostFromOwnerProfilePage(id, postId, userId) {
+    $likePostFromOwnerProfilePage(id, postId, userId, callback) {
       var that = this;
       var posts = this.get('posts');
 
@@ -198,17 +198,19 @@ var profileOwnerStore = Unicycle.createStore({
               posts: PostUtils.increaseLikeCount(posts, id),
               isLikeRequestInFlight: false
             });
+            callback();
           },
           () => {
             that.set({
               isLikeRequestInFlight: false
             });
+            callback();
           }
         );
       }
     },
 
-    $removeLikeProfileOwner(id, postId, userId) {
+    $removeLikeProfileOwner(id, postId, userId, callback) {
       var posts = this.get('posts'),
           that = this;
 
@@ -228,11 +230,13 @@ var profileOwnerStore = Unicycle.createStore({
               posts: PostUtils.decreaseLikeCount(posts, id),
               isLikeRequestInFlight: false
             });
+            callback();
           },
           () => {
             that.set({
               isLikeRequestInFlight: false
             });
+            callback();
           }
         );
       }

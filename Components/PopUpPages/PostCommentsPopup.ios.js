@@ -58,7 +58,8 @@ var PostCommentsPopup = React.createClass({
           this.props.post.moreCommentsToShow = true;
           this.props.navigator.pop();
         }}
-        bannerTitle='Comments'/>
+        bannerTitle='Comments'
+        bumpContentUpWhenKeyboardShows={true}/>
     );
   }
 

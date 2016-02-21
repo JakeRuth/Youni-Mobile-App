@@ -94,7 +94,6 @@ var LandingPage = React.createClass({
         selectedIconName="ios-search"
         selected={tabStateStore.getSelectedTab() === 'search'}
         onPress={() => {
-              Unicycle.exec('setInProfileView', false);
               Unicycle.exec('setInExploreFeedView', true);
               this._transitionState('search');
             }}>

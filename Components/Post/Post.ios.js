@@ -36,6 +36,7 @@ var Post = React.createClass({
     post: React.PropTypes.object.isRequired,
     viewerIsPostOwner: React.PropTypes.bool,
     renderedFromProfileView: React.PropTypes.bool,
+    submitCommentAction: React.PropTypes.func,
     likePhotoAction: React.PropTypes.func,
     unlikePhotoAction: React.PropTypes.func,
     navigator: React.PropTypes.object.isRequired
@@ -43,8 +44,8 @@ var Post = React.createClass({
 
   getInitialState: function() {
     return {
-      isLikeRequestInFlight: false,
-      isCommentRequestInFlight: false
+      isCommentRequestInFlight: false,
+      isLikeRequestInFlight: false
     };
   },
 
@@ -59,7 +60,8 @@ var Post = React.createClass({
           posterName={this.props.post.posterName}
           posterProfileImageUrl={this.props.post.posterProfileImageUrl}
           timestamp={this.props.post.timestamp}
-          renderedFromProfileView={this.props.renderedFromProfileView}/>
+          renderedFromProfileView={this.props.renderedFromProfileView}
+          navigator={this.props.navigator}/>
 
         <TouchableHighlight onPress={ this._photoOnClickAction(this.props.post.liked) }>
           <View style={styles.imageContainer}>
@@ -72,7 +74,7 @@ var Post = React.createClass({
         <PostFooter
           post={this.props.post}
           onStarPress={this._onStarPress}
-          isLikeRequestInFlight={this.state.isLikeRequestInFlight || this.props.postStore.isLikeRequestInFlight()}
+          isLikeRequestInFlight={this.props.postStore.isLikeRequestInFlight() || this.state.isLikeRequestInFlight}
           onSubmitComment={this._onSubmitComment}
           isCommentRequestInFlight={this.state.isCommentRequestInFlight}
           navigator={this.props.navigator}/>
@@ -82,10 +84,20 @@ var Post = React.createClass({
   },
 
   _onSubmitComment: function(comment) {
+    var submitCommentAction;
+
+    if (this.props.submitCommentAction) {
+      submitCommentAction = this.props.submitCommentAction;
+    }
+    else {
+      submitCommentAction = this.props.postStore.addCommentOnPost;
+    }
+
     this.setState({
       isCommentRequestInFlight: true
     });
-    this.props.postStore.addCommentOnPost(
+
+    submitCommentAction(
       this.props.post.id,
       this.props.post.postIdString,
       userLoginMetadataStore.getUserId(),
@@ -118,39 +130,41 @@ var Post = React.createClass({
   },
 
   _likePost: function() {
+    var post = this.props.post,
+        userId = userLoginMetadataStore.getUserId();
+
     if (this.props.likePhotoAction) {
       this.setState({
         isLikeRequestInFlight: true
       });
-
-      this.props.likePhotoAction(() => {
+      this.props.likePhotoAction(post.id, post.postIdString, userId, () => {
         this.setState({
           isLikeRequestInFlight: false
         });
       });
     }
     else {
-      var action = this._getOnPhotoClickActionName(),
-          userId = userLoginMetadataStore.getUserId();
+      var action = this._getOnPhotoClickActionName();
       Unicycle.exec(action, this.props.post.id, this.props.post.postIdString, userId);
     }
   },
 
   _unlikePost: function() {
+    var post = this.props.post,
+        userId = userLoginMetadataStore.getUserId();
+
     if (this.props.unlikePhotoAction) {
       this.setState({
         isLikeRequestInFlight: true
       });
-
-      this.props.unlikePhotoAction(() => {
+      this.props.unlikePhotoAction(post.id, post.postIdString, userId, () => {
         this.setState({
           isLikeRequestInFlight: false
         });
       });
     }
     else {
-      var action = this._getOnStarClickActionName(),
-          userId = userLoginMetadataStore.getUserId();
+      var action = this._getOnStarClickActionName();
       Unicycle.exec(action, this.props.post.id, this.props.post.postIdString, userId);
     }
   },

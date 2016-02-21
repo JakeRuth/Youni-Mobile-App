@@ -1,9 +1,6 @@
 'use strict';
 
 var React = require('react-native');
-var Unicycle = require('../../Unicycle');
-var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
-var PostList = require('../../Components/Post/PostList');
 var Spinner = require('../Common/Spinner');
 
 var {
@@ -15,7 +12,21 @@ var {
 var styles = StyleSheet.create({
   postsContainer: {
     flex: 1,
-    paddingBottom: 50
+    paddingBottom: 50,
+    backgroundColor: '#F2F2F2'
+  },
+  spinnerContainer: {
+    alignSelf: 'center',
+    backgroundColor: 'white'
+  },
+  noPostsMessageContainer: {
+    flex: 1,
+    alignItems: 'center'
+  },
+  noPostsMessage: {
+    paddingTop: 50,
+    color: '#4C4C4C',
+    fontSize: 12
   }
 });
 
@@ -29,23 +40,36 @@ var UserPosts = React.createClass({
     viewerIsProfileOwner: React.PropTypes.bool,
     loading: React.PropTypes.bool,
     isNextPageLoading: React.PropTypes.bool,
-    navigator: React.PropTypes.object.isRequired
+    navigator: React.PropTypes.object.isRequired,
+    likePhotoAction: React.PropTypes.func,
+    unlikePhotoAction: React.PropTypes.func,
+    submitCommentAction: React.PropTypes.func
+  },
+
+  // Lazy load to resolve circular dependency
+  getPostList: function() {
+    return require('../../Components/Post/PostList');
   },
 
   render: function() {
-    var content;
+    var content, style;
+    var PostList = this.getPostList();
 
     if (this.props.loading) {
+      style = styles.spinnerContainer;
       content = (
-        <Spinner/>
+        <View style={styles.spinnerContainer}>
+          <Spinner/>
+        </View>
       );
     }
-    else {
+    else if (this.props.posts.size) {
+      style = styles.postsContainer;
       content = (
         <PostList
           refreshable={this.props.viewerIsProfileOwner}
-          isFeedRefreshing={this.props.profileStore.isFeedRefreshing()}//TODO
-          noMorePostsToFetch={false}//TODO
+          isFeedRefreshing={this.props.profileStore.isFeedRefreshing()}
+          noMorePostsToFetch={false}
           postStore={this.props.profileStore}
           posts={this.props.posts}
           onScroll={() => { /* do nothing */ }}
@@ -54,13 +78,29 @@ var UserPosts = React.createClass({
           noMorePostsToFetch={this.props.noMorePostsToFetch}
           viewerIsPostOwner={this.props.viewerIsProfileOwner}
           renderedFromProfileView={true}
-          navigator={this.props.navigator}/>
+          navigator={this.props.navigator}
+          likePhotoAction={this.props.likePhotoAction}
+          unlikePhotoAction={this.props.unlikePhotoAction}
+          submitCommentAction={this.props.submitCommentAction}/>
       );
+    }
+    else {
+      content = this._renderNoPostsMessage();
     }
 
     return (
-      <View style={styles.postsContainer}>
+      <View style={style}>
         {content}
+      </View>
+    );
+  },
+
+  _renderNoPostsMessage: function() {
+    return (
+      <View style={styles.noPostsMessageContainer}>
+        <Text style={styles.noPostsMessage}>
+          No posts... yet!
+        </Text>
       </View>
     );
   }

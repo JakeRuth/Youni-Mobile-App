@@ -50,7 +50,7 @@ var PostLikesList = React.createClass({
     else {
       for (var i = 0; i < this.props.users.length; i++) {
         userRows.push(
-            this._renderUser(this.props.users[i])
+            this._renderUser(this.props.users[i], i)
         );
       }
       content = userRows;
@@ -63,9 +63,11 @@ var PostLikesList = React.createClass({
     );
   },
 
-  _renderUser: function(user) {
+  _renderUser: function(user, index) {
     return (
-      <View style={styles.userRow}>
+      <View
+        style={styles.userRow}
+        key={index}>
 
         <Image
             style={styles.userImage}

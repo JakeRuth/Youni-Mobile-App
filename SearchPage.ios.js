@@ -8,10 +8,9 @@ var profileStore = require('./stores/profile/ProfileStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
 var MainScreenBanner = require('./MainScreenBanner');
 var ExploreFeedPosts = require('./Components/Post/ExploreFeedPosts');
-var ProfilePageBody = require('./Components/Profile/ProfilePageBody');
-var BackButton = require('./Components/Common/BackButtonBar');
 var EmptyResults = require('./Components/Common/EmptyResults');
 var Spinner = require('./Components/Common/Spinner');
+var ProfilePopup = require('./Components/PopupPages/ProfilePopup');
 
 var {
   View,
@@ -21,7 +20,7 @@ var {
   StyleSheet,
   ScrollView,
   TouchableHighlight
-} = React
+} = React;
 
 var styles = StyleSheet.create({
   searchPageContainer: {
@@ -75,7 +74,6 @@ var SearchPage = React.createClass({
 
   render: function() {
     var inExploreFeedView = searchStore.getInExploreFeedView(),
-        isProfileInView = searchStore.getInProfileView(),
         searchResultsToShow = searchStore.getSearchResults() != null,
         searchPageContent;
 
@@ -83,23 +81,12 @@ var SearchPage = React.createClass({
       searchPageContent = <SearchResultLoading/>;
     }
     else if (inExploreFeedView) {
-      searchPageContent = <ExploreFeedPosts navigator={this.props.navigator}/>;
-    }
-    else if (isProfileInView) {
-      searchPageContent = <ProfilePageBody
-                            viewerIsProfileOwner={false}
-                            firstName={profileStore.getFirstName()}
-                            lastName={profileStore.getLastName()}
-                            bio={profileStore.getBio()}
-                            numFollowers={profileStore.getNumFollowers()}
-                            numPosts={profileStore.getNumPosts()}
-                            totalPoints={profileStore.getTotalPoints()}
-                            profileImageUrl={profileStore.getProfileImageUrl()}
-                            email={profileStore.getEmail()}
-                            navigator={this.props.navigator}/>;
+      searchPageContent = (
+        <ExploreFeedPosts navigator={this.props.navigator}/>
+      );
     }
     else if (searchResultsToShow) {
-      searchPageContent = <SearchResultsList/>;
+      searchPageContent = <SearchResultsList navigator={this.props.navigator}/>;
     }
     else {
       searchPageContent = <EmptyResults message={'no results to show'}/>;
@@ -109,28 +96,11 @@ var SearchPage = React.createClass({
       <View style={styles.searchPageContainer}>
 
         <MainScreenBanner title='Explore'/>
-        {this._renderHeader()}
+        {this._renderSearchBar()}
         {searchPageContent}
 
       </View>
     );
-  },
-
-  _renderHeader: function() {
-    var isProfileInView = searchStore.getInProfileView();
-
-    if (isProfileInView) {
-      return (
-        <BackButton buttonOnPress={
-            () => {
-              Unicycle.exec('setInProfileView', false);
-            }
-        }/>
-      );
-    }
-    else {
-      return this._renderSearchBar();
-    }
   },
 
   _renderSearchBar: function() {
@@ -153,6 +123,10 @@ var SearchPage = React.createClass({
 //TODO Put some thought into whether or not these should be in their own files
 var SearchResultsList = React.createClass({
 
+  propTypes: {
+    navigator: React.PropTypes.object.isRequired
+  },
+
   render: function() {
     var searchJson = searchStore.getSearchResults();
     var searchResults = [];
@@ -162,7 +136,7 @@ var SearchResultsList = React.createClass({
         <SearchResult
           key={i}
           search={searchJson.get(i)}
-        />
+          navigator={this.props.navigator}/>
       );
     }
 
@@ -178,7 +152,8 @@ var SearchResultsList = React.createClass({
 var SearchResult = React.createClass({
 
   propTypes: {
-    search: React.PropTypes.object.isRequired
+    search: React.PropTypes.object.isRequired,
+    navigator: React.PropTypes.object.isRequired
   },
 
   render: function() {
@@ -191,13 +166,18 @@ var SearchResult = React.createClass({
 
     if (profileImageUrl) {
       thumbnail = (
-        <Image style={styles.profileImage} source={{uri: profileImageUrl}} />
+        <Image
+          style={styles.profileImage}
+          source={{uri: profileImageUrl}}/>
       );
     }
     else {
       thumbnail = (
-        <Icon style={styles.profileImage}
-          name='ios-person' size={40} color='#0083D4' />
+        <Icon
+          style={styles.profileImage}
+          name='ios-person'
+          size={40}
+          color='#0083D4' />
       );
     }
 
@@ -213,15 +193,16 @@ var SearchResult = React.createClass({
           </View>
 
         </TouchableHighlight>
-        <View style={styles.blankLine} />
+        <View style={styles.blankLine}/>
       </View>
     );
   },
 
   _onSearchResultClick: function(email) {
-    Unicycle.exec('reInitializeUsersProfileFeedOffset');
-    Unicycle.exec('loadUsersProfile', email);
-    Unicycle.exec('setInProfileView', true);
+    this.props.navigator.push({
+      component: ProfilePopup,
+      passProps: {profileUserEmail: this.props.search.get('email')}
+    });
   }
 
 });

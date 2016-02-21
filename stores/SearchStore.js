@@ -11,15 +11,13 @@ var searchStore = Unicycle.createStore({
     this.set({
       results: [],
       isRequestInFlight: false,
-      inExploreFeedView: true,
-      inProfileView: false
+      inExploreFeedView: true
     });
   },
 
   resetSearchPageAfterBlockingUser: function () {
     this.set({
-      results: [],
-      inProfileView: false
+      results: []
     });
   },
 
@@ -70,12 +68,6 @@ var searchStore = Unicycle.createStore({
     });
   },
 
-  $setInProfileView: function(value) {
-    this.set({
-      inProfileView: value
-    });
-  },
-
   $setSearchResults: function(results) {
     this.set({
       results: results
@@ -92,10 +84,6 @@ var searchStore = Unicycle.createStore({
 
   getInExploreFeedView: function() {
     return this.get('inExploreFeedView');
-  },
-
-  getInProfileView: function() {
-    return this.get('inProfileView');
   }
 
 });

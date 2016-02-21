@@ -5,6 +5,7 @@ var Unicycle = require('../../Unicycle');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var DeletePostIcon = require('./DeletePostIcon');
 var FlagPostIcon = require('./FlagPostIcon');
+var ProfilePopup = require('../PopupPages/ProfilePopup');
 
 var {
   View,
@@ -65,7 +66,8 @@ var PostHeader = React.createClass({
     posterName: React.PropTypes.string.isRequired,
     timestamp: React.PropTypes.string.isRequired,
     renderedFromProfileView: React.PropTypes.bool,
-    hideActionButton: React.PropTypes.bool
+    hideActionButton: React.PropTypes.bool,
+    navigator: React.PropTypes.object
   },
 
   render: function() {
@@ -120,15 +122,16 @@ var PostHeader = React.createClass({
   },
 
   onProfilePress: function() {
-    var userId;
-
-    if (!this._isViewerPostOwner() && !this.props.renderedFromProfileView && !this.props.hideActionButton) {
-      userId = userLoginMetadataStore.getUserId();
-      Unicycle.exec('reInitializeUsersProfileFeedOffset');
-      Unicycle.exec('loadUsersProfile', this.props.posterEmail);
-      Unicycle.exec('getUserPosts', this.props.posterEmail, userId);
-      Unicycle.exec('setProfileModalVisibile', true);
+    if (this._shouldDisplayProfilePopup()) {
+      this.props.navigator.push({
+        component: ProfilePopup,
+        passProps: {profileUserEmail: this.props.posterEmail}
+      });
     }
+  },
+
+  _shouldDisplayProfilePopup: function() {
+    return !this._isViewerPostOwner() && !this.props.renderedFromProfileView && !this.props.hideActionButton;
   },
 
   _isViewerPostOwner: function() {
