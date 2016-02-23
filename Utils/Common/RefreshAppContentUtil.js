@@ -4,7 +4,7 @@ var React = require('react-native');
 var Unicycle = require('../../Unicycle');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var request = require('superagent');
-var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com');//TODO
+var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com');
 
 var {
   AsyncStorage
