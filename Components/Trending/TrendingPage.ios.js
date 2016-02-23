@@ -40,6 +40,10 @@ var styles = StyleSheet.create({
 
 var TrendingPage = React.createClass({
 
+  propTypes: {
+    navigator: React.PropTypes.object.isRequired
+  },
+
   mixins: [
     Unicycle.listenTo(trendingStore)
   ],
@@ -60,7 +64,7 @@ var TrendingPage = React.createClass({
       content = <ErrorPage reloadButtonAction={this._onErrorPageReload}/>
     }
     else {
-      content = <TrendingUsersList/>;
+      content = <TrendingUsersList navigator={this.props.navigator}/>;
     }
 
     return (

@@ -3,6 +3,7 @@
 var React = require('react-native');
 var Unicycle = require('../../Unicycle');
 var TrendingUser = require('./TrendingUser');
+var ProfilePopup = require('../PopupPages/ProfilePopup');
 var trendingStore = require('../../stores/trending/TrendingStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 
@@ -21,6 +22,10 @@ var styles = StyleSheet.create({
 });
 
 var TrendingUsersList = React.createClass({
+
+  propTypes: {
+    navigator: React.PropTypes.object.isRequired
+  },
 
   render: function() {
     var trendingUsers = [],
@@ -62,14 +67,14 @@ var TrendingUsersList = React.createClass({
   },
 
   onTrendingUserPress: function(email) {
-    var userId = userLoginMetadataStore.getUserId(),
-        userEmail = userLoginMetadataStore.getEmail();
+    var userEmail = userLoginMetadataStore.getEmail();
 
+    // Don't let a user click themselves
     if (userEmail !== email) {
-      Unicycle.exec('reInitializeUsersProfileFeedOffset');
-      Unicycle.exec('loadUsersProfile', email);
-      Unicycle.exec('getUserPosts', email, userId);
-      Unicycle.exec('setProfileModalVisibile', true);
+      this.props.navigator.push({
+        component: ProfilePopup,
+        passProps: {profileUserEmail: email}
+      });
     }
   }
 

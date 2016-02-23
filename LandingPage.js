@@ -129,7 +129,7 @@ var LandingPage = React.createClass({
         onPress={() => {
               this._transitionState('trend');
             }}>
-        <TrendingPage/>
+        <TrendingPage navigator={this.props.navigator}/>
       </Icon.TabBarItem>
     );
   },
