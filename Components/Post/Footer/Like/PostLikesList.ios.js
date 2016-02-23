@@ -3,15 +3,21 @@
 var React = require('react-native');
 var Unicycle = require('../../../../Unicycle');
 var Spinner = require('../../../Common/Spinner');
+var ProfilePopup = require('../../../PopupPages/ProfilePopup');
+var userLoginMetadataStore = require('../../../../stores/UserLoginMetadataStore');
 
 var {
   View,
   Text,
   Image,
-  StyleSheet
+  StyleSheet,
+  TouchableHighlight
 } = React;
 
 var styles = StyleSheet.create({
+  container: {
+    paddingTop: 10
+  },
   userRow: {
     flex: 1,
     flexDirection: 'row',
@@ -35,7 +41,8 @@ var PostLikesList = React.createClass({
 
   propTypes: {
     loading: React.PropTypes.bool.isRequired,
-    users: React.PropTypes.array.isRequired
+    users: React.PropTypes.array.isRequired,
+    navigator: React.PropTypes.object.isRequired
   },
 
   render: function() {
@@ -57,7 +64,7 @@ var PostLikesList = React.createClass({
     }
 
     return (
-      <View>
+      <View style={styles.container}>
         {content}
       </View>
     );
@@ -65,19 +72,34 @@ var PostLikesList = React.createClass({
 
   _renderUser: function(user, index) {
     return (
-      <View
-        style={styles.userRow}
-        key={index}>
+      <TouchableHighlight
+        key={index}
+        underlayColor={'transparent'}
+        onPress={() => {this._onUserPress(user.email);}}>
 
-        <Image
-            style={styles.userImage}
-            source={{uri: user.profileImageUrl}}/>
-        <Text style={styles.displayName}>
-          {user.firstName} {user.lastName}
-        </Text>
+        <View style={styles.userRow}>
+          <Image
+              style={styles.userImage}
+              source={{uri: user.profileImageUrl}}/>
+          <Text style={styles.displayName}>
+            {user.firstName} {user.lastName}
+          </Text>
+        </View>
 
-      </View>
+      </TouchableHighlight>
     );
+  },
+
+  _onUserPress: function(userEmail) {
+    var email = userLoginMetadataStore.getEmail();
+
+    // Don't let a user click on themselves
+    if (email !== userEmail) {
+      this.props.navigator.push({
+        component: ProfilePopup,
+        passProps: {profileUserEmail: userEmail}
+      });
+    }
   }
 
 });

@@ -46,7 +46,8 @@ var PostLikesPopup = React.createClass({
     var pageContent = (
       <PostLikesList
         loading={this.state.loading}
-        users={this.state.users}/>
+        users={this.state.users}
+        navigator={this.props.navigator}/>
     );
     return (
       <OverlayPage
