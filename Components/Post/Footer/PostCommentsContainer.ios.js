@@ -14,7 +14,7 @@ var PostCommentsContainer = React.createClass({
   propTypes: {
     postCommentsPopupComponent: React.PropTypes.any,
     post: React.PropTypes.object.isRequired,
-    navigator: React.PropTypes.object,
+    navigator: React.PropTypes.object.isRequired,
     onSubmitComment: React.PropTypes.func.isRequired,
     isCommentRequestInFlight: React.PropTypes.bool.isRequired
   },

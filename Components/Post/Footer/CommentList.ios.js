@@ -33,7 +33,7 @@ var CommentList = React.createClass({
 
   propTypes: {
     post: React.PropTypes.object.isRequired,
-    navigator: React.PropTypes.object,
+    navigator: React.PropTypes.object.isRequired,
     postCommentsPopupComponent: React.PropTypes.any
   },
 
@@ -62,7 +62,9 @@ var CommentList = React.createClass({
         <Comment
           commenterName={commentJson.commenterName}
           commentText={commentJson.comment}
-          key={i}/>
+          commenterEmail={commentJson.commenterEmail}
+          key={i}
+          navigator={this.props.navigator}/>
       );
     }
     return comments;

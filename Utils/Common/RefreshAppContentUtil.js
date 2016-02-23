@@ -14,7 +14,7 @@ var {
 // of inactivity.  So if there were no tab switches, or no ajax calls for 15
 // minutes, the app will start a timing interval to refresh the app data every
 // 15 minutes.
-// Whenever activity is recoreded (metered), the timer will be cleared and the
+// Whenever activity is recorded (metered), the timer will be cleared and the
 // countdown of 15 minutes will be reset
 var RefreshAppContentUtil = {
 

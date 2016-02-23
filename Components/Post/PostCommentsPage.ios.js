@@ -16,7 +16,8 @@ var PostCommentPage = React.createClass({
 
   propTypes: {
     loading: React.PropTypes.bool.isRequired,
-    post: React.PropTypes.object.isRequired
+    post: React.PropTypes.object.isRequired,
+    navigator: React.PropTypes.object.isRequired
   },
 
   getInitialState: function() {
@@ -61,7 +62,8 @@ var PostCommentPage = React.createClass({
         <PostCommentsContainer
           post={this.props.post}
           onSubmitComment={this._onSubmitComment}
-          isCommentRequestInFlight={this.state.isCommentRequestInFlight}/>
+          isCommentRequestInFlight={this.state.isCommentRequestInFlight}
+          navigator={this.props.navigator}/>
       </View>
     );
   },

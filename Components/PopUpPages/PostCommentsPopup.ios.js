@@ -47,7 +47,8 @@ var PostCommentsPopup = React.createClass({
     var pageContent = (
       <PostCommentsPage
         loading={this.state.loading}
-        post={this.props.post}/>
+        post={this.props.post}
+        navigator={this.props.navigator}/>
     );
 
     return (

@@ -24,7 +24,8 @@ var PostUtils = {
       var comment = comments[i];
       commentsJson.push({
         comment: comment.comment,
-        commenterName: comment.commenterName
+        commenterName: comment.commenterName,
+        commenterEmail: comment.commenterEmail
       });
     }
     return commentsJson;

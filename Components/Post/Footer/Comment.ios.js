@@ -2,6 +2,8 @@
 
 var React = require('react-native');
 var Unicycle = require('../../../Unicycle');
+var ProfilePopup = require('../../PopupPages/ProfilePopup');
+var userLoginMetadataStore = require('../../../stores/UserLoginMetadataStore');
 
 var {
   View,
@@ -33,7 +35,9 @@ var Comment = React.createClass({
 
   propTypes: {
     commenterName: React.PropTypes.string.isRequired,
-    commentText: React.PropTypes.string.isRequired
+    commentText: React.PropTypes.string.isRequired,
+    commenterEmail: React.PropTypes.string.isRequired,
+    navigator: React.PropTypes.object.isRequired
   },
 
   render: function() {
@@ -42,7 +46,8 @@ var Comment = React.createClass({
 
         <Text
           style={styles.commenterName}
-          numberOfLines={1}>
+          numberOfLines={1}
+          onPress={this._onCommenterNamePress}>
           {this.props.commenterName}
         </Text>
 
@@ -52,6 +57,17 @@ var Comment = React.createClass({
 
       </View>
     );
+  },
+
+  _onCommenterNamePress: function() {
+    var userEmail = userLoginMetadataStore.getEmail();
+
+    if (userEmail !== this.props.commenterEmail) {
+      this.props.navigator.push({
+        component: ProfilePopup,
+        passProps: {profileUserEmail: this.props.commenterEmail}
+      })
+    }
   }
 
 });
