@@ -48,7 +48,8 @@ var styles = StyleSheet.create({
 var AllFollowingResultList = React.createClass({
 
   propTypes: {
-    users: React.PropTypes.array.isRequired
+    users: React.PropTypes.array.isRequired,
+    navigator: React.PropTypes.object.isRequired
   },
 
   render: function() {
@@ -74,7 +75,8 @@ var AllFollowingResultList = React.createClass({
       userResults.push(
         <Result
           key={i}
-          user={users[i]}/>
+          user={users[i]}
+          navigator={this.props.navigator}/>
       );
     }
 
@@ -90,7 +92,8 @@ var AllFollowingResultList = React.createClass({
 var Result = React.createClass({
 
   propTypes: {
-    user: React.PropTypes.object.isRequired
+    user: React.PropTypes.object.isRequired,
+    navigator: React.PropTypes.object.isRequired
   },
 
   render: function() {
@@ -128,13 +131,11 @@ var Result = React.createClass({
   },
 
   _onResultPress: function() {
-    var userId = userLoginMetadataStore.getUserId(),
-        userEmail = this.props.user.email;
-
-    Unicycle.exec('reInitializeUsersProfileFeedOffset');
-    Unicycle.exec('loadUsersProfile', userEmail);
-    Unicycle.exec('getUserPosts', userEmail, userId);
-    Unicycle.exec('setProfileModalVisibile', true);
+    var ProfilePopup = require('../PopupPages/ProfilePopup');
+    this.props.navigator.push({
+      component: ProfilePopup,
+      passProps: {profileUserEmail: this.props.user.email}
+    });
   }
 
 });

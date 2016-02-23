@@ -37,10 +37,6 @@ var ProfilePopup = React.createClass({
     profileUserEmail: React.PropTypes.string.isRequired
   },
 
-  mixins: [
-    Unicycle.listenTo(profileStore)
-  ],
-
   getInitialState: function() {
     return {
       user: {},
@@ -82,7 +78,7 @@ var ProfilePopup = React.createClass({
       <OverlayPage
         content={content}
         onBackArrowPress={() => {this.props.navigator.pop();}}
-        bannerTitle={profileStore.getFirstName() + ' ' + profileStore.getLastName()}/>
+        bannerTitle={this.state.user.firstName + ' ' + this.state.user.lastName}/>
     );
   },
 

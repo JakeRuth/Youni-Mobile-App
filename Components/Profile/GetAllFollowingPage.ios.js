@@ -26,7 +26,8 @@ var GetAllFollowingPage = React.createClass({
 
   propTypes: {
     loading: React.PropTypes.bool.isRequired,
-    users: React.PropTypes.array.isRequired
+    users: React.PropTypes.array.isRequired,
+    navigator: React.PropTypes.object.isRequired
   },
 
   render: function () {
@@ -40,12 +41,16 @@ var GetAllFollowingPage = React.createClass({
       );
     }
     else {
-      content = <AllFollowingResultList users={this.props.users}/>
+      content = (
+        <AllFollowingResultList
+          users={this.props.users}
+          navigator={this.props.navigator}/>
+      );
     }
 
     return (
       <View style={styles.container}>
-        { content }
+        {content}
       </View>
     );
   }

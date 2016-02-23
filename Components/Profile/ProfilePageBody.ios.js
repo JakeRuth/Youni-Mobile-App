@@ -8,7 +8,6 @@ var ProfileImage = require('./ProfileImage');
 var TotalProfileCountsContainer = require('./TotalProfileCountsContainer');
 var UserFollowingListPopup = require('../PopupPages/UserFollowingListPopup');
 var profileOwnerStore = require('../../stores/profile/ProfileOwnerStore');
-var profileStore = require('../../stores/profile/ProfileStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 

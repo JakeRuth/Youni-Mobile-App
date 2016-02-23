@@ -47,7 +47,8 @@ var UserFollowingListPopup = React.createClass({
     var pageContent = (
       <GetAllFollowingPage
         loading={this.state.loading}
-        users={this.state.users}/>
+        users={this.state.users}
+        navigator={this.props.navigator}/>
     );
 
     return (

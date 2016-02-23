@@ -43,6 +43,7 @@ var TrendingUsersList = React.createClass({
   _renderTrendingUserRow: function(trendingUser, index) {
     return (
       <TouchableHighlight
+        key={index}
         underlayColor='transparent'
         onPress={() => {
           this.onTrendingUserPress(trendingUser.email);

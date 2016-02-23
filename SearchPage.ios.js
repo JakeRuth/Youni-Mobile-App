@@ -4,7 +4,6 @@ var React = require('react-native');
 var Unicycle = require('./Unicycle');
 var Icon = require('react-native-vector-icons/Ionicons');
 var searchStore = require('./stores/SearchStore');
-var profileStore = require('./stores/profile/ProfileStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
 var MainScreenBanner = require('./MainScreenBanner');
 var ExploreFeedPosts = require('./Components/Post/ExploreFeedPosts');
@@ -68,8 +67,7 @@ var SearchPage = React.createClass({
   },
 
   mixins: [
-    Unicycle.listenTo(searchStore),
-    Unicycle.listenTo(profileStore)
+    Unicycle.listenTo(searchStore)
   ],
 
   render: function() {
@@ -77,7 +75,7 @@ var SearchPage = React.createClass({
         searchResultsToShow = searchStore.getSearchResults() != null,
         searchPageContent;
 
-    if (searchStore.isRequestInFlight() || profileStore.isRequestInFlight()) {
+    if (searchStore.isRequestInFlight()) {
       searchPageContent = <SearchResultLoading/>;
     }
     else if (inExploreFeedView) {
