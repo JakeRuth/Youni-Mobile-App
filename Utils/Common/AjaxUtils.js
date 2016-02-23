@@ -2,7 +2,7 @@
 
 var React = require('react-native');
 var request = require('superagent');
-var prefix = require('superagent-prefix')('http://localhost:8080/Greedy');
+var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com');
 var loginStore = require('../../stores/LoginStore');
 var RefreshAppContentUtil = require('./RefreshAppContentUtil');
 
@@ -12,7 +12,7 @@ var {
 
 var AjaxUtils = {
 
-  SERVER_URL: 'http://localhost:8080/Greedy',
+  SERVER_URL: 'http://greedyapi.elasticbeanstalk.com',
 
   HTTP_CODE_UNAUTHORIZED: 401,
 
