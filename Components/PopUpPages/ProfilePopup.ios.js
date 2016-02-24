@@ -78,7 +78,7 @@ var ProfilePopup = React.createClass({
       <OverlayPage
         content={content}
         onBackArrowPress={() => {this.props.navigator.pop();}}
-        bannerTitle={this.state.user.firstName + ' ' + this.state.user.lastName}/>
+        bannerTitle={this._getBannerTitle()}/>
     );
   },
 
@@ -106,6 +106,15 @@ var ProfilePopup = React.createClass({
         unlikePhotoAction={this._unlikePhotoAction}
         submitCommentAction={this._submitCommentAction}/>
     );
+  },
+
+  _getBannerTitle: function() {
+    if (this.state.user.firstName && this.state.user.lastName) {
+      return this.state.user.firstName + ' ' + this.state.user.lastName;
+    }
+    else {
+      return '';
+    }
   },
 
   _requestUserPosts: function() {
