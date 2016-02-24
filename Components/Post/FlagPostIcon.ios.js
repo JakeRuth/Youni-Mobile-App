@@ -8,6 +8,7 @@ var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 var {
   TouchableHighlight,
   ActionSheetIOS,
+  AlertIOS,
   StyleSheet
 } = React;
 
@@ -46,11 +47,12 @@ var PostHeader = React.createClass({
         'Cancel'
       ],
       cancelButtonIndex: 1,
-      tintColor: '#0083D4',
+      tintColor: '#0083D4'
     },
     (buttonIndex) => {
       if (buttonIndex === 0) {
         this._flagPost();
+        this._showFlagPostConfirmation();
       }
     });
   },
@@ -70,6 +72,16 @@ var PostHeader = React.createClass({
       () => {
       }
     );
+  },
+
+  _showFlagPostConfirmation: function() {
+    AlertIOS.alert(
+      'Post flagged',
+      '',
+      [
+        {text: 'Got it'}
+      ]
+    )
   }
 
 });

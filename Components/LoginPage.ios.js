@@ -98,6 +98,10 @@ var styles = StyleSheet.create({
 //TODO: this should probably be broken down into smaller components
 var LoginPage = React.createClass({
 
+  propType: {
+    navigator: React.PropTypes.object.isRequired
+  },
+
     mixins: [
         Unicycle.listenTo(loginStore),
         Unicycle.listenTo(signUpStore),
@@ -121,7 +125,7 @@ var LoginPage = React.createClass({
             content =  (
                 <Image source={{uri: 'https://images.unsplash.com/uploads/14121985124429dd8eeb5/60431f5b?dpr=2&fit=crop&fm=jpg&h=650&ixjsv=2.0.0&ixlib=rb-0.3.5&q=50&w=1300'}}
                        style={styles.backgroundImage}>
-                    <SignUpForm/>
+                    <SignUpForm navigator={this.props.navigator}/>
                 </Image>
             );
         }

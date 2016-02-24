@@ -6,6 +6,7 @@ var signUpStore = require('../../stores/signUp/SignupStore');
 var Unicycle = require('../../Unicycle');
 var RadioButtons = require('../Common/RadioButtons');
 var Spinner = require('../Common/Spinner');
+var EULAAgreementPage = require('./EULAAgreementPage');
 
 var {
   View,
@@ -15,7 +16,7 @@ var {
   AlertIOS,
   ScrollView,
   TouchableHighlight
-} = React
+} = React;
 
 var styles = StyleSheet.create({
   signUpFormContainer: {
@@ -71,10 +72,20 @@ var styles = StyleSheet.create({
   },
   hackyIosKeyPadBump: {
     marginTop: 350
+  },
+  eulaLink: {
+    color: 'white',
+    fontSize: 15,
+    marginTop: 20,
+    alignSelf: 'flex-start'
   }
 });
 
 var SignUpForm = React.createClass({
+
+  propType: {
+    navigator: React.PropTypes.object.isRequired
+  },
 
   mixins: [
     Unicycle.listenTo(signUpStore)
@@ -165,6 +176,16 @@ var SignUpForm = React.createClass({
           </View>
         </TouchableHighlight>
 
+        <Text
+          style={styles.eulaLink}
+          onPress={() => {
+            this.props.navigator.push({
+              component: EULAAgreementPage
+            });
+          }}>
+          View the EULA Agreement
+        </Text>
+
       </View>
     );
   },
@@ -180,7 +201,7 @@ var SignUpForm = React.createClass({
       this._alertPasswordMismatch();
     }
     else {
-      Unicycle.exec('onSignUpRequest');
+      this._alertForTheEULABecauseFUCK_APPLE_INC();
     }
   },
 
@@ -277,6 +298,22 @@ var SignUpForm = React.createClass({
         },
         {
           text: 'Ok'
+        }
+      ]
+    );
+  },
+
+  _alertForTheEULABecauseFUCK_APPLE_INC: function() {
+    AlertIOS.alert(
+      'By signing up, you agree to our Youni Terms',
+      'To view, click the link at the bottom of the page',
+      [
+        {
+          text: 'I disagree'
+        },
+        {
+          text: 'I agree',
+          onPress: () => { Unicycle.exec('onSignUpRequest'); }
         }
       ]
     );
