@@ -69,7 +69,6 @@ var UserPosts = React.createClass({
         <PostList
           refreshable={this.props.viewerIsProfileOwner}
           isFeedRefreshing={this.props.profileStore.isFeedRefreshing()}
-          noMorePostsToFetch={false}
           postStore={this.props.profileStore}
           posts={this.props.posts}
           onScroll={() => { /* do nothing */ }}
