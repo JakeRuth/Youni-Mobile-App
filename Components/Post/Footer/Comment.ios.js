@@ -14,19 +14,20 @@ var {
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    minHeight: 20,
     flexDirection: 'row',
     alignItems: 'center'
   },
   commenterName: {
     flex: 1,
-    fontSize: 12,
+    fontSize: 13,
     color: '#0083D4',
-    marginRight: 4
+    paddingRight: 4,
+    paddingTop: 4,
+    paddingBottom: 4
   },
   commentText: {
     flex: 4,
-    fontSize: 12,
+    fontSize: 13,
     color: '#525252'
   }
 });

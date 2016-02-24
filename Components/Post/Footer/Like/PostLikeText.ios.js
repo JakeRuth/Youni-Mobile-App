@@ -13,9 +13,12 @@ var {
 
 var styles = StyleSheet.create({
   numLikes: {
-    fontSize: 13,
+    fontSize: 15,
     color: '#ADADAD',
-    marginRight: 16
+    marginRight: 16,
+    paddingTop: 6,
+    paddingBottom: 6,
+    paddingLeft: 10
   },
   spinnerContainer: {
     marginRight: 16
@@ -46,7 +49,7 @@ var PostLikeText = React.createClass({
       content = (
         <Text style={styles.numLikes}
             onPress={this._onTextPress}>
-          {this._getCommentsText()}   {this._getLikesText()}
+          {this._getLikesText()}
         </Text>
       );
     }
@@ -72,18 +75,6 @@ var PostLikeText = React.createClass({
     }
     else if (this.props.numLikes === 1) {
       return this.props.numLikes + ' like';
-    }
-    else {
-      return '';
-    }
-  },
-
-  _getCommentsText() {
-    if (this.props.numComments > 1) {
-      return this.props.numComments + ' comments';
-    }
-    else if (this.props.numComments === 1) {
-      return this.props.numComments + ' comment';
     }
     else {
       return '';

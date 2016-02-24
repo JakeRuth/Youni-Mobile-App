@@ -9,7 +9,7 @@ var {
   StyleSheet,
   TouchableHighlight,
   AlertIOS
-} = React
+} = React;
 
 var styles = StyleSheet.create({
   postStatsContainer: {
@@ -19,8 +19,6 @@ var styles = StyleSheet.create({
   },
   icon: {
     color: '#B2B2B2',
-    marginTop: 6,
-    marginBottom: 6,
     marginRight: 8,
     marginLeft: 8
   }
