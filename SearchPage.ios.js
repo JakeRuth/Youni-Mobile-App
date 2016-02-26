@@ -27,8 +27,9 @@ var styles = StyleSheet.create({
   },
   searchBarInputContainer: {
     padding: 10,
-    borderWidth: .5,
-    borderColor: 'gray'
+    borderWidth: 1,
+    borderColor: '#ADADAD',
+    backgroundColor: 'white'
   },
   searchBarInput: {
     height: 20
@@ -107,11 +108,11 @@ var SearchPage = React.createClass({
         <TextInput style={styles.searchBarInput}
           placeholder='Search for students'
           blurOnSubmit={true}
-          onChangeText={ (search) => {
+          onChangeText={(search) => {
             var email = userLoginMetadataStore.getEmail();
             Unicycle.exec('executeSearch', search, email);
           }}
-          clearButtonMode = 'always' />
+          clearButtonMode = 'always'/>
       </View>
     );
   }
