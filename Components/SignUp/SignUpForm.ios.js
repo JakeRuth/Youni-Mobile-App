@@ -21,14 +21,8 @@ var {
 var styles = StyleSheet.create({
   signUpFormContainer: {
     backgroundColor: 'transparent',
-    alignItems: 'center'
-  },
-  appName: {
-    fontSize: 100,
-    color: 'white',
-    fontWeight: '300',
-    fontFamily: 'GeezaPro',
-    marginBottom: 70
+    alignItems: 'center',
+    marginTop: 150
   },
   signUpInput: {
     backgroundColor: 'rgba(0,0,0,0.6)',
@@ -50,9 +44,7 @@ var styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.6)',
     width: 250,
     padding: 5,
-    color: 'white',
-    borderRadius: 5,
-    textAlign: 'center'
+    borderRadius: 5
   },
   signUpButton: {
     flex: 1,
@@ -78,6 +70,9 @@ var styles = StyleSheet.create({
     fontSize: 15,
     marginTop: 20,
     alignSelf: 'flex-start'
+  },
+  spinnerContainer: {
+    paddingTop: 200
   }
 });
 
@@ -99,6 +94,7 @@ var SignUpForm = React.createClass({
 
     if (signUpRequestSuccessful) {
       this._alertOnSuccessfulSignUp();
+      Unicycle.exec('setSignUpRequestSuccessful', false);
     }
     else if (anyErrorsLoadingPage) {
       this._alertSignUpError();
@@ -107,7 +103,9 @@ var SignUpForm = React.createClass({
 
     if (isSignUpInFlight) {
       content = (
-        <Spinner/>
+        <View style={styles.spinnerContainer}>
+          <Spinner/>
+        </View>
       );
     }
     else {
@@ -126,7 +124,6 @@ var SignUpForm = React.createClass({
     return (
       <View style={styles.signUpFormContainer}>
 
-        <Text style={styles.appName}>Youni</Text>
         <TextInput style={styles.signUpInput}
           value={signUpStore.getSignupFirstName()}
           placeholderTextColor={'grey'}
@@ -280,8 +277,7 @@ var SignUpForm = React.createClass({
       '',
       [
         {
-          text: 'Got it',
-          onPress: () => { Unicycle.exec('setSignUpRequestSuccessful', false) }
+          text: 'Got it'
         }
       ]
     );
@@ -294,7 +290,9 @@ var SignUpForm = React.createClass({
       [
         {
           text: 'Try Again',
-          onPress: () => { this.onSignUpButtonPress(); }
+          onPress: () => {
+            this.onSignUpButtonPress();
+          }
         },
         {
           text: 'Ok'
@@ -313,7 +311,9 @@ var SignUpForm = React.createClass({
         },
         {
           text: 'I agree',
-          onPress: () => { Unicycle.exec('onSignUpRequest'); }
+          onPress: () => {
+            Unicycle.exec('onSignUpRequest');
+          }
         }
       ]
     );

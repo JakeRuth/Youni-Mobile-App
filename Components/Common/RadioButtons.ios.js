@@ -78,6 +78,7 @@ var RadioButtons = React.createClass({
 
     return(
       <TouchableHighlight
+        key={buttonIndex}
         underlayColor={'transparent'}
         onPress={() => {this._onButtonPress(buttonIndex, label);}}>
 

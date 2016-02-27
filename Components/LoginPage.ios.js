@@ -298,9 +298,9 @@ var LoginPage = React.createClass({
         Unicycle.exec('setLoginInFlight', false);
         AlertIOS.alert(
             'Login Failed',
-            'Invalid credentials',
+            "Make sure you 'Sign Up' AND click the activation link in your email@college.edu",
             [
-                {text: 'Try again noob!'}
+                {text: 'Try again'}
             ]
         )
     }

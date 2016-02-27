@@ -27,7 +27,8 @@ var signUpStore = Unicycle.createStore({
           lastName = this.getSignupLastName(),
           email = this.getSignupEmail(),
           password = this.getSignupPassword(),
-          sex = this.getSex();
+          sexString = this.getSex(),
+          isFemale = null;
 
       //fixes weird bug where blank password field validates (cannot replicate at command line with api)
       if (!password) {
@@ -37,6 +38,12 @@ var signUpStore = Unicycle.createStore({
         email = '~';
       }
 
+      if (sexString === 'female') {
+        isFemale = true;
+      }
+      else if (sexString === 'male') {
+        isFemale = false;
+      }
       this.set({
         isSignUpRequestUpInFlight: true,
         pageLoadError: false
@@ -49,7 +56,7 @@ var signUpStore = Unicycle.createStore({
           lastName: lastName,
           email: email,
           password: password,
-          isFemale: sex === 'female',
+          isFemale: isFemale,
           schoolName: 'SUNY Albany' //TODO fix me
         },
         (res) => {
