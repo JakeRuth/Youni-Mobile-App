@@ -32,12 +32,13 @@ var styles = StyleSheet.create({
     borderRadius: 2
   },
   postCommentButton: {
-    alignSelf: 'center',
-    paddingLeft: 8
+    alignSelf: 'center'
   },
   postCommentButtonLabel: {
-    fontSize: 12,
-    color: '#0083D4'
+    fontSize: 15,
+    color: '#0083D4',
+    textAlign: 'center',
+    padding: 5
   }
 });
 
