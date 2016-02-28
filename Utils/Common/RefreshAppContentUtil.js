@@ -18,7 +18,7 @@ var {
 // countdown of 15 minutes will be reset
 var RefreshAppContentUtil = {
 
-  refreshDataInterval: 900000,  // 15 minutes (in millis)
+  refreshDataInterval: 3600000,  // 1 hour (in millis)
 
   refreshDataTimer: null,
 

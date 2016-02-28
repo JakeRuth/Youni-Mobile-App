@@ -5,6 +5,8 @@ var Unicycle = require('../../Unicycle');
 var immutable = require('immutable');
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 var PostUtils = require('../../Utils/Post/PostUtils');
+var ExploreFeedEndpoints = require('../../Utils/Enums/ExploreFeedEndpoints');
+var userLoginMetadataStore = require('../UserLoginMetadataStore');
 
 var INITIAL_PAGE_OFFSET = 0;
 var MAX_POSTS_PER_PAGE = 10;
@@ -28,6 +30,7 @@ var explorePostsStore = Unicycle.createStore({
       noMorePostsToFetch: false,
       exploreFeedPageOffset: INITIAL_PAGE_OFFSET,
       pageLoadError: false,
+      exploreFeedEndpoint: ExploreFeedEndpoints.DEFAULT
     });
   },
 
@@ -48,7 +51,7 @@ var explorePostsStore = Unicycle.createStore({
     }
 
     AjaxUtils.ajax(
-      '/feed/getExploreFeed',
+      this._getExploreFeedEndpoint(),
       {
         userIdString: userId,
         maxNumberOfPostsToFetch: MAX_POSTS_PER_PAGE,
@@ -86,7 +89,7 @@ var explorePostsStore = Unicycle.createStore({
     });
 
     AjaxUtils.ajax(
-      '/feed/getExploreFeed',
+      this._getExploreFeedEndpoint(),
       {
         userIdString: userId,
         maxNumberOfPostsToFetch: MAX_POSTS_PER_PAGE,
@@ -231,6 +234,21 @@ var explorePostsStore = Unicycle.createStore({
 
   getExploreFeedPageOffset: function() {
     return this.get('exploreFeedPageOffset');
+  },
+
+  _getExploreFeedEndpoint: function() {
+    return this.get('exploreFeedEndpoint');
+  },
+
+  setExploreFeedEndpoint: function(endpoint) {
+    var currentEndpoint = this._getExploreFeedEndpoint();
+
+    if (currentEndpoint !== endpoint) {
+      this.set({
+        exploreFeedEndpoint: endpoint
+      });
+      Unicycle.exec('refreshExploreFeed', userLoginMetadataStore.getUserId());
+    }
   }
 
 });

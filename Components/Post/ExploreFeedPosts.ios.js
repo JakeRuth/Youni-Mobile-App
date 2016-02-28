@@ -4,6 +4,7 @@ var React = require('react-native');
 var Unicycle = require('../../Unicycle');
 var explorePostsStore = require('../../stores/post/ExplorePostsStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
+var FeedFilters = require('./FeedFilters');
 var PostList = require('./PostList');
 var ErrorPage = require('../Common/ErrorPage');
 var Spinner = require('../Common/Spinner');
@@ -67,7 +68,10 @@ var ExploreFeedPosts = React.createClass({
 
     return (
       <View style={styles.exploreFeedContainer}>
+
+        <FeedFilters/>
         {content}
+
       </View>
     );
   },

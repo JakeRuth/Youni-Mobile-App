@@ -27,12 +27,12 @@ var styles = StyleSheet.create({
   },
   searchBarInputContainer: {
     padding: 10,
-    borderWidth: 1,
-    borderColor: '#ADADAD',
+    borderBottomWidth: 1,
+    borderBottomColor: '#ADADAD',
     backgroundColor: 'white'
   },
   searchBarInput: {
-    height: 20
+    height: 15
   },
   searchResultsScroll: {
     backgroundColor: 'transparent',
