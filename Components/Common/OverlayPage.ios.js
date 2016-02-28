@@ -22,13 +22,16 @@ var OverlayPage = React.createClass({
 
     componentDidMount() {
         DeviceEventEmitter.addListener('keyboardWillShow', () => {
-            this.setState({hasKeyboardBeenShownAtLeastOnce: true});
+            this.setState({isKeyboardVisible: true});
+        });
+        DeviceEventEmitter.addListener('keyboardWillHide', () => {
+            this.setState({isKeyboardVisible: false});
         });
     },
 
     getInitialState: function() {
         return {
-            hasKeyboardBeenShownAtLeastOnce: false,
+            isKeyboardVisible: false,
             bottomOfScrollViewPosition: null
         };
     },
@@ -41,13 +44,23 @@ var OverlayPage = React.createClass({
     },
 
     render: function() {
-        var contentOffset = {x:0,y:20};
+        var contentOffset = {x:0,y:20},
+            hackyKeyboardPadding;
 
-        if (this.props.bumpContentUpWhenKeyboardShows && this.state.hasKeyboardBeenShownAtLeastOnce) {
+        if (this.props.bumpContentUpWhenKeyboardShows && this.state.isKeyboardVisible) {
             contentOffset = {
                 x: 0,
                 y: this._computePositionToScrollToWhenKeyboardDisplayed()
             };
+            hackyKeyboardPadding = (
+              <View
+                style={{height: 250}}
+                onLayout={(e) => {
+                    this.setState({
+                        bottomOfScrollViewPosition: e.nativeEvent.layout.y
+                    });
+                }}/>
+            );
         }
 
         return (
@@ -60,13 +73,7 @@ var OverlayPage = React.createClass({
                     {this.props.content}
 
                     { /* This is a hacky way to compute the bottom of the scroll views position */ }
-                    <View
-                        style={{height: 250}}
-                        onLayout={(e) => {
-                        this.setState({
-                            bottomOfScrollViewPosition: e.nativeEvent.layout.y
-                        });
-                    }}/>
+                    {hackyKeyboardPadding}
 
                 </ScrollView>
             </View>
