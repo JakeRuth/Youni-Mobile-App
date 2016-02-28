@@ -18,12 +18,12 @@ var {
 var styles = StyleSheet.create({
   postHeader: {
     flex: 1,
+    flexDirection: 'row',
     minHeight: 45,
-    flexDirection: 'row'
+    padding: 5
   },
   thumbnailContainer: {
-    flex: 4,
-    padding: 5
+    flex: 5
   },
   thumbnail: {
     flex: 1,
@@ -43,7 +43,7 @@ var styles = StyleSheet.create({
     marginLeft: 5
   },
   timestamp: {
-    flex: 1,
+    flex: 2,
     alignSelf: 'center',
     textAlign: 'right',
     fontSize: 13,
@@ -75,15 +75,19 @@ var PostHeader = React.createClass({
 
     if (this._isViewerPostOwner()) {
       actionButton = (
-        <DeletePostIcon
-          id={this.props.id}
-          postIdString={this.props.postIdString}
-          enabled={this.props.renderedFromProfileView}/>
+        <View style={styles.actionButtonContainer}>
+          <DeletePostIcon
+            id={this.props.id}
+            postIdString={this.props.postIdString}
+            enabled={this.props.renderedFromProfileView}/>
+        </View>
       );
     }
     else if (!this.props.hideActionButton) {
       actionButton = (
-        <FlagPostIcon postId={this.props.postIdString}/>
+        <View style={styles.actionButtonContainer}>
+          <FlagPostIcon postId={this.props.postIdString}/>
+        </View>
       );
     }
 
@@ -113,9 +117,7 @@ var PostHeader = React.createClass({
           {this.props.timestamp}
         </Text>
 
-        <View style={styles.actionButtonContainer}>
-          {actionButton}
-        </View>
+        {actionButton}
 
       </View>
     );
