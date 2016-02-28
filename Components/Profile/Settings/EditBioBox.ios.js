@@ -74,7 +74,7 @@ var EditBioBox = React.createClass({
           onChangeText={(text) => profileOwnerStore.setBio(text)}
           value={profileOwnerStore.getBio()}
           multiline={true}
-          maxLength={140}
+          maxLength={125}
         />
         {actionButtons}
 
