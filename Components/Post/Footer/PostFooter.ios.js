@@ -41,6 +41,12 @@ var PostFooter = React.createClass({
     isCommentRequestInFlight: React.PropTypes.bool.isRequired
   },
 
+  getInitialState: function() {
+    return {
+      commentInputActive: false
+    };
+  },
+
   render: function() {
     var caption = <View/>;
 
@@ -62,6 +68,7 @@ var PostFooter = React.createClass({
         <PostStats
           navigator={this.props.navigator}
           onStarPress={this.props.onStarPress(this.props.post.liked)}
+          onCommentPress={this._onCommentPress}
           isLikeRequestInFlight={this.props.isLikeRequestInFlight}
           post={this.props.post}/>
 
@@ -70,10 +77,18 @@ var PostFooter = React.createClass({
           post={this.props.post}
           navigator={this.props.navigator}
           onSubmitComment={this.props.onSubmitComment}
-          isCommentRequestInFlight={this.props.isCommentRequestInFlight}/>
+          isCommentRequestInFlight={this.props.isCommentRequestInFlight}
+          commentInputActive={this.state.commentInputActive}/>
 
       </View>
     );
+  },
+
+  _onCommentPress: function() {
+    var currentCommentInputState = this.state.commentInputActive;
+    this.setState({
+      commentInputActive: !currentCommentInputState
+    });
   }
 
 });

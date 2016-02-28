@@ -63,7 +63,8 @@ var PostCommentPage = React.createClass({
           post={this.props.post}
           onSubmitComment={this._onSubmitComment}
           isCommentRequestInFlight={this.state.isCommentRequestInFlight}
-          navigator={this.props.navigator}/>
+          navigator={this.props.navigator}
+          commentInputActive={true}/>
       </View>
     );
   },

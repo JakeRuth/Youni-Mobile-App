@@ -28,6 +28,7 @@ var PostStats = React.createClass({
 
   propTypes: {
     onStarPress: React.PropTypes.func,
+    onCommentPress: React.PropTypes.func,
     post: React.PropTypes.object.isRequired,
     isLikeRequestInFlight: React.PropTypes.bool,
     navigator: React.PropTypes.object.isRequired
@@ -54,11 +55,16 @@ var PostStats = React.createClass({
             size={33}/>
         </TouchableHighlight>
 
-        <Icon
-          style={[styles.icon, {flex:1}]}
-          name='ios-chatbubble-outline'
-          size={33}
-          color='#0083D4'/>
+        <TouchableHighlight
+          style={{flex: 1}}
+          onPress={this.props.onCommentPress}
+          underlayColor={'transparent'}>
+          <Icon
+            style={[styles.icon]}
+            name='ios-chatbubble-outline'
+            size={33}
+            color='#0083D4'/>
+        </TouchableHighlight>
 
         <PostLikeText
           navigator={this.props.navigator}

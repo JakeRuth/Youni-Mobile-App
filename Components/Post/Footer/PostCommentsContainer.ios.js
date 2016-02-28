@@ -16,11 +16,12 @@ var PostCommentsContainer = React.createClass({
     post: React.PropTypes.object.isRequired,
     navigator: React.PropTypes.object.isRequired,
     onSubmitComment: React.PropTypes.func.isRequired,
-    isCommentRequestInFlight: React.PropTypes.bool.isRequired
+    isCommentRequestInFlight: React.PropTypes.bool.isRequired,
+    commentInputActive: React.PropTypes.bool
   },
 
   render: function() {
-    var comments = <View/>;
+    var comments, commentInput;
 
     if (this.props.post.firstComments.length) {
       comments = (
@@ -31,15 +32,21 @@ var PostCommentsContainer = React.createClass({
       );
     }
 
-    return (
-      <View>
-
-        {comments}
+    if (this.props.commentInputActive) {
+      commentInput = (
         <CommentInput
           id={this.props.post.id}
           postIdString={this.props.post.postIdString}
           onSubmitComment={this.props.onSubmitComment}
           isCommentRequestInFlight={this.props.isCommentRequestInFlight}/>
+      );
+    }
+
+    return (
+      <View>
+
+        {comments}
+        {commentInput}
 
       </View>
     );
