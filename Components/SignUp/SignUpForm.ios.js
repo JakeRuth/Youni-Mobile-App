@@ -289,12 +289,6 @@ var SignUpForm = React.createClass({
       '',
       [
         {
-          text: 'Try Again',
-          onPress: () => {
-            this.onSignUpButtonPress();
-          }
-        },
-        {
           text: 'Ok'
         }
       ]
