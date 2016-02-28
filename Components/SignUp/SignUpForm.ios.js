@@ -285,7 +285,7 @@ var SignUpForm = React.createClass({
 
   _alertSignUpError: function() {
     AlertIOS.alert(
-      'Thanks for joining the Youni Wait List! We’ll reach out to you when we open at your school!.',
+      'Thanks for joining the Youni Wait List! We’ll reach out to you when we open at your school!',
       '',
       [
         {
