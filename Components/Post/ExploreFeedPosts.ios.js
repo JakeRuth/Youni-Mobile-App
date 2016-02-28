@@ -69,7 +69,7 @@ var ExploreFeedPosts = React.createClass({
     return (
       <View style={styles.exploreFeedContainer}>
 
-        <FeedFilters/>
+        <FeedFilters disabled={explorePostsStore.isFeedRefreshing() || explorePostsStore.isRequestInFlight()}/>
         {content}
 
       </View>

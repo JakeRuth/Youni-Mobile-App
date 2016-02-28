@@ -44,6 +44,10 @@ var FeedFilters = React.createClass({
   selectedIconColor: '#0083D4',
   defaultIconColor: '#ADADAD',
 
+  propTypes: {
+    disabled: React.PropTypes.bool
+  },
+
   getInitialState: function() {
     return {
       selectedFilter: this.defaultFilterName
@@ -147,11 +151,12 @@ var FeedFilters = React.createClass({
   },
 
   _onFilterPress: function(selectedFilter) {
-    explorePostsStore.setExploreFeedEndpoint(this._getExploreFeedEndpointForFilter(selectedFilter));
-
-    this.setState({
-      selectedFilter: selectedFilter
-    });
+    if (!this.props.disabled) {
+      explorePostsStore.setExploreFeedEndpoint(this._getExploreFeedEndpointForFilter(selectedFilter));
+      this.setState({
+        selectedFilter: selectedFilter
+      });
+    }
   },
 
   _getExploreFeedEndpointForFilter: function(selectedFilter) {
