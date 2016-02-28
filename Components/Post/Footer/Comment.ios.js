@@ -18,17 +18,14 @@ var styles = StyleSheet.create({
     alignItems: 'center'
   },
   commenterName: {
-    flex: 1,
-    fontSize: 13,
-    color: '#0083D4',
-    paddingRight: 4,
-    paddingTop: 4,
-    paddingBottom: 4
+    color: '#0083D4'
   },
   commentText: {
-    flex: 4,
+    flex: 1,
     fontSize: 13,
-    color: '#525252'
+    color: '#525252',
+    paddingTop: 4,
+    paddingBottom: 4
   }
 });
 
@@ -45,14 +42,13 @@ var Comment = React.createClass({
     return (
       <View style={styles.container}>
 
-        <Text
-          style={styles.commenterName}
-          numberOfLines={1}
-          onPress={this._onCommenterNamePress}>
-          {this.props.commenterName}
-        </Text>
-
         <Text style={styles.commentText}>
+          <Text
+            style={styles.commenterName}
+            numberOfLines={1}
+            onPress={this._onCommenterNamePress}>
+            {this.props.commenterName + '  '}
+          </Text>
           {this.props.commentText}
         </Text>
 
