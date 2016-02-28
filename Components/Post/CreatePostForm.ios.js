@@ -104,7 +104,7 @@ var CreatePostForm = React.createClass({
               onChangeText={(text) => Unicycle.exec('setCaption', text)}
               value={createPostStore.getCaption()}
               multiline={true}
-              maxLength={185}/>
+              maxLength={200}/>
           </View>
 
           <View style={styles.actionButtons}>

@@ -43,6 +43,7 @@ var Comment = React.createClass({
       <View style={styles.container}>
 
         <Text style={styles.commentText}>
+
           <Text
             style={styles.commenterName}
             numberOfLines={1}
@@ -50,6 +51,7 @@ var Comment = React.createClass({
             {this.props.commenterName + '  '}
           </Text>
           {this.props.commentText}
+
         </Text>
 
       </View>

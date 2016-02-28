@@ -17,7 +17,7 @@ var {
   Text,
   StyleSheet,
   NativeModules
-} = React
+} = React;
 
 var styles = StyleSheet.create({
   createPostPageContainer: {

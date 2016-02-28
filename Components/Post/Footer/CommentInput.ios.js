@@ -72,8 +72,9 @@ var CommentInput = React.createClass({
           value={this.state.commentText}
           placeholder='Add a comment...'
           placeholderTextColor='#ADADAD'
-          maxLength={120}
+          maxLength={2000}
           multiline={true}
+          keyboardType='twitter'
           onChangeText={ (commentText) => {
             this.setState({
               commentText: commentText
