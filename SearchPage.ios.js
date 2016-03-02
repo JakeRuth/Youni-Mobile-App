@@ -9,7 +9,7 @@ var MainScreenBanner = require('./MainScreenBanner');
 var ExploreFeedPosts = require('./Components/Post/ExploreFeedPosts');
 var EmptyResults = require('./Components/Common/EmptyResults');
 var Spinner = require('./Components/Common/Spinner');
-var ProfilePopup = require('./Components/PopupPages/ProfilePopup');
+var ProfilePopup = require('./Components/PopUpPages/ProfilePopup');
 
 var {
   View,

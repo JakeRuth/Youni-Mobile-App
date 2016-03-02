@@ -131,7 +131,7 @@ var Result = React.createClass({
   },
 
   _onResultPress: function() {
-    var ProfilePopup = require('../PopupPages/ProfilePopup');
+    var ProfilePopup = require('../PopUpPages/ProfilePopup');
     this.props.navigator.push({
       component: ProfilePopup,
       passProps: {profileUserEmail: this.props.user.email}

@@ -5,7 +5,7 @@ var Unicycle = require('../../Unicycle');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var DeletePostIcon = require('./DeletePostIcon');
 var FlagPostIcon = require('./FlagPostIcon');
-var ProfilePopup = require('../PopupPages/ProfilePopup');
+var ProfilePopup = require('../PopUpPages/ProfilePopup');
 
 var {
   View,
