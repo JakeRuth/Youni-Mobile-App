@@ -2,7 +2,8 @@
 
 var React = require('react-native');
 var Icon = require('react-native-vector-icons/Ionicons');
-var PostPopup = require('../PopupPages/PostPopup');
+var explorePostsStore = require('../../stores/post/ExplorePostsStore');
+var PostPopup = require('../PopUpPages/PostPopup');
 
 var {
   View,
@@ -25,11 +26,11 @@ var styles = StyleSheet.create({
   posterProfileImage: {
     top: 2,
     left: 2,
-    height: 30,
-    width: 30,
-    borderRadius: 15,
-    borderWidth: 1,
-    borderColor: 'lightgray'
+    height: 40,
+    width: 40,
+    borderRadius: 20,
+    borderWidth: .5,
+    borderColor: 'white'
   },
   postStats: {
     marginTop: -20,

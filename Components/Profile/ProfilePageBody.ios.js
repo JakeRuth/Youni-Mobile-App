@@ -6,10 +6,12 @@ var FollowButton = require('./FollowButton');
 var BlockUserButton = require('./BlockUserButton');
 var ProfileImage = require('./ProfileImage');
 var TotalProfileCountsContainer = require('./TotalProfileCountsContainer');
-var UserFollowingListPopup = require('../PopupPages/UserFollowingListPopup');
+var UserPosts = require('./UserPosts');
+var UserFollowingListPopup = require('../PopUpPages/UserFollowingListPopup');
 var profileOwnerStore = require('../../stores/profile/ProfileOwnerStore');
+var profileStore = require('../../stores/profile/ProfileStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
-var AjaxUtils = require('../../Utils/Common/AjaxUtils');
+var followUnfollowStore = require('../../stores/FollowStore');
 
 var {
   View,
@@ -45,33 +47,33 @@ var ProfilePageBody = React.createClass({
   componentDidMount: function() {
     var userId;
     if (!this.props.viewerIsProfileOwner) {
-      this._requestIsUserFollowing();
+      userId = userLoginMetadataStore.getUserId();
+      Unicycle.exec('isUserFollowing', userId, this.props.email);
     }
-    else {
-      this.setState({
-        isFollowRequestInFlight: false
-      });
-    }
-  },
-
-  getInitialState: function() {
-    return {
-      isFollowRequestInFlight: true,
-      isUserFollowing: false
-    };
   },
 
   propTypes: {
     navigator: React.PropTypes.object.isRequired,
-    user: React.PropTypes.object.isRequired,
+    firstName: React.PropTypes.string.isRequired,
+    lastName: React.PropTypes.string.isRequired,
+    bio: React.PropTypes.string,
+    numFans: React.PropTypes.number.isRequired,
+    numPosts: React.PropTypes.number.isRequired,
+    totalPoints: React.PropTypes.number.isRequired,
+    profileImageUrl: React.PropTypes.string.isRequired,
+    email: React.PropTypes.string.isRequired,
     viewerIsProfileOwner: React.PropTypes.bool.isRequired
   },
+
+  mixins: [
+    Unicycle.listenTo(followUnfollowStore)
+  ],
 
   render: function() {
     var blockUserIcon = <View/>;
 
     if (!this.props.viewerIsProfileOwner) {
-      blockUserIcon = <BlockUserButton email={this.props.user.email}/>;
+      blockUserIcon = <BlockUserButton email={this.props.email}/>;
     }
 
     return (
@@ -83,25 +85,31 @@ var ProfilePageBody = React.createClass({
           <View style={styles.profileHeader}>
             <ProfileImage
               viewerIsProfileOwner={this.props.viewerIsProfileOwner}
-              profileImageUrl={this.props.user.profileImageUrl}/>
+              profileImageUrl={this.props.profileImageUrl}/>
             <FollowButton
               viewerIsProfileOwner={this.props.viewerIsProfileOwner}
-              onButtonPress={this._onFollowButtonPress}
-              isRequestInFlight={this.state.isFollowRequestInFlight}
-              isUserFollowing={this.state.isUserFollowing}/>
+              onButtonPress={this._getFollowButtonAction}
+              isRequestInFlight={this._isFollowButtonRequestInFlight()}/>
           </View>
 
           {blockUserIcon}
           <Text style={styles.bio}>
-            {this.props.user.bio}
+            {this.props.bio}
           </Text>
 
           <TotalProfileCountsContainer
-            totalPoints={this.props.user.totalPoints}
-            numFollowers={this.props.user.numFollowers}
-            numPosts={this.props.user.numPosts}/>
+            totalPoints={this.props.totalPoints}
+            numFans={this.props.numFans}
+            numPosts={this.props.numPosts}/>
 
         </View>
+
+        <UserPosts
+          profileStore={this._getProfileStoreForUserPosts()}
+          userName={this.props.firstName + ' ' + this.props.lastName}
+          userEmail={this.props.email}
+          viewerIsProfileOwner={this.props.viewerIsProfileOwner}
+          navigator={this.props.navigator}/>
       </ScrollView>
     );
   },
@@ -115,40 +123,21 @@ var ProfilePageBody = React.createClass({
     }
   },
 
-  _requestIsUserFollowing: function() {
-    var userId = userLoginMetadataStore.getUserId();
-    var that = this;
-
-    this.setState({
-      isFollowRequestInFlight: true
-    });
-
-    AjaxUtils.ajax(
-      '/user/isFollowing',
-      {
-        requestingUserIdString: userId,
-        userEmail: that.props.user.email
-      },
-      (res) => {
-        that.setState({
-          isFollowRequestInFlight: false,
-          isUserFollowing: res.body.following
-        });
-      },
-      () => {
-        that.setState({
-          isFollowRequestInFlight: false
-        });
-      }
-    );
-  },
-
-  _onFollowButtonPress: function() {
+  _getFollowButtonAction: function() {
     if (this.props.viewerIsProfileOwner) {
       this._getAllUsersTheOwnerIsFollowing();
     }
     else {
       this._followOrUnfollowUser();
+    }
+  },
+
+  _isFollowButtonRequestInFlight: function() {
+    if (this.props.viewerIsProfileOwner) {
+      return false;
+    }
+    else {
+      return followUnfollowStore.isRequestInFlight();
     }
   },
 
@@ -161,73 +150,21 @@ var ProfilePageBody = React.createClass({
   _followOrUnfollowUser: function() {
     var userId = userLoginMetadataStore.getUserId();
 
-    if (this.state.isUserFollowing) {
-      this._unfollowUserRequest();
+    if (followUnfollowStore.getIsUserFollowingResult()) {
+      Unicycle.exec('unfollow', userId, this.props.email);
     }
     else {
-      this._followUserRequest();
+      Unicycle.exec('follow', userId, this.props.email);
     }
   },
 
-  _followUserRequest: function() {
-    var userId = userLoginMetadataStore.getUserId();
-    var that = this;
-
-    this.setState({
-      isFollowRequestInFlight: true
-    });
-
-    AjaxUtils.ajax(
-      '/user/follow',
-      {
-        requestingUserIdString: userId,
-        userToFollowEmail: that.props.user.email
-      },
-      (res) => {
-        if (res.body.success) {
-          that.props.user.numFollowers++;
-        }
-
-        that.setState({
-          isFollowRequestInFlight: false,
-          isUserFollowing: res.body.success
-        });
-      },
-      () => {
-        that.setState({
-          isFollowRequestInFlight: false
-        });
-      }
-    );
-  },
-
-  _unfollowUserRequest: function() {
-    var userId = userLoginMetadataStore.getUserId();
-    var that = this;
-
-    this.setState({
-      isFollowRequestInFlight: true
-    });
-
-    AjaxUtils.ajax(
-      '/user/removeFollow',
-      {
-        requestingUserIdString: userId,
-        userToNotFollowEmail: that.props.user.email
-      },
-      (res) => {
-        that.props.user.numFollowers--;
-        that.setState({
-          isFollowRequestInFlight: false,
-          isUserFollowing: false
-        });
-      },
-      () => {
-        that.setState({
-          isFollowRequestInFlight: false
-        });
-      }
-    );
+  _getProfileStoreForUserPosts: function() {
+    if (this.props.viewerIsProfileOwner) {
+      return profileOwnerStore;
+    }
+    else {
+      return profileStore;
+    }
   }
 
 });

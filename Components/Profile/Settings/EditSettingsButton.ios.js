@@ -3,7 +3,7 @@
 var React = require('react-native');
 var Unicycle = require('../../../Unicycle');
 var Icon = require('react-native-vector-icons/Ionicons');
-var EditProfilePopup = require('../../PopupPages/EditProfilePopup');
+var EditProfilePopup = require('../../PopUpPages/EditProfilePopup');
 
 var {
   View,

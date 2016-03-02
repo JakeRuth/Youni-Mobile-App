@@ -60,7 +60,7 @@ var PostUtils = {
     else {
       post.moreCommentsToShow = true;
     }
-    
+
     posts = posts.set(id, post);
     return posts;
   },
@@ -99,6 +99,8 @@ var PostUtils = {
       numLikes: post.numLikes,
       caption: post.caption,
       liked: post.liked,
+      imageHeight: post.photoHeight,
+      imageWidth: post.photoWidth,
       id: index
     };
   }

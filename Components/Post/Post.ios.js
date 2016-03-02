@@ -20,12 +20,15 @@ var styles = StyleSheet.create({
     marginBottom: 12
   },
   imageContainer: {
-    flex: 1
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'stretch'
   },
   postImage: {
     flex: 1,
-    width: null,
-    height: 416
+    height: 416,
+    justifyContent: "space-around",
+    resizeMode: "contain",
   }
 });
 
