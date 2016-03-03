@@ -296,7 +296,7 @@ var SignUpForm = React.createClass({
       '',
       [
         {
-          text: 'Got it'
+          text: 'Ok'
         }
       ]
     );
@@ -308,7 +308,7 @@ var SignUpForm = React.createClass({
       'Passwords must be the same!',
       [
         {
-          text: 'Got it'
+          text: 'Ok'
         }
       ]
     );
@@ -320,7 +320,7 @@ var SignUpForm = React.createClass({
       'Must end with .edu',
       [
         {
-          text: 'Got it'
+          text: 'Ok'
         }
       ]
     );
@@ -332,7 +332,7 @@ var SignUpForm = React.createClass({
       message,
       [
         {
-          text: 'Got it'
+          text: 'Ok'
         }
       ]
     );
