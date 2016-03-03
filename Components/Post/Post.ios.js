@@ -21,8 +21,7 @@ var styles = StyleSheet.create({
   },
   imageContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'stretch'
+    justifyContent: 'center'
   },
   postImage: {
     flex: 1,

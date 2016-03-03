@@ -6,7 +6,7 @@ var userLoginMetadataStore = require('../../../stores/UserLoginMetadataStore');
 var PostHeader = require('../PostHeader');
 var PostStats = require('./PostStats');
 var PostCommentsContainer = require('./PostCommentsContainer');
-var PostCommentsPopup = require('../../PopUpPages/PostCommentsPopup');
+var PostCommentsPopup = require('../../PopupPages/PostCommentsPopup');
 
 var {
   View,

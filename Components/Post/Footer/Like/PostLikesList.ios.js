@@ -3,7 +3,7 @@
 var React = require('react-native');
 var Unicycle = require('../../../../Unicycle');
 var Spinner = require('../../../Common/Spinner');
-var ProfilePopup = require('../../../PopUpPages/ProfilePopup');
+var ProfilePopup = require('../../../PopupPages/ProfilePopup');
 var userLoginMetadataStore = require('../../../../stores/UserLoginMetadataStore');
 
 var {

@@ -1,7 +1,7 @@
 'use strict';
 
 var React = require('react-native');
-var BlockedUsersPopup = require('../../PopUpPages/BlockedUsersPopup');
+var BlockedUsersPopup = require('../../PopupPages/BlockedUsersPopup');
 
 var {
   TouchableHighlight,

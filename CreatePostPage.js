@@ -105,7 +105,6 @@ var CreatePostPage = React.createClass({
   _getImagePickerOptions: function() {
     return {
       title: 'Upload a photo to share',
-      maxHeight: 416, //TODO
       quality: .5, //TODO
       allowsEditing: true, //TODO
       noData: false

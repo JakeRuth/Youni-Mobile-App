@@ -3,7 +3,7 @@
 var React = require('react-native');
 var Unicycle = require('../../../../Unicycle');
 var Spinner = require('../../../Common/Spinner');
-var PostLikesPopup = require('../../../PopUpPages/PostLikesPopup');
+var PostLikesPopup = require('../../../PopupPages/PostLikesPopup');
 
 var {
   View,
