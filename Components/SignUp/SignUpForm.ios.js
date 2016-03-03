@@ -7,6 +7,7 @@ var Unicycle = require('../../Unicycle');
 var RadioButtons = require('../Common/RadioButtons');
 var Spinner = require('../Common/Spinner');
 var EULAAgreementPage = require('./EULAAgreementPage');
+var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 
 var {
   View,
@@ -86,22 +87,22 @@ var SignUpForm = React.createClass({
     Unicycle.listenTo(signUpStore)
   ],
 
+  getInitialState: function() {
+    return {
+      requestInFlight: false,
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+      sex: ''
+    }
+  },
+
   render: function() {
-    var content,
-        isSignUpInFlight = signUpStore.isSignUpRequestUpInFlight(),
-        signUpRequestSuccessful = signUpStore.getSignUpRequestSuccessful(),
-        anyErrorsLoadingPage = signUpStore.anyErrorsLoadingPage();
+    var content;
 
-    if (signUpRequestSuccessful) {
-      this._alertOnSuccessfulSignUp();
-      Unicycle.exec('setSignUpRequestSuccessful', false);
-    }
-    else if (anyErrorsLoadingPage) {
-      this._alertSignUpError();
-      signUpStore.setPageLoadError(false);
-    }
-
-    if (isSignUpInFlight) {
+    if (this.state.requestInFlight) {
       content = (
         <View style={styles.spinnerContainer}>
           <Spinner/>
@@ -121,42 +122,48 @@ var SignUpForm = React.createClass({
   },
 
   renderSignUpForm: function() {
+    this._alertSignUpError();
     return (
       <View style={styles.signUpFormContainer}>
 
         <TextInput style={styles.signUpInput}
-          value={signUpStore.getSignupFirstName()}
+          value={this.state.firstName}
           placeholderTextColor={'grey'}
           placeholder={'First Name'}
-          onChangeText={(text) => Unicycle.exec('signUpUpdateFirstName', text)}/>
+          onChangeText={(text) => this.setState({firstName: text})}/>
+
         <TextInput style={styles.signUpInput}
-          value={signUpStore.getSignupLastName()}
+          value={this.state.lastName}
           placeholderTextColor={'grey'}
           placeholder={'Last Name'}
-          onChangeText={(text) => Unicycle.exec('signUpUpdateLastName', text)}/>
+          onChangeText={(text) => this.setState({lastName: text})}/>
+
         <TextInput style={styles.signUpInput}
-          value={signUpStore.getSignupEmail()}
+          value={this.state.email}
           placeholderTextColor={'grey'}
           placeholder={'email@college.edu'}
-          onChangeText={(text) => Unicycle.exec('signUpUpdateEmail', text)}/>
+          onChangeText={(text) => this.setState({email: text})}/>
+
         <TextInput style={styles.signUpInput}
           secureTextEntry={true}
-          value={signUpStore.getSignupPassword()}
+          value={this.state.password}
           clearTextOnFocus={true}
           placeholderTextColor={'grey'}
           placeholder={'Password'}
-          onChangeText={(text) => Unicycle.exec('signUpUpdatePassword', text)}/>
+          onChangeText={(text) => this.setState({password: text})}/>
+
         <TextInput style={styles.signUpInput}
           secureTextEntry={true}
-          value={signUpStore.getSignupConfirmPassword()}
+          value={this.state.confirmPassword}
           clearTextOnFocus={true}
           placeholderTextColor={'grey'}
           placeholder={'Confirm Password'}
-          onChangeText={(text) => Unicycle.exec('signUpUpdateConfirmPassword', text)}/>
+          onChangeText={(text) => this.setState({confirmPassword: text})}/>
+
         <View style={styles.maleFemaleInputContainer}>
           <RadioButtons
             labels={['male', 'female']}
-            customOnButtonPress={(label) => {Unicycle.exec('signUpUpdateSex', label);}}/>
+            customOnButtonPress={(label) => {this.setState({sex: label});}}/>
         </View>
 
         <TouchableHighlight
@@ -202,13 +209,64 @@ var SignUpForm = React.createClass({
     }
   },
 
+  _onSignUpPress: function() {
+    var that = this,
+        isFemale = null;
+
+    if (this.state.sex === 'female') {
+      isFemale = true;
+    }
+    else if (this.state.sex === 'male') {
+      isFemale = false;
+    }
+    this.setState({
+      requestInFlight: true
+    });
+
+    AjaxUtils.ajax(
+      '/user/create',
+      {
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
+        email: this.state.email,
+        password: this.state.password,
+        isFemale: isFemale,
+        schoolName: 'SUNY Albany' //TODO fix me
+      },
+      (res) => {
+        that.setState({
+          requestInFlight: false
+        });
+
+        if (res.body.addedToWaitList) {
+          that._alertAddedToWaitlist(res.body.message);
+        }
+        else if (res.body.emailAlreadyInUse) {
+          that._alertEmailAlreadyInUse(res.body.message);
+        }
+        else if (res.body.success) {
+          that._alertOnSuccessfulSignUp(res.body.message);
+        }
+        else {
+          that._alertSignUpError();
+        }
+      },
+      () => {
+        that.setState({
+          requestInFlight: false
+        });
+        that._alertSignUpError();
+      }
+    );
+  },
+
   _assertAllFieldsAreNotBlank: function() {
-    var firstName = signUpStore.getSignupFirstName(),
-        lastName = signUpStore.getSignupLastName(),
-        email = signUpStore.getSignupEmail(),
-        password = signUpStore.getSignupPassword(),
-        confirmPassword = signUpStore.getSignupConfirmPassword();
-        //sex = signUpStore.getSex(); Cannot ask for this yet because Apple won't let us.  That's not a joke.
+    var firstName = this.state.firstName,
+        lastName = this.state.lastName,
+        email = this.state.email,
+        password = this.state.password,
+        confirmPassword = this.state.confirmPassword;
+        //sex = this.state.sex; Cannot ask for this yet because Apple won't let us.  That's not a joke.
 
     return (
       firstName.length === 0 ||
@@ -221,14 +279,11 @@ var SignUpForm = React.createClass({
   },
 
   _emailMustEndInEdu: function() {
-    return signUpStore.getSignupEmail().endsWith('.edu');
+    return this.state.email.endsWith('.edu');
   },
 
   _doPasswordsMatch: function() {
-    var password = signUpStore.getSignupPassword(),
-        confirmPassword = signUpStore.getSignupConfirmPassword();
-
-    return password === confirmPassword;
+    return this.state.password === this.state.confirmPassword;
   },
 
   _goToLoginPage: function() {
@@ -271,10 +326,10 @@ var SignUpForm = React.createClass({
     );
   },
 
-  _alertOnSuccessfulSignUp: function() {
+  _alertOnSuccessfulSignUp: function(message) {
     AlertIOS.alert(
-      'Confirmation Email Sent!',
-      '',
+      'Confirmation email sent.',
+      message,
       [
         {
           text: 'Got it'
@@ -283,10 +338,34 @@ var SignUpForm = React.createClass({
     );
   },
 
+  _alertEmailAlreadyInUse: function(message) {
+    AlertIOS.alert(
+      'Email already in use.',
+      message,
+      [
+        {
+          text: 'Ok'
+        }
+      ]
+    );
+  },
+
+  _alertAddedToWaitlist: function(message) {
+    AlertIOS.alert(
+      'Coming soon!',
+      message,
+      [
+        {
+          text: 'Ok'
+        }
+      ]
+    );
+  },
+
   _alertSignUpError: function() {
     AlertIOS.alert(
-      'Thanks for joining the Youni Wait List! We’ll reach out to you when we open at your school!',
-      '',
+      'Oops! An unexpected error occurred.',
+      'Please contact support@youniapp.com with your sign up information and we can help you.',
       [
         {
           text: 'Ok'
@@ -306,7 +385,7 @@ var SignUpForm = React.createClass({
         {
           text: 'I agree',
           onPress: () => {
-            Unicycle.exec('onSignUpRequest');
+            this._onSignUpPress();
           }
         }
       ]
