@@ -52,7 +52,7 @@ var TrendingUser = React.createClass({
   propTypes: {
     ranking: React.PropTypes.number.isRequired,
     firstName: React.PropTypes.string.isRequired,
-    profileImageUrl: React.PropTypes.string.isRequired,
+    profileImageUrl: React.PropTypes.string,
     points: React.PropTypes.number.isRequired
   },
 

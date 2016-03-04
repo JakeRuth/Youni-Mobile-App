@@ -7,6 +7,7 @@ var MainScreenBanner = require('../../MainScreenBanner');
 var TrendingUsersList = require('./TrendingUsersList');
 var BackButton = require('../Common/BackButtonBar');
 var ErrorPage = require('../Common/ErrorPage');
+var TrendingPageSelector = require('./TrendingPageSelector');
 
 var {
   View,
@@ -17,24 +18,11 @@ var {
 
 var styles = StyleSheet.create({
   trendingPageContainer: {
-    flex: 1
-  },
-  pageHeaderText: {
-    textAlign: 'center',
-    color: '#525252',
-    fontSize: 18,
-    padding: 5
-  },
-  contentSeparator: {
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: '#525252',
-    marginLeft: 45,
-    marginRight: 45
+    flex: 1,
+    marginBottom: 50
   },
   spinnerContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
+    marginTop: 10
   }
 });
 
@@ -63,19 +51,16 @@ var TrendingPage = React.createClass({
     else if (anyErrorsLoadingPage) {
       content = <ErrorPage reloadButtonAction={this._onErrorPageReload}/>
     }
-    else {
-      content = <TrendingUsersList navigator={this.props.navigator}/>;
-    }
 
     return (
       <View style={styles.trendingPageContainer}>
 
         <MainScreenBanner title='Trending'/>
-        <Text style={styles.pageHeaderText}>
-          Top Trending Users This Week!
-        </Text>
-        <View style={styles.contentSeparator}/>
+        <TrendingPageSelector disabled={trendingStore.isRequestInFlight()}/>
+
         {content}
+
+        <TrendingUsersList navigator={this.props.navigator}/>
 
       </View>
     );
