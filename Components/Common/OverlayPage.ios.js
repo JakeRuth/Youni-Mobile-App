@@ -44,7 +44,7 @@ var OverlayPage = React.createClass({
     },
 
     render: function() {
-        var contentOffset = {x:0,y:20},
+        var contentOffset = {x:0,y:0},
             hackyKeyboardPadding;
 
         if (this.props.bumpContentUpWhenKeyboardShows && this.state.isKeyboardVisible) {
@@ -68,7 +68,9 @@ var OverlayPage = React.createClass({
                 <MainScreenBanner title={this.props.bannerTitle}/>
                 <BackArrow onPress={this.props.onBackArrowPress}/>
 
-                <ScrollView contentOffset={contentOffset}>
+                <ScrollView
+                  contentOffset={contentOffset}
+                  automaticallyAdjustContentInsets={false}>
 
                     {this.props.content}
 

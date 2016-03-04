@@ -15,9 +15,6 @@ var {
 } = React;
 
 var styles = StyleSheet.create({
-  container: {
-    paddingTop: 10
-  },
   userRow: {
     flex: 1,
     flexDirection: 'row',
@@ -64,7 +61,7 @@ var PostLikesList = React.createClass({
     }
 
     return (
-      <View style={styles.container}>
+      <View>
         {content}
       </View>
     );

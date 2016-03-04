@@ -16,9 +16,7 @@ var {
 } = React;
 
 var styles = StyleSheet.create({
-  container: {
-    marginBottom: 50
-  }
+
 });
 
 var TrendingUsersList = React.createClass({
@@ -39,7 +37,7 @@ var TrendingUsersList = React.createClass({
     }
 
     return (
-      <ScrollView style={styles.container}>
+      <ScrollView automaticallyAdjustContentInsets={false}>
         {trendingUsers}
       </ScrollView>
     );
