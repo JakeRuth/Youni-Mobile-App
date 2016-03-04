@@ -19,19 +19,16 @@ var styles = StyleSheet.create({
     backgroundColor: 'white',
     marginBottom: 12
   },
-  imageContainer: {
-    flex: 1,
-    justifyContent: 'center'
-  },
   postImage: {
     flex: 1,
-    height: 416,
     justifyContent: "space-around",
-    resizeMode: "contain",
+    resizeMode: "contain"
   }
 });
 
 var Post = React.createClass({
+
+  MAX_IMAGE_HEIGHT: 420,
 
   propTypes: {
     postStore: React.PropTypes.any.isRequired,
@@ -66,11 +63,9 @@ var Post = React.createClass({
           navigator={this.props.navigator}/>
 
         <TouchableHighlight onPress={ this._photoOnClickAction(this.props.post.liked) }>
-          <View style={styles.imageContainer}>
-            <Image
-              style={styles.postImage}
-              source={{uri: this.props.post.photoUrl}}/>
-          </View>
+          <Image
+            style={[styles.postImage, {height: this._getImageHeight()}]}
+            source={{uri: this.props.post.photoUrl}}/>
         </TouchableHighlight>
 
         <PostFooter
@@ -188,6 +183,17 @@ var Post = React.createClass({
     }
     else {
       return 'removeLikeExploreFeed';
+    }
+  },
+
+  _getImageHeight: function() {
+    var height = this.props.post.imageHeight;
+
+    if (height > 0 && height <= this.MAX_IMAGE_HEIGHT) {
+      return this.props.post.imageHeight;
+    }
+    else {
+      return this.MAX_IMAGE_HEIGHT;
     }
   }
 
