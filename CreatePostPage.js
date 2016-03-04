@@ -105,8 +105,6 @@ var CreatePostPage = React.createClass({
   _getImagePickerOptions: function() {
     return {
       title: 'Upload a photo to share',
-      maxWidth: 416, //TODO
-      maxHeight: 416, //TODO
       quality: .5, //TODO
       allowsEditing: true, //TODO
       noData: false
@@ -119,7 +117,11 @@ var CreatePostPage = React.createClass({
       uri: response.uri,
       uploadUrl: url,
       fileName: 'picture', //the name here has no meaning, it could really be anything
-      mimeType: 'image/jpeg'
+      mimeType: 'image/jpeg',
+      data: {
+        imageHeight: response.height,
+        imageWidth: response.width
+      }
     };
   },
 
