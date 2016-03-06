@@ -122,7 +122,6 @@ var SignUpForm = React.createClass({
   },
 
   renderSignUpForm: function() {
-    this._alertSignUpError();
     return (
       <View style={styles.signUpFormContainer}>
 
