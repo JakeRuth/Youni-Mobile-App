@@ -8,7 +8,7 @@ var {
   Text,
   StyleSheet,
   TouchableHighlight
-} = React
+} = React;
 
 var styles = StyleSheet.create({
   buttonContainer: {
@@ -94,10 +94,20 @@ var RadioButtons = React.createClass({
   },
 
   _onButtonPress: function(index, label) {
-    this.setState({
-      selectedRadioButtonIndex: index
-    });
-    this.props.customOnButtonPress(label);
+    var currentState = this.state.selectedRadioButtonIndex;
+
+    if (currentState === index) {
+      this.setState({
+        selectedRadioButtonIndex: null
+      });
+      this.props.customOnButtonPress(null);
+    }
+    else {
+      this.setState({
+        selectedRadioButtonIndex: index
+      });
+      this.props.customOnButtonPress(label);
+    }
   }
 
 });
