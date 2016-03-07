@@ -36,7 +36,7 @@ var styles = StyleSheet.create({
   },
   postCommentButtonLabel: {
     fontSize: 15,
-    color: '#0083D4',
+    color: '#5d6aff',
     textAlign: 'center',
     padding: 5
   }

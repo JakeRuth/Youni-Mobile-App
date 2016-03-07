@@ -20,7 +20,7 @@ var styles = StyleSheet.create({
   },
   backButton: {
     fontSize: 20,
-    color: '#0083D4',
+    color: '#5d6aff',
     marginLeft: 10
   }
 });
@@ -39,7 +39,7 @@ var BackButtonBar = React.createClass({
         underlayColor='transparent'>
 
         <View style={styles.backButtonContainer}>
-          <Icon name='ios-arrow-back' size={25} color='#0083D4' />
+          <Icon name='ios-arrow-back' size={25} color='#5d6aff' />
           <Text style={styles.backButton}>
             Back
           </Text>

@@ -27,7 +27,7 @@ var styles = StyleSheet.create({
   },
   selectedFilterOption: {
     borderTopWidth: 1,
-    borderTopColor: '#0083D4',
+    borderTopColor: '#5d6aff',
     paddingTop: 0
   },
   icon: {
@@ -41,7 +41,7 @@ var FeedFilters = React.createClass({
   femaleFilterName: 'female',
   defaultFilterName: 'both',
 
-  selectedIconColor: '#0083D4',
+  selectedIconColor: '#5d6aff',
   defaultIconColor: '#ADADAD',
 
   propTypes: {

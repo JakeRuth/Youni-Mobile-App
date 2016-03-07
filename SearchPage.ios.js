@@ -176,7 +176,7 @@ var SearchResult = React.createClass({
           style={styles.profileImage}
           name='ios-person'
           size={40}
-          color='#0083D4' />
+          color='#5d6aff' />
       );
     }
 

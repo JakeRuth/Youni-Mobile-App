@@ -49,7 +49,7 @@ var DeletePostIcon = React.createClass({
         'Cancel'
       ],
       cancelButtonIndex: 1,
-      tintColor: '#0083D4'
+      tintColor: '#5d6aff'
     },
     (buttonIndex) => {
       if (buttonIndex === 0) {

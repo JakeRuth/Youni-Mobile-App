@@ -40,7 +40,7 @@ var styles = StyleSheet.create({
   },
   createPostButton: {
     alignSelf: 'center',
-    backgroundColor: '#0083D4',
+    backgroundColor: '#5d6aff',
     borderRadius: 1,
     margin: 10,
     marginBottom: 0
