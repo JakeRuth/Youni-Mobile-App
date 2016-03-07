@@ -19,7 +19,7 @@ var styles = StyleSheet.create({
   postHeader: {
     flex: 1,
     flexDirection: 'row',
-    minHeight: 45,
+    height: 53,
     padding: 5
   },
   thumbnailContainer: {
