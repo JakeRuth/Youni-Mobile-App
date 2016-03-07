@@ -41,7 +41,7 @@ var EditBioBox = React.createClass({
           underlayColor='transparent'>
 
           <Icon style={styles.submitButton}
-            name='checkmark' size={30} color={'#0083D4'} />
+            name='checkmark' size={30} color={'#5d6aff'} />
 
         </TouchableHighlight>
         <TouchableHighlight

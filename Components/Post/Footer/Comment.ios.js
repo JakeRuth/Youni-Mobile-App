@@ -18,7 +18,7 @@ var styles = StyleSheet.create({
     alignItems: 'center'
   },
   commenterName: {
-    color: '#0083D4'
+    color: '#5d6aff'
   },
   commentText: {
     flex: 1,

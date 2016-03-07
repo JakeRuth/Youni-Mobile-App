@@ -30,7 +30,7 @@ var styles = StyleSheet.create({
     marginBottom: 1
   },
   countValue: {
-    color: '#0083D4',
+    color: '#5d6aff',
     textAlign: 'center',
     fontSize: 18,
     marginTop: 1

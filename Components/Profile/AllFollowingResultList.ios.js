@@ -107,7 +107,7 @@ var Result = React.createClass({
     else {
       thumbnail = (
         <Icon style={styles.profileImage}
-          name='ios-person' size={40} color='#0083D4' />
+          name='ios-person' size={40} color='#5d6aff' />
       );
     }
 
