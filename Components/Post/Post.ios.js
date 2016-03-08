@@ -22,7 +22,8 @@ var styles = StyleSheet.create({
   postImage: {
     flex: 1,
     justifyContent: "space-around",
-    resizeMode: "contain"
+    resizeMode: "contain",
+    backgroundColor: '#F0F0F0'
   }
 });
 
