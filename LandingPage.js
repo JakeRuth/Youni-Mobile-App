@@ -59,7 +59,7 @@ var LandingPage = React.createClass({
   _renderTabBar: function() {
     return (
       <TabBarIOS
-        tintColor="#5d6aff">
+        tintColor="#5C7CFF">
 
         {this._renderHomeTab()}
         {this._renderExploreTab()}

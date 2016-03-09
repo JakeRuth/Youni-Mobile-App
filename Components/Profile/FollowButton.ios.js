@@ -16,8 +16,8 @@ var styles = StyleSheet.create({
     backgroundColor: 'transparent'
   },
   followingButton: {
-    borderColor: '#5d6aff',
-    color: '#5d6aff',
+    borderColor: '#5C7CFF',
+    color: '#5C7CFF',
     fontSize: 13,
     fontWeight: '600',
     borderWidth: 1,

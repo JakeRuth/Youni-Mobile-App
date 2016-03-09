@@ -13,7 +13,7 @@ var styles = StyleSheet.create({
   container: {
     height: 55,
     padding: 16,
-    backgroundColor: '#5d6aff'
+    backgroundColor: '#5C7CFF'
   },
   header: {
     paddingTop: 10,

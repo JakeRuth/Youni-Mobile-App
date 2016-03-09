@@ -64,7 +64,7 @@ var CoverImage = React.createClass({
       <Icon
         name='ios-person'
         size={150}
-        color='#5d6aff' />
+        color='#5C7CFF' />
     );
   },
 

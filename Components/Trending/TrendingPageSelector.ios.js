@@ -28,7 +28,7 @@ var styles = StyleSheet.create({
   },
   selectedFeedSelector: {
     borderBottomWidth: 1,
-    borderBottomColor: '#5d6aff'
+    borderBottomColor: '#5C7CFF'
   },
   selector: {
     fontSize: 20,

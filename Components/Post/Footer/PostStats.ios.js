@@ -63,7 +63,7 @@ var PostStats = React.createClass({
             style={[styles.icon]}
             name='ios-chatbubble-outline'
             size={33}
-            color='#5d6aff'/>
+            color='#5C7CFF'/>
         </TouchableHighlight>
 
         <PostLikeText
