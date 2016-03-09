@@ -6,6 +6,7 @@ var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var DeletePostIcon = require('./DeletePostIcon');
 var FlagPostIcon = require('./FlagPostIcon');
 var ProfilePopup = require('../PopupPages/ProfilePopup');
+var Emoji = require('../Common/Emoji');
 
 var {
   View,
@@ -59,26 +60,21 @@ var styles = StyleSheet.create({
 var PostHeader = React.createClass({
 
   propTypes: {
-    id: React.PropTypes.number.isRequired,
-    postIdString: React.PropTypes.string.isRequired,
-    posterEmail: React.PropTypes.string.isRequired,
-    posterProfileImageUrl: React.PropTypes.string,
-    posterName: React.PropTypes.string.isRequired,
-    timestamp: React.PropTypes.string.isRequired,
+    post: React.PropTypes.object.isRequired,
     renderedFromProfileView: React.PropTypes.bool,
     hideActionButton: React.PropTypes.bool,
     navigator: React.PropTypes.object
   },
 
   render: function() {
-    var actionButton = <View/>;
+    var actionButton;
 
     if (this._isViewerPostOwner()) {
       actionButton = (
         <View style={styles.actionButtonContainer}>
           <DeletePostIcon
-            id={this.props.id}
-            postIdString={this.props.postIdString}
+            id={this.props.post.id}
+            postIdString={this.props.post.postIdString}
             enabled={this.props.renderedFromProfileView}/>
         </View>
       );
@@ -86,7 +82,7 @@ var PostHeader = React.createClass({
     else if (!this.props.hideActionButton) {
       actionButton = (
         <View style={styles.actionButtonContainer}>
-          <FlagPostIcon postId={this.props.postIdString}/>
+          <FlagPostIcon postId={this.props.post.postIdString}/>
         </View>
       );
     }
@@ -103,18 +99,20 @@ var PostHeader = React.createClass({
             {/* This image may not exist!!! */}
             <Image
               style={styles.posterImage}
-              source={{uri: this.props.posterProfileImageUrl}} />
+              source={{uri: this.props.post.posterProfileImageUrl}}/>
+
             <Text
               style={styles.profileName}
               numberOfLines={1}>
-              {this.props.posterName}
+              {this._renderTrendingEmoji()}
+              {this.props.post.posterName}
             </Text>
 
           </View>
         </TouchableHighlight>
 
         <Text style={styles.timestamp}>
-          {this.props.timestamp}
+          {this.props.post.timestamp}
         </Text>
 
         {actionButton}
@@ -127,8 +125,18 @@ var PostHeader = React.createClass({
     if (this._shouldDisplayProfilePopup()) {
       this.props.navigator.push({
         component: ProfilePopup,
-        passProps: {profileUserEmail: this.props.posterEmail}
+        passProps: {profileUserEmail: this.props.post.posterEmail}
       });
+    }
+  },
+
+  _renderTrendingEmoji: function() {
+    if (this.props.post.isPostUserCurrentlyTrending) {
+      return (
+        <Emoji
+          name="fire"
+          size={22}/>
+      );
     }
   },
 
@@ -137,7 +145,7 @@ var PostHeader = React.createClass({
   },
 
   _isViewerPostOwner: function() {
-    return this.props.posterEmail === userLoginMetadataStore.getEmail();
+    return this.props.post.posterEmail === userLoginMetadataStore.getEmail();
   }
 
 });

@@ -3,6 +3,7 @@
 var React = require('react-native');
 var Icon = require('react-native-vector-icons/Ionicons');
 var PostPopup = require('../PopupPages/PostPopup');
+var Emoji = require('../Common/Emoji');
 
 var {
   View,
@@ -93,13 +94,29 @@ var PostGridThumbnail = React.createClass({
     );
   },
 
+  // TODO: Clean this up, rushed it for a release
   _renderPostStats: function() {
-    var likesStat = <View/>,
-        commentsStat = <View/>;
+    var likesStat, commentsStat, fireEmoji;
+
+    if (this.props.post.isPostUserCurrentlyTrending) {
+      fireEmoji = (
+        <View style={[styles.iconContainer, styles.leftMostIcon]}>
+          <Emoji
+            name="fire"
+            size={15}/>
+        </View>
+      );
+    }
 
     if (this.props.post.numLikes) {
+      let commentsCountStyles = [styles.iconContainer];
+
+      if (!this.props.post.isPostUserCurrentlyTrending) {
+        commentsCountStyles.push(styles.leftMostIcon);
+      }
+
       likesStat = (
-          <View style={[styles.iconContainer, styles.leftMostIcon]}>
+          <View style={commentsCountStyles}>
             <Text style={styles.iconLabel}>
               {this.props.post.numLikes}
             </Text>
@@ -111,10 +128,11 @@ var PostGridThumbnail = React.createClass({
           </View>
       );
     }
-    if (this.props.post.numComments) {
-      var commentsCountStyles = [styles.iconContainer];
 
-      if (!this.props.post.numLikes) {
+    if (this.props.post.numComments) {
+      let commentsCountStyles = [styles.iconContainer];
+
+      if (!this.props.post.numLikes && !this.props.post.isPostUserCurrentlyTrending) {
         commentsCountStyles.push(styles.leftMostIcon);
       }
 
@@ -135,6 +153,7 @@ var PostGridThumbnail = React.createClass({
     return (
       <View style={styles.postStats}>
 
+        {fireEmoji}
         {likesStat}
         {commentsStat}
 

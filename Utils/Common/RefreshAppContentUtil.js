@@ -61,7 +61,7 @@ var RefreshAppContentUtil = {
     }).done();
   },
 
-  //TODO: FIIIXX
+  //TODO: this is happening from a circular dependency from ajax utils to this file.
   _horribleCopiedMethodBecauseAjaxUtilsCantBeRequiredHereAndIDontKnowWhyImPissed: function(url, data, onSuccessCallback, onFailureCallback) {
     var that = this;
 

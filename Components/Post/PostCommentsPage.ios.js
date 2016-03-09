@@ -49,13 +49,8 @@ var PostCommentPage = React.createClass({
     return (
       <View>
         <PostHeader
-          id={this.props.post.id}
-          postIdString={this.props.post.postIdString}
-          posterEmail={this.props.post.posterEmail}
+          post={this.props.post}
           viewerIsPostOwner={false}
-          posterName={this.props.post.posterName}
-          posterProfileImageUrl={this.props.post.posterProfileImageUrl}
-          timestamp={this.props.post.timestamp}
           renderedFromProfileView={false}
           hideActionButton={true}/>
 

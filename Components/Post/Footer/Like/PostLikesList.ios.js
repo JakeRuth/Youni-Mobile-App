@@ -3,6 +3,7 @@
 var React = require('react-native');
 var Unicycle = require('../../../../Unicycle');
 var Spinner = require('../../../Common/Spinner');
+var Emoji = require('../../../Common/Emoji');
 var ProfilePopup = require('../../../PopupPages/ProfilePopup');
 var userLoginMetadataStore = require('../../../../stores/UserLoginMetadataStore');
 
@@ -30,6 +31,7 @@ var styles = StyleSheet.create({
     marginRight: 10
   },
   displayName: {
+    flex: 1,
     fontSize: 20
   }
 });
@@ -75,15 +77,28 @@ var PostLikesList = React.createClass({
         onPress={() => {this._onUserPress(user.email);}}>
 
         <View style={styles.userRow}>
+
           <Image
               style={styles.userImage}
               source={{uri: user.profileImageUrl}}/>
-          <Text style={styles.displayName}>
+          <Text
+            style={styles.displayName}
+            numberOfLines={1}>
             {user.firstName} {user.lastName}
           </Text>
+          {user.isCurrentlyTrending && this._renderTrendingEmoji()}
+
         </View>
 
       </TouchableHighlight>
+    );
+  },
+
+  _renderTrendingEmoji: function() {
+    return (
+      <Emoji
+        name="fire"
+        size={20}/>
     );
   },
 

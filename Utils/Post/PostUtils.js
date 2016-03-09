@@ -101,7 +101,8 @@ var PostUtils = {
       liked: post.liked,
       imageHeight: post.photoHeight,
       imageWidth: post.photoWidth,
-      id: index
+      id: index,
+      isPostUserCurrentlyTrending: post.isCurrentlyTrending
     };
   }
 

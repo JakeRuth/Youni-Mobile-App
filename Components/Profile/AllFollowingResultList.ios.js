@@ -5,6 +5,7 @@ var Icon = require('react-native-vector-icons/Ionicons');
 var Unicycle = require('../../Unicycle');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var EmptyResults = require('../Common/EmptyResults');
+var Emoji = require('../Common/Emoji');
 
 var {
   View,
@@ -119,8 +120,12 @@ var Result = React.createClass({
 
           <View style={styles.result}>
             {thumbnail}
-            <Text style={styles.fullName} numberOfLines={1}>
+
+            <Text
+              style={styles.fullName}
+              numberOfLines={1}>
               {this.props.user.firstName} {this.props.user.lastName}
+              {this._renderTrendingEmoji()}
             </Text>
           </View>
 
@@ -136,6 +141,16 @@ var Result = React.createClass({
       component: ProfilePopup,
       passProps: {profileUserEmail: this.props.user.email}
     });
+  },
+
+  _renderTrendingEmoji: function() {
+    if (this.props.user.isCurrentlyTrending) {
+      return (
+        <Emoji
+          name="fire"
+          size={20}/>
+      );
+    }
   }
 
 });

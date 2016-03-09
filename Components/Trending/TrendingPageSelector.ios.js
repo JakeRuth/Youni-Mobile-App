@@ -2,6 +2,7 @@
 
 var React = require('react-native');
 var Unicycle = require('../../Unicycle');
+var Emoji = require('../Common/Emoji');
 
 var {
   View,
@@ -15,11 +16,15 @@ var styles = StyleSheet.create({
     flexDirection: 'row'
   },
   feedSelector: {
-    flex: 1,
+    flex: 5,
     alignItems: 'center',
     justifyContent: 'center',
     marginLeft: 15,
     marginRight: 15
+  },
+  fireEmojiContainer: {
+    flex: 1,
+    paddingTop: 2
   },
   selectedFeedSelector: {
     borderBottomWidth: 1,
@@ -53,8 +58,15 @@ var TrendingPageSelector = React.createClass({
   render: function() {
     return (
       <View style={styles.container}>
+
         {this._renderFeedSelector(this.weeklyFeed)}
+        <View style={styles.fireEmojiContainer}>
+          <Emoji
+            name="fire"
+            size={23}/>
+        </View>
         {this._renderFeedSelector(this.allTimeFeed)}
+
       </View>
     );
   },

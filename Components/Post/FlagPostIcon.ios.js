@@ -18,7 +18,7 @@ var styles = StyleSheet.create({
   }
 });
 
-var PostHeader = React.createClass({
+var FlagPostIcon = React.createClass({
 
   propTypes: {
     postId: React.PropTypes.string.isRequired
@@ -86,4 +86,4 @@ var PostHeader = React.createClass({
 
 });
 
-module.exports = PostHeader;
+module.exports = FlagPostIcon;

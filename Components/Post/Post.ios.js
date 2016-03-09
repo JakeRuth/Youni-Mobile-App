@@ -54,12 +54,7 @@ var Post = React.createClass({
       <View style={styles.container}>
 
         <PostHeader
-          id={this.props.post.id}
-          postIdString={this.props.post.postIdString}
-          posterEmail={this.props.post.posterEmail}
-          posterName={this.props.post.posterName}
-          posterProfileImageUrl={this.props.post.posterProfileImageUrl}
-          timestamp={this.props.post.timestamp}
+          post={this.props.post}
           renderedFromProfileView={this.props.renderedFromProfileView}
           navigator={this.props.navigator}/>
 

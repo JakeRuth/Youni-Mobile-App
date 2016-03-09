@@ -12,7 +12,7 @@ var {
   StyleSheet,
   Text,
   AlertIOS
-} = React
+} = React;
 
 var styles = StyleSheet.create({
   blockUserContainer: {
