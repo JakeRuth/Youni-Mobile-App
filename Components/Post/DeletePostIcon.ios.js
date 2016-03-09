@@ -8,15 +8,8 @@ var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var {
   TouchableHighlight,
   ActionSheetIOS,
-  StyleSheet,
   AlertIOS
 } = React;
-
-var styles = StyleSheet.create({
-  deleteIconContainer: {
-    paddingLeft: 30
-  }
-});
 
 var DeletePostIcon = React.createClass({
 
@@ -29,7 +22,6 @@ var DeletePostIcon = React.createClass({
   render: function() {
     return (
       <TouchableHighlight
-        style={styles.deleteIconContainer}
         underlayColor='transparent'
         onPress={this._onDeleteIconPress}>
 

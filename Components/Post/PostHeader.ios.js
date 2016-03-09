@@ -20,11 +20,12 @@ var styles = StyleSheet.create({
   postHeader: {
     flex: 1,
     flexDirection: 'row',
+    justifyContent: 'flex-start',
     height: 53,
     padding: 5
   },
   thumbnailContainer: {
-    flex: 5
+    flex: 9
   },
   thumbnail: {
     flex: 1,
@@ -40,18 +41,18 @@ var styles = StyleSheet.create({
     flex: 1,
     fontSize: 17,
     fontWeight: '400',
-    color: '#4C4C4C',
-    marginLeft: 5
+    color: '#4C4C4C'
   },
   timestamp: {
-    flex: 2,
+    flex: 3,
     alignSelf: 'center',
-    textAlign: 'right',
+    textAlign: 'center',
     fontSize: 13,
     color: '#ADADAD'
   },
   actionButtonContainer: {
     flex: 1,
+    marginRight: -10,
     alignSelf: 'center',
     backgroundColor: 'transparent'
   }

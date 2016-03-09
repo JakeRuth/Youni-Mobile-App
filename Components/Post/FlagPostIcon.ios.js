@@ -8,15 +8,8 @@ var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 var {
   TouchableHighlight,
   ActionSheetIOS,
-  AlertIOS,
-  StyleSheet
+  AlertIOS
 } = React;
-
-var styles = StyleSheet.create({
-  flagIconContainer: {
-    paddingLeft: 30
-  }
-});
 
 var FlagPostIcon = React.createClass({
 
@@ -27,7 +20,6 @@ var FlagPostIcon = React.createClass({
   render: function() {
     return (
       <TouchableHighlight
-        style={styles.flagIconContainer}
         underlayColor='transparent'
         onPress={this._onFlagPostIconPress}>
 
