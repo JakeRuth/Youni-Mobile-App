@@ -41,7 +41,8 @@ var styles = StyleSheet.create({
     flex: 1,
     fontSize: 17,
     fontWeight: '400',
-    color: '#4C4C4C'
+    color: '#4C4C4C',
+    paddingLeft: 5
   },
   timestamp: {
     flex: 3,
