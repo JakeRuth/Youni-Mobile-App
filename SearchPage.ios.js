@@ -10,6 +10,7 @@ var ExploreFeedPosts = require('./Components/Post/ExploreFeedPosts');
 var EmptyResults = require('./Components/Common/EmptyResults');
 var Spinner = require('./Components/Common/Spinner');
 var ProfilePopup = require('./Components/PopupPages/ProfilePopup');
+var Emoji = require('./Components/Common/Emoji');
 
 var {
   View,
@@ -188,13 +189,28 @@ var SearchResult = React.createClass({
 
           <View style={styles.searchResult}>
             {thumbnail}
-            <Text style={styles.fullName} numberOfLines={1}>{firstName} {lastName}</Text>
+            <Text
+              style={styles.fullName}
+              numberOfLines={1}>
+              {firstName} {lastName}
+            </Text>
+            {this._renderFireEmoji()}
           </View>
 
         </TouchableHighlight>
         <View style={styles.blankLine}/>
       </View>
     );
+  },
+
+  _renderFireEmoji: function() {
+    if (this.props.search.get('isCurrentlyTrending')) {
+      return (
+        <Emoji
+          name="fire"
+          size={20}/>
+      );
+    }
   },
 
   _onSearchResultClick: function(email) {
