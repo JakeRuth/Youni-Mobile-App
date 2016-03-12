@@ -132,6 +132,7 @@ var CreatePostForm = React.createClass({
     Unicycle.exec('setWasImageSelected', false);
     Unicycle.exec('setCaption', '');
     Unicycle.exec('setSelectedTab', 'home');
+    Unicycle.exec('setImageId', '');
   }
 
 });
