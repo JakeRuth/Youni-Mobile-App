@@ -51,15 +51,8 @@ var ProfilePage = React.createClass({
     else {
       content = (
         <ScrollView
-          refreshControl={
-            <ScrollViewRefresh
-              onRefresh={()=>{
-                Unicycle.exec('loadOwnerUsersProfile', this.props.email);
-                profileOwnerStore.resetPostPageOffset();
-                this._requestProfilePosts();
-              }}
-              isRefreshing={false}/>
-          }>
+          automaticallyAdjustContentInsets={false}
+          onScroll={this.handleScroll}>
 
           <ProfilePageBody
             navigator={this.props.navigator}
@@ -95,6 +88,16 @@ var ProfilePage = React.createClass({
 
       </View>
     );
+  },
+
+  handleScroll(e) {
+    var infiniteScrollThreshold = -1;
+
+    if (e.nativeEvent.contentOffset.y < infiniteScrollThreshold) {
+      Unicycle.exec('loadOwnerUsersProfile', this.props.email);
+      profileOwnerStore.resetPostPageOffset();
+      this._requestProfilePosts();
+    }
   },
 
   _likePhotoAction(postIndex, postId, userId, callback) {

@@ -37,11 +37,7 @@ var TrendingUsersList = React.createClass({
     return (
       <ScrollView
         automaticallyAdjustContentInsets={false}
-        refreshControl={
-          <ScrollViewRefresh
-            onRefresh={this.props.onPageRefresh}
-            isRefreshing={this.props.isPageRefreshing}/>
-        }>
+        onScroll={this._handleScroll}>
         {trendingUsers}
       </ScrollView>
     );
@@ -77,6 +73,14 @@ var TrendingUsersList = React.createClass({
         component: ProfilePopup,
         passProps: {profileUserEmail: email}
       });
+    }
+  },
+
+  _handleScroll: function(e) {
+    var infiniteScrollThreshold = -1;
+
+    if (e.nativeEvent.contentOffset.y < infiniteScrollThreshold) {
+      this.props.onPageRefresh();
     }
   }
 
