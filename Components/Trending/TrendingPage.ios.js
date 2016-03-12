@@ -5,28 +5,26 @@ var Unicycle = require('../../Unicycle');
 var trendingStore = require('../../stores/trending/TrendingStore');
 var MainScreenBanner = require('../../MainScreenBanner');
 var TrendingUsersList = require('./TrendingUsersList');
-var BackButton = require('../Common/BackButtonBar');
 var ErrorPage = require('../Common/ErrorPage');
 var TrendingPageSelector = require('./TrendingPageSelector');
 
 var {
   View,
   Text,
-  StyleSheet,
-  ActivityIndicatorIOS
+  StyleSheet
 } = React;
 
 var styles = StyleSheet.create({
   trendingPageContainer: {
     flex: 1,
     marginBottom: 50
-  },
-  spinnerContainer: {
-    marginTop: 10
   }
 });
 
 var TrendingPage = React.createClass({
+
+  weeklyFeed: 'Weekly',
+  allTimeFeed: 'All Time',
 
   propTypes: {
     navigator: React.PropTypes.object.isRequired
@@ -40,15 +38,18 @@ var TrendingPage = React.createClass({
     Unicycle.exec('getTrendingUsers');
   },
 
+  getInitialState: function() {
+    return {
+      selectedFeed: this.weeklyFeed
+    };
+  },
+
   render: function() {
     var isRequestInFlight = trendingStore.isRequestInFlight(),
         anyErrorsLoadingPage = trendingStore.anyErrorsLoadingPage(),
         content;
 
-    if (isRequestInFlight) {
-      content = this._renderLoadingSpinner();
-    }
-    else if (anyErrorsLoadingPage) {
+    if (anyErrorsLoadingPage) {
       content = <ErrorPage reloadButtonAction={this._onErrorPageReload}/>
     }
 
@@ -56,25 +57,40 @@ var TrendingPage = React.createClass({
       <View style={styles.trendingPageContainer}>
 
         <MainScreenBanner title='Trending'/>
-        <TrendingPageSelector disabled={trendingStore.isRequestInFlight()}/>
+        <TrendingPageSelector
+          selectedFeed={this.state.selectedFeed}
+          weeklyFeed={this.weeklyFeed}
+          allTimeFeed={this.allTimeFeed}
+          changeFeedSelector={(feed) => { this._changeFeedSelector(feed) }}
+          disabled={trendingStore.isRequestInFlight()}/>
 
         {content}
 
-        <TrendingUsersList navigator={this.props.navigator}/>
+        <TrendingUsersList
+          isPageRefreshing={trendingStore.isRequestInFlight()}
+          onPageRefresh={() => { this._requestTrendingUsers(this.state.selectedFeed) }}
+          navigator={this.props.navigator}/>
 
       </View>
     );
   },
 
-  _renderLoadingSpinner: function() {
-    return (
-      <View style={styles.spinnerContainer}>
-        <ActivityIndicatorIOS
-          size="small"
-          color="black"
-          animating={true} />
-      </View>
-    );
+  _changeFeedSelector: function(feed) {
+    if (!trendingStore.isRequestInFlight() && feed !== this.state.selectedFeed) {
+      this.setState({
+        selectedFeed: feed
+      });
+      this._requestTrendingUsers(feed);
+    }
+  },
+
+  _requestTrendingUsers: function(feed) {
+    if (feed === this.weeklyFeed) {
+      Unicycle.exec('getTrendingUsers');
+    }
+    else if (feed === this.allTimeFeed) {
+      Unicycle.exec('getAllTimeTrendingUsers');
+    }
   },
 
   _onErrorPageReload: function() {

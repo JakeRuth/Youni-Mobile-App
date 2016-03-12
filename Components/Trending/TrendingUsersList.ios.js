@@ -4,24 +4,22 @@ var React = require('react-native');
 var Unicycle = require('../../Unicycle');
 var TrendingUser = require('./TrendingUser');
 var ProfilePopup = require('../PopupPages/ProfilePopup');
+var ScrollViewRefresh = require('../Common/ScrollViewRefresh');
 var trendingStore = require('../../stores/trending/TrendingStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 
 var {
   View,
   ScrollView,
-  StyleSheet,
-  PixelRatio,
+  RefreshControl,
   TouchableHighlight
 } = React;
-
-var styles = StyleSheet.create({
-
-});
 
 var TrendingUsersList = React.createClass({
 
   propTypes: {
+    onPageRefresh: React.PropTypes.func.isRequired,
+    isPageRefreshing: React.PropTypes.bool.isRequired,
     navigator: React.PropTypes.object.isRequired
   },
 
@@ -37,7 +35,13 @@ var TrendingUsersList = React.createClass({
     }
 
     return (
-      <ScrollView automaticallyAdjustContentInsets={false}>
+      <ScrollView
+        automaticallyAdjustContentInsets={false}
+        refreshControl={
+          <ScrollViewRefresh
+            onRefresh={this.props.onPageRefresh}
+            isRefreshing={this.props.isPageRefreshing}/>
+        }>
         {trendingUsers}
       </ScrollView>
     );
@@ -49,7 +53,7 @@ var TrendingUsersList = React.createClass({
         key={index}
         underlayColor='transparent'
         onPress={() => {
-          this.onTrendingUserPress(trendingUser.email);
+          this._onTrendingUserPress(trendingUser.email);
         }}>
 
         <View>
@@ -64,7 +68,7 @@ var TrendingUsersList = React.createClass({
     );
   },
 
-  onTrendingUserPress: function(email) {
+  _onTrendingUserPress: function(email) {
     var userEmail = userLoginMetadataStore.getEmail();
 
     // Don't let a user click themselves

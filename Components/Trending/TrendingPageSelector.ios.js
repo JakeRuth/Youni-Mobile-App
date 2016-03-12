@@ -42,30 +42,24 @@ var styles = StyleSheet.create({
 
 var TrendingPageSelector = React.createClass({
 
-  weeklyFeed: 'Weekly',
-  allTimeFeed: 'All Time',
-
   propTypes: {
-    disabled: React.PropTypes.bool
-  },
-
-  getInitialState: function() {
-    return {
-      selectedFeed: this.weeklyFeed
-    };
+    selectedFeed: React.PropTypes.string.isRequired,
+    weeklyFeed: React.PropTypes.string.isRequired,
+    allTimeFeed: React.PropTypes.string.isRequired,
+    changeFeedSelector: React.PropTypes.func.isRequired
   },
 
   render: function() {
     return (
       <View style={styles.container}>
 
-        {this._renderFeedSelector(this.weeklyFeed)}
+        {this._renderFeedSelector(this.props.weeklyFeed)}
         <View style={styles.fireEmojiContainer}>
           <Emoji
             name="fire"
             size={23}/>
         </View>
-        {this._renderFeedSelector(this.allTimeFeed)}
+        {this._renderFeedSelector(this.props.allTimeFeed)}
 
       </View>
     );
@@ -75,7 +69,7 @@ var TrendingPageSelector = React.createClass({
     var textSelectedStyle = {},
         containerSelectedStyle = {};
 
-    if (feed == this.state.selectedFeed) {
+    if (feed == this.props.selectedFeed) {
       textSelectedStyle = styles.selectedSelector;
       containerSelectedStyle = styles.selectedFeedSelector;
     }
@@ -84,31 +78,13 @@ var TrendingPageSelector = React.createClass({
       <TouchableHighlight
         style={[styles.feedSelector, containerSelectedStyle]}
         underlayColor={'transparent'}
-        onPress={() => {this._changeFeedSelector(feed);}}>
+        onPress={() => {this.props.changeFeedSelector(feed);}}>
 
         <Text style={[styles.selector, textSelectedStyle]}>
           {feed}
         </Text>
       </TouchableHighlight>
     );
-  },
-
-  _changeFeedSelector: function(feed) {
-    if (feed !== this.state.selectedFeed) {
-      this.setState({
-        selectedFeed: feed
-      });
-      this._requestTrendingUsers(feed);
-    }
-  },
-
-  _requestTrendingUsers: function(feed) {
-    if (feed === this.weeklyFeed) {
-      Unicycle.exec('getTrendingUsers');
-    }
-    else if (feed === this.allTimeFeed) {
-      Unicycle.exec('getAllTimeTrendingUsers');
-    }
   }
 
 });

@@ -19,6 +19,10 @@ var trendingStore = Unicycle.createStore({
   $getTrendingUsers: function () {
     var that = this;
 
+    this.set({
+      isTrendingRequestInFlight: true
+    });
+
     AjaxUtils.ajax(
       '/trending/getTopUsers',
       {},
@@ -40,6 +44,10 @@ var trendingStore = Unicycle.createStore({
 
   $getAllTimeTrendingUsers: function () {
     var that = this;
+
+    this.set({
+      isTrendingRequestInFlight: true
+    });
 
     AjaxUtils.ajax(
       '/trending/getTopUsersAllTime',
