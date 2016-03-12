@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react-native');
+var ForgotPasswordPage = require('./SignUp/ForgotPasswordPage');
 var LandingPage = require('../LandingPage');
 var SignUpForm = require('./SignUp/SignUpForm');
 var Unicycle = require('../Unicycle');
@@ -23,7 +24,8 @@ var {
 
 var styles = StyleSheet.create({
     imageContainer: {
-        flex: 1
+        flex: 1,
+        backgroundColor: '#5C7CFF'
     },
     backgroundImage: {
         flex: 1,
@@ -46,8 +48,8 @@ var styles = StyleSheet.create({
         marginTop: -100,
         fontSize: 100,
         color: 'white',
-        fontWeight: '300',
-        fontFamily: 'GeezaPro',
+        fontWeight: '100',
+        fontFamily: 'Helvetica',
         marginBottom: 70
     },
     loginInput: {
@@ -73,6 +75,11 @@ var styles = StyleSheet.create({
         backgroundColor: 'transparent',
         fontWeight: 'bold'
     },
+    forgotPasswordLink: {
+        padding: 10,
+        color: 'white',
+        fontSize: 15
+    },
     spinnerContainer: {
         flex: 1,
         alignItems: 'center',
@@ -83,15 +90,15 @@ var styles = StyleSheet.create({
         backgroundColor: 'transparent',
         marginTop: 27 //used to make this spinner match up with the home page spinner
     },
-    signUpOptionDescText: {
+    noAccountMessageHeader: {
         fontSize: 20,
         color: 'white',
         marginTop: 50
     },
-    signUpOptionText: {
+    signUpLink: {
         fontSize: 30,
         fontWeight: 'bold',
-        color: '#237A72'
+        color: 'white'
     }
 });
 
@@ -142,38 +149,41 @@ var LoginPage = React.createClass({
 
     renderLoginForm: function() {
         return (
-            <Image source={{uri: 'https://images.unsplash.com/uploads/14121985124429dd8eeb5/60431f5b?dpr=2&fit=crop&fm=jpg&h=650&ixjsv=2.0.0&ixlib=rb-0.3.5&q=50&w=1300'}}
-                   style={styles.backgroundImage}>
+            <Image style={styles.backgroundImage}>
 
                 <View style={styles.contentContainer}>
-                    <Text style={styles.appName}>Youni</Text>
+                    <Text style={styles.appName}>youni</Text>
 
                     <TextInput style={styles.loginInput}
                                value={loginStore.getEmail()}
                                onChangeText={(text) => Unicycle.exec('updateEmail', text)}
                                placeholderTextColor='grey'
                                placeholder='email@college.edu'
-                               keyboardType='email-address'
-                        />
+                               keyboardType='email-address'/>
                     <TextInput style={styles.loginInput}
                                secureTextEntry={true}
                                value={loginStore.getPassword()}
                                clearTextOnFocus={true}
                                placeholderTextColor='grey'
                                placeholder='password'
-                               onChangeText={(text) => Unicycle.exec('updatePassword', text)}
-                        />
+                               onChangeText={(text) => Unicycle.exec('updatePassword', text)}/>
 
                     <TouchableHighlight style={styles.loginButton} underlayColor='transparent'>
                         <Text style={styles.loginText} onPress={this._onLoginRequest}>Login</Text>
                     </TouchableHighlight>
 
-                    <Text style={styles.signUpOptionDescText}>
+                    <Text
+                      style={styles.forgotPasswordLink}
+                      onPress={this._onForgotPasswordClick}>
+                      Forgot password?
+                    </Text>
+
+                    <Text style={styles.noAccountMessageHeader}>
                         Dont have Youni account?
                     </Text>
 
                     <TouchableHighlight>
-                        <Text style={styles.signUpOptionText} onPress={this._goToSignUpPage}>Sign Up</Text>
+                        <Text style={styles.signUpLink} onPress={this._goToSignUpPage}>Sign Up</Text>
                     </TouchableHighlight>
                 </View>
 
@@ -191,6 +201,12 @@ var LoginPage = React.createClass({
                     style={styles.spinner} />
             </View>
         );
+    },
+
+    _onForgotPasswordClick: function() {
+        this.props.navigator.push({
+            component: ForgotPasswordPage
+        });
     },
 
     _attemptToAutoLoginUser: function() {

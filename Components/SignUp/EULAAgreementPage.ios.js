@@ -1,10 +1,7 @@
 'use strict';
 
 var React = require('react-native');
-var Unicycle = require('../../Unicycle');
 var OverlayPage = require('../Common/OverlayPage');
-var LoginPage = require('../LoginPage');
-var LandingPage = require('../../LandingPage');
 
 var {
   Text,

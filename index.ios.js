@@ -1,9 +1,7 @@
 'use strict';
 
 var React = require('react-native');
-var Unicycle = require('./Unicycle');
 var LoginPage = require('./Components/LoginPage');
-var LandingPage = require('./LandingPage');
 
 var {
     StyleSheet,
