@@ -242,6 +242,12 @@ var profileOwnerStore = Unicycle.createStore({
       }
     },
 
+    resetPostPageOffset: function() {
+        this.set({
+            feedPageOffset: INITIAL_PAGE_OFFSET
+        });
+    },
+
     setBio: function(bio) {
         this.set({
             bio: bio

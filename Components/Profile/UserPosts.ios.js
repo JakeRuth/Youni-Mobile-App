@@ -16,7 +16,6 @@ var styles = StyleSheet.create({
     backgroundColor: '#F2F2F2'
   },
   spinnerContainer: {
-    alignSelf: 'center',
     backgroundColor: 'white'
   },
   noPostsMessageContainer: {
@@ -52,22 +51,23 @@ var UserPosts = React.createClass({
   },
 
   render: function() {
-    var content, style;
+    var content, style, spinner;
     var PostList = this.getPostList();
 
     if (this.props.loading) {
       style = styles.spinnerContainer;
-      content = (
+      spinner = (
         <View style={styles.spinnerContainer}>
           <Spinner/>
         </View>
       );
     }
-    else if (this.props.posts.size) {
+
+    if (this.props.posts.size) {
       style = styles.postsContainer;
       content = (
         <PostList
-          refreshable={this.props.viewerIsProfileOwner}
+          refreshable={false}
           isFeedRefreshing={this.props.profileStore.isFeedRefreshing()}
           postStore={this.props.profileStore}
           posts={this.props.posts}
@@ -83,12 +83,13 @@ var UserPosts = React.createClass({
           submitCommentAction={this.props.submitCommentAction}/>
       );
     }
-    else {
+    else if (!this.props.loading) {
       content = this._renderNoPostsMessage();
     }
 
     return (
       <View style={style}>
+        {spinner}
         {content}
       </View>
     );

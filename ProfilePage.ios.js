@@ -10,7 +10,7 @@ var UserPosts = require('./Components/Profile/UserPosts');
 var LogoutButton = require('./Components/Common/LogoutButton');
 var ErrorPage = require('./Components/Common/ErrorPage');
 var EditSettingsButton = require('./Components/Profile/Settings/EditSettingsButton');
-var Spinner = require('./Components/Common/Spinner');
+var ScrollViewRefresh = require('./Components/Common/ScrollViewRefresh');
 
 var {
   View,
@@ -48,14 +48,18 @@ var ProfilePage = React.createClass({
     if (anyErrorsLoadingPage) {
       content = <ErrorPage reloadButtonAction={this._onErrorPageReload}/>;
     }
-    else if (isRequestInFlight) {
-      content = (
-        <Spinner/>
-      );
-    }
     else {
       content = (
-        <ScrollView>
+        <ScrollView
+          refreshControl={
+            <ScrollViewRefresh
+              onRefresh={()=>{
+                Unicycle.exec('loadOwnerUsersProfile', this.props.email);
+                profileOwnerStore.resetPostPageOffset();
+                this._requestProfilePosts();
+              }}
+              isRefreshing={false}/>
+          }>
 
           <ProfilePageBody
             navigator={this.props.navigator}
