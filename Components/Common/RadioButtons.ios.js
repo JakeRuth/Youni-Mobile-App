@@ -18,7 +18,7 @@ var styles = StyleSheet.create({
   },
   buttonLabel: {
     fontSize: 18,
-    color: 'grey'
+    color: 'white'
   },
   selectedButtonLabel: {
     color: 'white'
@@ -30,10 +30,9 @@ var styles = StyleSheet.create({
     borderRadius: 7.5,
     backgroundColor: 'transparent',
     borderWidth: 2,
-    borderColor: 'grey'
+    borderColor: 'white'
   },
   selectedButton: {
-    borderColor: 'white',
     backgroundColor: 'white'
   }
 });

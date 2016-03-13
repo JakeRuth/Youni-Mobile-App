@@ -2,7 +2,6 @@
 
 var React = require('react-native');
 var loginStore = require('../../stores/LoginStore');
-var signUpStore = require('../../stores/signUp/SignupStore');
 var Unicycle = require('../../Unicycle');
 var RadioButtons = require('../Common/RadioButtons');
 var Spinner = require('../Common/Spinner');
@@ -26,42 +25,40 @@ var styles = StyleSheet.create({
     marginTop: 150
   },
   signUpInput: {
-    backgroundColor: 'rgba(0,0,0,0.6)',
+    backgroundColor: 'rgba(255, 255, 255, 0.3)',
     height: 30,
     width: 250,
     color: 'white',
     borderRadius: 5,
     textAlign: 'center',
+    fontWeight: '100',
     marginBottom: 8
   },
-  signUpText: {
-    textAlign: 'center',
-    fontSize: 20,
-    borderRadius: 5,
-    backgroundColor: 'transparent',
-    fontWeight: 'bold'
-  },
   maleFemaleInputContainer: {
-    backgroundColor: 'rgba(0,0,0,0.6)',
+    backgroundColor: 'rgba(255, 255, 255, 0.3)',
     width: 250,
     padding: 5,
     borderRadius: 5
   },
   signUpButton: {
     flex: 1,
-    width: 100,
-    borderRadius: 5,
-    backgroundColor: 'lightblue',
-    marginTop: 40
+    width: 250,
+    height: 40,
+    marginTop: 25,
+    borderRadius: 3,
+    borderColor: 'white',
+    borderWidth: 1
   },
-  loginPageLink: {
-    marginTop: 50
-  },
-  loginPageLinkText: {
+  signUpText: {
+    flex: 1,
     alignSelf: 'center',
+    width: 250,
+    paddingTop: 5,
+    backgroundColor: 'transparent',
     color: 'white',
-    fontWeight: 'bold',
-    fontSize: 20
+    textAlign: 'center',
+    fontSize: 23,
+    fontWeight: '300'
   },
   hackyIosKeyPadBump: {
     marginTop: 350
@@ -82,10 +79,6 @@ var SignUpForm = React.createClass({
   propType: {
     navigator: React.PropTypes.object.isRequired
   },
-
-  mixins: [
-    Unicycle.listenTo(signUpStore)
-  ],
 
   getInitialState: function() {
     return {
@@ -127,19 +120,19 @@ var SignUpForm = React.createClass({
 
         <TextInput style={styles.signUpInput}
           value={this.state.firstName}
-          placeholderTextColor={'grey'}
+          placeholderTextColor={'white'}
           placeholder={'First Name'}
           onChangeText={(text) => this.setState({firstName: text})}/>
 
         <TextInput style={styles.signUpInput}
           value={this.state.lastName}
-          placeholderTextColor={'grey'}
+          placeholderTextColor={'white'}
           placeholder={'Last Name'}
           onChangeText={(text) => this.setState({lastName: text})}/>
 
         <TextInput style={styles.signUpInput}
           value={this.state.email}
-          placeholderTextColor={'grey'}
+          placeholderTextColor={'white'}
           placeholder={'email@college.edu'}
           onChangeText={(text) => this.setState({email: text})}/>
 
@@ -147,7 +140,7 @@ var SignUpForm = React.createClass({
           secureTextEntry={true}
           value={this.state.password}
           clearTextOnFocus={true}
-          placeholderTextColor={'grey'}
+          placeholderTextColor={'white'}
           placeholder={'Password'}
           onChangeText={(text) => this.setState({password: text})}/>
 
@@ -155,7 +148,7 @@ var SignUpForm = React.createClass({
           secureTextEntry={true}
           value={this.state.confirmPassword}
           clearTextOnFocus={true}
-          placeholderTextColor={'grey'}
+          placeholderTextColor={'white'}
           placeholder={'Confirm Password'}
           onChangeText={(text) => this.setState({confirmPassword: text})}/>
 
@@ -169,19 +162,13 @@ var SignUpForm = React.createClass({
           style={styles.signUpButton}
           underlayColor='transparent'
           onPress={this.onSignUpButtonPress}>
-          <Text style={styles.signUpText}>Sign Up</Text>
-        </TouchableHighlight>
-
-        <TouchableHighlight style={styles.loginPageLink} onPress={this._goToLoginPage}>
-          <View>
-            <Text style={styles.loginPageLinkText}>Already have an account?</Text>
-            <Text style={styles.loginPageLinkText}>Sign In</Text>
-          </View>
+          <Text style={styles.signUpText}>Create Account</Text>
         </TouchableHighlight>
 
         <Text
           style={styles.eulaLink}
           onPress={() => {
+            Unicycle.exec('setShouldRenderLoginPage', false);
             this.props.navigator.push({
               component: EULAAgreementPage
             });

@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react-native');
+var Unicycle = require('../../Unicycle');
 var OverlayPage = require('../Common/OverlayPage');
 
 var {
@@ -34,7 +35,10 @@ var EULAAgreementPage = React.createClass({
     return (
       <OverlayPage
         content={this.renderContent()}
-        onBackArrowPress={() => {this.props.navigator.pop();}}
+        onBackArrowPress={() => {
+          this.props.navigator.pop();
+          Unicycle.exec('setShouldRenderLoginPage', true);
+        }}
         bannerTitle='EULA'/>
     );
   },
