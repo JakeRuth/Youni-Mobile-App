@@ -15,6 +15,7 @@ var {
   StyleSheet,
   AlertIOS,
   ScrollView,
+  DeviceEventEmitter,
   TouchableHighlight
 } = React;
 
@@ -22,7 +23,7 @@ var styles = StyleSheet.create({
   signUpFormContainer: {
     backgroundColor: 'transparent',
     alignItems: 'center',
-    marginTop: 150
+    marginTop: 60
   },
   signUpInput: {
     backgroundColor: 'rgba(255, 255, 255, 0.3)',
@@ -59,9 +60,6 @@ var styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 23,
     fontWeight: '300'
-  },
-  hackyIosKeyPadBump: {
-    marginTop: 350
   },
   eulaLink: {
     color: 'white',
@@ -109,7 +107,6 @@ var SignUpForm = React.createClass({
     return (
       <ScrollView>
         {content}
-        <View style={styles.hackyIosKeyPadBump}/>
       </ScrollView>
     );
   },
