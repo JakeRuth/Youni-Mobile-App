@@ -190,6 +190,9 @@ var SignUpForm = React.createClass({
     else if (!this._doPasswordsMatch()) {
       this._alertPasswordMismatch();
     }
+    else if (this.state.password.length < this.MIN_PASSWORD_LENGTH) {
+      this._alertPasswordNotLongEnough();
+    }
     else {
       this._alertForTheEULABecauseFUCK_APPLE_INC();
     }
@@ -290,8 +293,20 @@ var SignUpForm = React.createClass({
 
   _alertPasswordMismatch: function() {
     AlertIOS.alert(
-      'Ooops',
-      'Passwords must be the same!',
+      'Oops',
+      'Passwords must match',
+      [
+        {
+          text: 'Ok'
+        }
+      ]
+    );
+  },
+
+  _alertPasswordNotLongEnough: function() {
+    AlertIOS.alert(
+      'Password too short',
+      'It must be at least 6 characters long',
       [
         {
           text: 'Ok'
@@ -302,8 +317,8 @@ var SignUpForm = React.createClass({
 
   _alertEmailIsUnexpected: function() {
     AlertIOS.alert(
-      'Unexpected email format.',
-      'Must end with .edu',
+      'Unexpected email format',
+      'Emails must end with .edu',
       [
         {
           text: 'Ok'
@@ -314,7 +329,7 @@ var SignUpForm = React.createClass({
 
   _alertOnSuccessfulSignUp: function(message) {
     AlertIOS.alert(
-      'Confirmation email sent.',
+      'Confirmation email sent',
       message,
       [
         {
@@ -326,7 +341,7 @@ var SignUpForm = React.createClass({
 
   _alertEmailAlreadyInUse: function(message) {
     AlertIOS.alert(
-      'Email already in use.',
+      'Email already in use',
       message,
       [
         {
@@ -350,8 +365,8 @@ var SignUpForm = React.createClass({
 
   _alertSignUpError: function() {
     AlertIOS.alert(
-      'Oops! An unexpected error occurred.',
-      'Please contact support@youniapp.com with your sign up information and we can help you.',
+      'Oops! An unexpected error occurred',
+      'Please contact support@youniapp.com with your sign up information and we can help you',
       [
         {
           text: 'Ok'
@@ -366,17 +381,19 @@ var SignUpForm = React.createClass({
       'To view, click the link at the bottom of the page',
       [
         {
-          text: 'I disagree'
-        },
-        {
-          text: 'I agree',
+          text: 'Agree',
           onPress: () => {
             this._onSignUpPress();
           }
+        },
+        {
+          text: 'Disagree'
         }
       ]
     );
-  }
+  },
+
+  MIN_PASSWORD_LENGTH: 6
 
 });
 

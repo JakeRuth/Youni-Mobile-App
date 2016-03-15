@@ -40,16 +40,15 @@ var styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center'
   },
-  appName: {
+  appNameContainer: {
     position: 'absolute',
-    top: 50,
     width: Dimensions.get('window').width,
-    textAlign: 'center',
-    backgroundColor: 'transparent',
-    fontSize: 100,
-    color: 'white',
-    fontWeight: '100',
-    fontFamily: 'Helvetica'
+    top: 30
+  },
+  appName: {
+    alignSelf: 'center',
+    width: 288, //these dimensions were carefully picked to match the ratio of logo
+    height: 120
   },
   loginInput: {
     backgroundColor: 'rgba(255, 255, 255, 0.3)',
@@ -127,7 +126,13 @@ var LoginPage = React.createClass({
         appNameHeader;
 
     if (!this.state.isInSignUpView) {
-      appNameHeader = <Text style={styles.appName}>youni</Text>;
+      appNameHeader = (
+        <View style={styles.appNameContainer}>
+          <Image
+            style={styles.appName}
+            source={require('../images/logoWhiteTextBlankBackground.png')}/>
+        </View>
+      );
     }
 
     if (isLoginInFlight || !shouldRenderLoginPage) {
