@@ -35,7 +35,8 @@ var ProfileImage = React.createClass({
 
   propTypes: {
     viewerIsProfileOwner: React.PropTypes.bool.isRequired,
-    profileImageUrl: React.PropTypes.string
+    profileImageUrl: React.PropTypes.string,
+    isProfileInfoLoading: React.PropTypes.bool.isRequired
   },
 
   mixins: [
@@ -45,7 +46,7 @@ var ProfileImage = React.createClass({
   render: function() {
     var content;
 
-    if (uploadProfileImageStore.isUploadProfileImageRequestInFlight()) {
+    if (this.props.isProfileInfoLoading || uploadProfileImageStore.isUploadProfileImageRequestInFlight()) {
       content = (
           <Spinner/>
       );

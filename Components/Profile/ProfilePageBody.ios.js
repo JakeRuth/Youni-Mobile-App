@@ -7,7 +7,6 @@ var BlockUserButton = require('./BlockUserButton');
 var ProfileImage = require('./ProfileImage');
 var TotalProfileCountsContainer = require('./TotalProfileCountsContainer');
 var UserFollowingListPopup = require('../PopupPages/UserFollowingListPopup');
-var profileOwnerStore = require('../../stores/profile/ProfileOwnerStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 
@@ -64,7 +63,8 @@ var ProfilePageBody = React.createClass({
   propTypes: {
     navigator: React.PropTypes.object.isRequired,
     user: React.PropTypes.object.isRequired,
-    viewerIsProfileOwner: React.PropTypes.bool.isRequired
+    viewerIsProfileOwner: React.PropTypes.bool.isRequired,
+    isLoading: React.PropTypes.bool
   },
 
   render: function() {
@@ -83,7 +83,8 @@ var ProfilePageBody = React.createClass({
           <View style={styles.profileHeader}>
             <ProfileImage
               viewerIsProfileOwner={this.props.viewerIsProfileOwner}
-              profileImageUrl={this.props.user.profileImageUrl}/>
+              profileImageUrl={this.props.user.profileImageUrl}
+              isProfileInfoLoading={this.props.isLoading}/>
             <FollowButton
               viewerIsProfileOwner={this.props.viewerIsProfileOwner}
               onButtonPress={this._onFollowButtonPress}
