@@ -146,7 +146,7 @@ var LoginPage = React.createClass({
       return (
         <Image
           style={styles.backgroundImage}
-          source={{uri:'https://s3-us-west-2.amazonaws.com/misc-youni-files/loginBackgroundLoop.gif'}}
+          source={require('../images/loginBackgroundLoop.gif')}
           resizeMode='cover'
           onLoadStart={() => { this.setState({ isBackgroundImageLoading: true }) }}
           onLoadEnd={() => { this.setState({ isBackgroundImageLoading: false }) }}>
