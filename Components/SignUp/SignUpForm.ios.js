@@ -85,7 +85,7 @@ var SignUpForm = React.createClass({
       email: '',
       password: '',
       confirmPassword: '',
-      sex: ''
+      sex: null
     }
   },
 
@@ -250,17 +250,17 @@ var SignUpForm = React.createClass({
         lastName = this.state.lastName,
         email = this.state.email,
         password = this.state.password,
-        confirmPassword = this.state.confirmPassword;
-        //sex = this.state.sex; Cannot ask for this yet because Apple won't let us.  That's not a joke.
+        confirmPassword = this.state.confirmPassword,
+        sex = this.state.sex;
 
     return (
       firstName.length === 0 ||
       lastName.length === 0 ||
       email.length === 0 ||
       password.length === 0 ||
-      confirmPassword.length === 0 //||
-      //sex === null
-    )
+      confirmPassword.length === 0 ||
+      sex === null
+    );
   },
 
   _emailMustEndInEdu: function() {
@@ -277,7 +277,7 @@ var SignUpForm = React.createClass({
 
   _alertMissingField: function() {
     AlertIOS.alert(
-      'All fields must be filled, except gender.',
+      'All fields must be filled',
       '',
       [
         {
