@@ -36,11 +36,11 @@ var DeletePostIcon = React.createClass({
 
   _onDeleteIconPress: function() {
     ActionSheetIOS.showActionSheetWithOptions({
+      title: 'Are you sure you want to delete this photo?',
       options: [
-        'Delete Post',
-        'Cancel'
+        'Yes',
+        'No'
       ],
-      cancelButtonIndex: 1,
       tintColor: '#5C7CFF'
     },
     (buttonIndex) => {
