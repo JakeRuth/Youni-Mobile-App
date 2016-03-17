@@ -271,8 +271,8 @@ var LoginPage = React.createClass({
 
   _onLoginRequest: function () {
     var that = this,
-      email = loginStore.getEmail(),
-      password = loginStore.getPassword();
+        email = loginStore.getEmail(),
+        password = loginStore.getPassword();
 
     this._savePassword(loginStore.getPassword());
 
@@ -298,7 +298,8 @@ var LoginPage = React.createClass({
             accessToken = res.body.accessToken,
             email = res.body.username,
             firstName = res.body.firstName,
-            lastName = res.body.lastName;
+            lastName = res.body.lastName,
+            networkName = res.body.networkName;
 
         Unicycle.exec(
           'setAllMetadata',
@@ -307,7 +308,8 @@ var LoginPage = React.createClass({
           userId,
           email,
           firstName,
-          lastName
+          lastName,
+          networkName
         );
         that._saveUserId(userId);
         that._saveEmail(email);
