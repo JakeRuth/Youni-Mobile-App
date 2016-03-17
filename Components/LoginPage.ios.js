@@ -210,8 +210,11 @@ var LoginPage = React.createClass({
           placeholder='password'
           onChangeText={(text) => Unicycle.exec('updatePassword', text)}/>
 
-        <TouchableHighlight style={styles.loginButton} underlayColor='transparent'>
-          <Text style={styles.loginText} onPress={this._onLoginRequest}>
+        <TouchableHighlight
+          style={styles.loginButton}
+          underlayColor='transparent'
+          onPress={this._onLoginRequest}>
+          <Text style={styles.loginText}>
             Sign In
           </Text>
         </TouchableHighlight>
