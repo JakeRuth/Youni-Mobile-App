@@ -12,7 +12,9 @@ var CacheUtils = require('../Utils/Common/CacheUtils');
 var {
   View,
   Text,
+  Image,
   StyleSheet,
+  Dimensions,
   AppRegistry,
   ActivityIndicatorIOS
 } = React;
@@ -44,6 +46,16 @@ var styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  logoContainer: {
+    position: 'absolute',
+    top: 12,
+    width: Dimensions.get('window').width
+  },
+  logo: {
+    alignSelf: 'center',
+    height: 42,
+    width: 108
   }
 });
 
@@ -83,9 +95,16 @@ var HomePage = React.createClass({
 
     return (
       <View style={styles.homePageContainer}>
-        <MainScreenBanner title='Youni'/>
+
+        <MainScreenBanner/>
         <View style={styles.feedContainer}>
           { content }
+        </View>
+
+        <View style={styles.logoContainer}>
+          <Image
+            style={styles.logo}
+            source={require('../images/logoWhiteTextBlankBackground.png')}/>
         </View>
       </View>
     );

@@ -2,7 +2,6 @@
 
 var React = require('react-native');
 var loginStore = require('../../stores/LoginStore');
-var signUpStore = require('../../stores/signUp/SignupStore');
 var Unicycle = require('../../Unicycle');
 var RadioButtons = require('../Common/RadioButtons');
 var Spinner = require('../Common/Spinner');
@@ -23,48 +22,43 @@ var styles = StyleSheet.create({
   signUpFormContainer: {
     backgroundColor: 'transparent',
     alignItems: 'center',
-    marginTop: 150
+    marginTop: 60
   },
   signUpInput: {
-    backgroundColor: 'rgba(0,0,0,0.6)',
+    backgroundColor: 'rgba(255, 255, 255, 0.3)',
     height: 30,
     width: 250,
     color: 'white',
     borderRadius: 5,
     textAlign: 'center',
+    fontWeight: '100',
     marginBottom: 8
   },
-  signUpText: {
-    textAlign: 'center',
-    fontSize: 20,
-    borderRadius: 5,
-    backgroundColor: 'transparent',
-    fontWeight: 'bold'
-  },
   maleFemaleInputContainer: {
-    backgroundColor: 'rgba(0,0,0,0.6)',
+    backgroundColor: 'rgba(255, 255, 255, 0.3)',
     width: 250,
     padding: 5,
     borderRadius: 5
   },
   signUpButton: {
     flex: 1,
-    width: 100,
-    borderRadius: 5,
-    backgroundColor: 'lightblue',
-    marginTop: 40
+    width: 250,
+    height: 40,
+    marginTop: 25,
+    borderRadius: 3,
+    borderColor: 'white',
+    borderWidth: 1
   },
-  loginPageLink: {
-    marginTop: 50
-  },
-  loginPageLinkText: {
+  signUpText: {
+    flex: 1,
     alignSelf: 'center',
+    width: 250,
+    paddingTop: 5,
+    backgroundColor: 'transparent',
     color: 'white',
-    fontWeight: 'bold',
-    fontSize: 20
-  },
-  hackyIosKeyPadBump: {
-    marginTop: 350
+    textAlign: 'center',
+    fontSize: 23,
+    fontWeight: '300'
   },
   eulaLink: {
     color: 'white',
@@ -83,10 +77,6 @@ var SignUpForm = React.createClass({
     navigator: React.PropTypes.object.isRequired
   },
 
-  mixins: [
-    Unicycle.listenTo(signUpStore)
-  ],
-
   getInitialState: function() {
     return {
       requestInFlight: false,
@@ -95,7 +85,7 @@ var SignUpForm = React.createClass({
       email: '',
       password: '',
       confirmPassword: '',
-      sex: ''
+      sex: null
     }
   },
 
@@ -116,7 +106,6 @@ var SignUpForm = React.createClass({
     return (
       <ScrollView>
         {content}
-        <View style={styles.hackyIosKeyPadBump}/>
       </ScrollView>
     );
   },
@@ -127,19 +116,19 @@ var SignUpForm = React.createClass({
 
         <TextInput style={styles.signUpInput}
           value={this.state.firstName}
-          placeholderTextColor={'grey'}
+          placeholderTextColor={'white'}
           placeholder={'First Name'}
           onChangeText={(text) => this.setState({firstName: text})}/>
 
         <TextInput style={styles.signUpInput}
           value={this.state.lastName}
-          placeholderTextColor={'grey'}
+          placeholderTextColor={'white'}
           placeholder={'Last Name'}
           onChangeText={(text) => this.setState({lastName: text})}/>
 
         <TextInput style={styles.signUpInput}
           value={this.state.email}
-          placeholderTextColor={'grey'}
+          placeholderTextColor={'white'}
           placeholder={'email@college.edu'}
           onChangeText={(text) => this.setState({email: text})}/>
 
@@ -147,7 +136,7 @@ var SignUpForm = React.createClass({
           secureTextEntry={true}
           value={this.state.password}
           clearTextOnFocus={true}
-          placeholderTextColor={'grey'}
+          placeholderTextColor={'white'}
           placeholder={'Password'}
           onChangeText={(text) => this.setState({password: text})}/>
 
@@ -155,7 +144,7 @@ var SignUpForm = React.createClass({
           secureTextEntry={true}
           value={this.state.confirmPassword}
           clearTextOnFocus={true}
-          placeholderTextColor={'grey'}
+          placeholderTextColor={'white'}
           placeholder={'Confirm Password'}
           onChangeText={(text) => this.setState({confirmPassword: text})}/>
 
@@ -169,19 +158,13 @@ var SignUpForm = React.createClass({
           style={styles.signUpButton}
           underlayColor='transparent'
           onPress={this.onSignUpButtonPress}>
-          <Text style={styles.signUpText}>Sign Up</Text>
-        </TouchableHighlight>
-
-        <TouchableHighlight style={styles.loginPageLink} onPress={this._goToLoginPage}>
-          <View>
-            <Text style={styles.loginPageLinkText}>Already have an account?</Text>
-            <Text style={styles.loginPageLinkText}>Sign In</Text>
-          </View>
+          <Text style={styles.signUpText}>Create Account</Text>
         </TouchableHighlight>
 
         <Text
           style={styles.eulaLink}
           onPress={() => {
+            Unicycle.exec('setShouldRenderLoginPage', false);
             this.props.navigator.push({
               component: EULAAgreementPage
             });
@@ -202,6 +185,9 @@ var SignUpForm = React.createClass({
     }
     else if (!this._doPasswordsMatch()) {
       this._alertPasswordMismatch();
+    }
+    else if (this.state.password.length < this.MIN_PASSWORD_LENGTH) {
+      this._alertPasswordNotLongEnough();
     }
     else {
       this._alertForTheEULABecauseFUCK_APPLE_INC();
@@ -264,17 +250,17 @@ var SignUpForm = React.createClass({
         lastName = this.state.lastName,
         email = this.state.email,
         password = this.state.password,
-        confirmPassword = this.state.confirmPassword;
-        //sex = this.state.sex; Cannot ask for this yet because Apple won't let us.  That's not a joke.
+        confirmPassword = this.state.confirmPassword,
+        sex = this.state.sex;
 
     return (
       firstName.length === 0 ||
       lastName.length === 0 ||
       email.length === 0 ||
       password.length === 0 ||
-      confirmPassword.length === 0 //||
-      //sex === null
-    )
+      confirmPassword.length === 0 ||
+      sex === null
+    );
   },
 
   _emailMustEndInEdu: function() {
@@ -291,7 +277,7 @@ var SignUpForm = React.createClass({
 
   _alertMissingField: function() {
     AlertIOS.alert(
-      'All fields must be filled, except gender.',
+      'All fields must be filled',
       '',
       [
         {
@@ -303,8 +289,20 @@ var SignUpForm = React.createClass({
 
   _alertPasswordMismatch: function() {
     AlertIOS.alert(
-      'Ooops',
-      'Passwords must be the same!',
+      'Oops',
+      'Passwords must match',
+      [
+        {
+          text: 'Ok'
+        }
+      ]
+    );
+  },
+
+  _alertPasswordNotLongEnough: function() {
+    AlertIOS.alert(
+      'Password too short',
+      'It must be at least 6 characters long',
       [
         {
           text: 'Ok'
@@ -315,8 +313,8 @@ var SignUpForm = React.createClass({
 
   _alertEmailIsUnexpected: function() {
     AlertIOS.alert(
-      'Unexpected email format.',
-      'Must end with .edu',
+      'Unexpected email format',
+      'Emails must end with .edu',
       [
         {
           text: 'Ok'
@@ -327,7 +325,7 @@ var SignUpForm = React.createClass({
 
   _alertOnSuccessfulSignUp: function(message) {
     AlertIOS.alert(
-      'Confirmation email sent.',
+      'Confirmation email sent',
       message,
       [
         {
@@ -339,7 +337,7 @@ var SignUpForm = React.createClass({
 
   _alertEmailAlreadyInUse: function(message) {
     AlertIOS.alert(
-      'Email already in use.',
+      'Email already in use',
       message,
       [
         {
@@ -363,8 +361,8 @@ var SignUpForm = React.createClass({
 
   _alertSignUpError: function() {
     AlertIOS.alert(
-      'Oops! An unexpected error occurred.',
-      'Please contact support@youniapp.com with your sign up information and we can help you.',
+      'Oops! An unexpected error occurred',
+      'Please contact support@youniapp.com with your sign up information and we can help you',
       [
         {
           text: 'Ok'
@@ -379,17 +377,19 @@ var SignUpForm = React.createClass({
       'To view, click the link at the bottom of the page',
       [
         {
-          text: 'I disagree'
-        },
-        {
-          text: 'I agree',
+          text: 'Agree',
           onPress: () => {
             this._onSignUpPress();
           }
+        },
+        {
+          text: 'Disagree'
         }
       ]
     );
-  }
+  },
+
+  MIN_PASSWORD_LENGTH: 6
 
 });
 

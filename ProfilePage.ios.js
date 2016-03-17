@@ -57,7 +57,8 @@ var ProfilePage = React.createClass({
           <ProfilePageBody
             navigator={this.props.navigator}
             viewerIsProfileOwner={true}
-            user={profileOwnerStore.getUserJson()}/>
+            user={profileOwnerStore.getUserJson()}
+            isLoading={profileOwnerStore.isRequestInFlight()}/>
 
           <UserPosts
             posts={profileOwnerStore.getPosts()}

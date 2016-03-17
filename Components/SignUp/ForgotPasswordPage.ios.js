@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react-native');
+var Unicycle = require('../../Unicycle');
 var OverlayPage = require('../Common/OverlayPage');
 var Spinner = require('../Common/Spinner');
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
@@ -70,7 +71,10 @@ var ForgotPasswordPage = React.createClass({
     return (
       <OverlayPage
         content={content}
-        onBackArrowPress={() => {this.props.navigator.pop();}}
+        onBackArrowPress={() => {
+          this.props.navigator.pop();
+          Unicycle.exec('setShouldRenderLoginPage', true);
+        }}
         bannerTitle='Forgot Password'/>
     );
   },

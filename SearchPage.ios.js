@@ -104,10 +104,12 @@ var SearchPage = React.createClass({
   },
 
   _renderSearchBar: function() {
+    var networkName = userLoginMetadataStore.getNetworkName();
+
     return (
       <View style={styles.searchBarInputContainer}>
         <TextInput style={styles.searchBarInput}
-          placeholder='Search for students'
+          placeholder={'Search for students at ' + networkName}
           blurOnSubmit={true}
           onChangeText={(search) => {
             var email = userLoginMetadataStore.getEmail();

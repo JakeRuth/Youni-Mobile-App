@@ -50,6 +50,7 @@ var LogoutButton = React.createClass({
     Unicycle.exec('refreshExploreFeedData');
     Unicycle.exec('reInitProfilePageState');
     Unicycle.exec('updatePassword', '');
+    Unicycle.exec('setShouldRenderLoginPage', true);
     this.props.navigator.popToTop();
   }
 

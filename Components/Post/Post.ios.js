@@ -58,7 +58,9 @@ var Post = React.createClass({
           renderedFromProfileView={this.props.renderedFromProfileView}
           navigator={this.props.navigator}/>
 
-        <TouchableHighlight onPress={ this._photoOnClickAction(this.props.post.liked) }>
+        <TouchableHighlight
+          onPress={ this._photoOnClickAction(this.props.post.liked) }
+          underlayColor="transparent">
           <Image
             style={[styles.postImage, {height: this._getImageHeight()}]}
             source={{uri: this.props.post.photoUrl}}/>
