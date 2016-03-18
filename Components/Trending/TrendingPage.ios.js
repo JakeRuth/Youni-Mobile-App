@@ -15,7 +15,7 @@ var {
 } = React;
 
 var styles = StyleSheet.create({
-  trendingPageContainer: {
+  container: {
     flex: 1,
     marginBottom: 50
   }
@@ -54,7 +54,7 @@ var TrendingPage = React.createClass({
     }
 
     return (
-      <View style={styles.trendingPageContainer}>
+      <View style={styles.container}>
 
         <MainScreenBanner title='Trending'/>
         <TrendingPageSelector
@@ -67,7 +67,7 @@ var TrendingPage = React.createClass({
         {content}
 
         <TrendingUsersList
-          isPageRefreshing={trendingStore.isRequestInFlight()}
+          isPageLoading={trendingStore.isRequestInFlight()}
           onPageRefresh={() => { this._requestTrendingUsers(this.state.selectedFeed) }}
           navigator={this.props.navigator}/>
 
