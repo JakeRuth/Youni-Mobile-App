@@ -63,7 +63,7 @@ var TrendingUsersList = React.createClass({
     // on initial page load there trending users json will be empty so this won't be hit and a spinner will be on the
     // page.  But here we want to just dim the results when another request is in flight, after initial page load.
     if (this.props.isPageLoading) {
-      trendingUserStyles.push({opacity:.5});
+      trendingUserStyles.push({ opacity: .5 });
     }
 
     return (
