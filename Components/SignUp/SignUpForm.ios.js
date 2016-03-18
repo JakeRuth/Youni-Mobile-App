@@ -28,14 +28,14 @@ var styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 0.3)',
     height: 30,
     width: 250,
-    color: 'white',
     borderRadius: 5,
     textAlign: 'center',
     fontWeight: '100',
-    marginBottom: 8
+    marginBottom: 8,
+    alignSelf: 'center'
   },
   maleFemaleInputContainer: {
-    backgroundColor: 'rgba(255, 255, 255, 0.3)',
+    backgroundColor: 'rgba(255, 255, 255, 0.5)',
     width: 250,
     padding: 5,
     borderRadius: 5
@@ -60,11 +60,15 @@ var styles = StyleSheet.create({
     fontSize: 23,
     fontWeight: '300'
   },
-  eulaLink: {
+  eulaAlert: {
     color: 'white',
     fontSize: 15,
     marginTop: 20,
-    alignSelf: 'flex-start'
+    alignSelf: 'center'
+  },
+  eulaLink: {
+    fontWeight: '500',
+    marginTop: 0
   },
   spinnerContainer: {
     paddingTop: 200
@@ -114,25 +118,29 @@ var SignUpForm = React.createClass({
     return (
       <View style={styles.signUpFormContainer}>
 
-        <TextInput style={styles.signUpInput}
+        <TextInput
+          style={styles.signUpInput}
           value={this.state.firstName}
           placeholderTextColor={'white'}
           placeholder={'First Name'}
           onChangeText={(text) => this.setState({firstName: text})}/>
 
-        <TextInput style={styles.signUpInput}
+        <TextInput
+          style={styles.signUpInput}
           value={this.state.lastName}
           placeholderTextColor={'white'}
           placeholder={'Last Name'}
           onChangeText={(text) => this.setState({lastName: text})}/>
 
-        <TextInput style={styles.signUpInput}
+        <TextInput
+          style={styles.signUpInput}
           value={this.state.email}
           placeholderTextColor={'white'}
           placeholder={'email@college.edu'}
           onChangeText={(text) => this.setState({email: text})}/>
 
-        <TextInput style={styles.signUpInput}
+        <TextInput
+          style={styles.signUpInput}
           secureTextEntry={true}
           value={this.state.password}
           clearTextOnFocus={true}
@@ -140,7 +148,8 @@ var SignUpForm = React.createClass({
           placeholder={'Password'}
           onChangeText={(text) => this.setState({password: text})}/>
 
-        <TextInput style={styles.signUpInput}
+        <TextInput
+          style={styles.signUpInput}
           secureTextEntry={true}
           value={this.state.confirmPassword}
           clearTextOnFocus={true}
@@ -161,15 +170,18 @@ var SignUpForm = React.createClass({
           <Text style={styles.signUpText}>Create Account</Text>
         </TouchableHighlight>
 
+        <Text style={styles.eulaAlert}>
+          By signing up, you agree to our
+        </Text>
         <Text
-          style={styles.eulaLink}
+          style={[styles.eulaAlert, styles.eulaLink]}
           onPress={() => {
             Unicycle.exec('setShouldRenderLoginPage', false);
             this.props.navigator.push({
               component: EULAAgreementPage
             });
           }}>
-          View the EULA Agreement
+          Terms & Privacy Policy.
         </Text>
 
       </View>
@@ -190,11 +202,11 @@ var SignUpForm = React.createClass({
       this._alertPasswordNotLongEnough();
     }
     else {
-      this._alertForTheEULABecauseFUCK_APPLE_INC();
+      this._createUser();
     }
   },
 
-  _onSignUpPress: function() {
+  _createUser: function() {
     var that = this,
         isFemale = null;
 
@@ -366,24 +378,6 @@ var SignUpForm = React.createClass({
       [
         {
           text: 'Ok'
-        }
-      ]
-    );
-  },
-
-  _alertForTheEULABecauseFUCK_APPLE_INC: function() {
-    AlertIOS.alert(
-      'By signing up, you agree to our Youni Terms',
-      'To view, click the link at the bottom of the page',
-      [
-        {
-          text: 'Agree',
-          onPress: () => {
-            this._onSignUpPress();
-          }
-        },
-        {
-          text: 'Disagree'
         }
       ]
     );

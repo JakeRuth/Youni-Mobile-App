@@ -51,10 +51,9 @@ var styles = StyleSheet.create({
     height: 120
   },
   loginInput: {
-    backgroundColor: 'rgba(255, 255, 255, 0.3)',
+    backgroundColor: 'rgba(255, 255, 255, 0.5)',
     height: 30,
     width: 250,
-    color: 'white',
     borderRadius: 5,
     textAlign: 'center',
     fontWeight: '100',
