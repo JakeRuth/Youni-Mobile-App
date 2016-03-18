@@ -108,7 +108,6 @@ var LoginPage = React.createClass({
 
   getInitialState: function() {
     return {
-      showIntroPage: true,
       inLoginView: false,
       isInSignUpView: false,
       isBackgroundImageLoading: true
@@ -152,20 +151,8 @@ var LoginPage = React.createClass({
 
           {this.renderContent(this.state.isBackgroundImageLoading)}
           <LoginSignupSelector
-            onLoginPress={() => {
-              this.setState({
-                showIntroPage: false,
-                isInSignUpView: false,
-                inLoginView: true
-              });
-            }}
-            onSignupPress={() => {
-              this.setState({
-                showIntroPage: false,
-                isInSignUpView: true,
-                inLoginView: false
-              });
-            }}/>
+            onLoginPress={this._onLoginSelectorPress}
+            onSignupPress={this._onSignUpSelectorPress}/>
           {appNameHeader}
 
         </Image>
@@ -234,6 +221,36 @@ var LoginPage = React.createClass({
         <Spinner/>
       </View>
     );
+  },
+
+  _onLoginSelectorPress: function() {
+    if (!this.state.inLoginView) {
+      this.setState({
+        isInSignUpView: false,
+        inLoginView: true
+      });
+    }
+    else {
+      this.setState({
+        isInSignUpView: false,
+        inLoginView: false
+      });
+    }
+  },
+
+  _onSignUpSelectorPress: function() {
+    if (!this.state.isInSignUpView) {
+      this.setState({
+        isInSignUpView: true,
+        inLoginView: false
+      });
+    }
+    else {
+      this.setState({
+        isInSignUpView: false,
+        inLoginView: false
+      });
+    }
   },
 
   _onForgotPasswordClick: function () {
