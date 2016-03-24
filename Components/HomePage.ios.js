@@ -8,6 +8,7 @@ var MainScreenBanner = require('../MainScreenBanner');
 var PostList = require('../Components/Post/PostList');
 var ErrorPage = require('../Components/Common/ErrorPage');
 var CacheUtils = require('../Utils/Common/CacheUtils');
+var Spinner = require('../Components/Common/Spinner');
 
 var {
   View,
@@ -15,8 +16,7 @@ var {
   Image,
   StyleSheet,
   Dimensions,
-  AppRegistry,
-  ActivityIndicatorIOS
+  AppRegistry
 } = React;
 
 var styles = StyleSheet.create({
@@ -81,7 +81,7 @@ var HomePage = React.createClass({
         content;
 
     if (loadingPosts) {
-      content = this._renderLoadingSpinner();
+      content = <Spinner/>;
     }
     else if (anyErrorsLoadingPage) {
       content = <ErrorPage reloadButtonAction={this._requestHomeFeed}/>
@@ -139,18 +139,6 @@ var HomePage = React.createClass({
       <View style={styles.emptyPostsMessageContainer}>
         <Text style={styles.noPostsTitle}>No posts from any one you are following</Text>
         <Text style={styles.noPostSubTitle}>As you follow your friends, only their posts will show up in this feed</Text>
-      </View>
-    );
-  },
-
-  _renderLoadingSpinner: function() {
-    return (
-      <View style={styles.spinnerContainer}>
-        <ActivityIndicatorIOS
-          size="small"
-          color="black"
-          animating={true}
-          style={styles.spinner} />
       </View>
     );
   },
