@@ -16,15 +16,11 @@ var styles = StyleSheet.create({
     flexDirection: 'row'
   },
   feedSelector: {
-    flex: 5,
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     marginLeft: 15,
     marginRight: 15
-  },
-  fireEmojiContainer: {
-    flex: 1,
-    paddingTop: 2
   },
   selectedFeedSelector: {
     borderBottomWidth: 1,
@@ -44,21 +40,19 @@ var TrendingPageSelector = React.createClass({
 
   propTypes: {
     selectedFeed: React.PropTypes.string.isRequired,
+    currentFeed: React.PropTypes.string.isRequired,
     weeklyFeed: React.PropTypes.string.isRequired,
     allTimeFeed: React.PropTypes.string.isRequired,
     changeFeedSelector: React.PropTypes.func.isRequired
   },
 
+
   render: function() {
     return (
       <View style={styles.container}>
 
+        {this._renderFeedSelector(this.props.currentFeed)}
         {this._renderFeedSelector(this.props.weeklyFeed)}
-        <View style={styles.fireEmojiContainer}>
-          <Emoji
-            name="fire"
-            size={23}/>
-        </View>
         {this._renderFeedSelector(this.props.allTimeFeed)}
 
       </View>
