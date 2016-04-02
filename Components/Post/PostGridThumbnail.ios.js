@@ -135,7 +135,7 @@ var PostGridThumbnail = React.createClass({
     if (this.props.post.numLikes) {
       let likeCountStyles = [styles.iconContainer];
 
-      if (this.props.post.numViews < this.props.post.numLikes) {
+      if (!this.props.post.numViews || this.props.post.numViews < this.props.post.numLikes) {
         likeCountStyles.push(styles.leftMostIcon);
       }
 
@@ -156,7 +156,7 @@ var PostGridThumbnail = React.createClass({
     if (this.props.post.numComments) {
       let commentsCountStyles = [styles.iconContainer];
 
-      if (this.props.post.numViews < this.props.post.numLikes && !this.props.post.numLikes) {
+      if (this.props.post.numViews !== 0 && this.props.post.numViews < this.props.post.numLikes && !this.props.post.numLikes) {
         commentsCountStyles.push(styles.leftMostIcon);
       }
 
