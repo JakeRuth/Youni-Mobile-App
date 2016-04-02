@@ -120,14 +120,8 @@ var PostGridThumbnail = React.createClass({
     var likesStat, commentsStat;
 
     if (this.props.post.numLikes) {
-      let commentsCountStyles = [styles.iconContainer];
-
-      if (!this.props.post.isPostUserCurrentlyTrending) {
-        commentsCountStyles.push(styles.leftMostIcon);
-      }
-
       likesStat = (
-          <View style={commentsCountStyles}>
+          <View style={[styles.iconContainer, styles.leftMostIcon]}>
             <Text style={styles.iconLabel}>
               {this.props.post.numLikes}
             </Text>
@@ -143,7 +137,7 @@ var PostGridThumbnail = React.createClass({
     if (this.props.post.numComments) {
       let commentsCountStyles = [styles.iconContainer];
 
-      if (!this.props.post.numLikes && !this.props.post.isPostUserCurrentlyTrending) {
+      if (!this.props.post.numLikes) {
         commentsCountStyles.push(styles.leftMostIcon);
       }
 

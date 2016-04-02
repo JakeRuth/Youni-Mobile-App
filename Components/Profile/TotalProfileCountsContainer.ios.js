@@ -63,7 +63,7 @@ var TotalProfileCountsContainer = React.createClass({
       <View style={styles.container}>
 
         <View style={styles.totalCountContainer}>
-          <Text style={styles.countLabel}>Campus Rep</Text>
+          <Text style={styles.countLabel}>Youni Score</Text>
           <Text style={styles.countValue}>
             {this.props.totalPoints}
             <Emoji
