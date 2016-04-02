@@ -75,6 +75,6 @@ var RefreshAppContentUtil = {
      });
   }
 
-}
+};
 
 module.exports = RefreshAppContentUtil;
