@@ -51,6 +51,12 @@ var styles = StyleSheet.create({
     borderTopLeftRadius: 15,
     paddingLeft: 2
   },
+  fireIcon: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    opacity: .5
+  },
   iconLabel: {
     alignSelf: 'center',
     color: 'white',
@@ -68,6 +74,18 @@ var PostGridThumbnail = React.createClass({
   },
 
   render: function() {
+    var fireIcon;
+
+    if (this.props.post.isPostUserCurrentlyTrending) {
+      fireIcon = (
+        <View style={styles.fireIcon}>
+          <Emoji
+            name="fire"
+            size={25}/>
+        </View>
+      );
+    }
+
     return (
       <TouchableHighlight
           style={styles.container}
@@ -90,6 +108,7 @@ var PostGridThumbnail = React.createClass({
 
           </Image>
           {this._renderPostStats()}
+          {fireIcon}
         </View>
 
       </TouchableHighlight>
@@ -98,17 +117,7 @@ var PostGridThumbnail = React.createClass({
 
   // TODO: Clean this up, rushed it for a release
   _renderPostStats: function() {
-    var likesStat, commentsStat, fireEmoji;
-
-    if (this.props.post.isPostUserCurrentlyTrending) {
-      fireEmoji = (
-        <View style={[styles.iconContainer, styles.leftMostIcon]}>
-          <Emoji
-            name="fire"
-            size={this._iconSize}/>
-        </View>
-      );
-    }
+    var likesStat, commentsStat;
 
     if (this.props.post.numLikes) {
       let commentsCountStyles = [styles.iconContainer];
@@ -155,7 +164,6 @@ var PostGridThumbnail = React.createClass({
     return (
       <View style={styles.postStats}>
 
-        {fireEmoji}
         {likesStat}
         {commentsStat}
 
