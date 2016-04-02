@@ -51,7 +51,7 @@ var RefreshAppContentUtil = {
         (res) => {
           Unicycle.exec('loadOwnerUsersProfile', email);
           Unicycle.exec('refreshHomeFeed', userId);
-          Unicycle.exec('refreshExploreFeed', userId);
+          Unicycle.exec('refreshExploreFeed', userId, true);
           Unicycle.exec('getTrendingUsers');
         },
         () => {

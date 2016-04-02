@@ -1,9 +1,11 @@
 'use strict';
 
 var React = require('react-native');
+var Unicycle = require('../../Unicycle');
 var Icon = require('react-native-vector-icons/Ionicons');
 var PostPopup = require('../PopupPages/PostPopup');
 var Emoji = require('../Common/Emoji');
+var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 
 var {
   View,
@@ -39,7 +41,7 @@ var styles = StyleSheet.create({
     justifyContent: 'flex-end'
   },
   iconContainer: {
-    paddingRight: 4,
+    paddingRight: 2,
     paddingTop: 2,
     flexDirection: 'row',
     alignItems: 'center',
@@ -88,14 +90,9 @@ var PostGridThumbnail = React.createClass({
 
     return (
       <TouchableHighlight
-          style={styles.container}
-          underlayColor='transparent'
-          onPress={() => {
-            this.props.navigator.push({
-              component: PostPopup,
-              passProps: {post: this.props.post}
-            })
-          }}>
+        style={styles.container}
+        underlayColor='transparent'
+        onPress={this._onPostClick}>
 
         <View>
           <Image
@@ -117,27 +114,49 @@ var PostGridThumbnail = React.createClass({
 
   // TODO: Clean this up, rushed it for a release
   _renderPostStats: function() {
-    var likesStat, commentsStat;
+    var viewsStat, likesStat, commentsStat;
+
+    // Need to check this since post views were introduced and recorded after likes existed
+    if (this.props.post.numViews >= this.props.post.numLikes) {
+      viewsStat = (
+        <View style={[styles.iconContainer, styles.leftMostIcon]}>
+          <Text style={styles.iconLabel}>
+            {this.props.post.numViews === 0 ? 1 : this.props.post.numViews}
+          </Text>
+          <Icon
+            style={styles.icon}
+            name={'eye'}
+            size={this._iconSize}
+            color="#81D975"/>
+        </View>
+      );
+    }
 
     if (this.props.post.numLikes) {
+      let likeCountStyles = [styles.iconContainer];
+
+      if (this.props.post.numViews < this.props.post.numLikes) {
+        likeCountStyles.push(styles.leftMostIcon);
+      }
+
       likesStat = (
-          <View style={[styles.iconContainer, styles.leftMostIcon]}>
-            <Text style={styles.iconLabel}>
-              {this.props.post.numLikes}
-            </Text>
-            <Icon
-                style={styles.icon}
-                name={this._getStarIconName()}
-                size={this._iconSize}
-                color={'#FCDD00'}/>
-          </View>
+        <View style={likeCountStyles}>
+          <Text style={styles.iconLabel}>
+            {this.props.post.numLikes}
+          </Text>
+          <Icon
+              style={styles.icon}
+              name={this._getStarIconName()}
+              size={this._iconSize}
+              color={'#FCDD00'}/>
+        </View>
       );
     }
 
     if (this.props.post.numComments) {
       let commentsCountStyles = [styles.iconContainer];
 
-      if (!this.props.post.numLikes) {
+      if (this.props.post.numViews < this.props.post.numLikes && !this.props.post.numLikes) {
         commentsCountStyles.push(styles.leftMostIcon);
       }
 
@@ -158,11 +177,25 @@ var PostGridThumbnail = React.createClass({
     return (
       <View style={styles.postStats}>
 
+        {viewsStat}
         {likesStat}
         {commentsStat}
 
       </View>
     );
+  },
+
+  _onPostClick: function() {
+    var email = userLoginMetadataStore.getEmail();
+
+    this.props.navigator.push({
+      component: PostPopup,
+      passProps: {post: this.props.post}
+    });
+
+    if (email !== this.props.post.posterEmail) {
+      Unicycle.exec('triggerPostView', email, this.props.post.postIdString, this.props.post.id);
+    }
   },
 
   _getStarIconName: function() {

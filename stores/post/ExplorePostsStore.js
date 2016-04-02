@@ -183,6 +183,24 @@ var explorePostsStore = Unicycle.createStore({
     }
   },
 
+  $triggerPostView: function(email, postIdString, id) {
+    PostUtils.increaseViewCount(this.get('posts'), id);
+
+    AjaxUtils.ajax(
+      '/post/view',
+      {
+        viewerEmail: email,
+        postIdString: postIdString
+      },
+      (res) => {
+        // do nothing
+      },
+      () => {
+
+      }
+    );
+  },
+
   $refreshExploreFeedData: function() {
     this.set({
       exploreFeedPageOffset: INITIAL_PAGE_OFFSET,
