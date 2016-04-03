@@ -57,7 +57,7 @@ var styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     right: 0,
-    opacity: .5
+    opacity: .75
   },
   iconLabel: {
     alignSelf: 'center',
@@ -127,7 +127,7 @@ var PostGridThumbnail = React.createClass({
             style={styles.icon}
             name={'eye'}
             size={this._iconSize}
-            color="#81D975"/>
+            color="white"/>
         </View>
       );
     }
