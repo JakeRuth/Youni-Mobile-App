@@ -34,40 +34,41 @@ var PostGrid = React.createClass({
   _renderPosts: function() {
     var postsJson = this.props.posts;
     var posts = [];
-    for (var i = 0; i<postsJson.size; i+=2) {
+    for (var i = 0; i<postsJson.size; i+=3) {
       posts.push(
-        this._renderPostRow(postsJson.get(i), postsJson.get(i + 1), i)
+        this._renderPostRow(postsJson.get(i), postsJson.get(i + 1), postsJson.get(i + 2), i)
       );
     }
     return posts;
   },
 
-  _renderPostRow: function(leftPostJson, rightPostJson, index) {
-    var leftPost, rightPost;
+  _renderPostRow: function(leftPostJson, middlePostJson, rightPostJson, index) {
+    var leftPost, middlePost, rightPost;
 
-    // it is possible for these to be blank if the total post count wasn't 10 (page size)
-    // one case where this happens is when the requesting user has user's blocked and the posts are filtered
-    // out of the results (so less then 10 are returned)
-    if (leftPostJson) {
-      leftPost = (
-        <PostGridThumbnail
-          post={leftPostJson}
-          navigator={this.props.navigator}/>
+    leftPost = (
+      <PostGridThumbnail
+        post={leftPostJson}
+        navigator={this.props.navigator}/>
+    );
+
+    middlePost = (
+      <PostGridThumbnail
+        post={middlePostJson}
+        navigator={this.props.navigator}/>
+    );
+
+    rightPost = (
+      <PostGridThumbnail
+        post={rightPostJson}
+        navigator={this.props.navigator}/>
       );
-    }
-    if (rightPostJson) {
-      rightPost = (
-        <PostGridThumbnail
-          post={rightPostJson}
-          navigator={this.props.navigator}/>
-      );
-    }
 
     return (
       <View
         style={styles.postRow}
         key={index}>
         {leftPost}
+        {middlePost}
         {rightPost}
       </View>
     );

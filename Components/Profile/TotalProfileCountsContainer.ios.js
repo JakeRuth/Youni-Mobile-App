@@ -2,6 +2,7 @@
 
 var React = require('react-native');
 var Unicycle = require('../../Unicycle');
+var Emoji = require('../Common/Emoji');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 
 var {
@@ -11,7 +12,7 @@ var {
   StyleSheet,
   NativeModules,
   TouchableHighlight
-} = React
+} = React;
 
 var styles = StyleSheet.create({
   container: {
@@ -20,7 +21,7 @@ var styles = StyleSheet.create({
   },
   totalCountContainer: {
     flex: 1,
-    padding: 10,
+    padding: 10
   },
   countLabel: {
     color: '#ADADAD',
@@ -62,8 +63,13 @@ var TotalProfileCountsContainer = React.createClass({
       <View style={styles.container}>
 
         <View style={styles.totalCountContainer}>
-          <Text style={styles.countLabel}>Points</Text>
-          <Text style={styles.countValue}>{this.props.totalPoints}</Text>
+          <Text style={styles.countLabel}>Youni Score</Text>
+          <Text style={styles.countValue}>
+            {this.props.totalPoints}
+            <Emoji
+              name="fire"
+              size={12}/>
+          </Text>
         </View>
 
         <View style={styles.totalCountContainer}>
@@ -78,7 +84,7 @@ var TotalProfileCountsContainer = React.createClass({
 
       </View>
     );
-  },
+  }
 
 });
 

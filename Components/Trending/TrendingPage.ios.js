@@ -23,6 +23,7 @@ var styles = StyleSheet.create({
 
 var TrendingPage = React.createClass({
 
+  currentFeed: 'Now',
   weeklyFeed: 'Weekly',
   allTimeFeed: 'All Time',
 
@@ -35,22 +36,22 @@ var TrendingPage = React.createClass({
   ],
 
   componentDidMount: function() {
-    Unicycle.exec('getTrendingUsers');
+    Unicycle.exec('getCurrentTrendingUsers');
   },
 
   getInitialState: function() {
     return {
-      selectedFeed: this.weeklyFeed
+      selectedFeed: this.currentFeed
     };
   },
 
   render: function() {
     var isRequestInFlight = trendingStore.isRequestInFlight(),
         anyErrorsLoadingPage = trendingStore.anyErrorsLoadingPage(),
-        content;
+        errorPage;
 
     if (anyErrorsLoadingPage) {
-      content = <ErrorPage reloadButtonAction={this._onErrorPageReload}/>
+      errorPage = <ErrorPage reloadButtonAction={this._onErrorPageReload}/>
     }
 
     return (
@@ -59,14 +60,15 @@ var TrendingPage = React.createClass({
         <MainScreenBanner title='Trending'/>
         <TrendingPageSelector
           selectedFeed={this.state.selectedFeed}
+          currentFeed={this.currentFeed}
           weeklyFeed={this.weeklyFeed}
           allTimeFeed={this.allTimeFeed}
-          changeFeedSelector={(feed) => { this._changeFeedSelector(feed) }}
-          disabled={trendingStore.isRequestInFlight()}/>
+          changeFeedSelector={(feed) => { this._changeFeedSelector(feed) }}/>
 
-        {content}
+        {errorPage}
 
         <TrendingUsersList
+          users={this._getTrendingUsers(this.state.selectedFeed)}
           isPageLoading={trendingStore.isRequestInFlight()}
           onPageRefresh={() => { this._requestTrendingUsers(this.state.selectedFeed) }}
           navigator={this.props.navigator}/>
@@ -85,7 +87,10 @@ var TrendingPage = React.createClass({
   },
 
   _requestTrendingUsers: function(feed) {
-    if (feed === this.weeklyFeed) {
+    if (feed === this.currentFeed) {
+      Unicycle.exec('getCurrentTrendingUsers');
+    }
+    else if (feed === this.weeklyFeed) {
       Unicycle.exec('getTrendingUsers');
     }
     else if (feed === this.allTimeFeed) {
@@ -93,8 +98,20 @@ var TrendingPage = React.createClass({
     }
   },
 
+  _getTrendingUsers: function(feed) {
+    if (feed === this.currentFeed) {
+      return trendingStore.getCurrentTrendingUsers();
+    }
+    else if (feed === this.weeklyFeed) {
+      return trendingStore.getWeeklyTrendingUsers();
+    }
+    else if (feed === this.allTimeFeed) {
+      return trendingStore.getAllTimeTrendingUsers();
+    }
+  },
+
   _onErrorPageReload: function() {
-    Unicycle.exec('getTrendingUsers');
+    this._requestTrendingUsers(this.state.selectedFeed);
   }
 
 });

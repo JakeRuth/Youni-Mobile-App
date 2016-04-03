@@ -14,7 +14,7 @@ var {
 var styles = StyleSheet.create({
   settingIconContainer: {
     position: 'absolute',
-    top: 21,
+    top: 15,
     right: 10,
     padding: 5
   }

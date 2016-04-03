@@ -9,7 +9,7 @@ var ExploreFeedEndpoints = require('../../Utils/Enums/ExploreFeedEndpoints');
 var userLoginMetadataStore = require('../UserLoginMetadataStore');
 
 var INITIAL_PAGE_OFFSET = 0;
-var MAX_POSTS_PER_PAGE = 10;
+var MAX_POSTS_PER_PAGE = 12;
 
 var explorePostsStore = Unicycle.createStore({
 
@@ -34,7 +34,7 @@ var explorePostsStore = Unicycle.createStore({
     });
   },
 
-  $requestExploreFeed(userId) {
+  $requestExploreFeed(userId, shouldUseRecursersion) {
     var that = this,
         offset = this.getExploreFeedPageOffset();
 
@@ -70,6 +70,11 @@ var explorePostsStore = Unicycle.createStore({
           noMorePostsToFetch: !res.body.moreResults,
           pageLoadError: false
         });
+
+        // get two pages at a time, pass false to make sure this isn't called again
+        if (shouldUseRecursersion) {
+          Unicycle.exec('requestExploreFeed', userId);
+        }
       },
       () => {
         that.set({
@@ -81,7 +86,7 @@ var explorePostsStore = Unicycle.createStore({
     );
   },
 
-  $refreshExploreFeed: function(userId) {
+  $refreshExploreFeed: function(userId, shouldUseRecursersion) {
     var that = this;
 
     this.set({
@@ -104,6 +109,11 @@ var explorePostsStore = Unicycle.createStore({
           isExploreFeedRefreshing: false,
           noMorePostsToFetch: !res.body.moreResults
         });
+
+        // get two pages at a time, pass false to make sure this isn't called again
+        if (shouldUseRecursersion) {
+          Unicycle.exec('requestExploreFeed', userId);
+        }
       },
       () => {
         that.set({
@@ -171,6 +181,24 @@ var explorePostsStore = Unicycle.createStore({
         }
       );
     }
+  },
+
+  $triggerPostView: function(email, postIdString, id) {
+    PostUtils.increaseViewCount(this.get('posts'), id);
+
+    AjaxUtils.ajax(
+      '/post/view',
+      {
+        viewerEmail: email,
+        postIdString: postIdString
+      },
+      (res) => {
+        // do nothing
+      },
+      () => {
+
+      }
+    );
   },
 
   $refreshExploreFeedData: function() {
@@ -247,7 +275,7 @@ var explorePostsStore = Unicycle.createStore({
       this.set({
         exploreFeedEndpoint: endpoint
       });
-      Unicycle.exec('refreshExploreFeed', userLoginMetadataStore.getUserId());
+      Unicycle.exec('refreshExploreFeed', userLoginMetadataStore.getUserId(), true);
     }
   }
 

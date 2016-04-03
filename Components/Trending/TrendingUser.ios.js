@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react-native');
+var Emoji = require('../Common/Emoji');
 var trendingStore = require('../../stores/trending/TrendingStore');
 
 var {
@@ -76,6 +77,9 @@ var TrendingUser = React.createClass({
 
         <Text style={styles.points}>
           {this.props.points}
+          <Emoji
+            name="fire"
+            size={12}/>
         </Text>
 
       </View>

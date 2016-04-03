@@ -71,6 +71,7 @@ var PostStats = React.createClass({
           numComments={this.props.post.numComments}
           loading={this.props.isLikeRequestInFlight}
           numLikes={this.props.post.numLikes}
+          numViews={this.props.post.numViews}
           postIdString={this.props.post.postIdString} />
 
       </View>

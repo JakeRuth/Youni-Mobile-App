@@ -81,13 +81,13 @@ var ExploreFeedPosts = React.createClass({
         userId = userLoginMetadataStore.getUserId();
 
     if (e.nativeEvent.contentOffset.y < inifiniteScrollThreshold) {
-      Unicycle.exec('refreshExploreFeed', userId);
+      Unicycle.exec('refreshExploreFeed', userId, true);
     }
   },
 
   _requestExploreFeed: function() {
     var userId = userLoginMetadataStore.getUserId();
-    Unicycle.exec('requestExploreFeed', userId);
+    Unicycle.exec('requestExploreFeed', userId, true);
   }
 
 });

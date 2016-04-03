@@ -34,9 +34,16 @@ var PostUtils = {
   increaseLikeCount: function(posts, id) {
     var post = posts.get(id);
     post.numLikes++;
+    post.numViews++;
     post.liked = true;
     posts = posts.set(id, post);
     return posts;
+  },
+
+  increaseViewCount: function(posts, id) {
+    var post = posts.get(id);
+    post.numViews++;
+    posts = posts.set(id, post);
   },
 
   decreaseLikeCount: function(posts, id) {
@@ -97,6 +104,7 @@ var PostUtils = {
       timestamp: post.timestamp,
       photoUrl: post.photoUrl,
       numLikes: post.numLikes,
+      numViews: post.numViews,
       caption: post.caption,
       liked: post.liked,
       imageHeight: post.photoHeight,
