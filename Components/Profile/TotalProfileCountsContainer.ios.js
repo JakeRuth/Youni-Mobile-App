@@ -35,6 +35,17 @@ var styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 18,
     marginTop: 1
+  },
+  campusScoreValueContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  campusScoreCountValue: {
+    textAlign: 'right'
+  },
+  campusScoreFireIcon: {
+    margin: 2
   }
 });
 
@@ -63,13 +74,17 @@ var TotalProfileCountsContainer = React.createClass({
       <View style={styles.container}>
 
         <View style={styles.totalCountContainer}>
-          <Text style={styles.countLabel}>Youni Score</Text>
-          <Text style={styles.countValue}>
-            {this.props.totalPoints}
+          <Text style={styles.countLabel}>Campus Score</Text>
+
+          <View style={styles.campusScoreValueContainer}>
+            <Text style={[styles.countValue, styles.campusScoreCountValue]}>
+              {this.props.totalPoints}
+            </Text>
             <Emoji
+              style={styles.campusScoreFireIcon}
               name="fire"
               size={12}/>
-          </Text>
+          </View>
         </View>
 
         <View style={styles.totalCountContainer}>

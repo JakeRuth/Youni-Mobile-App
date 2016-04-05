@@ -23,7 +23,7 @@ var styles = StyleSheet.create({
 
 var TrendingPage = React.createClass({
 
-  currentFeed: 'Now',
+  currentFeed: 'Daily',
   weeklyFeed: 'Weekly',
   allTimeFeed: 'All Time',
 
