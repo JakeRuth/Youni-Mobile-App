@@ -2,6 +2,7 @@
 
 var React = require('react-native');
 var Spinner = require('../Common/Spinner');
+GLOBAL = require('../../Utils/Common/GlobalColorMap');
 
 var {
   View,
@@ -16,8 +17,8 @@ var styles = StyleSheet.create({
     backgroundColor: 'transparent'
   },
   followingButton: {
-    borderColor: '#5C7CFF',
-    color: '#5C7CFF',
+    borderColor: GLOBAL.COLOR.APP,
+    color: GLOBAL.COLOR.APP,
     fontSize: 13,
     fontWeight: '600',
     borderWidth: 1,

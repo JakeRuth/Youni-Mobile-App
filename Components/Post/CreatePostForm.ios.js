@@ -5,6 +5,7 @@ var createPostStore = require('../../stores/CreatePostStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var Unicycle = require('../../Unicycle');
 var Spinner = require('../Common/Spinner');
+GLOBAL = require('../../Utils/Common/GlobalColorMap');
 
 var {
   View,
@@ -40,7 +41,7 @@ var styles = StyleSheet.create({
   },
   createPostButton: {
     alignSelf: 'center',
-    backgroundColor: '#5C7CFF',
+    backgroundColor: GLOBAL.COLOR.APP,
     borderRadius: 1,
     margin: 10,
     marginBottom: 0

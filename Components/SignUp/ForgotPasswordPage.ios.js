@@ -5,6 +5,7 @@ var Unicycle = require('../../Unicycle');
 var OverlayPage = require('../Common/OverlayPage');
 var Spinner = require('../Common/Spinner');
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
+GLOBAL = require('../../Utils/Common/GlobalColorMap');
 
 var {
   Text,
@@ -39,7 +40,7 @@ var styles = StyleSheet.create({
     width: 120,
     height: 25,
     fontSize: 20,
-    backgroundColor: '#5C7CFF',
+    backgroundColor: GLOBAL.COLOR.APP,
     color: 'white',
     borderRadius: 3
   }

@@ -6,6 +6,7 @@ var Unicycle = require('../../Unicycle');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var EmptyResults = require('../Common/EmptyResults');
 var Emoji = require('../Common/Emoji');
+GLOBAL = require('../../Utils/Common/GlobalColorMap');
 
 var {
   View,
@@ -108,7 +109,7 @@ var Result = React.createClass({
     else {
       thumbnail = (
         <Icon style={styles.profileImage}
-          name='ios-person' size={40} color='#5C7CFF' />
+          name='ios-person' size={40} color={GLOBAL.COLOR.APP} />
       );
     }
 

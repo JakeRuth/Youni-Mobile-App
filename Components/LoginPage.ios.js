@@ -10,6 +10,7 @@ var Unicycle = require('../Unicycle');
 var loginStore = require('../stores/LoginStore');
 var userLoginMetadataStore = require('../stores/UserLoginMetadataStore');
 var AjaxUtils = require('../Utils/Common/AjaxUtils');
+GLOBAL = require('../Utils/Common/GlobalColorMap');
 
 var {
   View,
@@ -29,7 +30,7 @@ var styles = StyleSheet.create({
     width: null,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#5C7CFF'
+    backgroundColor: GLOBAL.COLOR.APP
   },
   contentContainer: {
     backgroundColor: 'transparent',

@@ -4,6 +4,7 @@ var React = require('react-native');
 var Unicycle = require('../../Unicycle');
 var Icon = require('react-native-vector-icons/MaterialIcons');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
+GLOBAL = require('../../Utils/Common/GlobalColorMap');
 
 var {
   TouchableHighlight,
@@ -41,7 +42,7 @@ var DeletePostIcon = React.createClass({
         'Cancel'
       ],
       cancelButtonIndex: 1,
-      tintColor: '#5C7CFF'
+      tintColor: GLOBAL.COLOR.APP
     },
     (buttonIndex) => {
       if (buttonIndex === 0) {

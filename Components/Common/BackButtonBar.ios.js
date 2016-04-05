@@ -3,6 +3,7 @@
 var React = require('react-native');
 var Unicycle = require('../../Unicycle');
 var Icon = require('react-native-vector-icons/Ionicons');
+GLOBAL = require('../../Utils/Common/GlobalColorMap');
 
 var {
   View,
@@ -20,7 +21,7 @@ var styles = StyleSheet.create({
   },
   backButton: {
     fontSize: 20,
-    color: '#5C7CFF',
+    color: {GLOBAL.COLOR.APP},
     marginLeft: 10
   }
 });
@@ -39,7 +40,7 @@ var BackButtonBar = React.createClass({
         underlayColor='transparent'>
 
         <View style={styles.backButtonContainer}>
-          <Icon name='ios-arrow-back' size={25} color='#5C7CFF' />
+          <Icon name='ios-arrow-back' size={25} color={GLOBAL.COLOR.APP} />
           <Text style={styles.backButton}>
             Back
           </Text>

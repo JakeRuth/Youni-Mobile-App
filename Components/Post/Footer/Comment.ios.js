@@ -4,6 +4,7 @@ var React = require('react-native');
 var Unicycle = require('../../../Unicycle');
 var ProfilePopup = require('../../PopupPages/ProfilePopup');
 var userLoginMetadataStore = require('../../../stores/UserLoginMetadataStore');
+GLOBAL = require('../../../Utils/Common/GlobalColorMap');
 
 var {
   View,
@@ -18,7 +19,7 @@ var styles = StyleSheet.create({
     alignItems: 'center'
   },
   commenterName: {
-    color: '#5C7CFF'
+    color: GLOBAL.COLOR.APP
   },
   commentText: {
     flex: 1,
