@@ -107,8 +107,8 @@ var TrendingPage = React.createClass({
   _aboutTrendingPageIconPress: function() {
     AlertIOS.alert(
       'What is this?',
-      "Youni’s Trending pages feature the top and up-and-coming people at your university in real time!" +
-      "Daily Trending users have the highest scores for only that day. Weekly Trending users have the" +
+      "Youni’s Trending pages feature the top and up-and-coming people at your university in real time! " +
+      "Daily Trending users have the highest scores for only that day. Weekly Trending users have the " +
       "highest scores for only that week.  All Time Trending users have the highest scores overall at your university. " +
       "To allow more users to be featured, the top 10 All Time Trending users won’t be featured in Daily or Weekly Trending.",
       [
