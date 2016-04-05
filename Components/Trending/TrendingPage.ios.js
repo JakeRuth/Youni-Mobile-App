@@ -2,6 +2,7 @@
 
 var React = require('react-native');
 var Unicycle = require('../../Unicycle');
+var Icon = require('react-native-vector-icons/Ionicons');
 var trendingStore = require('../../stores/trending/TrendingStore');
 var MainScreenBanner = require('../../MainScreenBanner');
 var TrendingUsersList = require('./TrendingUsersList');
@@ -11,13 +12,21 @@ var TrendingPageSelector = require('./TrendingPageSelector');
 var {
   View,
   Text,
-  StyleSheet
+  StyleSheet,
+  TouchableHighlight,
+  AlertIOS
 } = React;
 
 var styles = StyleSheet.create({
   container: {
     flex: 1,
     marginBottom: 50
+  },
+  aboutTrendingPageIconContainer: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    padding: 19
   }
 });
 
@@ -73,8 +82,39 @@ var TrendingPage = React.createClass({
           onPageRefresh={() => { this._requestTrendingUsers(this.state.selectedFeed) }}
           navigator={this.props.navigator}/>
 
+        {this._renderAboutTrendingPageIcon()}
+
       </View>
     );
+  },
+
+  _renderAboutTrendingPageIcon: function() {
+    return (
+      <TouchableHighlight
+        style={styles.aboutTrendingPageIconContainer}
+        underlayColor={'transparent'}
+        onPress={this._aboutTrendingPageIconPress}>
+
+        <Icon
+          name='information-circled'
+          size={23}
+          color={'white'}/>
+
+      </TouchableHighlight>
+    );
+  },
+
+  _aboutTrendingPageIconPress: function() {
+    AlertIOS.alert(
+      'What is this?',
+      "Youni’s Trending pages feature the top and up-and-coming people at your university in real time!" +
+      "Daily Trending users have the highest scores for only that day. Weekly Trending users have the" +
+      "highest scores for only that week.  All Time Trending users have the highest scores overall at your university. " +
+      "To allow more users to be featured, the top 10 All Time Trending users won’t be featured in Daily or Weekly Trending.",
+      [
+        {text: 'Okay'}
+      ]
+    )
   },
 
   _changeFeedSelector: function(feed) {

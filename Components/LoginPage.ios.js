@@ -373,7 +373,7 @@ var LoginPage = React.createClass({
       [
         {text: 'Try again'}
       ]
-    )
+    );
   }
 
 });
