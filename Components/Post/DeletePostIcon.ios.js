@@ -56,11 +56,11 @@ var DeletePostIcon = React.createClass({
       'Are you sure you want to permanently remove this post from Youni?',
       [
         {
-          text: 'No'
+          text: 'Yes',
+          onPress: this._onConfirmDeletePress
         },
         {
-          text: 'Delete',
-          onPress: this._onConfirmDeletePress
+          text: 'No'
         }
 
       ]
