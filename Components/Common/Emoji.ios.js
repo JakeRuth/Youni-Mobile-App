@@ -9,20 +9,23 @@ var Emoji = React.createClass({
 
   propTypes: {
     name: React.PropTypes.string.isRequired,
-    size: React.PropTypes.number.isRequired
+    size: React.PropTypes.number.isRequired,
+    style: React.PropTypes.obj
   },
 
   render: function() {
-    var emoji = nodeEmoji.get(this.props.name);
+    var emoji = nodeEmoji.get(this.props.name),
+        styles = [{
+          fontSize: this.props.size,
+          textAlign: 'center'
+        }];
+
+    if (this.props.style) {
+      styles.push(this.props.style);
+    }
 
     return (
-      <Text
-        style={
-          {
-            fontSize: this.props.size,
-            textAlign: 'center'
-          }
-        }>
+      <Text style={styles}>
         {emoji}
       </Text>
     );

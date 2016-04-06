@@ -14,7 +14,9 @@ var styles = StyleSheet.create({
         position: 'absolute',
         top: 0,
         left: 0,
-        padding: 20
+        paddingTop: 12,
+        paddingLeft: 13,
+        paddingRight: 30
     }
 });
 

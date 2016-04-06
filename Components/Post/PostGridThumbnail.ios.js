@@ -1,9 +1,11 @@
 'use strict';
 
 var React = require('react-native');
+var Unicycle = require('../../Unicycle');
 var Icon = require('react-native-vector-icons/Ionicons');
 var PostPopup = require('../PopupPages/PostPopup');
 var Emoji = require('../Common/Emoji');
+var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 
 var {
   View,
@@ -21,38 +23,46 @@ var styles = StyleSheet.create({
   image: {
     flex: 1,
     alignSelf: 'stretch',
-    height: 200
+    height: 133.33
   },
   posterProfileImage: {
     top: 2,
     left: 2,
-    height: 30,
-    width: 30,
-    borderRadius: 15,
+    height: 27,
+    width: 27,
+    borderRadius: 13.5,
     borderWidth: 1,
     borderColor: 'lightgray'
   },
   postStats: {
-    marginTop: -20,
+    marginTop: -16,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-end'
   },
   iconContainer: {
-    paddingRight: 4,
+    paddingRight: 2,
+    paddingTop: 2,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-end',
-    height: 20,
+    height: 16,
     backgroundColor: 'rgba(0, 0, 0, .5)'
   },
   leftMostIcon: {
     borderTopLeftRadius: 15,
     paddingLeft: 2
   },
+  fireIcon: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    opacity: .75
+  },
   iconLabel: {
     alignSelf: 'center',
     color: 'white',
+    fontSize: 13,
     paddingLeft: 8,
     paddingRight: 4
   }
@@ -66,16 +76,23 @@ var PostGridThumbnail = React.createClass({
   },
 
   render: function() {
+    var fireIcon;
+
+    if (this.props.post.isPostUserCurrentlyTrending) {
+      fireIcon = (
+        <View style={styles.fireIcon}>
+          <Emoji
+            name="fire"
+            size={25}/>
+        </View>
+      );
+    }
+
     return (
       <TouchableHighlight
-          style={styles.container}
-          underlayColor='transparent'
-          onPress={() => {
-            this.props.navigator.push({
-              component: PostPopup,
-              passProps: {post: this.props.post}
-            })
-          }}>
+        style={styles.container}
+        underlayColor='transparent'
+        onPress={this._onPostClick}>
 
         <View>
           <Image
@@ -88,6 +105,7 @@ var PostGridThumbnail = React.createClass({
 
           </Image>
           {this._renderPostStats()}
+          {fireIcon}
         </View>
 
       </TouchableHighlight>
@@ -96,43 +114,27 @@ var PostGridThumbnail = React.createClass({
 
   // TODO: Clean this up, rushed it for a release
   _renderPostStats: function() {
-    var likesStat, commentsStat, fireEmoji;
-
-    if (this.props.post.isPostUserCurrentlyTrending) {
-      fireEmoji = (
-        <View style={[styles.iconContainer, styles.leftMostIcon]}>
-          <Emoji
-            name="fire"
-            size={15}/>
-        </View>
-      );
-    }
+    var viewsStat, likesStat, commentsStat;
 
     if (this.props.post.numLikes) {
-      let commentsCountStyles = [styles.iconContainer];
-
-      if (!this.props.post.isPostUserCurrentlyTrending) {
-        commentsCountStyles.push(styles.leftMostIcon);
-      }
-
       likesStat = (
-          <View style={commentsCountStyles}>
-            <Text style={styles.iconLabel}>
-              {this.props.post.numLikes}
-            </Text>
-            <Icon
-                style={styles.icon}
-                name={this._getStarIconName()}
-                size={20}
-                color={'#FCDD00'}/>
-          </View>
+        <View style={[styles.iconContainer, styles.leftMostIcon]}>
+          <Text style={styles.iconLabel}>
+            {this.props.post.numLikes}
+          </Text>
+          <Icon
+              style={styles.icon}
+              name={this._getStarIconName()}
+              size={this._iconSize}
+              color={'#FCDD00'}/>
+        </View>
       );
     }
 
     if (this.props.post.numComments) {
       let commentsCountStyles = [styles.iconContainer];
 
-      if (!this.props.post.numLikes && !this.props.post.isPostUserCurrentlyTrending) {
+      if (!this.props.post.numLikes) {
         commentsCountStyles.push(styles.leftMostIcon);
       }
 
@@ -144,7 +146,7 @@ var PostGridThumbnail = React.createClass({
             <Icon
                 style={styles.icon}
                 name={'ios-chatbubble-outline'}
-                size={20}
+                size={this._iconSize}
                 color={'#00D8F0'}/>
           </View>
       );
@@ -153,12 +155,25 @@ var PostGridThumbnail = React.createClass({
     return (
       <View style={styles.postStats}>
 
-        {fireEmoji}
+        {viewsStat}
         {likesStat}
         {commentsStat}
 
       </View>
     );
+  },
+
+  _onPostClick: function() {
+    var email = userLoginMetadataStore.getEmail();
+
+    this.props.navigator.push({
+      component: PostPopup,
+      passProps: {post: this.props.post}
+    });
+
+    if (email !== this.props.post.posterEmail) {
+      Unicycle.exec('triggerPostView', email, this.props.post.postIdString, this.props.post.id);
+    }
   },
 
   _getStarIconName: function() {
@@ -168,7 +183,9 @@ var PostGridThumbnail = React.createClass({
     else {
       return 'ios-star-outline';
     }
-  }
+  },
+
+  _iconSize: 17
 
 });
 

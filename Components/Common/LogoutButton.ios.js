@@ -13,7 +13,7 @@ var {
 var styles = StyleSheet.create({
   logoutButtonContainer: {
     position: 'absolute',
-    top: 25,
+    top: 18,
     width: 75,
     marginLeft: 10
   },

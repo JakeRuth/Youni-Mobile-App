@@ -2,6 +2,7 @@
 
 var React = require('react-native');
 var Unicycle = require('../../Unicycle');
+var Icon = require('react-native-vector-icons/Ionicons');
 var trendingStore = require('../../stores/trending/TrendingStore');
 var MainScreenBanner = require('../../MainScreenBanner');
 var TrendingUsersList = require('./TrendingUsersList');
@@ -11,18 +12,27 @@ var TrendingPageSelector = require('./TrendingPageSelector');
 var {
   View,
   Text,
-  StyleSheet
+  StyleSheet,
+  TouchableHighlight,
+  AlertIOS
 } = React;
 
 var styles = StyleSheet.create({
-  trendingPageContainer: {
+  container: {
     flex: 1,
     marginBottom: 50
+  },
+  aboutTrendingPageIconContainer: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    padding: 19
   }
 });
 
 var TrendingPage = React.createClass({
 
+  currentFeed: 'Daily',
   weeklyFeed: 'Weekly',
   allTimeFeed: 'All Time',
 
@@ -35,44 +45,76 @@ var TrendingPage = React.createClass({
   ],
 
   componentDidMount: function() {
-    Unicycle.exec('getTrendingUsers');
+    Unicycle.exec('getCurrentTrendingUsers');
   },
 
   getInitialState: function() {
     return {
-      selectedFeed: this.weeklyFeed
+      selectedFeed: this.currentFeed
     };
   },
 
   render: function() {
     var isRequestInFlight = trendingStore.isRequestInFlight(),
         anyErrorsLoadingPage = trendingStore.anyErrorsLoadingPage(),
-        content;
+        errorPage;
 
     if (anyErrorsLoadingPage) {
-      content = <ErrorPage reloadButtonAction={this._onErrorPageReload}/>
+      errorPage = <ErrorPage reloadButtonAction={this._onErrorPageReload}/>
     }
 
     return (
-      <View style={styles.trendingPageContainer}>
+      <View style={styles.container}>
 
         <MainScreenBanner title='Trending'/>
         <TrendingPageSelector
           selectedFeed={this.state.selectedFeed}
+          currentFeed={this.currentFeed}
           weeklyFeed={this.weeklyFeed}
           allTimeFeed={this.allTimeFeed}
-          changeFeedSelector={(feed) => { this._changeFeedSelector(feed) }}
-          disabled={trendingStore.isRequestInFlight()}/>
+          changeFeedSelector={(feed) => { this._changeFeedSelector(feed) }}/>
 
-        {content}
+        {errorPage}
 
         <TrendingUsersList
-          isPageRefreshing={trendingStore.isRequestInFlight()}
+          users={this._getTrendingUsers(this.state.selectedFeed)}
+          isPageLoading={trendingStore.isRequestInFlight()}
           onPageRefresh={() => { this._requestTrendingUsers(this.state.selectedFeed) }}
           navigator={this.props.navigator}/>
 
+        {this._renderAboutTrendingPageIcon()}
+
       </View>
     );
+  },
+
+  _renderAboutTrendingPageIcon: function() {
+    return (
+      <TouchableHighlight
+        style={styles.aboutTrendingPageIconContainer}
+        underlayColor={'transparent'}
+        onPress={this._aboutTrendingPageIconPress}>
+
+        <Icon
+          name='information-circled'
+          size={23}
+          color={'white'}/>
+
+      </TouchableHighlight>
+    );
+  },
+
+  _aboutTrendingPageIconPress: function() {
+    AlertIOS.alert(
+      'What is this?',
+      "Youni’s Trending pages feature the top and up-and-coming people at your university in real time!" +
+      "Daily Trending users have the highest scores for only that day. Weekly Trending users have the" +
+      "highest scores for only that week.  All Time Trending users have the highest scores overall at your university. " +
+      "To allow more users to be featured, the top 10 All Time Trending users won’t be featured in Daily or Weekly Trending.",
+      [
+        {text: 'Okay'}
+      ]
+    )
   },
 
   _changeFeedSelector: function(feed) {
@@ -85,7 +127,10 @@ var TrendingPage = React.createClass({
   },
 
   _requestTrendingUsers: function(feed) {
-    if (feed === this.weeklyFeed) {
+    if (feed === this.currentFeed) {
+      Unicycle.exec('getCurrentTrendingUsers');
+    }
+    else if (feed === this.weeklyFeed) {
       Unicycle.exec('getTrendingUsers');
     }
     else if (feed === this.allTimeFeed) {
@@ -93,8 +138,20 @@ var TrendingPage = React.createClass({
     }
   },
 
+  _getTrendingUsers: function(feed) {
+    if (feed === this.currentFeed) {
+      return trendingStore.getCurrentTrendingUsers();
+    }
+    else if (feed === this.weeklyFeed) {
+      return trendingStore.getWeeklyTrendingUsers();
+    }
+    else if (feed === this.allTimeFeed) {
+      return trendingStore.getAllTimeTrendingUsers();
+    }
+  },
+
   _onErrorPageReload: function() {
-    Unicycle.exec('getTrendingUsers');
+    this._requestTrendingUsers(this.state.selectedFeed);
   }
 
 });

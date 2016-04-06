@@ -36,18 +36,35 @@ var DeletePostIcon = React.createClass({
 
   _onDeleteIconPress: function() {
     ActionSheetIOS.showActionSheetWithOptions({
-      title: 'Are you sure you want to delete this photo?',
       options: [
-        'Yes',
-        'No'
+        'Delete Post',
+        'Cancel'
       ],
+      cancelButtonIndex: 1,
       tintColor: '#5C7CFF'
     },
     (buttonIndex) => {
       if (buttonIndex === 0) {
-        this._onConfirmDeletePress();
+        this._onConfirmDeleteAction();
       }
     });
+  },
+
+  _onConfirmDeleteAction: function() {
+    AlertIOS.alert(
+      'Delete Post',
+      'Are you sure you want to permanently remove this post from Youni?',
+      [
+        {
+          text: 'No'
+        },
+        {
+          text: 'Delete',
+          onPress: this._onConfirmDeletePress
+        }
+
+      ]
+    );
   },
 
   _onConfirmDeletePress: function() {

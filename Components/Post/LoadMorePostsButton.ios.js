@@ -9,18 +9,18 @@ var {
   Text,
   TouchableHighlight,
   StyleSheet
-} = React
+} = React;
 
 var styles = StyleSheet.create({
   loadMoreIconContainer: {
-    alignSelf: 'center'
+    alignSelf: 'center',
+    margin: 10
   },
   loadMorePostsText: {
-    padding: 10,
-    margin: 5,
+    padding: 3,
     backgroundColor: 'white',
     color: '#525252',
-    borderRadius: 20
+    borderRadius: 1
   }
 });
 
@@ -36,7 +36,9 @@ var LoadMorePostsButton = React.createClass({
 
     if (this.props.loadMorePostsRequestInFlight) {
       content = (
-        <Spinner/>
+        <View style={styles.loadMoreIconContainer}>
+          <Spinner/>
+        </View>
       );
     }
     else {

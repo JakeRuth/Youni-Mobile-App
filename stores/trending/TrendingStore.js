@@ -12,6 +12,8 @@ var trendingStore = Unicycle.createStore({
     this.set({
       isTrendingRequestInFlight: true,
       weeklyUsers: [],
+      currentUsers: [],
+      allTimeUsers: [],
       pageLoadError: false
     });
   },
@@ -42,6 +44,32 @@ var trendingStore = Unicycle.createStore({
     );
   },
 
+  $getCurrentTrendingUsers: function () {
+    var that = this;
+
+    this.set({
+      isTrendingRequestInFlight: true
+    });
+
+    AjaxUtils.ajax(
+      '/trending/getCurrentTrendingUsers',
+      {},
+      (res) => {
+        that.set({
+          currentUsers: immutable.List(UserUtils.convertResponseUserListToMap(res.body.users)),
+          isTrendingRequestInFlight: false,
+          pageLoadError: false
+        });
+      },
+      () => {
+        that.set({
+          isTrendingRequestInFlight: false,
+          pageLoadError: true
+        });
+      }
+    );
+  },
+
   $getAllTimeTrendingUsers: function () {
     var that = this;
 
@@ -58,7 +86,7 @@ var trendingStore = Unicycle.createStore({
         that._copyAllTimePointsToCurrentPoints(users);
 
         that.set({
-          weeklyUsers: immutable.List(users),
+          allTimeUsers: immutable.List(users),
           isTrendingRequestInFlight: false,
           pageLoadError: false
         });
@@ -80,8 +108,16 @@ var trendingStore = Unicycle.createStore({
     return this.get('isTrendingRequestInFlight');
   },
 
-  getTrendingUsers: function () {
+  getCurrentTrendingUsers: function () {
+    return this.get('currentUsers');
+  },
+
+  getWeeklyTrendingUsers: function () {
     return this.get('weeklyUsers');
+  },
+
+  getAllTimeTrendingUsers: function () {
+    return this.get('allTimeUsers');
   },
 
   // TODO: Find a better way to do this, at the time this was all i could come up with :'(

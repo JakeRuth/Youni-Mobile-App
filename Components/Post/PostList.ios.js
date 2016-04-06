@@ -6,7 +6,6 @@ var Post = require('./Post');
 var PostGrid = require('./PostGrid');
 var LoadMorePostsButton = require('./LoadMorePostsButton');
 var Icon = require('react-native-vector-icons/Ionicons');
-var Spinner = require('../Common/Spinner');
 
 var {
   View,
@@ -52,19 +51,12 @@ var PostList = React.createClass({
   },
 
   render: function() {
-    var refreshHeader = <View/>,
-        contentOffset = null,
-        scrollToTopOfPostFeed = homePostsStore.scrollToTopOfPostFeed();
+    var contentOffset = null,
+        scrollToTopOfPostFeed = homePostsStore.scrollToTopOfPostFeed(),
+        feedContainerStyles = [styles.container];
 
     if (this.props.refreshable && this.props.isFeedRefreshing) {
-      refreshHeader = (
-        <Spinner/>
-      );
-    }
-    else {
-      refreshHeader = (
-        <Text style={styles.pullDownToRefreshText}>Pull down to refresh</Text>
-      );
+      feedContainerStyles.push({ opacity:.5 });
     }
 
     if (scrollToTopOfPostFeed) {
@@ -74,11 +66,11 @@ var PostList = React.createClass({
 
     return (
       <ScrollView
-        style={styles.container}
+        style={feedContainerStyles}
         onScroll={this.props.onScroll}
         contentOffset={contentOffset}>
 
-        {refreshHeader}
+        <Text style={styles.pullDownToRefreshText}>Pull down to refresh</Text>
 
         {this._renderPosts()}
         {this._renderLoadMorePostsButton()}
