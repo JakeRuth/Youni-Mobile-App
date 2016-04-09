@@ -54,7 +54,8 @@ var CommentInput = React.createClass({
     id: React.PropTypes.number.isRequired,
     postIdString: React.PropTypes.string.isRequired,
     onSubmitComment: React.PropTypes.func.isRequired,
-    isCommentRequestInFlight: React.PropTypes.bool.isRequired
+    isCommentRequestInFlight: React.PropTypes.bool.isRequired,
+    commentInputAutoFocus: React.PropTypes.bool
   },
 
   render: function() {
@@ -75,6 +76,7 @@ var CommentInput = React.createClass({
           maxLength={2000}
           multiline={true}
           keyboardType='twitter'
+          autoFocus={this.props.commentInputAutoFocus}
           onChangeText={ (commentText) => {
             this.setState({
               commentText: commentText

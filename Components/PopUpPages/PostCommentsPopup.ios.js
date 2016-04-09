@@ -10,7 +10,8 @@ var PostCommentsPopup = React.createClass({
 
   propTypes: {
     navigator: React.PropTypes.object.isRequired,
-    post: React.PropTypes.object.isRequired
+    post: React.PropTypes.object.isRequired,
+    commentInputAutoFocus: React.PropTypes.bool
   },
 
   getInitialState: function() {
@@ -48,7 +49,8 @@ var PostCommentsPopup = React.createClass({
       <PostCommentsPage
         loading={this.state.loading}
         post={this.props.post}
-        navigator={this.props.navigator}/>
+        navigator={this.props.navigator}
+        commentInputAutoFocus={this.props.commentInputAutoFocus}/>
     );
 
     return (

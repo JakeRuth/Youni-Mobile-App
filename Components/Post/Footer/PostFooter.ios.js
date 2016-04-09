@@ -37,13 +37,8 @@ var PostFooter = React.createClass({
     isLikeRequestInFlight: React.PropTypes.bool,
     navigator: React.PropTypes.object.isRequired,
     onSubmitComment: React.PropTypes.func.isRequired,
-    isCommentRequestInFlight: React.PropTypes.bool.isRequired
-  },
-
-  getInitialState: function() {
-    return {
-      commentInputActive: false
-    };
+    isCommentRequestInFlight: React.PropTypes.bool.isRequired,
+    postCommentsPopupComponent: React.PropTypes.any
   },
 
   render: function() {
@@ -77,19 +72,22 @@ var PostFooter = React.createClass({
           navigator={this.props.navigator}
           onSubmitComment={this.props.onSubmitComment}
           isCommentRequestInFlight={this.props.isCommentRequestInFlight}
-          commentInputActive={this.state.commentInputActive}/>
+          commentInputAutoFocus={true}/>
 
       </View>
     );
   },
 
   _onCommentPress: function() {
-    var currentCommentInputState = this.state.commentInputActive;
-    this.setState({
-      commentInputActive: !currentCommentInputState
+    this.props.navigator.push({
+      component: PostCommentsPopup,
+      passProps: {
+        post: this.props.post,
+        commentInputAutoFocus:{true}
+      }
     });
   }
-
+  
 });
 
 module.exports = PostFooter;
