@@ -26,7 +26,8 @@ var styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     right: 0,
-    padding: 19
+    padding: 19,
+    paddingBottom: 5
   }
 });
 
