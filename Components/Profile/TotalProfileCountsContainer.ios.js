@@ -4,7 +4,7 @@ var React = require('react-native');
 var Unicycle = require('../../Unicycle');
 var Emoji = require('../Common/Emoji');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
-GLOBAL = require('../../Utils/Common/GlobalColorMap');
+var Color = require('../../Utils/Common/GlobalColorMap');
 
 var {
   View,
@@ -32,7 +32,7 @@ var styles = StyleSheet.create({
     marginBottom: 1
   },
   countValue: {
-    color: GLOBAL.COLOR.APP,
+    color: Color.YOUNI_PRIMARY_PURPLE,
     textAlign: 'center',
     fontSize: 18,
     marginTop: 1

@@ -1,7 +1,7 @@
 'use strict';
 
 var React = require('react-native');
-GLOBAL = require('./Utils/Common/GlobalColorMap');
+var Color = require('./Utils/Common/GlobalColorMap');
 
 var {
   View,
@@ -14,7 +14,7 @@ var styles = StyleSheet.create({
   container: {
     height: 45,
     padding: 16,
-    backgroundColor: GLOBAL.COLOR.APP
+    backgroundColor: Color.YOUNI_PRIMARY_PURPLE
   },
   header: {
     paddingTop: 2,

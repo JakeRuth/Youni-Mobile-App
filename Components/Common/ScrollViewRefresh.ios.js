@@ -1,7 +1,7 @@
 'use strict';
 
 var React = require('react-native');
-GLOBAL = require('../../Utils/Common/GlobalColorMap');
+var Color = require('../../Utils/Common/GlobalColorMap');
 
 var {
   RefreshControl
@@ -19,8 +19,8 @@ var ScrollViewRefresh = React.createClass({
       <RefreshControl
         refreshing={this.props.isRefreshing}
         onRefresh={this.props.onRefresh}
-        tintColor={GLOBAL.COLOR.APP}
-        colors={[GLOBAL.COLOR.APP]}/>
+        tintColor={Color.YOUNI_PRIMARY_PURPLE}
+        colors={[Color.YOUNI_PRIMARY_PURPLE]}/>
     );
   }
 

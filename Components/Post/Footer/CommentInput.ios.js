@@ -4,7 +4,7 @@ var React = require('react-native');
 var Unicycle = require('../../../Unicycle');
 var userLoginMetadataStore = require('../../../stores/UserLoginMetadataStore');
 var Spinner = require('../../Common/Spinner');
-GLOBAL = require('../../../Utils/Common/GlobalColorMap');
+var Color = require('../../../Utils/Common/GlobalColorMap');
 
 var {
   View,
@@ -37,7 +37,7 @@ var styles = StyleSheet.create({
   },
   postCommentButtonLabel: {
     fontSize: 15,
-    color: GLOBAL.COLOR.APP,
+    color: Color.YOUNI_PRIMARY_PURPLE,
     textAlign: 'center',
     padding: 5
   }

@@ -9,7 +9,7 @@ var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var uploadProfileImageStore = require('../../stores/profile/UploadProfileImageStore');
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 var Spinner = require('../Common/Spinner');
-GLOBAL = require('../../Utils/Common/GlobalColorMap');
+var Color = require('../../Utils/Common/GlobalColorMap');
 
 var {
   View,
@@ -90,7 +90,7 @@ var ProfileImage = React.createClass({
       <Icon
         name='ios-person'
         size={150}
-        color={GLOBAL.COLOR.APP} />
+        color={Color.YOUNI_PRIMARY_PURPLE} />
     );
   },
 

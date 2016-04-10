@@ -5,7 +5,7 @@ var IonIcon = require('react-native-vector-icons/Ionicons');
 var MaterialIcon = require('react-native-vector-icons/MaterialIcons');
 var explorePostsStore = require('../../stores/post/ExplorePostsStore');
 var ExploreFeedEndpoints = require('../../Utils/Enums/ExploreFeedEndpoints');
-GLOBAL = require('../../Utils/Common/GlobalColorMap');
+var Color = require('../../Utils/Common/GlobalColorMap');
 
 var {
   View,
@@ -28,7 +28,7 @@ var styles = StyleSheet.create({
   },
   selectedFilterOption: {
     borderTopWidth: 1,
-    borderTopColor: GLOBAL.COLOR.APP,
+    borderTopColor: Color.YOUNI_PRIMARY_PURPLE,
     paddingTop: 0
   },
   icon: {
@@ -42,7 +42,7 @@ var FeedFilters = React.createClass({
   femaleFilterName: 'female',
   defaultFilterName: 'both',
 
-  selectedIconColor: GLOBAL.COLOR.APP,
+  selectedIconColor: Color.YOUNI_PRIMARY_PURPLE,
   defaultIconColor: '#ADADAD',
 
   propTypes: {

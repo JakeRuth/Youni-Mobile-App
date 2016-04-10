@@ -3,7 +3,7 @@
 var React = require('react-native');
 var Icon = require('react-native-vector-icons/Ionicons');
 var PostLikeText = require('./Like/PostLikeText');
-GLOBAL = require('../../../Utils/Common/GlobalColorMap');
+var Color = require('../../../Utils/Common/GlobalColorMap');
 
 var {
   View,
@@ -64,7 +64,7 @@ var PostStats = React.createClass({
             style={[styles.icon]}
             name='ios-chatbubble-outline'
             size={33}
-            color={GLOBAL.COLOR.APP}/>
+            color={Color.YOUNI_PRIMARY_PURPLE}/>
         </TouchableHighlight>
 
         <PostLikeText
