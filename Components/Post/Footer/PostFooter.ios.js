@@ -71,8 +71,7 @@ var PostFooter = React.createClass({
           post={this.props.post}
           navigator={this.props.navigator}
           onSubmitComment={this.props.onSubmitComment}
-          isCommentRequestInFlight={this.props.isCommentRequestInFlight}
-          commentInputAutoFocus={true}/>
+          isCommentRequestInFlight={this.props.isCommentRequestInFlight}/>
 
       </View>
     );
@@ -83,11 +82,11 @@ var PostFooter = React.createClass({
       component: PostCommentsPopup,
       passProps: {
         post: this.props.post,
-        commentInputAutoFocus:{true}
+        commentInputAutoFocus: true
       }
     });
   }
-  
+
 });
 
 module.exports = PostFooter;
