@@ -21,7 +21,7 @@ var styles = StyleSheet.create({
   },
   backButton: {
     fontSize: 20,
-    color: {Color.YOUNI_PRIMARY_PURPLE},
+    color: Color.YOUNI_PRIMARY_PURPLE,
     marginLeft: 10
   }
 });
