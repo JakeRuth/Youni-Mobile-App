@@ -11,7 +11,7 @@ var PostUtils = {
 
     for (var i = currentPageOffset; i < posts.length + currentPageOffset; i++) {
       var post = posts[i - currentPageOffset];
-      postsJson.push(this._getPostJson(post, i));
+      postsJson.push(this.getPostJson(post, i));
     }
     return postsJson;
   },
@@ -82,17 +82,7 @@ var PostUtils = {
     post.firstComments = post.firstComments.slice(0, this.DEFAULT_MAX_COMMENTS_VISIBLE);
   },
 
-  _resetPostsJson: function(posts) {
-    var postsJson = [];
-
-    for (var i = 0; i < posts.size; i++) {
-      var post = posts.get(i);
-      postsJson.push(this._getPostJson(post, i));
-    }
-    return immutable.List(postsJson);
-  },
-
-  _getPostJson: function(post, index) {
+  getPostJson: function(post, index) {
     return {
       posterProfileImageUrl: post.posterProfilePictureUrl,
       postIdString: post.postIdString,
@@ -112,6 +102,16 @@ var PostUtils = {
       id: index,
       isPostUserCurrentlyTrending: post.isCurrentlyTrending
     };
+  },
+
+  _resetPostsJson: function(posts) {
+    var postsJson = [];
+
+    for (var i = 0; i < posts.size; i++) {
+      var post = posts.get(i);
+      postsJson.push(this.getPostJson(post, i));
+    }
+    return immutable.List(postsJson);
   }
 
 };

@@ -1,26 +1,35 @@
 'use strict';
 
 var React = require('react-native');
+var Icon = require('react-native-vector-icons/Ionicons');
 var Unicycle = require('./Unicycle');
 var profileOwnerStore = require('./stores/profile/ProfileOwnerStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
 var MainScreenBanner = require('./MainScreenBanner');
 var ProfilePageBody = require('./Components/Profile/ProfilePageBody');
 var UserPosts = require('./Components/Profile/UserPosts');
-var LogoutButton = require('./Components/Common/LogoutButton');
 var ErrorPage = require('./Components/Common/ErrorPage');
 var EditSettingsButton = require('./Components/Profile/Settings/EditSettingsButton');
 var ScrollViewRefresh = require('./Components/Common/ScrollViewRefresh');
+var NotificationsPopup = require('./Components/PopupPages/NotificationsPopup');
 
 var {
   View,
   ScrollView,
-  StyleSheet
+  StyleSheet,
+  TouchableHighlight
 } = React;
 
 var styles = StyleSheet.create({
   profilePageContainer: {
     flex: 1
+  },
+  notificationIconContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    padding: 17,
+    paddingBottom: 0
   }
 });
 
@@ -81,13 +90,29 @@ var ProfilePage = React.createClass({
 
         <MainScreenBanner
           title={profileOwnerStore.getFirstName() + ' ' + profileOwnerStore.getLastName()}/>
-
-        <LogoutButton navigator={this.props.navigator}/>
         <EditSettingsButton navigator={this.props.navigator}/>
-
+        {this._renderNotificationIcon()}
         {content}
 
       </View>
+    );
+  },
+
+  _renderNotificationIcon: function() {
+    return (
+      <TouchableHighlight
+        onPress={()=>{
+          this.props.navigator.push({
+            component: NotificationsPopup
+          });
+        }}
+        style={styles.notificationIconContainer}
+        underlayColor='transparent'>
+        <Icon
+          name='android-notifications-none'
+          size={25}
+          color='white'/>
+      </TouchableHighlight>
     );
   },
 

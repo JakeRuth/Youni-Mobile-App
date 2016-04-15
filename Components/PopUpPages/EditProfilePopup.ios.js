@@ -21,7 +21,9 @@ var EditProfilePopup = React.createClass({
       <OverlayPage
         content={<EditSettingsPage navigator={this.props.navigator}/>}
         onBackArrowPress={() => {this.props.navigator.pop();}}
-        bannerTitle='Edit'/>
+        bannerTitle='Settings'
+        showLogoutButton={true}
+        navigator={this.props.navigator}/>
     );
   }
 
