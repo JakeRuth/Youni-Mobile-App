@@ -204,7 +204,7 @@ var ProfilePopup = React.createClass({
         },
         (res) => {
           that.setState({
-            posts: PostUtils.increaseLikeCount(that.state.posts, postIndex),
+            posts: PostUtils.increaseLikeCountFromList(that.state.posts, postIndex),
             isLikeRequestInFlight: false
           });
           callback();
@@ -236,7 +236,7 @@ var ProfilePopup = React.createClass({
         },
         (res) => {
           that.setState({
-            posts: PostUtils.decreaseLikeCount(this.state.posts, postIndex),
+            posts: PostUtils.decreaseLikeCountFromList(this.state.posts, postIndex),
             isLikeRequestInFlight: false
           });
           callback();
@@ -264,7 +264,7 @@ var ProfilePopup = React.createClass({
       },
       (res) => {
         that.setState({
-          posts: PostUtils.addComment(posts, id, comment, commenterName)
+          posts: PostUtils.addCommentFromList(posts, id, comment, commenterName)
         });
         callback();
       },

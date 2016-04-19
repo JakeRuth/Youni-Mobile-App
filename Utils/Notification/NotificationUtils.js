@@ -33,6 +33,7 @@ var NotificationUtils = {
       senderEmail: notification.senderEmail,
       isGlobal: notification.isGlobal,
       isRead: notification.isRead,
+      timestamp: notification.timestamp,
       id: id
     };
 

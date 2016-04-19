@@ -1,6 +1,5 @@
 'use strict';
 
-var React = require('react-native');
 var immutable = require('immutable');
 var Unicycle = require('../Unicycle');
 var AjaxUtils = require('../Utils/Common/AjaxUtils');
@@ -18,8 +17,17 @@ var notificationStore = Unicycle.createStore({
       isRequestInFlight: false,
       loadingMoreResults: false,
       moreResultsToFetch: true,
-      fetchOffsetAmount: 0
+      fetchOffsetAmount: 0,
+      numUnreadNotifications: 0
     });
+  },
+
+  startPollingForUnread: function() {
+    var that = this;
+
+    setInterval(function() {
+      that.countUnreadNotifications();
+    }, 120000); // every two minutes
   },
 
   fetchPage: function(callback) {
@@ -67,9 +75,34 @@ var notificationStore = Unicycle.createStore({
     );
   },
 
+  countUnreadNotifications: function() {
+    var that = this;
+
+    AjaxUtils.ajax(
+      '/notification/countUnreadForUser',
+      {
+        email: userLoginMetaDataStore.getEmail()
+      },
+      (res) => {
+        if (res.body.numNewNotifications >= 0) {
+          this.set({
+            numUnreadNotifications: res.body.numNewNotifications
+          });
+        }
+      },
+      () => { }
+    );
+  },
+
   setOffset: function(offset) {
     this.set({
       fetchOffsetAmount: offset
+    });
+  },
+
+  resetNumUnreadNotifications: function() {
+    this.set({
+      numUnreadNotifications: 0
     });
   },
 
@@ -98,6 +131,10 @@ var notificationStore = Unicycle.createStore({
 
   getNotifications: function() {
     return this.get('notifications');
+  },
+
+  getUnreadNotifications: function() {
+    return this.get('numUnreadNotifications');
   },
 
   getFetchOffsetAmount: function() {

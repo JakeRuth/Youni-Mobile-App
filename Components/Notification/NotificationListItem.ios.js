@@ -19,9 +19,6 @@ var {
 } = React;
 
 var styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
   itemContainer: {
     flex: 1,
     alignItems: 'center',
@@ -62,9 +59,16 @@ var styles = StyleSheet.create({
     borderRadius: 20
   },
   thumbnailIcon: {
-    flex: 1,
     height: 40,
+    paddingTop: 5,
     alignSelf: 'center'
+  },
+  timestamp: {
+    position: 'absolute',
+    left: 50,
+    bottom: 6,
+    fontSize: 9,
+    color: '#ADADAD'
   }
 });
 
@@ -116,12 +120,13 @@ var NotificationsListItem = React.createClass({
     }
 
     return (
-      <View style={styles.container}>
+      <View>
 
         <View style={[styles.itemContainer, unreadNotificationStyle]}>
           {this._renderThumbnail(this.props.notification)}
           {this._renderLabel()}
           {this._renderNotificationTypeIcon(this.props.notification.type)}
+          {this._renderTimestamp(this.props.notification.timestamp)}
         </View>
         {loadMoreNotificationsButton}
 
@@ -130,15 +135,19 @@ var NotificationsListItem = React.createClass({
   },
 
   _renderLabel: function() {
-    var notification = this.props.notification;
+    var notification = this.props.notification,
+        notificationSenderName = '';
+
+    if (notification.type !== NotificationUtils.TYPE_FOLLOW) {
+      notificationSenderName = notification.senderName + ' ';
+    }
 
     return (
       <Text
         style={styles.label}
         onPress={this._onLabelPress}>
-
         <Text style={styles.senderName}>
-          {notification.senderName + ' '}
+          {notificationSenderName}
         </Text>
         {notification.label}
 
@@ -157,10 +166,6 @@ var NotificationsListItem = React.createClass({
       iconName = 'ios-chatbubble-outline';
       iconColor = '#5C7CFF';
     }
-    else if (type === NotificationUtils.TYPE_FOLLOW) {
-      iconName = 'social-usd-outline';
-      iconColor = '#2CD47A';
-    }
     else {
       return <View/>;
     }
@@ -170,9 +175,17 @@ var NotificationsListItem = React.createClass({
         <Icon
           style={styles.thumbnailIcon}
           name={iconName}
-          size={40}
+          size={30}
           color={iconColor}/>
       </View>
+    );
+  },
+
+  _renderTimestamp: function(timestamp) {
+    return (
+      <Text style={styles.timestamp}>
+        {timestamp}
+      </Text>
     );
   },
 
