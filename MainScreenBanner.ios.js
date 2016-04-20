@@ -11,12 +11,12 @@ var {
 
 var styles = StyleSheet.create({
   container: {
-    height: 55,
+    height: 45,
     padding: 16,
     backgroundColor: '#5C7CFF'
   },
   header: {
-    paddingTop: 10,
+    paddingTop: 2,
     fontSize: 20,
     fontWeight: '500',
     textAlign: 'center',

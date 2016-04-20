@@ -29,6 +29,7 @@ var PostLikeText = React.createClass({
 
   propTypes: {
     numLikes: React.PropTypes.number.isRequired,
+    numViews: React.PropTypes.number.isRequired,
     postIdString: React.PropTypes.string.isRequired,
     numComments: React.PropTypes.number.isRequired,
     navigator: React.PropTypes.object.isRequired,
@@ -70,15 +71,24 @@ var PostLikeText = React.createClass({
 
   //TODO: this should be handled by the api
   _getLikesText() {
+    var text = '';
+
     if (this.props.numLikes > 1) {
-      return this.props.numLikes + ' likes';
+      text =  this.props.numLikes + ' likes';
     }
     else if (this.props.numLikes === 1) {
-      return this.props.numLikes + ' like';
+      text = this.props.numLikes + ' like';
     }
-    else {
-      return '';
+
+    if (this.props.numViews) {
+      text += '  ' + this.props.numViews + ' view';
+
+      if (this.props.numViews > 1) {
+        text += 's';
+      }
     }
+
+    return text;
   }
 
 });

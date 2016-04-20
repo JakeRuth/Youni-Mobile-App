@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react-native');
+var Emoji = require('../Common/Emoji');
 var trendingStore = require('../../stores/trending/TrendingStore');
 
 var {
@@ -35,7 +36,16 @@ var styles = StyleSheet.create({
   },
   points: {
     alignSelf: 'center',
-    right: 5
+    right: 5,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  pointsValue: {
+    textAlign: 'right'
+  },
+  pointsFireEmoji: {
+    marginBottom: 3
   },
   image: {
     justifyContent: 'center',
@@ -74,9 +84,15 @@ var TrendingUser = React.createClass({
           {this.props.firstName}
         </Text>
 
-        <Text style={styles.points}>
-          {this.props.points}
-        </Text>
+        <View style={styles.points}>
+          <Text stlye={styles.pointsValue}>
+            {this.props.points}
+          </Text>
+          <Emoji
+            style={styles.pointsFireEmoji}
+            name="fire"
+            size={12}/>
+        </View>
 
       </View>
     );

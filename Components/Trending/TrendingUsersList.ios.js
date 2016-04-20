@@ -19,6 +19,7 @@ var {
 var TrendingUsersList = React.createClass({
 
   propTypes: {
+    users: React.PropTypes.object.isRequired,
     onPageRefresh: React.PropTypes.func.isRequired,
     isPageLoading: React.PropTypes.bool.isRequired,
     navigator: React.PropTypes.object.isRequired
@@ -26,7 +27,7 @@ var TrendingUsersList = React.createClass({
 
   render: function() {
     var content,
-        trendingUsersJson = trendingStore.getTrendingUsers();
+        trendingUsersJson = this.props.users;
 
     if (trendingUsersJson.size) {
       content = this._renderTrendingUsers(trendingUsersJson);
