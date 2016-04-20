@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react-native');
+var Color = require('../../Utils/Common/GlobalColorMap');
 
 var {
   View,
@@ -22,7 +23,7 @@ var Spinner = React.createClass({
       <View style={styles.container}>
         <ActivityIndicatorIOS
           size={'small'}
-          color={'black'}/>
+          color={Color.SPINNER}/>
       </View>
     );
   }

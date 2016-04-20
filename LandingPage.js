@@ -14,6 +14,7 @@ var OverlayPage = require('./Components/Common/OverlayPage');
 var loginStore = require('./stores/LoginStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
 var tabStateStore = require('./stores/TabStateStore');
+var Color = require('./Utils/Common/GlobalColorMap');
 
 var {
   View,
@@ -59,7 +60,7 @@ var LandingPage = React.createClass({
   _renderTabBar: function() {
     return (
       <TabBarIOS
-        tintColor="#5C7CFF">
+        tintColor={Color.YOUNI_PRIMARY_PURPLE}>
 
         {this._renderHomeTab()}
         {this._renderExploreTab()}
