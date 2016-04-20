@@ -45,12 +45,12 @@ var DeletePostIcon = React.createClass({
     },
     (buttonIndex) => {
       if (buttonIndex === 0) {
-        this._onConfirmDeleteAction();
+        this._showAreYouSureDeletePostPrompt();
       }
     });
   },
 
-  _onConfirmDeleteAction: function() {
+  _showAreYouSureDeletePostPrompt: function() {
     AlertIOS.alert(
       'Delete Post',
       'Are you sure you want to permanently remove this post from Youni?',
@@ -62,7 +62,6 @@ var DeletePostIcon = React.createClass({
         {
           text: 'No'
         }
-
       ]
     );
   },
