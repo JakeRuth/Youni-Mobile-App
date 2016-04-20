@@ -11,6 +11,7 @@ var EmptyResults = require('./Components/Common/EmptyResults');
 var Spinner = require('./Components/Common/Spinner');
 var ProfilePopup = require('./Components/PopupPages/ProfilePopup');
 var Emoji = require('./Components/Common/Emoji');
+var Color = require('./Utils/Common/GlobalColorMap');
 
 var {
   View,
@@ -179,7 +180,7 @@ var SearchResult = React.createClass({
           style={styles.profileImage}
           name='ios-person'
           size={40}
-          color='#5C7CFF' />
+          color={Color.YOUNI_PRIMARY_PURPLE} />
       );
     }
 

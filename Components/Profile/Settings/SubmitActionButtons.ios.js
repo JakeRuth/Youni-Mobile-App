@@ -2,6 +2,7 @@
 
 var React = require('react-native');
 var Icon = require('react-native-vector-icons/Ionicons');
+var Color = require('../../../Utils/Common/GlobalColorMap');
 
 var {
   View,
@@ -41,7 +42,7 @@ var EditBioBox = React.createClass({
           underlayColor='transparent'>
 
           <Icon style={styles.submitButton}
-            name='checkmark' size={30} color={'#5C7CFF'} />
+            name='checkmark' size={30} color={Color.YOUNI_PRIMARY_PURPLE} />
 
         </TouchableHighlight>
         <TouchableHighlight

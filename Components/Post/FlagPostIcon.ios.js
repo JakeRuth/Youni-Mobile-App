@@ -4,6 +4,8 @@ var React = require('react-native');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var Icon = require('react-native-vector-icons/MaterialIcons');
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
+var Color = require('../../Utils/Common/GlobalColorMap');
+
 
 var {
   TouchableHighlight,
@@ -39,7 +41,7 @@ var FlagPostIcon = React.createClass({
         'Cancel'
       ],
       cancelButtonIndex: 1,
-      tintColor: '#5C7CFF'
+      tintColor: Color.YOUNI_PRIMARY_PURPLE
     },
     (buttonIndex) => {
       if (buttonIndex === 0) {
