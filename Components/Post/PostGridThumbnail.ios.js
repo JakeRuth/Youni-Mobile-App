@@ -116,31 +116,9 @@ var PostGridThumbnail = React.createClass({
   _renderPostStats: function() {
     var viewsStat, likesStat, commentsStat;
 
-    // Need to check this since post views were introduced and recorded after likes existed
-    if (this.props.post.numViews >= this.props.post.numLikes) {
-      viewsStat = (
-        <View style={[styles.iconContainer, styles.leftMostIcon]}>
-          <Text style={styles.iconLabel}>
-            {this.props.post.numViews === 0 ? 1 : this.props.post.numViews}
-          </Text>
-          <Icon
-            style={styles.icon}
-            name={'eye'}
-            size={this._iconSize}
-            color="white"/>
-        </View>
-      );
-    }
-
     if (this.props.post.numLikes) {
-      let likeCountStyles = [styles.iconContainer];
-
-      if (!this.props.post.numViews || this.props.post.numViews < this.props.post.numLikes) {
-        likeCountStyles.push(styles.leftMostIcon);
-      }
-
       likesStat = (
-        <View style={likeCountStyles}>
+        <View style={[styles.iconContainer, styles.leftMostIcon]}>
           <Text style={styles.iconLabel}>
             {this.props.post.numLikes}
           </Text>
@@ -156,7 +134,7 @@ var PostGridThumbnail = React.createClass({
     if (this.props.post.numComments) {
       let commentsCountStyles = [styles.iconContainer];
 
-      if (this.props.post.numViews !== 0 && this.props.post.numViews < this.props.post.numLikes && !this.props.post.numLikes) {
+      if (!this.props.post.numLikes) {
         commentsCountStyles.push(styles.leftMostIcon);
       }
 
