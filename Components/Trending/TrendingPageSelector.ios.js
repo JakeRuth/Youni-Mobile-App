@@ -3,6 +3,7 @@
 var React = require('react-native');
 var Unicycle = require('../../Unicycle');
 var Emoji = require('../Common/Emoji');
+var Color = require('../../Utils/Common/GlobalColorMap');
 
 var {
   View,
@@ -24,7 +25,7 @@ var styles = StyleSheet.create({
   },
   selectedFeedSelector: {
     borderBottomWidth: 1,
-    borderBottomColor: '#5C7CFF'
+    borderBottomColor: Color.YOUNI_PRIMARY_PURPLE
   },
   selector: {
     fontSize: 20,

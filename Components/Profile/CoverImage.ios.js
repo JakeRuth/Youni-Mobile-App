@@ -4,6 +4,7 @@ var React = require('react-native');
 var Icon = require('react-native-vector-icons/Ionicons');
 var Unicycle = require('../../Unicycle');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
+var Color = require('../../Utils/Common/GlobalColorMap');
 
 var {
   View,
@@ -64,7 +65,7 @@ var CoverImage = React.createClass({
       <Icon
         name='ios-person'
         size={150}
-        color='#5C7CFF' />
+        color={Color.YOUNI_PRIMARY_PURPLE} />
     );
   },
 

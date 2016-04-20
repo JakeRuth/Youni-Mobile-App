@@ -17,6 +17,8 @@ var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
 var tabStateStore = require('./stores/TabStateStore');
 var notificationStore = require('./stores/NotificationStore');
 
+var Color = require('./Utils/Common/GlobalColorMap');
+
 var {
   View,
   Text,
@@ -82,7 +84,7 @@ var LandingPage = React.createClass({
   _renderTabBar: function() {
     return (
       <TabBarIOS
-        tintColor="#5C7CFF">
+        tintColor={Color.YOUNI_PRIMARY_PURPLE}>
 
         {this._renderHomeTab()}
         {this._renderExploreTab()}
