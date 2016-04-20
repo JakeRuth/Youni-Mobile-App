@@ -42,11 +42,6 @@ var styles = StyleSheet.create({
     textAlign: 'center',
     color: 'gray'
   },
-  spinnerContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
   logoContainer: {
     position: 'absolute',
     top: 5,
