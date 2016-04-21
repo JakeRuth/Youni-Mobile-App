@@ -31,7 +31,7 @@ var OverlayPage = React.createClass({
 
     getInitialState: function() {
         return {
-            isKeyboardVisible: false,
+            isKeyboardVisible: this.props.isKeyboardVisible,
             bottomOfScrollViewPosition: null
         };
     },
@@ -40,6 +40,7 @@ var OverlayPage = React.createClass({
         content: React.PropTypes.any.isRequired,
         onBackArrowPress: React.PropTypes.func.isRequired,
         bannerTitle: React.PropTypes.string,
+        isKeyboardVisible: React.PropTypes.bool,
         bumpContentUpWhenKeyboardShows: React.PropTypes.bool
     },
 

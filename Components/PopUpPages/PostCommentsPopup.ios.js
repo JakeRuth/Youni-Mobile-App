@@ -68,14 +68,8 @@ var PostCommentsPopup = React.createClass({
             this.props.navigator.pop();
           }}
           bannerTitle='Comments'
-          bumpContentUpWhenKeyboardShows={true}/>
-
-            <CommentInput
-              id={this.props.post.id}
-              postIdString={this.props.post.postIdString}
-              onSubmitComment={this.props.onSubmitComment}
-              isCommentRequestInFlight={this.props.isCommentRequestInFlight}
-              commentInputAutoFocus={this.props.commentInputAutoFocus}/>
+          bumpContentUpWhenKeyboardShows={true}
+          isKeyboardVisible={this.props.commentInputAutoFocus}/>
       </View>
     );
   }
