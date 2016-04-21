@@ -4,6 +4,7 @@ var React = require('react-native');
 var Unicycle = require('../../Unicycle');
 var Icon = require('react-native-vector-icons/MaterialIcons');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
+var Color = require('../../Utils/Common/GlobalColorMap');
 
 var {
   TouchableHighlight,
@@ -41,13 +42,29 @@ var DeletePostIcon = React.createClass({
         'Cancel'
       ],
       cancelButtonIndex: 1,
-      tintColor: '#5C7CFF'
+      tintColor: Color.YOUNI_PRIMARY_PURPLE
     },
     (buttonIndex) => {
       if (buttonIndex === 0) {
-        this._onConfirmDeletePress();
+        this._showAreYouSureDeletePostPrompt();
       }
     });
+  },
+
+  _showAreYouSureDeletePostPrompt: function() {
+    AlertIOS.alert(
+      'Delete Post',
+      'Are you sure you want to permanently remove this post from Youni?',
+      [
+        {
+          text: 'Yes',
+          onPress: this._onConfirmDeletePress
+        },
+        {
+          text: 'No'
+        }
+      ]
+    );
   },
 
   _onConfirmDeletePress: function() {
