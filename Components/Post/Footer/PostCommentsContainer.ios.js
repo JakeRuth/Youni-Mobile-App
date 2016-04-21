@@ -48,7 +48,6 @@ var PostCommentsContainer = React.createClass({
       <View>
 
         {comments}
-        {commentInput}
 
       </View>
     );

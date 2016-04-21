@@ -5,6 +5,11 @@ var OverlayPage = require('../Common/OverlayPage');
 var PostCommentsPage = require('../Post/PostCommentsPage');
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 var PostUtils = require('../../Utils/Post/PostUtils');
+var CommentInput = require('../Post/Footer/CommentInput');
+
+var {
+  View
+} = React;
 
 var PostCommentsPopup = React.createClass({
 
@@ -54,15 +59,24 @@ var PostCommentsPopup = React.createClass({
     );
 
     return (
-      <OverlayPage
-        content={pageContent}
-        onBackArrowPress={() => {
-          PostUtils.trimPostCommentForFeed(this.props.post);
-          this.props.post.moreCommentsToShow = true;
-          this.props.navigator.pop();
-        }}
-        bannerTitle='Comments'
-        bumpContentUpWhenKeyboardShows={true}/>
+      <View>
+        <OverlayPage
+          content={pageContent}
+          onBackArrowPress={() => {
+            PostUtils.trimPostCommentForFeed(this.props.post);
+            this.props.post.moreCommentsToShow = true;
+            this.props.navigator.pop();
+          }}
+          bannerTitle='Comments'
+          bumpContentUpWhenKeyboardShows={true}/>
+
+            <CommentInput
+              id={this.props.post.id}
+              postIdString={this.props.post.postIdString}
+              onSubmitComment={this.props.onSubmitComment}
+              isCommentRequestInFlight={this.props.isCommentRequestInFlight}
+              commentInputAutoFocus={this.props.commentInputAutoFocus}/>
+      </View>
     );
   }
 

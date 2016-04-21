@@ -76,7 +76,7 @@ var CommentInput = React.createClass({
           maxLength={2000}
           multiline={true}
           keyboardType='twitter'
-          autoFocus={this.props.commentInputAutoFocus}
+          autoFocus={true}
           onChangeText={ (commentText) => {
             this.setState({
               commentText: commentText
