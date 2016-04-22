@@ -3,6 +3,7 @@
 var React = require('react-native');
 var Unicycle = require('../../Unicycle');
 var notificationStore = require('../../stores/NotificationStore');
+var Spinner = require('../Common/Spinner');
 var NotificationListItem = require('./NotificationListItem');
 
 var {
@@ -14,10 +15,11 @@ var {
 } = React;
 
 var styles = StyleSheet.create({
-  loadMoreNotificationsButton: {
-    position: 'absolute',
-    backgroundColor: 'blue',
-    bottom: 0
+  noNotificationsMessage: {
+    alignSelf: 'center',
+    fontSize: 20,
+    color: '#5C7CFF',
+    padding: 20
   }
 });
 
@@ -35,17 +37,8 @@ var NotificationsList = React.createClass({
   },
 
   componentDidMount: function() {
-    var that = this;
-
-    var waitUntilNotificationsLoad = setInterval(function() {
-      if (!notificationStore.isRequestInFlight()) {
-        that.setState({
-          dataSource: that.state.dataSource.cloneWithRows(notificationStore.getFirstPage())
-        });
-        clearInterval(waitUntilNotificationsLoad);
-        notificationStore.fetchPage(that._onGetNextPageOfNotificationsCallback)
-      }
-    }, 100);
+    notificationStore.setOffset(0);
+    notificationStore.fetchPage(this._onGetNextPageOfNotificationsCallback, true);
   },
 
   mixins: [
@@ -56,13 +49,27 @@ var NotificationsList = React.createClass({
     var notifications = notificationStore.getFirstPage(),
         that = this;
 
-    return (
-      <ListView
-        initialListSize={notifications.length}
-        dataSource={this.state.dataSource}
-        renderRow={this._renderRow}
-        renderScrollComponent={props => <RecyclerViewBackedScrollView {...props} />}/>
-    );
+    if (notificationStore.isInitialPageLoading()) {
+      return (
+        <Spinner/>
+      );
+    }
+    else if (notifications.length === 0) {
+      return (
+        <Text style={styles.noNotificationsMessage}>
+          No notifications
+        </Text>
+      );
+    }
+    else {
+      return (
+        <ListView
+          initialListSize={notifications.length}
+          dataSource={this.state.dataSource}
+          renderRow={this._renderRow}
+          renderScrollComponent={props => <RecyclerViewBackedScrollView {...props} />}/>
+      );
+    }
   },
 
   _renderRow: function(notification) {
@@ -71,7 +78,7 @@ var NotificationsList = React.createClass({
         notification={notification}
         navigator={this.props.navigator}
         onLoadMoreNotifications={() => {
-          notificationStore.fetchPage(this._onGetNextPageOfNotificationsCallback);
+          notificationStore.fetchPage(this._onGetNextPageOfNotificationsCallback, true);
         }}/>
     );
   },

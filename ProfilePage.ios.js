@@ -63,7 +63,7 @@ var ProfilePage = React.createClass({
         numUnreadNotifications = notificationStore.getUnreadNotifications(),
         content, notificationCallout;
 
-    if (numUnreadNotifications > 0) {
+    if (numUnreadNotifications) {
       notificationCallout = (
         <View style={styles.unReadNotificationCalloutContainer}>
           <NotificationCallout label={numUnreadNotifications}/>

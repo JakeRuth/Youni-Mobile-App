@@ -12,7 +12,7 @@ var notificationStore = Unicycle.createStore({
 
   init: function() {
     this.set({
-      notifications: null,
+      notifications: [],
       isInitialPageLoad: true,
       isRequestInFlight: false,
       loadingMoreResults: false,
@@ -25,12 +25,13 @@ var notificationStore = Unicycle.createStore({
   startPollingForUnread: function() {
     var that = this;
 
+    that.countUnreadNotifications();
     setInterval(function() {
       that.countUnreadNotifications();
     }, 120000); // every two minutes
   },
 
-  fetchPage: function(callback) {
+  fetchPage: function(callback, shouldCallerRecallThisFunction) {
     var that = this,
         currentOffset = this.getFetchOffsetAmount(),
         currentNotifications = this.getNotifications();
@@ -38,6 +39,12 @@ var notificationStore = Unicycle.createStore({
     this.set({
       isRequestInFlight: true
     });
+
+    if (currentOffset == 0) {
+      this.set({
+        isInitialPageLoad: true
+      });
+    }
 
     AjaxUtils.ajax(
       '/notification/fetchForUser',
@@ -65,6 +72,11 @@ var notificationStore = Unicycle.createStore({
           isInitialPageLoad: false,
           isRequestInFlight: false
         });
+
+        // pass false to ensure we don't get into an infinite loop of calling this function recursively (hacky base case)
+        if (shouldCallerRecallThisFunction) {
+          that.fetchPage(callback, false);
+        }
       },
       () => {
         that.set({
@@ -81,10 +93,17 @@ var notificationStore = Unicycle.createStore({
     AjaxUtils.ajax(
       '/notification/countUnreadForUser',
       {
-        email: userLoginMetaDataStore.getEmail()
+        email: userLoginMetaDataStore.getEmail(),
+        numToInspect: PAGE_SIZE * 2
       },
       (res) => {
         if (res.body.numNewNotifications >= 0) {
+
+          // TODO: Figure out a better place to put this
+          if (res.body.numNewNotifications >= PAGE_SIZE * 2) {
+            res.body.numNewNotifications = '!';
+          }
+
           this.set({
             numUnreadNotifications: res.body.numNewNotifications
           });
