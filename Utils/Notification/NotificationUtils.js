@@ -31,7 +31,6 @@ var NotificationUtils = {
       senderUserProfileImageUrl: notification.senderUserProfileImageUrl,
       explanation: notification.explanation,
       senderEmail: notification.senderEmail,
-      isGlobal: notification.isGlobal,
       isRead: notification.isRead,
       timestamp: notification.timestamp,
       id: id

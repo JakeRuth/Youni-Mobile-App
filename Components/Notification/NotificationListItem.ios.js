@@ -9,6 +9,7 @@ var ProfilePopup = require('../PopupPages/ProfilePopup');
 var notificationStore = require('../../stores/NotificationStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var NotificationUtils = require('../../Utils/Notification/NotificationUtils');
+var Color = require('../../Utils/Common/GlobalColorMap');
 
 var {
   View,
@@ -24,15 +25,18 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
-    height: 50,
     backgroundColor: 'white',
     borderBottomColor: '#F0F0F0',
     borderBottomWidth: 1,
     marginBottom: 1,
-    padding: 5
+    paddingTop: 2,
+    paddingBottom: 2,
+    paddingLeft: 5,
+    paddingRight: 5
   },
   label: {
     flex: 7,
+    alignSelf: 'center',
     textAlign: 'left',
     color: '#525252',
     fontSize: 13,
@@ -43,17 +47,24 @@ var styles = StyleSheet.create({
   senderName: {
     color: '#5C7CFF'
   },
+  logoContainer: {
+    backgroundColor: Color.YOUNI_PRIMARY_PURPLE
+  },
   thumbnailContainer: {
     alignItems: 'center',
     justifyContent: 'center',
     height: 40,
-    width: 40
+    width: 40,
+    borderRadius: 3
   },
   thumbnailImage: {
     height: 40,
     width: 40,
-    resizeMode: "cover",
-    borderRadius: 3
+    resizeMode: "cover"
+  },
+  logoThumbnailImage: {
+    height: 16.5,
+    width: 40.5
   },
   profileThumbnailImage: {
     borderRadius: 20
@@ -68,7 +79,8 @@ var styles = StyleSheet.create({
     left: 50,
     bottom: 6,
     fontSize: 9,
-    color: '#ADADAD'
+    color: '#ADADAD',
+    backgroundColor: 'transparent'
   }
 });
 
@@ -136,21 +148,33 @@ var NotificationsListItem = React.createClass({
 
   _renderLabel: function() {
     var notification = this.props.notification,
-        notificationSenderName = '';
+        notificationSenderName = '',
+        onLabelPress = () => {},
+        label = '';
 
-    if (notification.type !== NotificationUtils.TYPE_FOLLOW) {
+    if (notification.post) {
       notificationSenderName = notification.senderName + ' ';
+    }
+
+    if (notification.type !== NotificationUtils.TYPE_SYSTEM) {
+      onLabelPress = this._onLabelPress;
+    }
+
+    if (notification.explanation) {
+      label = notification.explanation;
+    }
+    else {
+      label = notification.label;
     }
 
     return (
       <Text
         style={styles.label}
-        onPress={this._onLabelPress}>
+        onPress={onLabelPress}>
         <Text style={styles.senderName}>
           {notificationSenderName}
         </Text>
-        {notification.label}
-
+        {label}
       </Text>
     );
   },
@@ -191,14 +215,26 @@ var NotificationsListItem = React.createClass({
 
   _renderThumbnail: function(notification) {
     if (notification.post) {
-      return this._renderPostThumbail(notification.post);
+      return this._renderPostThumbnail(notification.post);
     }
     else if (notification.type === NotificationUtils.TYPE_FOLLOW) {
       return this._renderLikeThumbnail();
     }
+    else if(notification.type === NotificationUtils.TYPE_SYSTEM) {
+      return (
+        <View style={[styles.thumbnailContainer, styles.logoContainer]}>
+          <Image
+            style={styles.logoThumbnailImage}
+            source={require('../../images/logoWhiteTextBlankBackground.png')}/>
+        </View>
+      )
+    }
+    else {
+      return <View/>;
+    }
   },
 
-  _renderPostThumbail: function(post) {
+  _renderPostThumbnail: function(post) {
     return (
       <TouchableHighlight
         style={styles.thumbnailContainer}
