@@ -22,15 +22,6 @@ var notificationStore = Unicycle.createStore({
     });
   },
 
-  startPollingForUnread: function() {
-    var that = this;
-
-    that.countUnreadNotifications();
-    setInterval(function() {
-      that.countUnreadNotifications();
-    }, 120000); // every two minutes
-  },
-
   fetchPage: function(callback, shouldCallerRecallThisFunction) {
     var that = this,
         currentOffset = this.getFetchOffsetAmount(),

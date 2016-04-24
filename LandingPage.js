@@ -24,7 +24,8 @@ var {
   Text,
   StyleSheet,
   TabBarIOS,
-  AsyncStorage
+  AsyncStorage,
+  AppStateIOS
 } = React;
 
 var styles = StyleSheet.create({
@@ -45,6 +46,12 @@ var LandingPage = React.createClass({
     navigator: React.PropTypes.object.isRequired
   },
 
+  getInitialState: function() {
+    return {
+      currentAppState: AppStateIOS.currentState
+    };
+  },
+
   mixins: [
     Unicycle.listenTo(loginStore),
     Unicycle.listenTo(tabStateStore),
@@ -52,13 +59,20 @@ var LandingPage = React.createClass({
   ],
 
   componentDidMount: function() {
-    notificationStore.startPollingForUnread();
+    AppStateIOS.addEventListener('change', this._handleAppStateChange);
+
+    notificationStore.countUnreadNotifications();
+    this._pollForNotifications();
 
     //nice little trick to get the spinner to stay during the animation to home page
     AsyncStorage.getItem('accessToken').then(() => {
       Unicycle.exec('setSelectedTab', 'home');
       Unicycle.exec('setLoginInFlight', false);
     }).done();
+  },
+
+  componentWillUnmount: function() {
+    AppStateIOS.removeEventListener('change', this._handleAppStateChange);
   },
 
   render: function() {
@@ -174,6 +188,22 @@ var LandingPage = React.createClass({
           navigator={this.props.navigator}/>
       </Icon.TabBarItem>
     );
+  },
+
+  _pollForNotifications: function() {
+    var that = this;
+
+    setInterval(function() {
+      if (that.state.currentAppState === 'active') {
+        notificationStore.countUnreadNotifications();
+      }
+    }, 60000); // every minute
+  },
+
+  _handleAppStateChange: function(currentAppState) {
+    this.setState({
+      currentAppState: currentAppState
+    });
   },
 
   _transitionState: function(selectedTabName) {
