@@ -18,7 +18,8 @@ var PostCommentsContainer = React.createClass({
     onSubmitComment: React.PropTypes.func.isRequired,
     isCommentRequestInFlight: React.PropTypes.bool.isRequired,
     commentInputActive: React.PropTypes.bool,
-    commentInputAutoFocus: React.PropTypes.bool
+    commentInputAutoFocus: React.PropTypes.bool,
+    renderCommentsOnPostFooter: React.PropTypes.bool
   },
 
   render: function() {
@@ -29,7 +30,8 @@ var PostCommentsContainer = React.createClass({
         <CommentList
           postCommentsPopupComponent={this.props.postCommentsPopupComponent}
           post={this.props.post}
-          navigator={this.props.navigator}/>
+          navigator={this.props.navigator}
+          renderCommentsOnPostFooter={this.props.renderCommentsOnPostFooter}/>
       );
     }
 

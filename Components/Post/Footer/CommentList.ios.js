@@ -29,12 +29,15 @@ var styles = StyleSheet.create({
   }
 });
 
+var MAX_COMMENTS_PER_PAGE = 3;
+
 var CommentList = React.createClass({
 
   propTypes: {
     post: React.PropTypes.object.isRequired,
     navigator: React.PropTypes.object.isRequired,
-    postCommentsPopupComponent: React.PropTypes.any
+    postCommentsPopupComponent: React.PropTypes.any,
+    renderCommentsOnPostFooter: React.PropTypes.bool
   },
 
   render: function() {
@@ -66,6 +69,9 @@ var CommentList = React.createClass({
           key={i}
           navigator={this.props.navigator}/>
       );
+      if(this.props.renderCommentsOnPostFooter == true && (i == MAX_COMMENTS_PER_PAGE-1)){
+        i = this.props.post.firstComments.length;
+      }
     }
     return comments;
   },

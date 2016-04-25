@@ -64,7 +64,7 @@ var PostCommentsPopup = React.createClass({
           content={pageContent}
           onBackArrowPress={() => {
             PostUtils.trimPostCommentForFeed(this.props.post);
-            this.props.post.moreCommentsToShow = true;
+            this.props.post.moreCommentsToShow = this._doesPostHaveMoreCommentsToShow();
             this.props.navigator.pop();
           }}
           bannerTitle='Comments'
@@ -72,6 +72,10 @@ var PostCommentsPopup = React.createClass({
           isKeyboardVisible={this.props.commentInputAutoFocus}/>
       </View>
     );
+  },
+
+  _doesPostHaveMoreCommentsToShow: function(){
+    return (this.props.post.numComments>3);
   }
 
 });
