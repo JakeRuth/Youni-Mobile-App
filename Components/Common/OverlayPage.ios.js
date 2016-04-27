@@ -3,6 +3,7 @@
 var React = require('react-native');
 var MainScreenBanner = require('../../MainScreenBanner');
 var BackArrow = require('./BackArrow');
+var LogoutButton = require('./LogoutButton');
 
 var {
     View,
@@ -31,7 +32,7 @@ var OverlayPage = React.createClass({
 
     getInitialState: function() {
         return {
-            isKeyboardVisible: this.props.isKeyboardVisible,
+            isKeyboardVisible: false,
             bottomOfScrollViewPosition: null
         };
     },
@@ -40,8 +41,9 @@ var OverlayPage = React.createClass({
         content: React.PropTypes.any.isRequired,
         onBackArrowPress: React.PropTypes.func.isRequired,
         bannerTitle: React.PropTypes.string,
-        isKeyboardVisible: React.PropTypes.bool,
-        bumpContentUpWhenKeyboardShows: React.PropTypes.bool
+        bumpContentUpWhenKeyboardShows: React.PropTypes.bool,
+        showLogoutButton: React.PropTypes.bool,
+        navigator: React.PropTypes.object
     },
 
     render: function() {
@@ -68,6 +70,7 @@ var OverlayPage = React.createClass({
             <View style={styles.container}>
                 <MainScreenBanner title={this.props.bannerTitle}/>
                 <BackArrow onPress={this.props.onBackArrowPress}/>
+                {this.props.showLogoutButton && <LogoutButton navigator={this.props.navigator}/>}
 
                 <ScrollView
                   contentOffset={contentOffset}

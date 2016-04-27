@@ -69,7 +69,7 @@ var Post = React.createClass({
         <PostFooter
           post={this.props.post}
           onStarPress={this._onStarPress}
-          isLikeRequestInFlight={this.props.postStore.isLikeRequestInFlight() || this.state.isLikeRequestInFlight}
+          isLikeRequestInFlight={this.state.isLikeRequestInFlight || this.props.postStore.isLikeRequestInFlight()}
           onSubmitComment={this._onSubmitComment}
           isCommentRequestInFlight={this.state.isCommentRequestInFlight}
           navigator={this.props.navigator}/>

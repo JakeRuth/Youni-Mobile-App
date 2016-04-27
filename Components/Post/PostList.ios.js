@@ -4,7 +4,7 @@ var React = require('react-native');
 var homePostsStore = require('../../stores/post/HomePostsStore');
 var Post = require('./Post');
 var PostGrid = require('./PostGrid');
-var LoadMorePostsButton = require('./LoadMorePostsButton');
+var LoadMoreButton = require('../Common/LoadMoreButton');
 var Icon = require('react-native-vector-icons/Ionicons');
 
 var {
@@ -114,13 +114,12 @@ var PostList = React.createClass({
   },
 
   _renderLoadMorePostsButton: function() {
-    if (!this.props.noMorePostsToFetch) {
-      return (
-          <LoadMorePostsButton
-            onLoadMorePostsPress={this.props.onLoadMorePostsPress}
-            loadMorePostsRequestInFlight={this.props.isLoadMorePostsRequestInFlight}/>
-      );
-    }
+    return (
+        <LoadMoreButton
+          onPress={this.props.onLoadMorePostsPress}
+          isLoading={this.props.isLoadMorePostsRequestInFlight}
+          isVisible={!this.props.noMorePostsToFetch}/>
+    );
   }
 
 });

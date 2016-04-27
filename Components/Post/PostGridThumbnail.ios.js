@@ -168,7 +168,10 @@ var PostGridThumbnail = React.createClass({
 
     this.props.navigator.push({
       component: PostPopup,
-      passProps: {post: this.props.post}
+      passProps: {
+        post: this.props.post,
+        clickedFromExploreFeed: true
+      }
     });
 
     if (email !== this.props.post.posterEmail) {

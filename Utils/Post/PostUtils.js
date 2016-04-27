@@ -11,7 +11,7 @@ var PostUtils = {
 
     for (var i = currentPageOffset; i < posts.length + currentPageOffset; i++) {
       var post = posts[i - currentPageOffset];
-      postsJson.push(this._getPostJson(post, i));
+      postsJson.push(this.getPostJson(post, i));
     }
     return postsJson;
   },
@@ -31,13 +31,17 @@ var PostUtils = {
     return commentsJson;
   },
 
-  increaseLikeCount: function(posts, id) {
+  increaseLikeCountFromList: function(posts, id) {
     var post = posts.get(id);
-    post.numLikes++;
-    post.numViews++;
-    post.liked = true;
+    post = this.likePost(post);
     posts = posts.set(id, post);
     return posts;
+  },
+
+  likePost: function(post) {
+    post.numLikes++;
+    post.liked = true;
+    return post;
   },
 
   increaseViewCount: function(posts, id) {
@@ -46,16 +50,27 @@ var PostUtils = {
     posts = posts.set(id, post);
   },
 
-  decreaseLikeCount: function(posts, id) {
+  decreaseLikeCountFromList: function(posts, id) {
     var post = posts.get(id);
-    post.numLikes--;
-    post.liked = false;
+    post = this.unlikePost(post);
     posts = posts.set(id, post);
     return posts;
   },
 
-  addComment: function(posts, id, commentText, commenterName) {
+  unlikePost: function(post) {
+    post.numLikes--;
+    post.liked = false;
+    return post;
+  },
+
+  addCommentFromList: function(posts, id, commentText, commenterName) {
     var post = posts.get(id);
+    post = this.addComment(post, commentText, commenterName);
+    posts = posts.set(id, post);
+    return posts;
+  },
+
+  addComment: function(post, commentText, commenterName) {
     post.numComments++;
 
     if (post.firstComments.length < this.DEFAULT_MAX_COMMENTS_VISIBLE) {
@@ -67,9 +82,7 @@ var PostUtils = {
     else {
       post.moreCommentsToShow = true;
     }
-
-    posts = posts.set(id, post);
-    return posts;
+    return post;
   },
 
   removePostFromList: function(posts, postId) {
@@ -82,17 +95,7 @@ var PostUtils = {
     post.firstComments = post.firstComments.slice(0, this.DEFAULT_MAX_COMMENTS_VISIBLE);
   },
 
-  _resetPostsJson: function(posts) {
-    var postsJson = [];
-
-    for (var i = 0; i < posts.size; i++) {
-      var post = posts.get(i);
-      postsJson.push(this._getPostJson(post, i));
-    }
-    return immutable.List(postsJson);
-  },
-
-  _getPostJson: function(post, index) {
+  getPostJson: function(post, index) {
     return {
       posterProfileImageUrl: post.posterProfilePictureUrl,
       postIdString: post.postIdString,
@@ -112,6 +115,16 @@ var PostUtils = {
       id: index,
       isPostUserCurrentlyTrending: post.isCurrentlyTrending
     };
+  },
+
+  _resetPostsJson: function(posts) {
+    var postsJson = [];
+
+    for (var i = 0; i < posts.size; i++) {
+      var post = posts.get(i);
+      postsJson.push(this.getPostJson(post, i));
+    }
+    return immutable.List(postsJson);
   }
 
 };

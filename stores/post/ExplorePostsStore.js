@@ -140,7 +140,7 @@ var explorePostsStore = Unicycle.createStore({
         },
         (res) => {
           that.set({
-            posts: PostUtils.increaseLikeCount(posts, id),
+            posts: PostUtils.increaseLikeCountFromList(posts, id),
             isLikeRequestInFlight: false
           });
         },
@@ -170,7 +170,7 @@ var explorePostsStore = Unicycle.createStore({
         },
         (res) => {
           that.set({
-            posts: PostUtils.decreaseLikeCount(posts, id),
+            posts: PostUtils.decreaseLikeCountFromList(posts, id),
             isLikeRequestInFlight: false
           });
         },
@@ -222,7 +222,7 @@ var explorePostsStore = Unicycle.createStore({
       },
       (res) => {
         that.set({
-          posts: PostUtils.addComment(posts, id, comment, commenterName)
+          posts: PostUtils.addCommentFromList(posts, id, comment, commenterName)
         });
         callback();
       },
