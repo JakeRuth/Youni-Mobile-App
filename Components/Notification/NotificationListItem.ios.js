@@ -45,7 +45,7 @@ var styles = StyleSheet.create({
     paddingBottom: 15
   },
   senderName: {
-    color: '#5C7CFF'
+    color: Color.YOUNI_PRIMARY_PURPLE
   },
   logoContainer: {
     backgroundColor: Color.YOUNI_PRIMARY_PURPLE
@@ -188,7 +188,7 @@ var NotificationsListItem = React.createClass({
     }
     else if (type === NotificationUtils.TYPE_COMMENT) {
       iconName = 'ios-chatbubble-outline';
-      iconColor = '#5C7CFF';
+      iconColor = Color.YOUNI_PRIMARY_PURPLE;
     }
     else {
       return <View/>;

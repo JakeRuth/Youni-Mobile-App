@@ -2,13 +2,8 @@
 
 var React = require('react-native');
 var OverlayPage = require('../Common/OverlayPage');
-var Spinner = require('../Common/Spinner');
 var NotificationsList = require('../Notification/NotificationsList');
 var notificationStore = require('../../stores/NotificationStore');
-
-var {
-  View
-} = React;
 
 var NotificationsPopup = React.createClass({
 

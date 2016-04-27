@@ -4,6 +4,7 @@ var React = require('react-native');
 var Unicycle = require('../../Unicycle');
 var notificationStore = require('../../stores/NotificationStore');
 var Spinner = require('../Common/Spinner');
+var Color = require('../../Utils/Common/GlobalColorMap');
 var NotificationListItem = require('./NotificationListItem');
 
 var {
@@ -18,7 +19,7 @@ var styles = StyleSheet.create({
   noNotificationsMessage: {
     alignSelf: 'center',
     fontSize: 20,
-    color: '#5C7CFF',
+    color: Color.YOUNI_PRIMARY_PURPLE,
     padding: 20
   }
 });
@@ -92,6 +93,7 @@ var NotificationsList = React.createClass({
       // this is needed to decide when to render the load more notifications button
       // I attempted to get the onEndReached prop for ListView to work but for some
       // reason it kept getting continuously called...
+      // Idea: Referring to above, this may not be working due to the ScrollView in OverLayPage that is rendering this
       notification.isLastItem = isNextPage && i === notifications.size - 1;
       notificationsList.push(notifications.get(i));
     }
