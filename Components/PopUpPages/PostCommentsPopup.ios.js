@@ -7,10 +7,6 @@ var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 var PostUtils = require('../../Utils/Post/PostUtils');
 var CommentInput = require('../Post/Footer/CommentInput');
 
-var {
-  View
-} = React;
-
 var PostCommentsPopup = React.createClass({
 
   propTypes: {
@@ -59,23 +55,21 @@ var PostCommentsPopup = React.createClass({
     );
 
     return (
-      <View>
-        <OverlayPage
-          content={pageContent}
-          onBackArrowPress={() => {
-            PostUtils.trimPostCommentForFeed(this.props.post);
-            this.props.post.moreCommentsToShow = this._doesPostHaveMoreCommentsToShow();
-            this.props.navigator.pop();
-          }}
-          bannerTitle='Comments'
-          bumpContentUpWhenKeyboardShows={true}
-          isKeyboardVisible={this.props.commentInputAutoFocus}/>
-      </View>
+      <OverlayPage
+        content={pageContent}
+        onBackArrowPress={() => {
+          PostUtils.trimPostCommentForFeed(this.props.post);
+          this.props.post.moreCommentsToShow = this._doesPostHaveMoreCommentsToShow();
+          this.props.navigator.pop();
+        }}
+        bannerTitle='Comments'
+        bumpContentUpWhenKeyboardShows={true}
+        isKeyboardVisible={this.props.commentInputAutoFocus}/>
     );
   },
 
-  _doesPostHaveMoreCommentsToShow: function(){
-    return (this.props.post.numComments>3);
+  _doesPostHaveMoreCommentsToShow: function() {
+    return this.props.post.numComments>PostUtils.DEFAULT_MAX_COMMENTS_VISIBLE;
   }
 
 });

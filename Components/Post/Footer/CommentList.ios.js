@@ -3,6 +3,7 @@
 var React = require('react-native');
 var Unicycle = require('../../../Unicycle');
 var Comment = require('./Comment');
+var PostUtils = require('../../../Utils/Post/PostUtils');
 
 var {
   View,
@@ -28,8 +29,6 @@ var styles = StyleSheet.create({
     color: '#B2B2B2'
   }
 });
-
-var MAX_COMMENTS_PER_PAGE = 3;
 
 var CommentList = React.createClass({
 
@@ -59,7 +58,12 @@ var CommentList = React.createClass({
 
   _renderComments: function() {
     var comments = [];
-    for (var i = 0; i<this.props.post.firstComments.length; i++) {
+    var numCommentsToShowFromFeed;
+    if ( (this.props.renderCommentsOnPostFooter == true) && (this.props.post.firstComments.length > PostUtils.DEFAULT_MAX_COMMENTS_VISIBLE) ) {
+      numCommentsToShowFromFeed = PostUtils.DEFAULT_MAX_COMMENTS_VISIBLE;
+    }
+    else numCommentsToShowFromFeed = this.props.post.firstComments.length;
+    for (var i = 0; i<numCommentsToShowFromFeed; i++) {
       var commentJson = this.props.post.firstComments[i];
       comments.push(
         <Comment
@@ -69,9 +73,6 @@ var CommentList = React.createClass({
           key={i}
           navigator={this.props.navigator}/>
       );
-      if(this.props.renderCommentsOnPostFooter == true && (i == MAX_COMMENTS_PER_PAGE-1)){
-        i = this.props.post.firstComments.length;
-      }
     }
     return comments;
   },
