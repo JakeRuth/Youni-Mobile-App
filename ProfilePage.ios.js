@@ -1,26 +1,42 @@
 'use strict';
 
 var React = require('react-native');
+var Icon = require('react-native-vector-icons/Ionicons');
 var Unicycle = require('./Unicycle');
 var profileOwnerStore = require('./stores/profile/ProfileOwnerStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
+var notificationStore = require('./stores/NotificationStore');
 var MainScreenBanner = require('./MainScreenBanner');
 var ProfilePageBody = require('./Components/Profile/ProfilePageBody');
 var UserPosts = require('./Components/Profile/UserPosts');
-var LogoutButton = require('./Components/Common/LogoutButton');
 var ErrorPage = require('./Components/Common/ErrorPage');
 var EditSettingsButton = require('./Components/Profile/Settings/EditSettingsButton');
 var ScrollViewRefresh = require('./Components/Common/ScrollViewRefresh');
+var NotificationCallout = require('./Components/Common/NotificationCallout');
+var NotificationsPopup = require('./Components/PopupPages/NotificationsPopup');
 
 var {
   View,
   ScrollView,
-  StyleSheet
+  StyleSheet,
+  TouchableHighlight
 } = React;
 
 var styles = StyleSheet.create({
   profilePageContainer: {
     flex: 1
+  },
+  notificationIconContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    padding: 17,
+    paddingBottom: 0
+  },
+  unReadNotificationCalloutContainer: {
+    position: 'absolute',
+    top: 16,
+    left: 28
   }
 });
 
@@ -32,7 +48,8 @@ var ProfilePage = React.createClass({
   },
 
   mixins: [
-    Unicycle.listenTo(profileOwnerStore)
+    Unicycle.listenTo(profileOwnerStore),
+    Unicycle.listenTo(notificationStore)
   ],
 
   componentDidMount: function() {
@@ -43,7 +60,16 @@ var ProfilePage = React.createClass({
   render: function() {
     var isRequestInFlight = profileOwnerStore.isRequestInFlight(),
         anyErrorsLoadingPage = profileOwnerStore.anyErrorsLoadingPage(),
-        content;
+        numUnreadNotifications = notificationStore.getUnreadNotifications(),
+        content, notificationCallout;
+
+    if (numUnreadNotifications) {
+      notificationCallout = (
+        <View style={styles.unReadNotificationCalloutContainer}>
+          <NotificationCallout label={numUnreadNotifications}/>
+        </View>
+      );
+    }
 
     if (anyErrorsLoadingPage) {
       content = <ErrorPage reloadButtonAction={this._onErrorPageReload}/>;
@@ -81,13 +107,31 @@ var ProfilePage = React.createClass({
 
         <MainScreenBanner
           title={profileOwnerStore.getFirstName() + ' ' + profileOwnerStore.getLastName()}/>
-
-        <LogoutButton navigator={this.props.navigator}/>
         <EditSettingsButton navigator={this.props.navigator}/>
-
+        {this._renderNotificationIcon()}
+        {notificationCallout}
         {content}
 
       </View>
+    );
+  },
+
+  _renderNotificationIcon: function() {
+    return (
+      <TouchableHighlight
+        onPress={()=>{
+          notificationStore.resetNumUnreadNotifications();
+          this.props.navigator.push({
+            component: NotificationsPopup
+          });
+        }}
+        style={styles.notificationIconContainer}
+        underlayColor='transparent'>
+        <Icon
+          name='android-notifications-none'
+          size={25}
+          color='white'/>
+      </TouchableHighlight>
     );
   },
 

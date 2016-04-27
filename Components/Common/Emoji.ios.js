@@ -10,7 +10,7 @@ var Emoji = React.createClass({
   propTypes: {
     name: React.PropTypes.string.isRequired,
     size: React.PropTypes.number.isRequired,
-    style: React.PropTypes.obj
+    style: React.PropTypes.any
   },
 
   render: function() {
