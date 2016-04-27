@@ -42,7 +42,7 @@ var CommentList = React.createClass({
   render: function() {
     var viewAllComments = <View/>;
 
-    if (this.props.post.moreCommentsToShow && this.props.navigator) {
+    if ( this.props.post.numComments > PostUtils.DEFAULT_MAX_COMMENTS_VISIBLE && this.props.renderCommentsOnPostFooter) {
       viewAllComments = this._renderViewAllCommentsLink();
     }
 
