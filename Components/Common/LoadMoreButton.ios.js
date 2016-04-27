@@ -3,6 +3,7 @@
 var React = require('react-native');
 var Icon = require('react-native-vector-icons/Ionicons');
 var Spinner = require('../Common/Spinner');
+var Color = require('../../Utils/Common/GlobalColorMap');
 
 var {
   View,
@@ -17,7 +18,7 @@ var styles = StyleSheet.create({
     alignSelf: 'center'
   },
   buttonContainer: {
-    backgroundColor: '#5C7CFF',
+    backgroundColor: Color.YOUNI_PRIMARY_PURPLE,
     borderRadius: 2,
     padding: 5,
     margin: 3
