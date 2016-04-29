@@ -14,8 +14,9 @@ var {
   TextInput,
   ScrollView,
   StyleSheet,
+  AlertIOS,
   TouchableHighlight
-} = React
+} = React;
 
 var styles = StyleSheet.create({
   postFormContainer: {
@@ -72,9 +73,14 @@ var CreatePostForm = React.createClass({
 
   render: function() {
     var imageUploadedSuccessfully = createPostStore.getImageId(),
+        imageUploadError = createPostStore.getImageUploadError(),
         postButton;
 
-    if (imageUploadedSuccessfully) {
+    if (imageUploadError) {
+      this._alertImageUploadFailureMessage();
+      createPostStore.setImageUploadError(false);
+    }
+    else if (imageUploadedSuccessfully) {
       postButton = (
         <TouchableHighlight
           style={styles.createPostButton}
@@ -108,14 +114,12 @@ var CreatePostForm = React.createClass({
               maxLength={200}/>
           </View>
 
-          <View style={styles.actionButtons}>
-            {postButton}
-            <Text
-              style={styles.cancelText}
-              onPress={this._onCancelTextClick} >
-              Cancel
-            </Text>
-          </View>
+          {postButton}
+          <Text
+            style={styles.cancelText}
+            onPress={this._onCancelTextClick} >
+            Cancel
+          </Text>
 
         </View>
       </ScrollView>
@@ -127,6 +131,25 @@ var CreatePostForm = React.createClass({
         pictureId = createPostStore.getImageId(),
         caption = createPostStore.getCaption();
     Unicycle.exec('createPost', userId, pictureId, caption);
+  },
+
+  _alertImageUploadFailureMessage: function() {
+    AlertIOS.alert(
+      'Image Upload Failure',
+      'Oh no!  We failed to upload your image.  If this problem persists please try to close and reopen the app.\n' +
+      'We are working hard here at Youni to improve your experience, feel free to reach out to support@youniapp.com',
+      [
+        {
+          text: 'Try again',
+          onPress: this._onDismissImageUploadErrorAlert
+        }
+      ]
+    );
+  },
+
+  _onDismissImageUploadErrorAlert: function() {
+    createPostStore.reInitializeForNextUpload();
+    Unicycle.exec('setShouldShowImagePickerForPost', true);
   },
 
   _onCancelTextClick: function() {
