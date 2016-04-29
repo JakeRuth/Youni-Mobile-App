@@ -27,7 +27,7 @@ var styles = StyleSheet.create({
     top: 0,
     right: 0,
     padding: 19,
-    paddingBottom: 5
+    paddingBottom: 0
   }
 });
 
