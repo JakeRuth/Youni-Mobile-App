@@ -72,7 +72,7 @@ var PostFooter = React.createClass({
           navigator={this.props.navigator}
           onSubmitComment={this.props.onSubmitComment}
           isCommentRequestInFlight={this.props.isCommentRequestInFlight}
-          renderCommentsOnPostFooter={true}/>
+          renderedFromPostFooter={true}/>
 
       </View>
     );

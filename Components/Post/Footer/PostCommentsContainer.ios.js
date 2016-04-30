@@ -19,7 +19,7 @@ var PostCommentsContainer = React.createClass({
     isCommentRequestInFlight: React.PropTypes.bool.isRequired,
     commentInputActive: React.PropTypes.bool,
     commentInputAutoFocus: React.PropTypes.bool,
-    renderCommentsOnPostFooter: React.PropTypes.bool
+    renderedFromPostFooter: React.PropTypes.bool
   },
 
   render: function() {
@@ -31,7 +31,7 @@ var PostCommentsContainer = React.createClass({
           postCommentsPopupComponent={this.props.postCommentsPopupComponent}
           post={this.props.post}
           navigator={this.props.navigator}
-          renderCommentsOnPostFooter={this.props.renderCommentsOnPostFooter}/>
+          renderedFromPostFooter={this.props.renderedFromPostFooter}/>
       );
     }
 

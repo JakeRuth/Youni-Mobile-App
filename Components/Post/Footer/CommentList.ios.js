@@ -36,13 +36,13 @@ var CommentList = React.createClass({
     post: React.PropTypes.object.isRequired,
     navigator: React.PropTypes.object.isRequired,
     postCommentsPopupComponent: React.PropTypes.any,
-    renderCommentsOnPostFooter: React.PropTypes.bool
+    renderedFromPostFooter: React.PropTypes.bool
   },
 
   render: function() {
     var viewAllComments = <View/>;
 
-    if ( this.props.post.numComments > PostUtils.DEFAULT_MAX_COMMENTS_VISIBLE && this.props.renderCommentsOnPostFooter) {
+    if (this.props.post.numComments > PostUtils.DEFAULT_MAX_COMMENTS_VISIBLE && this.props.renderedFromPostFooter) {
       viewAllComments = this._renderViewAllCommentsLink();
     }
 
@@ -59,10 +59,12 @@ var CommentList = React.createClass({
   _renderComments: function() {
     var comments = [];
     var numCommentsToShowFromFeed;
-    if ( (this.props.renderCommentsOnPostFooter == true) && (this.props.post.firstComments.length > PostUtils.DEFAULT_MAX_COMMENTS_VISIBLE) ) {
+    if (this.props.renderedFromPostFooter && (this.props.post.firstComments.length > PostUtils.DEFAULT_MAX_COMMENTS_VISIBLE)) {
       numCommentsToShowFromFeed = PostUtils.DEFAULT_MAX_COMMENTS_VISIBLE;
     }
-    else numCommentsToShowFromFeed = this.props.post.firstComments.length;
+    else {
+      numCommentsToShowFromFeed = this.props.post.firstComments.length;
+    }
     for (var i = 0; i<numCommentsToShowFromFeed; i++) {
       var commentJson = this.props.post.firstComments[i];
       comments.push(

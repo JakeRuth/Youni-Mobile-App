@@ -69,7 +69,7 @@ var PostCommentsPopup = React.createClass({
   },
 
   _doesPostHaveMoreCommentsToShow: function() {
-    return this.props.post.numComments>PostUtils.DEFAULT_MAX_COMMENTS_VISIBLE;
+    return this.props.post.numComments > PostUtils.DEFAULT_MAX_COMMENTS_VISIBLE;
   }
 
 });
