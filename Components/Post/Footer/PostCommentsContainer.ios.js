@@ -17,7 +17,9 @@ var PostCommentsContainer = React.createClass({
     navigator: React.PropTypes.object.isRequired,
     onSubmitComment: React.PropTypes.func.isRequired,
     isCommentRequestInFlight: React.PropTypes.bool.isRequired,
-    commentInputActive: React.PropTypes.bool
+    commentInputActive: React.PropTypes.bool,
+    commentInputAutoFocus: React.PropTypes.bool,
+    renderedFromPostFooter: React.PropTypes.bool
   },
 
   render: function() {
@@ -28,7 +30,8 @@ var PostCommentsContainer = React.createClass({
         <CommentList
           postCommentsPopupComponent={this.props.postCommentsPopupComponent}
           post={this.props.post}
-          navigator={this.props.navigator}/>
+          navigator={this.props.navigator}
+          renderedFromPostFooter={this.props.renderedFromPostFooter}/>
       );
     }
 
@@ -38,7 +41,8 @@ var PostCommentsContainer = React.createClass({
           id={this.props.post.id}
           postIdString={this.props.post.postIdString}
           onSubmitComment={this.props.onSubmitComment}
-          isCommentRequestInFlight={this.props.isCommentRequestInFlight}/>
+          isCommentRequestInFlight={this.props.isCommentRequestInFlight}
+          commentInputAutoFocus={this.props.commentInputAutoFocus}/>
       );
     }
 

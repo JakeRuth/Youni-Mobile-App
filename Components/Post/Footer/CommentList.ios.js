@@ -3,6 +3,7 @@
 var React = require('react-native');
 var Unicycle = require('../../../Unicycle');
 var Comment = require('./Comment');
+var PostUtils = require('../../../Utils/Post/PostUtils');
 
 var {
   View,
@@ -34,13 +35,14 @@ var CommentList = React.createClass({
   propTypes: {
     post: React.PropTypes.object.isRequired,
     navigator: React.PropTypes.object.isRequired,
-    postCommentsPopupComponent: React.PropTypes.any
+    postCommentsPopupComponent: React.PropTypes.any,
+    renderedFromPostFooter: React.PropTypes.bool
   },
 
   render: function() {
     var viewAllComments = <View/>;
 
-    if (this.props.post.moreCommentsToShow && this.props.navigator) {
+    if (this.props.post.numComments > PostUtils.DEFAULT_MAX_COMMENTS_VISIBLE && this.props.renderedFromPostFooter) {
       viewAllComments = this._renderViewAllCommentsLink();
     }
 
@@ -56,7 +58,14 @@ var CommentList = React.createClass({
 
   _renderComments: function() {
     var comments = [];
-    for (var i = 0; i<this.props.post.firstComments.length; i++) {
+    var numCommentsToShowFromFeed;
+    if (this.props.renderedFromPostFooter && (this.props.post.firstComments.length > PostUtils.DEFAULT_MAX_COMMENTS_VISIBLE)) {
+      numCommentsToShowFromFeed = PostUtils.DEFAULT_MAX_COMMENTS_VISIBLE;
+    }
+    else {
+      numCommentsToShowFromFeed = this.props.post.firstComments.length;
+    }
+    for (var i = 0; i<numCommentsToShowFromFeed; i++) {
       var commentJson = this.props.post.firstComments[i];
       comments.push(
         <Comment
