@@ -19,7 +19,8 @@ var styles = StyleSheet.create({
     alignItems: 'center'
   },
   commenterName: {
-    color: Color.YOUNI_PRIMARY_PURPLE
+    color: Color.YOUNI_PRIMARY_PURPLE,
+    padding: 10
   },
   commentText: {
     flex: 1,
