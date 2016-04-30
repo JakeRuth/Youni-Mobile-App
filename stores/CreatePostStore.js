@@ -3,19 +3,21 @@
 var React = require('react-native');
 var Unicycle = require('../Unicycle');
 var AjaxUtils = require('../Utils/Common/AjaxUtils');
+var homePostsStore = require('./post/HomePostsStore');
+var userLoginMetadataStore = require('./UserLoginMetadataStore');
 
 var createPostStore = Unicycle.createStore({
 
     init: function () {
       this.set({
         isRequestInFlight: false,
-        postUploadedSuccessfully: false,
         isImageUploading: false,
         wasImageSelected: false,
         imageUri: '',
         imageId: '',
         caption: '',
         pageLoadError: false,
+        imageUploadError: false,
         shouldShowImagePicker: true
       });
     },
@@ -38,10 +40,14 @@ var createPostStore = Unicycle.createStore({
         (res) => {
           that.set({
             isRequestInFlight: false,
-            pageLoadError: false,
-            postUploadedSuccessfully: true
+            pageLoadError: false
           });
-          that._cleanUp();
+
+          Unicycle.exec('setSelectedTab', 'home');
+          homePostsStore.setScrollToTopOfPostFeed(true);
+          Unicycle.exec('refreshHomeFeed', userLoginMetadataStore.getUserId());
+
+          that.reInitializeForNextUpload();
         },
         () => {
           that.set({
@@ -94,6 +100,12 @@ var createPostStore = Unicycle.createStore({
       });
     },
 
+    setImageUploadError: function(value) {
+      this.set({
+        imageUploadError: value
+      });
+    },
+
     anyErrorsLoadingPage: function() {
       return this.get('pageLoadError');
     },
@@ -104,10 +116,6 @@ var createPostStore = Unicycle.createStore({
 
     getIsImageUploading: function() {
       return this.get('isImageUploading');
-    },
-
-    getPostUploadedSuccessfully: function() {
-      return this.get('postUploadedSuccessfully');
     },
 
     getWasImageSelected: function() {
@@ -130,7 +138,11 @@ var createPostStore = Unicycle.createStore({
       return this.get('shouldShowImagePicker');
     },
 
-    _cleanUp: function() {
+    getImageUploadError: function() {
+      return this.get('imageUploadError');
+    },
+
+    reInitializeForNextUpload: function() {
       this.set({
         isRequestInFlight: false,
         isImageUploading: false,

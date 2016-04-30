@@ -41,7 +41,6 @@ var CreatePostPage = React.createClass({
         isPostRequestInFlight = createPostStore.isRequestInFlight(),
         anyErrorsLoadingPage = createPostStore.anyErrorsLoadingPage(),
         shouldShowImagePicker = createPostStore.getShouldShowImagePicker(),
-        postUploadedSuccessfully = createPostStore.getPostUploadedSuccessfully(),
         content = <View/>;
 
     if (isPostRequestInFlight) {
@@ -65,11 +64,6 @@ var CreatePostPage = React.createClass({
       this.showImagePicker();
       Unicycle.exec('setShouldShowImagePickerForPost', false);
     }
-    else if (postUploadedSuccessfully) {
-      Unicycle.exec('setSelectedTab', 'home');
-      homePostsStore.setScrollToTopOfPostFeed(true);
-      Unicycle.exec('refreshHomeFeed', userLoginMetadataStore.getUserId());
-    }
 
     return (
       <View style={styles.createPostPageContainer}>
@@ -89,10 +83,15 @@ var CreatePostPage = React.createClass({
         Unicycle.exec('setImageUri', uri);
 
   			NativeModules.FileTransfer.upload(this._getImageUploadOptions(response), (err, res) => {
-              var imageId = this._hackyWayToGetPictureIdFromDumbStringThatShouldBeAMap(res.data);
-              Unicycle.exec('setImageId', imageId)
-              Unicycle.exec('setIsImageUploading', false);
-          });
+          if (err || res.status !== 200) {
+            createPostStore.setImageUploadError(true);
+          }
+          else {
+            let imageId = this._hackyWayToGetPictureIdFromDumbStringThatShouldBeAMap(res.data);
+            Unicycle.exec('setImageId', imageId);
+          }
+          Unicycle.exec('setIsImageUploading', false);
+        });
       }
       else {
         Unicycle.exec('setShouldShowImagePickerForPost', false);
