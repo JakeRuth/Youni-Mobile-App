@@ -7,6 +7,7 @@ var LoadMoreButton = require('../Common/LoadMoreButton');
 var PostPopup = require('../PopupPages/PostPopup');
 var ProfilePopup = require('../PopupPages/ProfilePopup');
 var notificationStore = require('../../stores/NotificationStore');
+var profileOwnerStore = require('../../stores/profile/ProfileOwnerStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var NotificationUtils = require('../../Utils/Notification/NotificationUtils');
 var Color = require('../../Utils/Common/GlobalColorMap');
@@ -108,17 +109,7 @@ var NotificationsListItem = React.createClass({
         content, loadMoreNotificationsButton;
 
     if (this.props.notification.isLastItem) {
-      loadMoreNotificationsButton = (
-        <LoadMoreButton
-          onPress={() => {
-            this.setState({
-              wasLoadMoreClicked: true
-            });
-            this.props.onLoadMoreNotifications();
-          }}
-          isLoading={notificationStore.isRequestInFlight()}
-          isVisible={notificationStore.isRequestInFlight() || !this.state.wasLoadMoreClicked}/>
-      );
+      loadMoreNotificationsButton = this._renderLoadMoreNotificationsButton();
     }
 
     if (!this.props.notification.isRead) {
@@ -154,9 +145,6 @@ var NotificationsListItem = React.createClass({
 
     if (notification.post) {
       notificationSenderName = notification.senderName + ' ';
-    }
-
-    if (notification.type !== NotificationUtils.TYPE_SYSTEM) {
       onLabelPress = this._onLabelPress;
     }
 
@@ -218,7 +206,13 @@ var NotificationsListItem = React.createClass({
       return this._renderPostThumbnail(notification.post);
     }
     else if (notification.type === NotificationUtils.TYPE_FOLLOW) {
-      return this._renderLikeThumbnail();
+      return (
+        <View style={styles.thumbnailContainer}>
+          <Image
+            style={styles.thumbnailImage}
+            source={{uri: profileOwnerStore.getProfileImageUrl()}}/>
+        </View>
+      );
     }
     else if(notification.type === NotificationUtils.TYPE_SYSTEM) {
       return (
@@ -227,7 +221,7 @@ var NotificationsListItem = React.createClass({
             style={styles.logoThumbnailImage}
             source={require('../../images/logoWhiteTextBlankBackground.png')}/>
         </View>
-      )
+      );
     }
     else {
       return <View/>;
@@ -252,21 +246,17 @@ var NotificationsListItem = React.createClass({
     );
   },
 
-  _renderLikeThumbnail: function() {
+  _renderLoadMoreNotificationsButton: function() {
     return (
-      <TouchableHighlight
-        style={styles.thumbnailContainer}
+      <LoadMoreButton
         onPress={() => {
-          this.props.navigator.push({
-            component: ProfilePopup,
-            passProps: {profileUserEmail: this.props.notification.senderEmail}
-          });
-        }}
-        underlayColor="transparent">
-        <Image
-          style={styles.thumbnailImage}
-          source={{uri: this.props.notification.senderUserProfileImageUrl}}/>
-      </TouchableHighlight>
+            this.setState({
+              wasLoadMoreClicked: true
+            });
+            this.props.onLoadMoreNotifications();
+          }}
+        isLoading={notificationStore.isRequestInFlight()}
+        isVisible={notificationStore.isRequestInFlight() || !this.state.wasLoadMoreClicked}/>
     );
   },
 
