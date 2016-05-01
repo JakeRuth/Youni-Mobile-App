@@ -112,11 +112,13 @@ var SearchPage = React.createClass({
         <TextInput style={styles.searchBarInput}
           placeholder={'Search for students at ' + networkName}
           blurOnSubmit={true}
-          onChangeText={(search) => {
+          onChangeText={(search) => {Unicycle.exec('setSearchText', search);}}
+          onSubmitEditing={() => {
             var email = userLoginMetadataStore.getEmail();
-            Unicycle.exec('executeSearch', search, email);
+            Unicycle.exec('executeSearch', searchStore.getSearchText(), email);
           }}
-          clearButtonMode = 'always'/>
+          clearButtonMode = 'always'
+          keyboardType='web-search'/>
       </View>
     );
   }

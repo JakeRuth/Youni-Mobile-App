@@ -9,6 +9,7 @@ var searchStore = Unicycle.createStore({
 
   init: function() {
     this.set({
+      searchText: '',
       results: [],
       isRequestInFlight: false,
       inExploreFeedView: true
@@ -74,6 +75,12 @@ var searchStore = Unicycle.createStore({
     });
   },
 
+  $setSearchText: function(value) {
+    this.set({
+      searchText: value
+    });
+  },
+
   isRequestInFlight: function() {
     return this.get('isRequestInFlight');
   },
@@ -84,6 +91,10 @@ var searchStore = Unicycle.createStore({
 
   getInExploreFeedView: function() {
     return this.get('inExploreFeedView');
+  },
+
+  getSearchText: function() {
+    return this.get('searchText');
   }
 
 });
