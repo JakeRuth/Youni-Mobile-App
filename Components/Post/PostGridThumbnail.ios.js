@@ -12,6 +12,7 @@ var {
   Text,
   Image,
   StyleSheet,
+  Dimensions,
   TouchableHighlight
 } = React;
 
@@ -65,17 +66,33 @@ var styles = StyleSheet.create({
     fontSize: 13,
     paddingLeft: 8,
     paddingRight: 4
+  },
+  blankPostPlaceholder: {
+    // divide by three since we display three posts across on the feed
+    width: Dimensions.get('window').width / 3
   }
 });
 
 var PostGridThumbnail = React.createClass({
 
   propTypes: {
-    post: React.PropTypes.object.isRequired,
+    // If a post isn't passed in, just render a blank box.  Ex: Blocked users lead to post.size < page size
+    post: React.PropTypes.object,
     navigator: React.PropTypes.object.isRequired
   },
 
   render: function() {
+    var fireIcon;
+
+    if (!this.props.post) {
+      return <View style={styles.blankPostPlaceholder}/>;
+    }
+    else {
+      return this._renderThumbnail();
+    }
+  },
+
+  _renderThumbnail: function() {
     var fireIcon;
 
     if (this.props.post.isPostUserCurrentlyTrending) {
