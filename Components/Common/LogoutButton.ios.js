@@ -7,7 +7,8 @@ var {
   TouchableHighlight,
   Text,
   StyleSheet,
-  AsyncStorage
+  AsyncStorage,
+  AlertIOS
 } = React;
 
 var styles = StyleSheet.create({
@@ -37,7 +38,7 @@ var LogoutButton = React.createClass({
       <TouchableHighlight
         style={styles.logoutButtonContainer}
         underlayColor='transparent'
-        onPress={this._onLogoutButtonPress}>
+        onPress={this._onLogoutButtonPressAreYouSurePrompt}>
 
         <Text style={styles.logoutText}>Logout</Text>
 
@@ -45,7 +46,7 @@ var LogoutButton = React.createClass({
     );
   },
 
-  _onLogoutButtonPress: function() {
+  _onConfirmLogoutPress: function() {
     AsyncStorage.removeItem('password');
     Unicycle.exec('refreshHomeFeedData');
     Unicycle.exec('refreshExploreFeedData');
@@ -53,6 +54,22 @@ var LogoutButton = React.createClass({
     Unicycle.exec('updatePassword', '');
     Unicycle.exec('setShouldRenderLoginPage', true);
     this.props.navigator.popToTop();
+  },
+
+  _onLogoutButtonPressAreYouSurePrompt: function() {
+    AlertIOS.alert(
+      'Logout',
+      'Are you sure you want Logout?',
+      [
+        {
+          text: 'Yes',
+          onPress: this._onConfirmLogoutPress
+        },
+        {
+          text: 'No'
+        }
+      ]
+    );
   }
 
 });
