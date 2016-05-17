@@ -723,7 +723,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.youniapp.youni;
 				PRODUCT_NAME = Youni;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "3dd8e932-7b43-45db-9f0b-01163db64331";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -746,7 +746,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.youniapp.youni;
 				PRODUCT_NAME = Youni;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "3dd8e932-7b43-45db-9f0b-01163db64331";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

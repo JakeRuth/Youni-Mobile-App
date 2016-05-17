@@ -10,7 +10,7 @@ var NotificationUtils = {
     AjaxUtils.ajax(
       '/user/configureForPushNotifications',
       {
-        userEmail: 'aescamilla@albany.edu',//userLoginMetadataStore.getEmail(),
+        userEmail: userLoginMetadataStore.getEmail(),
         uniqueDeviceToken: deviceToken
       },
       (res) => { },
