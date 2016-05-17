@@ -110,8 +110,7 @@ var LoginPage = React.createClass({
   getInitialState: function() {
     return {
       inLoginView: false,
-      isInSignUpView: false,
-      isBackgroundImageLoading: true
+      isInSignUpView: false
     };
   },
 
@@ -143,33 +142,21 @@ var LoginPage = React.createClass({
     }
     else {
       return (
-        <Image
-          style={styles.backgroundImage}
-          source={require('../images/loginBackgroundLoop.gif')}
-          resizeMode='cover'
-          onLoadStart={() => { this.setState({ isBackgroundImageLoading: true }) }}
-          onLoadEnd={() => { this.setState({ isBackgroundImageLoading: false }) }}>
+        <View style={styles.backgroundImage}>
 
-          {this.renderContent(this.state.isBackgroundImageLoading)}
+          {this.renderContent()}
           <LoginSignupSelector
             onLoginPress={this._onLoginSelectorPress}
             onSignupPress={this._onSignUpSelectorPress}/>
           {appNameHeader}
 
-        </Image>
+        </View>
       );
     }
   },
 
-  renderContent: function(isBackgroundImageLoading) {
-    if (isBackgroundImageLoading) {
-      return (
-        <View style={styles.backgroundImage}>
-          {this.renderLoadingSpinner()}
-        </View>
-      );
-    }
-    else if (this.state.isInSignUpView) {
+  renderContent: function() {
+    if (this.state.isInSignUpView) {
       return <SignUpForm navigator={this.props.navigator}/>;
     }
     else if (this.state.inLoginView) {

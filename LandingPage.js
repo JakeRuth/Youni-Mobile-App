@@ -18,6 +18,7 @@ var tabStateStore = require('./stores/TabStateStore');
 var notificationStore = require('./stores/NotificationStore');
 
 var Color = require('./Utils/Common/GlobalColorMap');
+var NotificationUtils = require('./Utils/Notification/NotificationUtils');
 
 var {
   View,
@@ -25,7 +26,8 @@ var {
   StyleSheet,
   TabBarIOS,
   AsyncStorage,
-  AppStateIOS
+  AppStateIOS,
+  PushNotificationIOS
 } = React;
 
 var styles = StyleSheet.create({
@@ -52,6 +54,10 @@ var LandingPage = React.createClass({
     };
   },
 
+  componentWillMount: function() {
+    PushNotificationIOS.addEventListener('register', this._onNotificationRegistration);
+  },
+
   mixins: [
     Unicycle.listenTo(loginStore),
     Unicycle.listenTo(tabStateStore),
@@ -59,6 +65,12 @@ var LandingPage = React.createClass({
   ],
 
   componentDidMount: function() {
+    PushNotificationIOS.checkPermissions(function(permissions) {
+      if (!permissions.badge && !permissions.alert && !permissions.sound) {
+        PushNotificationIOS.requestPermissions();
+      }
+    });
+
     AppStateIOS.addEventListener('change', this._handleAppStateChange);
 
     notificationStore.countUnreadNotifications();
@@ -188,6 +200,10 @@ var LandingPage = React.createClass({
           navigator={this.props.navigator}/>
       </Icon.TabBarItem>
     );
+  },
+
+  _onNotificationRegistration: function(deviceToken) {
+    NotificationUtils.createNotificationEndpointForUser(deviceToken);
   },
 
   _pollForNotifications: function() {

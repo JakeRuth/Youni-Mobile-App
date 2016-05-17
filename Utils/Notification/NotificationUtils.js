@@ -1,8 +1,22 @@
 'use strict';
 
 var PostUtils = require('../Post/PostUtils');
+var AjaxUtils = require('../Common/AjaxUtils');
+var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 
 var NotificationUtils = {
+
+  createNotificationEndpointForUser: function(deviceToken) {
+    AjaxUtils.ajax(
+      '/user/configureForPushNotifications',
+      {
+        userEmail: 'aescamilla@albany.edu',//userLoginMetadataStore.getEmail(),
+        uniqueDeviceToken: deviceToken
+      },
+      (res) => { },
+      () => { }
+    );
+  },
 
   convertResponseNotificationListToMap: function(rawNotifications, currentOffset) {
     var notificationsJson = null;

@@ -35,7 +35,7 @@ var styles = StyleSheet.create({
     alignSelf: 'center'
   },
   maleFemaleInputContainer: {
-    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    backgroundColor: 'rgba(255, 255, 255, 0.3)',
     width: 250,
     padding: 5,
     borderRadius: 5
