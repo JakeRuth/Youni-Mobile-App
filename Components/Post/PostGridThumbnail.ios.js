@@ -35,37 +35,11 @@ var styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'lightgray'
   },
-  postStats: {
-    marginTop: -16,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-end'
-  },
-  iconContainer: {
-    paddingRight: 2,
-    paddingTop: 2,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    height: 16,
-    backgroundColor: 'rgba(0, 0, 0, .5)'
-  },
-  leftMostIcon: {
-    borderTopLeftRadius: 15,
-    paddingLeft: 2
-  },
   fireIcon: {
     position: 'absolute',
     top: 0,
     right: 0,
     opacity: .75
-  },
-  iconLabel: {
-    alignSelf: 'center',
-    color: 'white',
-    fontSize: 13,
-    paddingLeft: 8,
-    paddingRight: 4
   },
   blankPostPlaceholder: {
     // divide by three since we display three posts across on the feed
@@ -121,62 +95,10 @@ var PostGridThumbnail = React.createClass({
               source={{uri: this.props.post.posterProfileImageUrl}}/>
 
           </Image>
-          {this._renderPostStats()}
           {fireIcon}
         </View>
 
       </TouchableHighlight>
-    );
-  },
-
-  // TODO: Clean this up, rushed it for a release
-  _renderPostStats: function() {
-    var viewsStat, likesStat, commentsStat;
-
-    if (this.props.post.numLikes) {
-      likesStat = (
-        <View style={[styles.iconContainer, styles.leftMostIcon]}>
-          <Text style={styles.iconLabel}>
-            {this.props.post.numLikes}
-          </Text>
-          <Icon
-              style={styles.icon}
-              name={this._getStarIconName()}
-              size={this._iconSize}
-              color={'#FCDD00'}/>
-        </View>
-      );
-    }
-
-    if (this.props.post.numComments) {
-      let commentsCountStyles = [styles.iconContainer];
-
-      if (!this.props.post.numLikes) {
-        commentsCountStyles.push(styles.leftMostIcon);
-      }
-
-      commentsStat = (
-          <View style={commentsCountStyles}>
-            <Text style={styles.iconLabel}>
-              {this.props.post.numComments}
-            </Text>
-            <Icon
-                style={styles.icon}
-                name={'ios-chatbubble-outline'}
-                size={this._iconSize}
-                color={'#00D8F0'}/>
-          </View>
-      );
-    }
-
-    return (
-      <View style={styles.postStats}>
-
-        {viewsStat}
-        {likesStat}
-        {commentsStat}
-
-      </View>
     );
   },
 
@@ -195,17 +117,6 @@ var PostGridThumbnail = React.createClass({
       Unicycle.exec('triggerPostView', email, this.props.post.postIdString, this.props.post.id);
     }
   },
-
-  _getStarIconName: function() {
-    if (this.props.post.liked) {
-      return 'ios-star';
-    }
-    else {
-      return 'ios-star-outline';
-    }
-  },
-
-  _iconSize: 17
 
 });
 
