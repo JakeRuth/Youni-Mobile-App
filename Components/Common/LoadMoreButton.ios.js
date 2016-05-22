@@ -60,7 +60,7 @@ var LoadMoreButton = React.createClass({
     return (
       <TouchableHighlight
         style={styles.buttonContainer}
-        underlayColor='transparent'
+        underlayColor={Color.YOUNI_PRIMARY_PURPLE}
         onPress={this.props.onPress}>
 
         <Text style={styles.text}>
