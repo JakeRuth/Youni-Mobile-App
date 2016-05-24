@@ -2,7 +2,6 @@
 
 var React = require('react-native');
 var Icon = require('react-native-vector-icons/Ionicons');
-var ProfilePopup = require('../PopupPages/ProfilePopup');
 var Color = require('../../Utils/Common/GlobalColorMap');
 
 var {
@@ -14,7 +13,7 @@ var {
 } = React;
 
 var styles = StyleSheet.create({
-  searchResult: {
+  container: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
@@ -44,19 +43,19 @@ var styles = StyleSheet.create({
   }
 });
 
-var SearchResult = React.createClass({
+var UserListItem = React.createClass({
 
   propTypes: {
-    search: React.PropTypes.object.isRequired,
+    user: React.PropTypes.object.isRequired,
     navigator: React.PropTypes.object.isRequired
   },
 
   render: function() {
-    var search = this.props.search,
-        firstName = search.firstName,
-        lastName = search.lastName,
-        email = search.email,
-        profileImageUrl = search.profileImageUrl,
+    var user = this.props.user,
+        firstName = user.firstName,
+        lastName = user.lastName,
+        email = user.email,
+        profileImageUrl = user.profileImageUrl,
         profilePicture;
 
     if (profileImageUrl) {
@@ -79,10 +78,10 @@ var SearchResult = React.createClass({
     return (
       <View>
         <TouchableHighlight
-          underlayColor='lightgray'
-          onPress={ () => {this._onSearchResultClick(email)} }>
+          underlayColor='transparent'
+          onPress={ () => {this._onUserListItemPress(email)} }>
 
-          <View style={styles.searchResult}>
+          <View style={styles.container}>
             {profilePicture}
             <Text
               style={styles.fullName}
@@ -97,13 +96,16 @@ var SearchResult = React.createClass({
     );
   },
 
-  _onSearchResultClick: function(email) {
+  _onUserListItemPress: function(email) {
+    //required within this function to avoid circular dependencies
+    var ProfilePopup = require('../PopupPages/ProfilePopup');
+
     this.props.navigator.push({
       component: ProfilePopup,
-      passProps: {profileUserEmail: this.props.search.email}
+      passProps: {profileUserEmail: this.props.user.email}
     });
   }
 
 });
 
-module.exports = SearchResult;
+module.exports = UserListItem;

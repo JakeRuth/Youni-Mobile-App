@@ -1,7 +1,7 @@
 'use strict';
 
 var React = require('react-native');
-var SearchResult = require('./SearchResult');
+var UserListItem = require('../Common/UserListItem');
 var LoadMoreButton = require('../Common/LoadMoreButton');
 var searchStore = require('../../stores/SearchStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
@@ -56,10 +56,10 @@ var SearchResultsList = React.createClass({
     );
   },
 
-  _renderRow: function(searchResult) {
+  _renderRow: function(user) {
     return (
-      <SearchResult
-        search={searchResult}
+      <UserListItem
+        user={user}
         navigator={this.props.navigator}/>
     );
   },

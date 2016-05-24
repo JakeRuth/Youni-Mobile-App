@@ -2,7 +2,8 @@
 
 var React = require('react-native');
 var AllFollowingResultList = require('./AllFollowingResultList');
-var Spinner = require('../Common/Spinner');
+var LoadMoreButton = require('../../Common/LoadMoreButton');
+var Spinner = require('../../Common/Spinner');
 
 var {
   View,
@@ -25,7 +26,10 @@ var styles = StyleSheet.create({
 var GetAllFollowingPage = React.createClass({
 
   propTypes: {
-    loading: React.PropTypes.bool.isRequired,
+    initialPageLoading: React.PropTypes.bool.isRequired,
+    isLoading: React.PropTypes.bool.isRequired,
+    moreToFetch: React.PropTypes.bool.isRequired,
+    onLoadMorePress: React.PropTypes.func.isRequired,
     users: React.PropTypes.array.isRequired,
     navigator: React.PropTypes.object.isRequired
   },
@@ -33,7 +37,7 @@ var GetAllFollowingPage = React.createClass({
   render: function () {
     var content;
 
-    if (this.props.loading) {
+    if (this.props.initialPageLoading) {
       content = (
         <View style={styles.spinnerContainer}>
           <Spinner/>
@@ -51,6 +55,10 @@ var GetAllFollowingPage = React.createClass({
     return (
       <View style={styles.container}>
         {content}
+        <LoadMoreButton
+          onPress={this.props.onLoadMorePress}
+          isLoading={this.props.isLoading}
+          isVisible={this.props.moreToFetch}/>
       </View>
     );
   }
