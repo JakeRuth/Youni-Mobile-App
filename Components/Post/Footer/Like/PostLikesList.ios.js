@@ -2,17 +2,14 @@
 
 var React = require('react-native');
 var Unicycle = require('../../../../Unicycle');
-var Spinner = require('../../../Common/Spinner');
-var Emoji = require('../../../Common/Emoji');
+var LoadMoreButton = require('../../../Common/LoadMoreButton');
+var UserListItem = require('../../../Common/UserListItem');
 var ProfilePopup = require('../../../PopupPages/ProfilePopup');
 var userLoginMetadataStore = require('../../../../stores/UserLoginMetadataStore');
 
 var {
   View,
-  Text,
-  Image,
-  StyleSheet,
-  TouchableHighlight
+  StyleSheet
 } = React;
 
 var styles = StyleSheet.create({
@@ -39,79 +36,40 @@ var styles = StyleSheet.create({
 var PostLikesList = React.createClass({
 
   propTypes: {
-    loading: React.PropTypes.bool.isRequired,
     users: React.PropTypes.array.isRequired,
+    isLoadingMoreUsers: React.PropTypes.bool.isRequired,
+    moreToFetch: React.PropTypes.bool.isRequired,
+    onLoadMorePress: React.PropTypes.func.isRequired,
     navigator: React.PropTypes.object.isRequired
   },
 
   render: function() {
-    var userRows = [],
-        content;
+    var usersListItems = [];
 
-    if (this.props.loading) {
-      content = (
-        <Spinner/>
+    for (var i = 0; i < this.props.users.length; i++) {
+      usersListItems.push(
+          this._renderUser(this.props.users[i], i)
       );
-    }
-    else {
-      for (var i = 0; i < this.props.users.length; i++) {
-        userRows.push(
-            this._renderUser(this.props.users[i], i)
-        );
-      }
-      content = userRows;
     }
 
     return (
       <View>
-        {content}
+        {usersListItems}
+        <LoadMoreButton
+          onPress={this.props.onLoadMorePress}
+          isLoading={this.props.isLoadingMoreUsers}
+          isVisible={this.props.moreToFetch}/>
       </View>
     );
   },
 
   _renderUser: function(user, index) {
     return (
-      <TouchableHighlight
+      <UserListItem
         key={index}
-        underlayColor={'transparent'}
-        onPress={() => {this._onUserPress(user.email);}}>
-
-        <View style={styles.userRow}>
-
-          <Image
-              style={styles.userImage}
-              source={{uri: user.profileImageUrl}}/>
-          <Text
-            style={styles.displayName}
-            numberOfLines={1}>
-            {user.firstName} {user.lastName}
-          </Text>
-          {user.isCurrentlyTrending && this._renderTrendingEmoji()}
-
-        </View>
-
-      </TouchableHighlight>
+        user={user}
+        navigator={this.props.navigator}/>
     );
-  },
-
-  _renderTrendingEmoji: function() {
-    return (
-      <Emoji
-        name="fire"
-        size={20}/>
-    );
-  },
-
-  _onUserPress: function(userEmail) {
-    var email = userLoginMetadataStore.getEmail();
-
-    // Don't let a user click on themselves
-    if (email !== userEmail) {
-      this.props.navigator.push({
-        component: ProfilePopup,
-        passProps: {profileUserEmail: userEmail}
-      });
-    }
   }
 
 });
