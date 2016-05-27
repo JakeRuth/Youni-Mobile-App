@@ -12,7 +12,6 @@ var {
 var PostCommentsContainer = React.createClass({
 
   propTypes: {
-    postCommentsPopupComponent: React.PropTypes.any,
     post: React.PropTypes.object.isRequired,
     navigator: React.PropTypes.object.isRequired,
     onSubmitComment: React.PropTypes.func.isRequired,
@@ -28,7 +27,6 @@ var PostCommentsContainer = React.createClass({
     if (this.props.post.firstComments.length) {
       comments = (
         <CommentList
-          postCommentsPopupComponent={this.props.postCommentsPopupComponent}
           post={this.props.post}
           navigator={this.props.navigator}
           renderedFromPostFooter={this.props.renderedFromPostFooter}/>

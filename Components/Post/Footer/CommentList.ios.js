@@ -3,6 +3,7 @@
 var React = require('react-native');
 var Unicycle = require('../../../Unicycle');
 var Comment = require('./Comment');
+var ViewAllCommentsLink = require('./ViewAllCommentsLink');
 var PostUtils = require('../../../Utils/Post/PostUtils');
 
 var {
@@ -18,15 +19,6 @@ var styles = StyleSheet.create({
     marginLeft: 8,
     marginRight: 8,
     paddingBottom: 2
-  },
-  viewAllCommentsLink: {
-    marginBottom: 6,
-    marginTop: 6
-  },
-  viewAllText: {
-    fontSize: 13,
-    fontWeight: '500',
-    color: '#B2B2B2'
   }
 });
 
@@ -35,7 +27,6 @@ var CommentList = React.createClass({
   propTypes: {
     post: React.PropTypes.object.isRequired,
     navigator: React.PropTypes.object.isRequired,
-    postCommentsPopupComponent: React.PropTypes.any,
     renderedFromPostFooter: React.PropTypes.bool
   },
 
@@ -43,7 +34,11 @@ var CommentList = React.createClass({
     var viewAllComments = <View/>;
 
     if (this.props.post.numComments > PostUtils.DEFAULT_MAX_COMMENTS_VISIBLE && this.props.renderedFromPostFooter) {
-      viewAllComments = this._renderViewAllCommentsLink();
+      viewAllComments = (
+        <ViewAllCommentsLink
+          post={this.props.post}
+          navigator={this.props.navigator}/>
+      )
     }
 
     return (
@@ -77,28 +72,6 @@ var CommentList = React.createClass({
       );
     }
     return comments;
-  },
-
-  _renderViewAllCommentsLink: function() {
-    return (
-      <TouchableHighlight
-        style={styles.viewAllCommentsLink}
-        underlayColor='transparent'
-        onPress={this._onViewAllCommentsPress}>
-        <Text style={styles.viewAllText}>
-          View all {this.props.post.numComments} comments
-        </Text>
-      </TouchableHighlight>
-    );
-  },
-
-  _onViewAllCommentsPress: function() {
-    this.props.navigator.push({
-      component: this.props.postCommentsPopupComponent,
-      passProps: {
-        post: this.props.post
-      }
-    });
   }
 
 });

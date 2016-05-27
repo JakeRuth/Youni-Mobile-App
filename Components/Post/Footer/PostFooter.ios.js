@@ -37,8 +37,7 @@ var PostFooter = React.createClass({
     isLikeRequestInFlight: React.PropTypes.bool,
     navigator: React.PropTypes.object.isRequired,
     onSubmitComment: React.PropTypes.func.isRequired,
-    isCommentRequestInFlight: React.PropTypes.bool.isRequired,
-    postCommentsPopupComponent: React.PropTypes.any
+    isCommentRequestInFlight: React.PropTypes.bool.isRequired
   },
 
   render: function() {
@@ -67,7 +66,6 @@ var PostFooter = React.createClass({
           post={this.props.post}/>
 
         <PostCommentsContainer
-          postCommentsPopupComponent={PostCommentsPopup}
           post={this.props.post}
           navigator={this.props.navigator}
           onSubmitComment={this.props.onSubmitComment}
