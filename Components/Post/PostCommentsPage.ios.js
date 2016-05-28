@@ -4,7 +4,7 @@ var React = require('react-native');
 var PostHeader = require('./PostHeader');
 var CommentList = require('./Footer/CommentList');
 var CommentInput = require('./Footer/CommentInput');
-var Spinner = require('../Common/Spinner');
+var LoadMoreButton = require('../Common/LoadMoreButton');
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 var PostUtils = require('../../Utils/Post/PostUtils');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
@@ -27,8 +27,10 @@ var PostCommentPage = React.createClass({
     loading: React.PropTypes.bool.isRequired,
     post: React.PropTypes.object.isRequired,
     comments: React.PropTypes.array.isRequired,
+    moreToFetch: React.PropTypes.bool.isRequired,
     navigator: React.PropTypes.object.isRequired,
     commentInputAutoFocus: React.PropTypes.bool,
+    onLoadMorePress: React.PropTypes.func.isRequired,
     submitCommentCallback: React.PropTypes.func.isRequired
   },
 
@@ -39,25 +41,6 @@ var PostCommentPage = React.createClass({
   },
 
   render: function() {
-    var content;
-
-    if (this.props.loading) {
-      content = (
-        <Spinner/>
-      );
-    }
-    else {
-      content = this._renderContent();
-    }
-
-    return (
-      <View>
-        {content}
-      </View>
-    );
-  },
-
-  _renderContent: function() {
     return (
       <View style={styles.container}>
         <PostHeader
@@ -69,6 +52,11 @@ var PostCommentPage = React.createClass({
         <CommentList
           comments={this.props.comments}
           navigator={this.props.navigator}/>
+
+        <LoadMoreButton
+          onPress={this.props.onLoadMorePress}
+          isLoading={this.props.loading}
+          isVisible={this.props.moreToFetch}/>
 
         <CommentInput
           id={this.props.post.id}
