@@ -272,27 +272,10 @@ var profileOwnerStore = Unicycle.createStore({
       });
     },
 
-    addCommentOnPost: function(id, postIdString, userIdString, comment, commenterName, callback) {
-      var posts = this.getPosts(),
-          that = this;
+    addCommentOnPost: function(post, comment, commenterName) {
+      var posts = this.getPosts();
 
-      AjaxUtils.ajax(
-        '/post/createComment',
-        {
-          postIdString: postIdString,
-          userIdString: userIdString,
-          comment: comment
-        },
-        (res) => {
-          that.set({
-            posts: PostUtils.addCommentFromList(posts, id, comment, commenterName)
-          });
-          callback();
-        },
-        () => {
-          callback();
-        }
-      );
+      PostUtils.addCommentFromList(posts, post.id, comment, commenterName);
     },
 
     anyErrorsLoadingPage: function() {

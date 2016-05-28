@@ -79,9 +79,7 @@ var PostUtils = {
         commenterName: commenterName
       });
     }
-    else {
-      post.moreCommentsToShow = true;
-    }
+
     return post;
   },
 
@@ -91,16 +89,11 @@ var PostUtils = {
     return posts;
   },
 
-  trimPostCommentForFeed: function(post) {
-    post.firstComments = post.firstComments.slice(0, this.DEFAULT_MAX_COMMENTS_VISIBLE);
-  },
-
   getPostJson: function(post, index) {
     return {
       posterProfileImageUrl: post.posterProfilePictureUrl,
       postIdString: post.postIdString,
       firstComments: post.firstComments,
-      moreCommentsToShow: post.moreComments,
       numComments: post.numComments,
       posterEmail: post.posterEmail,
       posterName: post.posterName,

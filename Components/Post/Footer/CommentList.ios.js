@@ -1,77 +1,53 @@
 'use strict';
 
 var React = require('react-native');
-var Unicycle = require('../../../Unicycle');
 var Comment = require('./Comment');
-var ViewAllCommentsLink = require('./ViewAllCommentsLink');
-var PostUtils = require('../../../Utils/Post/PostUtils');
 
 var {
-  View,
-  Text,
-  StyleSheet,
-  TouchableHighlight
+  View
 } = React;
-
-var styles = StyleSheet.create({
-  container: {
-    marginBottom: 6,
-    marginLeft: 8,
-    marginRight: 8,
-    paddingBottom: 2
-  }
-});
 
 var CommentList = React.createClass({
 
   propTypes: {
-    post: React.PropTypes.object.isRequired,
-    navigator: React.PropTypes.object.isRequired,
-    renderedFromPostFooter: React.PropTypes.bool
+    comments: React.PropTypes.arrayOf(
+      React.PropTypes.shape({
+        commenterName: React.PropTypes.string.isRequired,
+        comment: React.PropTypes.string.isRequired,
+        commenterEmail: React.PropTypes.string
+      })
+    ).isRequired,
+    maxCommentsToShow: React.PropTypes.number,
+    navigator: React.PropTypes.object.isRequired
   },
 
   render: function() {
-    var viewAllComments = <View/>;
-
-    if (this.props.post.numComments > PostUtils.DEFAULT_MAX_COMMENTS_VISIBLE && this.props.renderedFromPostFooter) {
-      viewAllComments = (
-        <ViewAllCommentsLink
-          post={this.props.post}
-          navigator={this.props.navigator}/>
-      )
-    }
-
     return (
-      <View style={styles.container}>
-
-        {viewAllComments}
+      <View>
         {this._renderComments()}
-
       </View>
     );
   },
 
   _renderComments: function() {
-    var comments = [];
-    var numCommentsToShowFromFeed;
-    if (this.props.renderedFromPostFooter && (this.props.post.firstComments.length > PostUtils.DEFAULT_MAX_COMMENTS_VISIBLE)) {
-      numCommentsToShowFromFeed = PostUtils.DEFAULT_MAX_COMMENTS_VISIBLE;
-    }
-    else {
-      numCommentsToShowFromFeed = this.props.post.firstComments.length;
-    }
-    for (var i = 0; i<numCommentsToShowFromFeed; i++) {
-      var commentJson = this.props.post.firstComments[i];
-      comments.push(
+    var commentElements = [],
+        commentsJson = this.props.comments;
+
+    for (var i = 0; i < commentsJson.length; i++) {
+      if (this.props.maxCommentsToShow && i > this.props.maxCommentsToShow) {
+        break;
+      }
+
+      commentElements.push(
         <Comment
-          commenterName={commentJson.commenterName}
-          commentText={commentJson.comment}
-          commenterEmail={commentJson.commenterEmail}
+          commenterName={commentsJson[i].commenterName}
+          commentText={commentsJson[i].comment}
+          commenterEmail={commentsJson[i].commenterEmail}
           key={i}
           navigator={this.props.navigator}/>
       );
     }
-    return comments;
+    return commentElements;
   }
 
 });

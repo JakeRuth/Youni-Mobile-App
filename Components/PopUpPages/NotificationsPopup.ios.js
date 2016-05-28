@@ -11,15 +11,6 @@ var NotificationsPopup = React.createClass({
     navigator: React.PropTypes.object.isRequired
   },
 
-  getInitialState: function() {
-    return {
-      isInitialPageLoad: true,
-      notifications: null,
-      pageOffset: 0,
-      moreResultsToFetch: true
-    };
-  },
-
   render: function () {
     var pageContent = (
       <NotificationsList navigator={this.props.navigator}/>

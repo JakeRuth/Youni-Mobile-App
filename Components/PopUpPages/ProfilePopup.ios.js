@@ -104,7 +104,7 @@ var ProfilePopup = React.createClass({
         navigator={this.props.navigator}
         likePhotoAction={this._likePhotoAction}
         unlikePhotoAction={this._unlikePhotoAction}
-        submitCommentAction={this._submitCommentAction}/>
+        onSubmitCommentCallback={this._onSubmitCommentCallback}/>
     );
   },
 
@@ -251,27 +251,10 @@ var ProfilePopup = React.createClass({
     }
   },
 
-  _submitCommentAction: function(id, postIdString, userIdString, comment, commenterName, callback) {
-    var posts = this.state.posts,
-        that = this;
+  _onSubmitCommentCallback: function(post, comment, commenterName) {
+    var posts = this.state.posts;
 
-    AjaxUtils.ajax(
-      '/post/createComment',
-      {
-        postIdString: postIdString,
-        userIdString: userIdString,
-        comment: comment
-      },
-      (res) => {
-        that.setState({
-          posts: PostUtils.addCommentFromList(posts, id, comment, commenterName)
-        });
-        callback();
-      },
-      () => {
-        callback();
-      }
-    );
+    PostUtils.addCommentFromList(posts, post.id, comment, commenterName);
   }
 
 });

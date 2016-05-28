@@ -209,29 +209,6 @@ var explorePostsStore = Unicycle.createStore({
     });
   },
 
-  addCommentOnPost: function(id, postIdString, userIdString, comment, commenterName, callback) {
-    var posts = this.getPosts(),
-        that = this;
-
-    AjaxUtils.ajax(
-      '/post/createComment',
-      {
-        postIdString: postIdString,
-        userIdString: userIdString,
-        comment: comment
-      },
-      (res) => {
-        that.set({
-          posts: PostUtils.addCommentFromList(posts, id, comment, commenterName)
-        });
-        callback();
-      },
-      () => {
-        callback();
-      }
-    );
-  },
-
   anyErrorsLoadingPage: function() {
     return this.get('pageLoadError');
   },

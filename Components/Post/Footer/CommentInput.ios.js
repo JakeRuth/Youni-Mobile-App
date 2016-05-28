@@ -17,10 +17,7 @@ var {
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'row',
-    marginBottom: 6,
-    marginLeft: 8,
-    marginRight: 8
+    flexDirection: 'row'
   },
   commentInput: {
     flex: 1,

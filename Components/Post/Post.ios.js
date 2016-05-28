@@ -36,7 +36,7 @@ var Post = React.createClass({
     post: React.PropTypes.object.isRequired,
     viewerIsPostOwner: React.PropTypes.bool,
     renderedFromProfileView: React.PropTypes.bool,
-    submitCommentAction: React.PropTypes.func,
+    onSubmitCommentCallback: React.PropTypes.func.isRequired,
     likePhotoAction: React.PropTypes.func,
     unlikePhotoAction: React.PropTypes.func,
     navigator: React.PropTypes.object.isRequired
@@ -70,39 +70,11 @@ var Post = React.createClass({
           post={this.props.post}
           onStarPress={this._onStarPress}
           isLikeRequestInFlight={this.state.isLikeRequestInFlight || this.props.postStore.isLikeRequestInFlight()}
-          onSubmitComment={this._onSubmitComment}
           isCommentRequestInFlight={this.state.isCommentRequestInFlight}
+          onSubmitCommentCallback={this.props.onSubmitCommentCallback}
           navigator={this.props.navigator}/>
 
       </View>
-    );
-  },
-
-  _onSubmitComment: function(comment) {
-    var submitCommentAction;
-
-    if (this.props.submitCommentAction) {
-      submitCommentAction = this.props.submitCommentAction;
-    }
-    else {
-      submitCommentAction = this.props.postStore.addCommentOnPost;
-    }
-
-    this.setState({
-      isCommentRequestInFlight: true
-    });
-
-    submitCommentAction(
-      this.props.post.id,
-      this.props.post.postIdString,
-      userLoginMetadataStore.getUserId(),
-      comment,
-      userLoginMetadataStore.getFullName(),
-      () => {
-        this.setState({
-          isCommentRequestInFlight: false
-        });
-      }
     );
   },
 
@@ -127,6 +99,10 @@ var Post = React.createClass({
   _likePost: function() {
     var post = this.props.post,
         userId = userLoginMetadataStore.getUserId();
+
+    if (this.state.isLikeRequestInFlight) {
+      return;
+    }
 
     if (this.props.likePhotoAction) {
       this.setState({

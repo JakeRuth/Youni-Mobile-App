@@ -20,8 +20,7 @@ var styles = StyleSheet.create({
   },
   icon: {
     color: '#B2B2B2',
-    marginRight: 8,
-    marginLeft: 8
+    marginRight: 8
   }
 });
 

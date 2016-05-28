@@ -36,7 +36,7 @@ var Comment = React.createClass({
   propTypes: {
     commenterName: React.PropTypes.string.isRequired,
     commentText: React.PropTypes.string.isRequired,
-    commenterEmail: React.PropTypes.string.isRequired,
+    commenterEmail: React.PropTypes.string,
     navigator: React.PropTypes.object.isRequired
   },
 
@@ -63,7 +63,10 @@ var Comment = React.createClass({
   _onCommenterNamePress: function() {
     var userEmail = userLoginMetadataStore.getEmail();
 
-    if (userEmail !== this.props.commenterEmail) {
+    // commenterEmail could be null.  when a user comments on the post and we add the comment json to the
+    // comment list, we don't populate the email.  Which is OK, since it's only used to render the profile popup
+    // and you aren't allowed to view your own profile from a popup
+    if (this.props.commenterEmail && userEmail !== this.props.commenterEmail) {
       this.props.navigator.push({
         component: ProfilePopup,
         passProps: {profileUserEmail: this.props.commenterEmail}

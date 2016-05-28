@@ -22,8 +22,7 @@ var PostPopup = React.createClass({
 
   getInitialState: function() {
     return {
-      post: this.props.post, // post can change if it get's liked or commented on
-      isLikeRequestInFlight: false
+      post: this.props.post // post can change if it get's liked or commented on
     };
   },
 
@@ -46,7 +45,7 @@ var PostPopup = React.createClass({
         <Post
           postStore={explorePostsStore}
           post={post}
-          isLikeRequestInFlight={explorePostsStore.isLikeRequestInFlight()}
+          onSubmitCommentCallback={this._onSubmitCommentCallback}
           navigator={this.props.navigator}/>
       );
     }
@@ -55,10 +54,9 @@ var PostPopup = React.createClass({
         <Post
           postStore={explorePostsStore /* TODO: Make it so that we don't have to pass this in */}
           post={post}
-          isLikeRequestInFlight={this.state.isLikeRequestInFlight}
           likePhotoAction={this._likePhotoAction}
           unlikePhotoAction={this._unlikePhotoAction}
-          submitCommentAction={this._submitCommentAction}
+          onSubmitCommentCallback={this._onSubmitCommentCallback}
           navigator={this.props.navigator}/>
       );
     }
@@ -68,80 +66,16 @@ var PostPopup = React.createClass({
     var that = this,
         post = this.state.post;
 
-    if (!this.state.isLikeRequestInFlight) {
-      this.setState({
-        isLikeRequestInFlight: true
-      });
-
-      AjaxUtils.ajax(
-        '/post/like',
-        {
-          postIdString: postId,
-          userIdString: userId
-        },
-        (res) => {
-          that.setState({
-            post: PostUtils.likePost(post),
-            isLikeRequestInFlight: false
-          });
-          callback();
-        },
-        () => {
-          that.setState({
-            isLikeRequestInFlight: false
-          });
-          callback();
-        }
-      );
-    }
-  },
-
-  _unlikePhotoAction(postIndex, postId, userId, callback) {
-    var post = this.state.post,
-        that = this;
-
-    if (!this.state.isLikeRequestInFlight) {
-      this.setState({
-        isLikeRequestInFlight: true
-      });
-
-      AjaxUtils.ajax(
-        '/post/removeLike',
-        {
-          postIdString: postId,
-          userIdString: userId
-        },
-        (res) => {
-          that.setState({
-            post: PostUtils.unlikePost(post),
-            isLikeRequestInFlight: false
-          });
-          callback();
-        },
-        () => {
-          that.setState({
-            isLikeRequestInFlight: false
-          });
-          callback();
-        }
-      );
-    }
-  },
-
-  _submitCommentAction: function(id, postIdString, userIdString, comment, commenterName, callback) {
-    var post = this.state.post,
-        that = this;
 
     AjaxUtils.ajax(
-      '/post/createComment',
+      '/post/like',
       {
-        postIdString: postIdString,
-        userIdString: userIdString,
-        comment: comment
+        postIdString: postId,
+        userIdString: userId
       },
       (res) => {
         that.setState({
-          post: PostUtils.addComment(post, comment, commenterName)
+          post: PostUtils.likePost(post)
         });
         callback();
       },
@@ -149,6 +83,32 @@ var PostPopup = React.createClass({
         callback();
       }
     );
+  },
+
+  _unlikePhotoAction(postIndex, postId, userId, callback) {
+    var post = this.state.post,
+        that = this;
+
+    AjaxUtils.ajax(
+      '/post/removeLike',
+      {
+        postIdString: postId,
+        userIdString: userId
+      },
+      (res) => {
+        that.setState({
+          post: PostUtils.unlikePost(post)
+        });
+        callback();
+      },
+      () => {
+        callback();
+      }
+    );
+  },
+
+  _onSubmitCommentCallback: function(post, comment, commenterName) {
+    PostUtils.addComment(post, comment, commenterName);
   }
 
 });

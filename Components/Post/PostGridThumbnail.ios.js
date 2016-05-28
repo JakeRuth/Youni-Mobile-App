@@ -116,7 +116,7 @@ var PostGridThumbnail = React.createClass({
     if (email !== this.props.post.posterEmail) {
       Unicycle.exec('triggerPostView', email, this.props.post.postIdString, this.props.post.id);
     }
-  },
+  }
 
 });
 

@@ -47,7 +47,7 @@ var PostList = React.createClass({
     navigator: React.PropTypes.object.isRequired,
     likePhotoAction: React.PropTypes.func,
     unlikePhotoAction: React.PropTypes.func,
-    submitCommentAction: React.PropTypes.func
+    onSubmitCommentCallback: React.PropTypes.func.isRequired
   },
 
   render: function() {
@@ -106,7 +106,7 @@ var PostList = React.createClass({
           navigator={this.props.navigator}
           likePhotoAction={this.props.likePhotoAction}
           unlikePhotoAction={this.props.unlikePhotoAction}
-          submitCommentAction={this.props.submitCommentAction}
+          onSubmitCommentCallback={this.props.onSubmitCommentCallback}
           key={i}/>
       );
     }

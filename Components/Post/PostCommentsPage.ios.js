@@ -2,23 +2,34 @@
 
 var React = require('react-native');
 var PostHeader = require('./PostHeader');
-var PostCommentsContainer = require('./Footer/PostCommentsContainer');
+var CommentList = require('./Footer/CommentList');
+var CommentInput = require('./Footer/CommentInput');
 var Spinner = require('../Common/Spinner');
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 var PostUtils = require('../../Utils/Post/PostUtils');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 
 var {
-  View
+  View,
+  StyleSheet
 } = React;
+
+var styles = StyleSheet.create({
+  container: {
+    marginLeft: 8,
+    marginRight: 8
+  }
+});
 
 var PostCommentPage = React.createClass({
 
   propTypes: {
     loading: React.PropTypes.bool.isRequired,
     post: React.PropTypes.object.isRequired,
+    comments: React.PropTypes.array.isRequired,
     navigator: React.PropTypes.object.isRequired,
-    commentInputAutoFocus: React.PropTypes.bool
+    commentInputAutoFocus: React.PropTypes.bool,
+    submitCommentCallback: React.PropTypes.func.isRequired
   },
 
   getInitialState: function() {
@@ -48,19 +59,22 @@ var PostCommentPage = React.createClass({
 
   _renderContent: function() {
     return (
-      <View>
+      <View style={styles.container}>
         <PostHeader
           post={this.props.post}
           viewerIsPostOwner={false}
           renderedFromProfileView={false}
           hideActionButton={true}/>
 
-        <PostCommentsContainer
-          post={this.props.post}
+        <CommentList
+          comments={this.props.comments}
+          navigator={this.props.navigator}/>
+
+        <CommentInput
+          id={this.props.post.id}
+          postIdString={this.props.post.postIdString}
           onSubmitComment={this._onSubmitComment}
           isCommentRequestInFlight={this.state.isCommentRequestInFlight}
-          navigator={this.props.navigator}
-          commentInputActive={true}
           commentInputAutoFocus={this.props.commentInputAutoFocus}/>
       </View>
     );
@@ -86,11 +100,7 @@ var PostCommentPage = React.createClass({
         comment: comment
       },
       (res) => {
-        that.props.post.firstComments.push({
-          comment: comment,
-          commenterName: userLoginMetadataStore.getFullName()
-        });
-        that.props.post.numComments++;
+        that.props.submitCommentCallback(comment);
 
         that.setState({
           isCommentRequestInFlight: false

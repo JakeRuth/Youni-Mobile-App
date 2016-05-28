@@ -121,6 +121,7 @@ var HomePage = React.createClass({
         isFeedRefreshing={homePostsStore.isFeedRefreshing()}
         postStore={homePostsStore}
         posts={posts}
+        onSubmitCommentCallback={homePostsStore.addCommentOnPost}
         onScroll={this.handleScroll}
         onLoadMorePostsPress={this._requestHomeFeed}
         isLoadMorePostsRequestInFlight={homePostsStore.isLoadMorePostsRequestInFlight()}

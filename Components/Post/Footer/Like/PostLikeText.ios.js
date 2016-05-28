@@ -15,13 +15,9 @@ var styles = StyleSheet.create({
   numLikes: {
     fontSize: 15,
     color: '#ADADAD',
-    marginRight: 16,
     paddingTop: 6,
     paddingBottom: 6,
     paddingLeft: 10
-  },
-  spinnerContainer: {
-    marginRight: 16
   }
 });
 
@@ -40,11 +36,7 @@ var PostLikeText = React.createClass({
     var content;
 
     if (this.props.loading) {
-      content = (
-        <View style={styles.spinnerContainer}>
-          <Spinner/>
-        </View>
-      );
+      content = <Spinner/>;
     }
     else {
       content = (

@@ -34,6 +34,7 @@ var UserPosts = React.createClass({
   propTypes: {
     posts: React.PropTypes.object.isRequired,
     profileStore: React.PropTypes.any.isRequired,
+    onSubmitCommentCallback: React.PropTypes.func,
     onLoadMorePostsPress: React.PropTypes.func.isRequired,
     noMorePostsToFetch: React.PropTypes.bool.isRequired,
     viewerIsProfileOwner: React.PropTypes.bool,
@@ -41,8 +42,7 @@ var UserPosts = React.createClass({
     isNextPageLoading: React.PropTypes.bool,
     navigator: React.PropTypes.object.isRequired,
     likePhotoAction: React.PropTypes.func,
-    unlikePhotoAction: React.PropTypes.func,
-    submitCommentAction: React.PropTypes.func
+    unlikePhotoAction: React.PropTypes.func
   },
 
   // Lazy load to resolve circular dependency
@@ -71,6 +71,7 @@ var UserPosts = React.createClass({
           isFeedRefreshing={this.props.profileStore.isFeedRefreshing()}
           postStore={this.props.profileStore}
           posts={this.props.posts}
+          onSubmitCommentCallback={this._onSubmitCommentCallback}
           onScroll={() => { /* do nothing */ }}
           onLoadMorePostsPress={this.props.onLoadMorePostsPress}
           isLoadMorePostsRequestInFlight={this.props.isNextPageLoading}
@@ -79,8 +80,7 @@ var UserPosts = React.createClass({
           renderedFromProfileView={true}
           navigator={this.props.navigator}
           likePhotoAction={this.props.likePhotoAction}
-          unlikePhotoAction={this.props.unlikePhotoAction}
-          submitCommentAction={this.props.submitCommentAction}/>
+          unlikePhotoAction={this.props.unlikePhotoAction}/>
       );
     }
     else if (!this.props.loading) {
@@ -103,6 +103,15 @@ var UserPosts = React.createClass({
         </Text>
       </View>
     );
+  },
+
+  _onSubmitCommentCallback: function(post, comment, commenterName) {
+    if (this.props.onSubmitCommentCallback) {
+      return this.props.onSubmitCommentCallback(post, comment, commenterName);
+    }
+    else {
+      return this.props.profileStore.addCommentOnPost(post, comment, commenterName);
+    }
   }
 
 });
