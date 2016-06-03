@@ -33,7 +33,9 @@ var styles = StyleSheet.create({
     backgroundColor: Color.YOUNI_PRIMARY_PURPLE
   },
   headingContainer: {
-    flex: 1
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   topHalfBodyContainer: {
     flex: 5
@@ -124,7 +126,6 @@ var LoginSignupFlow = React.createClass({
         </View>
 
         <View style={styles.bottomHalfBodyContainer}>
-
           <View>
             <CentralizedActionButton
               label="Sign In"
@@ -150,7 +151,7 @@ var LoginSignupFlow = React.createClass({
       <View style={styles.container}>
 
         <View style={styles.headingContainer}>
-          <SignupProgressBar/>
+          <SignupProgressBar stepsCompleted={1}/>
         </View>
 
         <View style={styles.topHalfBodyContainer}>
