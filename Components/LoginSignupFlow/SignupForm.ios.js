@@ -176,7 +176,6 @@ var SignUpForm = React.createClass({
         <Text
           style={[styles.eulaAlert, styles.eulaLink]}
           onPress={() => {
-            Unicycle.exec('setShouldRenderLoginPage', false);
             this.props.navigator.push({
               component: EULAAgreementPage
             });

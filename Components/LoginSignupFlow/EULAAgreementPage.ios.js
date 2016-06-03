@@ -37,7 +37,6 @@ var EULAAgreementPage = React.createClass({
         content={this.renderContent()}
         onBackArrowPress={() => {
           this.props.navigator.pop();
-          Unicycle.exec('setShouldRenderLoginPage', true);
         }}
         bannerTitle='EULA'/>
     );

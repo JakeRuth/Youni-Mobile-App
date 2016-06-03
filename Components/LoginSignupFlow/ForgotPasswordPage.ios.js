@@ -74,7 +74,6 @@ var ForgotPasswordPage = React.createClass({
         content={content}
         onBackArrowPress={() => {
           this.props.navigator.pop();
-          Unicycle.exec('setShouldRenderLoginPage', true);
         }}
         bannerTitle='Forgot Password'/>
     );
