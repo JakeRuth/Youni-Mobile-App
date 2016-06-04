@@ -9,6 +9,7 @@ var SignupPartOne = require('./Signup/SignupPartOne');
 var SignupPartTwo = require('./Signup/SignupPartTwo');
 var ClassYearPicker = require('./Signup/ClassYearPicker');
 var AgreeToTermsMessage = require('./Signup/AgreeToTermsMessage');
+var SuccessfulSignupMessage = require('./Signup/SuccessfulSignupMessage');
 var FlowNavigationFooter = require('./FlowNavigationFooter');
 var Color = require('../../Utils/Common/GlobalColorMap');
 
@@ -90,7 +91,7 @@ var LoginSignupFlow = React.createClass({
     if (this.state.currentPageInFlow === LoginSignupFlowPhases.INITIAL_PAGE) {
       return this._renderInitialPage();
     }
-    else if (this.state.currentPageInFlow === LoginSignupFlowPhases.LOGIN) {
+    else if (this.state.currentPageInFlow === LoginSignupFlowPhases.LOGIN_PAGE) {
       return this._renderLoginPage();
     }
     else if (this.state.currentPageInFlow === LoginSignupFlowPhases.CREATE_ACCOUNT_P1) {
@@ -98,6 +99,9 @@ var LoginSignupFlow = React.createClass({
     }
     else if (this.state.currentPageInFlow === LoginSignupFlowPhases.CREATE_ACCOUNT_P2) {
       return this._renderSignupPartTwo();
+    }
+    else if (this.state.currentPageInFlow === LoginSignupFlowPhases.SUCCESSFUL_SIGNUP_PAGE) {
+      return this._renderSuccessfulSignupPage();
     }
   },
 
@@ -148,9 +152,9 @@ var LoginSignupFlow = React.createClass({
           </Text>
 
           <FlowNavigationFooter
-            heading="Don't have an account?"
-            navButtonLabel="Create Account"
-            navButtonAction={this._onCreateAccountPress}/>
+            label="Don't have an account?"
+            clickableLabel="Create Account"
+            action={this._onCreateAccountPress}/>
         </View>
 
       </View>
@@ -184,9 +188,9 @@ var LoginSignupFlow = React.createClass({
           <AgreeToTermsMessage/>
 
           <FlowNavigationFooter
-            heading="Already have an account?"
-            navButtonLabel="Login"
-            navButtonAction={this._onLoginPress}/>
+            label="Already have an account?"
+            clickableLabel="Login"
+            action={this._onLoginPress}/>
 
         </View>
 
@@ -213,18 +217,51 @@ var LoginSignupFlow = React.createClass({
           <View>
             <CentralizedActionButton
               label="Almost Done!"
-              onPress={() => null}/>
+              onPress={() => {
+                this.setState({
+                  currentPageInFlow: LoginSignupFlowPhases.SUCCESSFUL_SIGNUP_PAGE
+                });
+              }}/>
           </View>
 
           <AgreeToTermsMessage/>
 
           <FlowNavigationFooter
-            heading="Already have an account?"
-            navButtonLabel="Login"
-            navButtonAction={this._onLoginPress}/>
+            label="Already have an account?"
+            clickableLabel="Login"
+            action={this._onLoginPress}/>
 
         </View>
         {this._renderClassYearPicker()}
+
+      </View>
+    );
+  },
+
+  _renderSuccessfulSignupPage: function() {
+    return (
+      <View style={styles.container}>
+
+        <View style={styles.headingContainer}>
+          <SignupProgressBar stepsCompleted={3}/>
+        </View>
+
+        <View style={styles.topHalfBodyContainer}>
+          <SuccessfulSignupMessage/>
+        </View>
+
+        <View style={styles.bottomHalfBodyContainer}>
+          <View>
+            <CentralizedActionButton
+              label="Check your .edu email"
+              onPress={()=>null}/>
+          </View>
+
+          <FlowNavigationFooter
+            label=""
+            clickableLabel="Back to Login"
+            action={this._onLoginPress}/>
+        </View>
 
       </View>
     );
@@ -265,7 +302,7 @@ var LoginSignupFlow = React.createClass({
 
   _onLoginPress: function() {
     this.setState({
-      currentPageInFlow: LoginSignupFlowPhases.LOGIN
+      currentPageInFlow: LoginSignupFlowPhases.LOGIN_PAGE
     });
   },
 
@@ -280,9 +317,10 @@ var LoginSignupFlow = React.createClass({
 var LoginSignupFlowPhases = {
 
   INITIAL_PAGE: 'initialPage',
-  LOGIN: 'login',
+  LOGIN_PAGE: 'login',
   CREATE_ACCOUNT_P1: 'createAccountPartOne',
-  CREATE_ACCOUNT_P2: 'createAccountPartTwo'
+  CREATE_ACCOUNT_P2: 'createAccountPartTwo',
+  SUCCESSFUL_SIGNUP_PAGE: 'successfulSignUpPage'
 
 };
 

@@ -30,20 +30,20 @@ var styles = StyleSheet.create({
 var FlowNavigationFooter = React.createClass({
 
   propTypes: {
-    heading: React.PropTypes.string.isRequired,
-    navButtonLabel: React.PropTypes.string.isRequired,
-    navButtonAction: React.PropTypes.func.isRequired
+    label: React.PropTypes.string.isRequired,
+    clickableLabel: React.PropTypes.string.isRequired,
+    action: React.PropTypes.func.isRequired
   },
 
   render: function() {
     return (
       <View style={styles.container}>
         <Text style={styles.label}>
-          {this.props.heading + ' '}
+          {this.props.label + ' '}
           <Text
             style={styles.clickableLabel}
-            onPress={this.props.navButtonAction}>
-            {this.props.navButtonLabel}
+            onPress={this.props.action}>
+            {this.props.clickableLabel}
           </Text>
         </Text>
       </View>
