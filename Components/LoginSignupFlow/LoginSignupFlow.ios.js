@@ -7,6 +7,7 @@ var LoginForm = require('./Login/LoginForm');
 var CentralizedActionButton = require('./CentralizedActionButton');
 var SignupPartOne = require('./Signup/SignupPartOne');
 var SignupPartTwo = require('./Signup/SignupPartTwo');
+var ClassYearPicker = require('./Signup/ClassYearPicker');
 var AgreeToTermsMessage = require('./Signup/AgreeToTermsMessage');
 var FlowNavigationFooter = require('./FlowNavigationFooter');
 var Color = require('../../Utils/Common/GlobalColorMap');
@@ -60,6 +61,10 @@ var styles = StyleSheet.create({
     color: 'white',
     fontWeight: '100',
     textAlign: 'center'
+  },
+  classYearPickerContainer: {
+    position: 'absolute',
+    bottom: 0
   }
 });
 
@@ -71,7 +76,9 @@ var LoginSignupFlow = React.createClass({
 
   getInitialState: function() {
     return {
-      currentPageInFlow: LoginSignupFlowPhases.INITIAL_PAGE
+      currentPageInFlow: LoginSignupFlowPhases.INITIAL_PAGE,
+      showClassYearPicker: false,
+      selectedClassYearValue: null
     };
   },
 
@@ -196,7 +203,9 @@ var LoginSignupFlow = React.createClass({
         </View>
 
         <View style={styles.topHalfBodyContainer}>
-          <SignupPartTwo/>
+          <SignupPartTwo
+            selectedClassYearValue={this.state.selectedClassYearValue}
+            onClassYearInputPress={this.showClassYearPicker}/>
         </View>
 
         <View style={styles.bottomHalfBodyContainer}>
@@ -215,6 +224,12 @@ var LoginSignupFlow = React.createClass({
             navButtonAction={this._onLoginPress}/>
 
         </View>
+        {
+          this.state.showClassYearPicker &&
+          <View style={styles.classYearPickerContainer}>
+            <ClassYearPicker onPick={this.onClassYearPick}/>
+          </View>
+        }
 
       </View>
     );
@@ -228,6 +243,19 @@ var LoginSignupFlow = React.createClass({
           source={require('../../images/logoWhiteTextBlankBackground.png')}/>
       </View>
     );
+  },
+
+  showClassYearPicker: function() {
+    this.setState({
+      showClassYearPicker: true
+    });
+  },
+
+  onClassYearPick: function(year) {
+    this.setState({
+      selectedClassYearValue: year,
+      showClassYearPicker: false
+    });
   },
 
   _onLoginPress: function() {

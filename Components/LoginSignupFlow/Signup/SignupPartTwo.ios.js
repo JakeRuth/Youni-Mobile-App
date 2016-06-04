@@ -32,7 +32,12 @@ var styles = StyleSheet.create({
   }
 });
 
-var SignupPartOne = React.createClass({
+var SignupPartTwo = React.createClass({
+
+  propTypes: {
+    onClassYearInputPress: React.PropTypes.func.isRequired,
+    selectedClassYearValue: React.PropTypes.string
+  },
 
   render: function() {
     return (
@@ -45,6 +50,7 @@ var SignupPartOne = React.createClass({
             }}
             placeholder='First Name'/>
         </View>
+
         <View style={styles.lastNameInputContainer}>
           <PrettyInput
             style={{
@@ -53,11 +59,15 @@ var SignupPartOne = React.createClass({
             }}
             placeholder='Last Name'/>
         </View>
+
         <View style={styles.maleFemaleInputContainer}>
           <MaleFemaleInput/>
         </View>
+
         <View style={styles.classYearInputContainer}>
-          <ClassYearInput/>
+          <ClassYearInput
+            onPress={this.props.onClassYearInputPress}
+            value={this.props.selectedClassYearValue}/>
         </View>
       </View>
     );
@@ -98,4 +108,4 @@ var SignupPartOne = React.createClass({
 
 });
 
-module.exports = SignupPartOne;
+module.exports = SignupPartTwo;

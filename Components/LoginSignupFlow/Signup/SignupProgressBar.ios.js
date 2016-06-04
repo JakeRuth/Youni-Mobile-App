@@ -39,16 +39,16 @@ var styles = StyleSheet.create({
 
 var SignupProgressBar = React.createClass({
 
+  propTypes: {
+    visible: React.PropTypes.bool,
+    stepsCompleted: React.PropTypes.oneOf([1,2,3])
+  },
+
   getDefaultProps: function() {
     return {
       visible: true,
       stepsCompleted: 1
     };
-  },
-
-  propTypes: {
-    visible: React.PropTypes.bool,
-    stepsCompleted: React.PropTypes.oneOf([1,2,3])
   },
 
   render: function() {
