@@ -30,16 +30,16 @@ var ClassYearPicker = React.createClass({
 
   render: function() {
     return (
-        <PickerIOS
-          style={styles.container}
-          selectedValue={this.JUNIOR}
-          onValueChange={(year) => {this.props.onPick(year)}}>
-          {this._renderPickerItem(this.FRESHMAN)}
-          {this._renderPickerItem(this.SOPHOMORE)}
-          {this._renderPickerItem(this.JUNIOR)}
-          {this._renderPickerItem(this.SENIOR)}
-          {this._renderPickerItem(this.GRADUATE)}
-        </PickerIOS>
+      <PickerIOS
+        style={styles.container}
+        selectedValue={this.JUNIOR}
+        onValueChange={(year) => {this.props.onPick(year)}}>
+        {this._renderPickerItem(this.FRESHMAN)}
+        {this._renderPickerItem(this.SOPHOMORE)}
+        {this._renderPickerItem(this.JUNIOR)}
+        {this._renderPickerItem(this.SENIOR)}
+        {this._renderPickerItem(this.GRADUATE)}
+      </PickerIOS>
     );
   },
 

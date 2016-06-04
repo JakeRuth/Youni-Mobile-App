@@ -224,12 +224,7 @@ var LoginSignupFlow = React.createClass({
             navButtonAction={this._onLoginPress}/>
 
         </View>
-        {
-          this.state.showClassYearPicker &&
-          <View style={styles.classYearPickerContainer}>
-            <ClassYearPicker onPick={this.onClassYearPick}/>
-          </View>
-        }
+        {this._renderClassYearPicker()}
 
       </View>
     );
@@ -243,6 +238,16 @@ var LoginSignupFlow = React.createClass({
           source={require('../../images/logoWhiteTextBlankBackground.png')}/>
       </View>
     );
+  },
+
+  _renderClassYearPicker: function() {
+    if (this.state.showClassYearPicker) {
+      return (
+        <View style={styles.classYearPickerContainer}>
+          <ClassYearPicker onPick={this.onClassYearPick}/>
+        </View>
+      );
+    }
   },
 
   showClassYearPicker: function() {
