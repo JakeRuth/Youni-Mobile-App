@@ -2,6 +2,7 @@
 
 var React = require('react-native');
 var PrettyTouchable = require('../Common/PrettyTouchable');
+var Spinner = require('../Common/Spinner');
 
 var {
   View,
@@ -13,7 +14,8 @@ var styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    height: 44
   }
 });
 
@@ -33,12 +35,18 @@ var CentralizedActionButton = React.createClass({
 
   propTypes: {
     label: React.PropTypes.string.isRequired,
-    onPress: React.PropTypes.func.isRequired
+    onPress: React.PropTypes.func.isRequired,
+    showSpinner: React.PropTypes.bool
   },
 
   render: function() {
-    return (
-      <View style={styles.container}>
+    var content;
+
+    if (this.props.showSpinner) {
+      content = <Spinner color="white"/>;
+    }
+    else {
+      content = (
         <PrettyTouchable
           label={this.props.label}
           containerStyle={{
@@ -47,6 +55,12 @@ var CentralizedActionButton = React.createClass({
           }}
           invertColors={true}
           onPress={this.props.onPress}/>
+      );
+    }
+
+    return (
+      <View style={styles.container}>
+        {content}
       </View>
     );
   }

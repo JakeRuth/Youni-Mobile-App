@@ -1,17 +1,25 @@
 'use strict';
 
 var React = require('react-native');
-var SignupProgressBar = require('./Signup/SignupProgressBar');
+var Unicycle = require('../../Unicycle');
+
+var LandingPage = require('../LandingPage');
 var LoginSignupSelector = require('./LoginSignupSelector');
-var LoginForm = require('./Login/LoginForm');
+var FlowNavigationFooter = require('./FlowNavigationFooter');
 var CentralizedActionButton = require('./CentralizedActionButton');
+var Spinner = require('../Common/Spinner');
+
+var LoginForm = require('./Login/LoginForm');
 var SignupPartOne = require('./Signup/SignupPartOne');
 var SignupPartTwo = require('./Signup/SignupPartTwo');
 var ClassYearPicker = require('./Signup/ClassYearPicker');
 var AgreeToTermsMessage = require('./Signup/AgreeToTermsMessage');
 var SuccessfulSignupMessage = require('./Signup/SuccessfulSignupMessage');
-var FlowNavigationFooter = require('./FlowNavigationFooter');
+var SignupProgressBar = require('./Signup/SignupProgressBar');
+
 var Color = require('../../Utils/Common/GlobalColorMap');
+var LoginSignupFlowUtils = require('../../Utils/LoginSignupFlowUtils');
+var loginSignupStore = require('../../stores/LoginSignupStore');
 
 var {
   View,
@@ -77,6 +85,7 @@ var LoginSignupFlow = React.createClass({
 
   getInitialState: function() {
     return {
+      isAutoLoginRequestInFlight: true,
       currentPageInFlow: LoginSignupFlowPhases.INITIAL_PAGE,
       showClassYearPicker: false,
       selectedClassYearValue: null
@@ -84,11 +93,22 @@ var LoginSignupFlow = React.createClass({
   },
 
   componentDidMount: function () {
-    //this._attemptToAutoLoginUser();
+    LoginSignupFlowUtils.attemptToAutoLoginUser(this._onSuccessfulLoginCallback, this._onFailedLoginCallback);
   },
 
+  mixins: [
+    Unicycle.listenTo(loginSignupStore)
+  ],
+
   render: function () {
-    if (this.state.currentPageInFlow === LoginSignupFlowPhases.INITIAL_PAGE) {
+    if (this.state.isAutoLoginRequestInFlight) {
+      return (
+        <View style={styles.container}>
+          <Spinner/>
+        </View>
+      );
+    }
+    else if (this.state.currentPageInFlow === LoginSignupFlowPhases.INITIAL_PAGE) {
       return this._renderInitialPage();
     }
     else if (this.state.currentPageInFlow === LoginSignupFlowPhases.LOGIN_PAGE) {
@@ -144,7 +164,10 @@ var LoginSignupFlow = React.createClass({
           <View>
             <CentralizedActionButton
               label="Sign In"
-              onPress={()=>null}/>
+              onPress={() => {
+                LoginSignupFlowUtils.loginRequest(this._onSuccessfulLoginCallback, this._onFailedLoginCallback)
+              }}
+              showSpinner={loginSignupStore.isLoginRequestInFlight()}/>
           </View>
 
           <Text style={styles.forgotPasswordLink}>
@@ -309,6 +332,25 @@ var LoginSignupFlow = React.createClass({
   _onCreateAccountPress: function() {
     this.setState({
       currentPageInFlow: LoginSignupFlowPhases.CREATE_ACCOUNT_P1
+    });
+  },
+
+  _onSuccessfulLoginCallback: function() {
+    this.props.navigator.push({
+      component: LandingPage
+    });
+
+    // give the navigator animation time to slide in the LandingPage
+    setTimeout(function() {
+      this.setState({
+        isAutoLoginRequestInFlight: false
+      });
+    }.bind(this), 500);
+  },
+
+  _onFailedLoginCallback: function() {
+    this.setState({
+      isAutoLoginRequestInFlight: false
     });
   }
 

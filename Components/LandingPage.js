@@ -1,25 +1,24 @@
 'use strict';
 
 var React = require('react-native');
-var Unicycle = require('./Unicycle');
+var Unicycle = require('../Unicycle');
 var Icon = require('react-native-vector-icons/Ionicons');
 
-var HomePage = require('./Components/HomePage');
-var SearchPage = require('./Components/Search/SearchPage');
-var ProfilePage = require('./ProfilePage');
-var TrendingPage = require('./Components/Trending/TrendingPage');
-var CreatePostPage = require('./CreatePostPage');
-var OverlayPage = require('./Components/Common/OverlayPage');
-var NotificationCallout = require('./Components/Common/NotificationCallout');
+var HomePage = require('./HomePage');
+var SearchPage = require('./Search/SearchPage');
+var ProfilePage = require('../ProfilePage');
+var TrendingPage = require('./Trending/TrendingPage');
+var CreatePostPage = require('../CreatePostPage');
+var OverlayPage = require('./Common/OverlayPage');
+var NotificationCallout = require('./Common/NotificationCallout');
 
-var loginStore = require('./stores/LoginStore');
-var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
-var tabStateStore = require('./stores/TabStateStore');
-var notificationStore = require('./stores/NotificationStore');
-var searchStore = require('./stores/SearchStore');
+var userLoginMetadataStore = require('../stores/UserLoginMetadataStore');
+var tabStateStore = require('../stores/TabStateStore');
+var notificationStore = require('../stores/NotificationStore');
+var searchStore = require('../stores/SearchStore');
 
-var Color = require('./Utils/Common/GlobalColorMap');
-var NotificationUtils = require('./Utils/Notification/NotificationUtils');
+var Color = require('../Utils/Common/GlobalColorMap');
+var NotificationUtils = require('../Utils/Notification/NotificationUtils');
 
 var {
   View,
@@ -60,7 +59,6 @@ var LandingPage = React.createClass({
   },
 
   mixins: [
-    Unicycle.listenTo(loginStore),
     Unicycle.listenTo(tabStateStore),
     Unicycle.listenTo(notificationStore)
   ],

@@ -1,7 +1,6 @@
 'use strict';
 
 var React = require('react-native');
-var loginStore = require('../../stores/LoginStore');
 var Unicycle = require('../../Unicycle');
 var RadioButtons = require('../Common/RadioButtons');
 var Spinner = require('../Common/Spinner');

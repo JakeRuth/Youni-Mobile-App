@@ -2,12 +2,12 @@
 
 var React = require('react-native');
 var Unicycle = require('../../Unicycle');
+var AsyncStorageUtils = require('../../Utils/Common/AsyncStorageUtils');
 
 var {
   TouchableHighlight,
   Text,
   StyleSheet,
-  AsyncStorage,
   AlertIOS
 } = React;
 
@@ -47,7 +47,7 @@ var LogoutButton = React.createClass({
   },
 
   _onConfirmLogoutPress: function() {
-    AsyncStorage.removeItem('password');
+    AsyncStorageUtils.removeItem('password');
     Unicycle.exec('refreshHomeFeedData');
     Unicycle.exec('refreshExploreFeedData');
     Unicycle.exec('reInitProfilePageState');

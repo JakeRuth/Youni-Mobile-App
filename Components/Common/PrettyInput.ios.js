@@ -58,7 +58,7 @@ var PrettyInput = React.createClass({
       value: text
     });
     if (this.props.onTextChange) {
-      this.props.onTextChange();
+      this.props.onTextChange(text);
     }
   }
 
