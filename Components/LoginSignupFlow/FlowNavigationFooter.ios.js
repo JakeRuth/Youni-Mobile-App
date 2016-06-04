@@ -10,17 +10,20 @@ var {
 
 var styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
     position: 'absolute',
-    bottom: 40,
+    bottom: 30,
     width: Dimensions.get('window').width
   },
-  heading: {
+  label: {
     textAlign: 'center',
     fontSize: 14,
     color: 'white',
-    fontWeight: '100',
-    marginBottom: 14
+    fontWeight: '100'
+  },
+  clickableLabel: {
+    textDecorationLine: 'underline',
+    paddingTop: 10,
+    paddingBottom: 10
   }
 });
 
@@ -35,16 +38,14 @@ var FlowNavigationFooter = React.createClass({
   render: function() {
     return (
       <View style={styles.container}>
-        <Text style={styles.heading}>
-          {this.props.heading}
+        <Text style={styles.label}>
+          {this.props.heading + ' '}
+          <Text
+            style={styles.clickableLabel}
+            onPress={this.props.navButtonAction}>
+            {this.props.navButtonLabel}
+          </Text>
         </Text>
-        <PrettyTouchable
-          label={this.props.navButtonLabel}
-          containerStyle={{
-            width: Dimensions.get('window').width * .8,
-            height: 44
-          }}
-          onPress={this.props.navButtonAction}/>
       </View>
     );
   }
