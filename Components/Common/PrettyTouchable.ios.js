@@ -43,6 +43,7 @@ var PrettyTouchable = React.createClass({
     label: React.PropTypes.string.isRequired,
     containerStyle: React.PropTypes.object,
     labelStyle: React.PropTypes.object,
+    labelContainerStyle: React.PropTypes.object,
     styleOverrides: React.PropTypes.object,
     invertColors: React.PropTypes.bool,
     onPress: React.PropTypes.func
@@ -72,7 +73,7 @@ var PrettyTouchable = React.createClass({
 
   _renderLabel: function(labelStyles) {
     return (
-      <View style={styles.labelContainer}>
+      <View style={[styles.labelContainer, this.props.labelContainerStyle]}>
         <Text style={labelStyles}>
           {this.props.label}
         </Text>

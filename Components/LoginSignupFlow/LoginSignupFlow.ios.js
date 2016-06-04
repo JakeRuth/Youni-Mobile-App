@@ -6,6 +6,7 @@ var LoginSignupSelector = require('./LoginSignupSelector');
 var LoginForm = require('./Login/LoginForm');
 var CentralizedActionButton = require('./CentralizedActionButton');
 var SignupPartOne = require('./Signup/SignupPartOne');
+var SignupPartTwo = require('./Signup/SignupPartTwo');
 var AgreeToTermsMessage = require('./Signup/AgreeToTermsMessage');
 var FlowNavigationFooter = require('./FlowNavigationFooter');
 var Color = require('../../Utils/Common/GlobalColorMap');
@@ -38,10 +39,10 @@ var styles = StyleSheet.create({
     justifyContent: 'center'
   },
   topHalfBodyContainer: {
-    flex: 5
+    flex: 6
   },
   bottomHalfBodyContainer: {
-    flex: 5
+    flex: 4
   },
   appNameContainer: {
     alignSelf: 'flex-start',
@@ -87,6 +88,9 @@ var LoginSignupFlow = React.createClass({
     }
     else if (this.state.currentPageInFlow === LoginSignupFlowPhases.CREATE_ACCOUNT_P1) {
       return this._renderSignupPartOne();
+    }
+    else if (this.state.currentPageInFlow === LoginSignupFlowPhases.CREATE_ACCOUNT_P2) {
+      return this._renderSignupPartTwo();
     }
   },
 
@@ -163,7 +167,44 @@ var LoginSignupFlow = React.createClass({
           <View>
             <CentralizedActionButton
               label="Next"
-              onPress={()=>null}/>
+              onPress={() => {
+                this.setState({
+                  currentPageInFlow: LoginSignupFlowPhases.CREATE_ACCOUNT_P2
+                });
+              }}/>
+          </View>
+
+          <AgreeToTermsMessage/>
+
+          <FlowNavigationFooter
+            heading="Already have an account?"
+            navButtonLabel="Login"
+            navButtonAction={this._onLoginPress}/>
+
+        </View>
+
+      </View>
+    );
+  },
+
+  _renderSignupPartTwo: function() {
+    return (
+      <View style={styles.container}>
+
+        <View style={styles.headingContainer}>
+          <SignupProgressBar stepsCompleted={2}/>
+        </View>
+
+        <View style={styles.topHalfBodyContainer}>
+          <SignupPartTwo/>
+        </View>
+
+        <View style={styles.bottomHalfBodyContainer}>
+
+          <View>
+            <CentralizedActionButton
+              label="Almost Done!"
+              onPress={() => null}/>
           </View>
 
           <AgreeToTermsMessage/>
@@ -207,7 +248,8 @@ var LoginSignupFlowPhases = {
 
   INITIAL_PAGE: 'initialPage',
   LOGIN: 'login',
-  CREATE_ACCOUNT_P1: 'createAccountPartOne'
+  CREATE_ACCOUNT_P1: 'createAccountPartOne',
+  CREATE_ACCOUNT_P2: 'createAccountPartTwo'
 
 };
 

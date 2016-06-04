@@ -37,6 +37,8 @@ var styles = StyleSheet.create({
   }
 });
 
+
+// This is no longer being used anywhere, could be deleted if there is no need for it
 var RadioButtons = React.createClass({
 
   propTypes: {

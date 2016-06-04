@@ -59,18 +59,16 @@ var SignupPartOne = React.createClass({
             }}
             secureTextEntry={true}
             clearTextOnFocus={true}
-            placeholder='Password'/>
+            placeholder='Confirm Password'/>
         </View>
       </View>
     );
   },
 
+  // TODO: This will probably go on LoginSignupFlow
   onSignUpButtonPress: function() {
     if (this._assertAllFieldsAreNotBlank()) {
       this._alertMissingField();
-    }
-    else if (!this._emailMustEndInEdu()) {
-      this._alertEmailIsUnexpected();
     }
     else if (!this._doPasswordsMatch()) {
       this._alertPasswordMismatch();
@@ -78,26 +76,17 @@ var SignupPartOne = React.createClass({
     else if (this.state.password.length < this.MIN_PASSWORD_LENGTH) {
       this._alertPasswordNotLongEnough();
     }
-    else {
-      this._createUser();
-    }
   },
 
   _assertAllFieldsAreNotBlank: function() {
-    var firstName = this.state.firstName,
-      lastName = this.state.lastName,
-      email = this.state.email,
-      password = this.state.password,
-      confirmPassword = this.state.confirmPassword,
-      sex = this.state.sex;
+    var email = this.state.email,
+        password = this.state.password,
+        confirmPassword = this.state.confirmPassword;
 
     return (
-      firstName.length === 0 ||
-      lastName.length === 0 ||
       email.length === 0 ||
       password.length === 0 ||
-      confirmPassword.length === 0 ||
-      sex === null
+      confirmPassword.length === 0
     );
   },
 
