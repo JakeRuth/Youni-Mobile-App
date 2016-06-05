@@ -35,6 +35,9 @@ var styles = StyleSheet.create({
 var SignupPartTwo = React.createClass({
 
   propTypes: {
+    onFirstNameInputChange: React.PropTypes.func.isRequired,
+    onLastNameInputChange: React.PropTypes.func.isRequired,
+    onMaleFemaleSelectionChange: React.PropTypes.func.isRequired,
     onClassYearInputPress: React.PropTypes.func.isRequired,
     selectedClassYearValue: React.PropTypes.string
   },
@@ -48,6 +51,7 @@ var SignupPartTwo = React.createClass({
               width: Dimensions.get('window').width * .8,
               height: 44
             }}
+            onTextChange={this.props.onFirstNameInputChange}
             placeholder='First Name'/>
         </View>
 
@@ -57,11 +61,12 @@ var SignupPartTwo = React.createClass({
               width: Dimensions.get('window').width * .8,
               height: 44
             }}
+            onTextChange={this.props.onLastNameInputChange}
             placeholder='Last Name'/>
         </View>
 
         <View style={styles.maleFemaleInputContainer}>
-          <MaleFemaleInput/>
+          <MaleFemaleInput onChange={this.props.onMaleFemaleSelectionChange}/>
         </View>
 
         <View style={styles.classYearInputContainer}>

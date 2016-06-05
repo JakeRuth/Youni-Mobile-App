@@ -2,6 +2,7 @@
 
 var React = require('react-native');
 var Colors = require('../../../Utils/Common/GlobalColorMap');
+var GenderEnum = require('../../../Utils/Common/GenderEnum');
 
 var {
   Text,
@@ -37,11 +38,14 @@ var styles = StyleSheet.create({
 
 var MaleFemaleInput = React.createClass({
 
+  propTypes: {
+    onChange: React.PropTypes.func.isRequired
+  },
+
   // need to states since they both start off unselected
   getInitialState: function() {
     return {
-      isMaleOptionSelected: false,
-      isFemaleOptionSelected: false
+      genderSelected: null
     };
   },
 
@@ -61,7 +65,7 @@ var MaleFemaleInput = React.createClass({
     var selectorStyles = [styles.selector],
         selectorLabelStyles = [styles.selectorLabel];
 
-    if (this.state.isMaleOptionSelected) {
+    if (this.state.genderSelected === GenderEnum.MALE) {
       selectorStyles.push({ backgroundColor: 'white' });
       selectorLabelStyles.push({ color: Colors.YOUNI_PRIMARY_PURPLE });
     }
@@ -83,7 +87,7 @@ var MaleFemaleInput = React.createClass({
     var selectorStyles = [styles.selector],
         selectorLabelStyles = [styles.selectorLabel];
 
-    if (this.state.isFemaleOptionSelected) {
+    if (this.state.genderSelected === GenderEnum.FEMALE) {
       selectorStyles.push({ backgroundColor: 'white' });
       selectorLabelStyles.push({ color: Colors.YOUNI_PRIMARY_PURPLE });
     }
@@ -103,16 +107,16 @@ var MaleFemaleInput = React.createClass({
 
   _onMaleSelect: function() {
     this.setState({
-      isMaleOptionSelected: true,
-      isFemaleOptionSelected: false
+      genderSelected: GenderEnum.MALE
     });
+    this.props.onChange(GenderEnum.MALE);
   },
 
   _onFemaleSelect: function() {
     this.setState({
-      isMaleOptionSelected: false,
-      isFemaleOptionSelected: true
+      genderSelected: GenderEnum.FEMALE
     });
+    this.props.onChange(GenderEnum.FEMALE);
   }
 
 });

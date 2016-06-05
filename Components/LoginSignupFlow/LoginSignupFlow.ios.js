@@ -91,6 +91,9 @@ var LoginSignupFlow = React.createClass({
       email: null,
       password: null,
       confirmPassword: null,
+      firstName: null,
+      lastName: null,
+      gender: null,
       selectedClassYearValue: null,
       isAutoLoginRequestInFlight: true,
       currentPageInFlow: LoginSignupFlowPhases.INITIAL_PAGE,
@@ -255,12 +258,11 @@ var LoginSignupFlow = React.createClass({
 
         <View style={styles.topHalfBodyContainer}>
           <SignupPartTwo
-            selectedClassYearValue={this.state.selectedClassYearValue}
-            onClassYearInputPress={() => {
-              this.setState({
-                showClassYearPicker: true
-              });
-            }}/>
+            onFirstNameInputChange={(firstName) => { this.setState({ firstName: firstName }); }}
+            onLastNameInputChange={(lastName) => { this.setState({ lastName: lastName }); }}
+            onMaleFemaleSelectionChange={(gender) => { this.setState({ gender: gender }); }}
+            onClassYearInputPress={() => { this.setState({ showClassYearPicker: true }); }}
+            selectedClassYearValue={this.state.selectedClassYearValue}/>
         </View>
 
         <View style={styles.bottomHalfBodyContainer}>
@@ -268,11 +270,7 @@ var LoginSignupFlow = React.createClass({
           <View>
             <CentralizedActionButton
               label="Almost Done!"
-              onPress={() => {
-                this.setState({
-                  currentPageInFlow: LoginSignupFlowPhases.SUCCESSFUL_SIGNUP_PAGE
-                });
-              }}/>
+              onPress={this._onSignupPageTwoSubmit}/>
           </View>
 
           <AgreeToTermsMessage navigator={this.props.navigator}/>
@@ -402,11 +400,29 @@ var LoginSignupFlow = React.createClass({
     }
   },
 
+  _onSignupPageTwoSubmit: function() {
+    var {firstName, lastName, gender, selectedClassYearValue} = this.state;
+
+    if (!firstName || !lastName || !gender || !selectedClassYearValue) {
+      LoginSignupFlowAlerts.missingFields();
+    }
+    else {
+      console.log('create account');
+      this.setState({
+        currentPageInFlow: LoginSignupFlowPhases.SUCCESSFUL_SIGNUP_PAGE
+      });
+    }
+  },
+
   _clearSignupFieldStates: function() {
     this.setState({
       email: null,
       password: null,
-      confirmPassword: null
+      confirmPassword: null,
+      firstName: null,
+      lastName: null,
+      gender: null,
+      selectedClassYearValue: null
     })
   },
 
