@@ -29,6 +29,12 @@ var styles = StyleSheet.create({
 
 var SignupPartOne = React.createClass({
 
+  propTypes: {
+    onEmailInputChange: React.PropTypes.func.isRequired,
+    onPasswordInputChange: React.PropTypes.func.isRequired,
+    onConfirmPasswordInputChange: React.PropTypes.func.isRequired
+  },
+
   render: function() {
     return (
       <View style={styles.container}>
@@ -38,6 +44,7 @@ var SignupPartOne = React.createClass({
               width: Dimensions.get('window').width * .8,
               height: 44
             }}
+            onTextChange={this.props.onEmailInputChange}
             placeholder='email@college.edu'
             keyboardType='email-address'/>
         </View>
@@ -47,6 +54,7 @@ var SignupPartOne = React.createClass({
               width: Dimensions.get('window').width * .8,
               height: 44
             }}
+            onTextChange={this.props.onPasswordInputChange}
             secureTextEntry={true}
             clearTextOnFocus={true}
             placeholder='Password'/>
@@ -57,6 +65,7 @@ var SignupPartOne = React.createClass({
               width: Dimensions.get('window').width * .8,
               height: 44
             }}
+            onTextChange={this.props.onConfirmPasswordInputChange}
             secureTextEntry={true}
             clearTextOnFocus={true}
             placeholder='Confirm Password'/>

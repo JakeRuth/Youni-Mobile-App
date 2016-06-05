@@ -21,6 +21,7 @@ var SignupProgressBar = require('./Signup/SignupProgressBar');
 var Color = require('../../Utils/Common/GlobalColorMap');
 var LoginSignupFlowUtils = require('../../Utils/LoginSignupFlowUtils');
 var loginSignupStore = require('../../stores/LoginSignupStore');
+var LoginSignupFlowAlerts = require('./LoginSignupFlowAlerts');
 
 var {
   View,
@@ -87,10 +88,13 @@ var LoginSignupFlow = React.createClass({
 
   getInitialState: function() {
     return {
+      email: null,
+      password: null,
+      confirmPassword: null,
+      selectedClassYearValue: null,
       isAutoLoginRequestInFlight: true,
       currentPageInFlow: LoginSignupFlowPhases.INITIAL_PAGE,
-      showClassYearPicker: false,
-      selectedClassYearValue: null
+      showClassYearPicker: false
     };
   },
 
@@ -209,7 +213,10 @@ var LoginSignupFlow = React.createClass({
         </View>
 
         <View style={styles.topHalfBodyContainer}>
-          <SignupPartOne/>
+          <SignupPartOne
+            onEmailInputChange={(email) => { this.setState({ email: email }); }}
+            onPasswordInputChange={(password) => { this.setState({ password: password }); }}
+            onConfirmPasswordInputChange={(confirmPassword) => { this.setState({ confirmPassword: confirmPassword }); }}/>
         </View>
 
         <View style={styles.bottomHalfBodyContainer}>
@@ -217,11 +224,7 @@ var LoginSignupFlow = React.createClass({
           <View>
             <CentralizedActionButton
               label="Next"
-              onPress={() => {
-                this.setState({
-                  currentPageInFlow: LoginSignupFlowPhases.CREATE_ACCOUNT_P2
-                });
-              }}/>
+              onPress={this._onSignupPageOneSubmit}/>
           </View>
 
           <AgreeToTermsMessage navigator={this.props.navigator}/>
@@ -230,6 +233,7 @@ var LoginSignupFlow = React.createClass({
             label="Already have an account?"
             clickableLabel="Login"
             action={() => {
+              this._clearSignupFieldStates();
               this.setState({
                 currentPageInFlow: LoginSignupFlowPhases.LOGIN_PAGE
               });
@@ -277,6 +281,7 @@ var LoginSignupFlow = React.createClass({
             label="Already have an account?"
             clickableLabel="Login"
             action={() => {
+              this._clearSignupFieldStates();
               this.setState({
                 currentPageInFlow: LoginSignupFlowPhases.LOGIN_PAGE
               });
@@ -312,6 +317,7 @@ var LoginSignupFlow = React.createClass({
             label=""
             clickableLabel="Back to Login"
             action={() => {
+              this._clearSignupFieldStates();
               this.setState({
                 currentPageInFlow: LoginSignupFlowPhases.LOGIN_PAGE
               });
@@ -372,7 +378,39 @@ var LoginSignupFlow = React.createClass({
     this.setState({
       isAutoLoginRequestInFlight: false
     });
-  }
+  },
+
+  _onSignupPageOneSubmit: function() {
+    var {email, password, confirmPassword} = this.state;
+
+    if (!email || !password || !confirmPassword) {
+      LoginSignupFlowAlerts.missingFields();
+    }
+    else if (!email.endsWith('.edu') || email.indexOf('@') === -1) {
+      LoginSignupFlowAlerts.unexpectedEmailFormat();
+    }
+    else if (password !== confirmPassword) {
+      LoginSignupFlowAlerts.passwordsMustMatch();
+    }
+    else if (password.length < this.MIN_PASSWORD_LENGTH) {
+      LoginSignupFlowAlerts.passwordNotLongEnough();
+    }
+    else {
+      this.setState({
+        currentPageInFlow: LoginSignupFlowPhases.CREATE_ACCOUNT_P2
+      });
+    }
+  },
+
+  _clearSignupFieldStates: function() {
+    this.setState({
+      email: null,
+      password: null,
+      confirmPassword: null
+    })
+  },
+
+  MIN_PASSWORD_LENGTH: 6
 
 });
 
