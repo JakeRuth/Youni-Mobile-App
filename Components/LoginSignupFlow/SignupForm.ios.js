@@ -33,7 +33,7 @@ var styles = StyleSheet.create({
     marginBottom: 8,
     alignSelf: 'center'
   },
-  maleFemaleInputContainer: {
+  genderInputContainer: {
     backgroundColor: 'rgba(255, 255, 255, 0.3)',
     width: 250,
     padding: 5,
@@ -157,7 +157,7 @@ var SignUpForm = React.createClass({
           placeholder={'Confirm Password'}
           onChangeText={(text) => this.setState({confirmPassword: text})}/>
 
-        <View style={styles.maleFemaleInputContainer}>
+        <View style={styles.genderInputContainer}>
           <RadioButtons
             labels={['male', 'female']}
             customOnButtonPress={(label) => {this.setState({sex: label});}}/>

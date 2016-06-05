@@ -2,8 +2,9 @@
 
 var React = require('react-native');
 var PrettyInput = require('../../Common/PrettyInput');
-var MaleFemaleInput = require('./MaleFemaleInput');
+var GenderInput = require('./GenderInput');
 var ClassYearInput = require('./ClassYearInput');
+var signupStore = require('../../../stores/SignupStore');
 
 var {
   View,
@@ -24,7 +25,7 @@ var styles = StyleSheet.create({
   lastNameInputContainer: {
     marginBottom: 20
   },
-  maleFemaleInputContainer: {
+  genderInputContainer: {
     marginBottom: 20
   },
   classYearInputContainer: {
@@ -35,11 +36,7 @@ var styles = StyleSheet.create({
 var SignupPartTwo = React.createClass({
 
   propTypes: {
-    onFirstNameInputChange: React.PropTypes.func.isRequired,
-    onLastNameInputChange: React.PropTypes.func.isRequired,
-    onMaleFemaleSelectionChange: React.PropTypes.func.isRequired,
-    onClassYearInputPress: React.PropTypes.func.isRequired,
-    selectedClassYearValue: React.PropTypes.string
+    onClassYearInputPress: React.PropTypes.func.isRequired
   },
 
   render: function() {
@@ -51,7 +48,7 @@ var SignupPartTwo = React.createClass({
               width: Dimensions.get('window').width * .8,
               height: 44
             }}
-            onTextChange={this.props.onFirstNameInputChange}
+            onTextChange={signupStore.setFirstName}
             placeholder='First Name'/>
         </View>
 
@@ -61,53 +58,20 @@ var SignupPartTwo = React.createClass({
               width: Dimensions.get('window').width * .8,
               height: 44
             }}
-            onTextChange={this.props.onLastNameInputChange}
+            onTextChange={signupStore.setLastName}
             placeholder='Last Name'/>
         </View>
 
-        <View style={styles.maleFemaleInputContainer}>
-          <MaleFemaleInput onChange={this.props.onMaleFemaleSelectionChange}/>
+        <View style={styles.genderInputContainer}>
+          <GenderInput/>
         </View>
 
         <View style={styles.classYearInputContainer}>
           <ClassYearInput
             onPress={this.props.onClassYearInputPress}
-            value={this.props.selectedClassYearValue}/>
+            value={signupStore.getClassYear()}/>
         </View>
       </View>
-    );
-  },
-
-  onSignUpButtonPress: function() {
-    if (this._assertAllFieldsAreNotBlank()) {
-      this._alertMissingField();
-    }
-    else {
-      this._createUser();
-    }
-  },
-
-  _assertAllFieldsAreNotBlank: function() {
-    var firstName = this.state.firstName,
-        lastName = this.state.lastName,
-        sex = this.state.sex;
-
-    return (
-      firstName.length === 0 ||
-      lastName.length === 0 ||
-      sex === null
-    );
-  },
-
-  _alertMissingField: function() {
-    AlertIOS.alert(
-      'All fields must be filled',
-      '',
-      [
-        {
-          text: 'Ok'
-        }
-      ]
     );
   }
 

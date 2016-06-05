@@ -3,6 +3,7 @@
 var React = require('react-native');
 var Colors = require('../../../Utils/Common/GlobalColorMap');
 var GenderEnum = require('../../../Utils/Common/GenderEnum');
+var signupStore = require('../../../stores/SignupStore');
 
 var {
   Text,
@@ -36,11 +37,7 @@ var styles = StyleSheet.create({
   }
 });
 
-var MaleFemaleInput = React.createClass({
-
-  propTypes: {
-    onChange: React.PropTypes.func.isRequired
-  },
+var GenderInput = React.createClass({
 
   // need to states since they both start off unselected
   getInitialState: function() {
@@ -109,16 +106,16 @@ var MaleFemaleInput = React.createClass({
     this.setState({
       genderSelected: GenderEnum.MALE
     });
-    this.props.onChange(GenderEnum.MALE);
+    signupStore.setGender(GenderEnum.MALE);
   },
 
   _onFemaleSelect: function() {
     this.setState({
       genderSelected: GenderEnum.FEMALE
     });
-    this.props.onChange(GenderEnum.FEMALE);
+    signupStore.setGender(GenderEnum.FEMALE);
   }
 
 });
 
-module.exports = MaleFemaleInput;
+module.exports = GenderInput;

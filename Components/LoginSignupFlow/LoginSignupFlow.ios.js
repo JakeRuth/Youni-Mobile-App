@@ -21,6 +21,7 @@ var SignupProgressBar = require('./Signup/SignupProgressBar');
 var Color = require('../../Utils/Common/GlobalColorMap');
 var LoginSignupFlowUtils = require('../../Utils/LoginSignupFlowUtils');
 var loginStore = require('../../stores/LoginStore');
+var signupStore = require('../../stores/SignupStore');
 var LoginSignupFlowAlerts = require('./LoginSignupFlowAlerts');
 
 var {
@@ -88,15 +89,8 @@ var LoginSignupFlow = React.createClass({
 
   getInitialState: function() {
     return {
-      email: null,
-      password: null,
-      confirmPassword: null,
-      firstName: null,
-      lastName: null,
-      gender: null,
-      selectedClassYearValue: null,
       isAutoLoginRequestInFlight: true,
-      currentPageInFlow: LoginSignupFlowPhases.INITIAL_PAGE,
+      currentPageInFlow: LoginSignupFlowPhases.CREATE_ACCOUNT_P2,
       showClassYearPicker: false
     };
   },
@@ -216,10 +210,7 @@ var LoginSignupFlow = React.createClass({
         </View>
 
         <View style={styles.topHalfBodyContainer}>
-          <SignupPartOne
-            onEmailInputChange={(email) => { this.setState({ email: email }); }}
-            onPasswordInputChange={(password) => { this.setState({ password: password }); }}
-            onConfirmPasswordInputChange={(confirmPassword) => { this.setState({ confirmPassword: confirmPassword }); }}/>
+          <SignupPartOne/>
         </View>
 
         <View style={styles.bottomHalfBodyContainer}>
@@ -258,11 +249,7 @@ var LoginSignupFlow = React.createClass({
 
         <View style={styles.topHalfBodyContainer}>
           <SignupPartTwo
-            onFirstNameInputChange={(firstName) => { this.setState({ firstName: firstName }); }}
-            onLastNameInputChange={(lastName) => { this.setState({ lastName: lastName }); }}
-            onMaleFemaleSelectionChange={(gender) => { this.setState({ gender: gender }); }}
-            onClassYearInputPress={() => { this.setState({ showClassYearPicker: true }); }}
-            selectedClassYearValue={this.state.selectedClassYearValue}/>
+            onClassYearInputPress={() => { this.setState({ showClassYearPicker: true }); }}/>
         </View>
 
         <View style={styles.bottomHalfBodyContainer}>
@@ -347,8 +334,8 @@ var LoginSignupFlow = React.createClass({
   },
 
   onClassYearPick: function(year) {
+    signupStore.setClassYear(year);
     this.setState({
-      selectedClassYearValue: year,
       showClassYearPicker: false
     });
   },
@@ -379,7 +366,9 @@ var LoginSignupFlow = React.createClass({
   },
 
   _onSignupPageOneSubmit: function() {
-    var {email, password, confirmPassword} = this.state;
+    var email = signupStore.getEmail(),
+        password = signupStore.getPassword(),
+        confirmPassword = signupStore.getConfirmPassword();
 
     if (!email || !password || !confirmPassword) {
       LoginSignupFlowAlerts.missingFields();
@@ -401,9 +390,12 @@ var LoginSignupFlow = React.createClass({
   },
 
   _onSignupPageTwoSubmit: function() {
-    var {firstName, lastName, gender, selectedClassYearValue} = this.state;
+    var firstName = signupStore.getFirstName(),
+        lastName = signupStore.getLastName(),
+        gender = signupStore.getGender(),
+        classYear = signupStore.getClassYear();
 
-    if (!firstName || !lastName || !gender || !selectedClassYearValue) {
+    if (!firstName || !lastName || !gender || !classYear) {
       LoginSignupFlowAlerts.missingFields();
     }
     else {
@@ -415,15 +407,13 @@ var LoginSignupFlow = React.createClass({
   },
 
   _clearSignupFieldStates: function() {
-    this.setState({
-      email: null,
-      password: null,
-      confirmPassword: null,
-      firstName: null,
-      lastName: null,
-      gender: null,
-      selectedClassYearValue: null
-    })
+    signupStore.setEmail('');
+    signupStore.setPassword('');
+    signupStore.setConfirmPassword('');
+    signupStore.setFirstName('');
+    signupStore.setLastName('');
+    signupStore.setGender('');
+    signupStore.setClassYear('');
   },
 
   MIN_PASSWORD_LENGTH: 6
