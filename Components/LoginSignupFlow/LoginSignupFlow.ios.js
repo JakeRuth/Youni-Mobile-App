@@ -8,6 +8,7 @@ var LoginSignupSelector = require('./LoginSignupSelector');
 var FlowNavigationFooter = require('./FlowNavigationFooter');
 var CentralizedActionButton = require('./CentralizedActionButton');
 var Spinner = require('../Common/Spinner');
+var ForgotPasswordPage = require('./ForgotPasswordPage');
 
 var LoginForm = require('./Login/LoginForm');
 var SignupPartOne = require('./Signup/SignupPartOne');
@@ -65,7 +66,8 @@ var styles = StyleSheet.create({
     height: 120
   },
   forgotPasswordLink: {
-    marginTop: 20,
+    paddingTop: 20,
+    paddingBottom: 10,
     width: Dimensions.get('window').width,
     color: 'white',
     fontWeight: '100',
@@ -170,7 +172,9 @@ var LoginSignupFlow = React.createClass({
               showSpinner={loginSignupStore.isLoginRequestInFlight()}/>
           </View>
 
-          <Text style={styles.forgotPasswordLink}>
+          <Text
+            style={styles.forgotPasswordLink}
+            onPress={this._onForgotPasswordClick}>
             Forgot password?
           </Text>
 
@@ -326,6 +330,12 @@ var LoginSignupFlow = React.createClass({
   _onLoginPress: function() {
     this.setState({
       currentPageInFlow: LoginSignupFlowPhases.LOGIN_PAGE
+    });
+  },
+
+  _onForgotPasswordClick: function () {
+    this.props.navigator.push({
+      component: ForgotPasswordPage
     });
   },
 

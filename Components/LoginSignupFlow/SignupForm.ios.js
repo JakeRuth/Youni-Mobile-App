@@ -74,6 +74,7 @@ var styles = StyleSheet.create({
   }
 });
 
+// TODO: DELETE
 var SignUpForm = React.createClass({
 
   propType: {

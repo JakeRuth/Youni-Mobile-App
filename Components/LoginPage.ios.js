@@ -95,6 +95,7 @@ var styles = StyleSheet.create({
   }
 });
 
+// TODO: Delete
 //TODO: this should probably be broken down into smaller components
 var LoginPage = React.createClass({
 
