@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react-native');
+var EULAAgreementPage = require('../EULAAgreementPage');
 
 var {
   Text,
@@ -10,18 +11,19 @@ var {
 } = React;
 
 var styles = StyleSheet.create({
-  topLine: {
+  top: {
     marginTop: 20,
     width: Dimensions.get('window').width,
     color: 'white',
     fontWeight: '100',
     textAlign: 'center'
   },
-  bottomLine: {
+  bottom: {
     width: Dimensions.get('window').width,
     color: 'white',
     fontWeight: '100',
-    textAlign: 'center'
+    textAlign: 'center',
+    paddingBottom: 15 // makes the text easier to click
   },
   underline: {
     textDecorationLine: 'underline'
@@ -30,15 +32,25 @@ var styles = StyleSheet.create({
 
 var AgreeToTermsMessage = React.createClass({
 
+  propTypes: {
+    navigator: React.PropTypes.object.isRequired
+  },
+
   render: function() {
     return (
       <View>
 
-        <Text style={styles.topLine}>
+        <Text style={styles.top}>
           By signing up, you agree to our
         </Text>
 
-        <Text style={styles.bottomLine}>
+        <Text
+          style={styles.bottom}
+          onPress={() => {
+            this.props.navigator.push({
+              component: EULAAgreementPage
+            });
+          }}>
           <Text style={styles.underline}>Terms</Text> & <Text style={styles.underline}>Privacy Policy</Text>
         </Text>
 
