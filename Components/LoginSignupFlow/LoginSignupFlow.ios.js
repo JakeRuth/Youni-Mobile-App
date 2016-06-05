@@ -141,8 +141,16 @@ var LoginSignupFlow = React.createClass({
 
         <View style={styles.bottomHalfBodyContainer}>
           <LoginSignupSelector
-            onLoginPress={this._onLoginPress}
-            onCreateAccountPress={this._onCreateAccountPress}/>
+            onLoginPress={() => {
+              this.setState({
+                currentPageInFlow: LoginSignupFlowPhases.LOGIN_PAGE
+              });
+            }}
+            onCreateAccountPress={() => {
+              this.setState({
+                currentPageInFlow: LoginSignupFlowPhases.CREATE_ACCOUNT_P1
+              });
+            }}/>
         </View>
 
       </View>
@@ -181,7 +189,11 @@ var LoginSignupFlow = React.createClass({
           <FlowNavigationFooter
             label="Don't have an account?"
             clickableLabel="Create Account"
-            action={this._onCreateAccountPress}/>
+            action={() => {
+              this.setState({
+                currentPageInFlow: LoginSignupFlowPhases.CREATE_ACCOUNT_P1
+              });
+            }}/>
         </View>
 
       </View>
@@ -217,7 +229,11 @@ var LoginSignupFlow = React.createClass({
           <FlowNavigationFooter
             label="Already have an account?"
             clickableLabel="Login"
-            action={this._onLoginPress}/>
+            action={() => {
+              this.setState({
+                currentPageInFlow: LoginSignupFlowPhases.LOGIN_PAGE
+              });
+            }}/>
 
         </View>
 
@@ -236,7 +252,11 @@ var LoginSignupFlow = React.createClass({
         <View style={styles.topHalfBodyContainer}>
           <SignupPartTwo
             selectedClassYearValue={this.state.selectedClassYearValue}
-            onClassYearInputPress={this.showClassYearPicker}/>
+            onClassYearInputPress={() => {
+              this.setState({
+                showClassYearPicker: true
+              });
+            }}/>
         </View>
 
         <View style={styles.bottomHalfBodyContainer}>
@@ -256,7 +276,11 @@ var LoginSignupFlow = React.createClass({
           <FlowNavigationFooter
             label="Already have an account?"
             clickableLabel="Login"
-            action={this._onLoginPress}/>
+            action={() => {
+              this.setState({
+                currentPageInFlow: LoginSignupFlowPhases.LOGIN_PAGE
+              });
+            }}/>
 
         </View>
         {this._renderClassYearPicker()}
@@ -287,7 +311,11 @@ var LoginSignupFlow = React.createClass({
           <FlowNavigationFooter
             label=""
             clickableLabel="Back to Login"
-            action={this._onLoginPress}/>
+            action={() => {
+              this.setState({
+                currentPageInFlow: LoginSignupFlowPhases.LOGIN_PAGE
+              });
+            }}/>
         </View>
 
       </View>
@@ -314,12 +342,6 @@ var LoginSignupFlow = React.createClass({
     }
   },
 
-  showClassYearPicker: function() {
-    this.setState({
-      showClassYearPicker: true
-    });
-  },
-
   onClassYearPick: function(year) {
     this.setState({
       selectedClassYearValue: year,
@@ -327,21 +349,9 @@ var LoginSignupFlow = React.createClass({
     });
   },
 
-  _onLoginPress: function() {
-    this.setState({
-      currentPageInFlow: LoginSignupFlowPhases.LOGIN_PAGE
-    });
-  },
-
   _onForgotPasswordClick: function () {
     this.props.navigator.push({
       component: ForgotPasswordPage
-    });
-  },
-
-  _onCreateAccountPress: function() {
-    this.setState({
-      currentPageInFlow: LoginSignupFlowPhases.CREATE_ACCOUNT_P1
     });
   },
 
