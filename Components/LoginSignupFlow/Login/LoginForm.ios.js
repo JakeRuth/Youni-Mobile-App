@@ -1,6 +1,6 @@
 var React = require('react-native');
 var Unicycle = require('../../../Unicycle');
-var loginSignupStore = require('../../../stores/LoginSignupStore');
+var loginStore = require('../../../stores/LoginStore');
 var PrettyTouchable = require('../../Common/PrettyTouchable');
 var PrettyInput = require('../../Common/PrettyInput');
 
@@ -39,7 +39,7 @@ var LoginForm = React.createClass({
               height: 44
             }}
             onTextChange={(email) => {
-              loginSignupStore.setEmail(email);
+              loginStore.setEmail(email);
             }}
             placeholder='email@college.edu'
             keyboardType='email-address'/>
@@ -51,7 +51,7 @@ var LoginForm = React.createClass({
               height: 44
             }}
             onTextChange={(password) => {
-              loginSignupStore.setPassword(password);
+              loginStore.setPassword(password);
             }}
             secureTextEntry={true}
             clearTextOnFocus={true}

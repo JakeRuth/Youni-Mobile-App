@@ -3,7 +3,7 @@
 var React = require('react-native');
 var Unicycle = require('./../Unicycle');
 
-var loginSignupStore = Unicycle.createStore({
+var loginStore = Unicycle.createStore({
 
   init: function () {
     this.set({
@@ -45,4 +45,4 @@ var loginSignupStore = Unicycle.createStore({
 
 });
 
-module.exports = loginSignupStore;
+module.exports = loginStore;

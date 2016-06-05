@@ -20,7 +20,7 @@ var SignupProgressBar = require('./Signup/SignupProgressBar');
 
 var Color = require('../../Utils/Common/GlobalColorMap');
 var LoginSignupFlowUtils = require('../../Utils/LoginSignupFlowUtils');
-var loginSignupStore = require('../../stores/LoginSignupStore');
+var loginStore = require('../../stores/LoginStore');
 var LoginSignupFlowAlerts = require('./LoginSignupFlowAlerts');
 
 var {
@@ -103,7 +103,7 @@ var LoginSignupFlow = React.createClass({
   },
 
   mixins: [
-    Unicycle.listenTo(loginSignupStore)
+    Unicycle.listenTo(loginStore)
   ],
 
   render: function () {
@@ -181,7 +181,7 @@ var LoginSignupFlow = React.createClass({
               onPress={() => {
                 LoginSignupFlowUtils.loginRequest(this._onSuccessfulLoginCallback, this._onFailedLoginCallback)
               }}
-              showSpinner={loginSignupStore.isLoginRequestInFlight()}/>
+              showSpinner={loginStore.isLoginRequestInFlight()}/>
           </View>
 
           <Text

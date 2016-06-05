@@ -1,7 +1,7 @@
 'use strict';
 
 var Unicycle = require('../Unicycle');
-var loginSignupStore = require('../stores/LoginSignupStore');
+var loginStore = require('../stores/LoginStore');
 var AsyncStorageUtils = require('./Common/AsyncStorageUtils');
 var AjaxUtils = require('./Common/AjaxUtils');
 
@@ -12,8 +12,8 @@ var LoginSignupFlowUtils = {
       var email = response[0][1],
           password = response[1][1];
 
-      loginSignupStore.setEmail(email);
-      loginSignupStore.setPassword(password);
+      loginStore.setEmail(email);
+      loginStore.setPassword(password);
 
       if (email && password) {
         this.loginRequest(successCallback, failureCallback);
@@ -26,10 +26,10 @@ var LoginSignupFlowUtils = {
 
   loginRequest: function (successCallback, failureCallback) {
     var that = this,
-        email = loginSignupStore.getEmail(),
-        password = loginSignupStore.getPassword();
+        email = loginStore.getEmail(),
+        password = loginStore.getPassword();
 
-    loginSignupStore.setIsLoginRequestInFlight(true);
+    loginStore.setIsLoginRequestInFlight(true);
 
     //fixes weird bug where blank password field validates (cannot replicate at command line with api)
     if (!password) {
@@ -71,11 +71,11 @@ var LoginSignupFlowUtils = {
         AsyncStorageUtils.saveItem('refreshToken', refreshToken);
         AsyncStorageUtils.saveItem('accessToken', accessToken);
 
-        loginSignupStore.setIsLoginRequestInFlight(false);
+        loginStore.setIsLoginRequestInFlight(false);
         successCallback();
       },
       () => {
-        loginSignupStore.setIsLoginRequestInFlight(false);
+        loginStore.setIsLoginRequestInFlight(false);
         failureCallback();
       }
     );
