@@ -1,7 +1,10 @@
 'use strict';
 
 var React = require('react-native');
-var Unicycle = require('./../Unicycle');
+var Unicycle = require('../Unicycle');
+var AjaxUtils = require('../Utils/Common/AjaxUtils');
+var GenderEnum = require('../Utils/Common/GenderEnum');
+var LoginSignupFlowAlerts = require('../Components/LoginSignupFlow/LoginSignupFlowAlerts');
 
 var signupStore = Unicycle.createStore({
 
@@ -16,6 +19,42 @@ var signupStore = Unicycle.createStore({
       classYear: '',
       isCreateAccountRequestInFlight: false
     });
+  },
+
+  createUser: function(successCallback) {
+    var isFemale = this.getGender() === GenderEnum.FEMALE,
+        that = this;
+
+    this.setIsCreateAccountRequestInFlight(true);
+
+    AjaxUtils.ajax(
+      '/user/create',
+      {
+        firstName: this.getFirstName(),
+        lastName: this.getLastName(),
+        email: this.getEmail(),
+        password: this.getPassword(),
+        isFemale: isFemale,
+        schoolName: 'SUNY Albany' //TODO fix me
+      },
+      (res) => {
+        that.setIsCreateAccountRequestInFlight(false);
+
+        if (res.body.addedToWaitList) {
+          LoginSignupFlowAlerts.addedToWaitlist(res.body.message);
+        }
+        else if (res.body.emailAlreadyInUse) {
+          LoginSignupFlowAlerts.emailAlreadyInUse(res.body.message);
+        }
+        else if (res.body.success) {
+          successCallback();
+        }
+      },
+      () => {
+        that.setIsCreateAccountRequestInFlight(false);
+        LoginSignupFlowAlerts.signupError();
+      }
+    );
   },
 
   setEmail: function(email) {
@@ -60,9 +99,9 @@ var signupStore = Unicycle.createStore({
     });
   },
 
-  setIsCreateAccountRequestInFlightt: function(value) {
+  setIsCreateAccountRequestInFlight: function(value) {
     this.set({
-      isLoginRequestInFlight: value
+      isCreateAccountRequestInFlight: value
     });
   },
 

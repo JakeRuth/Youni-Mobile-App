@@ -24,6 +24,23 @@ var LoginSignupFlowAlerts = {
     this._showAlert('Unexpected email format', 'Email must be valid, and end with .edu');
   },
 
+  signupSuccess: function(message) {
+    this._showAlert('Confirmation email sent', message);
+  },
+
+  emailAlreadyInUse: function(message) {
+    this._showAlert('Email already in use', message);
+  },
+
+  addedToWaitlist: function(message) {
+    this._showAlert('Coming soon!', message);
+  },
+
+  signupError: function() {
+    this._showAlert('Oops! An unexpected error occurred',
+      'Please contact support@youniapp.com with your sign up information and we can help you');
+  },
+
   _showAlert: function(title, subTitle) {
     AlertIOS.alert(
       title,

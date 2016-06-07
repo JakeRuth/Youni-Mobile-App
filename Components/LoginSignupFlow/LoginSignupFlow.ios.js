@@ -90,7 +90,7 @@ var LoginSignupFlow = React.createClass({
   getInitialState: function() {
     return {
       isAutoLoginRequestInFlight: true,
-      currentPageInFlow: LoginSignupFlowPhases.CREATE_ACCOUNT_P2,
+      currentPageInFlow: LoginSignupFlowPhases.INITIAL_PAGE,
       showClassYearPicker: false
     };
   },
@@ -100,7 +100,8 @@ var LoginSignupFlow = React.createClass({
   },
 
   mixins: [
-    Unicycle.listenTo(loginStore)
+    Unicycle.listenTo(loginStore),
+    Unicycle.listenTo(signupStore)
   ],
 
   render: function () {
@@ -257,7 +258,8 @@ var LoginSignupFlow = React.createClass({
           <View>
             <CentralizedActionButton
               label="Almost Done!"
-              onPress={this._onSignupPageTwoSubmit}/>
+              onPress={this._onSignupPageTwoSubmit}
+              showSpinner={signupStore.isCreateAccountRequestInFlight()}/>
           </View>
 
           <AgreeToTermsMessage navigator={this.props.navigator}/>
@@ -399,9 +401,10 @@ var LoginSignupFlow = React.createClass({
       LoginSignupFlowAlerts.missingFields();
     }
     else {
-      console.log('create account');
-      this.setState({
-        currentPageInFlow: LoginSignupFlowPhases.SUCCESSFUL_SIGNUP_PAGE
+      signupStore.createUser(() => {
+        this.setState({
+          currentPageInFlow: LoginSignupFlowPhases.SUCCESSFUL_SIGNUP_PAGE
+        });
       });
     }
   },
