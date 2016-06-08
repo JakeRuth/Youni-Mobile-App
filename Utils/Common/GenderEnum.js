@@ -2,8 +2,8 @@
 
 var GenderEnum = {
 
-  MALE: 'male',
-  FEMALE: 'female'
+  MALE: 'Male',
+  FEMALE: 'Female'
 
 };
 

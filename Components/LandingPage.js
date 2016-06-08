@@ -78,7 +78,6 @@ var LandingPage = React.createClass({
     //nice little trick to get the spinner to stay during the animation to home page
     AsyncStorage.getItem('accessToken').then(() => {
       Unicycle.exec('setSelectedTab', 'home');
-      Unicycle.exec('setLoginInFlight', false);
     }).done();
   },
 

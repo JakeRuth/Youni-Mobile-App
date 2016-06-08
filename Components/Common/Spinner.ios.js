@@ -23,20 +23,11 @@ var Spinner = React.createClass({
   },
 
   render: function() {
-    var color;
-
-    if (this.props.color) {
-      color = this.props.color;
-    }
-    else {
-      color = 'black';
-    }
-
     return(
       <View style={styles.container}>
         <ActivityIndicatorIOS
           size={'small'}
-          color={color}/>
+          color={this.props.color ? this.props.color : 'black'}/>
       </View>
     );
   }

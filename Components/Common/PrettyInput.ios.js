@@ -42,14 +42,11 @@ var PrettyInput = React.createClass({
   render: function() {
     return (
       <TextInput
+        {...this.props}
         style={[styles.container, this.props.style]}
         value={this.state.value}
-        secureTextEntry={this.props.secureTextEntry}
-        clearTextOnFocus={this.props.clearTextOnFocus}
         onChangeText={this._onTextChange}
-        placeholderTextColor='white'
-        placeholder={this.props.placeholder}
-        keyboardType={this.props.keyboardType}/>
+        placeholderTextColor='white'/>
     );
   },
 

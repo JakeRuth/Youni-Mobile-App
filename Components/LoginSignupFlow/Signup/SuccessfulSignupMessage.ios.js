@@ -27,11 +27,10 @@ var styles = StyleSheet.create({
     color: 'white',
     fontWeight: '100',
     fontSize: 14,
-    width: Dimensions.get('window').width *.9
+    width: Dimensions.get('window').width * .9
   },
   successEnvelopeImage: {
     flex: 1,
-    justifyContent: "space-around",
     resizeMode: "contain",
     width: 241
   },

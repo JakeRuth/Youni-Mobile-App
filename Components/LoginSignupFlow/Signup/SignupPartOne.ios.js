@@ -33,6 +33,7 @@ var SignupPartOne = React.createClass({
   render: function() {
     return (
       <View style={styles.container}>
+
         <View style={styles.emailInputContainer}>
           <PrettyInput
             style={{
@@ -43,6 +44,7 @@ var SignupPartOne = React.createClass({
             placeholder='email@college.edu'
             keyboardType='email-address'/>
         </View>
+
         <View style={styles.passwordInputContainer}>
           <PrettyInput
             style={{
@@ -54,6 +56,7 @@ var SignupPartOne = React.createClass({
             clearTextOnFocus={true}
             placeholder='Password'/>
         </View>
+
         <View style={styles.confirmPasswordInputContainer}>
           <PrettyInput
             style={{
@@ -65,6 +68,7 @@ var SignupPartOne = React.createClass({
             clearTextOnFocus={true}
             placeholder='Confirm Password'/>
         </View>
+        
       </View>
     );
   }

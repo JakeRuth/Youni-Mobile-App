@@ -1,5 +1,4 @@
 var React = require('react-native');
-var Unicycle = require('../../../Unicycle');
 var loginStore = require('../../../stores/LoginStore');
 var PrettyTouchable = require('../../Common/PrettyTouchable');
 var PrettyInput = require('../../Common/PrettyInput');

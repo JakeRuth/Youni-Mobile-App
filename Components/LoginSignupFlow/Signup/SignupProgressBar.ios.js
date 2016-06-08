@@ -5,7 +5,6 @@ var Colors = require('../../../Utils/Common/GlobalColorMap');
 
 var {
   View,
-  Text,
   Dimensions,
   StyleSheet
 } = React;
@@ -18,7 +17,7 @@ var styles = StyleSheet.create({
     width: Dimensions.get('window').width * .8,
     marginTop: 40
   },
-  emptyStepSymbol: {
+  stepSymbol: {
     width: 12,
     height: 12,
     borderRadius: 6,
@@ -71,11 +70,11 @@ var SignupProgressBar = React.createClass({
     return (
       <View style={styles.container}>
 
-        <View style={[styles.emptyStepSymbol, styles.filledStepSymbol]}/>
+        <View style={[styles.stepSymbol, styles.filledStepSymbol]}/>
         <View style={styles.stepSymbolConnector}/>
-        <View style={styles.emptyStepSymbol}/>
+        <View style={styles.stepSymbol}/>
         <View style={styles.stepSymbolConnector}/>
-        <View style={styles.emptyStepSymbol}/>
+        <View style={styles.stepSymbol}/>
 
       </View>
     );
@@ -85,11 +84,11 @@ var SignupProgressBar = React.createClass({
     return (
       <View style={styles.container}>
 
-        <View style={[styles.emptyStepSymbol, styles.filledStepSymbol]}/>
+        <View style={[styles.stepSymbol, styles.filledStepSymbol]}/>
         <View style={[styles.stepSymbolConnector, styles.filledStepSymbolConnector]}/>
-        <View style={[styles.emptyStepSymbol, styles.filledStepSymbol]}/>
+        <View style={[styles.stepSymbol, styles.filledStepSymbol]}/>
         <View style={styles.stepSymbolConnector}/>
-        <View style={styles.emptyStepSymbol}/>
+        <View style={styles.stepSymbol}/>
 
       </View>
     );
@@ -99,11 +98,11 @@ var SignupProgressBar = React.createClass({
     return (
       <View style={styles.container}>
 
-        <View style={[styles.emptyStepSymbol, styles.filledStepSymbol]}/>
+        <View style={[styles.stepSymbol, styles.filledStepSymbol]}/>
         <View style={[styles.stepSymbolConnector, styles.filledStepSymbolConnector]}/>
-        <View style={[styles.emptyStepSymbol, styles.filledStepSymbol]}/>
+        <View style={[styles.stepSymbol, styles.filledStepSymbol]}/>
         <View style={[styles.stepSymbolConnector, styles.filledStepSymbolConnector]}/>
-        <View style={[styles.emptyStepSymbol, styles.filledStepSymbol]}/>
+        <View style={[styles.stepSymbol, styles.filledStepSymbol]}/>
 
       </View>
     );

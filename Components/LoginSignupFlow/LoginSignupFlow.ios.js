@@ -19,7 +19,7 @@ var SuccessfulSignupMessage = require('./Signup/SuccessfulSignupMessage');
 var SignupProgressBar = require('./Signup/SignupProgressBar');
 
 var Color = require('../../Utils/Common/GlobalColorMap');
-var LoginSignupFlowUtils = require('../../Utils/LoginSignupFlowUtils');
+var AutoLoginUtils = require('../../Utils/AutoLoginUtils');
 var loginStore = require('../../stores/LoginStore');
 var signupStore = require('../../stores/SignupStore');
 var LoginSignupFlowAlerts = require('./LoginSignupFlowAlerts');
@@ -34,9 +34,9 @@ var {
 
 /*
  *
- * The flex amounts here and in it's top level sub components are very important.
- * The UX design makes a 'centralized' button that changes label, but does not change
- * position throughout the entire logout/signup flow (the one with the white background).
+ * The flex amounts here are very important.
+ * The UX design makes a 'centralized' button that  does not change
+ * position throughout the entire logout/signup flow.
  *
  * Use caution when changing them.
  *
@@ -96,7 +96,7 @@ var LoginSignupFlow = React.createClass({
   },
 
   componentDidMount: function () {
-    LoginSignupFlowUtils.attemptToAutoLoginUser(this._onSuccessfulLoginCallback, this._onFailedLoginCallback);
+    AutoLoginUtils.attemptToAutoLoginUser(this._onSuccessfulLoginCallback, this._onFailedLoginCallback);
   },
 
   mixins: [
@@ -143,16 +143,8 @@ var LoginSignupFlow = React.createClass({
 
         <View style={styles.bottomHalfBodyContainer}>
           <LoginSignupSelector
-            onLoginPress={() => {
-              this.setState({
-                currentPageInFlow: LoginSignupFlowPhases.LOGIN_PAGE
-              });
-            }}
-            onCreateAccountPress={() => {
-              this.setState({
-                currentPageInFlow: LoginSignupFlowPhases.CREATE_ACCOUNT_P1
-              });
-            }}/>
+            onLoginPress={() => { this.setState({ currentPageInFlow: LoginSignupFlowPhases.LOGIN_PAGE }); }}
+            onCreateAccountPress={() => { this.setState({ currentPageInFlow: LoginSignupFlowPhases.CREATE_ACCOUNT_P1 }); }}/>
         </View>
 
       </View>
@@ -177,7 +169,7 @@ var LoginSignupFlow = React.createClass({
             <CentralizedActionButton
               label="Sign In"
               onPress={() => {
-                LoginSignupFlowUtils.loginRequest(this._onSuccessfulLoginCallback, this._onFailedLoginCallback)
+                loginStore.loginRequest(this._onSuccessfulLoginCallback, this._onFailedLoginCallback)
               }}
               showSpinner={loginStore.isLoginRequestInFlight()}/>
           </View>
@@ -191,11 +183,7 @@ var LoginSignupFlow = React.createClass({
           <FlowNavigationFooter
             label="Don't have an account?"
             clickableLabel="Create Account"
-            action={() => {
-              this.setState({
-                currentPageInFlow: LoginSignupFlowPhases.CREATE_ACCOUNT_P1
-              });
-            }}/>
+            action={() => { this.setState({ currentPageInFlow: LoginSignupFlowPhases.CREATE_ACCOUNT_P1 }); }}/>
         </View>
 
       </View>
@@ -249,8 +237,7 @@ var LoginSignupFlow = React.createClass({
         </View>
 
         <View style={styles.topHalfBodyContainer}>
-          <SignupPartTwo
-            onClassYearInputPress={() => { this.setState({ showClassYearPicker: true }); }}/>
+          <SignupPartTwo onClassYearInputPress={() => { this.setState({ showClassYearPicker: true }); }}/>
         </View>
 
         <View style={styles.bottomHalfBodyContainer}>

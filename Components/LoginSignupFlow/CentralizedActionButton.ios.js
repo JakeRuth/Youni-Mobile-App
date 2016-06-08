@@ -25,8 +25,7 @@ var styles = StyleSheet.create({
  *
  * In our login/signup flow pages, the design warrants that there will always be a centeralized button
  * that is always in the same spot, for every page.  So the 'Sign in', and 'Next' buttons through the
- * sign up process will always be in the same spot.  An easy way to notice this is that the centralized
- * button is the only one with inverted colors.
+ * sign up process will always be in the same spot.
  *
  * Current gotcha's: The initial page with only the Sign In & Create Account options does not make use of this.
  *
@@ -48,13 +47,12 @@ var CentralizedActionButton = React.createClass({
     else {
       content = (
         <PrettyTouchable
-          label={this.props.label}
+          {...this.props}
           containerStyle={{
             width: Dimensions.get('window').width * .8,
             height: 44
           }}
-          invertColors={true}
-          onPress={this.props.onPress}/>
+          invertColors={true}/>
       );
     }
 

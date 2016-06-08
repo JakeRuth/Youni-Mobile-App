@@ -44,7 +44,6 @@ var PrettyTouchable = React.createClass({
     containerStyle: React.PropTypes.object,
     labelStyle: React.PropTypes.object,
     labelContainerStyle: React.PropTypes.object,
-    styleOverrides: React.PropTypes.object,
     invertColors: React.PropTypes.bool,
     onPress: React.PropTypes.func
   },

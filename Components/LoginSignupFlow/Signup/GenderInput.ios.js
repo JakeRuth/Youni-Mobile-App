@@ -39,7 +39,6 @@ var styles = StyleSheet.create({
 
 var GenderInput = React.createClass({
 
-  // need to states since they both start off unselected
   getInitialState: function() {
     return {
       genderSelected: null
@@ -50,19 +49,19 @@ var GenderInput = React.createClass({
     return (
       <View style={styles.container}>
 
-        {this._renderMaleOption()}
+        {this._renderOption(GenderEnum.MALE, this._onMaleSelect)}
         <View style={{flex: 1}}/>
-        {this._renderFemaleOption()}
+        {this._renderOption(GenderEnum.FEMALE, this._onFemaleSelect)}
 
       </View>
     );
   },
 
-  _renderMaleOption: function() {
+  _renderOption: function(gender, onSelect) {
     var selectorStyles = [styles.selector],
         selectorLabelStyles = [styles.selectorLabel];
 
-    if (this.state.genderSelected === GenderEnum.MALE) {
+    if (this.state.genderSelected === gender) {
       selectorStyles.push({ backgroundColor: 'white' });
       selectorLabelStyles.push({ color: Colors.YOUNI_PRIMARY_PURPLE });
     }
@@ -70,33 +69,11 @@ var GenderInput = React.createClass({
     return (
       <TouchableOpacity
         style={selectorStyles}
-        onPress={this._onMaleSelect}
+        onPress={onSelect}
         underlayColor="transparent"
         activeOpacity={1}>
         <Text style={selectorLabelStyles}>
-          Male
-        </Text>
-      </TouchableOpacity>
-    );
-  },
-
-  _renderFemaleOption: function() {
-    var selectorStyles = [styles.selector],
-        selectorLabelStyles = [styles.selectorLabel];
-
-    if (this.state.genderSelected === GenderEnum.FEMALE) {
-      selectorStyles.push({ backgroundColor: 'white' });
-      selectorLabelStyles.push({ color: Colors.YOUNI_PRIMARY_PURPLE });
-    }
-
-    return (
-      <TouchableOpacity
-        style={selectorStyles}
-        onPress={this._onFemaleSelect}
-        underlayColor="transparent"
-        activeOpacity={1}>
-        <Text style={selectorLabelStyles}>
-          Female
+          {gender}
         </Text>
       </TouchableOpacity>
     );
