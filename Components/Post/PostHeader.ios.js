@@ -39,7 +39,7 @@ var styles = StyleSheet.create({
     fontWeight: '100',
     fontSize: 16,
     color: Colors.DARK_GRAY,
-    width: Dimensions.get('window').width * .6
+    width: Dimensions.get('window').width * .66
   },
   timestamp: {
     fontSize: 13,
@@ -100,7 +100,7 @@ var PostHeader = React.createClass({
               <Text
                 style={styles.profileName}
                 numberOfLines={1}>
-                {this.props.post.posterName}adsfdsfgdsfdsfdsfsdfdsfdsdsafadsfdsafdsafsad
+                {this.props.post.posterName}
               </Text>
               <Text style={styles.timestamp}>
                 {this.props.post.timestamp + ' ago'}
