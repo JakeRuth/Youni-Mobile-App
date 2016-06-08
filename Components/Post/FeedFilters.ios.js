@@ -5,7 +5,7 @@ var IonIcon = require('react-native-vector-icons/Ionicons');
 var MaterialIcon = require('react-native-vector-icons/MaterialIcons');
 var explorePostsStore = require('../../stores/post/ExplorePostsStore');
 var ExploreFeedEndpoints = require('../../Utils/Enums/ExploreFeedEndpoints');
-var Color = require('../../Utils/Common/GlobalColorMap');
+var Color = require('../../Utils/Common/Colors');
 
 var {
   View,

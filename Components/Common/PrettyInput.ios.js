@@ -1,7 +1,7 @@
 'use strict';
 
 var React = require('react-native');
-var Colors = require('../../Utils/Common/GlobalColorMap');
+var Colors = require('../../Utils/Common/Colors');
 
 var {
   TextInput,
@@ -46,7 +46,7 @@ var PrettyInput = React.createClass({
         style={[styles.container, this.props.style]}
         value={this.state.value}
         onChangeText={this._onTextChange}
-        placeholderTextColor='white'/>
+        placeholderTextColor={Colors.FADED_YOUNI_PRIMARY_PURPLE}/>
     );
   },
 

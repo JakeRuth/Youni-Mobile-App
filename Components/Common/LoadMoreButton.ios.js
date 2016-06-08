@@ -3,7 +3,7 @@
 var React = require('react-native');
 var Icon = require('react-native-vector-icons/Ionicons');
 var Spinner = require('../Common/Spinner');
-var Color = require('../../Utils/Common/GlobalColorMap');
+var Color = require('../../Utils/Common/Colors');
 
 var {
   View,

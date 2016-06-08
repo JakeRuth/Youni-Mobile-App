@@ -3,7 +3,7 @@
 var React = require('react-native');
 var Icon = require('react-native-vector-icons/Ionicons');
 var PostLikeText = require('./Like/PostLikeText');
-var Color = require('../../../Utils/Common/GlobalColorMap');
+var Color = require('../../../Utils/Common/Colors');
 
 var {
   View,

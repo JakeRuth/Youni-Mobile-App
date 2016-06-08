@@ -7,55 +7,49 @@ var DeletePostIcon = require('./DeletePostIcon');
 var FlagPostIcon = require('./FlagPostIcon');
 var ProfilePopup = require('../PopupPages/ProfilePopup');
 var Emoji = require('../Common/Emoji');
+var Colors = require('../../Utils/Common/Colors');
 
 var {
   View,
   Text,
   Image,
   StyleSheet,
+  Dimensions,
   TouchableHighlight
 } = React;
 
 var styles = StyleSheet.create({
   postHeader: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    height: 53,
-    padding: 5
+    flexDirection: 'row'
   },
-  thumbnailContainer: {
-    flex: 9
-  },
-  thumbnail: {
+  leftSide: {
+    padding: 10,
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center'
+    flexDirection: 'row'
   },
   posterImage: {
-    height: 45,
-    width: 45,
-    borderRadius: 22.5
+    height: 40,
+    width: 40,
+    borderRadius: 12,
+    marginRight: 10
   },
   profileName: {
     flex: 1,
-    fontSize: 17,
-    fontWeight: '400',
-    color: '#4C4C4C',
-    paddingLeft: 5
+    fontWeight: '100',
+    fontSize: 16,
+    color: Colors.DARK_GRAY,
+    width: Dimensions.get('window').width * .6
   },
   timestamp: {
-    flex: 3,
-    alignSelf: 'center',
-    textAlign: 'center',
     fontSize: 13,
-    color: '#ADADAD'
+    fontWeight: '100',
+    color: Colors.MED_GRAY
   },
   actionButtonContainer: {
-    flex: 1,
-    marginRight: -10,
-    alignSelf: 'center',
-    backgroundColor: 'transparent'
+    position: 'absolute',
+    right: 12,
+    top: 20
   }
 });
 
@@ -93,29 +87,28 @@ var PostHeader = React.createClass({
       <View style={styles.postHeader}>
 
         <TouchableHighlight
-          style={styles.thumbnailContainer}
           onPress={this.onProfilePress}
           underlayColor='transparent'>
-          <View style={styles.thumbnail}>
 
+          <View style={styles.leftSide}>
             {/* This image may not exist!!! */}
             <Image
               style={styles.posterImage}
               source={{uri: this.props.post.posterProfileImageUrl}}/>
 
-            <Text
-              style={styles.profileName}
-              numberOfLines={1}>
-              {this._renderTrendingEmoji()}
-              {this.props.post.posterName}
-            </Text>
-
+            <View>
+              <Text
+                style={styles.profileName}
+                numberOfLines={1}>
+                {this.props.post.posterName}adsfdsfgdsfdsfdsfsdfdsfdsdsafadsfdsafdsafsad
+              </Text>
+              <Text style={styles.timestamp}>
+                {this.props.post.timestamp + ' ago'}
+              </Text>
+            </View>
           </View>
-        </TouchableHighlight>
 
-        <Text style={styles.timestamp}>
-          {this.props.post.timestamp}
-        </Text>
+        </TouchableHighlight>
 
         {actionButton}
 
@@ -129,16 +122,6 @@ var PostHeader = React.createClass({
         component: ProfilePopup,
         passProps: {profileUserEmail: this.props.post.posterEmail}
       });
-    }
-  },
-
-  _renderTrendingEmoji: function() {
-    if (this.props.post.isPostUserCurrentlyTrending) {
-      return (
-        <Emoji
-          name="fire"
-          size={22}/>
-      );
     }
   },
 

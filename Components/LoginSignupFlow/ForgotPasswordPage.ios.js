@@ -5,7 +5,7 @@ var Unicycle = require('../../Unicycle');
 var OverlayPage = require('../Common/OverlayPage');
 var Spinner = require('../Common/Spinner');
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
-var Color = require('../../Utils/Common/GlobalColorMap');
+var Color = require('../../Utils/Common/Colors');
 
 var {
   Text,

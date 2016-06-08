@@ -10,7 +10,7 @@ var notificationStore = require('../../stores/NotificationStore');
 var profileOwnerStore = require('../../stores/profile/ProfileOwnerStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var NotificationUtils = require('../../Utils/Notification/NotificationUtils');
-var Color = require('../../Utils/Common/GlobalColorMap');
+var Color = require('../../Utils/Common/Colors');
 
 var {
   View,

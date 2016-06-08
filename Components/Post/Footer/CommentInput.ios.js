@@ -4,7 +4,7 @@ var React = require('react-native');
 var Unicycle = require('../../../Unicycle');
 var userLoginMetadataStore = require('../../../stores/UserLoginMetadataStore');
 var Spinner = require('../../Common/Spinner');
-var Color = require('../../../Utils/Common/GlobalColorMap');
+var Color = require('../../../Utils/Common/Colors');
 
 var {
   View,

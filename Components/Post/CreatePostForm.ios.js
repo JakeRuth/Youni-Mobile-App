@@ -5,7 +5,7 @@ var createPostStore = require('../../stores/CreatePostStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var Unicycle = require('../../Unicycle');
 var Spinner = require('../Common/Spinner');
-var Color = require('../../Utils/Common/GlobalColorMap');
+var Color = require('../../Utils/Common/Colors');
 
 var {
   View,

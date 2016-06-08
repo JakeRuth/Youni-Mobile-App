@@ -18,7 +18,7 @@ var AgreeToTermsMessage = require('./Signup/AgreeToTermsMessage');
 var SuccessfulSignupMessage = require('./Signup/SuccessfulSignupMessage');
 var SignupProgressBar = require('./Signup/SignupProgressBar');
 
-var Color = require('../../Utils/Common/GlobalColorMap');
+var Color = require('../../Utils/Common/Colors');
 var AutoLoginUtils = require('../../Utils/AutoLoginUtils');
 var loginStore = require('../../stores/LoginStore');
 var signupStore = require('../../stores/SignupStore');

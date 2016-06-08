@@ -1,7 +1,7 @@
 'use strict';
 
 var React = require('react-native');
-var Colors = require('../../Utils/Common/GlobalColorMap');
+var Colors = require('../../Utils/Common/Colors');
 
 var {
   TouchableOpacity,

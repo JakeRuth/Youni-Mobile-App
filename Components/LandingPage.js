@@ -17,7 +17,7 @@ var tabStateStore = require('../stores/TabStateStore');
 var notificationStore = require('../stores/NotificationStore');
 var searchStore = require('../stores/SearchStore');
 
-var Color = require('../Utils/Common/GlobalColorMap');
+var Color = require('../Utils/Common/Colors');
 var NotificationUtils = require('../Utils/Notification/NotificationUtils');
 
 var {

@@ -1,7 +1,7 @@
 'use strict';
 
 var React = require('react-native');
-var Color = require('./Utils/Common/GlobalColorMap');
+var Color = require('./Utils/Common/Colors');
 
 var {
   View,

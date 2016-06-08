@@ -2,9 +2,9 @@
 
 var React = require('react-native');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
-var Icon = require('react-native-vector-icons/MaterialIcons');
+var Icon = require('react-native-vector-icons/Ionicons');
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
-var Color = require('../../Utils/Common/GlobalColorMap');
+var Colors = require('../../Utils/Common/Colors');
 
 
 var {
@@ -26,9 +26,9 @@ var FlagPostIcon = React.createClass({
         onPress={this._onFlagPostIconPress}>
 
         <Icon
-          name='more-vert'
-          size={23}
-          color='#B2B2B2' />
+          name='android-more-horizontal'
+          size={24}
+          color={Colors.DARK_GRAY}/>
 
       </TouchableHighlight>
     );
@@ -41,7 +41,7 @@ var FlagPostIcon = React.createClass({
         'Cancel'
       ],
       cancelButtonIndex: 1,
-      tintColor: Color.YOUNI_PRIMARY_PURPLE
+      tintColor: Colors.YOUNI_PRIMARY_PURPLE
     },
     (buttonIndex) => {
       if (buttonIndex === 0) {
