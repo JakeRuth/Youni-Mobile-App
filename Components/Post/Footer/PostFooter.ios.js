@@ -4,10 +4,12 @@ var React = require('react-native');
 var Unicycle = require('../../../Unicycle');
 var userLoginMetadataStore = require('../../../stores/UserLoginMetadataStore');
 var PostStats = require('./PostStats');
+var Caption = require('./Caption');
 var CommentList = require('./CommentList');
 var ViewAllCommentsLink = require('./ViewAllCommentsLink');
 var PostCommentsPopup = require('../../PopupPages/PostCommentsPopup');
 var PostUtils = require('../../../Utils/Post/PostUtils');
+var Colors = require('../../../Utils/Common/Colors');
 
 var {
   View,
@@ -20,10 +22,10 @@ var styles = StyleSheet.create({
     backgroundColor: 'white',
     padding: 10
   },
-  caption: {
-    fontSize: 15,
-    fontWeight: '400',
-    color: '#525252'
+  blankLine: {
+    borderWidth: .5,
+    borderColor: Colors.LIGHT_GRAY,
+    marginBottom: 8
   }
 });
 
@@ -38,11 +40,17 @@ var PostFooter = React.createClass({
   },
 
   render: function() {
-    var caption, viewAllCommentsLink;
+    var caption, viewAllCommentsLink, commentSeparator;
 
     // TODO: Fix this crap
     if (this.props.post.caption !== '_') {
-      caption = this._renderCaption();
+      caption = (
+        <Caption text={this.props.post.caption}/>
+      );
+    }
+
+    if (this._showCommentSeparator()) {
+      commentSeparator = <View style={styles.blankLine}/>;
     }
 
     if (this.props.post.numComments > PostUtils.DEFAULT_MAX_COMMENTS_VISIBLE) {
@@ -59,6 +67,7 @@ var PostFooter = React.createClass({
           post={this.props.post}/>
 
         {caption}
+        {commentSeparator}
         {viewAllCommentsLink}
         
         <CommentList
@@ -79,14 +88,6 @@ var PostFooter = React.createClass({
     );
   },
 
-  _renderCaption: function() {
-    return (
-      <Text style={styles.caption}>
-        {this.props.post.caption}
-      </Text>
-    );
-  },
-
   _onCommentPress: function() {
     this.props.navigator.push({
       component: PostCommentsPopup,
@@ -96,6 +97,10 @@ var PostFooter = React.createClass({
         onSubmitCommentCallback: this.props.onSubmitCommentCallback
       }
     });
+  },
+
+  _showCommentSeparator: function() {
+    return this.props.post.numComments > 0;
   }
 
 });
