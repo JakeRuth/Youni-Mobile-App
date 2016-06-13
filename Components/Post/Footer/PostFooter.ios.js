@@ -18,7 +18,7 @@ var {
 var styles = StyleSheet.create({
   postFooter: {
     backgroundColor: 'white',
-    padding: 12
+    padding: 10
   },
   caption: {
     fontSize: 15,
