@@ -2,25 +2,40 @@
 
 var React = require('react-native');
 var Icon = require('react-native-vector-icons/Ionicons');
-var PostLikeText = require('./Like/PostLikeText');
-var Color = require('../../../Utils/Common/Colors');
+var Colors = require('../../../Utils/Common/Colors');
 
 var {
   View,
+  Text,
   StyleSheet,
   TouchableHighlight,
   AlertIOS
 } = React;
 
+var ICON_SIZE = 25;
+
 var styles = StyleSheet.create({
-  postStatsContainer: {
-    flex: 1,
+  container: {
     flexDirection: 'row',
     alignItems: 'center'
   },
-  icon: {
-    color: '#B2B2B2',
-    marginRight: 8
+  statContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 77
+  },
+  // this is needed because the actual icon itself has more whitespace on the bottom than on the top
+  commentIcon: {
+    marginTop: 3
+  },
+  iconLabel: {
+    alignSelf: 'center',
+    color: Colors.MED_GRAY,
+    fontSize: 20,
+    fontWeight: '200',
+    paddingLeft: 4,
+    paddingRight: 12.5
   }
 });
 
@@ -30,59 +45,59 @@ var PostStats = React.createClass({
     onStarPress: React.PropTypes.func,
     onCommentPress: React.PropTypes.func,
     post: React.PropTypes.object.isRequired,
-    isLikeRequestInFlight: React.PropTypes.bool,
     navigator: React.PropTypes.object.isRequired
   },
 
   render: function() {
-    var likedStarIconColor = {};
+    var likedStarIconColor = { color: '' };
 
     if (this.props.post.liked) {
-      likedStarIconColor = {
-        color: '#FCDD00'
-      };
+      likedStarIconColor.color = '#FFE700';
+    }
+    else {
+      likedStarIconColor.color = Colors.MED_GRAY;
     }
 
     return (
-      <View style={styles.postStatsContainer}>
-
+      <View style={styles.container}>
         <TouchableHighlight
           onPress={this.props.onStarPress}
           underlayColor={'transparent'}>
-          <Icon
-            style={[styles.icon, likedStarIconColor]}
-            name={this._getStarIconName()}
-            size={33}/>
+
+          <View style={styles.statContainer}>
+            <Icon
+              style={likedStarIconColor}
+              name={this._getStarIconName()}
+              size={ICON_SIZE}/>
+            <Text style={styles.iconLabel}>
+              {this.props.post.numLikes}
+            </Text>
+          </View>
+
         </TouchableHighlight>
 
         <TouchableHighlight
-          style={{flex: 1}}
           onPress={this.props.onCommentPress}
           underlayColor={'transparent'}>
-          <Icon
-            style={[styles.icon]}
-            name='ios-chatbubble-outline'
-            size={33}
-            color={Color.YOUNI_PRIMARY_PURPLE}/>
+
+          <View style={styles.statContainer}>
+            <Icon
+              style={styles.commentIcon}
+              name='ios-chatbubble-outline'
+              size={ICON_SIZE}
+              color={Colors.MED_GRAY}/>
+            <Text style={styles.iconLabel}>
+              {this.props.post.numLikes}
+            </Text>
+          </View>
+
         </TouchableHighlight>
-
-        <PostLikeText
-          navigator={this.props.navigator}
-          numComments={this.props.post.numComments}
-          loading={this.props.isLikeRequestInFlight}
-          numLikes={this.props.post.numLikes}
-          numViews={this.props.post.numViews}
-          postIdString={this.props.post.postIdString} />
-
       </View>
     );
   },
 
   _getStarIconName: function() {
-      if (this.props.isLikeRequestInFlight) {
-        return 'ios-star-half';
-      }
-      else if (this.props.post.liked) {
+      if (this.props.post.liked) {
         return 'ios-star';
       }
       else {

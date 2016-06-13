@@ -69,7 +69,6 @@ var Post = React.createClass({
         <PostFooter
           post={this.props.post}
           onStarPress={this._onStarPress}
-          isLikeRequestInFlight={this.state.isLikeRequestInFlight || this.props.postStore.isLikeRequestInFlight()}
           isCommentRequestInFlight={this.state.isCommentRequestInFlight}
           onSubmitCommentCallback={this.props.onSubmitCommentCallback}
           navigator={this.props.navigator}/>
@@ -161,10 +160,9 @@ var Post = React.createClass({
   },
 
   _getImageHeight: function() {
-    var height = this.props.post.imageHeight;
-
+    var height = this.props.post.imageHeight / 2;
     if (height > 0 && height <= this.MAX_IMAGE_HEIGHT) {
-      return this.props.post.imageHeight;
+      return height;
     }
     else {
       return this.MAX_IMAGE_HEIGHT;

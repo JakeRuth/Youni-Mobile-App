@@ -63,10 +63,13 @@ var PostPopup = React.createClass({
   },
 
   _likePhotoAction(postIndex, postId, userId, callback) {
-    var that = this,
-        post = this.state.post;
-
-
+    var post = this.state.post;
+    
+    // optimistically like the post
+    this.setState({
+      post: PostUtils.likePost(post)
+    });
+    
     AjaxUtils.ajax(
       '/post/like',
       {
@@ -74,9 +77,6 @@ var PostPopup = React.createClass({
         userIdString: userId
       },
       (res) => {
-        that.setState({
-          post: PostUtils.likePost(post)
-        });
         callback();
       },
       () => {
@@ -86,8 +86,12 @@ var PostPopup = React.createClass({
   },
 
   _unlikePhotoAction(postIndex, postId, userId, callback) {
-    var post = this.state.post,
-        that = this;
+    var post = this.state.post;
+
+    // optimistically unlike the post
+    this.setState({
+      post: PostUtils.unlikePost(post)
+    });
 
     AjaxUtils.ajax(
       '/post/removeLike',
@@ -96,9 +100,6 @@ var PostPopup = React.createClass({
         userIdString: userId
       },
       (res) => {
-        that.setState({
-          post: PostUtils.unlikePost(post)
-        });
         callback();
       },
       () => {

@@ -192,7 +192,9 @@ var ProfilePopup = React.createClass({
         posts = this.state.posts;
 
     if (!this.state.isLikeRequestInFlight) {
+      // optimistically like the post
       this.setState({
+        posts: PostUtils.increaseLikeCountFromList(that.state.posts, postIndex),
         isLikeRequestInFlight: true
       });
 
@@ -204,7 +206,6 @@ var ProfilePopup = React.createClass({
         },
         (res) => {
           that.setState({
-            posts: PostUtils.increaseLikeCountFromList(that.state.posts, postIndex),
             isLikeRequestInFlight: false
           });
           callback();
@@ -224,7 +225,9 @@ var ProfilePopup = React.createClass({
         that = this;
 
     if (!this.state.isLikeRequestInFlight) {
+      // optimistically unlike the post
       this.setState({
+        posts: PostUtils.decreaseLikeCountFromList(this.state.posts, postIndex),
         isLikeRequestInFlight: true
       });
 
@@ -236,7 +239,6 @@ var ProfilePopup = React.createClass({
         },
         (res) => {
           that.setState({
-            posts: PostUtils.decreaseLikeCountFromList(this.state.posts, postIndex),
             isLikeRequestInFlight: false
           });
           callback();

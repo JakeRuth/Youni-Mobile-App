@@ -32,7 +32,6 @@ var PostFooter = React.createClass({
   propTypes: {
     post: React.PropTypes.object.isRequired,
     onStarPress: React.PropTypes.func.isRequired,
-    isLikeRequestInFlight: React.PropTypes.bool,
     navigator: React.PropTypes.object.isRequired,
     isCommentRequestInFlight: React.PropTypes.bool.isRequired,
     onSubmitCommentCallback: React.PropTypes.func.isRequired
@@ -53,15 +52,15 @@ var PostFooter = React.createClass({
     return (
       <View style={styles.postFooter}>
 
-        {caption}
         <PostStats
           navigator={this.props.navigator}
           onStarPress={this.props.onStarPress(this.props.post.liked)}
           onCommentPress={this._onCommentPress}
-          isLikeRequestInFlight={this.props.isLikeRequestInFlight}
           post={this.props.post}/>
 
+        {caption}
         {viewAllCommentsLink}
+        
         <CommentList
           comments={this.props.post.firstComments}
           maxCommentsToShow={PostUtils.DEFAULT_MAX_COMMENTS_VISIBLE}

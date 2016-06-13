@@ -128,7 +128,9 @@ var explorePostsStore = Unicycle.createStore({
         posts = this.get('posts');
 
     if (!this.isLikeRequestInFlight()) {
+      // optimistically like the post
       this.set({
+        posts: PostUtils.increaseLikeCountFromList(posts, id),
         isLikeRequestInFlight: true
       });
 
@@ -140,7 +142,6 @@ var explorePostsStore = Unicycle.createStore({
         },
         (res) => {
           that.set({
-            posts: PostUtils.increaseLikeCountFromList(posts, id),
             isLikeRequestInFlight: false
           });
         },
@@ -158,7 +159,9 @@ var explorePostsStore = Unicycle.createStore({
         that = this;
 
     if (!this.isLikeRequestInFlight()) {
+      // optimistically unlike the post
       this.set({
+        posts: PostUtils.decreaseLikeCountFromList(posts, id),
         isLikeRequestInFlight: true
       });
 
@@ -170,7 +173,7 @@ var explorePostsStore = Unicycle.createStore({
         },
         (res) => {
           that.set({
-            posts: PostUtils.decreaseLikeCountFromList(posts, id),
+
             isLikeRequestInFlight: false
           });
         },
