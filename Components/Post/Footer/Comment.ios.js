@@ -4,11 +4,12 @@ var React = require('react-native');
 var Unicycle = require('../../../Unicycle');
 var ProfilePopup = require('../../PopupPages/ProfilePopup');
 var userLoginMetadataStore = require('../../../stores/UserLoginMetadataStore');
-var Color = require('../../../Utils/Common/Colors');
+var Colors = require('../../../Utils/Common/Colors');
 
 var {
   View,
   Text,
+  Image,
   StyleSheet
 } = React;
 
@@ -16,18 +17,28 @@ var styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'row',
-    alignItems: 'center'
+    paddingBottom: 8
+  },
+  profilePicture: {
+    height: 32,
+    width: 32,
+    borderRadius: 8,
+    marginRight: 8
+  },
+  nameAndTextContainer: {
+    flex: 1
   },
   commenterName: {
-    color: Color.YOUNI_PRIMARY_PURPLE,
-    padding: 10
+    textAlign: 'left',
+    color: Colors.YOUNI_PRIMARY_PURPLE,
+    fontWeight: '100',
+    fontSize: 12
   },
   commentText: {
-    flex: 1,
-    fontSize: 13,
-    color: '#525252',
-    paddingTop: 4,
-    paddingBottom: 4
+    textAlign: 'left',
+    fontSize: 14,
+    fontWeight: '300',
+    color: Colors.DARK_GRAY
   }
 });
 
@@ -37,6 +48,7 @@ var Comment = React.createClass({
     commenterName: React.PropTypes.string.isRequired,
     commentText: React.PropTypes.string.isRequired,
     commenterEmail: React.PropTypes.string,
+    commenterProfilePicture: React.PropTypes.string,
     navigator: React.PropTypes.object.isRequired
   },
 
@@ -44,17 +56,21 @@ var Comment = React.createClass({
     return (
       <View style={styles.container}>
 
-        <Text style={styles.commentText}>
+        <Image
+          style={styles.profilePicture}
+          source={{uri: this.props.commenterProfilePicture}}/>
 
+        <View style={styles.nameAndTextContainer}>
           <Text
             style={styles.commenterName}
             numberOfLines={1}
             onPress={this._onCommenterNamePress}>
-            {this.props.commenterName + '  '}
+            {this.props.commenterName}
           </Text>
-          {this.props.commentText}
-
-        </Text>
+          <Text style={styles.commentText}>
+            {this.props.commentText}
+          </Text>
+        </View>
 
       </View>
     );

@@ -14,7 +14,8 @@ var CommentList = React.createClass({
       React.PropTypes.shape({
         commenterName: React.PropTypes.string.isRequired,
         comment: React.PropTypes.string.isRequired,
-        commenterEmail: React.PropTypes.string
+        commenterEmail: React.PropTypes.string,
+        commenterProfilePicture: React.PropTypes.string
       })
     ).isRequired,
     maxCommentsToShow: React.PropTypes.number,
@@ -43,6 +44,7 @@ var CommentList = React.createClass({
           commenterName={commentsJson[i].commenterName}
           commentText={commentsJson[i].comment}
           commenterEmail={commentsJson[i].commenterEmail}
+          commenterProfilePicture={commentsJson[i].commenterProfilePicture}
           key={i}
           navigator={this.props.navigator}/>
       );

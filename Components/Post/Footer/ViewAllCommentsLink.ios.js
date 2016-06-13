@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react-native');
+var Colors = require('../../../Utils/Common/Colors');
 
 var {
   Text,
@@ -10,13 +11,12 @@ var {
 
 var styles = StyleSheet.create({
   container: {
-    marginBottom: 6,
-    marginTop: 6
+    marginBottom: 8
   },
   viewAllText: {
-    fontSize: 13,
-    fontWeight: '500',
-    color: '#B2B2B2'
+    fontSize: 14,
+    fontWeight: '100',
+    color: Colors.MED_GRAY
   }
 });
 
@@ -36,7 +36,7 @@ var ViewAllCommentsLink = React.createClass({
         onPress={this._onViewAllCommentsPress}>
 
         <Text style={styles.viewAllText}>
-          View all {this.props.post.numComments} comments
+          View all comments
         </Text>
 
       </TouchableHighlight>

@@ -1,8 +1,8 @@
-'use strict'
+'use strict';
 
 var React = require('react-native');
 var Unicycle = require('../../Unicycle');
-var Icon = require('react-native-vector-icons/MaterialIcons');
+var Icon = require('react-native-vector-icons/Ionicons');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var Color = require('../../Utils/Common/Colors');
 
@@ -27,7 +27,7 @@ var DeletePostIcon = React.createClass({
         onPress={this._onDeleteIconPress}>
 
         <Icon
-          name='more-vert'
+          name='android-more-horizontal'
           size={23}
           color='#B2B2B2' />
 

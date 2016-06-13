@@ -25,7 +25,8 @@ var PostUtils = {
       commentsJson.push({
         comment: comment.comment,
         commenterName: comment.commenterName,
-        commenterEmail: comment.commenterEmail
+        commenterEmail: comment.commenterEmail,
+        commenterProfilePicture: comment.commenterProfilePicture
       });
     }
     return commentsJson;
