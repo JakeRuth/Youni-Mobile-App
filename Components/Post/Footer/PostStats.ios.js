@@ -17,13 +17,14 @@ var ICON_SIZE = 25;
 var styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    paddingBottom: 12
   },
   statContainer: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    height: 77
+    height: ICON_SIZE
   },
   // this is needed because the actual icon itself has more whitespace on the bottom than on the top
   commentIcon: {
