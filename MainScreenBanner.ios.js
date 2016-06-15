@@ -12,16 +12,15 @@ var {
 
 var styles = StyleSheet.create({
   container: {
-    height: 45,
-    padding: 16,
+    height: 64,
     backgroundColor: Color.YOUNI_PRIMARY_PURPLE
   },
   header: {
-    paddingTop: 2,
     fontSize: 20,
     fontWeight: '500',
     textAlign: 'center',
-    color: 'white'
+    color: 'white',
+    marginTop: 24
   }
 });
 

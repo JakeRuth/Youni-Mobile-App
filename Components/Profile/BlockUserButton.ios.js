@@ -18,9 +18,11 @@ var styles = StyleSheet.create({
   blockUserContainer: {
     position: 'absolute',
     top: 0,
-    right: 6,
-    paddingBottom: 8,
-    paddingLeft: 8
+    right: 0,
+    paddingTop: 22,
+    paddingRight: 12,
+    paddingLeft: 15,
+    paddingBottom: 15
   }
 });
 
@@ -39,9 +41,9 @@ var BlockUserButton = React.createClass({
 
         <View>
           <Icon
-            name='alert-circled'
-            size={20}
-            color={'#FF7878'} />
+            name='android-more-horizontal'
+            size={28}
+            color='white' />
         </View>
 
       </TouchableHighlight>
@@ -75,7 +77,7 @@ var BlockUserButton = React.createClass({
         userToBlockEmail: this.props.email
       },
       (res) => {
-        searchStore.resetSearchPageAfterBlockingUser();
+        searchStore.resetSearchResults();
       },
       () => {
         //TODO: Implement fail case

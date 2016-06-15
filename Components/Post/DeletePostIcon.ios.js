@@ -4,7 +4,7 @@ var React = require('react-native');
 var Unicycle = require('../../Unicycle');
 var Icon = require('react-native-vector-icons/Ionicons');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
-var Color = require('../../Utils/Common/Colors');
+var Colors = require('../../Utils/Common/Colors');
 
 var {
   TouchableHighlight,
@@ -29,7 +29,7 @@ var DeletePostIcon = React.createClass({
         <Icon
           name='android-more-horizontal'
           size={23}
-          color='#B2B2B2' />
+          color={Colors.DARK_GRAY}/>
 
       </TouchableHighlight>
     );
@@ -42,7 +42,7 @@ var DeletePostIcon = React.createClass({
         'Cancel'
       ],
       cancelButtonIndex: 1,
-      tintColor: Color.YOUNI_PRIMARY_PURPLE
+      tintColor: Colors.YOUNI_PRIMARY_PURPLE
     },
     (buttonIndex) => {
       if (buttonIndex === 0) {

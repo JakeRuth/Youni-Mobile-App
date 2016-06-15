@@ -7,10 +7,13 @@ var Unicycle = require('../../Unicycle');
 var profileStore = require('../../stores/profile/ProfileStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 
+var MainScreenBanner = require('../../MainScreenBanner');
 var ProfileInfo = require('../Profile/ProfileInfo');
 var UserPosts = require('../Profile/UserPosts');
+var BlockUserButton = require('../Profile/BlockUserButton');
 var Spinner = require('../Common/Spinner');
 var OverlayPage = require('../Common/OverlayPage');
+var BackArrow = require('../Common/BackArrow');
 
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 var UserUtils = require('../../Utils/User/UserUtils');
@@ -21,12 +24,15 @@ var MAX_POSTS_PER_PAGE = 10;
 
 var {
   View,
+  ScrollView,
   StyleSheet
 } = React;
 
 var styles = StyleSheet.create({
   spinnerContainer: {
-    alignSelf: 'center'
+    flex: 1,
+    alignSelf: 'center',
+    justifyContent: 'center'
   }
 });
 
@@ -56,30 +62,29 @@ var ProfilePopup = React.createClass({
   },
 
   render: function() {
-    var content, userPosts;
-
     if (this.state.profileLoading) {
-      content = (
+      return (
         <View style={styles.spinnerContainer}>
           <Spinner/>
         </View>
       );
     }
     else {
-      content = (
+      return (
         <View>
-          {this._renderProfile(this.state.user)}
-          {this._renderProfilePosts()}
+
+          <MainScreenBanner title={this._getBannerTitle()}/>
+          <BackArrow onPress={() => {this.props.navigator.pop();}}/>
+          {this._renderBlockUserIcon()}
+
+          <ScrollView automaticallyAdjustContentInsets={false}>
+            {this._renderProfile(this.state.user)}
+            {this._renderProfilePosts()}
+          </ScrollView>
+
         </View>
       );
     }
-
-    return (
-      <OverlayPage
-        content={content}
-        onBackArrowPress={() => {this.props.navigator.pop();}}
-        bannerTitle={this._getBannerTitle()}/>
-    );
   },
 
   _renderProfile: function(user) {
@@ -106,6 +111,12 @@ var ProfilePopup = React.createClass({
         unlikePhotoAction={this._unlikePhotoAction}
         onSubmitCommentCallback={this._onSubmitCommentCallback}/>
     );
+  },
+
+  _renderBlockUserIcon: function() {
+    return (
+      <BlockUserButton email={this.props.profileUserEmail}/>
+    )
   },
 
   _getBannerTitle: function() {

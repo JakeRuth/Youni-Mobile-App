@@ -14,10 +14,12 @@ var {
 var styles = StyleSheet.create({
   settingIconContainer: {
     position: 'absolute',
-    top: 13,
-    right: 5,
-    padding: 5,
-    paddingLeft: 20
+    top: 0,
+    right: 0,
+    paddingTop: 22,
+    paddingRight: 12,
+    paddingLeft: 15,
+    paddingBottom: 15
   }
 });
 

@@ -44,7 +44,7 @@ var styles = StyleSheet.create({
   },
   logoContainer: {
     position: 'absolute',
-    top: 5,
+    top: 16,
     width: Dimensions.get('window').width
   },
   logo: {

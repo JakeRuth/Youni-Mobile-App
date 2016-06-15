@@ -88,7 +88,7 @@ var searchStore = Unicycle.createStore({
     );
   },
 
-  resetSearchPageAfterBlockingUser: function () {
+  resetSearchResults: function () {
     this.set({
       results: []
     });
