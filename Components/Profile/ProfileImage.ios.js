@@ -9,7 +9,6 @@ var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var uploadProfileImageStore = require('../../stores/profile/UploadProfileImageStore');
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 var Spinner = require('../Common/Spinner');
-var Color = require('../../Utils/Common/Colors');
 
 var {
   View,
@@ -22,13 +21,12 @@ var {
 var styles = StyleSheet.create({
   profileImageContainer: {
     width: 100,
-    height: 100,
-    marginLeft: 10
+    height: 100
   },
   profileImage: {
     width: 100,
     height: 100,
-    borderRadius: 50
+    borderRadius: 24
   }
 });
 
@@ -36,8 +34,7 @@ var ProfileImage = React.createClass({
 
   propTypes: {
     viewerIsProfileOwner: React.PropTypes.bool.isRequired,
-    profileImageUrl: React.PropTypes.string,
-    isProfileInfoLoading: React.PropTypes.bool.isRequired
+    profileImageUrl: React.PropTypes.string
   },
 
   mixins: [
@@ -47,9 +44,9 @@ var ProfileImage = React.createClass({
   render: function() {
     var content;
 
-    if (this.props.isProfileInfoLoading || uploadProfileImageStore.isUploadProfileImageRequestInFlight()) {
+    if (uploadProfileImageStore.isUploadProfileImageRequestInFlight()) {
       content = (
-          <Spinner/>
+          <Spinner color="white"/>
       );
     }
     else if (this.props.profileImageUrl) {
@@ -90,7 +87,7 @@ var ProfileImage = React.createClass({
       <Icon
         name='ios-person'
         size={150}
-        color={Color.YOUNI_PRIMARY_PURPLE} />
+        color='white' />
     );
   },
 
@@ -113,10 +110,10 @@ var ProfileImage = React.createClass({
 
   _getImagePickerOptions: function() {
     return {
-      maxWidth: 640, //TODO
-      maxHeight: 640, //TODO
-      quality: .5, //TODO
-      allowsEditing: true, //TODO
+      maxWidth: 640,
+      maxHeight: 640,
+      quality: .5,
+      allowsEditing: true,
       noData: true
     };
   },

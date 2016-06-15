@@ -7,7 +7,7 @@ var Unicycle = require('../../Unicycle');
 var profileStore = require('../../stores/profile/ProfileStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 
-var ProfilePageBody = require('../Profile/ProfilePageBody');
+var ProfileInfo = require('../Profile/ProfileInfo');
 var UserPosts = require('../Profile/UserPosts');
 var Spinner = require('../Common/Spinner');
 var OverlayPage = require('../Common/OverlayPage');
@@ -84,7 +84,7 @@ var ProfilePopup = React.createClass({
 
   _renderProfile: function(user) {
     return (
-      <ProfilePageBody
+      <ProfileInfo
         viewerIsProfileOwner={false}
         user={user}
         navigator={this.props.navigator}/>

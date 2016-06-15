@@ -35,7 +35,7 @@ var EditSettingsButton = React.createClass({
         underlayColor='transparent'>
 
         <Icon
-          name='gear-a'
+          name='ios-gear-outline'
           size={25}
           color='white'/>
 

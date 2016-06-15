@@ -7,12 +7,13 @@ var profileOwnerStore = require('./stores/profile/ProfileOwnerStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
 var notificationStore = require('./stores/NotificationStore');
 var MainScreenBanner = require('./MainScreenBanner');
-var ProfilePageBody = require('./Components/Profile/ProfilePageBody');
+var ProfileInfo = require('./Components/Profile/ProfileInfo');
 var UserPosts = require('./Components/Profile/UserPosts');
 var ErrorPage = require('./Components/Common/ErrorPage');
 var EditSettingsButton = require('./Components/Profile/Settings/EditSettingsButton');
 var ScrollViewRefresh = require('./Components/Common/ScrollViewRefresh');
 var NotificationCallout = require('./Components/Common/NotificationCallout');
+var Spinner = require('./Components/Common/Spinner');
 var NotificationsPopup = require('./Components/PopupPages/NotificationsPopup');
 
 var {
@@ -71,7 +72,13 @@ var ProfilePage = React.createClass({
       );
     }
 
-    if (anyErrorsLoadingPage) {
+
+    if (profileOwnerStore.isRequestInFlight()) {
+      content = (
+        <Spinner/>
+      );
+    }
+    else if (anyErrorsLoadingPage) {
       content = <ErrorPage reloadButtonAction={this._onErrorPageReload}/>;
     }
     else {
@@ -80,11 +87,10 @@ var ProfilePage = React.createClass({
           automaticallyAdjustContentInsets={false}
           onScroll={this.handleScroll}>
 
-          <ProfilePageBody
+          <ProfileInfo
             navigator={this.props.navigator}
             viewerIsProfileOwner={true}
-            user={profileOwnerStore.getUserJson()}
-            isLoading={profileOwnerStore.isRequestInFlight()}/>
+            user={profileOwnerStore.getUserJson()}/>
 
           <UserPosts
             posts={profileOwnerStore.getPosts()}
