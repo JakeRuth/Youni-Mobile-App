@@ -42,11 +42,11 @@ var styles = StyleSheet.create({
 var ProfileInfoBody = React.createClass({
 
   propTypes: {
-    viewerIsProfileOwner: React.PropTypes.bool.isRequired,
+    viewerIsProfileOwner: React.PropTypes.bool,
     profileImageUrl: React.PropTypes.string,
     bio: React.PropTypes.string,
     numFans: React.PropTypes.number.isRequired,
-    campusScore: React.PropTypes.string.isRequired
+    campusScore: React.PropTypes.any.isRequired
   },
 
   render: function() {
@@ -60,10 +60,7 @@ var ProfileInfoBody = React.createClass({
               alignIndicatorTo="left"/>
           </View>
           <View style={styles.profileImageContainer}>
-            <ProfileImage
-              viewerIsProfileOwner={this.props.viewerIsProfileOwner}
-              profileImageUrl={this.props.profileImageUrl}
-              isProfileInfoLoading={this.props.isLoading}/>
+            <ProfileImage {...this.props}/>
           </View>
           <View style={styles.postStatContainer}>
             <ProfileStat

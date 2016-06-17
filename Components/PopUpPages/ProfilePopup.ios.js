@@ -48,6 +48,7 @@ var ProfilePopup = React.createClass({
       user: {},
       posts: [],
       profileLoading: true,
+      isFollowing: null,
       postsLoading: false,
       postsNextPageLoading: false,
       isLikeRequestInFlight: false, // Only used to not spam like requests when request is already in flight
@@ -59,6 +60,7 @@ var ProfilePopup = React.createClass({
   componentDidMount() {
     this._requestProfileInformation();
     this._requestUserPosts();
+    this._requestIsUserFollowing();
   },
 
   render: function() {
@@ -90,8 +92,10 @@ var ProfilePopup = React.createClass({
   _renderProfile: function(user) {
     return (
       <ProfileInfo
-        viewerIsProfileOwner={false}
         user={user}
+        isFollowing={this.state.isFollowing}
+        followAction={this.followUserRequest}
+        unfollowAction={this.unfollowUserRequest}
         navigator={this.props.navigator}/>
     );
   },
@@ -262,6 +266,101 @@ var ProfilePopup = React.createClass({
         }
       );
     }
+  },
+
+  _requestIsUserFollowing: function() {
+    var userId = userLoginMetadataStore.getUserId(),
+        that = this;
+
+    AjaxUtils.ajax(
+      '/user/isFollowing',
+      {
+        requestingUserIdString: userId,
+        userEmail: that.props.profileUserEmail
+      },
+      (res) => {
+        that.setState({
+          isFollowing: res.body.following
+        });
+      },
+      () => {
+
+      }
+    );
+  },
+
+  followUserRequest: function() {
+    var user = this.state.user,
+        userId = userLoginMetadataStore.getUserId(),
+        that = this;
+
+    this.setState({
+      isFollowing: null
+    });
+
+    AjaxUtils.ajax(
+      '/user/follow',
+      {
+        requestingUserIdString: userId,
+        userToFollowEmail: that.props.profileUserEmail
+      },
+      (res) => {
+        if (res.body.success) {
+          user.numFollowers++;
+          that.setState({
+            user: user,
+            isFollowing: true
+          });
+        }
+        else {
+          that.setState({
+            isFollowing: false
+          });
+        }
+      },
+      () => {
+        that.setState({
+          isFollowing: false
+        });
+      }
+    );
+  },
+
+  unfollowUserRequest: function() {
+    var user = this.state.user,
+        userId = userLoginMetadataStore.getUserId(),
+        that = this;
+
+    this.setState({
+      isFollowing: null
+    });
+
+    AjaxUtils.ajax(
+      '/user/removeFollow',
+      {
+        requestingUserIdString: userId,
+        userToNotFollowEmail: that.props.profileUserEmail
+      },
+      (res) => {
+        if (res.body.success) {
+          user.numFollowers--;
+          that.setState({
+            user: user,
+            isFollowing: false
+          });
+        }
+        else {
+          that.setState({
+            isFollowing: true
+          });
+        }
+      },
+      () => {
+        that.setState({
+          isFollowing: true
+        });
+      }
+    );
   },
 
   _onSubmitCommentCallback: function(post, comment, commenterName) {

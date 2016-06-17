@@ -67,18 +67,6 @@ var PostGridThumbnail = React.createClass({
   },
 
   _renderThumbnail: function() {
-    var fireIcon;
-
-    if (this.props.post.isPostUserCurrentlyTrending) {
-      fireIcon = (
-        <View style={styles.fireIcon}>
-          <Emoji
-            name="fire"
-            size={25}/>
-        </View>
-      );
-    }
-
     return (
       <TouchableHighlight
         style={styles.container}
@@ -112,10 +100,6 @@ var PostGridThumbnail = React.createClass({
         clickedFromExploreFeed: true
       }
     });
-
-    if (email !== this.props.post.posterEmail) {
-      Unicycle.exec('triggerPostView', email, this.props.post.postIdString, this.props.post.id);
-    }
   }
 
 });

@@ -23,7 +23,10 @@ var ProfileInfo = React.createClass({
   propTypes: {
     navigator: React.PropTypes.object.isRequired,
     user: React.PropTypes.object.isRequired,
-    viewerIsProfileOwner: React.PropTypes.bool.isRequired
+    isFollowing: React.PropTypes.bool,
+    followAction: React.PropTypes.func,
+    unfollowAction: React.PropTypes.func,
+    viewerIsProfileOwner: React.PropTypes.bool
   },
 
   render: function() {
@@ -36,8 +39,7 @@ var ProfileInfo = React.createClass({
           bio={this.props.user.bio}
           numFans={this.props.user.numFollowers}
           campusScore={this.props.user.totalPoints}/>
-        <ProfileInfoFooter
-          navigator={this.props.navigator}/>
+        <ProfileInfoFooter {...this.props}/>
 
       </View>
     );

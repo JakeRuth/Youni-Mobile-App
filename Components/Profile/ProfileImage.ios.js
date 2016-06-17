@@ -33,7 +33,7 @@ var styles = StyleSheet.create({
 var ProfileImage = React.createClass({
 
   propTypes: {
-    viewerIsProfileOwner: React.PropTypes.bool.isRequired,
+    viewerIsProfileOwner: React.PropTypes.bool,
     profileImageUrl: React.PropTypes.string
   },
 
