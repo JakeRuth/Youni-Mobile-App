@@ -32,7 +32,6 @@ var Post = React.createClass({
   MAX_IMAGE_HEIGHT: 420,
 
   propTypes: {
-    postStore: React.PropTypes.any.isRequired,
     post: React.PropTypes.object.isRequired,
     viewerIsPostOwner: React.PropTypes.bool,
     renderedFromProfileView: React.PropTypes.bool,
@@ -103,60 +102,28 @@ var Post = React.createClass({
       return;
     }
 
-    if (this.props.likePhotoAction) {
+    this.setState({
+      isLikeRequestInFlight: true
+    });
+    this.props.likePhotoAction(post.id, post.postIdString, userId, () => {
       this.setState({
-        isLikeRequestInFlight: true
+        isLikeRequestInFlight: false
       });
-      this.props.likePhotoAction(post.id, post.postIdString, userId, () => {
-        this.setState({
-          isLikeRequestInFlight: false
-        });
-      });
-    }
-    else {
-      var action = this._getOnPhotoClickActionName();
-      Unicycle.exec(action, this.props.post.id, this.props.post.postIdString, userId);
-    }
+    });
   },
 
   _unlikePost: function() {
     var post = this.props.post,
         userId = userLoginMetadataStore.getUserId();
 
-    if (this.props.unlikePhotoAction) {
+    this.setState({
+      isLikeRequestInFlight: true
+    });
+    this.props.unlikePhotoAction(post.id, post.postIdString, userId, () => {
       this.setState({
-        isLikeRequestInFlight: true
+        isLikeRequestInFlight: false
       });
-      this.props.unlikePhotoAction(post.id, post.postIdString, userId, () => {
-        this.setState({
-          isLikeRequestInFlight: false
-        });
-      });
-    }
-    else {
-      var action = this._getOnStarClickActionName();
-      Unicycle.exec(action, this.props.post.id, this.props.post.postIdString, userId);
-    }
-  },
-
-  //TODO: Figure out a better way to do this
-  _getOnPhotoClickActionName: function() {
-    if (this.props.postStore.isHomeFeed()) {
-      return 'likeHomeFeedPost';
-    }
-    else {
-      return 'likeExploreFeedPost';
-    }
-  },
-
-  //TODO: Figure out a better way to do this
-  _getOnStarClickActionName: function() {
-    if (this.props.postStore.isHomeFeed()) {
-      return 'removeLikeHomeFeed';
-    }
-    else {
-      return 'removeLikeExploreFeed';
-    }
+    });
   },
 
   _getImageHeight: function() {

@@ -5,6 +5,7 @@ var Unicycle = require('../../Unicycle');
 var Post = require('../Post/Post');
 var OverlayPage = require('../Common/OverlayPage');
 var explorePostsStore = require('../../stores/post/ExplorePostsStore');
+var profileOwnerStore = require('../../stores/profile/ProfileOwnerStore');
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 var PostUtils = require('../../Utils/Post/PostUtils');
 
@@ -16,7 +17,9 @@ var PostPopup = React.createClass({
 
   propTypes: {
     post: React.PropTypes.object.isRequired,
-    clickedFromExploreFeed: React.PropTypes.bool,
+    likePhotoAction: React.PropTypes.func,
+    unlikePhotoAction: React.PropTypes.func,
+    onSubmitCommentAction: React.PropTypes.func,
     navigator: React.PropTypes.object.isRequired
   },
 
@@ -27,7 +30,8 @@ var PostPopup = React.createClass({
   },
 
   mixins: [
-    Unicycle.listenTo(explorePostsStore)
+    Unicycle.listenTo(explorePostsStore),
+    Unicycle.listenTo(profileOwnerStore)
   ],
 
   render: function () {
@@ -40,26 +44,14 @@ var PostPopup = React.createClass({
   },
 
   _renderPost: function (post) {
-    if (this.props.clickedFromExploreFeed) {
-      return (
-        <Post
-          postStore={explorePostsStore}
-          post={post}
-          onSubmitCommentCallback={this._onSubmitCommentCallback}
-          navigator={this.props.navigator}/>
-      );
-    }
-    else {
-      return (
-        <Post
-          postStore={explorePostsStore /* TODO: Make it so that we don't have to pass this in */}
-          post={post}
-          likePhotoAction={this._likePhotoAction}
-          unlikePhotoAction={this._unlikePhotoAction}
-          onSubmitCommentCallback={this._onSubmitCommentCallback}
-          navigator={this.props.navigator}/>
-      );
-    }
+    return (
+      <Post
+        post={post}
+        likePhotoAction={this.props.likePhotoAction ? this.props.likePhotoAction : this._likePhotoAction}
+        unlikePhotoAction={this.props.unlikePhotoAction ? this.props.unlikePhotoAction : this._unlikePhotoAction}
+        onSubmitCommentAction={this.props.onSubmitCommentAction ? this.props.onSubmitCommentAction : this._onSubmitCommentCallback}
+        navigator={this.props.navigator}/>
+    );
   },
 
   _likePhotoAction(postIndex, postId, userId, callback) {

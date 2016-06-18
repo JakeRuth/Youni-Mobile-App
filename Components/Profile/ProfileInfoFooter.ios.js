@@ -12,6 +12,7 @@ var PostViewTypeEnum = require('../../Utils/Post/PostViewTypeEnum');
 var {
   View,
   TouchableHighlight,
+  Dimensions,
   StyleSheet
 } = React;
 
@@ -120,7 +121,7 @@ var ProfileInfoFooter = React.createClass({
       <PrettyTouchable
         label="Following"
         containerStyle={{
-            width: 146,
+            width: Dimensions.get('window').width * .4,
             height: 36
           }}
         onPress={() => {

@@ -33,21 +33,20 @@ var styles = StyleSheet.create({
 var PostList = React.createClass({
 
   propTypes: {
-    refreshable: React.PropTypes.bool,
-    postStore: React.PropTypes.any,
     posts: React.PropTypes.object.isRequired,
     onScroll: React.PropTypes.func,
     onLoadMorePostsPress: React.PropTypes.func.isRequired,
-    isLoadMorePostsRequestInFlight: React.PropTypes.bool,
+    isNextPageLoading: React.PropTypes.bool.isRequired,
     noMorePostsToFetch: React.PropTypes.bool.isRequired,
+    refreshable: React.PropTypes.bool,
     isFeedRefreshing: React.PropTypes.bool,
     viewerIsPostOwner: React.PropTypes.bool,
     renderedFromProfileView: React.PropTypes.bool,
     gridViewEnabled: React.PropTypes.bool,
-    navigator: React.PropTypes.object.isRequired,
     likePhotoAction: React.PropTypes.func.isRequired,
     unlikePhotoAction: React.PropTypes.func.isRequired,
-    onSubmitCommentAction: React.PropTypes.func.isRequired
+    onSubmitCommentAction: React.PropTypes.func.isRequired,
+    navigator: React.PropTypes.object.isRequired
   },
 
   render: function() {
@@ -82,10 +81,7 @@ var PostList = React.createClass({
   _renderPosts: function() {
     if (this.props.gridViewEnabled) {
       return (
-        <PostGrid
-          posts={this.props.posts}
-          viewerIsPostOwner={this.props.viewerIsPostOwner}
-          navigator={this.props.navigator}/>
+        <PostGrid {...this.props}/>
       );
     }
     else {
@@ -99,14 +95,8 @@ var PostList = React.createClass({
       var post = postsJson.get(i);
       posts.push(
         <Post
+          {...this.props}
           post={post}
-          postStore={this.props.postStore}
-          renderedFromProfileView={this.props.renderedFromProfileView}
-          viewerIsPostOwner={this.props.viewerIsPostOwner}
-          navigator={this.props.navigator}
-          likePhotoAction={this.props.likePhotoAction}
-          unlikePhotoAction={this.props.unlikePhotoAction}
-          onSubmitCommentAction={this.props.onSubmitCommentAction}
           key={i}/>
       );
     }
@@ -117,7 +107,7 @@ var PostList = React.createClass({
     return (
         <LoadMoreButton
           onPress={this.props.onLoadMorePostsPress}
-          isLoading={this.props.isLoadMorePostsRequestInFlight}
+          isLoading={this.props.isNextPageLoading}
           isVisible={!this.props.noMorePostsToFetch}/>
     );
   }

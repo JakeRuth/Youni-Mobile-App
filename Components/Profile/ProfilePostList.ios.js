@@ -18,7 +18,8 @@ var styles = StyleSheet.create({
   spinnerContainer: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    paddingTop: 10
   },
   noPostsMessageContainer: {
     flex: 1,
@@ -31,7 +32,7 @@ var styles = StyleSheet.create({
   }
 });
 
-var UserPosts = React.createClass({
+var ProfilePostList = React.createClass({
 
   propTypes: {
     posts: React.PropTypes.object.isRequired,
@@ -40,7 +41,7 @@ var UserPosts = React.createClass({
     noMorePostsToFetch: React.PropTypes.bool.isRequired,
     viewerIsProfileOwner: React.PropTypes.bool,
     loading: React.PropTypes.bool,
-    isNextPageLoading: React.PropTypes.bool,
+    isNextPageLoading: React.PropTypes.bool.isRequired,
     navigator: React.PropTypes.object.isRequired,
     likePhotoAction: React.PropTypes.func.isRequired,
     unlikePhotoAction: React.PropTypes.func.isRequired,
@@ -85,4 +86,4 @@ var UserPosts = React.createClass({
 
 });
 
-module.exports = UserPosts;
+module.exports = ProfilePostList;

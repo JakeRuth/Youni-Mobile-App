@@ -9,7 +9,7 @@ var PostUtils = require('../../Utils/Post/PostUtils');
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 
 var INITIAL_PAGE_OFFSET = 0;
-var MAX_POSTS_PER_PAGE = 10;
+var MAX_POSTS_PER_PAGE = 9;
 
 var profileOwnerStore = Unicycle.createStore({
 

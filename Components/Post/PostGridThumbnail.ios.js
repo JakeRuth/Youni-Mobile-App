@@ -2,11 +2,10 @@
 
 var React = require('react-native');
 var PostPopup = require('../PopupPages/PostPopup');
-var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
+var Colors = require('../../Utils/Common/Colors');
 
 var {
   View,
-  Text,
   Image,
   StyleSheet,
   Dimensions,
@@ -15,13 +14,12 @@ var {
 
 var styles = StyleSheet.create({
   container: {
-    flex: 1,
-    padding: 1
+    margin: 2
   },
   image: {
-    flex: 1,
-    alignSelf: 'stretch',
-    height: 133.33
+    resizeMode: "cover",
+    height: Dimensions.get('window').width / 3,
+    width: Dimensions.get('window').width / 3
   },
   blankPostPlaceholder: {
     // divide by three since we display three posts across on the feed
@@ -34,6 +32,9 @@ var PostGridThumbnail = React.createClass({
   propTypes: {
     // If a post isn't passed in, just render a blank box.  Ex: Blocked users lead to post.size < page size
     post: React.PropTypes.object,
+    likePhotoAction: React.PropTypes.func.isRequired,
+    unlikePhotoAction: React.PropTypes.func.isRequired,
+    onSubmitCommentAction: React.PropTypes.func.isRequired,
     navigator: React.PropTypes.object.isRequired
   },
 
@@ -62,14 +63,9 @@ var PostGridThumbnail = React.createClass({
   },
 
   _onPostClick: function() {
-    var email = userLoginMetadataStore.getEmail();
-
     this.props.navigator.push({
       component: PostPopup,
-      passProps: {
-        post: this.props.post,
-        clickedFromExploreFeed: true
-      }
+      passProps: {...this.props}
     });
   }
 

@@ -25,8 +25,7 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center'
   },
-  // this is needed because the actual icon itself has more whitespace on the bottom than on the top
-  commentIcon: {
+  icon: {
     marginTop: 3
   },
   iconLabel: {
@@ -66,7 +65,7 @@ var PostStats = React.createClass({
 
           <View style={styles.statContainer}>
             <Icon
-              style={likedStarIconColor}
+              style={[styles.icon, likedStarIconColor]}
               name={this._getStarIconName()}
               size={ICON_SIZE}/>
             <Text style={styles.iconLabel}>
@@ -82,12 +81,12 @@ var PostStats = React.createClass({
 
           <View style={styles.statContainer}>
             <Icon
-              style={styles.commentIcon}
+              style={styles.icon}
               name='ios-chatbubble-outline'
               size={ICON_SIZE}
               color={Colors.MED_GRAY}/>
             <Text style={styles.iconLabel}>
-              {this.props.post.numLikes}
+              {this.props.post.numComments}
             </Text>
           </View>
 

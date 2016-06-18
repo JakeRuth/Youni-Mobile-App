@@ -12,7 +12,7 @@ var PostViewTypeEnum = require('./Utils/Post/PostViewTypeEnum');
 
 var MainScreenBanner = require('./MainScreenBanner');
 var ProfileInfo = require('./Components/Profile/ProfileInfo');
-var UserPosts = require('./Components/Profile/UserPosts');
+var ProfilePostList = require('./Components/Profile/ProfilePostList');
 var ErrorPage = require('./Components/Common/ErrorPage');
 var EditSettingsButton = require('./Components/Profile/Settings/EditSettingsButton');
 var ScrollViewRefresh = require('./Components/Common/ScrollViewRefresh');
@@ -102,19 +102,19 @@ var ProfilePage = React.createClass({
             currentPostViewMode={this.state.postViewMode}
             onPostViewControlPress={this.onPostViewControlPress}/>
 
-          <UserPosts
+          <ProfilePostList
             posts={profileOwnerStore.getPosts()}
-            gridViewEnabled={false}
+            gridViewEnabled={this.state.postViewMode === PostViewTypeEnum.GRID}
             onPostViewControlPress={this.onPostViewControlPress}
-            onLoadMorePostsPress={this._requestProfilePosts}
             noMorePostsToFetch={profileOwnerStore.getNoMorePostsToFetch()}
             viewerIsProfileOwner={true}
             loading={profileOwnerStore.isUserPostsRequestInFlight()}
             isNextPageLoading={profileOwnerStore.isLoadMorePostsRequestInFlight()}
-            navigator={this.props.navigator}
+            onLoadMorePostsPress={this._requestProfilePosts}
             unlikePhotoAction={this.unlikePhotoAction}
             likePhotoAction={this.likePhotoAction}
-            onSubmitCommentAction={this.onSubmitCommentAction}/>
+            onSubmitCommentAction={this.onSubmitCommentAction}
+            navigator={this.props.navigator}/>
 
         </ScrollView>
       );

@@ -9,7 +9,7 @@ var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 
 var MainScreenBanner = require('../../MainScreenBanner');
 var ProfileInfo = require('../Profile/ProfileInfo');
-var UserPosts = require('../Profile/UserPosts');
+var ProfilePostList = require('../Profile/ProfilePostList');
 var BlockUserButton = require('../Profile/BlockUserButton');
 var Spinner = require('../Common/Spinner');
 var OverlayPage = require('../Common/OverlayPage');
@@ -20,7 +20,7 @@ var UserUtils = require('../../Utils/User/UserUtils');
 var PostUtils = require('../../Utils/Post/PostUtils');
 
 var INITIAL_PAGE_OFFSET = 0;
-var MAX_POSTS_PER_PAGE = 10;
+var MAX_POSTS_PER_PAGE = 9;
 
 var {
   View,
@@ -102,7 +102,7 @@ var ProfilePopup = React.createClass({
 
   _renderProfilePosts: function() {
     return (
-      <UserPosts
+      <ProfilePostList
         posts={immutable.List(this.state.posts)}
         profileStore={profileStore}
         onLoadMorePostsPress={this._requestUserPosts}
