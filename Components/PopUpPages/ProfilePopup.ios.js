@@ -4,7 +4,6 @@ var React = require('react-native');
 var immutable = require('immutable');
 var Unicycle = require('../../Unicycle');
 
-var profileStore = require('../../stores/profile/ProfileStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 
 var MainScreenBanner = require('../../MainScreenBanner');
@@ -18,6 +17,7 @@ var BackArrow = require('../Common/BackArrow');
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 var UserUtils = require('../../Utils/User/UserUtils');
 var PostUtils = require('../../Utils/Post/PostUtils');
+var PostViewTypeEnum = require('../../Utils/Post/PostViewTypeEnum');
 
 var INITIAL_PAGE_OFFSET = 0;
 var MAX_POSTS_PER_PAGE = 9;
@@ -47,11 +47,11 @@ var ProfilePopup = React.createClass({
     return {
       user: {},
       posts: [],
+      postViewMode: PostViewTypeEnum.LIST,
       profileLoading: true,
       isFollowing: null,
       postsLoading: false,
       postsNextPageLoading: false,
-      isLikeRequestInFlight: false, // Only used to not spam like requests when request is already in flight
       postOffset: INITIAL_PAGE_OFFSET,
       noMorePostsToFetch: false
     };
@@ -73,7 +73,7 @@ var ProfilePopup = React.createClass({
     }
     else {
       return (
-        <View>
+        <ScrollView automaticallyAdjustContentInsets={false}>
 
           <MainScreenBanner title={this._getBannerTitle()}/>
           <BackArrow onPress={() => {this.props.navigator.pop();}}/>
@@ -84,7 +84,7 @@ var ProfilePopup = React.createClass({
             {this._renderProfilePosts()}
           </ScrollView>
 
-        </View>
+        </ScrollView>
       );
     }
   },
@@ -93,6 +93,8 @@ var ProfilePopup = React.createClass({
     return (
       <ProfileInfo
         user={user}
+        currentPostViewMode={this.state.postViewMode}
+        onPostViewControlPress={this.onPostViewControlPress}
         isFollowing={this.state.isFollowing}
         followAction={this.followUserRequest}
         unfollowAction={this.unfollowUserRequest}
@@ -104,16 +106,18 @@ var ProfilePopup = React.createClass({
     return (
       <ProfilePostList
         posts={immutable.List(this.state.posts)}
-        profileStore={profileStore}
+        gridViewEnabled={this.state.postViewMode === PostViewTypeEnum.GRID}
+        onPostViewControlPress={this.onPostViewControlPress}
         onLoadMorePostsPress={this._requestUserPosts}
         noMorePostsToFetch={this.state.noMorePostsToFetch}
         viewerIsProfileOwner={false}
         loading={this.state.postsLoading}
         isNextPageLoading={this.state.postsNextPageLoading}
         navigator={this.props.navigator}
-        likePhotoAction={this._likePhotoAction}
-        unlikePhotoAction={this._unlikePhotoAction}
-        onSubmitCommentCallback={this._onSubmitCommentCallback}/>
+        likePhotoAction={this.likePhotoAction}
+        unlikePhotoAction={this.unlikePhotoAction}
+        onSubmitCommentAction={this.onSubmitCommentAction}
+        navigator={this.props.navigator}/>
     );
   },
 
@@ -202,70 +206,52 @@ var ProfilePopup = React.createClass({
     );
   },
 
-  _likePhotoAction(postIndex, postId, userId, callback) {
+  likePhotoAction(postIndex, postId, userId, callback) {
     var that = this,
         posts = this.state.posts;
 
-    if (!this.state.isLikeRequestInFlight) {
-      // optimistically like the post
-      this.setState({
-        posts: PostUtils.increaseLikeCountFromList(that.state.posts, postIndex),
-        isLikeRequestInFlight: true
-      });
+    // optimistically like the post
+    this.setState({
+      posts: PostUtils.increaseLikeCountFromList(that.state.posts, postIndex)
+    });
 
-      AjaxUtils.ajax(
-        '/post/like',
-        {
-          postIdString: postId,
-          userIdString: userId
-        },
-        (res) => {
-          that.setState({
-            isLikeRequestInFlight: false
-          });
-          callback();
-        },
-        () => {
-          that.setState({
-            isLikeRequestInFlight: false
-          });
-          callback();
-        }
-      );
-    }
+    AjaxUtils.ajax(
+      '/post/like',
+      {
+        postIdString: postId,
+        userIdString: userId
+      },
+      (res) => {
+        callback();
+      },
+      () => {
+        callback();
+      }
+    );
   },
 
-  _unlikePhotoAction(postIndex, postId, userId, callback) {
+  unlikePhotoAction(postIndex, postId, userId, callback) {
     var posts = this.state.posts,
         that = this;
 
-    if (!this.state.isLikeRequestInFlight) {
-      // optimistically unlike the post
-      this.setState({
-        posts: PostUtils.decreaseLikeCountFromList(this.state.posts, postIndex),
-        isLikeRequestInFlight: true
-      });
+    // optimistically unlike the post
+    this.setState({
+      posts: PostUtils.decreaseLikeCountFromList(this.state.posts, postIndex)
+    });
 
-      AjaxUtils.ajax(
-        '/post/removeLike',
-        {
-          postIdString: postId,
-          userIdString: userId
-        },
-        (res) => {
-          that.setState({
-            isLikeRequestInFlight: false
-          });
-          callback();
-        },
-        () => {
-          that.setState({
-            isLikeRequestInFlight: false
-          });
-          callback();
-        }
-      );
-    }
+    AjaxUtils.ajax(
+      '/post/removeLike',
+      {
+        postIdString: postId,
+        userIdString: userId
+      },
+      (res) => {
+        callback();
+      },
+      () => {
+        callback();
+      }
+    );
   },
 
   _requestIsUserFollowing: function() {
@@ -363,10 +349,40 @@ var ProfilePopup = React.createClass({
     );
   },
 
-  _onSubmitCommentCallback: function(post, comment, commenterName) {
-    var posts = this.state.posts;
+  onSubmitCommentAction: function(comment, post, callback) {
+    var posts = this.state.posts,
+        userId = userLoginMetadataStore.getUserId(),
+        commenterName = userLoginMetadataStore.getFullName();
 
-    PostUtils.addCommentFromList(posts, post.id, comment, commenterName);
+    if (!comment) {
+      return;
+    }
+
+    AjaxUtils.ajax(
+      '/post/createComment',
+      {
+        postIdString: post.postIdString,
+        userIdString: userId,
+        comment: comment
+      },
+      (res) => {
+        PostUtils.addCommentFromList(posts, post.id, comment, commenterName);
+        callback(comment);
+      },
+      () => {
+        callback(comment);
+      }
+    );
+  },
+
+  onPostViewControlPress: function(postViewType) {
+    if (this.state.postViewMode === postViewType) {
+      return;
+    }
+
+    this.setState({
+      postViewMode: postViewType
+    });
   }
 
 });

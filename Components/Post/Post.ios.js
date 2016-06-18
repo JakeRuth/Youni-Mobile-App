@@ -52,10 +52,7 @@ var Post = React.createClass({
     return (
       <View style={styles.container}>
 
-        <PostHeader
-          post={this.props.post}
-          renderedFromProfileView={this.props.renderedFromProfileView}
-          navigator={this.props.navigator}/>
+        <PostHeader {...this.props}/>
 
         <TouchableHighlight
           onPress={ this._photoOnClickAction(this.props.post.liked) }
@@ -66,11 +63,9 @@ var Post = React.createClass({
         </TouchableHighlight>
 
         <PostFooter
-          post={this.props.post}
+          {...this.props}
           onStarPress={this._onStarPress}
-          isCommentRequestInFlight={this.state.isCommentRequestInFlight}
-          onSubmitCommentAction={this.props.onSubmitCommentAction}
-          navigator={this.props.navigator}/>
+          isCommentRequestInFlight={this.state.isCommentRequestInFlight}/>
 
       </View>
     );
