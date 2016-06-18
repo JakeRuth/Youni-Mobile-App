@@ -24,7 +24,7 @@ var ViewAllCommentsLink = React.createClass({
 
   propTypes: {
     post: React.PropTypes.object.isRequired,
-    onSubmitCommentCallback: React.PropTypes.func.isRequired,
+    onSubmitCommentAction: React.PropTypes.func.isRequired,
     navigator: React.PropTypes.object.isRequired
   },
 
@@ -49,7 +49,7 @@ var ViewAllCommentsLink = React.createClass({
       component: postCommentsPopup,
       passProps: {
         post: this.props.post,
-        onSubmitCommentCallback: this.props.onSubmitCommentCallback
+        onSubmitCommentAction: this.props.onSubmitCommentAction
       }
     });
   }

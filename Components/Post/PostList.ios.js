@@ -33,10 +33,10 @@ var styles = StyleSheet.create({
 var PostList = React.createClass({
 
   propTypes: {
-    refreshable: React.PropTypes.bool.isRequired,
-    postStore: React.PropTypes.any.isRequired,
+    refreshable: React.PropTypes.bool,
+    postStore: React.PropTypes.any,
     posts: React.PropTypes.object.isRequired,
-    onScroll: React.PropTypes.func.isRequired,
+    onScroll: React.PropTypes.func,
     onLoadMorePostsPress: React.PropTypes.func.isRequired,
     isLoadMorePostsRequestInFlight: React.PropTypes.bool,
     noMorePostsToFetch: React.PropTypes.bool.isRequired,
@@ -45,9 +45,9 @@ var PostList = React.createClass({
     renderedFromProfileView: React.PropTypes.bool,
     gridViewEnabled: React.PropTypes.bool,
     navigator: React.PropTypes.object.isRequired,
-    likePhotoAction: React.PropTypes.func,
-    unlikePhotoAction: React.PropTypes.func,
-    onSubmitCommentCallback: React.PropTypes.func.isRequired
+    likePhotoAction: React.PropTypes.func.isRequired,
+    unlikePhotoAction: React.PropTypes.func.isRequired,
+    onSubmitCommentAction: React.PropTypes.func.isRequired
   },
 
   render: function() {
@@ -56,7 +56,7 @@ var PostList = React.createClass({
         feedContainerStyles = [styles.container];
 
     if (this.props.refreshable && this.props.isFeedRefreshing) {
-      feedContainerStyles.push({ opacity:.5 });
+      feedContainerStyles.push({ opacity: .5 });
     }
 
     if (scrollToTopOfPostFeed) {
@@ -67,7 +67,7 @@ var PostList = React.createClass({
     return (
       <ScrollView
         style={feedContainerStyles}
-        onScroll={this.props.onScroll}
+        onScroll={this.props.onScroll ? this.props.onScroll : ()=>null}
         contentOffset={contentOffset}>
 
         <Text style={styles.pullDownToRefreshText}>Pull down to refresh</Text>
@@ -106,7 +106,7 @@ var PostList = React.createClass({
           navigator={this.props.navigator}
           likePhotoAction={this.props.likePhotoAction}
           unlikePhotoAction={this.props.unlikePhotoAction}
-          onSubmitCommentCallback={this.props.onSubmitCommentCallback}
+          onSubmitCommentAction={this.props.onSubmitCommentAction}
           key={i}/>
       );
     }

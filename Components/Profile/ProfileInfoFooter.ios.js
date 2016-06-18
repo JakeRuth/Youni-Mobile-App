@@ -7,9 +7,11 @@ var FollowUnfollowButton = require('./FollowUnfollowButton');
 var UserFollowingListPopup = require('../PopupPages/UserFollowingListPopup');
 var PrettyTouchable = require('../Common/PrettyTouchable');
 var Colors = require('../../Utils/Common/Colors');
+var PostViewTypeEnum = require('../../Utils/Post/PostViewTypeEnum');
 
 var {
   View,
+  TouchableHighlight,
   StyleSheet
 } = React;
 
@@ -51,20 +53,36 @@ var ProfileInfoFooter = React.createClass({
     isFollowing: React.PropTypes.bool,
     followAction: React.PropTypes.func,
     unfollowAction: React.PropTypes.func,
+    currentPostViewMode: React.PropTypes.oneOf([PostViewTypeEnum.GRID, PostViewTypeEnum.LIST]).isRequired,
+    onPostViewControlPress: React.PropTypes.func.isRequired,
     navigator: React.PropTypes.object.isRequired,
     viewerIsProfileOwner: React.PropTypes.bool
   },
 
   render: function() {
-    // TODO: handle changing controls color if that view is selected or not
+    var postGridIconColor, postListIconColor;
+
+    if (this.props.currentPostViewMode === PostViewTypeEnum.LIST) {
+      postGridIconColor = Colors.MED_GRAY;
+      postListIconColor = Colors.YOUNI_PRIMARY_PURPLE;
+    }
+    else {
+      postGridIconColor = Colors.YOUNI_PRIMARY_PURPLE;
+      postListIconColor = Colors.MED_GRAY;
+    }
+
     return (
       <View style={styles.container}>
-
-        <Icon
+        
+        <TouchableHighlight
           style={styles.postDisplayFormatLeftControl}
-          name='android-menu'
-          size={28}
-          color={Colors.YOUNI_PRIMARY_PURPLE}/>
+          underlayColor="transparent"
+          onPress={() => { this.props.onPostViewControlPress(PostViewTypeEnum.LIST); }}>
+          <Icon
+            name='android-menu'
+            size={28}
+            color={postListIconColor}/>
+        </TouchableHighlight>
 
         <View style={styles.separator}/>
 
@@ -74,12 +92,15 @@ var ProfileInfoFooter = React.createClass({
 
         <View style={styles.separator}/>
 
-        <View style={styles.postDisplayFormatRightControl}>
+        <TouchableHighlight
+          style={styles.postDisplayFormatRightControl}
+          underlayColor="transparent"
+          onPress={() => { this.props.onPostViewControlPress(PostViewTypeEnum.GRID); }}>
           <Icon
             name='android-apps'
             size={28}
-            color={Colors.MED_GRAY}/>
-        </View>
+            color={postGridIconColor}/>
+        </TouchableHighlight>
 
       </View>
     );

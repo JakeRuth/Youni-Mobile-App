@@ -36,7 +36,7 @@ var PostFooter = React.createClass({
     onStarPress: React.PropTypes.func.isRequired,
     navigator: React.PropTypes.object.isRequired,
     isCommentRequestInFlight: React.PropTypes.bool.isRequired,
-    onSubmitCommentCallback: React.PropTypes.func.isRequired
+    onSubmitCommentAction: React.PropTypes.func.isRequired
   },
 
   render: function() {
@@ -83,7 +83,7 @@ var PostFooter = React.createClass({
     return (
       <ViewAllCommentsLink
         post={this.props.post}
-        onSubmitCommentCallback={this.props.onSubmitCommentCallback}
+        onSubmitCommentAction={this.props.onSubmitCommentAction}
         navigator={this.props.navigator}/>
     );
   },
@@ -94,7 +94,7 @@ var PostFooter = React.createClass({
       passProps: {
         post: this.props.post,
         commentInputAutoFocus: true,
-        onSubmitCommentCallback: this.props.onSubmitCommentCallback
+        onSubmitCommentAction: this.props.onSubmitCommentAction
       }
     });
   },

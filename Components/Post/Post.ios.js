@@ -36,9 +36,9 @@ var Post = React.createClass({
     post: React.PropTypes.object.isRequired,
     viewerIsPostOwner: React.PropTypes.bool,
     renderedFromProfileView: React.PropTypes.bool,
-    onSubmitCommentCallback: React.PropTypes.func.isRequired,
-    likePhotoAction: React.PropTypes.func,
-    unlikePhotoAction: React.PropTypes.func,
+    onSubmitCommentAction: React.PropTypes.func.isRequired,
+    likePhotoAction: React.PropTypes.func.isRequired,
+    unlikePhotoAction: React.PropTypes.func.isRequired,
     navigator: React.PropTypes.object.isRequired
   },
 
@@ -70,7 +70,7 @@ var Post = React.createClass({
           post={this.props.post}
           onStarPress={this._onStarPress}
           isCommentRequestInFlight={this.state.isCommentRequestInFlight}
-          onSubmitCommentCallback={this.props.onSubmitCommentCallback}
+          onSubmitCommentAction={this.props.onSubmitCommentAction}
           navigator={this.props.navigator}/>
 
       </View>

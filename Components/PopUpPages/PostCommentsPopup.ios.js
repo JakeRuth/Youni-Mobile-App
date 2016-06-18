@@ -15,7 +15,7 @@ var PostCommentsPopup = React.createClass({
   propTypes: {
     navigator: React.PropTypes.object.isRequired,
     post: React.PropTypes.object.isRequired,
-    onSubmitCommentCallback: React.PropTypes.func.isRequired,
+    onSubmitCommentAction: React.PropTypes.func.isRequired,
     commentInputAutoFocus: React.PropTypes.bool
   },
 
@@ -30,21 +30,19 @@ var PostCommentsPopup = React.createClass({
 
   componentDidMount() {
     if (this.props.post.numComments > 0) {
-      this._fetchComments();
+      this.fetchComments();
     }
   },
 
   render: function() {
     var pageContent = (
       <PostCommentsPage
+        {...this.props}
         loading={this.state.loading}
-        post={this.props.post}
         comments={this.state.comments}
         moreToFetch={this.state.moreToFetch}
-        navigator={this.props.navigator}
-        commentInputAutoFocus={this.props.commentInputAutoFocus}
-        onLoadMorePress={this._fetchComments}
-        submitCommentCallback={this._submitCommentCallback}/>
+        onLoadMorePress={this.fetchComments}
+        onSubmitCommentCallback={this.onSubmitCommentCallback}/>
     );
 
     return (
@@ -59,18 +57,16 @@ var PostCommentsPopup = React.createClass({
     );
   },
 
-  _submitCommentCallback: function(comment) {
+  onSubmitCommentCallback: function(comment) {
     var commenterName = userLoginMetadataStore.getFullName();
 
     this.state.comments.push({
       comment: comment,
       commenterName: commenterName
     });
-
-    this.props.onSubmitCommentCallback(this.props.post, comment, commenterName);
   },
 
-  _fetchComments: function() {
+  fetchComments: function() {
     var that = this,
         currentComments = this.state.comments;
 

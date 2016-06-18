@@ -1,8 +1,10 @@
 'use strict';
 
 var React = require('react-native');
-var Unicycle = require('../../Unicycle');
 var immutable = require('immutable');
+var Unicycle = require('../../Unicycle');
+
+var userLoginMetadataStore = require('../UserLoginMetadataStore');
 var PostUtils = require('../../Utils/Post/PostUtils');
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 
@@ -15,7 +17,7 @@ var profileOwnerStore = Unicycle.createStore({
       //TODO: Figure out why we can't call `this._setInitialState()` here...
       this.set({
         pageLoadError: false,
-        isRequestInFlight: false,
+        isProfileInfoLoading: false,
         isUserPostsRequestInFlight: false,
         isLoadMorePostsRequestInFlight: false,
         isLikeRequestInFlight: false,
@@ -44,7 +46,7 @@ var profileOwnerStore = Unicycle.createStore({
 
       this.set({
         pageLoadError: false,
-        isRequestInFlight: true
+        isProfileInfoLoading: true
       });
 
       AjaxUtils.ajax(
@@ -54,7 +56,7 @@ var profileOwnerStore = Unicycle.createStore({
         },
         (res) => {
           that.set({
-            isRequestInFlight: false,
+            isProfileInfoLoading: false,
             firstName: res.body.userDetails['firstName'],
             lastName: res.body.userDetails['lastName'],
             numFollowers: res.body.userDetails['numFollowers'],
@@ -68,7 +70,7 @@ var profileOwnerStore = Unicycle.createStore({
         () => {
           that.set({
             pageLoadError: true,
-            isRequestInFlight: false
+            isProfileInfoLoading: false
           });
         }
       );
@@ -274,18 +276,38 @@ var profileOwnerStore = Unicycle.createStore({
       });
     },
 
-    addCommentOnPost: function(post, comment, commenterName) {
-      var posts = this.getPosts();
+    addCommentOnPost: function(comment, post, callback) {
+      var posts = this.getPosts(),
+          userId = userLoginMetadataStore.getUserId(),
+          commenterName = userLoginMetadataStore.getFullName();
 
-      PostUtils.addCommentFromList(posts, post.id, comment, commenterName);
+      if (!comment) {
+        return;
+      }
+
+      AjaxUtils.ajax(
+        '/post/createComment',
+        {
+          postIdString: post.postIdString,
+          userIdString: userId,
+          comment: comment
+        },
+        (res) => {
+          PostUtils.addCommentFromList(posts, post.id, comment, commenterName);
+          callback(comment);
+        },
+        () => {
+          callback(comment);
+        }
+      );
     },
 
     anyErrorsLoadingPage: function() {
       return this.get('pageLoadError');
     },
 
-    isRequestInFlight() {
-      return this.get('isRequestInFlight');
+    isProfileInfoLoading() {
+      return this.get('isProfileInfoLoading');
     },
 
     isUserPostsRequestInFlight: function() {
@@ -367,7 +389,7 @@ var profileOwnerStore = Unicycle.createStore({
 
     _setInitialState: function() {
       this.set({
-        isRequestInFlight: false,
+        isProfileInfoLoading: false,
         isUserPostsRequestInFlight: false,
         isLoadMorePostsRequestInFlight: false,
         isLikeRequestInFlight: false,

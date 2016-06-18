@@ -1,10 +1,7 @@
 'use strict';
 
 var React = require('react-native');
-var Unicycle = require('../../Unicycle');
-var Icon = require('react-native-vector-icons/Ionicons');
 var PostPopup = require('../PopupPages/PostPopup');
-var Emoji = require('../Common/Emoji');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 
 var {
@@ -26,21 +23,6 @@ var styles = StyleSheet.create({
     alignSelf: 'stretch',
     height: 133.33
   },
-  posterProfileImage: {
-    top: 2,
-    left: 2,
-    height: 27,
-    width: 27,
-    borderRadius: 13.5,
-    borderWidth: 1,
-    borderColor: 'lightgray'
-  },
-  fireIcon: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    opacity: .75
-  },
   blankPostPlaceholder: {
     // divide by three since we display three posts across on the feed
     width: Dimensions.get('window').width / 3
@@ -56,8 +38,6 @@ var PostGridThumbnail = React.createClass({
   },
 
   render: function() {
-    var fireIcon;
-
     if (!this.props.post) {
       return <View style={styles.blankPostPlaceholder}/>;
     }
@@ -73,18 +53,9 @@ var PostGridThumbnail = React.createClass({
         underlayColor='transparent'
         onPress={this._onPostClick}>
 
-        <View>
-          <Image
-            style={styles.image}
-            source={{uri: this.props.post.photoUrl}}>
-
-            <Image
-              style={styles.posterProfileImage}
-              source={{uri: this.props.post.posterProfileImageUrl}}/>
-
-          </Image>
-          {fireIcon}
-        </View>
+        <Image
+          style={styles.image}
+          source={{uri: this.props.post.photoUrl}}/>
 
       </TouchableHighlight>
     );

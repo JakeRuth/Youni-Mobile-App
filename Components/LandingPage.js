@@ -193,9 +193,7 @@ var LandingPage = React.createClass({
         onPress={() => {
               this._transitionState(this.PROFILE_TAB);
             }}>
-        <ProfilePage
-          email={userLoginMetadataStore.getEmail()}
-          navigator={this.props.navigator}/>
+        <ProfilePage navigator={this.props.navigator}/>
       </Icon.TabBarItem>
     );
   },

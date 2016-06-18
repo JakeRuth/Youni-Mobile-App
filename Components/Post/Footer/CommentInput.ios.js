@@ -51,7 +51,7 @@ var CommentInput = React.createClass({
   propTypes: {
     id: React.PropTypes.number.isRequired,
     postIdString: React.PropTypes.string.isRequired,
-    onSubmitComment: React.PropTypes.func.isRequired,
+    onSubmitCommentAction: React.PropTypes.func.isRequired,
     isCommentRequestInFlight: React.PropTypes.bool.isRequired,
     commentInputAutoFocus: React.PropTypes.bool
   },
@@ -97,7 +97,7 @@ var CommentInput = React.createClass({
       content = (
         <TouchableHighlight
           onPress={() => {
-            this.props.onSubmitComment(this.state.commentText);
+            this.props.onSubmitCommentAction(this.state.commentText);
             this.setState({
               commentText: ''
             });
