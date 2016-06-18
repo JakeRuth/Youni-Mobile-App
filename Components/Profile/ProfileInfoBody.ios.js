@@ -69,11 +69,19 @@ var ProfileInfoBody = React.createClass({
               alignIndicatorTo="right"/>
           </View>
         </View>
+        {this._renderBio()}
+      </View>
+    );
+  },
+
+  _renderBio: function() {
+    if (this.props.bio) {
+      return (
         <Text style={styles.bio}>
           {this.props.bio}
         </Text>
-      </View>
-    );
+      );
+    }
   }
 
 });

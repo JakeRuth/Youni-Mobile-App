@@ -36,6 +36,7 @@ var ProfilePostList = React.createClass({
 
   propTypes: {
     posts: React.PropTypes.object.isRequired,
+    user: React.PropTypes.object.isRequired,
     gridViewEnabled: React.PropTypes.bool,
     onLoadMorePostsPress: React.PropTypes.func.isRequired,
     noMorePostsToFetch: React.PropTypes.bool.isRequired,

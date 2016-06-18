@@ -7,7 +7,8 @@ var Colors = {
   DARK_GRAY: '#1E2022',
   MED_GRAY: '#9B9B9B',
   LIGHT_GRAY: '#EAEAEA',
-  BORDER_POP: '#D6D6D6'
+  BORDER_POP: '#D6D6D6',
+  WHITE_SMOKE: '#FAFAFA'
 
 };
 

@@ -29,6 +29,9 @@ var {
 } = React;
 
 var styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
   spinnerContainer: {
     flex: 1,
     alignSelf: 'center',
@@ -73,7 +76,7 @@ var ProfilePopup = React.createClass({
     }
     else {
       return (
-        <ScrollView automaticallyAdjustContentInsets={false}>
+        <View style={styles.container}>
 
           <MainScreenBanner title={this._getBannerTitle()}/>
           <BackArrow onPress={() => {this.props.navigator.pop();}}/>
@@ -84,7 +87,7 @@ var ProfilePopup = React.createClass({
             {this._renderProfilePosts()}
           </ScrollView>
 
-        </ScrollView>
+        </View>
       );
     }
   },
@@ -106,6 +109,7 @@ var ProfilePopup = React.createClass({
     return (
       <ProfilePostList
         posts={immutable.List(this.state.posts)}
+        user={this.state.user}
         gridViewEnabled={this.state.postViewMode === PostViewTypeEnum.GRID}
         onPostViewControlPress={this.onPostViewControlPress}
         onLoadMorePostsPress={this._requestUserPosts}

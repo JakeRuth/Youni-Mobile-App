@@ -11,13 +11,14 @@ var PostViewTypeEnum = require('../../Utils/Post/PostViewTypeEnum');
 
 var {
   View,
+  Text,
   TouchableHighlight,
   Dimensions,
   StyleSheet
 } = React;
 
 var styles = StyleSheet.create({
-  container: {
+  controlsAndFollowButtonContainer: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
@@ -45,6 +46,17 @@ var styles = StyleSheet.create({
     width: 1.5,
     backgroundColor: Colors.MED_GRAY,
     opacity: .4
+  },
+  postCountContainer: {
+    backgroundColor: Colors.WHITE_SMOKE,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  postCountLabel: {
+    fontSize: 14,
+    fontWeight: '100',
+    color: Colors.YOUNI_PRIMARY_PURPLE,
+    padding: 10
   }
 });
 
@@ -73,36 +85,39 @@ var ProfileInfoFooter = React.createClass({
     }
 
     return (
-      <View style={styles.container}>
-        
-        <TouchableHighlight
-          style={styles.postDisplayFormatLeftControl}
-          underlayColor="transparent"
-          onPress={() => { this.props.onPostViewControlPress(PostViewTypeEnum.LIST); }}>
-          <Icon
-            name='android-menu'
-            size={28}
-            color={postListIconColor}/>
-        </TouchableHighlight>
+      <View>
+        <View style={styles.controlsAndFollowButtonContainer}>
 
-        <View style={styles.separator}/>
+          <TouchableHighlight
+            style={styles.postDisplayFormatLeftControl}
+            underlayColor="transparent"
+            onPress={() => { this.props.onPostViewControlPress(PostViewTypeEnum.LIST); }}>
+            <Icon
+              name='android-menu'
+              size={28}
+              color={postListIconColor}/>
+          </TouchableHighlight>
 
-        <View style={styles.followButton}>
-          {this._renderButton()}
+          <View style={styles.separator}/>
+
+          <View style={styles.followButton}>
+            {this._renderButton()}
+          </View>
+
+          <View style={styles.separator}/>
+
+          <TouchableHighlight
+            style={styles.postDisplayFormatRightControl}
+            underlayColor="transparent"
+            onPress={() => { this.props.onPostViewControlPress(PostViewTypeEnum.GRID); }}>
+            <Icon
+              name='android-apps'
+              size={28}
+              color={postGridIconColor}/>
+          </TouchableHighlight>
+
         </View>
-
-        <View style={styles.separator}/>
-
-        <TouchableHighlight
-          style={styles.postDisplayFormatRightControl}
-          underlayColor="transparent"
-          onPress={() => { this.props.onPostViewControlPress(PostViewTypeEnum.GRID); }}>
-          <Icon
-            name='android-apps'
-            size={28}
-            color={postGridIconColor}/>
-        </TouchableHighlight>
-
+        {this._renderPostCount()}
       </View>
     );
   },
@@ -134,6 +149,16 @@ var ProfileInfoFooter = React.createClass({
   
   _renderFollowUnfollowButton: function() {
     return <FollowUnfollowButton {...this.props}/>;
+  },
+
+  _renderPostCount: function() {
+    return (
+      <View style={styles.postCountContainer}>
+        <Text style={styles.postCountLabel}>
+          {this.props.user.numPosts + ' Posts'}
+        </Text>
+      </View>
+    );
   }
 
 });

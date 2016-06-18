@@ -28,7 +28,7 @@ var {
 } = React;
 
 var styles = StyleSheet.create({
-  profilePageContainer: {
+  container: {
     flex: 1
   },
   notificationIconContainer: {
@@ -104,6 +104,7 @@ var ProfilePage = React.createClass({
 
           <ProfilePostList
             posts={profileOwnerStore.getPosts()}
+            user={profileOwnerStore.getUserJson()}
             gridViewEnabled={this.state.postViewMode === PostViewTypeEnum.GRID}
             onPostViewControlPress={this.onPostViewControlPress}
             noMorePostsToFetch={profileOwnerStore.getNoMorePostsToFetch()}
@@ -121,7 +122,7 @@ var ProfilePage = React.createClass({
     }
 
     return (
-      <View style={styles.profilePageContainer}>
+      <View style={styles.container}>
 
         <MainScreenBanner
           title={profileOwnerStore.getFirstName() + ' ' + profileOwnerStore.getLastName()}/>
