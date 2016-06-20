@@ -13,13 +13,6 @@ var MAX_POSTS_PER_PAGE = 12;
 
 var explorePostsStore = Unicycle.createStore({
 
-  //TODO: This is a hacky way for the Post component's _getOnPhotoClickActionName
-  //      action to be able to determine which like post action to execute.  It
-  //      can either be 'likeHomeFeedPost' or 'likeExploreFeedPost'
-  isHomeFeed: function() {
-    return false;
-  },
-
   init: function() {
     this.set({
       posts: [],
@@ -123,7 +116,7 @@ var explorePostsStore = Unicycle.createStore({
     );
   },
 
-  $likeExploreFeedPost(id, postId, userId) {
+  $likeExploreFeedPost(id, postId, userId, callback) {
     var that = this,
         posts = this.get('posts');
 
@@ -144,17 +137,19 @@ var explorePostsStore = Unicycle.createStore({
           that.set({
             isLikeRequestInFlight: false
           });
+          callback();
         },
         () => {
           that.set({
             isLikeRequestInFlight: false
           });
+          callback();
         }
       );
     }
   },
 
-  $removeLikeExploreFeed(id, postId, userId) {
+  $removeLikeExploreFeed(id, postId, userId, callback) {
     var posts = this.get('posts'),
         that = this;
 
@@ -173,33 +168,42 @@ var explorePostsStore = Unicycle.createStore({
         },
         (res) => {
           that.set({
-
             isLikeRequestInFlight: false
           });
+          callback();
         },
         () => {
           that.set({
             isLikeRequestInFlight: false
           });
+          callback();
         }
       );
     }
   },
 
-  $triggerPostView: function(email, postIdString, id) {
-    PostUtils.increaseViewCount(this.get('posts'), id);
+  addCommentOnPost: function(comment, post, callback) {
+    var posts = this.getPosts(),
+        userId = userLoginMetadataStore.getUserId(),
+        commenterName = userLoginMetadataStore.getFullName();
+
+    if (!comment) {
+      return;
+    }
 
     AjaxUtils.ajax(
-      '/post/view',
+      '/post/createComment',
       {
-        viewerEmail: email,
-        postIdString: postIdString
+        postIdString: post.postIdString,
+        userIdString: userId,
+        comment: comment
       },
       (res) => {
-        // do nothing
+        PostUtils.addCommentFromList(posts, post.id, comment, commenterName);
+        callback(comment);
       },
       () => {
-
+        callback(comment);
       }
     );
   },

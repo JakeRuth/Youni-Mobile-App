@@ -117,15 +117,17 @@ var HomePage = React.createClass({
   _renderPosts: function(posts) {
     return (
       <PostList
+        posts={posts}
         refreshable={true}
         isFeedRefreshing={homePostsStore.isFeedRefreshing()}
-        postStore={homePostsStore}
-        posts={posts}
         onSubmitCommentCallback={homePostsStore.addCommentOnPost}
         onScroll={this.handleScroll}
         onLoadMorePostsPress={this._requestHomeFeed}
-        isLoadMorePostsRequestInFlight={homePostsStore.isLoadMorePostsRequestInFlight()}
+        isNextPageLoading={homePostsStore.isLoadMorePostsRequestInFlight()}
         noMorePostsToFetch={homePostsStore.getNoMorePostsToFetch()}
+        likePhotoAction={this.likePhotoAction}
+        unlikePhotoAction={this.unlikePhotoAction}
+        onSubmitCommentAction={this.onSubmitCommentAction}
         navigator={this.props.navigator}/>
     );
   },
@@ -140,8 +142,20 @@ var HomePage = React.createClass({
   },
 
   _requestHomeFeed: function() {
-    var id = userLoginMetadataStore.getUserId();
-    Unicycle.exec('requestHomeFeed', id);
+    var userId = userLoginMetadataStore.getUserId();
+    Unicycle.exec('requestHomeFeed', userId);
+  },
+
+  likePhotoAction: function(postIndex, postId, userId, callback) {
+    Unicycle.exec('likeHomeFeedPost', postIndex, postId, userId, callback);
+  },
+
+  unlikePhotoAction: function(postIndex, postId, userId, callback) {
+    Unicycle.exec('removeLikeHomeFeed', postIndex, postId, userId, callback);
+  },
+
+  onSubmitCommentAction: function(comment, post, callback) {
+    homePostsStore.addCommentOnPost(comment, post, callback);
   }
 
 });

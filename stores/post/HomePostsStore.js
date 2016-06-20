@@ -6,18 +6,12 @@ var immutable = require('immutable');
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 var PostUtils = require('../../Utils/Post/PostUtils');
 var CacheUtils = require('../../Utils/Common/CacheUtils');
+var userLoginMetadataStore = require('../UserLoginMetadataStore');
 
 var INITIAL_PAGE_OFFSET = 0;
 var MAX_POSTS_PER_PAGE = 10;
 
 var homePostsStore = Unicycle.createStore({
-
-  //TODO: This is a hacky way for the Post component's _getOnPhotoClickActionName
-  //      action to be able to determine which like post action to execute.  It
-  //      can either be 'likeHomeFeedPost' or 'likeExploreFeedPost'
-  isHomeFeed: function() {
-    return true;
-  },
 
   init: function() {
     this.set({
@@ -123,9 +117,10 @@ var homePostsStore = Unicycle.createStore({
     );
   },
 
-  $likeHomeFeedPost(id, postId, userId) {
+  $likeHomeFeedPost(id, postId, userId, callback) {
     var that = this,
         posts = this.get('posts');
+
     if (!this.isLikeRequestInFlight()) {
       // optimistically like the post
       this.set({
@@ -143,17 +138,19 @@ var homePostsStore = Unicycle.createStore({
           that.set({
             isLikeRequestInFlight: false
           });
+          callback();
         },
         () => {
           that.set({
             isLikeRequestInFlight: false
           });
+          callback();
         }
       );
     }
   },
 
-  $removeLikeHomeFeed(id, postId, userId) {
+  $removeLikeHomeFeed(id, postId, userId, callback) {
     var posts = this.get('posts'),
         that = this;
 
@@ -174,11 +171,13 @@ var homePostsStore = Unicycle.createStore({
           that.set({
             isLikeRequestInFlight: false
           });
+          callback();
         },
         () => {
           that.set({
             isLikeRequestInFlight: false
           });
+          callback();
         }
       );
     }
@@ -201,10 +200,30 @@ var homePostsStore = Unicycle.createStore({
     });
   },
 
-  addCommentOnPost: function(post, comment, commenterName) {
-    var posts = this.getPosts();
+  addCommentOnPost: function(comment, post, callback) {
+    var posts = this.getPosts(),
+        userId = userLoginMetadataStore.getUserId(),
+        commenterName = userLoginMetadataStore.getFullName();
 
-    PostUtils.addCommentFromList(posts, post.id, comment, commenterName);
+    if (!comment) {
+      return;
+    }
+
+    AjaxUtils.ajax(
+      '/post/createComment',
+      {
+        postIdString: post.postIdString,
+        userIdString: userId,
+        comment: comment
+      },
+      (res) => {
+        PostUtils.addCommentFromList(posts, post.id, comment, commenterName);
+        callback(comment);
+      },
+      () => {
+        callback(comment);
+      }
+    );
   },
 
   setScrollToTopOfPostFeed: function(value) {

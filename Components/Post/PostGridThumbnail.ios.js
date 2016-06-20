@@ -14,15 +14,12 @@ var {
 
 var styles = StyleSheet.create({
   container: {
-    margin: 2
+    margin: 1,
+    width: Dimensions.get('window').width / 3
   },
   image: {
     resizeMode: "cover",
     height: Dimensions.get('window').width / 3,
-    width: Dimensions.get('window').width / 3
-  },
-  blankPostPlaceholder: {
-    // divide by three since we display three posts across on the feed
     width: Dimensions.get('window').width / 3
   }
 });
@@ -31,7 +28,7 @@ var PostGridThumbnail = React.createClass({
 
   propTypes: {
     // If a post isn't passed in, just render a blank box.  Ex: Blocked users lead to post.size < page size
-    post: React.PropTypes.object,
+    post: React.PropTypes.object.isRequired,
     likePhotoAction: React.PropTypes.func.isRequired,
     unlikePhotoAction: React.PropTypes.func.isRequired,
     onSubmitCommentAction: React.PropTypes.func.isRequired,
@@ -39,15 +36,6 @@ var PostGridThumbnail = React.createClass({
   },
 
   render: function() {
-    if (!this.props.post) {
-      return <View style={styles.blankPostPlaceholder}/>;
-    }
-    else {
-      return this._renderThumbnail();
-    }
-  },
-
-  _renderThumbnail: function() {
     return (
       <TouchableHighlight
         style={styles.container}

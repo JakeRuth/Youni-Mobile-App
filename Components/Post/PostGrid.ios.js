@@ -11,7 +11,9 @@ var {
 var styles = StyleSheet.create({
   postRow: {
     flex: 1,
-    flexDirection: 'row'
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 });
 
@@ -44,21 +46,37 @@ var PostGrid = React.createClass({
   },
 
   _renderPostRow: function(leftPostJson, middlePostJson, rightPostJson, index) {
+    var leftPost, middlePost, rightPost;
+
+    if (leftPostJson) {
+      leftPost = (
+        <PostGridThumbnail
+          {...this.props}
+          post={leftPostJson}/>
+      );
+    }
+    if (middlePostJson) {
+      middlePost = (
+        <PostGridThumbnail
+          {...this.props}
+          post={middlePostJson}/>
+      );
+    }
+    if (rightPostJson) {
+      rightPost = (
+        <PostGridThumbnail
+          {...this.props}
+          post={rightPostJson}/>
+      );
+    }
+
     return (
       <View
         style={styles.postRow}
         key={index}>
-        
-        <PostGridThumbnail
-          {...this.props}
-          post={leftPostJson}/>
-        <PostGridThumbnail
-          {...this.props}
-          post={middlePostJson}/>
-        <PostGridThumbnail
-          {...this.props}
-          post={rightPostJson}/>
-        
+        {leftPost}
+        {middlePost}
+        {rightPost}
       </View>
     );
   }
