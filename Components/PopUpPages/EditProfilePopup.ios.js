@@ -9,6 +9,7 @@ var editProfileInformationStore = require('../../stores/profile/EditProfileInfor
 var EditProfilePopup = React.createClass({
 
   propTypes: {
+    user: React.PropTypes.object.isRequired,
     navigator: React.PropTypes.object.isRequired
   },
 
@@ -17,11 +18,15 @@ var EditProfilePopup = React.createClass({
   ],
 
   render: function () {
+    var content = (
+      <EditSettingsPage {...this.props}/>
+    );
+    
     return (
       <OverlayPage
-        content={<EditSettingsPage navigator={this.props.navigator}/>}
+        content={content}
         onBackArrowPress={() => {this.props.navigator.pop();}}
-        bannerTitle='Settings'
+        bannerTitle='Edit Profile'
         showLogoutButton={true}
         navigator={this.props.navigator}/>
     );

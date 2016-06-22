@@ -2,19 +2,13 @@
 
 var React = require('react-native');
 var Icon = require('react-native-vector-icons/Ionicons');
-var Unicycle = require('../../Unicycle');
-var UploadProfileImage = require('./UploadProfileImage');
-var UIImagePickerManager = require('NativeModules').UIImagePickerManager;
-var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
-var uploadProfileImageStore = require('../../stores/profile/UploadProfileImageStore');
-var AjaxUtils = require('../../Utils/Common/AjaxUtils');
+var Colors = require('../../Utils/Common/Colors');
 var Spinner = require('../Common/Spinner');
 
 var {
   View,
   Image,
   StyleSheet,
-  NativeModules,
   TouchableHighlight
 } = React;
 
@@ -33,109 +27,43 @@ var styles = StyleSheet.create({
 var ProfileImage = React.createClass({
 
   propTypes: {
-    viewerIsProfileOwner: React.PropTypes.bool,
-    profileImageUrl: React.PropTypes.string
+    profileImageUrl: React.PropTypes.string,
+    onPress: React.PropTypes.func,
+    isUploading: React.PropTypes.bool
   },
-
-  mixins: [
-      Unicycle.listenTo(uploadProfileImageStore)
-  ],
 
   render: function() {
     var content;
 
-    if (uploadProfileImageStore.isUploadProfileImageRequestInFlight()) {
+    if (this.props.isUploading) {
       content = (
-          <Spinner color="white"/>
+        <Spinner/>
       );
     }
     else if (this.props.profileImageUrl) {
-      content = this.renderProfileImage();
-    }
-    else if (this.props.viewerIsProfileOwner) {
       content = (
-          <UploadProfileImage onUploadPhotoPress={this._onUploadImagePress}/>
+        <Image
+          style={styles.profileImage}
+          source={{uri: this.props.profileImageUrl}}/>
       );
     }
     else {
-      content = this.renderBlankProfileIcon();
+      content = (
+        <Icon
+          name='ios-person'
+          size={150}
+          color={Colors.FADED_YOUNI_PRIMARY_PURPLE}/>
+      );
     }
 
-    return (
-      <View style={styles.profileImageContainer}>
-        {content}
-      </View>
-    );
-  },
-
-  renderProfileImage: function() {
     return (
       <TouchableHighlight
+        style={styles.profileImageContainer}
         underlayColor='transparent'
-        onPress={this._onUploadImagePress}>
-
-        <Image
-            style={styles.profileImage}
-            source={{uri: this.props.profileImageUrl}}/>
-
+        onPress={this.props.onPress}>
+        {content}
       </TouchableHighlight>
     );
-  },
-
-  renderBlankProfileIcon: function() {
-    return (
-      <Icon
-        name='ios-person'
-        size={150}
-        color='white' />
-    );
-  },
-
-  //TODO: ALL these function are repeated, stop the ugly!!!!!
-  _onUploadImagePress: function() {
-    if (this.props.viewerIsProfileOwner) {
-      UIImagePickerManager.showImagePicker(this._getImagePickerOptions(), (response) => {
-        if (!response.didCancel) {
-          uploadProfileImageStore.setIsUploadProfileImageRequestInFlight(true);
-
-          NativeModules.FileTransfer.upload(this._getImageUploadOptions(response), (err, res) => {
-            var imageUrl = this._hackyWayToGetPictureUrlFromDumbStringThatShouldBeAMap(res.data);
-            Unicycle.exec('setProfileImageUrl', imageUrl);
-            uploadProfileImageStore.setIsUploadProfileImageRequestInFlight(false);
-          });
-        }
-      });
-    }
-  },
-
-  _getImagePickerOptions: function() {
-    return {
-      maxWidth: 640,
-      maxHeight: 640,
-      quality: .5,
-      allowsEditing: true,
-      noData: true
-    };
-  },
-
-  _getImageUploadOptions: function(response) {
-    var url = AjaxUtils.SERVER_URL + '/upload/profilePhoto';
-    return {
-      uri: response.uri,
-      uploadUrl: url,
-      fileName: 'picture', //the name here has no meaning, it could really be anything
-      mimeType: 'image/jpeg',
-      data: {
-        userIdString: userLoginMetadataStore.getUserId()
-      }
-    };
-  },
-
-  //TODO: Fix this ugly shit and make it nice
-  _hackyWayToGetPictureUrlFromDumbStringThatShouldBeAMap: function(ugly) {
-    var start = ugly.indexOf("pictureUrl") + 13;
-    var end = ugly.indexOf("message") - 3;
-    return ugly.substring(start, end);
   }
 
 });

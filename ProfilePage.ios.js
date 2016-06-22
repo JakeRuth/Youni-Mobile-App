@@ -126,7 +126,9 @@ var ProfilePage = React.createClass({
 
         <MainScreenBanner
           title={profileOwnerStore.getFirstName() + ' ' + profileOwnerStore.getLastName()}/>
-        <EditSettingsButton navigator={this.props.navigator}/>
+        <EditSettingsButton
+          user={profileOwnerStore.getUserJson()}
+          navigator={this.props.navigator}/>
         {this._renderNotificationIcon()}
         {notificationCallout}
         {content}

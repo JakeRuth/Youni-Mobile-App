@@ -43,6 +43,6 @@ var AjaxUtils = {
     );
   }
 
-}
+};
 
 module.exports = AjaxUtils;

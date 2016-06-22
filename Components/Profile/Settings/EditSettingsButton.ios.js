@@ -26,6 +26,7 @@ var styles = StyleSheet.create({
 var EditSettingsButton = React.createClass({
 
   propTypes: {
+    user: React.PropTypes.object.isRequired,
     navigator: React.PropTypes.object.isRequired
   },
 
@@ -47,7 +48,10 @@ var EditSettingsButton = React.createClass({
 
   _onSettingsButtonClick: function() {
     this.props.navigator.push({
-      component: EditProfilePopup
+      component: EditProfilePopup,
+      passProps: {
+        user: this.props.user
+      }
     });
   }
 
