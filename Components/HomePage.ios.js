@@ -4,7 +4,7 @@ var React = require('react-native');
 var Unicycle = require('../Unicycle');
 var homePostsStore = require('../stores/post/HomePostsStore');
 var userLoginMetadataStore = require('../stores/UserLoginMetadataStore');
-var MainScreenBanner = require('../MainScreenBanner');
+var YouniHeader = require('../Components/Common/YouniHeader');
 var PostList = require('../Components/Post/PostList');
 var ErrorPage = require('../Components/Common/ErrorPage');
 var CacheUtils = require('../Utils/Common/CacheUtils');
@@ -42,14 +42,10 @@ var styles = StyleSheet.create({
     textAlign: 'center',
     color: 'gray'
   },
-  logoContainer: {
-    position: 'absolute',
-    top: 16,
-    width: Dimensions.get('window').width
-  },
   logo: {
+    marginTop: -6,
     alignSelf: 'center',
-    height: 42,
+    height: 33,
     width: 108
   }
 });
@@ -91,16 +87,15 @@ var HomePage = React.createClass({
     return (
       <View style={styles.homePageContainer}>
 
-        <MainScreenBanner/>
+        <YouniHeader>
+          <Image
+            style={styles.logo}
+            source={require('../images/logoWhiteTextBlankBackground.png')}/>
+        </YouniHeader>
         <View style={styles.feedContainer}>
           { content }
         </View>
 
-        <View style={styles.logoContainer}>
-          <Image
-            style={styles.logo}
-            source={require('../images/logoWhiteTextBlankBackground.png')}/>
-        </View>
       </View>
     );
   },

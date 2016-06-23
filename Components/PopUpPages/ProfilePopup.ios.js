@@ -6,10 +6,10 @@ var Unicycle = require('../../Unicycle');
 
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 
-var MainScreenBanner = require('../../MainScreenBanner');
 var ProfileInfo = require('../Profile/ProfileInfo');
 var ProfilePostList = require('../Profile/ProfilePostList');
 var BlockUserButton = require('../Profile/BlockUserButton');
+var YouniHeader = require('../Common/YouniHeader');
 var Spinner = require('../Common/Spinner');
 var OverlayPage = require('../Common/OverlayPage');
 var BackArrow = require('../Common/BackArrow');
@@ -24,6 +24,7 @@ var MAX_POSTS_PER_PAGE = 9;
 
 var {
   View,
+  Text,
   ScrollView,
   StyleSheet
 } = React;
@@ -31,6 +32,12 @@ var {
 var styles = StyleSheet.create({
   container: {
     flex: 1
+  },
+  pageHeader: {
+    fontSize: 20,
+    fontWeight: '500',
+    textAlign: 'center',
+    color: 'white'
   },
   spinnerContainer: {
     flex: 1,
@@ -78,9 +85,13 @@ var ProfilePopup = React.createClass({
       return (
         <View style={styles.container}>
 
-          <MainScreenBanner title={this._getBannerTitle()}/>
-          <BackArrow onPress={() => {this.props.navigator.pop();}}/>
-          {this._renderBlockUserIcon()}
+          <YouniHeader>
+            <Text style={styles.pageHeader}>
+              {this._getBannerTitle()}
+            </Text>
+            <BackArrow onPress={() => {this.props.navigator.pop();}}/>
+            {this._renderBlockUserIcon()}
+          </YouniHeader>
 
           <ScrollView automaticallyAdjustContentInsets={false}>
             {this._renderProfile(this.state.user)}

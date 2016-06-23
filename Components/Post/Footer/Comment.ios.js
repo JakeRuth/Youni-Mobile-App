@@ -10,6 +10,7 @@ var {
   View,
   Text,
   Image,
+  TouchableHighlight,
   StyleSheet
 } = React;
 
@@ -54,25 +55,28 @@ var Comment = React.createClass({
 
   render: function() {
     return (
-      <View style={styles.container}>
+      <TouchableHighlight
+        underlayColor="transparent"
+        onPress={this._onCommenterNamePress}>
 
-        <Image
-          style={styles.profilePicture}
-          source={{uri: this.props.commenterProfilePicture}}/>
+        <View style={styles.container}>
+          <Image
+            style={styles.profilePicture}
+            source={{uri: this.props.commenterProfilePicture}}/>
 
-        <View style={styles.nameAndTextContainer}>
-          <Text
-            style={styles.commenterName}
-            numberOfLines={1}
-            onPress={this._onCommenterNamePress}>
-            {this.props.commenterName}
-          </Text>
-          <Text style={styles.commentText}>
-            {this.props.commentText}
-          </Text>
+          <View style={styles.nameAndTextContainer}>
+            <Text
+              style={styles.commenterName}
+              numberOfLines={1}>
+              {this.props.commenterName}
+            </Text>
+            <Text style={styles.commentText}>
+              {this.props.commentText}
+            </Text>
+          </View>
         </View>
 
-      </View>
+      </TouchableHighlight>
     );
   },
 

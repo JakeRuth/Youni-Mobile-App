@@ -5,7 +5,6 @@ var Unicycle = require('../../Unicycle');
 var TrendingUser = require('./TrendingUser');
 var ProfilePopup = require('../PopupPages/ProfilePopup');
 var Spinner = require('../Common/Spinner');
-var ScrollViewRefresh = require('../Common/ScrollViewRefresh');
 var trendingStore = require('../../stores/trending/TrendingStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 

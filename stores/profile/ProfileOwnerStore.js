@@ -253,18 +253,24 @@ var profileOwnerStore = Unicycle.createStore({
     },
 
     setBio: function(bio) {
+        if (!bio) return;
+      
         this.set({
             bio: bio
         });
     },
 
     setFirstName: function(firstName) {
+        if (!firstName) return;
+
         this.set({
             firstName: firstName
         });
     },
 
     setLastName: function(lastName) {
+        if (!lastName) return;
+
         this.set({
             lastName: lastName
         });

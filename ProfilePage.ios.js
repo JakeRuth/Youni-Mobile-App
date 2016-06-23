@@ -10,18 +10,18 @@ var notificationStore = require('./stores/NotificationStore');
 
 var PostViewTypeEnum = require('./Utils/Post/PostViewTypeEnum');
 
-var MainScreenBanner = require('./MainScreenBanner');
 var ProfileInfo = require('./Components/Profile/ProfileInfo');
 var ProfilePostList = require('./Components/Profile/ProfilePostList');
+var YouniHeader = require('./Components/Common/YouniHeader');
 var ErrorPage = require('./Components/Common/ErrorPage');
 var EditSettingsButton = require('./Components/Profile/Settings/EditSettingsButton');
-var ScrollViewRefresh = require('./Components/Common/ScrollViewRefresh');
 var NotificationCallout = require('./Components/Common/NotificationCallout');
 var Spinner = require('./Components/Common/Spinner');
 var NotificationsPopup = require('./Components/PopupPages/NotificationsPopup');
 
 var {
   View,
+  Text,
   ScrollView,
   StyleSheet,
   TouchableHighlight
@@ -30,6 +30,12 @@ var {
 var styles = StyleSheet.create({
   container: {
     flex: 1
+  },
+  pageHeader: {
+    fontSize: 20,
+    fontWeight: '500',
+    textAlign: 'center',
+    color: 'white'
   },
   notificationIconContainer: {
     position: 'absolute',
@@ -124,8 +130,11 @@ var ProfilePage = React.createClass({
     return (
       <View style={styles.container}>
 
-        <MainScreenBanner
-          title={profileOwnerStore.getFirstName() + ' ' + profileOwnerStore.getLastName()}/>
+        <YouniHeader>
+          <Text style={styles.pageHeader}>
+            {profileOwnerStore.getFirstName() + ' ' + profileOwnerStore.getLastName()}
+          </Text>
+        </YouniHeader>
         <EditSettingsButton
           user={profileOwnerStore.getUserJson()}
           navigator={this.props.navigator}/>
