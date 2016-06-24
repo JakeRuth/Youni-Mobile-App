@@ -130,7 +130,8 @@ var EditSettingsPage = React.createClass({
           placeholder={bioText}
           placeholderTextColor={Colors.DARK_GRAY}
           multiline={true}
-          maxLength={125}/>
+          maxLength={125}
+          keyboardType="twitter"/>
       </View>
     );
   }

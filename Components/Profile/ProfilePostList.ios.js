@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react-native');
+var NoPostsMessage = require('../Profile/NoPostsMessage');
 var Spinner = require('../Common/Spinner');
 
 var {
@@ -19,15 +20,6 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingTop: 10
-  },
-  noPostsMessageContainer: {
-    flex: 1,
-    alignItems: 'center'
-  },
-  noPostsMessage: {
-    paddingTop: 50,
-    color: '#4C4C4C',
-    fontSize: 12
   }
 });
 
@@ -73,13 +65,8 @@ var ProfilePostList = React.createClass({
       );
     }
     else {
-      // TODO: After restyle this should be it's own component
       return (
-        <View style={styles.noPostsMessageContainer}>
-          <Text style={styles.noPostsMessage}>
-            No posts... yet!
-          </Text>
-        </View>
+        <NoPostsMessage {...this.props}/>
       );
     }
   }
