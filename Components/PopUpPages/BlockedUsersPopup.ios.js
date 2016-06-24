@@ -39,7 +39,7 @@ var BlockedUsersPopup = React.createClass({
       <OverlayPage
         content={pageContent}
         onBackArrowPress={() => {this.props.navigator.pop();}}
-        bannerTitle='Blocked'/>
+        bannerTitle='Blocked Users'/>
     );
   }
 

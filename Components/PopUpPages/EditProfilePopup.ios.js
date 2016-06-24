@@ -7,7 +7,6 @@ var EditSettingsPage = require('../Profile/Settings/EditSettingsPage');
 var YouniHeader = require('../Common/YouniHeader');
 var Spinner = require('../Common/Spinner');
 var BackArrow = require('../Common/BackArrow');
-var LogoutButton = require('../Common/LogoutButton');
 var editProfileInformationStore = require('../../stores/profile/EditProfileInformationStore');
 
 var {

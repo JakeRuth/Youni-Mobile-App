@@ -3,7 +3,6 @@
 var React = require('react-native');
 var YouniHeader = require('./YouniHeader');
 var BackArrow = require('./BackArrow');
-var LogoutButton = require('./LogoutButton');
 
 var {
   View,
