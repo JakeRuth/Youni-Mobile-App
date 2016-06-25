@@ -6,7 +6,7 @@ var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var DeletePostIcon = require('./DeletePostIcon');
 var FlagPostIcon = require('./FlagPostIcon');
 var ProfilePopup = require('../PopupPages/ProfilePopup');
-var Emoji = require('../Common/Emoji');
+var ProfileImageThumbnail = require('../Common/ProfileImageThumbnail');
 var Colors = require('../../Utils/Common/Colors');
 
 var {
@@ -91,11 +91,7 @@ var PostHeader = React.createClass({
           underlayColor='transparent'>
 
           <View style={styles.leftSide}>
-            {/* This image may not exist!!! */}
-            <Image
-              style={styles.posterImage}
-              source={{uri: this.props.post.posterProfileImageUrl}}/>
-
+            <ProfileImageThumbnail profileImageUrl={this.props.post.posterProfileImageUrl}/>
             <View>
               <Text
                 style={styles.profileName}

@@ -11,7 +11,6 @@ var ProfilePostList = require('../Profile/ProfilePostList');
 var BlockUserButton = require('../Profile/BlockUserButton');
 var YouniHeader = require('../Common/YouniHeader');
 var Spinner = require('../Common/Spinner');
-var OverlayPage = require('../Common/OverlayPage');
 var BackArrow = require('../Common/BackArrow');
 
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
@@ -74,33 +73,39 @@ var ProfilePopup = React.createClass({
   },
 
   render: function() {
+    var content;
+
     if (this.state.profileLoading) {
-      return (
+      content = (
         <View style={styles.spinnerContainer}>
           <Spinner/>
         </View>
       );
     }
     else {
-      return (
-        <View style={styles.container}>
-
-          <YouniHeader>
-            <Text style={styles.pageHeader}>
-              {this._getBannerTitle()}
-            </Text>
-            <BackArrow onPress={() => {this.props.navigator.pop();}}/>
-            {this._renderBlockUserIcon()}
-          </YouniHeader>
-
-          <ScrollView automaticallyAdjustContentInsets={false}>
-            {this._renderProfile(this.state.user)}
-            {this._renderProfilePosts()}
-          </ScrollView>
-
-        </View>
+      content = (
+        <ScrollView automaticallyAdjustContentInsets={false}>
+          {this._renderProfile(this.state.user)}
+          {this._renderProfilePosts()}
+        </ScrollView>
       );
     }
+
+    return (
+      <View style={styles.container}>
+
+        <YouniHeader>
+          <Text style={styles.pageHeader}>
+            {this._getBannerTitle()}
+          </Text>
+          <BackArrow onPress={() => {this.props.navigator.pop();}}/>
+          {this._renderBlockUserIcon()}
+        </YouniHeader>
+
+        {content}
+
+      </View>
+    );
   },
 
   _renderProfile: function(user) {
