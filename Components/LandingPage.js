@@ -6,7 +6,7 @@ var Icon = require('react-native-vector-icons/Ionicons');
 
 var HomePage = require('./HomePage');
 var SearchPage = require('./Search/SearchPage');
-var ProfilePage = require('../ProfilePage');
+var ProfilePage = require('./Profile/ProfilePage');
 var TrendingPage = require('./Trending/TrendingPage');
 var CreatePostPage = require('../CreatePostPage');
 var OverlayPage = require('./Common/OverlayPage');

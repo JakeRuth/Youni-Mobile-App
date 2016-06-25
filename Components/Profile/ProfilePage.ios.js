@@ -2,22 +2,22 @@
 
 var React = require('react-native');
 var Icon = require('react-native-vector-icons/Ionicons');
-var Unicycle = require('./Unicycle');
+var Unicycle = require('../../Unicycle');
 
-var profileOwnerStore = require('./stores/profile/ProfileOwnerStore');
-var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
-var notificationStore = require('./stores/NotificationStore');
+var profileOwnerStore = require('../../stores/profile/ProfileOwnerStore');
+var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
+var notificationStore = require('../../stores/NotificationStore');
 
-var PostViewTypeEnum = require('./Utils/Post/PostViewTypeEnum');
+var PostViewTypeEnum = require('../../Utils/Post/PostViewTypeEnum');
 
-var ProfileInfo = require('./Components/Profile/ProfileInfo');
-var ProfilePostList = require('./Components/Profile/ProfilePostList');
-var YouniHeader = require('./Components/Common/YouniHeader');
-var ErrorPage = require('./Components/Common/ErrorPage');
-var EditSettingsButton = require('./Components/Profile/Settings/EditSettingsButton');
-var NotificationCallout = require('./Components/Common/NotificationCallout');
-var Spinner = require('./Components/Common/Spinner');
-var NotificationsPopup = require('./Components/PopupPages/NotificationsPopup');
+var ProfileInfo = require('./ProfileInfo');
+var ProfilePostList = require('./ProfilePostList');
+var EditSettingsButton = require('./Settings/EditSettingsButton');
+var YouniHeader = require('../Common/YouniHeader');
+var ErrorPage = require('../Common/ErrorPage');
+var NotificationCallout = require('../Common/NotificationCallout');
+var Spinner = require('../Common/Spinner');
+var NotificationsPopup = require('../PopupPages/NotificationsPopup');
 
 var {
   View,
