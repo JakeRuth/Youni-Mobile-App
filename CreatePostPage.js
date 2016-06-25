@@ -5,7 +5,7 @@ var createPostStore = require('./stores/CreatePostStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
 var homePostsStore = require('./stores/post/HomePostsStore');
 var Unicycle = require('./Unicycle');
-var MainScreenBanner = require('./MainScreenBanner');
+var YouniHeader = require('./Components/Common/YouniHeader');
 var CreatePostForm = require('./Components/Post/CreatePostForm');
 var ErrorPage = require('./Components/Common/ErrorPage');
 var UIImagePickerManager = require('NativeModules').UIImagePickerManager;
@@ -22,6 +22,12 @@ var {
 var styles = StyleSheet.create({
   createPostPageContainer: {
     flex: 1
+  },
+  pageHeader: {
+    fontSize: 20,
+    fontWeight: '500',
+    textAlign: 'center',
+    color: 'white'
   }
 });
 
@@ -67,7 +73,11 @@ var CreatePostPage = React.createClass({
 
     return (
       <View style={styles.createPostPageContainer}>
-        <MainScreenBanner title='Create Post'/>
+        <YouniHeader>
+          <Text style={styles.pageHeader}>
+            {'Create Post'}
+          </Text>
+        </YouniHeader>
         { content }
       </View>
     )

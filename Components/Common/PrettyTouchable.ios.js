@@ -28,9 +28,7 @@ var styles = StyleSheet.create({
   label: {
     color: 'white',
     fontSize: 18,
-    fontWeight: '100',
-    marginLeft: 13,
-    marginRight: 13
+    fontWeight: '100'
   },
   invertedLabel: {
     color: Colors.YOUNI_PRIMARY_PURPLE

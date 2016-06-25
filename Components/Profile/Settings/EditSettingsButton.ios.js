@@ -4,26 +4,34 @@ var React = require('react-native');
 var Unicycle = require('../../../Unicycle');
 var Icon = require('react-native-vector-icons/Ionicons');
 var EditProfilePopup = require('../../PopupPages/EditProfilePopup');
+var BlockedUsersPopup = require('../../PopupPages/BlockedUsersPopup');
+var AsyncStorageUtils = require('../../../Utils/Common/AsyncStorageUtils');
+var Colors = require('../../../Utils/Common/Colors');
 
 var {
   View,
   TouchableHighlight,
-  StyleSheet
+  StyleSheet,
+  ActionSheetIOS,
+  AlertIOS
 } = React;
 
 var styles = StyleSheet.create({
   settingIconContainer: {
     position: 'absolute',
-    top: 13,
-    right: 5,
-    padding: 5,
-    paddingLeft: 20
+    top: 0,
+    right: 0,
+    paddingTop: 27,
+    paddingRight: 12,
+    paddingLeft: 15,
+    paddingBottom: 15
   }
 });
 
 var EditSettingsButton = React.createClass({
 
   propTypes: {
+    user: React.PropTypes.object.isRequired,
     navigator: React.PropTypes.object.isRequired
   },
 
@@ -35,7 +43,7 @@ var EditSettingsButton = React.createClass({
         underlayColor='transparent'>
 
         <Icon
-          name='gear-a'
+          name='ios-gear-outline'
           size={25}
           color='white'/>
 
@@ -44,9 +52,67 @@ var EditSettingsButton = React.createClass({
   },
 
   _onSettingsButtonClick: function() {
-    this.props.navigator.push({
-      component: EditProfilePopup
+    ActionSheetIOS.showActionSheetWithOptions({
+      options: [
+        'Edit Profile',
+        'Blocked Users',
+        'Logout',
+        'Cancel'
+      ],
+      destructiveButtonIndex: 2,
+      cancelButtonIndex: 3,
+      tintColor: Colors.YOUNI_PRIMARY_PURPLE
+    },
+    (buttonIndex) => {
+      if (buttonIndex === 0) {
+        this._onEditProfileOptionSelect();
+      }
+      else if (buttonIndex === 1) {
+        this._onShowBlockedUsersOptionSelect();
+      }
+      else if (buttonIndex === 2) {
+        this._onLogoutButtonPressAreYouSurePrompt();
+      }
     });
+  },
+
+  _onEditProfileOptionSelect: function() {
+    this.props.navigator.push({
+      component: EditProfilePopup,
+      passProps: {
+        user: this.props.user
+      }
+    });
+  },
+
+  _onShowBlockedUsersOptionSelect: function() {
+    this.props.navigator.push({
+      component: BlockedUsersPopup
+    });
+  },
+
+  _onLogoutButtonPressAreYouSurePrompt: function() {
+    AlertIOS.alert(
+      '',
+      'Are you sure you want Logout?',
+      [
+        {
+          text: 'Yes',
+          onPress: this._onConfirmLogoutPress
+        },
+        {
+          text: 'No'
+        }
+      ]
+    );
+  },
+
+  _onConfirmLogoutPress: function() {
+    AsyncStorageUtils.removeItem('password');
+    Unicycle.exec('refreshHomeFeedData');
+    Unicycle.exec('refreshExploreFeedData');
+    Unicycle.exec('reInitProfilePageState');
+    this.props.navigator.popToTop();
   }
 
 });

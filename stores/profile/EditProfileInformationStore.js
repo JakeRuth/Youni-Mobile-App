@@ -2,184 +2,178 @@
 
 var React = require('react-native');
 var Unicycle = require('../../Unicycle');
+var profileOwnerStore = require('./ProfileOwnerStore');
+var userLoginMetadataStore = require('../UserLoginMetadataStore');
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 var UserUtils = require('../../Utils/User/UserUtils');
 
 var editProfileInformationStore = Unicycle.createStore({
 
-    init: function () {
-      this.set({
-        isBlockedUsersPageVisible: false,
-        isUploadBioRequestInFlight: false,
-        isUploadFirstNameRequestInFlight: false,
-        isUploadLastNameRequestInFlight: false,
-        isGetBlockedUsersRequestInFlight: false,
-        isRemoveBlockRequestInFlight: false,
-        blockedUsers: []
-      });
-    },
+  init: function () {
+    this.set({
+      firstName: '',
+      lastName: '',
+      bio: '',
+      isBlockedUsersPageVisible: false,
+      isUpdateProfileInformationRequestInFlight: false,
+      isGetBlockedUsersRequestInFlight: false,
+      isRemoveBlockRequestInFlight: false,
+      blockedUsers: []
+    });
+  },
+  
+  updateProfileInformation: function(callback) {
+    var firstName, lastName, bio,
+        userEmail = userLoginMetadataStore.getEmail(),
+        that = this;
 
-    $uploadUserBio: function(userId, bio) {
-      var that = this;
-
-      this.set({
-        isUploadBioRequestInFlight: true
-      });
-
-      //TODO: Configure some proper feedback in case of failure, etc.
-      AjaxUtils.ajax(
-        '/user/updateBio',
-        {
-          userIdString: userId,
-          bio: bio
-        },
-        (res) => {
-          that.set({
-            isUploadBioRequestInFlight: false
-          });
-        },
-        () => {
-          that.set({
-            isUploadBioRequestInFlight: false
-          });
-        }
-      );
-    },
-
-    $updateUserFirstName: function(userId, firstName) {
-      var that = this;
-
-      this.set({
-        isUploadFirstNameRequestInFlight: true
-      });
-
-      //TODO: Configure some proper feedback in case of failure, etc.
-      AjaxUtils.ajax(
-        '/user/updateFirstName',
-        {
-          userIdString: userId,
-          firstName: firstName
-        },
-        (res) => {
-          that.set({
-            isUploadFirstNameRequestInFlight: false
-          });
-        },
-        () => {
-          that.set({
-            isUploadFirstNameRequestInFlight: false
-          });
-        }
-      );
-    },
-
-    $updateUserLastName: function(userId, lastName) {
-      var that = this;
-
-      this.set({
-        isUploadLastNameRequestInFlight: true
-      });
-
-      //TODO: Configure some proper feedback in case of failure, etc.
-      AjaxUtils.ajax(
-        '/user/updateLastName',
-        {
-          userIdString: userId,
-          lastName: lastName
-        },
-        (res) => {
-          that.set({
-            isUploadLastNameRequestInFlight: false
-          });
-        },
-        () => {
-          that.set({
-            isUploadLastNameRequestInFlight: false
-          });
-        }
-      );
-    },
-
-    requestBlockedUsers: function(email) {
-      var that = this;
-
-      this.set({
-        isBlockedUsersPageVisible: true,
-        isGetBlockedUsersRequestInFlight: true
-      });
-
-      AjaxUtils.ajax(
-        '/user/getBlockedUsers',
-        {
-          requestingUserEmail: email
-        },
-        (res) => {
-          var blockedUsers = UserUtils.convertResponseUserListToMap(res.body.blockedUsers);
-          that.set({
-            isGetBlockedUsersRequestInFlight: false,
-            blockedUsers: blockedUsers
-          });
-        },
-        () => {
-          that.set({
-            isBlockedUsersPageVisible: false,
-            isGetBlockedUsersRequestInFlight: false,
-            blockedUsers: []
-          });
-        }
-      );
-    },
-
-    $removeBlock: function(userIndex, userId, userToUnBlockEmail) {
-      var that = this;
-
-      this.set({
-        isRemoveBlockRequestInFlight: true
-      });
-
-      AjaxUtils.ajax(
-        '/user/removeBlock',
-        {
-          requestingUserIdString: userId,
-          userToUnBlockEmail: userToUnBlockEmail
-        },
-        (res) => {
-          that.set({
-            blockedUsers: UserUtils.removeUserFromList(that.getBlockedUsers(), userIndex),
-            isRemoveBlockRequestInFlight: false
-          });
-        },
-        () => {
-          that.set({
-            isRemoveBlockRequestInFlight: false
-          });
-        }
-      );
-    },
-
-    isUploadBioRequestInFlight: function() {
-      return this.get('isUploadBioRequestInFlight');
-    },
-
-    isUploadFirstNameRequestInFlight: function() {
-      return this.get('isUploadFirstNameRequestInFlight');
-    },
-
-    isUploadLastNameRequestInFlight: function() {
-      return this.get('isUploadLastNameRequestInFlight');
-    },
-
-    isGetBlockedUsersRequestInFlight: function() {
-      return this.get('isGetBlockedUsersRequestInFlight');
-    },
-
-    isRemoveBlockRequestInFlight: function() {
-      return this.get('isRemoveBlockRequestInFlight');
-    },
-
-    getBlockedUsers: function() {
-      return this.get('blockedUsers');
+    if (profileOwnerStore.getFirstName() !== this.getFirstName()) {
+      firstName = this.getFirstName();
     }
+    if (profileOwnerStore.getLastName() !== this.getLastName()) {
+      lastName = this.getLastName();
+    }
+    if (profileOwnerStore.getBio() !== this.getBio()) {
+      bio = this.getBio();
+    }
+
+    if (!firstName && !lastName && !bio) {
+      callback();
+      return;
+    }
+
+    this.set({
+      isUpdateProfileInformationRequestInFlight: true
+    });
+
+    AjaxUtils.ajax(
+      '/user/updateProfileInformation',
+      {
+        userEmail: userEmail,
+        firstName: firstName,
+        lastName: lastName,
+        bio: bio
+      },
+      (res) => {
+        profileOwnerStore.setFirstName(firstName);
+        profileOwnerStore.setLastName(lastName);
+        profileOwnerStore.setBio(bio);
+        callback();
+        that.set({
+          isUpdateProfileInformationRequestInFlight: false
+        });
+      },
+      () => {
+        callback();
+        that.set({
+          isUpdateProfileInformationRequestInFlight: false
+        });
+      }
+    );
+  },
+
+  requestBlockedUsers: function(email) {
+    var that = this;
+
+    this.set({
+      isBlockedUsersPageVisible: true,
+      isGetBlockedUsersRequestInFlight: true
+    });
+
+    AjaxUtils.ajax(
+      '/user/getBlockedUsers',
+      {
+        requestingUserEmail: email
+      },
+      (res) => {
+        var blockedUsers = UserUtils.convertResponseUserListToMap(res.body.blockedUsers);
+        that.set({
+          isGetBlockedUsersRequestInFlight: false,
+          blockedUsers: blockedUsers
+        });
+      },
+      () => {
+        that.set({
+          isBlockedUsersPageVisible: false,
+          isGetBlockedUsersRequestInFlight: false,
+          blockedUsers: []
+        });
+      }
+    );
+  },
+
+  $removeBlock: function(userIndex, userId, userToUnBlockEmail) {
+    var that = this;
+
+    this.set({
+      isRemoveBlockRequestInFlight: true
+    });
+
+    AjaxUtils.ajax(
+      '/user/removeBlock',
+      {
+        requestingUserIdString: userId,
+        userToUnBlockEmail: userToUnBlockEmail
+      },
+      (res) => {
+        that.set({
+          blockedUsers: UserUtils.removeUserFromList(that.getBlockedUsers(), userIndex),
+          isRemoveBlockRequestInFlight: false
+        });
+      },
+      () => {
+        that.set({
+          isRemoveBlockRequestInFlight: false
+        });
+      }
+    );
+  },
+
+  setFirstName: function(firstName) {
+    this.set({
+      firstName: firstName
+    });
+  },
+
+  setLastName: function(lastName) {
+    this.set({
+      lastName: lastName
+    });
+  },
+
+  setBio: function(bio) {
+    this.set({
+      bio: bio
+    });
+  },
+
+  isUpdateProfileInformationRequestInFlight: function() {
+    return this.get('isUpdateProfileInformationRequestInFlight');
+  },
+
+  isGetBlockedUsersRequestInFlight: function() {
+    return this.get('isGetBlockedUsersRequestInFlight');
+  },
+
+  isRemoveBlockRequestInFlight: function() {
+    return this.get('isRemoveBlockRequestInFlight');
+  },
+
+  getBlockedUsers: function() {
+    return this.get('blockedUsers');
+  },
+
+  getFirstName: function() {
+    return this.get('firstName');
+  },
+
+  getLastName: function() {
+    return this.get('lastName');
+  },
+
+  getBio: function() {
+    return this.get('bio');
+  }
 
 });
 

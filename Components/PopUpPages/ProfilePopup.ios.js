@@ -4,29 +4,44 @@ var React = require('react-native');
 var immutable = require('immutable');
 var Unicycle = require('../../Unicycle');
 
-var profileStore = require('../../stores/profile/ProfileStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 
-var ProfilePageBody = require('../Profile/ProfilePageBody');
-var UserPosts = require('../Profile/UserPosts');
+var ProfileInfo = require('../Profile/ProfileInfo');
+var ProfilePostList = require('../Profile/ProfilePostList');
+var BlockUserButton = require('../Profile/BlockUserButton');
+var YouniHeader = require('../Common/YouniHeader');
 var Spinner = require('../Common/Spinner');
-var OverlayPage = require('../Common/OverlayPage');
+var BackArrow = require('../Common/BackArrow');
 
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 var UserUtils = require('../../Utils/User/UserUtils');
 var PostUtils = require('../../Utils/Post/PostUtils');
+var PostViewTypeEnum = require('../../Utils/Post/PostViewTypeEnum');
 
 var INITIAL_PAGE_OFFSET = 0;
-var MAX_POSTS_PER_PAGE = 10;
+var MAX_POSTS_PER_PAGE = 9;
 
 var {
   View,
+  Text,
+  ScrollView,
   StyleSheet
 } = React;
 
 var styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
+  pageHeader: {
+    fontSize: 20,
+    fontWeight: '500',
+    textAlign: 'center',
+    color: 'white'
+  },
   spinnerContainer: {
-    alignSelf: 'center'
+    flex: 1,
+    alignSelf: 'center',
+    justifyContent: 'center'
   }
 });
 
@@ -41,10 +56,11 @@ var ProfilePopup = React.createClass({
     return {
       user: {},
       posts: [],
+      postViewMode: PostViewTypeEnum.LIST,
       profileLoading: true,
+      isFollowing: null,
       postsLoading: false,
       postsNextPageLoading: false,
-      isLikeRequestInFlight: false, // Only used to not spam like requests when request is already in flight
       postOffset: INITIAL_PAGE_OFFSET,
       noMorePostsToFetch: false
     };
@@ -53,10 +69,11 @@ var ProfilePopup = React.createClass({
   componentDidMount() {
     this._requestProfileInformation();
     this._requestUserPosts();
+    this._requestIsUserFollowing();
   },
 
   render: function() {
-    var content, userPosts;
+    var content;
 
     if (this.state.profileLoading) {
       content = (
@@ -67,44 +84,62 @@ var ProfilePopup = React.createClass({
     }
     else {
       content = (
-        <View>
+        <ScrollView automaticallyAdjustContentInsets={false}>
           {this._renderProfile(this.state.user)}
           {this._renderProfilePosts()}
-        </View>
+        </ScrollView>
       );
     }
 
     return (
-      <OverlayPage
-        content={content}
-        onBackArrowPress={() => {this.props.navigator.pop();}}
-        bannerTitle={this._getBannerTitle()}/>
+      <View style={styles.container}>
+
+        <YouniHeader>
+          <Text style={styles.pageHeader}>
+            {this._getBannerTitle()}
+          </Text>
+          <BackArrow onPress={() => {this.props.navigator.pop();}}/>
+          <BlockUserButton
+            email={this.props.profileUserEmail}
+            navigator={this.props.navigator}/>
+        </YouniHeader>
+
+        {content}
+
+      </View>
     );
   },
 
   _renderProfile: function(user) {
     return (
-      <ProfilePageBody
-        viewerIsProfileOwner={false}
+      <ProfileInfo
         user={user}
+        currentPostViewMode={this.state.postViewMode}
+        onPostViewControlPress={this.onPostViewControlPress}
+        isFollowing={this.state.isFollowing}
+        followAction={this.followUserRequest}
+        unfollowAction={this.unfollowUserRequest}
         navigator={this.props.navigator}/>
     );
   },
 
   _renderProfilePosts: function() {
     return (
-      <UserPosts
+      <ProfilePostList
         posts={immutable.List(this.state.posts)}
-        profileStore={profileStore}
+        user={this.state.user}
+        gridViewEnabled={this.state.postViewMode === PostViewTypeEnum.GRID}
+        onPostViewControlPress={this.onPostViewControlPress}
         onLoadMorePostsPress={this._requestUserPosts}
         noMorePostsToFetch={this.state.noMorePostsToFetch}
         viewerIsProfileOwner={false}
         loading={this.state.postsLoading}
         isNextPageLoading={this.state.postsNextPageLoading}
         navigator={this.props.navigator}
-        likePhotoAction={this._likePhotoAction}
-        unlikePhotoAction={this._unlikePhotoAction}
-        onSubmitCommentCallback={this._onSubmitCommentCallback}/>
+        likePhotoAction={this.likePhotoAction}
+        unlikePhotoAction={this.unlikePhotoAction}
+        onSubmitCommentAction={this.onSubmitCommentAction}
+        navigator={this.props.navigator}/>
     );
   },
 
@@ -187,76 +222,183 @@ var ProfilePopup = React.createClass({
     );
   },
 
-  _likePhotoAction(postIndex, postId, userId, callback) {
+  likePhotoAction(postIndex, postId, userId, callback) {
     var that = this,
         posts = this.state.posts;
 
-    if (!this.state.isLikeRequestInFlight) {
-      // optimistically like the post
-      this.setState({
-        posts: PostUtils.increaseLikeCountFromList(that.state.posts, postIndex),
-        isLikeRequestInFlight: true
-      });
+    // optimistically like the post
+    this.setState({
+      posts: PostUtils.increaseLikeCountFromList(that.state.posts, postIndex)
+    });
 
-      AjaxUtils.ajax(
-        '/post/like',
-        {
-          postIdString: postId,
-          userIdString: userId
-        },
-        (res) => {
-          that.setState({
-            isLikeRequestInFlight: false
-          });
-          callback();
-        },
-        () => {
-          that.setState({
-            isLikeRequestInFlight: false
-          });
-          callback();
-        }
-      );
-    }
+    AjaxUtils.ajax(
+      '/post/like',
+      {
+        postIdString: postId,
+        userIdString: userId
+      },
+      (res) => {
+        callback();
+      },
+      () => {
+        callback();
+      }
+    );
   },
 
-  _unlikePhotoAction(postIndex, postId, userId, callback) {
+  unlikePhotoAction(postIndex, postId, userId, callback) {
     var posts = this.state.posts,
         that = this;
 
-    if (!this.state.isLikeRequestInFlight) {
-      // optimistically unlike the post
-      this.setState({
-        posts: PostUtils.decreaseLikeCountFromList(this.state.posts, postIndex),
-        isLikeRequestInFlight: true
-      });
+    // optimistically unlike the post
+    this.setState({
+      posts: PostUtils.decreaseLikeCountFromList(this.state.posts, postIndex)
+    });
 
-      AjaxUtils.ajax(
-        '/post/removeLike',
-        {
-          postIdString: postId,
-          userIdString: userId
-        },
-        (res) => {
-          that.setState({
-            isLikeRequestInFlight: false
-          });
-          callback();
-        },
-        () => {
-          that.setState({
-            isLikeRequestInFlight: false
-          });
-          callback();
-        }
-      );
-    }
+    AjaxUtils.ajax(
+      '/post/removeLike',
+      {
+        postIdString: postId,
+        userIdString: userId
+      },
+      (res) => {
+        callback();
+      },
+      () => {
+        callback();
+      }
+    );
   },
 
-  _onSubmitCommentCallback: function(post, comment, commenterName) {
-    var posts = this.state.posts;
+  _requestIsUserFollowing: function() {
+    var userId = userLoginMetadataStore.getUserId(),
+        that = this;
 
-    PostUtils.addCommentFromList(posts, post.id, comment, commenterName);
+    AjaxUtils.ajax(
+      '/user/isFollowing',
+      {
+        requestingUserIdString: userId,
+        userEmail: that.props.profileUserEmail
+      },
+      (res) => {
+        that.setState({
+          isFollowing: res.body.following
+        });
+      },
+      () => {
+
+      }
+    );
+  },
+
+  followUserRequest: function() {
+    var user = this.state.user,
+        userId = userLoginMetadataStore.getUserId(),
+        that = this;
+
+    this.setState({
+      isFollowing: null
+    });
+
+    AjaxUtils.ajax(
+      '/user/follow',
+      {
+        requestingUserIdString: userId,
+        userToFollowEmail: that.props.profileUserEmail
+      },
+      (res) => {
+        if (res.body.success) {
+          user.numFollowers++;
+          that.setState({
+            user: user,
+            isFollowing: true
+          });
+        }
+        else {
+          that.setState({
+            isFollowing: false
+          });
+        }
+      },
+      () => {
+        that.setState({
+          isFollowing: false
+        });
+      }
+    );
+  },
+
+  unfollowUserRequest: function() {
+    var user = this.state.user,
+        userId = userLoginMetadataStore.getUserId(),
+        that = this;
+
+    this.setState({
+      isFollowing: null
+    });
+
+    AjaxUtils.ajax(
+      '/user/removeFollow',
+      {
+        requestingUserIdString: userId,
+        userToNotFollowEmail: that.props.profileUserEmail
+      },
+      (res) => {
+        if (res.body.success) {
+          user.numFollowers--;
+          that.setState({
+            user: user,
+            isFollowing: false
+          });
+        }
+        else {
+          that.setState({
+            isFollowing: true
+          });
+        }
+      },
+      () => {
+        that.setState({
+          isFollowing: true
+        });
+      }
+    );
+  },
+
+  onSubmitCommentAction: function(comment, post, callback) {
+    var posts = this.state.posts,
+        userId = userLoginMetadataStore.getUserId(),
+        commenterName = userLoginMetadataStore.getFullName();
+
+    if (!comment) {
+      return;
+    }
+
+    AjaxUtils.ajax(
+      '/post/createComment',
+      {
+        postIdString: post.postIdString,
+        userIdString: userId,
+        comment: comment
+      },
+      (res) => {
+        PostUtils.addCommentFromList(posts, post.id, comment, commenterName);
+        callback(comment);
+      },
+      () => {
+        callback(comment);
+      }
+    );
+  },
+
+  onPostViewControlPress: function(postViewType) {
+    if (this.state.postViewMode === postViewType) {
+      return;
+    }
+
+    this.setState({
+      postViewMode: postViewType
+    });
   }
 
 });

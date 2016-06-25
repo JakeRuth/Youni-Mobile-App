@@ -2,8 +2,9 @@
 
 var React = require('react-native');
 var Unicycle = require('../../../Unicycle');
+var ProfileImageThumbnail = require('../../Common/ProfileImageThumbnail');
 var userLoginMetadataStore = require('../../../stores/UserLoginMetadataStore');
-var Spinner = require('../../Common/Spinner');
+var Colors = require('../../../Utils/Common/Colors');
 
 var {
   View,
@@ -15,51 +16,59 @@ var {
 
 var styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: 15
-  },
-  likerListScroll: {
-    margin: 20,
-    padding: 20
+    flex: 1
   },
   blockedUserContainer: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
-    flexDirection: 'row'
+    flexDirection: 'row',
+    height: 65,
+    paddingTop: 10,
+    paddingBottom: 10,
+    marginLeft: 16,
+    marginRight: 16
   },
-  blockedUserFullName: {
-    fontSize: 15
+  blockedUserName: {
+    paddingLeft: 10,
+    color: Colors.DARK_GRAY,
+    fontSize: 16,
+    fontWeight: '100'
   },
-  removeBlockButton: {
-    marginRight: 15,
-    fontSize: 15,
-    color: '#FF7878',
-    padding: 5,
-    margin: 3,
+  unblockButtonContainer: {
+    position: 'absolute',
+    top: 20,
+    right: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 75,
+    height: 27,
+    borderColor: Colors.YOUNI_PRIMARY_PURPLE,
     borderWidth: 1,
-    borderColor: '#FF7878'
+    borderRadius: 6
+  },
+  unblockButtonText: {
+    fontWeight: '100',
+    color: Colors.YOUNI_PRIMARY_PURPLE,
+    fontSize: 14
+  },
+  noBlockedUsersMessage: {
+    color: Colors.DARK_GRAY,
+    fontWeight: '100',
+    padding: 20,
+    textAlign: 'center'
   }
 });
 
 var BlockedUsersPage = React.createClass({
 
   propTypes: {
-    loading: React.PropTypes.bool.isRequired,
     users: React.PropTypes.object.isRequired
   },
 
   render: function() {
     var content;
 
-    if (this.props.loading) {
-      content = (
-        <Spinner/>
-      );
-    }
-    else if (this.props.users.size != 0) {
+    if (this.props.users.size > 0) {
       content = this._renderBlockedUsersList(this.props.users);
     }
     else {
@@ -81,39 +90,48 @@ var BlockedUsersPage = React.createClass({
     }
 
     return (
-      <View>
+      <ScrollView
+        style={styles.container}
+        automaticallyAdjustContentInsets={false}>
         {userListItems}
-      </View>
+      </ScrollView>
     );
   },
 
   _renderBlockedUser: function(user) {
     return (
-      <View style={styles.blockedUserContainer}>
+      <View
+        style={styles.blockedUserContainer}
+        key={user.get('id')}>
 
-        <TouchableHighlight
-          underlayColor='transparent'
-          onPress={() => {
-            this._onUnBlockButtonPress(user);
-          }}>
-
-          <Text style={styles.removeBlockButton}>
-            Remove block
-          </Text>
-
-        </TouchableHighlight>
-
-        <Text style={styles.blockedUserFullName}>
+        <ProfileImageThumbnail profileImageUrl={user.get('profileImageUrl')}/>
+        <Text style={styles.blockedUserName}>
           {user.get('firstName')} {user.get('lastName')}
         </Text>
+        {this._renderUnblockUserButton(user)}
 
       </View>
     );
   },
 
+  _renderUnblockUserButton: function(user) {
+    return (
+      <TouchableHighlight
+        style={styles.unblockButtonContainer}
+        underlayColor="transparent"
+        onPress={() => { this._onUnBlockButtonPress(user); }}>
+        <Text style={styles.unblockButtonText}>
+          Unblock
+        </Text>
+      </TouchableHighlight>
+    )
+  },
+
   _renderNoBlockedUsersMessage: function() {
     return (
-      <Text>You have not blocked anyone</Text>
+      <Text style={styles.noBlockedUsersMessage}>
+        You have not blocked anyone
+      </Text>
     );
   },
 

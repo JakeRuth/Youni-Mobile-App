@@ -111,6 +111,7 @@ var CreatePostForm = React.createClass({
               onChangeText={(text) => Unicycle.exec('setCaption', text)}
               value={createPostStore.getCaption()}
               multiline={true}
+              keyboardType="twitter"
               maxLength={200}/>
           </View>
 

@@ -53,15 +53,17 @@ var ExploreFeedPosts = React.createClass({
     else {
       content = (
         <PostList
+          posts={explorePostsStore.getPosts()}
           refreshable={true}
           isFeedRefreshing={explorePostsStore.isFeedRefreshing()}
-          postStore={explorePostsStore}
-          posts={explorePostsStore.getPosts()}
           onScroll={this.handleScroll}
           onLoadMorePostsPress={this._requestExploreFeed}
-          isLoadMorePostsRequestInFlight={explorePostsStore.isLoadMorePostsRequestInFlight()}
+          isNextPageLoading={explorePostsStore.isLoadMorePostsRequestInFlight()}
           noMorePostsToFetch={explorePostsStore.getNoMorePostsToFetch()}
           gridViewEnabled={true}
+          likePhotoAction={this.likePhotoAction}
+          unlikePhotoAction={this.unlikePhotoAction}
+          onSubmitCommentAction={this.onSubmitCommentAction}
           navigator={this.props.navigator}/>
       );
     }
@@ -88,6 +90,18 @@ var ExploreFeedPosts = React.createClass({
   _requestExploreFeed: function() {
     var userId = userLoginMetadataStore.getUserId();
     Unicycle.exec('requestExploreFeed', userId, true);
+  },
+
+  likePhotoAction: function(postIndex, postId, userId, callback) {
+    Unicycle.exec('likeExploreFeedPost', postIndex, postId, userId, callback);
+  },
+
+  unlikePhotoAction: function(postIndex, postId, userId, callback) {
+    Unicycle.exec('removeLikeExploreFeed', postIndex, postId, userId, callback);
+  },
+
+  onSubmitCommentAction: function(comment, post, callback) {
+    explorePostsStore.addCommentOnPost(comment, post, callback);
   }
 
 });

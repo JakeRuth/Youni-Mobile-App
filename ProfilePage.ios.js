@@ -3,28 +3,39 @@
 var React = require('react-native');
 var Icon = require('react-native-vector-icons/Ionicons');
 var Unicycle = require('./Unicycle');
+
 var profileOwnerStore = require('./stores/profile/ProfileOwnerStore');
 var userLoginMetadataStore = require('./stores/UserLoginMetadataStore');
 var notificationStore = require('./stores/NotificationStore');
-var MainScreenBanner = require('./MainScreenBanner');
-var ProfilePageBody = require('./Components/Profile/ProfilePageBody');
-var UserPosts = require('./Components/Profile/UserPosts');
+
+var PostViewTypeEnum = require('./Utils/Post/PostViewTypeEnum');
+
+var ProfileInfo = require('./Components/Profile/ProfileInfo');
+var ProfilePostList = require('./Components/Profile/ProfilePostList');
+var YouniHeader = require('./Components/Common/YouniHeader');
 var ErrorPage = require('./Components/Common/ErrorPage');
 var EditSettingsButton = require('./Components/Profile/Settings/EditSettingsButton');
-var ScrollViewRefresh = require('./Components/Common/ScrollViewRefresh');
 var NotificationCallout = require('./Components/Common/NotificationCallout');
+var Spinner = require('./Components/Common/Spinner');
 var NotificationsPopup = require('./Components/PopupPages/NotificationsPopup');
 
 var {
   View,
+  Text,
   ScrollView,
   StyleSheet,
   TouchableHighlight
 } = React;
 
 var styles = StyleSheet.create({
-  profilePageContainer: {
+  container: {
     flex: 1
+  },
+  pageHeader: {
+    fontSize: 20,
+    fontWeight: '500',
+    textAlign: 'center',
+    color: 'white'
   },
   notificationIconContainer: {
     position: 'absolute',
@@ -43,7 +54,6 @@ var styles = StyleSheet.create({
 var ProfilePage = React.createClass({
 
   propTypes: {
-    email: React.PropTypes.string.isRequired,
     navigator: React.PropTypes.object.isRequired
   },
 
@@ -52,13 +62,19 @@ var ProfilePage = React.createClass({
     Unicycle.listenTo(notificationStore)
   ],
 
+  getInitialState: function() {
+    return {
+      postViewMode: PostViewTypeEnum.LIST
+    };
+  },
+
   componentDidMount: function() {
-    Unicycle.exec('loadOwnerUsersProfile', this.props.email);
+    Unicycle.exec('loadOwnerUsersProfile', userLoginMetadataStore.getEmail());
     this._requestProfilePosts();
   },
 
   render: function() {
-    var isRequestInFlight = profileOwnerStore.isRequestInFlight(),
+    var isProfileInfoLoading = profileOwnerStore.isProfileInfoLoading(),
         anyErrorsLoadingPage = profileOwnerStore.anyErrorsLoadingPage(),
         numUnreadNotifications = notificationStore.getUnreadNotifications(),
         content, notificationCallout;
@@ -71,7 +87,12 @@ var ProfilePage = React.createClass({
       );
     }
 
-    if (anyErrorsLoadingPage) {
+    if (isProfileInfoLoading) {
+      content = (
+        <Spinner/>
+      );
+    }
+    else if (anyErrorsLoadingPage) {
       content = <ErrorPage reloadButtonAction={this._onErrorPageReload}/>;
     }
     else {
@@ -80,34 +101,43 @@ var ProfilePage = React.createClass({
           automaticallyAdjustContentInsets={false}
           onScroll={this.handleScroll}>
 
-          <ProfilePageBody
+          <ProfileInfo
             navigator={this.props.navigator}
             viewerIsProfileOwner={true}
             user={profileOwnerStore.getUserJson()}
-            isLoading={profileOwnerStore.isRequestInFlight()}/>
+            currentPostViewMode={this.state.postViewMode}
+            onPostViewControlPress={this.onPostViewControlPress}/>
 
-          <UserPosts
+          <ProfilePostList
             posts={profileOwnerStore.getPosts()}
-            profileStore={profileOwnerStore}
-            onLoadMorePostsPress={this._requestProfilePosts}
+            user={profileOwnerStore.getUserJson()}
+            gridViewEnabled={this.state.postViewMode === PostViewTypeEnum.GRID}
+            onPostViewControlPress={this.onPostViewControlPress}
             noMorePostsToFetch={profileOwnerStore.getNoMorePostsToFetch()}
             viewerIsProfileOwner={true}
             loading={profileOwnerStore.isUserPostsRequestInFlight()}
             isNextPageLoading={profileOwnerStore.isLoadMorePostsRequestInFlight()}
-            navigator={this.props.navigator}
-            unlikePhotoAction={this._unlikePhotoAction}
-            likePhotoAction={this._likePhotoAction}/>
+            onLoadMorePostsPress={this._requestProfilePosts}
+            unlikePhotoAction={this.unlikePhotoAction}
+            likePhotoAction={this.likePhotoAction}
+            onSubmitCommentAction={this.onSubmitCommentAction}
+            navigator={this.props.navigator}/>
 
         </ScrollView>
       );
     }
 
     return (
-      <View style={styles.profilePageContainer}>
+      <View style={styles.container}>
 
-        <MainScreenBanner
-          title={profileOwnerStore.getFirstName() + ' ' + profileOwnerStore.getLastName()}/>
-        <EditSettingsButton navigator={this.props.navigator}/>
+        <YouniHeader>
+          <Text style={styles.pageHeader}>
+            {profileOwnerStore.getFirstName() + ' ' + profileOwnerStore.getLastName()}
+          </Text>
+        </YouniHeader>
+        <EditSettingsButton
+          user={profileOwnerStore.getUserJson()}
+          navigator={this.props.navigator}/>
         {this._renderNotificationIcon()}
         {notificationCallout}
         {content}
@@ -139,18 +169,32 @@ var ProfilePage = React.createClass({
     var infiniteScrollThreshold = -1;
 
     if (e.nativeEvent.contentOffset.y < infiniteScrollThreshold) {
-      Unicycle.exec('loadOwnerUsersProfile', this.props.email);
+      Unicycle.exec('loadOwnerUsersProfile', userLoginMetadataStore.getEmail());
       profileOwnerStore.resetPostPageOffset();
       this._requestProfilePosts();
     }
   },
 
-  _likePhotoAction(postIndex, postId, userId, callback) {
+  likePhotoAction: function(postIndex, postId, userId, callback) {
     Unicycle.exec('likePostFromOwnerProfilePage', postIndex, postId, userId, callback);
   },
 
-  _unlikePhotoAction(postIndex, postId, userId, callback) {
+  unlikePhotoAction: function(postIndex, postId, userId, callback) {
     Unicycle.exec('removeLikeProfileOwner', postIndex, postId, userId, callback);
+  },
+
+  onSubmitCommentAction: function(comment, post, callback) {
+    profileOwnerStore.addCommentOnPost(comment, post, callback);
+  },
+
+  onPostViewControlPress: function(postViewType) {
+    if (this.state.postViewMode === postViewType) {
+      return;
+    }
+
+    this.setState({
+      postViewMode: postViewType
+    });
   },
 
   _requestProfilePosts: function() {
@@ -160,7 +204,7 @@ var ProfilePage = React.createClass({
   },
 
   _onErrorPageReload: function() {
-    Unicycle.exec('loadOwnerUsersProfile', this.props.email);
+    Unicycle.exec('loadOwnerUsersProfile', userLoginMetadataStore.getEmail());
   }
 
 });

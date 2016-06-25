@@ -24,14 +24,15 @@ var styles = StyleSheet.create({
 var PostCommentPage = React.createClass({
 
   propTypes: {
-    loading: React.PropTypes.bool.isRequired,
+    loading: React.PropTypes.bool,
     post: React.PropTypes.object.isRequired,
     comments: React.PropTypes.array.isRequired,
     moreToFetch: React.PropTypes.bool.isRequired,
     navigator: React.PropTypes.object.isRequired,
     commentInputAutoFocus: React.PropTypes.bool,
     onLoadMorePress: React.PropTypes.func.isRequired,
-    submitCommentCallback: React.PropTypes.func.isRequired
+    onSubmitCommentAction: React.PropTypes.func.isRequired,
+    onSubmitCommentCallback: React.PropTypes.func.isRequired
   },
 
   getInitialState: function() {
@@ -61,7 +62,7 @@ var PostCommentPage = React.createClass({
         <CommentInput
           id={this.props.post.id}
           postIdString={this.props.post.postIdString}
-          onSubmitComment={this._onSubmitComment}
+          onSubmitCommentAction={this._onSubmitComment}
           isCommentRequestInFlight={this.state.isCommentRequestInFlight}
           commentInputAutoFocus={this.props.commentInputAutoFocus}/>
       </View>
@@ -70,36 +71,18 @@ var PostCommentPage = React.createClass({
 
   _onSubmitComment: function(comment) {
     var that = this,
-        userId = userLoginMetadataStore.getUserId();
-
-    if (!comment) {
-      return;
-    }
+        userId = userLoginMetadataStore.getUserId(),
+        callback = () => {
+          this.props.onSubmitCommentCallback(comment);
+          this.setState({
+            isCommentRequestInFlight: false
+          });
+        };
 
     this.setState({
       isCommentRequestInFlight: true
     });
-
-    AjaxUtils.ajax(
-      '/post/createComment',
-      {
-        postIdString: that.props.post.postIdString,
-        userIdString: userId,
-        comment: comment
-      },
-      (res) => {
-        that.props.submitCommentCallback(comment);
-
-        that.setState({
-          isCommentRequestInFlight: false
-        });
-      },
-      () => {
-        that.setState({
-          isCommentRequestInFlight: false
-        });
-      }
-    );
+    this.props.onSubmitCommentAction(comment, this.props.post, callback);
   }
 
 });

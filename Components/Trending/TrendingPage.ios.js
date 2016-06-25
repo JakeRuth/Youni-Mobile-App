@@ -4,7 +4,7 @@ var React = require('react-native');
 var Unicycle = require('../../Unicycle');
 var Icon = require('react-native-vector-icons/Ionicons');
 var trendingStore = require('../../stores/trending/TrendingStore');
-var MainScreenBanner = require('../../MainScreenBanner');
+var YouniHeader = require('../Common/YouniHeader');
 var TrendingUsersList = require('./TrendingUsersList');
 var ErrorPage = require('../Common/ErrorPage');
 var TrendingPageSelector = require('./TrendingPageSelector');
@@ -21,6 +21,12 @@ var styles = StyleSheet.create({
   container: {
     flex: 1,
     marginBottom: 50
+  },
+  pageHeader: {
+    fontSize: 20,
+    fontWeight: '500',
+    textAlign: 'center',
+    color: 'white'
   },
   aboutTrendingPageIconContainer: {
     position: 'absolute',
@@ -67,7 +73,11 @@ var TrendingPage = React.createClass({
     return (
       <View style={styles.container}>
 
-        <MainScreenBanner title='Trending'/>
+        <YouniHeader>
+          <Text style={styles.pageHeader}>
+            {'Trending'}
+          </Text>
+        </YouniHeader>
         <TrendingPageSelector
           selectedFeed={this.state.selectedFeed}
           currentFeed={this.currentFeed}

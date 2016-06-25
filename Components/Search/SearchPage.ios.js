@@ -5,15 +5,16 @@ var Unicycle = require('../../Unicycle');
 
 var searchStore = require('../../stores/SearchStore');
 
-var MainScreenBanner = require('../../MainScreenBanner');
 var ExploreFeedPosts = require('../Post/ExploreFeedPosts');
 var SearchBarInput = require('./SearchBarInput');
 var SearchResultsList = require('./SearchResultsList');
+var YouniHeader = require('../Common/YouniHeader');
 var EmptyResults = require('../Common/EmptyResults');
 var Spinner = require('../Common/Spinner');
 
 var {
   View,
+  Text,
   StyleSheet,
   ScrollView
 } = React;
@@ -21,6 +22,12 @@ var {
 var styles = StyleSheet.create({
   searchPageContainer: {
     flex: 1
+  },
+  pageHeader: {
+    fontSize: 20,
+    fontWeight: '500',
+    textAlign: 'center',
+    color: 'white'
   }
 });
 
@@ -55,7 +62,11 @@ var SearchPage = React.createClass({
     return (
       <View style={styles.searchPageContainer}>
 
-        <MainScreenBanner title='Explore'/>
+        <YouniHeader>
+          <Text style={styles.pageHeader}>
+            {'Explore'}
+          </Text>
+        </YouniHeader>
         <SearchBarInput/>
         {searchPageContent}
 

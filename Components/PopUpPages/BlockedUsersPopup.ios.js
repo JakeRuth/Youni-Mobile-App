@@ -2,10 +2,36 @@
 
 var React = require('react-native');
 var Unicycle = require('../../Unicycle');
+var YouniHeader = require('../Common/YouniHeader');
+var Spinner = require('../Common/Spinner');
+var BackArrow = require('../Common/BackArrow');
 var BlockedUsersPage = require('../Profile/Settings/BlockedUsersPage');
-var OverlayPage = require('../Common/OverlayPage');
 var editProfileInformationStore = require('../../stores/profile/EditProfileInformationStore');
 var userLoginMetaDataStore = require('../../stores/UserLoginMetadataStore');
+
+var {
+  View,
+  Text,
+  ScrollView,
+  StyleSheet
+} = React;
+
+var styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
+  pageHeader: {
+    fontSize: 20,
+    fontWeight: '500',
+    textAlign: 'center',
+    color: 'white'
+  },
+  spinnerContainer: {
+    flex: 1,
+    alignSelf: 'center',
+    justifyContent: 'center'
+  }
+});
 
 var BlockedUsersPopup = React.createClass({
 
@@ -18,28 +44,46 @@ var BlockedUsersPopup = React.createClass({
   ],
 
   componentDidMount() {
-    var that = this,
-        userEmail = userLoginMetaDataStore.getEmail();
-
+    var userEmail = userLoginMetaDataStore.getEmail();
     editProfileInformationStore.requestBlockedUsers(userEmail);
   },
 
   render: function () {
-    var isContentLoading = (
-      editProfileInformationStore.isGetBlockedUsersRequestInFlight() ||
-      editProfileInformationStore.isRemoveBlockRequestInFlight()
-    );
-    var pageContent = (
-      <BlockedUsersPage
-        loading={isContentLoading}
-        users={editProfileInformationStore.getBlockedUsers()}/>
-    );
+    var content;
+
+    if (this.isPageRequestInFlight()) {
+      content = (
+        <View style={styles.spinnerContainer}>
+          <Spinner/>
+        </View>
+      );
+    }
+    else {
+      content = (
+        <BlockedUsersPage users={editProfileInformationStore.getBlockedUsers()}/>
+      );
+    }
 
     return (
-      <OverlayPage
-        content={pageContent}
-        onBackArrowPress={() => {this.props.navigator.pop();}}
-        bannerTitle='Blocked'/>
+      <View style={styles.container}>
+
+        <YouniHeader>
+          <Text style={styles.pageHeader}>
+            Blocked Users
+          </Text>
+          <BackArrow onPress={() => {this.props.navigator.pop();}}/>
+        </YouniHeader>
+
+        {content}
+
+      </View>
+    );
+  },
+
+  isPageRequestInFlight: function() {
+    return (
+      editProfileInformationStore.isGetBlockedUsersRequestInFlight() ||
+      editProfileInformationStore.isRemoveBlockRequestInFlight()
     );
   }
 
