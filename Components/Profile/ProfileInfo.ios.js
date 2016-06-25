@@ -6,7 +6,7 @@ var ProfileInfoBody = require('./ProfileInfoBody');
 var ProfileInfoFooter = require('./ProfileInfoFooter');
 
 var Colors = require('../../Utils/Common/Colors');
-var PostViewTypeEnum = require('../../Utils/Post/PostViewTypeEnum');
+var PostViewType = require('../../Utils/Enums/PostViewType');
 
 var {
   View,
@@ -27,7 +27,7 @@ var ProfileInfo = React.createClass({
     isFollowing: React.PropTypes.bool,
     followAction: React.PropTypes.func,
     unfollowAction: React.PropTypes.func,
-    currentPostViewMode: React.PropTypes.oneOf([PostViewTypeEnum.GRID, PostViewTypeEnum.LIST]).isRequired,
+    currentPostViewMode: React.PropTypes.oneOf([PostViewType.GRID, PostViewType.LIST]).isRequired,
     onPostViewControlPress: React.PropTypes.func.isRequired,
     viewerIsProfileOwner: React.PropTypes.bool
   },

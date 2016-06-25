@@ -2,7 +2,7 @@
 
 var React = require('react-native');
 var Colors = require('../../../Utils/Common/Colors');
-var GenderEnum = require('../../../Utils/Common/GenderEnum');
+var Gender = require('../../../Utils/Enums/Gender');
 var signupStore = require('../../../stores/SignupStore');
 
 var {
@@ -49,9 +49,9 @@ var GenderInput = React.createClass({
     return (
       <View style={styles.container}>
 
-        {this._renderOption(GenderEnum.MALE, this._onMaleSelect)}
+        {this._renderOption(Gender.MALE, this._onMaleSelect)}
         <View style={{flex: 1}}/>
-        {this._renderOption(GenderEnum.FEMALE, this._onFemaleSelect)}
+        {this._renderOption(Gender.FEMALE, this._onFemaleSelect)}
 
       </View>
     );
@@ -81,16 +81,16 @@ var GenderInput = React.createClass({
 
   _onMaleSelect: function() {
     this.setState({
-      genderSelected: GenderEnum.MALE
+      genderSelected: Gender.MALE
     });
-    signupStore.setGender(GenderEnum.MALE);
+    signupStore.setGender(Gender.MALE);
   },
 
   _onFemaleSelect: function() {
     this.setState({
-      genderSelected: GenderEnum.FEMALE
+      genderSelected: Gender.FEMALE
     });
-    signupStore.setGender(GenderEnum.FEMALE);
+    signupStore.setGender(Gender.FEMALE);
   }
 
 });

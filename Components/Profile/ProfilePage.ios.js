@@ -8,7 +8,7 @@ var profileOwnerStore = require('../../stores/profile/ProfileOwnerStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var notificationStore = require('../../stores/NotificationStore');
 
-var PostViewTypeEnum = require('../../Utils/Post/PostViewTypeEnum');
+var PostViewType = require('../../Utils/Enums/PostViewType');
 
 var ProfileInfo = require('./ProfileInfo');
 var ProfilePostList = require('./ProfilePostList');
@@ -64,7 +64,7 @@ var ProfilePage = React.createClass({
 
   getInitialState: function() {
     return {
-      postViewMode: PostViewTypeEnum.LIST
+      postViewMode: PostViewType.LIST
     };
   },
 
@@ -111,7 +111,7 @@ var ProfilePage = React.createClass({
           <ProfilePostList
             posts={profileOwnerStore.getPosts()}
             user={profileOwnerStore.getUserJson()}
-            gridViewEnabled={this.state.postViewMode === PostViewTypeEnum.GRID}
+            gridViewEnabled={this.state.postViewMode === PostViewType.GRID}
             onPostViewControlPress={this.onPostViewControlPress}
             noMorePostsToFetch={profileOwnerStore.getNoMorePostsToFetch()}
             viewerIsProfileOwner={true}

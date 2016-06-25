@@ -1,10 +1,10 @@
 'use strict';
 
-var GenderEnum = {
+var Gender = {
 
   MALE: 'Male',
   FEMALE: 'Female'
 
 };
 
-module.exports = GenderEnum;
+module.exports = Gender;

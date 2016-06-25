@@ -19,6 +19,9 @@ var styles = StyleSheet.create({
   exploreFeedContainer: {
     flex: 1,
     paddingBottom: 50
+  },
+  feedFilterContainer: {
+    alignItems: 'center'
   }
 });
 
@@ -71,7 +74,9 @@ var ExploreFeedPosts = React.createClass({
     return (
       <View style={styles.exploreFeedContainer}>
 
-        <FeedFilters disabled={explorePostsStore.isFeedRefreshing() || explorePostsStore.isRequestInFlight()}/>
+        <View style={styles.feedFilterContainer}>
+          <FeedFilters disabled={explorePostsStore.isFeedRefreshing() || explorePostsStore.isRequestInFlight()}/>
+        </View>
         {content}
 
       </View>

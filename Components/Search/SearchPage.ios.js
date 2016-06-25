@@ -22,12 +22,6 @@ var {
 var styles = StyleSheet.create({
   searchPageContainer: {
     flex: 1
-  },
-  pageHeader: {
-    fontSize: 20,
-    fontWeight: '500',
-    textAlign: 'center',
-    color: 'white'
   }
 });
 
@@ -63,11 +57,8 @@ var SearchPage = React.createClass({
       <View style={styles.searchPageContainer}>
 
         <YouniHeader>
-          <Text style={styles.pageHeader}>
-            {'Explore'}
-          </Text>
+          <SearchBarInput/>
         </YouniHeader>
-        <SearchBarInput/>
         {searchPageContent}
 
       </View>

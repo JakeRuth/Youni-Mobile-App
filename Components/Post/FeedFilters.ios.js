@@ -1,49 +1,47 @@
 'use strict';
 
 var React = require('react-native');
-var IonIcon = require('react-native-vector-icons/Ionicons');
-var MaterialIcon = require('react-native-vector-icons/MaterialIcons');
 var explorePostsStore = require('../../stores/post/ExplorePostsStore');
 var ExploreFeedEndpoints = require('../../Utils/Enums/ExploreFeedEndpoints');
-var Color = require('../../Utils/Common/Colors');
+var Colors = require('../../Utils/Common/Colors');
+var PostListFilter = require('../../Utils/Enums/PostListFilter');
 
 var {
   View,
+  Text,
   StyleSheet,
+  Dimensions,
   TouchableHighlight
 } = React;
 
 var styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    backgroundColor: '#F2F2F2'
-  },
-  filterOptionContainer: {
-    flex: 1,
-    height: 30,
+    justifyContent: 'space-between',
     alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: 1,
-    paddingBottom: 2
+    width: Dimensions.get('window').width * .6,
+    height: 35
   },
-  selectedFilterOption: {
-    borderTopWidth: 1,
-    borderTopColor: Color.YOUNI_PRIMARY_PURPLE,
-    paddingTop: 0
-  },
-  icon: {
+  filterLabelContainer: {
     flex: 1
+  },
+  filterLabel: {
+    color: Colors.YOUNI_PRIMARY_PURPLE,
+    fontSize: 16,
+    fontWeight: '100',
+    textAlign: 'center'
+  },
+  selectedFilterUnderline: {
+    position: 'absolute',
+    left: (Dimensions.get('window').width * .6) / 12, // centers the line under the filter label
+    width: 36,
+    height: 3,
+    borderRadius: 1.5,
+    backgroundColor: Colors.YOUNI_PRIMARY_PURPLE
   }
 });
 
 var FeedFilters = React.createClass({
-
-  maleFilterName: 'male',
-  femaleFilterName: 'female',
-  defaultFilterName: 'both',
-
-  selectedIconColor: Color.YOUNI_PRIMARY_PURPLE,
-  defaultIconColor: '#ADADAD',
 
   propTypes: {
     disabled: React.PropTypes.bool
@@ -51,102 +49,35 @@ var FeedFilters = React.createClass({
 
   getInitialState: function() {
     return {
-      selectedFilter: this.defaultFilterName
+      selectedFilter: PostListFilter.ALL
     };
   },
 
   render: function() {
     return (
       <View style={styles.container}>
-
-        {this._renderFemaleOption()}
-        {this._renderBothOption()}
-        {this._renderMaleOption()}
-
+        {this._renderFilterLabel(PostListFilter.MALE, 'Male')}
+        {this._renderFilterLabel(PostListFilter.ALL, 'All')}
+        {this._renderFilterLabel(PostListFilter.FEMALE, 'Female')}
       </View>
     );
   },
 
-  _renderFemaleOption: function() {
-    var filterStyles = [styles.filterOptionContainer],
-        iconColor;
-
-    if (this.state.selectedFilter === this.femaleFilterName) {
-      filterStyles.push(styles.selectedFilterOption);
-      iconColor = this.selectedIconColor;
-    }
-    else {
-      iconColor = this.defaultIconColor;
-    }
-
+  _renderFilterLabel: function(filter, label) {
     return (
       <TouchableHighlight
-        style={filterStyles}
-        underlayColor={'transparent'}
-        onPress={()=>{ this._onFilterPress(this.femaleFilterName); }}>
-
-        <IonIcon
-          style={styles.icon}
-          name='woman'
-          size={30}
-          color={iconColor}/>
-
-      </TouchableHighlight>
-    );
-  },
-
-  _renderBothOption: function() {
-    var filterStyles = [styles.filterOptionContainer],
-        iconColor;
-
-    if (this.state.selectedFilter === this.defaultFilterName) {
-      filterStyles.push(styles.selectedFilterOption);
-      iconColor = this.selectedIconColor;
-    }
-    else {
-      iconColor = this.defaultIconColor;
-    }
-
-    return (
-      <TouchableHighlight
-        style={filterStyles}
-        underlayColor={'transparent'}
-        onPress={()=>{ this._onFilterPress(this.defaultFilterName); }}>
-
-        <MaterialIcon
-          style={styles.icon}
-          name='wc'
-          size={30}
-          color={iconColor}/>
-
-      </TouchableHighlight>
-    );
-  },
-
-  _renderMaleOption: function() {
-    var filterStyles = [styles.filterOptionContainer],
-        iconColor;
-
-    if (this.state.selectedFilter === this.maleFilterName) {
-      filterStyles.push(styles.selectedFilterOption);
-      iconColor = this.selectedIconColor;
-    }
-    else {
-      iconColor = this.defaultIconColor;
-    }
-
-    return (
-      <TouchableHighlight
-        style={filterStyles}
-        underlayColor={'transparent'}
-        onPress={()=>{ this._onFilterPress(this.maleFilterName); }}>
-
-        <IonIcon
-          style={styles.icon}
-          name='man'
-          size={30}
-          color={iconColor}/>
-
+        style={styles.filterLabelContainer}
+        underlayColor="transparent"
+        onPress={() => { this._onFilterPress(filter) }}>
+        <View>
+          <Text style={styles.filterLabel}>
+            {label}
+          </Text>
+          {
+            this.state.selectedFilter === filter &&
+            <View style={styles.selectedFilterUnderline}/>
+          }
+        </View>
       </TouchableHighlight>
     );
   },
@@ -161,15 +92,15 @@ var FeedFilters = React.createClass({
   },
 
   _getExploreFeedEndpointForFilter: function(selectedFilter) {
-    if (selectedFilter === this.defaultFilterName) {
+    if (selectedFilter === PostListFilter.ALL) {
       return ExploreFeedEndpoints.DEFAULT;
     }
 
-    if (selectedFilter === this.femaleFilterName) {
+    if (selectedFilter === PostListFilter.FEMALE) {
       return ExploreFeedEndpoints.FEMALE;
     }
 
-    if (selectedFilter === this.maleFilterName) {
+    if (selectedFilter === PostListFilter.MALE) {
       return ExploreFeedEndpoints.MALE;
     }
   }

@@ -3,7 +3,7 @@
 var React = require('react-native');
 var Unicycle = require('../Unicycle');
 var AjaxUtils = require('../Utils/Common/AjaxUtils');
-var GenderEnum = require('../Utils/Common/GenderEnum');
+var Gender = require('../Utils/Enums/Gender');
 var LoginSignupFlowAlerts = require('../Components/LoginSignupFlow/LoginSignupFlowAlerts');
 
 var signupStore = Unicycle.createStore({
@@ -22,7 +22,7 @@ var signupStore = Unicycle.createStore({
   },
 
   createUser: function(successCallback) {
-    var isFemale = this.getGender() === GenderEnum.FEMALE,
+    var isFemale = this.getGender() === Gender.FEMALE,
         that = this;
 
     this.setIsCreateAccountRequestInFlight(true);

@@ -7,7 +7,7 @@ var FollowUnfollowButton = require('./FollowUnfollowButton');
 var UserFollowingListPopup = require('../PopupPages/UserFollowingListPopup');
 var PrettyTouchable = require('../Common/PrettyTouchable');
 var Colors = require('../../Utils/Common/Colors');
-var PostViewTypeEnum = require('../../Utils/Post/PostViewTypeEnum');
+var PostViewType = require('../../Utils/Enums/PostViewType');
 
 var {
   View,
@@ -66,7 +66,7 @@ var ProfileInfoFooter = React.createClass({
     isFollowing: React.PropTypes.bool,
     followAction: React.PropTypes.func,
     unfollowAction: React.PropTypes.func,
-    currentPostViewMode: React.PropTypes.oneOf([PostViewTypeEnum.GRID, PostViewTypeEnum.LIST]).isRequired,
+    currentPostViewMode: React.PropTypes.oneOf([PostViewType.GRID, PostViewType.LIST]).isRequired,
     onPostViewControlPress: React.PropTypes.func.isRequired,
     navigator: React.PropTypes.object.isRequired,
     viewerIsProfileOwner: React.PropTypes.bool
@@ -75,7 +75,7 @@ var ProfileInfoFooter = React.createClass({
   render: function() {
     var postGridIconColor, postListIconColor;
 
-    if (this.props.currentPostViewMode === PostViewTypeEnum.LIST) {
+    if (this.props.currentPostViewMode === PostViewType.LIST) {
       postGridIconColor = Colors.MED_GRAY;
       postListIconColor = Colors.YOUNI_PRIMARY_PURPLE;
     }
@@ -91,7 +91,7 @@ var ProfileInfoFooter = React.createClass({
           <TouchableHighlight
             style={styles.postDisplayFormatLeftControl}
             underlayColor="transparent"
-            onPress={() => { this.props.onPostViewControlPress(PostViewTypeEnum.LIST); }}>
+            onPress={() => { this.props.onPostViewControlPress(PostViewType.LIST); }}>
             <Icon
               name='android-menu'
               size={28}
@@ -109,7 +109,7 @@ var ProfileInfoFooter = React.createClass({
           <TouchableHighlight
             style={styles.postDisplayFormatRightControl}
             underlayColor="transparent"
-            onPress={() => { this.props.onPostViewControlPress(PostViewTypeEnum.GRID); }}>
+            onPress={() => { this.props.onPostViewControlPress(PostViewType.GRID); }}>
             <Icon
               name='android-apps'
               size={28}

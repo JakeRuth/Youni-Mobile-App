@@ -16,7 +16,7 @@ var BackArrow = require('../Common/BackArrow');
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 var UserUtils = require('../../Utils/User/UserUtils');
 var PostUtils = require('../../Utils/Post/PostUtils');
-var PostViewTypeEnum = require('../../Utils/Post/PostViewTypeEnum');
+var PostViewType = require('../../Utils/Enums/PostViewType');
 
 var INITIAL_PAGE_OFFSET = 0;
 var MAX_POSTS_PER_PAGE = 9;
@@ -56,7 +56,7 @@ var ProfilePopup = React.createClass({
     return {
       user: {},
       posts: [],
-      postViewMode: PostViewTypeEnum.LIST,
+      postViewMode: PostViewType.LIST,
       profileLoading: true,
       isFollowing: null,
       postsLoading: false,
@@ -128,7 +128,7 @@ var ProfilePopup = React.createClass({
       <ProfilePostList
         posts={immutable.List(this.state.posts)}
         user={this.state.user}
-        gridViewEnabled={this.state.postViewMode === PostViewTypeEnum.GRID}
+        gridViewEnabled={this.state.postViewMode === PostViewType.GRID}
         onPostViewControlPress={this.onPostViewControlPress}
         onLoadMorePostsPress={this._requestUserPosts}
         noMorePostsToFetch={this.state.noMorePostsToFetch}
