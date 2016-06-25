@@ -2,7 +2,8 @@
 
 var React = require('react-native');
 var Icon = require('react-native-vector-icons/Ionicons');
-var Color = require('../../Utils/Common/Colors');
+var ProfileImageThumbnail = require('./ProfileImageThumbnail');
+var Colors = require('../../Utils/Common/Colors');
 
 var {
   View,
@@ -18,28 +19,28 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginLeft: 10,
-    marginRight: 10
+    paddingLeft: 20,
+    paddingRight: 20,
+    height: 55
   },
   profileImage: {
     alignSelf: 'center',
     height: 45,
     width: 45,
-    borderRadius: 22,
-    marginRight: 10
+    borderRadius: 22
   },
   noProfilePictureIcon: {
-    paddingLeft: 10
+    width: 45,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   fullName: {
     flex: 1,
-    fontSize: 20,
-    alignSelf: 'center'
-  },
-  blankLine: {
-    borderWidth: .3,
-    borderColor: '#ADADAD',
-    margin: 5
+    fontSize: 16,
+    fontWeight: '100',
+    alignSelf: 'center',
+    color: Colors.DARK_GRAY,
+    paddingLeft: 16
   }
 });
 
@@ -60,18 +61,17 @@ var UserListItem = React.createClass({
 
     if (profileImageUrl) {
       profilePicture = (
-        <Image
-          style={styles.profileImage}
-          source={{uri: profileImageUrl}}/>
+        <ProfileImageThumbnail profileImageUrl={profileImageUrl}/>
       );
     }
     else {
       profilePicture = (
-        <Icon
-          style={[styles.profileImage, styles.noProfilePictureIcon]}
-          name='ios-person'
-          size={40}
-          color={Color.YOUNI_PRIMARY_PURPLE} />
+        <View style={styles.noProfilePictureIcon}>
+          <Icon
+            name='ios-person'
+            size={40}
+            color={Colors.YOUNI_PRIMARY_PURPLE} />
+        </View>
       );
     }
 
@@ -91,7 +91,6 @@ var UserListItem = React.createClass({
           </View>
 
         </TouchableHighlight>
-        <View style={styles.blankLine}/>
       </View>
     );
   },
