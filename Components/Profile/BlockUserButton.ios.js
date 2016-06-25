@@ -1,9 +1,11 @@
 'use strict';
 
 var React = require('react-native');
+var Icon = require('react-native-vector-icons/Ionicons');
+
+var Colors = require('../../Utils/Common/Colors');
 var searchStore = require('../../stores/SearchStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
-var Icon = require('react-native-vector-icons/Ionicons');
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 
 var {
@@ -11,6 +13,7 @@ var {
   TouchableHighlight,
   StyleSheet,
   Text,
+  ActionSheetIOS,
   AlertIOS
 } = React;
 
@@ -29,13 +32,14 @@ var styles = StyleSheet.create({
 var BlockUserButton = React.createClass({
 
   propTypes: {
-    email: React.PropTypes.string.isRequired
+    email: React.PropTypes.string.isRequired,
+    navigator: React.PropTypes.object.isRequired
   },
 
   render: function() {
     return (
       <TouchableHighlight
-        onPress={this._onBlockUserIconPress}
+        onPress={this._onSettingsButtonClick}
         style={styles.blockUserContainer}
         underlayColor='transparent'>
 
@@ -50,10 +54,27 @@ var BlockUserButton = React.createClass({
     );
   },
 
+  _onSettingsButtonClick: function() {
+    ActionSheetIOS.showActionSheetWithOptions({
+      options: [
+        'Block User',
+        'Cancel'
+      ],
+      destructiveButtonIndex: 0,
+      cancelButtonIndex: 1,
+      tintColor: Colors.YOUNI_PRIMARY_PURPLE
+    },
+    (buttonIndex) => {
+      if (buttonIndex === 0) {
+        this._onBlockUserIconPress();
+      }
+    });
+  },
+
   _onBlockUserIconPress: function () {
     AlertIOS.alert(
-      'Permanently block this user?',
-      'You can always unblock users from the settings page',
+      'Are you sure?',
+      'You can always unblock a user from the settings button on your profile page.',
       [
         {
           text: 'Yes',
@@ -69,6 +90,8 @@ var BlockUserButton = React.createClass({
 
   _blockUser: function () {
     var userId = userLoginMetadataStore.getUserId();
+
+    this.props.navigator.pop();
 
     AjaxUtils.ajax(
       '/user/block',

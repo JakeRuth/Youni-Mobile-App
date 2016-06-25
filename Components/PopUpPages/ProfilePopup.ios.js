@@ -99,7 +99,9 @@ var ProfilePopup = React.createClass({
             {this._getBannerTitle()}
           </Text>
           <BackArrow onPress={() => {this.props.navigator.pop();}}/>
-          {this._renderBlockUserIcon()}
+          <BlockUserButton
+            email={this.props.profileUserEmail}
+            navigator={this.props.navigator}/>
         </YouniHeader>
 
         {content}
@@ -139,12 +141,6 @@ var ProfilePopup = React.createClass({
         onSubmitCommentAction={this.onSubmitCommentAction}
         navigator={this.props.navigator}/>
     );
-  },
-
-  _renderBlockUserIcon: function() {
-    return (
-      <BlockUserButton email={this.props.profileUserEmail}/>
-    )
   },
 
   _getBannerTitle: function() {
