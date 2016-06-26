@@ -20,7 +20,7 @@ var YouniHeader = React.createClass({
 
   render: function() {
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, this.props.style]}>
         {this.props.children ? this.props.children : <View/>}
       </View>
     );

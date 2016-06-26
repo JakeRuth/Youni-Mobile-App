@@ -12,7 +12,9 @@ var {
 
 var styles = StyleSheet.create({
   allFollowingListContainer: {
-    flex: 1
+    flex: 1,
+    padding: 20,
+    paddingTop: 5
   },
   scrollBar: {
     backgroundColor: 'transparent'

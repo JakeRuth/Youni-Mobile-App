@@ -19,8 +19,6 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingLeft: 20,
-    paddingRight: 20,
     height: 55
   },
   profileImage: {
@@ -76,7 +74,7 @@ var UserListItem = React.createClass({
     }
 
     return (
-      <View>
+      <View style={this.props.style}>
         <TouchableHighlight
           underlayColor='transparent'
           onPress={ () => {this._onUserListItemPress(email)} }>

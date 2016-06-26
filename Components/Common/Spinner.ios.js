@@ -25,7 +25,7 @@ var Spinner = React.createClass({
 
   render: function() {
     return(
-      <View style={styles.container}>
+      <View style={[styles.container, this.props.style]}>
         <ActivityIndicatorIOS
           size={'small'}
           color={this.props.color ? this.props.color : Colors.YOUNI_PRIMARY_PURPLE}/>

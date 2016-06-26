@@ -10,10 +10,17 @@ var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 
 var {
   View,
+  StyleSheet,
   ScrollView,
   RefreshControl,
   TouchableHighlight
 } = React;
+
+var styles = StyleSheet.create({
+  spinner: {
+    marginTop: 15
+  }
+});
 
 var TrendingUsersList = React.createClass({
 
@@ -32,7 +39,7 @@ var TrendingUsersList = React.createClass({
       content = this._renderTrendingUsers(trendingUsersJson);
     }
     else if (this.props.isPageLoading) {
-      content = <Spinner/>;
+      content = <Spinner style={styles.spinner}/>;
     }
 
     return (
@@ -77,10 +84,10 @@ var TrendingUsersList = React.createClass({
 
         <View>
           <TrendingUser
+            navigator={this.props.navigator}
             ranking={index + 1}
-            firstName={trendingUser.firstName}
-            profileImageUrl={trendingUser.profileImageUrl}
-            points={trendingUser.currentPoints}/>
+            user={trendingUser}
+            campusScore={trendingUser.currentPoints}/>
         </View>
 
       </TouchableHighlight>

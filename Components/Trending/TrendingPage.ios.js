@@ -7,7 +7,8 @@ var trendingStore = require('../../stores/trending/TrendingStore');
 var YouniHeader = require('../Common/YouniHeader');
 var TrendingUsersList = require('./TrendingUsersList');
 var ErrorPage = require('../Common/ErrorPage');
-var TrendingPageSelector = require('./TrendingPageSelector');
+var TrendingPageFilter = require('./TrendingPageFilter');
+var TrendingFeedFilters = require('../../Utils/Enums/TrendingFeedFilters');
 
 var {
   View,
@@ -22,7 +23,16 @@ var styles = StyleSheet.create({
     flex: 1,
     marginBottom: 50
   },
-  pageHeader: {
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  trendingIcon: {
+    marginBottom: 2,
+    marginRight: 3
+  },
+  headerText: {
     fontSize: 20,
     fontWeight: '500',
     textAlign: 'center',
@@ -39,10 +49,6 @@ var styles = StyleSheet.create({
 
 var TrendingPage = React.createClass({
 
-  currentFeed: 'Daily',
-  weeklyFeed: 'Weekly',
-  allTimeFeed: 'All Time',
-
   propTypes: {
     navigator: React.PropTypes.object.isRequired
   },
@@ -57,7 +63,7 @@ var TrendingPage = React.createClass({
 
   getInitialState: function() {
     return {
-      selectedFeed: this.currentFeed
+      selectedFeed: TrendingFeedFilters.DAILY
     };
   },
 
@@ -73,17 +79,16 @@ var TrendingPage = React.createClass({
     return (
       <View style={styles.container}>
 
-        <YouniHeader>
-          <Text style={styles.pageHeader}>
-            {'Trending'}
+        <YouniHeader style={styles.header}>
+          <Icon
+            style={styles.trendingIcon}
+            name='podium'
+            size={25}
+            color='white'/>
+          <Text style={styles.headerText}>
+            People
           </Text>
         </YouniHeader>
-        <TrendingPageSelector
-          selectedFeed={this.state.selectedFeed}
-          currentFeed={this.currentFeed}
-          weeklyFeed={this.weeklyFeed}
-          allTimeFeed={this.allTimeFeed}
-          changeFeedSelector={(feed) => { this._changeFeedSelector(feed) }}/>
 
         {errorPage}
 
@@ -92,6 +97,12 @@ var TrendingPage = React.createClass({
           isPageLoading={trendingStore.isRequestInFlight()}
           onPageRefresh={() => { this._requestTrendingUsers(this.state.selectedFeed) }}
           navigator={this.props.navigator}/>
+        <TrendingPageFilter
+          selectedFeed={this.state.selectedFeed}
+          currentFeed={TrendingFeedFilters.DAILY}
+          weeklyFeed={TrendingFeedFilters.WEEKLY}
+          allTimeFeed={TrendingFeedFilters.ALL_TIME}
+          changeFeedSelector={(feed) => { this._changeFeedSelector(feed) }}/>
 
         {this._renderAboutTrendingPageIcon()}
 
@@ -103,13 +114,13 @@ var TrendingPage = React.createClass({
     return (
       <TouchableHighlight
         style={styles.aboutTrendingPageIconContainer}
-        underlayColor={'transparent'}
+        underlayColor='transparent'
         onPress={this._aboutTrendingPageIconPress}>
 
         <Icon
           name='information-circled'
           size={23}
-          color={'white'}/>
+          color='white'/>
 
       </TouchableHighlight>
     );
@@ -138,25 +149,25 @@ var TrendingPage = React.createClass({
   },
 
   _requestTrendingUsers: function(feed) {
-    if (feed === this.currentFeed) {
+    if (feed === TrendingFeedFilters.DAILY) {
       Unicycle.exec('getCurrentTrendingUsers');
     }
-    else if (feed === this.weeklyFeed) {
+    else if (feed === TrendingFeedFilters.WEEKLY) {
       Unicycle.exec('getTrendingUsers');
     }
-    else if (feed === this.allTimeFeed) {
+    else if (feed === TrendingFeedFilters.ALL_TIME) {
       Unicycle.exec('getAllTimeTrendingUsers');
     }
   },
 
   _getTrendingUsers: function(feed) {
-    if (feed === this.currentFeed) {
+    if (feed === TrendingFeedFilters.DAILY) {
       return trendingStore.getCurrentTrendingUsers();
     }
-    else if (feed === this.weeklyFeed) {
+    else if (feed === TrendingFeedFilters.WEEKLY) {
       return trendingStore.getWeeklyTrendingUsers();
     }
-    else if (feed === this.allTimeFeed) {
+    else if (feed === TrendingFeedFilters.ALL_TIME) {
       return trendingStore.getAllTimeTrendingUsers();
     }
   },
