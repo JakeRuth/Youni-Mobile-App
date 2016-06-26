@@ -4,11 +4,12 @@ var React = require('react-native');
 var Unicycle = require('../Unicycle');
 var homePostsStore = require('../stores/post/HomePostsStore');
 var userLoginMetadataStore = require('../stores/UserLoginMetadataStore');
-var YouniHeader = require('../Components/Common/YouniHeader');
-var PostList = require('../Components/Post/PostList');
-var ErrorPage = require('../Components/Common/ErrorPage');
+var YouniHeader = require('./Common/YouniHeader');
+var PostList = require('./Post/PostList');
+var ErrorPage = require('./Common/ErrorPage');
 var CacheUtils = require('../Utils/Common/CacheUtils');
-var Spinner = require('../Components/Common/Spinner');
+var Spinner = require('./Common/Spinner');
+var NotificationIcon = require('./Notification/NotificationIcon');
 
 var {
   View,
@@ -88,6 +89,7 @@ var HomePage = React.createClass({
       <View style={styles.homePageContainer}>
 
         <YouniHeader>
+          <NotificationIcon navigator={this.props.navigator}/>
           <Image
             style={styles.logo}
             source={require('../images/logoWhiteTextBlankBackground.png')}/>

@@ -10,7 +10,6 @@ var ProfilePage = require('./Profile/ProfilePage');
 var TrendingPage = require('./Trending/TrendingPage');
 var CreatePostPage = require('../CreatePostPage');
 var OverlayPage = require('./Common/OverlayPage');
-var NotificationCallout = require('./Common/NotificationCallout');
 
 var userLoginMetadataStore = require('../stores/UserLoginMetadataStore');
 var tabStateStore = require('../stores/TabStateStore');
@@ -86,21 +85,9 @@ var LandingPage = React.createClass({
   },
 
   render: function() {
-    var numUnreadNotifications = notificationStore.getUnreadNotifications(),
-        notificationCallout;
-
-    if (numUnreadNotifications && tabStateStore.getSelectedTab() !== this.PROFILE_TAB) {
-      notificationCallout = (
-        <View style={styles.notificationCalloutContainer}>
-          <NotificationCallout label={numUnreadNotifications}/>
-        </View>
-      );
-    }
-
     return (
       <View style={styles.tabBarContainer}>
         {this._renderTabBar()}
-        {notificationCallout}
       </View>
     );
   },

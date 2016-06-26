@@ -1,9 +1,27 @@
 'use strict';
 
 var React = require('react-native');
-var OverlayPage = require('../Common/OverlayPage');
+var YouniHeader = require('../Common/YouniHeader');
+var BackArrow = require('../Common/BackArrow');
 var NotificationsList = require('../Notification/NotificationsList');
-var notificationStore = require('../../stores/NotificationStore');
+
+var {
+  View,
+  Text,
+  StyleSheet
+} = React;
+
+var styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
+  pageHeader: {
+    fontSize: 20,
+    fontWeight: '500',
+    textAlign: 'center',
+    color: 'white'
+  }
+});
 
 var NotificationsPopup = React.createClass({
 
@@ -12,15 +30,19 @@ var NotificationsPopup = React.createClass({
   },
 
   render: function () {
-    var pageContent = (
-      <NotificationsList navigator={this.props.navigator}/>
-    );
-
     return (
-      <OverlayPage
-        content={pageContent}
-        onBackArrowPress={() => {this.props.navigator.pop();}}
-        bannerTitle='Notifications'/>
+      <View style={styles.container}>
+
+        <YouniHeader>
+          <Text style={styles.pageHeader}>
+            Notifications
+          </Text>
+          <BackArrow onPress={() => {this.props.navigator.pop();}}/>
+        </YouniHeader>
+
+        <NotificationsList navigator={this.props.navigator}/>
+
+      </View>
     );
   }
 

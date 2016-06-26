@@ -6,7 +6,6 @@ var Unicycle = require('../../Unicycle');
 
 var profileOwnerStore = require('../../stores/profile/ProfileOwnerStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
-var notificationStore = require('../../stores/NotificationStore');
 
 var PostViewType = require('../../Utils/Enums/PostViewType');
 
@@ -15,9 +14,7 @@ var ProfilePostList = require('./ProfilePostList');
 var EditSettingsButton = require('./Settings/EditSettingsButton');
 var YouniHeader = require('../Common/YouniHeader');
 var ErrorPage = require('../Common/ErrorPage');
-var NotificationCallout = require('../Common/NotificationCallout');
 var Spinner = require('../Common/Spinner');
-var NotificationsPopup = require('../PopupPages/NotificationsPopup');
 
 var {
   View,
@@ -36,18 +33,6 @@ var styles = StyleSheet.create({
     fontWeight: '500',
     textAlign: 'center',
     color: 'white'
-  },
-  notificationIconContainer: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    padding: 17,
-    paddingBottom: 0
-  },
-  unReadNotificationCalloutContainer: {
-    position: 'absolute',
-    top: 16,
-    left: 28
   }
 });
 
@@ -58,8 +43,7 @@ var ProfilePage = React.createClass({
   },
 
   mixins: [
-    Unicycle.listenTo(profileOwnerStore),
-    Unicycle.listenTo(notificationStore)
+    Unicycle.listenTo(profileOwnerStore)
   ],
 
   getInitialState: function() {
@@ -76,16 +60,9 @@ var ProfilePage = React.createClass({
   render: function() {
     var isProfileInfoLoading = profileOwnerStore.isProfileInfoLoading(),
         anyErrorsLoadingPage = profileOwnerStore.anyErrorsLoadingPage(),
-        numUnreadNotifications = notificationStore.getUnreadNotifications(),
-        content, notificationCallout;
+        content;
 
-    if (numUnreadNotifications) {
-      notificationCallout = (
-        <View style={styles.unReadNotificationCalloutContainer}>
-          <NotificationCallout label={numUnreadNotifications}/>
-        </View>
-      );
-    }
+    
 
     if (isProfileInfoLoading) {
       content = (
@@ -138,30 +115,10 @@ var ProfilePage = React.createClass({
         <EditSettingsButton
           user={profileOwnerStore.getUserJson()}
           navigator={this.props.navigator}/>
-        {this._renderNotificationIcon()}
-        {notificationCallout}
+        
         {content}
 
       </View>
-    );
-  },
-
-  _renderNotificationIcon: function() {
-    return (
-      <TouchableHighlight
-        onPress={()=>{
-          notificationStore.resetNumUnreadNotifications();
-          this.props.navigator.push({
-            component: NotificationsPopup
-          });
-        }}
-        style={styles.notificationIconContainer}
-        underlayColor='transparent'>
-        <Icon
-          name='android-notifications-none'
-          size={25}
-          color='white'/>
-      </TouchableHighlight>
     );
   },
 

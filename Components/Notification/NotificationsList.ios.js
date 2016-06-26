@@ -1,10 +1,11 @@
 'use strict';
 
 var React = require('react-native');
+var Icon = require('react-native-vector-icons/Ionicons');
 var Unicycle = require('../../Unicycle');
 var notificationStore = require('../../stores/NotificationStore');
 var Spinner = require('../Common/Spinner');
-var Color = require('../../Utils/Common/Colors');
+var Colors = require('../../Utils/Common/Colors');
 var NotificationListItem = require('./NotificationListItem');
 
 var {
@@ -16,10 +17,16 @@ var {
 } = React;
 
 var styles = StyleSheet.create({
-  noNotificationsMessage: {
-    alignSelf: 'center',
-    fontSize: 20,
-    color: Color.YOUNI_PRIMARY_PURPLE,
+  noNotificationsIndicator: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  noNotificationsLabel: {
+    textAlign: 'center',
+    fontSize: 18,
+    fontWeight: '200',
+    color: Colors.DARK_GRAY,
     padding: 20
   }
 });
@@ -57,9 +64,15 @@ var NotificationsList = React.createClass({
     }
     else if (notifications.length === 0) {
       return (
-        <Text style={styles.noNotificationsMessage}>
-          No notifications
-        </Text>
+        <View style={styles.noNotificationsIndicator}>
+          <Icon
+            name='android-notifications-none'
+            size={75}
+            color={Colors.MED_GRAY}/>
+          <Text style={styles.noNotificationsLabel}>
+            No notifications
+          </Text>
+        </View>
       );
     }
     else {
