@@ -13,6 +13,10 @@ var {
 } = React;
 
 var styles = StyleSheet.create({
+  container: {
+    paddingLeft: 15,
+    paddingRight: 15
+  },
   userRow: {
     flex: 1,
     flexDirection: 'row',
@@ -53,7 +57,7 @@ var PostLikesList = React.createClass({
     }
 
     return (
-      <View>
+      <View style={styles.container}>
         {usersListItems}
         <LoadMoreButton
           onPress={this.props.onLoadMorePress}

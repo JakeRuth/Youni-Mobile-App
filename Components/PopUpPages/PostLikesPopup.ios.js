@@ -2,10 +2,34 @@
 
 var React = require('react-native');
 var PostLikesList = require('../Post/Footer/Like/PostLikesList');
-var OverlayPage = require('../Common/OverlayPage');
+var YouniHeader = require('../Common/YouniHeader');
 var Spinner = require('../Common/Spinner');
+var BackArrow = require('../Common/BackArrow');
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 var UserUtils = require('../../Utils/User/UserUtils');
+
+var {
+  View,
+  Text,
+  StyleSheet
+} = React;
+
+var styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
+  pageHeader: {
+    fontSize: 20,
+    fontWeight: '500',
+    textAlign: 'center',
+    color: 'white'
+  },
+  spinnerContainer: {
+    flex: 1,
+    alignSelf: 'center',
+    justifyContent: 'center'
+  }
+});
 
 var PostLikesPopup = React.createClass({
 
@@ -34,7 +58,11 @@ var PostLikesPopup = React.createClass({
     var pageContent;
 
     if (this.state.isInitialPageLoading) {
-      pageContent = <Spinner/>;
+      pageContent = (
+        <View style={styles.spinnerContainer}>
+          <Spinner/>
+        </View>
+      );
     }
     else {
       pageContent = (
@@ -48,10 +76,18 @@ var PostLikesPopup = React.createClass({
     }
 
     return (
-      <OverlayPage
-        content={pageContent}
-        onBackArrowPress={() => {this.props.navigator.pop();}}
-        bannerTitle='Likes'/>
+      <View style={styles.container}>
+
+        <YouniHeader>
+          <Text style={styles.pageHeader}>
+            Likes
+          </Text>
+          <BackArrow onPress={() => {this.props.navigator.pop();}}/>
+        </YouniHeader>
+
+        {pageContent}
+
+      </View>
     );
   },
 

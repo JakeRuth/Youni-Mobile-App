@@ -2,6 +2,7 @@
 
 var React = require('react-native');
 var Icon = require('react-native-vector-icons/Ionicons');
+var PostLikesPopup = require('../../PopupPages/PostLikesPopup');
 var Colors = require('../../../Utils/Common/Colors');
 
 var {
@@ -68,7 +69,9 @@ var PostStats = React.createClass({
               style={[styles.icon, likedStarIconColor]}
               name={this._getStarIconName()}
               size={ICON_SIZE}/>
-            <Text style={styles.iconLabel}>
+            <Text
+              style={styles.iconLabel}
+              onPress={this._onNumLikesLabelPress}>
               {this.props.post.numLikes}
             </Text>
           </View>
@@ -95,13 +98,22 @@ var PostStats = React.createClass({
     );
   },
 
+  _onNumLikesLabelPress: function() {
+    this.props.navigator.push({
+      component: PostLikesPopup,
+      passProps: {
+        postId: this.props.post.postIdString
+      }
+    })
+  },
+
   _getStarIconName: function() {
-      if (this.props.post.liked) {
-        return 'ios-star';
-      }
-      else {
-        return 'ios-star-outline';
-      }
+    if (this.props.post.liked) {
+      return 'ios-star';
+    }
+    else {
+      return 'ios-star-outline';
+    }
   }
 
 });
