@@ -2,14 +2,17 @@
 
 var React = require('react-native');
 var Unicycle = require('../Unicycle');
+
+var NoHomeFeedPostsMessage = require('./NoHomeFeedPostsMessage');
+var NotificationIcon = require('./Notification/NotificationIcon');
+var PostList = require('./Post/PostList');
+var Spinner = require('./Common/Spinner');
+var YouniHeader = require('./Common/YouniHeader');
+var ErrorPage = require('./Common/ErrorPage');
+
 var homePostsStore = require('../stores/post/HomePostsStore');
 var userLoginMetadataStore = require('../stores/UserLoginMetadataStore');
-var YouniHeader = require('./Common/YouniHeader');
-var PostList = require('./Post/PostList');
-var ErrorPage = require('./Common/ErrorPage');
 var CacheUtils = require('../Utils/Common/CacheUtils');
-var Spinner = require('./Common/Spinner');
-var NotificationIcon = require('./Notification/NotificationIcon');
 
 var {
   View,
@@ -27,21 +30,6 @@ var styles = StyleSheet.create({
   feedContainer: {
     flex: 20,
     paddingBottom: 50
-  },
-  emptyPostsMessageContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 10
-  },
-  noPostsTitle: {
-    textAlign: 'center',
-    fontSize: 20,
-    paddingBottom: 20
-  },
-  noPostSubTitle: {
-    textAlign: 'center',
-    color: 'gray'
   },
   logo: {
     marginTop: -6,
@@ -82,7 +70,7 @@ var HomePage = React.createClass({
       content = this._renderPosts(homeFeedPosts);
     }
     else {
-      content = this._renderEmptyPostsMessage();
+      content = <NoHomeFeedPostsMessage/>
     }
 
     return (
@@ -126,15 +114,6 @@ var HomePage = React.createClass({
         unlikePhotoAction={this.unlikePhotoAction}
         onSubmitCommentAction={this.onSubmitCommentAction}
         navigator={this.props.navigator}/>
-    );
-  },
-
-  _renderEmptyPostsMessage: function() {
-    return (
-      <View style={styles.emptyPostsMessageContainer}>
-        <Text style={styles.noPostsTitle}>No posts from any one you are following</Text>
-        <Text style={styles.noPostSubTitle}>As you follow your friends, only their posts will show up in this feed</Text>
-      </View>
     );
   },
 
