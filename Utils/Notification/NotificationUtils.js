@@ -41,10 +41,8 @@ var NotificationUtils = {
     var json = {
       type: notification.type,
       label: notification.label,
-      senderName: notification.senderName,
-      senderUserProfileImageUrl: notification.senderUserProfileImageUrl,
+      senderUser: notification.senderUser,
       explanation: notification.explanation,
-      senderEmail: notification.senderEmail,
       isRead: notification.isRead,
       timestamp: notification.timestamp,
       id: id

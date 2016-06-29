@@ -41,6 +41,7 @@ var ClassYearInput = React.createClass({
             height: 44
           }}
           labelContainerStyle={{
+            paddingLeft: 20,
             alignItems: 'flex-start'
           }}
           onPress={this.props.onPress}/>

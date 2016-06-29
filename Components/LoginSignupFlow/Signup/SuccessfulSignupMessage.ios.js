@@ -31,7 +31,6 @@ var styles = StyleSheet.create({
   },
   successEnvelopeImage: {
     flex: 1,
-    resizeMode: "contain",
     width: 241
   },
   checkJunkFolderMessage: {
@@ -59,6 +58,7 @@ var SuccessfulSignupMessage = React.createClass({
 
         <Image
           style={styles.successEnvelopeImage}
+          resizeMode="contain"
           source={require('../../../images/emailGraphic.png')}/>
 
         <Text style={styles.checkJunkFolderMessage}>

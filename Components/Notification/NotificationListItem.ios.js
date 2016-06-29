@@ -10,14 +10,15 @@ var notificationStore = require('../../stores/NotificationStore');
 var profileOwnerStore = require('../../stores/profile/ProfileOwnerStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var NotificationUtils = require('../../Utils/Notification/NotificationUtils');
-var Color = require('../../Utils/Common/Colors');
+var Colors = require('../../Utils/Common/Colors');
 
 var {
   View,
   Text,
   Image,
   TouchableHighlight,
-  StyleSheet
+  StyleSheet,
+  Dimensions
 } = React;
 
 var styles = StyleSheet.create({
@@ -26,62 +27,56 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
-    backgroundColor: 'white',
-    borderBottomColor: '#F0F0F0',
-    borderBottomWidth: 1,
     marginBottom: 1,
-    paddingTop: 2,
-    paddingBottom: 2,
-    paddingLeft: 5,
-    paddingRight: 5
+    padding: 10
   },
-  label: {
-    flex: 7,
-    alignSelf: 'center',
-    textAlign: 'left',
-    color: '#525252',
-    fontSize: 13,
-    marginLeft: 5,
-    paddingTop: 15,
-    paddingBottom: 15
+  profileImageContainer: {
+    alignItems: 'center',
+    marginRight: 12,
+    width: 44
+  },
+  profileImage: {
+    height: 40,
+    width: 40,
+    borderRadius: 8
+  },
+  messageContainer: {
+    flex: 1,
+    marginTop: -7
   },
   senderName: {
-    color: Color.YOUNI_PRIMARY_PURPLE
+    color: Colors.DARK_GRAY,
+    fontSize: 14,
+    fontWeight: '600'
   },
-  logoContainer: {
-    backgroundColor: Color.YOUNI_PRIMARY_PURPLE
-  },
-  thumbnailContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 40,
-    width: 40,
-    borderRadius: 3
-  },
-  thumbnailImage: {
-    height: 40,
-    width: 40,
-    resizeMode: "cover"
-  },
-  logoThumbnailImage: {
-    height: 16.5,
-    width: 40.5
-  },
-  profileThumbnailImage: {
-    borderRadius: 20
-  },
-  thumbnailIcon: {
-    height: 40,
-    paddingTop: 5,
-    alignSelf: 'center'
+  message: {
+    color: Colors.DARK_GRAY,
+    fontSize: 14,
+    fontWeight: '100',
+    marginTop: 4
   },
   timestamp: {
-    position: 'absolute',
-    left: 50,
-    bottom: 6,
-    fontSize: 9,
-    color: '#ADADAD',
-    backgroundColor: 'transparent'
+    fontSize: 11,
+    color: Colors.MED_GRAY
+  },
+  postImage: {
+    height: 40,
+    width: 40
+  },
+  logoContainer: {
+    backgroundColor: Colors.YOUNI_PRIMARY_PURPLE
+  },
+  logo: {
+    width: 40,
+    height: 40,
+    borderRadius: 8,
+    backgroundColor: Colors.YOUNI_PRIMARY_PURPLE
+  },
+  blankLine: {
+    width: Dimensions.get('window').width * (2/3),
+    backgroundColor: Colors.LIGHT_GRAY,
+    height: .5,
+    alignSelf: 'center'
   }
 });
 
@@ -113,7 +108,7 @@ var NotificationsListItem = React.createClass({
     }
 
     if (!this.props.notification.isRead) {
-      unreadNotificationStyle = { backgroundColor: '#C9D4FF' }
+      unreadNotificationStyle = { backgroundColor: Colors.LIGHT_YOUNI_PURPLE };
     }
 
     if (!NotificationUtils.isValidNotificationType(this.props.notification.type)) {
@@ -123,127 +118,101 @@ var NotificationsListItem = React.createClass({
     }
 
     return (
-      <View>
+      <View style={unreadNotificationStyle}>
 
-        <View style={[styles.itemContainer, unreadNotificationStyle]}>
-          {this._renderThumbnail(this.props.notification)}
-          {this._renderLabel()}
-          {this._renderNotificationTypeIcon(this.props.notification.type)}
-          {this._renderTimestamp(this.props.notification.timestamp)}
+        <View style={styles.itemContainer}>
+          {this._renderProfileImage(this.props.notification)}
+          {this._renderMessage(this.props.notification)}
+          {this._renderPostImage(this.props.notification.post)}
         </View>
+        <View style={styles.blankLine}/>
         {loadMoreNotificationsButton}
 
       </View>
     );
   },
 
-  _renderLabel: function() {
-    var notification = this.props.notification,
-        notificationSenderName = '',
-        onLabelPress = () => {},
-        label = '';
-
-    if (notification.post) {
-      notificationSenderName = notification.senderName + ' ';
-      onLabelPress = this._onLabelPress;
+  _renderProfileImage: function(notification) {
+    if (notification.type === NotificationUtils.TYPE_SYSTEM) {
+      return (
+        <View style={styles.profileImageContainer}>
+          <Image
+            style={styles.logo}
+            source={require('../../images/logoWhiteTextBlankBackground.png')}
+            resizeMode="contain"/>
+        </View>
+      );
     }
-
-    if (notification.explanation) {
-      label = notification.explanation;
+    else if (notification.type === NotificationUtils.TYPE_FOLLOW) {
+      return (
+        <View style={styles.profileImageContainer}>
+          <Icon
+            name='person-add'
+            size={22}
+            color={Colors.YOUNI_PRIMARY_PURPLE}/>
+        </View>
+      );
     }
-    else {
-      label = notification.label;
+    else if (this.props.notification.senderUser) {
+      return (
+        <TouchableHighlight
+          style={styles.profileImageContainer}
+          underlayColor="transparent"
+          onPress={this._onProfileImagePress}>
+          <Image
+            style={styles.profileImage}
+            resizeMode="cover"
+            source={{uri: this.props.notification.senderUser.profileImageUrl}}/>
+        </TouchableHighlight>
+      );
     }
-
-    return (
-      <Text
-        style={styles.label}
-        onPress={onLabelPress}>
-        <Text style={styles.senderName}>
-          {notificationSenderName}
-        </Text>
-        {label}
-      </Text>
-    );
   },
 
-  _renderNotificationTypeIcon: function(type) {
-    var iconName, iconColor;
+  _renderMessage: function(notification) {
+    var notificationSenderName;
 
-    if (type === NotificationUtils.TYPE_LIKE) {
-      iconName = 'ios-star';
-      iconColor = '#FCDD00';
-    }
-    else if (type === NotificationUtils.TYPE_COMMENT) {
-      iconName = 'ios-chatbubble-outline';
-      iconColor = Color.YOUNI_PRIMARY_PURPLE;
-    }
-    else {
-      return <View/>;
+    if (notification.post) {
+      notificationSenderName = (
+        <Text style={styles.senderName}>
+          {notification.senderUser.firstName + ' ' + notification.senderUser.lastName}
+        </Text>
+      );
     }
 
     return (
-      <View style={styles.thumbnailContainer}>
-        <Icon
-          style={styles.thumbnailIcon}
-          name={iconName}
-          size={30}
-          color={iconColor}/>
+      <View style={styles.messageContainer}>
+
+        {notificationSenderName}
+        <Text style={styles.message}>
+          {notification.label + '  '}
+          <Text style={styles.timestamp}>
+            {this.props.notification.timestamp}
+          </Text>
+        </Text>
       </View>
     );
   },
 
-  _renderTimestamp: function(timestamp) {
-    return (
-      <Text style={styles.timestamp}>
-        {timestamp}
-      </Text>
-    );
-  },
-
-  _renderThumbnail: function(notification) {
-    if (notification.post) {
-      return this._renderPostThumbnail(notification.post);
-    }
-    else if (notification.type === NotificationUtils.TYPE_FOLLOW) {
+  _renderPostImage: function(post) {
+    if (post) {
       return (
-        <View style={styles.thumbnailContainer}>
+        <TouchableHighlight
+          underlayColor="transparent"
+          onPress={() => {
+            this.props.navigator.push({
+              component: PostPopup,
+              passProps: {
+                post: post
+              }
+            });
+          }}>
           <Image
-            style={styles.thumbnailImage}
-            source={{uri: profileOwnerStore.getProfileImageUrl()}}/>
-        </View>
+            style={styles.postImage}
+            resizeMode="cover"
+            source={{uri: post.photoUrl}}/>
+        </TouchableHighlight>
       );
     }
-    else if(notification.type === NotificationUtils.TYPE_SYSTEM) {
-      return (
-        <View style={[styles.thumbnailContainer, styles.logoContainer]}>
-          <Image
-            style={styles.logoThumbnailImage}
-            source={require('../../images/logoWhiteTextBlankBackground.png')}/>
-        </View>
-      );
-    }
-    else {
-      return <View/>;
-    }
-  },
-
-  _renderPostThumbnail: function(post) {
-    return (
-      <TouchableHighlight
-        style={styles.thumbnailContainer}
-        onPress={() => {
-          this.props.navigator.push({
-            component: PostPopup,
-            passProps: {post: post}
-          });
-        }}
-        underlayColor="transparent">
-        <Image
-          style={styles.thumbnailImage}
-          source={{uri: post.photoUrl}}/>
-      </TouchableHighlight>
-    );
   },
 
   _renderLoadMoreNotificationsButton: function() {
@@ -260,11 +229,14 @@ var NotificationsListItem = React.createClass({
     );
   },
 
-  _onLabelPress: function() {
-    if (this.props.notification.senderEmail !== userLoginMetadataStore.getEmail()) {
+  _onProfileImagePress: function() {
+    var email = this.props.notification.senderUser.email;
+    if (email !== userLoginMetadataStore.getEmail()) {
       this.props.navigator.push({
         component: ProfilePopup,
-        passProps: {profileUserEmail: this.props.notification.senderEmail}
+        passProps: {
+          profileUserEmail: email
+        }
       });
     }
   }

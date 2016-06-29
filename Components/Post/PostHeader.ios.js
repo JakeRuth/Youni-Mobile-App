@@ -99,7 +99,7 @@ var PostHeader = React.createClass({
                 {this.props.post.posterName}
               </Text>
               <Text style={styles.timestamp}>
-                {this.props.post.timestamp + ' ago'}
+                {this.props.post.timestamp}
               </Text>
             </View>
           </View>

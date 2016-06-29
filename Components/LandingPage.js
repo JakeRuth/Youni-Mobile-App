@@ -32,12 +32,6 @@ var {
 var styles = StyleSheet.create({
   tabBarContainer: {
     flex: 1
-  },
-  notificationCalloutContainer: {
-    position: 'absolute',
-    bottom: 27,
-    right: 12,
-    backgroundColor: 'transparent'
   }
 });
 

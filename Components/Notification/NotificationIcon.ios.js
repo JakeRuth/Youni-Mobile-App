@@ -20,6 +20,11 @@ var styles = StyleSheet.create({
     left: 0,
     padding: 12,
     paddingTop: 3
+  },
+  notificationCalloutContainer: {
+    position: 'absolute',
+    top: 2,
+    left: 26
   }
 });
 
@@ -38,8 +43,8 @@ var NotificationIcon = React.createClass({
 
     if (notificationStore.getUnreadNotifications()) {
       notificationCallout = (
-        <View style={styles.unReadNotificationCalloutContainer}>
-          <NotificationCallout label={numUnreadNotifications}/>
+        <View style={styles.notificationCalloutContainer}>
+          <NotificationCallout/>
         </View>
       );
     }

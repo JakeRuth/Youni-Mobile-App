@@ -22,7 +22,6 @@ var styles = StyleSheet.create({
   postImage: {
     flex: 1,
     justifyContent: "space-around",
-    resizeMode: "contain",
     backgroundColor: '#F0F0F0'
   }
 });
@@ -59,6 +58,7 @@ var Post = React.createClass({
           underlayColor="transparent">
           <Image
             style={[styles.postImage, {height: this._getImageHeight()}]}
+            resizeMode="cover"
             source={{uri: this.props.post.photoUrl}}/>
         </TouchableHighlight>
 

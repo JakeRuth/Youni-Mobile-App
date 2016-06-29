@@ -18,7 +18,6 @@ var styles = StyleSheet.create({
     width: Dimensions.get('window').width / 3
   },
   image: {
-    resizeMode: "cover",
     height: Dimensions.get('window').width / 3,
     width: Dimensions.get('window').width / 3
   }
@@ -44,6 +43,7 @@ var PostGridThumbnail = React.createClass({
 
         <Image
           style={styles.image}
+          resizeMode="cover"
           source={{uri: this.props.post.photoUrl}}/>
 
       </TouchableHighlight>

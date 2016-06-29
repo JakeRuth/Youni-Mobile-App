@@ -13,8 +13,6 @@ var AjaxUtils = {
 
   SERVER_URL: 'http://greedyapi.elasticbeanstalk.com',
 
-  HTTP_CODE_UNAUTHORIZED: 401,
-
   ajax: function(url, data, onSuccessCallback, onFailureCallback) {
     var that = this;
     
