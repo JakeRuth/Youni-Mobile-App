@@ -2,6 +2,7 @@
 
 var React = require('react-native');
 var Unicycle = require('../../Unicycle');
+var ShowImagePicker = require('../CreatePost/ShowImagePicker');
 var PrettyTouchable = require('../Common/PrettyTouchable');
 var Colors = require('../../Utils/Common/Colors');
 
@@ -29,7 +30,8 @@ var styles = StyleSheet.create({
 var NoPostsMessage = React.createClass({
 
   propTypes: {
-    viewerIsProfileOwner: React.PropTypes.bool
+    viewerIsProfileOwner: React.PropTypes.bool,
+    navigator: React.PropTypes.object.isRequired
   },
 
   render: function() {
@@ -45,11 +47,7 @@ var NoPostsMessage = React.createClass({
             height: 44
           }}
           onPress={() => {
-            this.props.navigator.pop();
-            // allow time for the frame pop off stack animation to take place
-            setTimeout(function() {
-              Unicycle.exec('setShouldShowImagePickerForPost', true);
-            }, 300);
+            ShowImagePicker.showImagePicker(this.props.navigator);
           }}/>
       );
     }

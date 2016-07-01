@@ -3,33 +3,24 @@
 var React = require('react-native');
 var Unicycle = require('../Unicycle');
 var AjaxUtils = require('../Utils/Common/AjaxUtils');
-var TabLabel = require('../Utils/Enums/TabLabel');
-var homePostsStore = require('./post/HomePostsStore');
-var userLoginMetadataStore = require('./UserLoginMetadataStore');
-var tabStateStore = require('./TabStateStore');
 
 var createPostStore = Unicycle.createStore({
 
     init: function () {
       this.set({
         isRequestInFlight: false,
-        isImageUploading: false,
-        wasImageSelected: false,
-        imageUri: '',
         imageId: '',
-        caption: '',
-        pageLoadError: false,
-        imageUploadError: false,
-        shouldShowImagePicker: false
+        caption: ''
       });
     },
 
-    $createPost: function(userId, imageId, caption) {
-      var that = this;
+    $createPost: function(userId, onSuccessCallback) {
+      var that = this,
+          caption = this.getCaption(),
+          imageId = this.getImageId();
 
       this.set({
-        isRequestInFlight: true,
-        shouldShowImagePicker: false
+        isRequestInFlight: true
       });
 
       AjaxUtils.ajax(
@@ -41,91 +32,33 @@ var createPostStore = Unicycle.createStore({
         },
         (res) => {
           that.set({
-            isRequestInFlight: false,
-            pageLoadError: false
+            isRequestInFlight: false
           });
 
-          tabStateStore.setSelectedTab(TabLabel.HOME);
-          homePostsStore.setScrollToTopOfPostFeed(true);
-          Unicycle.exec('refreshHomeFeed', userLoginMetadataStore.getUserId());
-
-          that.reInitializeForNextUpload();
+          onSuccessCallback();
         },
         () => {
           that.set({
-            isRequestInFlight: false,
-            pageLoadError: true
+            isRequestInFlight: false
           });
         }
       );
     },
 
-    $setAnyErrorsOnCreatePostPage: function(value) {
-      this.set({
-        pageLoadError: value
-      });
-    },
-
-    $setIsImageUploading: function(isUploading) {
-      this.set({
-        isImageUploading: isUploading
-      });
-    },
-
-    $setWasImageSelected: function(selected) {
-      this.set({
-        wasImageSelected: selected
-      });
-    },
-
-    $setImageUri: function(uri) {
-      this.set({
-        imageUri: uri
-      });
-    },
-
-    $setImageId: function(id) {
+    setImageId: function(id) {
       this.set({
         imageId: id
       });
     },
 
-    $setCaption: function(caption) {
+    setCaption: function(caption) {
       this.set({
         caption: caption
       });
     },
 
-    $setShouldShowImagePickerForPost: function(value) {
-      this.set({
-        shouldShowImagePicker: value
-      });
-    },
-
-    setImageUploadError: function(value) {
-      this.set({
-        imageUploadError: value
-      });
-    },
-
-    anyErrorsLoadingPage: function() {
-      return this.get('pageLoadError');
-    },
-
     isRequestInFlight: function() {
       return this.get('isRequestInFlight');
-    },
-
-    getIsImageUploading: function() {
-      return this.get('isImageUploading');
-    },
-
-    getWasImageSelected: function() {
-      return this.get('wasImageSelected');
-    },
-
-    getImageUri: function() {
-      return this.get('imageUri');
     },
 
     getImageId: function() {
@@ -134,25 +67,6 @@ var createPostStore = Unicycle.createStore({
 
     getCaption: function() {
       return this.get('caption');
-    },
-
-    getShouldShowImagePicker: function() {
-      return this.get('shouldShowImagePicker');
-    },
-
-    getImageUploadError: function() {
-      return this.get('imageUploadError');
-    },
-
-    reInitializeForNextUpload: function() {
-      this.set({
-        isRequestInFlight: false,
-        isImageUploading: false,
-        wasImageSelected: false,
-        imageUri: '',
-        imageId: '',
-        caption: ''
-      });
     }
 
 });

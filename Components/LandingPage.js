@@ -6,10 +6,8 @@ var Icon = require('react-native-vector-icons/Ionicons');
 
 var HomePage = require('./HomePage');
 var SearchPage = require('./Search/SearchPage');
-var ProfilePage = require('./Profile/ProfilePage');
 var TrendingPage = require('./Trending/TrendingPage');
-var CreatePostPage = require('../CreatePostPage');
-var OverlayPage = require('./Common/OverlayPage');
+var CreatePostForm = require('./CreatePost/CreatePostForm');
 
 var userLoginMetadataStore = require('../stores/UserLoginMetadataStore');
 var tabStateStore = require('../stores/TabStateStore');
@@ -17,6 +15,7 @@ var notificationStore = require('../stores/NotificationStore');
 var searchStore = require('../stores/SearchStore');
 var createPostStore = require('../stores/CreatePostStore');
 
+var ShowImagePicker = require('./CreatePost/ShowImagePicker');
 var Color = require('../Utils/Common/Colors');
 var NotificationUtils = require('../Utils/Notification/NotificationUtils');
 var TabLabel = require('../Utils/Enums/TabLabel');
@@ -119,41 +118,33 @@ var LandingPage = React.createClass({
 
   _renderTakePhotoTab: function() {
     var selectedTab = tabStateStore.getSelectedTab(),
-        content,
         tabLabel,
         iconName;
-    
-    if (createPostStore.getShouldShowImagePicker()) {
-      content = <CreatePostPage/>;
-    }
-    else {
-      content = <HomePage {...this.props}/>;
-    }
 
     if (selectedTab === TabLabel.HOME) {
       tabLabel = "Take Photo";
-      iconName = "ios-camera-outline"
+      iconName = "android-home";
     }
     else {
       tabLabel = "Home";
-      iconName = "android-home";
+      iconName = "ios-camera-outline";
     }
     
     return (
       <Icon.TabBarItem
         title={tabLabel}
         iconName={iconName}
-        selectedIconName="ios-camera-outline"
+        selectedIconName={iconName}
         selected={selectedTab === TabLabel.HOME}
         onPress={() => {
           if (selectedTab === TabLabel.HOME) {
-            Unicycle.exec('setShouldShowImagePickerForPost', true);
+            ShowImagePicker.showImagePicker(this.props.navigator);
           }
-
-          Unicycle.exec('setAnyErrorsOnCreatePostPage', false);
-          tabStateStore.setSelectedTab(TabLabel.HOME);
+          else {
+            tabStateStore.setSelectedTab(TabLabel.HOME);
+          }
         }}>
-        {content}
+        <HomePage {...this.props}/>
       </Icon.TabBarItem>
     );
   },

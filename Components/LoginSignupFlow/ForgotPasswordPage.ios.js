@@ -143,7 +143,7 @@ var ForgotPasswordPage = React.createClass({
       [
         {text: 'Ok'}
       ]
-    )
+    );
   },
 
   _alertFailedRequest: function() {
@@ -153,7 +153,7 @@ var ForgotPasswordPage = React.createClass({
       [
         {text: 'Ok'}
       ]
-    )
+    );
   },
 
   _alertEmailFormatError: function() {
@@ -163,7 +163,7 @@ var ForgotPasswordPage = React.createClass({
       [
         {text: 'Ok'}
       ]
-    )
+    );
   }
 
 });
