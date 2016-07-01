@@ -15,9 +15,11 @@ var userLoginMetadataStore = require('../stores/UserLoginMetadataStore');
 var tabStateStore = require('../stores/TabStateStore');
 var notificationStore = require('../stores/NotificationStore');
 var searchStore = require('../stores/SearchStore');
+var createPostStore = require('../stores/CreatePostStore');
 
 var Color = require('../Utils/Common/Colors');
 var NotificationUtils = require('../Utils/Notification/NotificationUtils');
+var TabLabel = require('../Utils/Enums/TabLabel');
 
 var {
   View,
@@ -50,7 +52,7 @@ var LandingPage = React.createClass({
   componentWillMount: function() {
     PushNotificationIOS.addEventListener('register', this._onNotificationRegistration);
   },
-
+ 
   mixins: [
     Unicycle.listenTo(tabStateStore),
     Unicycle.listenTo(notificationStore)
@@ -70,7 +72,7 @@ var LandingPage = React.createClass({
 
     //nice little trick to get the spinner to stay during the animation to home page
     AsyncStorage.getItem('accessToken').then(() => {
-      Unicycle.exec('setSelectedTab', this.HOME_TAB);
+      tabStateStore.setSelectedTab(TabLabel.HOME);
     }).done();
   },
 
@@ -91,28 +93,11 @@ var LandingPage = React.createClass({
       <TabBarIOS
         tintColor={Color.YOUNI_PRIMARY_PURPLE}>
 
-        {this._renderHomeTab()}
         {this._renderExploreTab()}
         {this._renderTakePhotoTab()}
         {this._renderTrendingTab()}
-        {this._renderProfileTab()}
 
       </TabBarIOS>
-    );
-  },
-
-  _renderHomeTab: function() {
-    return (
-      <Icon.TabBarItem
-        title="Home"
-        iconName="ios-home-outline"
-        selectedIconName="ios-home-outline"
-        selected={tabStateStore.getSelectedTab() === this.HOME_TAB}
-        onPress={() => {
-              this._transitionState(this.HOME_TAB);
-            }}>
-        <HomePage navigator={this.props.navigator}/>
-      </Icon.TabBarItem>
     );
   },
 
@@ -122,29 +107,53 @@ var LandingPage = React.createClass({
         title="Explore"
         iconName="ios-search"
         selectedIconName="ios-search"
-        selected={tabStateStore.getSelectedTab() === this.EXPLORE_TAB}
+        selected={tabStateStore.getSelectedTab() === TabLabel.EXPLORE}
         onPress={() => {
-              searchStore.setInExploreFeedView(true);
-              this._transitionState(this.EXPLORE_TAB);
-            }}>
+          searchStore.setInExploreFeedView(true);
+          tabStateStore.setSelectedTab(TabLabel.EXPLORE);
+        }}>
         <SearchPage navigator={this.props.navigator}/>
       </Icon.TabBarItem>
     );
   },
 
   _renderTakePhotoTab: function() {
+    var selectedTab = tabStateStore.getSelectedTab(),
+        content,
+        tabLabel,
+        iconName;
+    
+    if (createPostStore.getShouldShowImagePicker()) {
+      content = <CreatePostPage/>;
+    }
+    else {
+      content = <HomePage {...this.props}/>;
+    }
+
+    if (selectedTab === TabLabel.HOME) {
+      tabLabel = "Take Photo";
+      iconName = "ios-camera-outline"
+    }
+    else {
+      tabLabel = "Home";
+      iconName = "android-home";
+    }
+    
     return (
       <Icon.TabBarItem
-        title="Take Photo"
-        iconName="ios-camera-outline"
+        title={tabLabel}
+        iconName={iconName}
         selectedIconName="ios-camera-outline"
-        selected={tabStateStore.getSelectedTab() === this.CREATE_POST_TAB}
+        selected={selectedTab === TabLabel.HOME}
         onPress={() => {
-              Unicycle.exec('setAnyErrorsOnCreatePostPage', false);
-              Unicycle.exec('setShouldShowImagePickerForPost', true);
-              this._transitionState(this.CREATE_POST_TAB);
-            }}>
-        <CreatePostPage previousTab={tabStateStore.getPreviousTab()}/>
+          if (selectedTab === TabLabel.HOME) {
+            Unicycle.exec('setShouldShowImagePickerForPost', true);
+          }
+
+          Unicycle.exec('setAnyErrorsOnCreatePostPage', false);
+          tabStateStore.setSelectedTab(TabLabel.HOME);
+        }}>
+        {content}
       </Icon.TabBarItem>
     );
   },
@@ -155,26 +164,11 @@ var LandingPage = React.createClass({
         title="Trending"
         iconName="fireball"
         selectedIconName="fireball"
-        selected={tabStateStore.getSelectedTab() === this.TRENDING_TAB}
+        selected={tabStateStore.getSelectedTab() === TabLabel.TRENDING}
         onPress={() => {
-              this._transitionState(this.TRENDING_TAB);
-            }}>
+          tabStateStore.setSelectedTab(TabLabel.TRENDING);
+        }}>
         <TrendingPage navigator={this.props.navigator}/>
-      </Icon.TabBarItem>
-    );
-  },
-
-  _renderProfileTab: function() {
-    return (
-      <Icon.TabBarItem
-        title="Profile"
-        iconName="ios-people-outline"
-        selectedIconName="ios-people-outline"
-        selected={tabStateStore.getSelectedTab() === this.PROFILE_TAB}
-        onPress={() => {
-              this._transitionState(this.PROFILE_TAB);
-            }}>
-        <ProfilePage navigator={this.props.navigator}/>
       </Icon.TabBarItem>
     );
   },
@@ -197,19 +191,7 @@ var LandingPage = React.createClass({
     this.setState({
       currentAppState: currentAppState
     });
-  },
-
-  _transitionState: function(selectedTabName) {
-    var previousTabName = tabStateStore.getSelectedTab();
-    Unicycle.exec('setPreviousTab', previousTabName);
-    Unicycle.exec('setSelectedTab', selectedTabName);
-  },
-
-  HOME_TAB: 'home',
-  EXPLORE_TAB: 'explore',
-  CREATE_POST_TAB: 'createPost',
-  TRENDING_TAB: 'trending',
-  PROFILE_TAB: 'profile'
+  }
 
 });
 

@@ -15,6 +15,7 @@ var EditSettingsButton = require('./Settings/EditSettingsButton');
 var YouniHeader = require('../Common/YouniHeader');
 var ErrorPage = require('../Common/ErrorPage');
 var Spinner = require('../Common/Spinner');
+var BackArrow = require('../Common/BackArrow');
 
 var {
   View,
@@ -111,6 +112,7 @@ var ProfilePage = React.createClass({
           <Text style={styles.pageHeader}>
             {profileOwnerStore.getFirstName() + ' ' + profileOwnerStore.getLastName()}
           </Text>
+          <BackArrow onPress={() => { this.props.navigator.pop(); }}/>
         </YouniHeader>
         <EditSettingsButton
           user={profileOwnerStore.getUserJson()}

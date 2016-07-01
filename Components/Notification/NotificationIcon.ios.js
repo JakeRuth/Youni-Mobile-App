@@ -14,17 +14,10 @@ var {
 } = React;
 
 var styles = StyleSheet.create({
-  container: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    padding: 12,
-    paddingTop: 3
-  },
-  notificationCalloutContainer: {
+  callout: {
     position: 'absolute',
     top: 2,
-    left: 26
+    left: 15
   }
 });
 
@@ -40,32 +33,31 @@ var NotificationIcon = React.createClass({
 
   render: function() {
     var notificationCallout;
-
+    
     if (notificationStore.getUnreadNotifications()) {
       notificationCallout = (
-        <View style={styles.notificationCalloutContainer}>
-          <NotificationCallout/>
-        </View>
+        <NotificationCallout style={styles.callout}/>
       );
     }
 
     return (
-      <View>
-        <TouchableHighlight
-          onPress={()=>{
-            notificationStore.resetNumUnreadNotifications();
-            this.props.navigator.push({
-              component: NotificationsPopup
-            });
-          }}
-          style={styles.container}
-          underlayColor='transparent'>
-          <Icon
-            name='android-notifications-none'
-            size={22}
-            color='white'/>
-        </TouchableHighlight>
-        {notificationCallout}
+      <View style={this.props.style}>
+        <View style={{position: 'relative'}}>
+          <TouchableHighlight
+            onPress={()=>{
+              notificationStore.resetNumUnreadNotifications();
+              this.props.navigator.push({
+                component: NotificationsPopup
+              });
+            }}
+            underlayColor='transparent'>
+            <Icon
+              name='android-notifications-none'
+              size={22}
+              color='white'/>
+          </TouchableHighlight>
+          {notificationCallout}
+        </View>
       </View>
     );
   }

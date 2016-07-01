@@ -21,7 +21,7 @@ var NotificationCallout = React.createClass({
 
   render: function() {
     return (
-      <View style={styles.redDot}/>
+      <View style={[styles.redDot, this.props.style]}/>
     );
   }
 

@@ -9,6 +9,7 @@ var userLoginMetadataStore = require('../../../../stores/UserLoginMetadataStore'
 
 var {
   View,
+  ScrollView,
   StyleSheet
 } = React;
 
@@ -52,18 +53,20 @@ var PostLikesList = React.createClass({
 
     for (var i = 0; i < this.props.users.length; i++) {
       usersListItems.push(
-          this._renderUser(this.props.users[i], i)
+        this._renderUser(this.props.users[i], i)
       );
     }
 
     return (
-      <View style={styles.container}>
+      <ScrollView
+        style={styles.container}
+        automaticallyAdjustContentInsets={false}>
         {usersListItems}
         <LoadMoreButton
           onPress={this.props.onLoadMorePress}
           isLoading={this.props.isLoadingMoreUsers}
           isVisible={this.props.moreToFetch}/>
-      </View>
+      </ScrollView>
     );
   },
 

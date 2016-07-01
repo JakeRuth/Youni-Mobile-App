@@ -3,8 +3,10 @@
 var React = require('react-native');
 var Unicycle = require('../Unicycle');
 var AjaxUtils = require('../Utils/Common/AjaxUtils');
+var TabLabel = require('../Utils/Enums/TabLabel');
 var homePostsStore = require('./post/HomePostsStore');
 var userLoginMetadataStore = require('./UserLoginMetadataStore');
+var tabStateStore = require('./TabStateStore');
 
 var createPostStore = Unicycle.createStore({
 
@@ -18,7 +20,7 @@ var createPostStore = Unicycle.createStore({
         caption: '',
         pageLoadError: false,
         imageUploadError: false,
-        shouldShowImagePicker: true
+        shouldShowImagePicker: false
       });
     },
 
@@ -43,7 +45,7 @@ var createPostStore = Unicycle.createStore({
             pageLoadError: false
           });
 
-          Unicycle.exec('setSelectedTab', 'home');
+          tabStateStore.setSelectedTab(TabLabel.HOME);
           homePostsStore.setScrollToTopOfPostFeed(true);
           Unicycle.exec('refreshHomeFeed', userLoginMetadataStore.getUserId());
 

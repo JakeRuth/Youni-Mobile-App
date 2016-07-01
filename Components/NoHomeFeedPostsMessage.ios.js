@@ -3,6 +3,8 @@
 var React = require('react-native');
 var PrettyTouchable = require('./Common/PrettyTouchable');
 var Colors = require('../Utils/Common/Colors');
+var TabLabel = require('../Utils/Enums/TabLabel');
+var tabStateStore = require('../stores/TabStateStore');
 
 var {
   View,
@@ -46,12 +48,13 @@ var NoHomeFeedPostsMessage = React.createClass({
         </Text>
         <PrettyTouchable
           label="Explore"
+          onPress={() => { tabStateStore.setSelectedTab(TabLabel.EXPLORE); }}
           containerStyle={{
             width: 150,
             height: 44,
             marginTop: 20
           }}/>
-        
+
       </View>
     );
   }

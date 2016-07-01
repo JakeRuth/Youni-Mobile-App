@@ -6,33 +6,34 @@ var RefreshAppContentUtil = require('../Utils/Common/RefreshAppContentUtil');
 
 var tabStateStore = Unicycle.createStore({
 
-    init: function () {
-      this.set({
-        previousTab: '',
-        selectedTab: ''
-      });
-    },
+  init: function () {
+    this.set({
+      previousTab: '',
+      selectedTab: ''
+    });
+  },
 
-    $setPreviousTab: function(value) {
-      this.set({
-        previousTab: value
-      });
-    },
+  setSelectedTab: function (newTabValue) {
+    var currTabValue = tabStateStore.getSelectedTab();
+    this._setPreviousTab(currTabValue);
+    this.set({
+      selectedTab: newTabValue
+    });
+  },
+  
+  _setPreviousTab: function(value) {
+    this.set({
+      previousTab: value
+    })
+  },
 
-    $setSelectedTab: function(value) {
-      RefreshAppContentUtil.activityTrigger();
-      this.set({
-        selectedTab: value
-      });
-    },
+  getPreviousTab: function () {
+    return this.get('previousTab');
+  },
 
-    getPreviousTab: function() {
-      return this.get('previousTab');
-    },
-
-    getSelectedTab: function() {
-      return this.get('selectedTab');
-    }
+  getSelectedTab: function () {
+    return this.get('selectedTab');
+  }
 
 });
 

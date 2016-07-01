@@ -2,10 +2,12 @@
 
 var React = require('react-native');
 var createPostStore = require('../../stores/CreatePostStore');
+var tabStateStore = require('../../stores/TabStateStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var Unicycle = require('../../Unicycle');
 var Spinner = require('../Common/Spinner');
 var Color = require('../../Utils/Common/Colors');
+var TabLabel = require('../../Utils/Enums/TabLabel');
 
 var {
   View,
@@ -154,9 +156,10 @@ var CreatePostForm = React.createClass({
   },
 
   _onCancelTextClick: function() {
+    Unicycle.exec('setShouldShowImagePickerForPost', false);
     Unicycle.exec('setWasImageSelected', false);
     Unicycle.exec('setCaption', '');
-    Unicycle.exec('setSelectedTab', 'home');
+    tabStateStore.setSelectedTab(TabLabel.HOME);
     Unicycle.exec('setImageId', '');
   }
 

@@ -11,6 +11,7 @@ var ErrorPage = require('./Components/Common/ErrorPage');
 var UIImagePickerManager = require('NativeModules').UIImagePickerManager;
 var AjaxUtils = require('./Utils/Common/AjaxUtils');
 var Spinner = require('./Components/Common/Spinner');
+var tabStateStore = require('./stores/TabStateStore');
 
 var {
   View,
@@ -36,10 +37,6 @@ var CreatePostPage = React.createClass({
   mixins: [
     Unicycle.listenTo(createPostStore)
   ],
-
-  propTypes: {
-    previousTab: React.PropTypes.string.isRequired
-  },
 
   render: function() {
     var isImageUploading = createPostStore.getIsImageUploading(),
@@ -106,7 +103,7 @@ var CreatePostPage = React.createClass({
       else {
         Unicycle.exec('setShouldShowImagePickerForPost', false);
         Unicycle.exec('setIsImageUploading', false);
-        Unicycle.exec('setSelectedTab', this.props.previousTab);
+        tabStateStore.setSelectedTab(tabStateStore.getPreviousTab());
       }
     });
   },

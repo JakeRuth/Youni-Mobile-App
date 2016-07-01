@@ -9,6 +9,7 @@ var PostList = require('./Post/PostList');
 var Spinner = require('./Common/Spinner');
 var YouniHeader = require('./Common/YouniHeader');
 var ErrorPage = require('./Common/ErrorPage');
+var ProfileIcon = require('./Profile/ProfileIcon');
 
 var homePostsStore = require('../stores/post/HomePostsStore');
 var userLoginMetadataStore = require('../stores/UserLoginMetadataStore');
@@ -27,12 +28,27 @@ var styles = StyleSheet.create({
   homePageContainer: {
     flex: 1
   },
+  pageHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  notificationIcon: {
+    padding: 12
+  },
+  profileIcon: {
+    padding: 12
+  },
   feedContainer: {
     flex: 20,
     paddingBottom: 50
   },
+  logoContainer: {
+    flex: 1,
+    paddingBottom: 5
+  },
   logo: {
-    marginTop: -6,
+    flex: 1,
     alignSelf: 'center',
     height: 33,
     width: 108
@@ -70,20 +86,28 @@ var HomePage = React.createClass({
       content = this._renderPosts(homeFeedPosts);
     }
     else {
-      content = <NoHomeFeedPostsMessage/>
+      content = <NoHomeFeedPostsMessage/>;
     }
 
     return (
       <View style={styles.homePageContainer}>
 
-        <YouniHeader>
-          <NotificationIcon navigator={this.props.navigator}/>
-          <Image
-            style={styles.logo}
-            source={require('../images/logoWhiteTextBlankBackground.png')}/>
+        <YouniHeader style={styles.pageHeader}>
+          <NotificationIcon
+            style={styles.notificationIcon}
+            navigator={this.props.navigator}/>
+          <View style={styles.logoContainer}>
+            <Image
+              style={styles.logo}
+              source={require('../images/logoWhiteTextBlankBackground.png')}/>
+          </View>
+          <ProfileIcon
+            style={styles.profileIcon}
+            navigator={this.props.navigator}/>
         </YouniHeader>
+
         <View style={styles.feedContainer}>
-          { content }
+          {content}
         </View>
 
       </View>

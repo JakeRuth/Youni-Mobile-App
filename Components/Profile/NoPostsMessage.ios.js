@@ -44,7 +44,13 @@ var NoPostsMessage = React.createClass({
             width: 150,
             height: 44
           }}
-          onPress={() => { Unicycle.exec('setSelectedTab', 'createPost');} }/>
+          onPress={() => {
+            this.props.navigator.pop();
+            // allow time for the frame pop off stack animation to take place
+            setTimeout(function() {
+              Unicycle.exec('setShouldShowImagePickerForPost', true);
+            }, 300);
+          }}/>
       );
     }
     
