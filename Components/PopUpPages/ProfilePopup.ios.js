@@ -135,7 +135,6 @@ var ProfilePopup = React.createClass({
         viewerIsProfileOwner={false}
         loading={this.state.postsLoading}
         isNextPageLoading={this.state.postsNextPageLoading}
-        navigator={this.props.navigator}
         likePhotoAction={this.likePhotoAction}
         unlikePhotoAction={this.unlikePhotoAction}
         onSubmitCommentAction={this.onSubmitCommentAction}
