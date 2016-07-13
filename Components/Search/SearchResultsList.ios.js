@@ -17,6 +17,8 @@ var {
 
 var styles = StyleSheet.create({
   container: {
+    padding: 20,
+    paddingTop: 5,
     marginBottom: 55
   }
 });
