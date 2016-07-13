@@ -50,7 +50,7 @@ var SearchPage = React.createClass({
       searchPageContent = <SearchResultsList navigator={this.props.navigator}/>;
     }
     else {
-      searchPageContent = <EmptyResults message={'no results to show'}/>;
+      searchPageContent = <EmptyResults message='no results to show'/>;
     }
 
     return (

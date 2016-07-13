@@ -21,12 +21,6 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     height: 55
   },
-  profileImage: {
-    alignSelf: 'center',
-    height: 45,
-    width: 45,
-    borderRadius: 22
-  },
   noProfilePictureIcon: {
     width: 45,
     alignItems: 'center',

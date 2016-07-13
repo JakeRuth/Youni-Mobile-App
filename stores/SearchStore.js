@@ -3,13 +3,17 @@
 var React = require('react-native');
 var immutable = require('immutable');
 var Unicycle = require('../Unicycle');
+
+var userLoginMetadataStore = require('../stores/UserLoginMetadataStore');
 var AjaxUtils = require('../Utils/Common/AjaxUtils');
 var UserUtils = require('../Utils/User/UserUtils');
+var SearchType = require('../Utils/Enums/SearchType');
 
 var searchStore = Unicycle.createStore({
 
   init: function() {
     this.set({
+      searchType: SearchType.USER,
       isInitialSearchPageLoading: false,
       pageOffset: 0,
       pageSize: 35,
@@ -30,7 +34,12 @@ var searchStore = Unicycle.createStore({
         pageOffset: 0
       });
 
-      this._requestSearch(email);
+      if (this.getSearchType() === SearchType.USER) {
+        this._executeUserSearch(email);
+      }
+      else {
+        this._executeGroupSearch();
+      }
     }
     else {
       this.set({
@@ -40,15 +49,23 @@ var searchStore = Unicycle.createStore({
   },
 
   fetchNextPage: function(email, callback) {
-    if (this.moreResultsToFetch()) {
-      this.set({
-        isFetchingMoreResults: true
-      });
-      this._requestSearch(email, callback);
+    if (!this.moreResultsToFetch()) {
+      return;
+    }
+
+    this.set({
+      isFetchingMoreResults: true
+    });
+
+    if (this.getSearchType() === SearchType.USER) {
+      this._executeUserSearch(email, callback);
+    }
+    else {
+      this._executeGroupSearch(callback);
     }
   },
 
-  _requestSearch: function(email, callback) {
+  _executeUserSearch: function(email, callback) {
     var currentResults = this.get('results'),
         that = this;
 
@@ -58,7 +75,7 @@ var searchStore = Unicycle.createStore({
         searchTerm: that.getSearchTerm(),
         requestingUserEmail: email,
         maxUsersToFetch: that.getPageSize(),
-        fetchOffsetAmount: that.get('pageOffset')
+        fetchOffsetAmount: that.getPageOffset()
       },
       (res) => {
         var results = immutable.List(UserUtils.convertResponseUserListToMap(res.body.users));
@@ -71,7 +88,47 @@ var searchStore = Unicycle.createStore({
           isInitialSearchPageLoading: false,
           isFetchingMoreResults: false,
           moreResults: res.body.moreResults,
-          pageOffset: that.get('pageOffset') + that.getPageSize(),
+          pageOffset: that.getPageOffset() + that.getPageSize(),
+          results: results
+        });
+
+        if (callback) {
+          callback(results);
+        }
+      },
+      () => {
+        that.set({
+          isInitialSearchPageLoading: false,
+          isFetchingMoreResults: false
+        });
+      }
+    );
+  },
+
+  _executeGroupSearch: function(callback) {
+    var currentResults = this.get('results'),
+        that = this;
+
+    AjaxUtils.ajax(
+      '/search/fetchGroups',
+      {
+        searchTerm: that.getSearchTerm(),
+        networkSchoolName: userLoginMetadataStore.getNetworkName(),
+        maxUsersToFetch: that.getPageSize(),
+        fetchOffsetAmount: that.getPageOffset()
+      },
+      (res) => {
+        var results = immutable.List(res.body.groups);
+
+        if (currentResults.size) {
+          results = currentResults.concat(results);
+        }
+
+        that.set({
+          isInitialSearchPageLoading: false,
+          isFetchingMoreResults: false,
+          moreResults: res.body.moreResults,
+          pageOffset: that.getPageOffset() + that.getPageSize(),
           results: results
         });
 
@@ -91,6 +148,12 @@ var searchStore = Unicycle.createStore({
   resetSearchResults: function () {
     this.set({
       results: []
+    });
+  },
+
+  setSearchType: function(searchType) {
+    this.set({
+      searchType: searchType
     });
   },
 
@@ -127,10 +190,6 @@ var searchStore = Unicycle.createStore({
     return resultList;
   },
 
-  getSearchTerm: function() {
-    return this.get('searchTerm');
-  },
-
   getNumResults: function() {
     var results = this.getSearchResults();
     if (results) {
@@ -141,12 +200,24 @@ var searchStore = Unicycle.createStore({
     }
   },
 
+  getSearchType: function() {
+    return this.get('searchType');
+  },
+
+  getSearchTerm: function() {
+    return this.get('searchTerm');
+  },
+
   getInExploreFeedView: function() {
     return this.get('inExploreFeedView');
   },
 
   getPageSize: function() {
     return this.get('pageSize');
+  },
+
+  getPageOffset: function() {
+    return this.get('pageOffset');
   },
 
   moreResultsToFetch: function() {
