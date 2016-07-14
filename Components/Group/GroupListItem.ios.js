@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react-native');
+var GroupPopup = require('../PopupPages/GroupPopup');
 var ProfileImageThumbnail = require('../Common/ProfileImageThumbnail');
 var Colors = require('../../Utils/Common/Colors');
 
@@ -29,11 +30,18 @@ var styles = StyleSheet.create({
   }
 });
 
-// TODO: Restyle as per Jenny's designs.  This was a copy pasta from UserListItem.ios.js
 var GroupListItem = React.createClass({
 
   propTypes: {
-    group: React.PropTypes.object.isRequired,
+    group: React.PropTypes.shape({
+      name: React.PropTypes.string.isRequired,
+      description: React.PropTypes.string.isRequired,
+      coverImageUrl: React.PropTypes.string.isRequired,
+      badgeImageUrl: React.PropTypes.string.isRequired,
+      allTimeTrendPoints: React.PropTypes.number.isRequired,
+      numPosts: React.PropTypes.number.isRequired,
+      numMembers: React.PropTypes.number.isRequired
+    }).isRequired,
     navigator: React.PropTypes.object.isRequired
   },
 
@@ -47,7 +55,7 @@ var GroupListItem = React.createClass({
           onPress={() => { this._onGroupListItemPress(group.email); }}>
 
           <View style={styles.container}>
-            <ProfileImageThumbnail profileImageUrl={group.mainImageUrl}/>
+            <ProfileImageThumbnail profileImageUrl={group.badgeImageUrl}/>
             <Text
               style={styles.name}
               numberOfLines={1}>
@@ -61,7 +69,12 @@ var GroupListItem = React.createClass({
   },
 
   _onGroupListItemPress: function(email) {
-    // TODO: Create a GroupPopup and push it onto the stack here
+    this.props.navigator.push({
+      component: GroupPopup,
+      passProps: {
+        ...this.props
+      }
+    })
   }
 
 });

@@ -129,7 +129,6 @@ var ProfilePopup = React.createClass({
         posts={immutable.List(this.state.posts)}
         user={this.state.user}
         gridViewEnabled={this.state.postViewMode === PostViewType.GRID}
-        onPostViewControlPress={this.onPostViewControlPress}
         onLoadMorePostsPress={this._requestUserPosts}
         noMorePostsToFetch={this.state.noMorePostsToFetch}
         viewerIsProfileOwner={false}
