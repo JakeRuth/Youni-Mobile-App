@@ -4,6 +4,7 @@ var React = require('react-native');
 var Icon = require('react-native-vector-icons/Ionicons');
 var ProfileImageThumbnail = require('./ProfileImageThumbnail');
 var Colors = require('../../Utils/Common/Colors');
+var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 
 var {
   View,
@@ -88,6 +89,10 @@ var UserListItem = React.createClass({
   },
 
   _onUserListItemPress: function(email) {
+    if (userLoginMetadataStore.getEmail() === email) {
+      return; // you shouldn't be allowed to click on your own profile
+    }
+
     //required within this function to avoid circular dependencies
     var ProfilePopup = require('../PopupPages/ProfilePopup');
 

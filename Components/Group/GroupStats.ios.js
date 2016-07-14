@@ -2,12 +2,14 @@
 
 var React = require('react-native');
 
+var GroupUsersPopup = require('../PopupPages/GroupUsersPopup');
 var Colors = require('../../Utils/Common/Colors');
 
 var {
   View,
   Text,
-  StyleSheet
+  StyleSheet,
+  TouchableHighlight
 } = React;
 
 var styles = StyleSheet.create({
@@ -65,7 +67,8 @@ var GroupStats = React.createClass({
       allTimeTrendPoints: React.PropTypes.number.isRequired,
       numPosts: React.PropTypes.number.isRequired,
       numMembers: React.PropTypes.number.isRequired
-    }).isRequired
+    }).isRequired,
+    navigator: React.PropTypes.object.isRequired
   },
 
   render: function() {
@@ -76,22 +79,33 @@ var GroupStats = React.createClass({
         {this._renderSeparator()}
         {this._renderStat(styles.campusScoreStatContainer, this.props.group.allTimeTrendPoints, 'Campus Score')}
         {this._renderSeparator()}
-        {this._renderStat(styles.memberStatContainer, this.props.group.numMembers, 'Members')}
+        {this._renderStat(styles.memberStatContainer, this.props.group.numMembers, 'Members', this._onMembersStatPress)}
 
       </View>
     );
   },
   
-  _renderStat: function(containerStyle, value, label) {
+  _renderStat: function(containerStyle, value, label, onPressAction) {
+    if (!onPressAction) {
+      onPressAction = ()=>null;
+    }
+
     return (
-      <View style={containerStyle}>
-        <Text style={styles.statValue}>
-          {value}
-        </Text>
-        <Text style={styles.statLabel}>
-          {label}
-        </Text>
-      </View>
+      <TouchableHighlight
+        style={containerStyle}
+        underlayColor="transparent"
+        onPress={onPressAction}>
+
+        <View>
+          <Text style={styles.statValue}>
+            {value}
+          </Text>
+          <Text style={styles.statLabel}>
+            {label}
+          </Text>
+        </View>
+        
+      </TouchableHighlight>
     );
   },
 
@@ -99,6 +113,15 @@ var GroupStats = React.createClass({
     return (
       <View style={styles.separator}/>
     )
+  },
+
+  _onMembersStatPress: function() {
+    this.props.navigator.push({
+      component: GroupUsersPopup,
+      passProps: {
+        groupIdString: this.props.group.id
+      }
+    })
   }
 
 });
