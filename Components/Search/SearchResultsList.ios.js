@@ -61,8 +61,8 @@ var SearchResultsList = React.createClass({
             renderScrollComponent={props => <RecyclerViewBackedScrollView {...props} />}/>
           <LoadMoreButton
             onPress={() => {
-            searchStore.fetchNextPage(userLoginMetadataStore.getEmail(), this._onFetchNextPageOfResults);
-          }}
+              searchStore.fetchNextPage(userLoginMetadataStore.getEmail(), this._onFetchNextPageOfResults);
+            }}
             isLoading={searchStore.isFetchingMoreResults()}
             isVisible={searchStore.moreResultsToFetch()}/>
         </ScrollView>

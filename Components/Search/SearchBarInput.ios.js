@@ -7,6 +7,7 @@ var Unicycle = require('../../Unicycle');
 var searchStore = require('../../stores/SearchStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var Colors = require('../../Utils/Common/Colors');
+var SearchType = require('../../Utils/Enums/SearchType');
 
 var {
   View,
@@ -67,7 +68,7 @@ var SearchBarInput = React.createClass({
           }}
           onSubmitEditing={() => {
             var email = userLoginMetadataStore.getEmail();
-            searchStore.executeSearch(email);
+            searchStore.executeSearch(SearchType.USER, email);
           }}
           keyboardType='web-search'/>
 

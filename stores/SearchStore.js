@@ -25,13 +25,14 @@ var searchStore = Unicycle.createStore({
     });
   },
   
-  executeSearch: function(email) {
+  executeSearch: function(searchType, email) {
     if (this.getSearchTerm()) {
       this.set({
         results: [],
         inExploreFeedView: false,
         isInitialSearchPageLoading: true,
-        pageOffset: 0
+        pageOffset: 0,
+        searchType: searchType
       });
 
       if (this.getSearchType() === SearchType.USER) {
