@@ -5,9 +5,10 @@ var Unicycle = require('../../Unicycle');
 
 var searchStore = require('../../stores/SearchStore');
 
-var ExploreFeedPosts = require('../Post/ExploreFeedPosts');
+var SearchTypeSelector = require('./SearchTypeSelector');
 var SearchBarInput = require('./SearchBarInput');
 var SearchResultsList = require('./SearchResultsList');
+var ExploreFeedPosts = require('../Post/ExploreFeedPosts');
 var YouniHeader = require('../Common/YouniHeader');
 var EmptyResults = require('../Common/EmptyResults');
 var Spinner = require('../Common/Spinner');
@@ -20,7 +21,10 @@ var {
 } = React;
 
 var styles = StyleSheet.create({
-  searchPageContainer: {
+  container: {
+    flex: 1
+  },
+  searchResultsContainer: {
     flex: 1
   }
 });
@@ -40,21 +44,23 @@ var SearchPage = React.createClass({
         numResults = searchStore.getNumResults(),
         searchPageContent;
 
-    if (searchStore.isFirstPageOfResultsLoading()) {
-      searchPageContent = <Spinner/>;
-    }
-    else if (inExploreFeedView) {
+    if (inExploreFeedView) {
       searchPageContent = <ExploreFeedPosts navigator={this.props.navigator}/>;
     }
-    else if (numResults) {
-      searchPageContent = <SearchResultsList navigator={this.props.navigator}/>;
+    else if (numResults || searchStore.isFirstPageOfResultsLoading()) {
+      searchPageContent = (
+        <View style={styles.searchResultsContainer}>
+          <SearchTypeSelector/>
+          {this._renderSearchResultsList()}
+        </View>
+      );
     }
     else {
       searchPageContent = <EmptyResults message='no results to show'/>;
     }
 
     return (
-      <View style={styles.searchPageContainer}>
+      <View style={styles.container}>
 
         <YouniHeader>
           <SearchBarInput/>
@@ -63,6 +69,15 @@ var SearchPage = React.createClass({
 
       </View>
     );
+  },
+
+  _renderSearchResultsList: function() {
+    if (searchStore.isFirstPageOfResultsLoading()) {
+      return <Spinner/>;
+    }
+    else {
+      return <SearchResultsList navigator={this.props.navigator}/>;
+    }
   }
 
 });

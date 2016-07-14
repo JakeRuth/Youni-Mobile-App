@@ -26,18 +26,6 @@ var styles = StyleSheet.create({
     padding: 20,
     paddingTop: 5,
     marginBottom: 55
-  },
-  tempSearchTypeSelectorContainer: {
-    height: 35,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  tempSearchTypeSelector: {
-    flex: 1,
-    color: Colors.DARK_GRAY,
-    textAlign: 'center',
-    fontSize: 14
   }
 });
 
@@ -56,52 +44,23 @@ var SearchResultsList = React.createClass({
   },
 
   render: function () {
-    var that = this;
-
     return (
-      <View style={styles.container}>
-
-        {this._renderSelector()}
-        <ScrollView automaticallyAdjustContentInsets={false}>
-          <ListView
-            initialListSize={searchStore.getSearchResults().length}
-            dataSource={this.state.dataSource}
-            renderRow={this._renderRow}
-            pageSize={searchStore.getPageSize()}
-            renderScrollComponent={props => <RecyclerViewBackedScrollView {...props} />}/>
-          <LoadMoreButton
-            onPress={() => {
-              searchStore.fetchNextPage(userLoginMetadataStore.getEmail(), this._onFetchNextPageOfResults);
-            }}
-            isLoading={searchStore.isFetchingMoreResults()}
-            isVisible={searchStore.moreResultsToFetch()}/>
-        </ScrollView>
-
-      </View>
-    );
-  },
-
-  /* This is temp until Jenny creates a design */
-  _renderSelector: function() {
-    return (
-      <View style={styles.tempSearchTypeSelectorContainer}>
-        <Text
-          style={styles.tempSearchTypeSelector}
+      <ScrollView
+        style={styles.container}
+        automaticallyAdjustContentInsets={false}>
+        <ListView
+          initialListSize={searchStore.getSearchResults().length}
+          dataSource={this.state.dataSource}
+          renderRow={this._renderRow}
+          pageSize={searchStore.getPageSize()}
+          renderScrollComponent={props => <RecyclerViewBackedScrollView {...props} />}/>
+        <LoadMoreButton
           onPress={() => {
-              searchStore.setSearchType(SearchType.USER);
-              searchStore.executeSearch(userLoginMetadataStore.getEmail());
-            }}>
-          Users
-        </Text>
-        <Text
-          style={styles.tempSearchTypeSelector}
-          onPress={() => {
-              searchStore.setSearchType(SearchType.GROUP);
-              searchStore.executeSearch();
-            }}>
-          Organizations
-        </Text>
-      </View>
+            searchStore.fetchNextPage(userLoginMetadataStore.getEmail(), this._onFetchNextPageOfResults);
+          }}
+          isLoading={searchStore.isFetchingMoreResults()}
+          isVisible={searchStore.moreResultsToFetch()}/>
+      </ScrollView>
     );
   },
 
