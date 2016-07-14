@@ -4,6 +4,7 @@ var React = require('react-native');
 
 var UserListItem = require('../Common/UserListItem');
 var LoadMoreButton = require('../Common/LoadMoreButton');
+var EmptyResults = require('../Common/EmptyResults');
 var GroupListItem = require('../Group/GroupListItem');
 
 var searchStore = require('../../stores/SearchStore');
@@ -44,24 +45,29 @@ var SearchResultsList = React.createClass({
   },
 
   render: function () {
-    return (
-      <ScrollView
-        style={styles.container}
-        automaticallyAdjustContentInsets={false}>
-        <ListView
-          initialListSize={searchStore.getSearchResults().length}
-          dataSource={this.state.dataSource}
-          renderRow={this._renderRow}
-          pageSize={searchStore.getPageSize()}
-          renderScrollComponent={props => <RecyclerViewBackedScrollView {...props} />}/>
-        <LoadMoreButton
-          onPress={() => {
+    if (!searchStore.getNumResults()) {
+      return <EmptyResults message='no results to show'/>;
+    }
+    else {
+      return (
+        <ScrollView
+          style={styles.container}
+          automaticallyAdjustContentInsets={false}>
+          <ListView
+            initialListSize={searchStore.getSearchResults().length}
+            dataSource={this.state.dataSource}
+            renderRow={this._renderRow}
+            pageSize={searchStore.getPageSize()}
+            renderScrollComponent={props => <RecyclerViewBackedScrollView {...props} />}/>
+          <LoadMoreButton
+            onPress={() => {
             searchStore.fetchNextPage(userLoginMetadataStore.getEmail(), this._onFetchNextPageOfResults);
           }}
-          isLoading={searchStore.isFetchingMoreResults()}
-          isVisible={searchStore.moreResultsToFetch()}/>
-      </ScrollView>
-    );
+            isLoading={searchStore.isFetchingMoreResults()}
+            isVisible={searchStore.moreResultsToFetch()}/>
+        </ScrollView>
+      );
+    }
   },
 
   _renderRow: function(item) {

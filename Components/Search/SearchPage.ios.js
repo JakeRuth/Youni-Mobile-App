@@ -10,7 +10,6 @@ var SearchBarInput = require('./SearchBarInput');
 var SearchResultsList = require('./SearchResultsList');
 var ExploreFeedPosts = require('../Post/ExploreFeedPosts');
 var YouniHeader = require('../Common/YouniHeader');
-var EmptyResults = require('../Common/EmptyResults');
 var Spinner = require('../Common/Spinner');
 
 var {
@@ -41,22 +40,18 @@ var SearchPage = React.createClass({
 
   render: function() {
     var inExploreFeedView = searchStore.getInExploreFeedView(),
-        numResults = searchStore.getNumResults(),
         searchPageContent;
 
     if (inExploreFeedView) {
       searchPageContent = <ExploreFeedPosts navigator={this.props.navigator}/>;
     }
-    else if (numResults || searchStore.isFirstPageOfResultsLoading()) {
+    else {
       searchPageContent = (
         <View style={styles.searchResultsContainer}>
           <SearchTypeSelector/>
           {this._renderSearchResultsList()}
         </View>
       );
-    }
-    else {
-      searchPageContent = <EmptyResults message='no results to show'/>;
     }
 
     return (
