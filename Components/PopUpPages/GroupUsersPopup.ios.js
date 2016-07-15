@@ -13,7 +13,6 @@ var UserUtils = require('../../Utils/User/UserUtils');
 var {
   View,
   Text,
-  ScrollView,
   StyleSheet
 } = React;
 
@@ -27,6 +26,11 @@ var styles = StyleSheet.create({
     fontWeight: '500',
     textAlign: 'center',
     color: 'white'
+  },
+  groupListContainer: {
+    flex: 1,
+    padding: 20,
+    paddingTop: 5
   },
   spinnerContainer: {
     flex: 1,
@@ -70,12 +74,14 @@ var GroupUsersPopup = React.createClass({
     }
     else {
       content = (
-        <GroupUsersList
-          users={this.state.users}
-          isLoading={this.state.isLoading}
-          moreToFetch={this.state.moreToFetch}
-          onLoadMorePress={this._requestGroupUsers}
-          navigator={this.props.navigator}/>
+        <View style={styles.groupListContainer}>
+          <GroupUsersList
+            users={this.state.users}
+            isLoading={this.state.isLoading}
+            moreToFetch={this.state.moreToFetch}
+            onLoadMorePress={this._requestGroupUsers}
+            navigator={this.props.navigator}/>
+        </View>
       );
     }
     

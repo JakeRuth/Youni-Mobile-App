@@ -1,6 +1,8 @@
 'use strict';
 
 var React = require('react-native');
+
+var ManageGroupUserListItem = require('../Group/Admin/ManageGroupUserListItem');
 var UserListItem = require('../Common/UserListItem');
 var LoadMoreButton = require('../Common/LoadMoreButton');
 var Spinner = require('../Common/Spinner');
@@ -14,9 +16,7 @@ var {
 
 var styles = StyleSheet.create({
   container: {
-    flex: 1,
-    padding: 20,
-    paddingTop: 5
+    flex: 1
   },
   spinnerContainer: {
     paddingTop: 10
@@ -30,6 +30,7 @@ var GroupUsersList = React.createClass({
     moreToFetch: React.PropTypes.bool.isRequired,
     onLoadMorePress: React.PropTypes.func.isRequired,
     users: React.PropTypes.array.isRequired,
+    manageUsers: React.PropTypes.bool,
     navigator: React.PropTypes.object.isRequired
   },
 
@@ -50,13 +51,23 @@ var GroupUsersList = React.createClass({
   renderResultList: function(users) {
     var userResults = [];
     for (var i = 0; i < users.length; i++) {
-      userResults.push(
-        <UserListItem
-          key={i}
-          user={users[i]}
-          displayNameOverride={this._getUserDisplayName(users[i])}
-          navigator={this.props.navigator}/>
-      );
+      if (this.props.manageUsers) {
+        userResults.push(
+          <ManageGroupUserListItem
+            user={users[i]}
+            displayNameOverride={this._getUserDisplayName(users[i])}
+            key={i}/>
+        );
+      }
+      else {
+        userResults.push(
+          <UserListItem
+            key={i}
+            user={users[i]}
+            displayNameOverride={this._getUserDisplayName(users[i])}
+            navigator={this.props.navigator}/>
+        );
+      }
     }
 
     return (

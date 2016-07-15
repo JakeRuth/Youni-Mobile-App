@@ -33,7 +33,7 @@ var styles = StyleSheet.create({
     fontWeight: '100',
     alignSelf: 'center',
     color: Colors.DARK_GRAY,
-    paddingLeft: 16
+    paddingLeft: 20
   }
 });
 
