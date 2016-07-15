@@ -38,12 +38,14 @@ var styles = StyleSheet.create({
     flex: 1,
     fontWeight: '100',
     fontSize: 16,
+    marginLeft: 12,
     color: Colors.DARK_GRAY,
     width: Dimensions.get('window').width * .66
   },
   timestamp: {
     fontSize: 13,
     fontWeight: '100',
+    marginLeft: 12,
     color: Colors.MED_GRAY
   },
   actionButtonContainer: {

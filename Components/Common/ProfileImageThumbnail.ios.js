@@ -11,8 +11,7 @@ var styles = StyleSheet.create({
   profileImage: {
     height: 40,
     width: 40,
-    borderRadius: 12,
-    marginRight: 10
+    borderRadius: 12
   }
 });
 

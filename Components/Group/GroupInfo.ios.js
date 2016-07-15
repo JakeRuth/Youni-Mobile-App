@@ -46,6 +46,7 @@ var GroupInfo = React.createClass({
       description: React.PropTypes.string.isRequired,
       coverImageUrl: React.PropTypes.string.isRequired,
       badgeImageUrl: React.PropTypes.string.isRequired,
+      adminEmails: React.PropTypes.array,
       allTimeTrendPoints: React.PropTypes.number.isRequired,
       numPosts: React.PropTypes.number.isRequired,
       numMembers: React.PropTypes.number.isRequired

@@ -54,6 +54,7 @@ var GroupUsersList = React.createClass({
         <UserListItem
           key={i}
           user={users[i]}
+          displayNameOverride={this._getUserDisplayName(users[i])}
           navigator={this.props.navigator}/>
       );
     }
@@ -63,6 +64,17 @@ var GroupUsersList = React.createClass({
         {userResults}
       </ScrollView>
     );
+  },
+
+  _getUserDisplayName: function(user) {
+    var baseName = user.firstName + ' ' + user.lastName;
+
+    if (user.isGroupAdmin) {
+      return baseName + ' (admin)';
+    }
+    else {
+      return baseName;
+    }
   }
 
 });

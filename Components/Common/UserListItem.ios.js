@@ -23,7 +23,7 @@ var styles = StyleSheet.create({
     height: 55
   },
   noProfilePictureIcon: {
-    width: 45,
+    width: 40,
     alignItems: 'center',
     justifyContent: 'center'
   },
@@ -41,13 +41,12 @@ var UserListItem = React.createClass({
 
   propTypes: {
     user: React.PropTypes.object.isRequired,
+    displayNameOverride: React.PropTypes.string,
     navigator: React.PropTypes.object.isRequired
   },
 
   render: function() {
     var user = this.props.user,
-        firstName = user.firstName,
-        lastName = user.lastName,
         email = user.email,
         profileImageUrl = user.profileImageUrl,
         profilePicture;
@@ -79,7 +78,7 @@ var UserListItem = React.createClass({
             <Text
               style={styles.fullName}
               numberOfLines={1}>
-              {firstName} {lastName}
+              {this._getDisplayName(user)}
             </Text>
           </View>
 
@@ -100,6 +99,15 @@ var UserListItem = React.createClass({
       component: ProfilePopup,
       passProps: {profileUserEmail: this.props.user.email}
     });
+  },
+  
+  _getDisplayName: function(user) {
+    if (this.props.displayNameOverride) {
+      return this.props.displayNameOverride;
+    }
+    else {
+      return user.firstName + ' ' + user.lastName;
+    }
   }
 
 });

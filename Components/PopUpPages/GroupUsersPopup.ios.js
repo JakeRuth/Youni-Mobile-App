@@ -115,10 +115,8 @@ var GroupUsersPopup = React.createClass({
         maxToFetch: that.PAGE_SIZE
       },
       (res) => {
-        var users = UserUtils.convertResponseUserListToMap(res.body.groupUsers);
-
         that.setState({
-          users: currentUsers.concat(users),
+          users: currentUsers.concat(res.body.groupUsers),
           moreToFetch: res.body.moreToFetch,
           offset: that.state.offset + that.PAGE_SIZE,
           initialPageLoading: false,
