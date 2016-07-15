@@ -27,6 +27,14 @@ var {
 var styles = StyleSheet.create({
   container: {
     flex: 1
+  },
+  backArrow: {
+    height: 30,
+    width: 30,
+    backgroundColor: 'rgba(0, 0, 0, .25)',
+    paddingTop: 4,
+    paddingLeft: 9,
+    borderRadius: 15
   }
 });
 
@@ -78,7 +86,9 @@ var GroupPopup = React.createClass({
           unlikePhotoAction={this.unlikePhotoAction}
           onSubmitCommentAction={this.onSubmitCommentAction}
           navigator={this.props.navigator}/>
-        <BackArrow onPress={() => { this.props.navigator.pop(); }}/>
+        <BackArrow
+          style={styles.backArrow}
+          onPress={() => { this.props.navigator.pop(); }}/>
 
       </ScrollView>
     );
