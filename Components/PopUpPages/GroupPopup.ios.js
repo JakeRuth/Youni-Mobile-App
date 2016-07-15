@@ -6,11 +6,13 @@ var Unicycle = require('../../Unicycle');
 
 var GroupInfo = require('../Group/GroupInfo');
 var GroupPostList = require('../Group/GroupPostList');
+var GroupActionButton = require('../Group/GroupActionButton');
 var BackArrow = require('../Common/BackArrow');
 
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 var UserUtils = require('../../Utils/User/UserUtils');
 var PostUtils = require('../../Utils/Post/PostUtils');
+var GroupUtils = require('../../Utils/Group/GroupUtils');
 
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 
@@ -90,6 +92,10 @@ var GroupPopup = React.createClass({
         <BackArrow
           style={styles.backArrow}
           onPress={() => { this.props.navigator.pop(); }}/>
+        {
+          GroupUtils.isUserAdmin(this.props.group, userLoginMetadataStore.getEmail()) &&
+          <GroupActionButton/>
+        }
 
       </ScrollView>
     );
