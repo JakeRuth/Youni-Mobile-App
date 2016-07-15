@@ -68,7 +68,7 @@ var SearchBarInput = React.createClass({
           }}
           onSubmitEditing={() => {
             var email = userLoginMetadataStore.getEmail();
-            searchStore.executeSearch(SearchType.USER, email);
+            searchStore.executeSearch(email);
           }}
           keyboardType='web-search'/>
 

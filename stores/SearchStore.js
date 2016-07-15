@@ -25,15 +25,20 @@ var searchStore = Unicycle.createStore({
     });
   },
   
-  executeSearch: function(searchType, email) {
+  executeSearch: function(email, searchType) {
     if (this.getSearchTerm()) {
       this.set({
         results: [],
         inExploreFeedView: false,
         isInitialSearchPageLoading: true,
-        pageOffset: 0,
-        searchType: searchType
+        pageOffset: 0
       });
+      
+      if (searchType) {
+        this.set({
+          searchType: searchType
+        });
+      }
 
       if (this.getSearchType() === SearchType.USER) {
         this._executeUserSearch(email);

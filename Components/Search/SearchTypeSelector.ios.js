@@ -60,7 +60,7 @@ var SearchTypeSelector = React.createClass({
         style={this._getSelectorContainerStyles(selectorType)}
         underlayColor="transparent"
         onPress={() => {
-          searchStore.executeSearch(selectorType, userLoginMetadataStore.getEmail());
+          searchStore.executeSearch(userLoginMetadataStore.getEmail(), selectorType);
         }}>
 
         <Text style={this._getSelectorStyles(selectorType)}>
