@@ -4,6 +4,7 @@ var React = require('react-native');
 var Unicycle = require('../../Unicycle');
 
 var searchStore = require('../../stores/SearchStore');
+var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 
 var SearchTypeSelector = require('./SearchTypeSelector');
 var SearchBarInput = require('./SearchBarInput');
@@ -25,6 +26,11 @@ var styles = StyleSheet.create({
   },
   searchResultsContainer: {
     flex: 1
+  },
+  searchBarContainer: {
+    borderRadius: 5,
+    marginLeft: 10,
+    marginRight: 10
   }
 });
 
@@ -58,7 +64,22 @@ var SearchPage = React.createClass({
       <View style={styles.container}>
 
         <YouniHeader>
-          <SearchBarInput/>
+          <SearchBarInput
+            style={styles.searchBarContainer}
+            active={!searchStore.getInExploreFeedView()}
+            value={searchStore.getSearchTerm()}
+            placeholder={`     Search ${userLoginMetadataStore.getNetworkName()}`}
+            onChangeText={(search) => {
+              searchStore.setSearchTerm(search);
+            }}
+            onSubmitEditing={() => {
+              var email = userLoginMetadataStore.getEmail();
+              searchStore.executeSearch(email);
+            }}
+            onClearSearchPress={() => {
+              searchStore.setSearchTerm('');
+              searchStore.setInExploreFeedView(true);
+            }}/>
         </YouniHeader>
         {searchPageContent}
 

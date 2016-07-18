@@ -2,12 +2,8 @@
 
 var React = require('react-native');
 var Icon = require('react-native-vector-icons/Ionicons');
-var Unicycle = require('../../Unicycle');
 
-var searchStore = require('../../stores/SearchStore');
-var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var Colors = require('../../Utils/Common/Colors');
-var SearchType = require('../../Utils/Enums/SearchType');
 
 var {
   View,
@@ -18,10 +14,7 @@ var {
 } = React;
 
 var styles = StyleSheet.create({
-  searchBarInputContainer: {
-    borderRadius: 5,
-    marginLeft: 10,
-    marginRight: 10,
+  container: {
     padding: 7,
     position: 'relative',
     backgroundColor: 'white'
@@ -51,25 +44,24 @@ var styles = StyleSheet.create({
 });
 
 var SearchBarInput = React.createClass({
+  
+  propTypes: {
+    value: React.PropTypes.string,
+    placeholder: React.PropTypes.string.isRequired,
+    onChangeText: React.PropTypes.func.isRequired,
+    onSubmitEditing: React.PropTypes.func.isRequired,
+    onClearSearchPress: React.PropTypes.func.isRequired,
+    active: React.PropTypes.bool
+  },
 
   render: function() {
-    var networkName = userLoginMetadataStore.getNetworkName();
-
     return (
-      <View style={styles.searchBarInputContainer}>
+      <View style={[styles.container, this.props.style]}>
         <TextInput
+          {...this.props}
           style={styles.searchBarInput}
-          value={searchStore.getSearchTerm()}
-          placeholder={'     Search ' + networkName}
           palceholderColor={Colors.MED_GRAY}
           blurOnSubmit={true}
-          onChangeText={(search) => {
-            searchStore.setSearchTerm(search);
-          }}
-          onSubmitEditing={() => {
-            var email = userLoginMetadataStore.getEmail();
-            searchStore.executeSearch(email);
-          }}
           keyboardType='web-search'/>
 
         {this._renderClearSearchButton()}
@@ -80,7 +72,7 @@ var SearchBarInput = React.createClass({
   },
 
   _renderSearchMagGlass: function () {
-    if (searchStore.getSearchTerm().length === 0) {
+    if (this.props.value.length === 0) {
       return (
         <View style={styles.searchIconContainer}>
           <Icon
@@ -93,23 +85,18 @@ var SearchBarInput = React.createClass({
   },
 
   _renderClearSearchButton: function() {
-    if (!searchStore.getInExploreFeedView()) {
+    if (this.props.active) {
       return (
         <TouchableHighlight
           style={styles.clearSearchButtonContainer}
           underlayColor="transparent"
-          onPress={this._onClearSearchPress}>
+          onPress={this.props.onClearSearchPress}>
           <Text style={styles.clearSearch}>
             x
           </Text>
         </TouchableHighlight>
       );
     }
-  },
-
-  _onClearSearchPress: function() {
-    searchStore.setSearchTerm('');
-    searchStore.setInExploreFeedView(true);
   }
 
 });

@@ -175,9 +175,24 @@ var GroupManageUsersPopup = React.createClass({
   },
 
   onAddNewUserPress: function() {
+    var onPageReturnCallback = () => {
+      this.setState({
+        isAdminUsersRequestInFlight: true,
+        isInitialUsersRequestInFlight: true,
+        users: [],
+        adminUsers: [],
+        offset: 0
+      });
+      this._requestAllGroupAdmins();
+      this._fetchGroupUsers();
+    };
+
     this.props.navigator.push({
       component: GroupAddNewUserPopup,
-      passProps: {...this.props}
+      passProps: {
+        group: this.props.group,
+        onPageReturnCallback: onPageReturnCallback
+      }
     });
   },
   

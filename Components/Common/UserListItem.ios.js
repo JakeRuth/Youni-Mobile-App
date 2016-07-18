@@ -1,7 +1,6 @@
 'use strict';
 
 var React = require('react-native');
-var Icon = require('react-native-vector-icons/Ionicons');
 var ProfileImageThumbnail = require('./ProfileImageThumbnail');
 var Colors = require('../../Utils/Common/Colors');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
@@ -21,11 +20,6 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     height: 55
-  },
-  noProfilePictureIcon: {
-    width: 40,
-    alignItems: 'center',
-    justifyContent: 'center'
   },
   fullName: {
     flex: 1,
@@ -47,25 +41,7 @@ var UserListItem = React.createClass({
 
   render: function() {
     var user = this.props.user,
-        email = user.email,
-        profileImageUrl = user.profileImageUrl,
-        profilePicture;
-
-    if (profileImageUrl) {
-      profilePicture = (
-        <ProfileImageThumbnail profileImageUrl={profileImageUrl}/>
-      );
-    }
-    else {
-      profilePicture = (
-        <View style={styles.noProfilePictureIcon}>
-          <Icon
-            name='ios-person'
-            size={40}
-            color={Colors.YOUNI_PRIMARY_PURPLE} />
-        </View>
-      );
-    }
+        email = user.email;
 
     return (
       <View style={this.props.style}>
@@ -74,7 +50,7 @@ var UserListItem = React.createClass({
           onPress={ () => {this._onUserListItemPress(email)} }>
 
           <View style={styles.container}>
-            {profilePicture}
+            <ProfileImageThumbnail profileImageUrl={user.profileImageUrl}/>
             <Text
               style={styles.fullName}
               numberOfLines={1}>

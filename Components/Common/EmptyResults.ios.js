@@ -2,13 +2,15 @@
 
 var React = require('react-native');
 var Unicycle = require('../../Unicycle');
+
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
+var Colors = require('../../Utils/Common/Colors');
 
 var {
   View,
   Text,
   StyleSheet
-} = React
+} = React;
 
 var styles = StyleSheet.create({
   emptySearchResultsContainer: {
@@ -18,8 +20,8 @@ var styles = StyleSheet.create({
     flex: 1,
     alignSelf: 'center',
     marginTop: 200,
-    color: 'darkgray'
-  },
+    color: Colors.DARK_GRAY
+  }
 });
 
 var EmptyResults = React.createClass({
