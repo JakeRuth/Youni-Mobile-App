@@ -48,7 +48,8 @@ var GroupActionButton = React.createClass({
       allTimeTrendPoints: React.PropTypes.number.isRequired,
       numPosts: React.PropTypes.number.isRequired,
       numMembers: React.PropTypes.number.isRequired
-    }).isRequired
+    }).isRequired,
+    onPageReturnCallback: React.PropTypes.func.isRequired
   },
 
   render: function () {

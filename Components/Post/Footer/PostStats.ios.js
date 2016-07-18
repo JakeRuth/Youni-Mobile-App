@@ -9,8 +9,7 @@ var {
   View,
   Text,
   StyleSheet,
-  TouchableHighlight,
-  AlertIOS
+  TouchableHighlight
 } = React;
 
 var ICON_SIZE = 25;

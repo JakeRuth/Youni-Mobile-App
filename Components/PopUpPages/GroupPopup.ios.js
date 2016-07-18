@@ -2,7 +2,6 @@
 
 var React = require('react-native');
 var immutable = require('immutable');
-var Unicycle = require('../../Unicycle');
 
 var GroupInfo = require('../Group/GroupInfo');
 var GroupPostList = require('../Group/GroupPostList');
@@ -59,6 +58,7 @@ var GroupPopup = React.createClass({
 
   getInitialState: function() {
     return {
+      group: this.props.group,
       posts: [],
       postsLoading: false,
       postsNextPageLoading: false,
@@ -67,7 +67,8 @@ var GroupPopup = React.createClass({
     };
   },
 
-  componentDidMount() {
+  componentWillMount() {
+    this._getLatestGroupData();
     this._requestGroupPosts();
   },
 
@@ -77,7 +78,9 @@ var GroupPopup = React.createClass({
         style={styles.container}
         automaticallyAdjustContentInsets={false}>
 
-        <GroupInfo {...this.props}/>
+        <GroupInfo
+          {...this.props}
+          group={this.state.group}/>
         <GroupPostList
           posts={immutable.List(this.state.posts)}
           gridViewEnabled={true}
@@ -93,11 +96,33 @@ var GroupPopup = React.createClass({
           style={styles.backArrow}
           onPress={() => { this.props.navigator.pop(); }}/>
         {
-          GroupUtils.isUserAdmin(this.props.group, userLoginMetadataStore.getEmail()) &&
-          <GroupActionButton {...this.props}/>
+          GroupUtils.isUserAdmin(this.state.group, userLoginMetadataStore.getEmail()) &&
+          <GroupActionButton
+            {...this.props}
+            group={this.state.group}
+            onPageReturnCallback={this._getLatestGroupData}/>
         }
 
       </ScrollView>
+    );
+  },
+
+  _getLatestGroupData: function() {
+    var that = this;
+
+    AjaxUtils.ajax(
+      '/group/get',
+      {
+        groupIdString: this.props.group.id
+      },
+      (res) => {
+        that.setState({
+          group: res.body.group
+        });
+      },
+      () => {
+
+      }
     );
   },
 

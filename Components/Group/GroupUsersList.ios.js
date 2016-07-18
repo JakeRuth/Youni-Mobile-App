@@ -30,6 +30,17 @@ var GroupUsersList = React.createClass({
     moreToFetch: React.PropTypes.bool.isRequired,
     onLoadMorePress: React.PropTypes.func.isRequired,
     users: React.PropTypes.array.isRequired,
+    group: React.PropTypes.shape({
+      id: React.PropTypes.string.isRequired,
+      name: React.PropTypes.string.isRequired,
+      description: React.PropTypes.string.isRequired,
+      coverImageUrl: React.PropTypes.string.isRequired,
+      badgeImageUrl: React.PropTypes.string.isRequired,
+      adminEmails: React.PropTypes.array,
+      allTimeTrendPoints: React.PropTypes.number.isRequired,
+      numPosts: React.PropTypes.number.isRequired,
+      numMembers: React.PropTypes.number.isRequired
+    }).isRequired,
     manageUsers: React.PropTypes.bool,
     navigator: React.PropTypes.object.isRequired
   },
@@ -55,6 +66,7 @@ var GroupUsersList = React.createClass({
         userResults.push(
           <ManageGroupUserListItem
             user={users[i]}
+            group={this.props.group}
             displayNameOverride={this._getUserDisplayName(users[i])}
             key={i}/>
         );

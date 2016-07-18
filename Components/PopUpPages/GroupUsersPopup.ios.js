@@ -44,7 +44,17 @@ var GroupUsersPopup = React.createClass({
   PAGE_SIZE: 40,
 
   propTypes: {
-    groupIdString: React.PropTypes.string.isRequired,
+    group: React.PropTypes.shape({
+      id: React.PropTypes.string.isRequired,
+      name: React.PropTypes.string.isRequired,
+      description: React.PropTypes.string.isRequired,
+      coverImageUrl: React.PropTypes.string.isRequired,
+      badgeImageUrl: React.PropTypes.string.isRequired,
+      adminEmails: React.PropTypes.array,
+      allTimeTrendPoints: React.PropTypes.number.isRequired,
+      numPosts: React.PropTypes.number.isRequired,
+      numMembers: React.PropTypes.number.isRequired
+    }).isRequired,
     navigator: React.PropTypes.object.isRequired
   },
 
@@ -77,6 +87,7 @@ var GroupUsersPopup = React.createClass({
         <View style={styles.groupListContainer}>
           <GroupUsersList
             users={this.state.users}
+            group={this.props.group}
             isLoading={this.state.isLoading}
             moreToFetch={this.state.moreToFetch}
             onLoadMorePress={this._requestGroupUsers}
@@ -116,9 +127,9 @@ var GroupUsersPopup = React.createClass({
     AjaxUtils.ajax(
       '/group/fetchUsers',
       {
-        groupIdString: that.props.groupIdString,
-        fetchOffset: that.state.offset,
-        maxToFetch: that.PAGE_SIZE
+        groupIdString: this.props.group.id,
+        fetchOffset: this.state.offset,
+        maxToFetch: this.PAGE_SIZE
       },
       (res) => {
         that.setState({

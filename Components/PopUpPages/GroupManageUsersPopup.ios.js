@@ -23,7 +23,6 @@ var {
   StyleSheet
 } = React;
 
-
 var styles = StyleSheet.create({
   container: {
     flex: 1
@@ -62,6 +61,7 @@ var GroupManageUsersPopup = React.createClass({
       numPosts: React.PropTypes.number.isRequired,
       numMembers: React.PropTypes.number.isRequired
     }).isRequired,
+    onPageReturnCallback: React.PropTypes.func.isRequired,
     navigator: React.PropTypes.object.isRequired
   },
 
@@ -90,7 +90,10 @@ var GroupManageUsersPopup = React.createClass({
           <Text style={styles.pageHeader}>
             Manage Members
           </Text>
-          <BackArrow onPress={() => { this.props.navigator.pop(); }}/>
+          <BackArrow onPress={() => {
+            this.props.onPageReturnCallback();
+            this.props.navigator.pop();
+          }}/>
         </YouniHeader>
 
         <ScrollView
@@ -127,6 +130,7 @@ var GroupManageUsersPopup = React.createClass({
         let user = this.state.adminUsers[i];
         content.push(
           <ManageGroupUserListItem
+            group={this.props.group}
             user={user}
             key={i}/>
         );
@@ -154,6 +158,7 @@ var GroupManageUsersPopup = React.createClass({
       content = (
         <GroupUsersList
           users={this.state.users}
+          group={this.props.group}
           isLoading={this.state.isMoreUsersRequestInFlight}
           moreToFetch={this.state.moreToFetch}
           onLoadMorePress={this._fetchGroupUsers}

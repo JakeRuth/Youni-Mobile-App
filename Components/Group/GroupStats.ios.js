@@ -120,7 +120,7 @@ var GroupStats = React.createClass({
     this.props.navigator.push({
       component: GroupUsersPopup,
       passProps: {
-        groupIdString: this.props.group.id
+        group: this.props.group
       }
     })
   }
