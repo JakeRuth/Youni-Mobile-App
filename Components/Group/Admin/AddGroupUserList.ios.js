@@ -2,39 +2,22 @@
 
 var React = require('react-native');
 
-var ProfileImageThumbnail = require('../../Common/ProfileImageThumbnail');
+var AddGroupUserListItem = require('./AddGroupUserListItem');
 var LoadMoreButton = require('../../Common/LoadMoreButton');
 
 var Colors = require('../../../Utils/Common/Colors');
-var userLoginMetadataStore = require('../../../stores/UserLoginMetadataStore');
 
 var {
   View,
-  Text,
   ScrollView,
-  StyleSheet,
-  TouchableHighlight
+  StyleSheet
 } = React;
 
 var styles = StyleSheet.create({
   container: {
+    backgroundColor: Colors.WHITE_SMOKE,
     padding: 20,
     paddingTop: 5
-  },
-  userInfoContainer: {
-    marginTop: 10,
-    marginBottom: 10
-  },
-  userInfo: {
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
-  name: {
-    flex: 1,
-    color: Colors.DARK_GRAY,
-    fontSize: 16,
-    fontWeight: '300',
-    marginLeft: 20
   }
 });
 
@@ -42,6 +25,7 @@ var AddGroupUserList = React.createClass({
 
   propTypes: {
     users: React.PropTypes.array.isRequired,
+    groupIdString: React.PropTypes.string.isRequired,
     isLoading: React.PropTypes.bool.isRequired,
     moreToFetch: React.PropTypes.bool.isRequired,
     onLoadMorePress: React.PropTypes.func.isRequired
@@ -67,32 +51,18 @@ var AddGroupUserList = React.createClass({
     var users = [];
 
     for (var i = 0; i < this.props.users.length; i++) {
-      users.push(this._renderUser(this.props.users[i], i));
+      users.push(
+        <AddGroupUserListItem
+          user={this.props.users[i]}
+          groupIdString={this.props.groupIdString}
+          key={i}/>
+      );
     }
 
     return (
       <View>
         {users}
       </View>
-    );
-  },
-
-  _renderUser: function(user, index) {
-    return (
-      <TouchableHighlight
-        style={styles.userInfoContainer}
-        underlayColor="transparent"
-        onPress={this._onPress}
-        key={index}>
-
-        <View style={styles.userInfo}>
-          <ProfileImageThumbnail profileImageUrl={user.profileImageUrl}/>
-          <Text style={styles.name}>
-            {`${user.firstName} ${user.lastName}`}
-          </Text>
-        </View>
-
-      </TouchableHighlight>
     );
   }
 

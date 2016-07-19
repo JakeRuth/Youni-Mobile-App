@@ -22,8 +22,7 @@ var {
 
 var styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: Colors.WHITE_SMOKE
+    flex: 1
   },
   pageHeader: {
     fontSize: 20,
@@ -132,6 +131,7 @@ var GroupAddNewMemberPopup = React.createClass({
       return (
         <AddGroupUserList
           users={this.state.users}
+          groupIdString={this.props.group.id}
           isLoading={this.state.isNextPageLoading}
           moreToFetch={this.state.moreToFetch}
           onLoadMorePress={this.fetchGroupUsersToAdd}/>
