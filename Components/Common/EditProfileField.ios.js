@@ -36,6 +36,7 @@ var EditProfileField = React.createClass({
 
   propTypes: {
     label: React.PropTypes.string.isRequired,
+    value: React.PropTypes.string.isRequired,
     placeholder: React.PropTypes.string.isRequired,
     onChangeText: React.PropTypes.func.isRequired
   },
@@ -49,9 +50,8 @@ var EditProfileField = React.createClass({
         </Text>
         
         <TextInput
+          {...this.props}
           style={styles.input}
-          onChangeText={this.props.onChangeText}
-          placeholder={this.props.placeholder}
           placeholderTextColor={Colors.MED_GRAY}
           maxLength={25}/>
         

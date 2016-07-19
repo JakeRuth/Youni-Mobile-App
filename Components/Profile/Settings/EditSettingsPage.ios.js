@@ -25,23 +25,6 @@ var styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: Colors.LIGHT_GRAY
   },
-  editNameContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    flexDirection: 'row',
-    height: 44,
-    padding: 10
-  },
-  editNameLabel: {
-    fontWeight: '100',
-    color: Colors.DARK_GRAY,
-    fontSize: 16
-  },
-  editNameInput: {
-    flex: 1,
-    textAlign: 'right',
-    fontSize: 16
-  },
   editBioContainer: {
     flex: 1,
     height: 80,
@@ -80,10 +63,12 @@ var EditSettingsPage = React.createClass({
 
         <EditProfileField
           label="First Name"
+          value={editProfileInformationStore.getFirstName()}
           placeholder={profileOwnerStore.getFirstName()}
           onChangeText={(text) => editProfileInformationStore.setFirstName(text)}/>
         <EditProfileField
           label="Last Name"
+          value={editProfileInformationStore.getLastName()}
           placeholder={profileOwnerStore.getLastName()}
           onChangeText={(text) => editProfileInformationStore.setLastName(text)}/>
         {this._renderEditBioInput()}
