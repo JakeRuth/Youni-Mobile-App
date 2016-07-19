@@ -13,7 +13,6 @@ var {
 
 var styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: 'center',
     flexDirection: 'row',
     height: 44,
@@ -32,13 +31,14 @@ var styles = StyleSheet.create({
   }
 });
 
-var EditProfileField = React.createClass({
+var EditProfileFieldInput = React.createClass({
 
   propTypes: {
     label: React.PropTypes.string.isRequired,
     value: React.PropTypes.string.isRequired,
     placeholder: React.PropTypes.string.isRequired,
-    onChangeText: React.PropTypes.func.isRequired
+    onChangeText: React.PropTypes.func.isRequired,
+    maxLength: React.PropTypes.number.isRequired
   },
 
   render: function() {
@@ -52,8 +52,7 @@ var EditProfileField = React.createClass({
         <TextInput
           {...this.props}
           style={styles.input}
-          placeholderTextColor={Colors.MED_GRAY}
-          maxLength={25}/>
+          placeholderTextColor={Colors.MED_GRAY}/>
         
       </View>
     );
@@ -61,4 +60,4 @@ var EditProfileField = React.createClass({
 
 });
 
-module.exports = EditProfileField;
+module.exports = EditProfileFieldInput;

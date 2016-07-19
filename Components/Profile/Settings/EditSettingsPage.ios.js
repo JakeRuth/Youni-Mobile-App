@@ -4,7 +4,7 @@ var React = require('react-native');
 var Unicycle = require('../../../Unicycle');
 
 var ChangeProfilePicture = require('./ChangeProfilePicture');
-var EditProfileField = require('../../Common/EditProfileField');
+var EditProfileFieldInput = require('../../Common/EditProfileFieldInput');
 
 var Colors = require('../../../Utils/Common/Colors');
 var profileOwnerStore = require('../../../stores/profile/ProfileOwnerStore');
@@ -61,16 +61,18 @@ var EditSettingsPage = React.createClass({
           <ChangeProfilePicture/>
         </View>
 
-        <EditProfileField
+        <EditProfileFieldInput
           label="First Name"
           value={editProfileInformationStore.getFirstName()}
           placeholder={profileOwnerStore.getFirstName()}
-          onChangeText={(text) => editProfileInformationStore.setFirstName(text)}/>
-        <EditProfileField
+          onChangeText={(text) => editProfileInformationStore.setFirstName(text)}
+          maxLength={25}/>
+        <EditProfileFieldInput
           label="Last Name"
           value={editProfileInformationStore.getLastName()}
           placeholder={profileOwnerStore.getLastName()}
-          onChangeText={(text) => editProfileInformationStore.setLastName(text)}/>
+          onChangeText={(text) => editProfileInformationStore.setLastName(text)}
+          maxLength={25}/>
         {this._renderEditBioInput()}
 
       </View>

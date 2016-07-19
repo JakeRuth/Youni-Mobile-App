@@ -3,13 +3,20 @@
 var React = require('react-native');
 
 var ChangeCoverImage = require('../Group/Admin/Edit/ChangeCoverImage');
+var EditProfileFieldInput = require('../Common/EditProfileFieldInput');
 var YouniHeader = require('../Common/YouniHeader');
 var Spinner = require('../Common/Spinner');
 var BackArrow = require('../Common/BackArrow');
 
+var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
+var AjaxUtils = require('../../Utils/Common/AjaxUtils');
+var Colors = require('../../Utils/Common/Colors');
+
 var {
   View,
   Text,
+  AlertIOS,
+  TextInput,
   StyleSheet
 } = React;
 
@@ -42,6 +49,12 @@ var styles = StyleSheet.create({
     padding: 12,
     paddingTop: 2,
     width: 75
+  },
+  editDescription: {
+    flex: 1,
+    height: 80,
+    padding: 10,
+    fontSize: 16
   }
 });
 
@@ -64,35 +77,136 @@ var GroupUsersPopup = React.createClass({
     navigator: React.PropTypes.object.isRequired
   },
 
+  getInitialState: function() {
+    return {
+      isRequestInFlight: false,
+      name: this.props.group.name,
+      abbreviatedName: this.props.group.abbreviatedName,
+      description: this.props.group.description
+    };
+  },
+
   render: function () {
+    var editDescriptionPlaceholder;
+
+    if (this.props.group.description) {
+      editDescriptionPlaceholder = this.props.group.description;
+    }
+    else {
+      editDescriptionPlaceholder = 'Fill in group description';
+    }
+
     return (
       <View style={styles.container}>
 
-        <YouniHeader style={styles.headerContentContainer}>
-          <Text
-            style={styles.cancelLink}
-            onPress={() => {
-              this.props.onPageReturnCallback();
-              this.props.navigator.pop();
-            }}>
-            Cancel
-          </Text>
-          <Text style={styles.pageHeader}>
-            Edit Profile
-          </Text>
-          <Text
-            style={styles.finishEditLink}
-            onPress={() => {
-              this.props.onPageReturnCallback();
-              this.props.navigator.pop();
-            }}>
-            Done
-          </Text>
-        </YouniHeader>
+        {this._renderHeader()}
         
         <ChangeCoverImage {...this.props}/>
 
+        <EditProfileFieldInput
+          label="Title"
+          value={this.state.name}
+          placeholder={this.props.group.name}
+          onChangeText={(text) => this.setState({name: text}) }
+          maxLength={35}/>
+        <EditProfileFieldInput
+          label="Abbreviation"
+          value={this.state.abbreviatedName}
+          placeholder={this.props.group.abbreviatedName}
+          onChangeText={(text) => this.setState({abbreviatedName: text}) }
+          maxLength={5}/>
+        <TextInput
+          style={styles.editDescription}
+          onChangeText={(text) => this.setState({description: text}) }
+          value={this.state.description}
+          placeholder={editDescriptionPlaceholder}
+          placeholderTextColor={Colors.MED_GRAY}
+          multiline={true}
+          maxLength={125}
+          keyboardType="twitter"/>
+
       </View>
+    );
+  },
+
+  _renderHeader: function() {
+    return (
+      <YouniHeader style={styles.headerContentContainer}>
+        <Text
+          style={styles.cancelLink}
+          onPress={() => {
+              this.props.onPageReturnCallback();
+              this.props.navigator.pop();
+            }}>
+          Cancel
+        </Text>
+        <Text style={styles.pageHeader}>
+          Edit Profile
+        </Text>
+        <Text
+          style={styles.finishEditLink}
+          onPress={this._onFinishEdittingPress}>
+          Done
+        </Text>
+      </YouniHeader>
+    );
+  },
+
+  _onFinishEdittingPress: function() {
+    if (!this.state.name || !this.state.abbreviatedName || !this.state.description) {
+      AlertIOS.alert(
+        'Fields cannot be blank.',
+        '',
+        [
+          {
+            text: 'Alright'
+          }
+        ]
+      );
+    }
+    else {
+      this.updateGroupInformation();
+    }
+  },
+
+  updateGroupInformation: function() {
+    var that = this;
+
+    this.setState({
+      isRequestInFlight: true
+    });
+
+    AjaxUtils.ajax(
+      '/group/updateInformation',
+      {
+        requestingUserIdString: userLoginMetadataStore.getUserId(),
+        groupIdString: this.props.group.id,
+        name: this.state.name,
+        abbreviatedName: this.state.abbreviatedName,
+        description: this.state.description
+      },
+      (res) => {
+        that.setState({
+          isRequestInFlight: false
+        });
+        this.props.onPageReturnCallback();
+        this.props.navigator.pop();
+      },
+      () => {
+        that.setState({
+          isRequestInFlight: false
+        });
+
+        AlertIOS.alert(
+          'A problem occurred while updating group information.',
+          'If this problem persists please contact support@youniapp.com',
+          [
+            {
+              text: 'Okay'
+            }
+          ]
+        );
+      }
     );
   }
 
