@@ -29,8 +29,8 @@ var styles = StyleSheet.create({
   },
   groupListContainer: {
     flex: 1,
-    padding: 20,
-    paddingTop: 5
+    paddingLeft: 20,
+    paddingRight: 20
   },
   spinnerContainer: {
     flex: 1,

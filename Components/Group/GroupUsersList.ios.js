@@ -46,21 +46,9 @@ var GroupUsersList = React.createClass({
   },
 
   render: function () {
-    return (
-      <View style={styles.container}>
+    var users = this.props.users,
+        userResults = [];
 
-        {this.renderResultList(this.props.users)}
-        <LoadMoreButton
-          onPress={this.props.onLoadMorePress}
-          isLoading={this.props.isLoading}
-          isVisible={this.props.moreToFetch}/>
-        
-      </View>
-    );
-  },
-
-  renderResultList: function(users) {
-    var userResults = [];
     for (var i = 0; i < users.length; i++) {
       if (this.props.manageUsers) {
         userResults.push(
@@ -83,8 +71,16 @@ var GroupUsersList = React.createClass({
     }
 
     return (
-      <ScrollView>
+      <ScrollView
+        style={styles.container}
+        automaticallyAdjustContentInsets={false}>
+
         {userResults}
+        <LoadMoreButton
+          onPress={this.props.onLoadMorePress}
+          isLoading={this.props.isLoading}
+          isVisible={this.props.moreToFetch}/>
+        
       </ScrollView>
     );
   },
