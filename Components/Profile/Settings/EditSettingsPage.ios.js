@@ -2,7 +2,10 @@
 
 var React = require('react-native');
 var Unicycle = require('../../../Unicycle');
+
 var ChangeProfilePicture = require('./ChangeProfilePicture');
+var EditProfileField = require('../../Common/EditProfileField');
+
 var Colors = require('../../../Utils/Common/Colors');
 var profileOwnerStore = require('../../../stores/profile/ProfileOwnerStore');
 var editProfileInformationStore = require('../../../stores/profile/EditProfileInformationStore');
@@ -61,7 +64,7 @@ var EditSettingsPage = React.createClass({
     Unicycle.listenTo(editProfileInformationStore)
   ],
 
-  componentDidMount: function() {
+  componentWillMount: function() {
     editProfileInformationStore.setFirstName(profileOwnerStore.getFirstName());
     editProfileInformationStore.setLastName(profileOwnerStore.getLastName());
     editProfileInformationStore.setBio(profileOwnerStore.getBio());
@@ -74,42 +77,17 @@ var EditSettingsPage = React.createClass({
         <View style={styles.changeProfilePictureContainer}>
           <ChangeProfilePicture/>
         </View>
-        {this._renderEditFirstNameInput()}
-        {this._renderEditLastNameInput()}
+
+        <EditProfileField
+          label="First Name"
+          placeholder={profileOwnerStore.getFirstName()}
+          onChangeText={(text) => editProfileInformationStore.setFirstName(text)}/>
+        <EditProfileField
+          label="Last Name"
+          placeholder={profileOwnerStore.getLastName()}
+          onChangeText={(text) => editProfileInformationStore.setLastName(text)}/>
         {this._renderEditBioInput()}
 
-      </View>
-    );
-  },
-  
-  _renderEditFirstNameInput: function() {
-    return (
-      <View style={styles.editNameContainer}>
-        <Text style={styles.editNameLabel}>
-          First Name
-        </Text>
-        <TextInput
-          style={styles.editNameInput}
-          onChangeText={(text) => editProfileInformationStore.setFirstName(text)}
-          placeholder={profileOwnerStore.getFirstName()}
-          placeholderTextColor={Colors.DARK_GRAY}
-          maxLength={25}/>
-      </View>
-    );
-  },
-
-  _renderEditLastNameInput: function() {
-    return (
-      <View style={styles.editNameContainer}>
-        <Text style={styles.editNameLabel}>
-          Last Name
-        </Text>
-        <TextInput
-          style={styles.editNameInput}
-          onChangeText={(text) => editProfileInformationStore.setLastName(text)}
-          placeholder={profileOwnerStore.getLastName()}
-          placeholderTextColor={Colors.DARK_GRAY}
-          maxLength={25}/>
       </View>
     );
   },

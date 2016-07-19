@@ -42,6 +42,7 @@ var GroupActionButton = React.createClass({
     group: React.PropTypes.shape({
       id: React.PropTypes.string.isRequired,
       name: React.PropTypes.string.isRequired,
+      abbreviatedName: React.PropTypes.string.isRequired,
       description: React.PropTypes.string.isRequired,
       coverImageUrl: React.PropTypes.string.isRequired,
       badgeImageUrl: React.PropTypes.string.isRequired,
