@@ -18,6 +18,9 @@ var {
 } = React;
 
 var styles = StyleSheet.create({
+  container: {
+    padding: 10
+  },
   changeProfilePictureContainer: {
     alignItems: 'center',
     paddingTop: 10,
@@ -27,8 +30,7 @@ var styles = StyleSheet.create({
   },
   editBioContainer: {
     flex: 1,
-    height: 80,
-    padding: 10
+    height: 80
   },
   editBioInput: {
     flex: 1,
@@ -55,7 +57,7 @@ var EditSettingsPage = React.createClass({
 
   render: function() {
     return (
-      <View>
+      <View style={styles.container}>
 
         <View style={styles.changeProfilePictureContainer}>
           <ChangeProfilePicture/>

@@ -3,6 +3,7 @@
 var React = require('react-native');
 
 var ChangeCoverImage = require('../Group/Admin/Edit/ChangeCoverImage');
+var ChangeBadgeImage = require('../Group/Admin/Edit/ChangeBadgeImage');
 var EditProfileFieldInput = require('../Common/EditProfileFieldInput');
 var YouniHeader = require('../Common/YouniHeader');
 var Spinner = require('../Common/Spinner');
@@ -50,10 +51,12 @@ var styles = StyleSheet.create({
     paddingTop: 2,
     width: 75
   },
+  editInformationControlsContainer: {
+    padding: 10
+  },
   editDescription: {
     flex: 1,
     height: 80,
-    padding: 10,
     fontSize: 16
   }
 });
@@ -100,30 +103,35 @@ var GroupUsersPopup = React.createClass({
       <View style={styles.container}>
 
         {this._renderHeader()}
-        
+
         <ChangeCoverImage {...this.props}/>
 
-        <EditProfileFieldInput
-          label="Title"
-          value={this.state.name}
-          placeholder={this.props.group.name}
-          onChangeText={(text) => this.setState({name: text}) }
-          maxLength={35}/>
-        <EditProfileFieldInput
-          label="Abbreviation"
-          value={this.state.abbreviatedName}
-          placeholder={this.props.group.abbreviatedName}
-          onChangeText={(text) => this.setState({abbreviatedName: text}) }
-          maxLength={5}/>
-        <TextInput
-          style={styles.editDescription}
-          onChangeText={(text) => this.setState({description: text}) }
-          value={this.state.description}
-          placeholder={editDescriptionPlaceholder}
-          placeholderTextColor={Colors.MED_GRAY}
-          multiline={true}
-          maxLength={125}
-          keyboardType="twitter"/>
+        <View style={styles.editInformationControlsContainer}>
+          <EditProfileFieldInput
+            label="Title"
+            value={this.state.name}
+            placeholder={this.props.group.name}
+            onChangeText={(text) => this.setState({name: text}) }
+            maxLength={35}/>
+          <EditProfileFieldInput
+            label="Abbreviation"
+            value={this.state.abbreviatedName}
+            placeholder={this.props.group.abbreviatedName}
+            onChangeText={(text) => this.setState({abbreviatedName: text}) }
+            maxLength={5}/>
+          <TextInput
+            style={styles.editDescription}
+            onChangeText={(text) => this.setState({description: text}) }
+            value={this.state.description}
+            placeholder={editDescriptionPlaceholder}
+            placeholderTextColor={Colors.MED_GRAY}
+            multiline={true}
+            maxLength={125}
+            keyboardType="twitter"/>
+          <ChangeBadgeImage
+            groupIdString={this.props.group.id}
+            groupBadgeImageUrl={this.props.group.badgeImageUrl}/>
+        </View>
 
       </View>
     );

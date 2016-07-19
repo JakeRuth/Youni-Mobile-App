@@ -15,13 +15,13 @@ var styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     flexDirection: 'row',
-    height: 44,
-    padding: 10
+    height: 44
   },
   label: {
     fontWeight: '100',
     color: Colors.DARK_GRAY,
-    fontSize: 16
+    fontSize: 16,
+    alignSelf: 'center'
   },
   input: {
     flex: 1,
