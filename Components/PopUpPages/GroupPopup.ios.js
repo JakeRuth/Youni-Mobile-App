@@ -68,7 +68,7 @@ var GroupPopup = React.createClass({
   },
 
   componentWillMount() {
-    this._getLatestGroupData();
+    this.getLatestGroupData();
     this._requestGroupPosts();
   },
 
@@ -100,14 +100,14 @@ var GroupPopup = React.createClass({
           <GroupActionButton
             {...this.props}
             group={this.state.group}
-            onPageReturnCallback={this._getLatestGroupData}/>
+            onPageReturnCallback={this.getLatestGroupData}/>
         }
 
       </ScrollView>
     );
   },
 
-  _getLatestGroupData: function() {
+  getLatestGroupData: function() {
     var that = this;
 
     AjaxUtils.ajax(

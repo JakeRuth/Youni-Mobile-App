@@ -8,14 +8,12 @@ var Spinner = require('../Common/Spinner');
 var BackArrow = require('../Common/BackArrow');
 
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
-var UserUtils = require('../../Utils/User/UserUtils');
 
 var {
   View,
   Text,
   StyleSheet
 } = React;
-
 
 var styles = StyleSheet.create({
   container: {

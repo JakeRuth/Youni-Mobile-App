@@ -4,6 +4,7 @@ var React = require('react-native');
 var Icon = require('react-native-vector-icons/Ionicons');
 
 var GroupManageUsersPopup = require('../PopupPages/GroupManageUsersPopup');
+var GroupEditInfoPopup = require('../PopupPages/GroupEditInfoPopup');
 
 var Colors = require('../../Utils/Common/Colors');
 
@@ -92,7 +93,10 @@ var GroupActionButton = React.createClass({
         });
       }
       else if (buttonIndex === 2) {
-        //TODO
+        this.props.navigator.push({
+          component: GroupEditInfoPopup,
+          passProps: {...this.props}
+        });
       }
     });
   }

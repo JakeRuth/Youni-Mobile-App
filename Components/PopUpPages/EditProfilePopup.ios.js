@@ -85,17 +85,17 @@ var EditProfilePopup = React.createClass({
             <Text
               style={styles.cancelLink}
               onPress={() => { this.goBackOnePage(); }}>
-              {'Cancel'}
+              Cancel
             </Text>
             <Text style={styles.pageHeader}>
-              {'Edit Profile'}
+              Edit Profile
             </Text>
             <Text
               style={styles.finishEditLink}
               onPress={() => {
                 editProfileInformationStore.updateProfileInformation(this.goBackOnePage);
               }}>
-              {'Done'}
+              Done
             </Text>
 
           </View>

@@ -68,7 +68,7 @@ var ChangeProfilePicture = React.createClass({
         uploadProfileImageStore.setIsUploadProfileImageRequestInFlight(true);
 
         NativeModules.FileTransfer.upload(this._getImageUploadOptions(response), (err, res) => {
-          var imageUrl = this._hackyWayToGetPictureUrlFromDumbStringThatShouldBeAMap(res.data);
+          var imageUrl = JSON.parse(res.data).pictureUrl;
           Unicycle.exec('setProfileImageUrl', imageUrl);
           uploadProfileImageStore.setIsUploadProfileImageRequestInFlight(false);
         });
@@ -97,13 +97,6 @@ var ChangeProfilePicture = React.createClass({
         userIdString: userLoginMetadataStore.getUserId()
       }
     };
-  },
-
-  //TODO: Fix this ugly shit and make it nice
-  _hackyWayToGetPictureUrlFromDumbStringThatShouldBeAMap: function(ugly) {
-    var start = ugly.indexOf("pictureUrl") + 13;
-    var end = ugly.indexOf("message") - 3;
-    return ugly.substring(start, end);
   }
 
 });

@@ -61,7 +61,9 @@ var ProfileImage = React.createClass({
         style={styles.profileImageContainer}
         underlayColor='transparent'
         onPress={this.props.onPress}>
-        {content}
+        <View>
+          {content}
+        </View>
       </TouchableHighlight>
     );
   }
