@@ -7,10 +7,6 @@ var userLoginMetadataStore = require('../UserLoginMetadataStore');
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 var UserUtils = require('../../Utils/User/UserUtils');
 
-var {
-  AlertIOS
-} = React;
-
 var editProfileInformationStore = Unicycle.createStore({
 
   init: function () {
@@ -32,19 +28,6 @@ var editProfileInformationStore = Unicycle.createStore({
         bio = this.getBio(),
         userEmail = userLoginMetadataStore.getEmail(),
         that = this;
-
-    if (!firstName || !lastName) {
-      AlertIOS.alert(
-        'Fields cannot be blank.',
-        '',
-        [
-          {
-            text: 'Alright'
-          }
-        ]
-      );
-      return;
-    }
 
     this.set({
       isUpdateProfileInformationRequestInFlight: true

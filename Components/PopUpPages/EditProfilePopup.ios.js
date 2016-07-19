@@ -12,6 +12,7 @@ var editProfileInformationStore = require('../../stores/profile/EditProfileInfor
 var {
   View,
   Text,
+  AlertIOS,
   StyleSheet
 } = React;
 
@@ -93,7 +94,20 @@ var EditProfilePopup = React.createClass({
             <Text
               style={styles.finishEditLink}
               onPress={() => {
-                editProfileInformationStore.updateProfileInformation(this.goBackOnePage);
+                if (!editProfileInformationStore.getFirstName() || !editProfileInformationStore.getLastName()) {
+                  AlertIOS.alert(
+                    'Fields cannot be blank.',
+                    '',
+                    [
+                      {
+                        text: 'Alright'
+                      }
+                    ]
+                  );
+                }
+                else {
+                  editProfileInformationStore.updateProfileInformation(this.goBackOnePage);
+                }
               }}>
               Done
             </Text>
