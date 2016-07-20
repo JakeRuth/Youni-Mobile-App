@@ -35,7 +35,7 @@ var signupStore = Unicycle.createStore({
         email: this.getEmail(),
         password: this.getPassword(),
         isFemale: isFemale,
-        schoolName: 'SUNY Albany' //TODO fix me
+        classYear: this.getClassYear()
       },
       (res) => {
         that.setIsCreateAccountRequestInFlight(false);
