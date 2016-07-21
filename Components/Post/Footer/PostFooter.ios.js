@@ -2,12 +2,15 @@
 
 var React = require('react-native');
 var Unicycle = require('../../../Unicycle');
-var userLoginMetadataStore = require('../../../stores/UserLoginMetadataStore');
+
 var PostStats = require('./PostStats');
+var PostGroups = require('./PostGroups');
 var Caption = require('./Caption');
 var CommentList = require('./CommentList');
 var ViewAllCommentsLink = require('./ViewAllCommentsLink');
 var PostCommentsPopup = require('../../PopupPages/PostCommentsPopup');
+
+var userLoginMetadataStore = require('../../../stores/UserLoginMetadataStore');
 var PostUtils = require('../../../Utils/Post/PostUtils');
 var Colors = require('../../../Utils/Common/Colors');
 
@@ -21,6 +24,9 @@ var styles = StyleSheet.create({
   postFooter: {
     backgroundColor: 'white',
     padding: 10
+  },
+  statsAndGroupContainer: {
+    flexDirection: 'row'
   },
   blankLine: {
     borderWidth: .5,
@@ -60,11 +66,18 @@ var PostFooter = React.createClass({
     return (
       <View style={styles.postFooter}>
 
-        <PostStats
-          navigator={this.props.navigator}
-          onStarPress={this.props.onStarPress(this.props.post.liked)}
-          onCommentPress={this._onCommentPress}
-          post={this.props.post}/>
+        <View style={styles.statsAndGroupContainer}>
+          <PostStats
+            style={{ flex: 1 }}
+            navigator={this.props.navigator}
+            onStarPress={this.props.onStarPress(this.props.post.liked)}
+            onCommentPress={this._onCommentPress}
+            post={this.props.post}/>
+          <PostGroups
+            style={{ flex: 1 }}
+            groups={this.props.post.groups}
+            navigator={this.props.navigator}/>
+        </View>
 
         {caption}
         {commentSeparator}

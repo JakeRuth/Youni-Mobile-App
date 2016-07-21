@@ -12,7 +12,6 @@ var Colors = require('../../Utils/Common/Colors');
 var {
   View,
   Text,
-  Image,
   StyleSheet,
   Dimensions,
   TouchableHighlight
@@ -23,16 +22,10 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row'
   },
-  leftSide: {
+  posterThumbnail: {
     padding: 10,
     flex: 1,
     flexDirection: 'row'
-  },
-  posterImage: {
-    height: 40,
-    width: 40,
-    borderRadius: 12,
-    marginRight: 10
   },
   profileName: {
     flex: 1,
@@ -92,7 +85,7 @@ var PostHeader = React.createClass({
           onPress={this.onProfilePress}
           underlayColor='transparent'>
 
-          <View style={styles.leftSide}>
+          <View style={styles.posterThumbnail}>
             <ProfileImageThumbnail profileImageUrl={this.props.post.posterProfileImageUrl}/>
             <View>
               <Text

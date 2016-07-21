@@ -136,6 +136,8 @@ var ChangeBadgeImage = React.createClass({
 
   _getImagePickerOptions: function() {
     return {
+      maxWidth: 200,
+      maxHeight: 200,
       quality: .5,
       allowsEditing: true,
       noData: true

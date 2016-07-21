@@ -1,8 +1,10 @@
 'use strict';
 
 var React = require('react-native');
+
 var GroupPopup = require('../PopupPages/GroupPopup');
 var ProfileImageThumbnail = require('../Common/ProfileImageThumbnail');
+
 var Colors = require('../../Utils/Common/Colors');
 
 var {
@@ -77,7 +79,7 @@ var GroupListItem = React.createClass({
       passProps: {
         ...this.props
       }
-    })
+    });
   }
 
 });

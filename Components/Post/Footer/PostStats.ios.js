@@ -58,7 +58,7 @@ var PostStats = React.createClass({
     }
 
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, this.props.style]}>
         <TouchableHighlight
           onPress={this.props.onStarPress}
           underlayColor={'transparent'}>

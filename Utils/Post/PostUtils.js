@@ -107,7 +107,8 @@ var PostUtils = {
       imageHeight: post.photoHeight,
       imageWidth: post.photoWidth,
       id: index,
-      isPostUserCurrentlyTrending: post.isCurrentlyTrending
+      isPostUserCurrentlyTrending: post.isCurrentlyTrending,
+      groups: post.groups
     };
   },
 
