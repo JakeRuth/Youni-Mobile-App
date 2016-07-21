@@ -7,13 +7,10 @@ var Icon = require('react-native-vector-icons/Ionicons');
 var HomePage = require('./HomePage');
 var SearchPage = require('./Search/SearchPage');
 var TrendingPage = require('./Trending/TrendingPage');
-var CreatePostForm = require('./CreatePost/CreatePostForm');
 
-var userLoginMetadataStore = require('../stores/UserLoginMetadataStore');
 var tabStateStore = require('../stores/TabStateStore');
 var notificationStore = require('../stores/NotificationStore');
 var searchStore = require('../stores/SearchStore');
-var createPostStore = require('../stores/CreatePostStore');
 
 var ShowImagePicker = require('./CreatePost/ShowImagePicker');
 var Color = require('../Utils/Common/Colors');

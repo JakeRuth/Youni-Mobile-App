@@ -3,6 +3,7 @@
 var React = require('react-native');
 var Unicycle = require('../../Unicycle');
 
+var SelectGroupsForPost = require('./SelectGroupsForPost');
 var YouniHeader = require('../Common/YouniHeader');
 var Spinner = require('../Common/Spinner');
 var BackArrow = require('../Common/BackArrow');
@@ -45,7 +46,6 @@ var styles = StyleSheet.create({
     height: 250
   },
   captionInput: {
-    flex: 1,
     fontSize: 16,
     height: 96,
     paddingTop: 5,
@@ -149,6 +149,7 @@ var CreatePostForm = React.createClass({
             multiline={true}
             keyboardType="twitter"
             maxLength={200}/>
+          <SelectGroupsForPost/>
         </ScrollView>
         {postButton}
 
@@ -160,6 +161,7 @@ var CreatePostForm = React.createClass({
     var userId = userLoginMetadataStore.getUserId();
     
     Unicycle.exec('createPost', userId, () => {
+      this._clearCreatePostData();
       tabStateStore.setSelectedTab(TabLabel.HOME);
       homePostsStore.setScrollToTopOfPostFeed(true);
       Unicycle.exec('refreshHomeFeed', userLoginMetadataStore.getUserId());
@@ -168,10 +170,15 @@ var CreatePostForm = React.createClass({
   },
 
   _onBackArrowPress: function() {
-    createPostStore.setCaption('');
-    createPostStore.setImageId('');
+    this._clearCreatePostData();
     tabStateStore.setSelectedTab(TabLabel.HOME);
     this.props.navigator.pop();
+  },
+
+  _clearCreatePostData: function() {
+    createPostStore.setCaption('');
+    createPostStore.setImageId('');
+    createPostStore.setGroupIds([]);
   },
 
   _getImageHeight: function() {
