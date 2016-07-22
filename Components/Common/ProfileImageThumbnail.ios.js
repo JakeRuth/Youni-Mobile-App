@@ -34,7 +34,7 @@ var ProfileImageThumbnail = React.createClass({
     if (this.props.profileImageUrl) {
       return (
         <Image
-          style={styles.profileImage}
+          style={[styles.profileImage, this.props.style]}
           source={{uri: this.props.profileImageUrl}}/>
       );
     }

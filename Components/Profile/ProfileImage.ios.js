@@ -27,7 +27,7 @@ var styles = StyleSheet.create({
 var ProfileImage = React.createClass({
 
   propTypes: {
-    profileImageUrl: React.PropTypes.string,
+    user: React.PropTypes.object.isRequired,
     onPress: React.PropTypes.func,
     isUploading: React.PropTypes.bool
   },
@@ -40,11 +40,11 @@ var ProfileImage = React.createClass({
         <Spinner/>
       );
     }
-    else if (this.props.profileImageUrl) {
+    else if (this.props.user.profileImageUrl) {
       content = (
         <Image
           style={styles.profileImage}
-          source={{uri: this.props.profileImageUrl}}/>
+          source={{uri: this.props.user.profileImageUrl}}/>
       );
     }
     else {

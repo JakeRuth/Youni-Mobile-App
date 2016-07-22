@@ -14,9 +14,6 @@ var {
 } = React;
 
 var styles = StyleSheet.create({
-  container: {
-    paddingLeft: 10
-  },
   label: {
     marginTop: 1,
     color: Colors.DARK_GRAY,
@@ -30,18 +27,23 @@ var GroupThumbnailLink = React.createClass({
 
   propTypes: {
     group: React.PropTypes.object.isRequired,
-    navigator: React.PropTypes.object.isRequired
+    navigator: React.PropTypes.object.isRequired,
+    imageStyle: React.PropTypes.any,
+    labelColor: React.PropTypes.string
   },
 
   render: function() {
     return (
       <TouchableHighlight
+        style={this.props.style}
         underlayColor="transparent"
         onPress={this._onPress}>
 
-        <View style={styles.container}>
-          <ProfileImageThumbnail profileImageUrl={this.props.group.badgeImageUrl}/>
-          <Text style={styles.label}>
+        <View>
+          <ProfileImageThumbnail
+            style={this.props.imageStyle}
+            profileImageUrl={this.props.group.badgeImageUrl}/>
+          <Text style={[styles.label, {color: this.props.labelColor}]}>
             {this.props.group.abbreviatedName}
           </Text>
         </View>

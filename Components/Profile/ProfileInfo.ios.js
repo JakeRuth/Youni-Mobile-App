@@ -36,12 +36,7 @@ var ProfileInfo = React.createClass({
     return (
       <View style={styles.container}>
 
-        <ProfileInfoBody
-          viewerIsProfileOwner={this.props.viewerIsProfileOwner}
-          profileImageUrl={this.props.user.profileImageUrl}
-          bio={this.props.user.bio}
-          numFans={this.props.user.numFollowers}
-          campusScore={this.props.user.totalPoints}/>
+        <ProfileInfoBody {...this.props}/>
         <ProfileInfoFooter {...this.props}/>
 
       </View>

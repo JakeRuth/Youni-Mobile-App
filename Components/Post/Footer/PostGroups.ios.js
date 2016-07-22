@@ -17,7 +17,7 @@ var PostGroups = React.createClass({
   },
 
   render: function() {
-    if (this.props.groups.length <= 0) {
+    if (!this.props.groups || this.props.groups.length <= 0) {
       return <View/>;
     }
     
@@ -26,6 +26,7 @@ var PostGroups = React.createClass({
     for (var i = 0; i < this.props.groups.length; i++) {
       groups.push(
         <GroupThumbnailLink
+          style={{ paddingLeft: 10 }}
           group={this.props.groups[i]}
           navigator={this.props.navigator}
           key={i}/>
