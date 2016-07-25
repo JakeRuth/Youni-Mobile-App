@@ -101,7 +101,7 @@ var GroupUsersPopup = React.createClass({
           <Text style={styles.pageHeader}>
             Members
           </Text>
-          <BackArrow onPress={() => { this.props.navigator.pop(); }}/>
+          <BackArrow onPress={() => this.props.navigator.pop()}/>
         </YouniHeader>
         {content}
       </View>

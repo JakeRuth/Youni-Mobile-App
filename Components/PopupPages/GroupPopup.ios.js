@@ -95,7 +95,7 @@ var GroupPopup = React.createClass({
           navigator={this.props.navigator}/>
         <BackArrow
           style={styles.backArrow}
-          onPress={() => { this.props.navigator.pop(); }}/>
+          onPress={() => this.props.navigator.pop() }/>
         {
           GroupUtils.isUserAdmin(this.state.group, userLoginMetadataStore.getEmail()) &&
           <GroupActionButton
