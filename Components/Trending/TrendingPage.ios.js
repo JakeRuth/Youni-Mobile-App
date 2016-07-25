@@ -20,8 +20,7 @@ var {
 
 var styles = StyleSheet.create({
   container: {
-    flex: 1,
-    marginBottom: 50
+    flex: 1
   },
   header: {
     flexDirection: 'row',

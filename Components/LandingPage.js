@@ -4,24 +4,19 @@ var React = require('react-native');
 var Unicycle = require('../Unicycle');
 var Icon = require('react-native-vector-icons/Ionicons');
 
+var BaseAppSwiper = require('./BaseAppSwiper');
 var HomePage = require('./HomePage');
 var SearchPage = require('./Search/SearchPage');
 var TrendingPage = require('./Trending/TrendingPage');
 
-var tabStateStore = require('../stores/TabStateStore');
 var notificationStore = require('../stores/NotificationStore');
 var searchStore = require('../stores/SearchStore');
 
-var ShowImagePicker = require('./CreatePost/ShowImagePicker');
 var Color = require('../Utils/Common/Colors');
 var NotificationUtils = require('../Utils/Notification/NotificationUtils');
-var TabLabel = require('../Utils/Enums/TabLabel');
 
 var {
-  View,
-  Text,
   StyleSheet,
-  TabBarIOS,
   AsyncStorage,
   AppStateIOS,
   PushNotificationIOS
@@ -39,6 +34,10 @@ var LandingPage = React.createClass({
     navigator: React.PropTypes.object.isRequired
   },
 
+  mixins: [
+    Unicycle.listenTo(notificationStore)
+  ],
+
   getInitialState: function() {
     return {
       currentAppState: AppStateIOS.currentState
@@ -48,11 +47,6 @@ var LandingPage = React.createClass({
   componentWillMount: function() {
     PushNotificationIOS.addEventListener('register', this._onNotificationRegistration);
   },
- 
-  mixins: [
-    Unicycle.listenTo(tabStateStore),
-    Unicycle.listenTo(notificationStore)
-  ],
 
   componentDidMount: function() {
     PushNotificationIOS.checkPermissions(function(permissions) {
@@ -65,11 +59,6 @@ var LandingPage = React.createClass({
 
     notificationStore.countUnreadNotifications();
     this._pollForNotifications();
-
-    //nice little trick to get the spinner to stay during the animation to home page
-    AsyncStorage.getItem('accessToken').then(() => {
-      tabStateStore.setSelectedTab(TabLabel.HOME);
-    }).done();
   },
 
   componentWillUnmount: function() {
@@ -78,86 +67,11 @@ var LandingPage = React.createClass({
 
   render: function() {
     return (
-      <View style={styles.tabBarContainer}>
-        {this._renderTabBar()}
-      </View>
-    );
-  },
-
-  _renderTabBar: function() {
-    return (
-      <TabBarIOS
-        tintColor={Color.YOUNI_PRIMARY_PURPLE}>
-
-        {this._renderExploreTab()}
-        {this._renderTakePhotoTab()}
-        {this._renderTrendingTab()}
-
-      </TabBarIOS>
-    );
-  },
-
-  _renderExploreTab: function() {
-    return (
-      <Icon.TabBarItem
-        title="Explore"
-        iconName="ios-search"
-        selectedIconName="ios-search"
-        selected={tabStateStore.getSelectedTab() === TabLabel.EXPLORE}
-        onPress={() => {
-          searchStore.setInExploreFeedView(true);
-          tabStateStore.setSelectedTab(TabLabel.EXPLORE);
-        }}>
-        <SearchPage navigator={this.props.navigator}/>
-      </Icon.TabBarItem>
-    );
-  },
-
-  _renderTakePhotoTab: function() {
-    var selectedTab = tabStateStore.getSelectedTab(),
-        tabLabel,
-        iconName;
-
-    if (selectedTab === TabLabel.HOME) {
-      tabLabel = "Take Photo";
-      iconName = "android-home";
-    }
-    else {
-      tabLabel = "Home";
-      iconName = "ios-camera-outline";
-    }
-    
-    return (
-      <Icon.TabBarItem
-        title={tabLabel}
-        iconName={iconName}
-        selectedIconName={iconName}
-        selected={selectedTab === TabLabel.HOME}
-        onPress={() => {
-          if (selectedTab === TabLabel.HOME) {
-            ShowImagePicker.showImagePicker(this.props.navigator);
-          }
-          else {
-            tabStateStore.setSelectedTab(TabLabel.HOME);
-          }
-        }}>
+      <BaseAppSwiper>
+        <TrendingPage {...this.props}/>
         <HomePage {...this.props}/>
-      </Icon.TabBarItem>
-    );
-  },
-
-  _renderTrendingTab: function() {
-    return (
-      <Icon.TabBarItem
-        title="Trending"
-        iconName="fireball"
-        selectedIconName="fireball"
-        selected={tabStateStore.getSelectedTab() === TabLabel.TRENDING}
-        onPress={() => {
-          tabStateStore.setSelectedTab(TabLabel.TRENDING);
-        }}>
-        <TrendingPage navigator={this.props.navigator}/>
-      </Icon.TabBarItem>
+        <SearchPage {...this.props}/>
+      </BaseAppSwiper>
     );
   },
 

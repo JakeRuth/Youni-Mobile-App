@@ -17,8 +17,7 @@ var {
 
 var styles = StyleSheet.create({
   exploreFeedContainer: {
-    flex: 1,
-    paddingBottom: 50
+    flex: 1
   },
   feedFilterContainer: {
     alignItems: 'center'

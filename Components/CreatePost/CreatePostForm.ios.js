@@ -9,12 +9,10 @@ var Spinner = require('../Common/Spinner');
 var BackArrow = require('../Common/BackArrow');
 
 var createPostStore = require('../../stores/CreatePostStore');
-var tabStateStore = require('../../stores/TabStateStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var homePostsStore = require('../../stores/post/HomePostsStore');
 
 var Colors = require('../../Utils/Common/Colors');
-var TabLabel = require('../../Utils/Enums/TabLabel');
 
 var {
   View,
@@ -162,7 +160,6 @@ var CreatePostForm = React.createClass({
     
     Unicycle.exec('createPost', userId, () => {
       this._clearCreatePostData();
-      tabStateStore.setSelectedTab(TabLabel.HOME);
       homePostsStore.setScrollToTopOfPostFeed(true);
       Unicycle.exec('refreshHomeFeed', userLoginMetadataStore.getUserId());
       this.props.navigator.pop();
@@ -171,7 +168,6 @@ var CreatePostForm = React.createClass({
 
   _onBackArrowPress: function() {
     this._clearCreatePostData();
-    tabStateStore.setSelectedTab(TabLabel.HOME);
     this.props.navigator.pop();
   },
 
