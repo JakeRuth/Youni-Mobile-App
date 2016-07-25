@@ -91,7 +91,9 @@ var SelectGroupsForPost = React.createClass({
     if (this.state.showGroups) {
       return (
         <View>
-          <CreatePostGroupList groups={this.state.groups}/>
+          <CreatePostGroupList
+            groups={this.state.groups}
+            isLoading={this.state.groups === null}/>
           <View style={styles.separator}/>
         </View>
       );

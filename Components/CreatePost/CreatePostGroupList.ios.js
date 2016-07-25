@@ -39,13 +39,14 @@ var styles = StyleSheet.create({
 var CreatePostGroupList = React.createClass({
 
   propTypes: {
-    groups: React.PropTypes.array
+    groups: React.PropTypes.array,
+    isLoading: React.PropTypes.bool
   },
 
   render: function() {
     var content;
 
-    if (this.props.groups === null) {
+    if (this.props.isLoading) {
       content = <Spinner style={styles.spinner}/>;
     }
     else if (this.props.groups.length === 0) {
