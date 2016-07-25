@@ -227,10 +227,10 @@ var ManageGroupUserListItem = React.createClass({
     AlertIOS.alert(
       'Are you sure?',
       `You are about to make ${this.props.user.firstName} an admin from this group.  As an admin ${this.props.user.firstName} will be able to:\n\n
-      - Remove users from the group\n
-      - Remove admins from the group\n
-      - Make a non admin user an admin\n
-      - Demote current admins to normal member status`,
+      Remove users from the group\n
+      Remove admins from the group\n
+      Make a non admin user an admin\n
+      Demote current admins to normal member status`,
       [
         {
           text: 'Yes',

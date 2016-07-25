@@ -82,10 +82,10 @@ var AddUserToGroupButton = React.createClass({
     AlertIOS.alert(
       'Are you sure?',
       `Admin users are allowed to do the following:\n\n
-      - Remove users from the group\n
-      - Remove admins from the group\n
-      - Make a non admin user an admin\n
-      - Demote current admins to normal member status`,
+      Remove users from the group\n
+      Remove admins from the group\n
+      Make a non admin user an admin\n
+      Demote current admins to normal member status`,
       [
         {
           text: 'Yes',
