@@ -40,7 +40,7 @@ var ProfileImageThumbnail = React.createClass({
     }
     else {
       return (
-        <View style={styles.noProfilePictureIcon}>
+        <View style={[styles.noProfilePictureIcon, this.props.style]}>
           <Icon
             name='ios-person'
             size={40}
