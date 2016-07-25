@@ -100,7 +100,7 @@ var GroupManageUsersPopup = React.createClass({
         <ScrollView
           style={styles.contentContainer}
           automaticallyAdjustContentInsets={false}>
-          <AddNewGroupUserTrigger onPress={this.onAddNewUserPress}/>
+          <AddNewGroupUserTrigger onPress={this.onAddUserTriggerPress}/>
 
           <ManageGroupUsersSection heading="Admin">
             {this._renderAdminGroupUsers()}
@@ -175,7 +175,7 @@ var GroupManageUsersPopup = React.createClass({
     )
   },
 
-  onAddNewUserPress: function() {
+  onAddUserTriggerPress: function() {
     var onPageReturnCallback = () => {
       this.setState({
         isAdminUsersRequestInFlight: true,
