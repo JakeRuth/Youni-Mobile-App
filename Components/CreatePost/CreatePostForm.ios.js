@@ -3,17 +3,16 @@
 var React = require('react-native');
 var Unicycle = require('../../Unicycle');
 
+var SelectGroupsForPost = require('./SelectGroupsForPost');
 var YouniHeader = require('../Common/YouniHeader');
 var Spinner = require('../Common/Spinner');
 var BackArrow = require('../Common/BackArrow');
 
 var createPostStore = require('../../stores/CreatePostStore');
-var tabStateStore = require('../../stores/TabStateStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var homePostsStore = require('../../stores/post/HomePostsStore');
 
 var Colors = require('../../Utils/Common/Colors');
-var TabLabel = require('../../Utils/Enums/TabLabel');
 
 var {
   View,
@@ -45,7 +44,6 @@ var styles = StyleSheet.create({
     height: 250
   },
   captionInput: {
-    flex: 1,
     fontSize: 16,
     height: 96,
     paddingTop: 5,
@@ -149,6 +147,7 @@ var CreatePostForm = React.createClass({
             multiline={true}
             keyboardType="twitter"
             maxLength={200}/>
+          <SelectGroupsForPost/>
         </ScrollView>
         {postButton}
 
@@ -160,7 +159,7 @@ var CreatePostForm = React.createClass({
     var userId = userLoginMetadataStore.getUserId();
     
     Unicycle.exec('createPost', userId, () => {
-      tabStateStore.setSelectedTab(TabLabel.HOME);
+      this._clearCreatePostData();
       homePostsStore.setScrollToTopOfPostFeed(true);
       Unicycle.exec('refreshHomeFeed', userLoginMetadataStore.getUserId());
       this.props.navigator.pop();
@@ -168,10 +167,14 @@ var CreatePostForm = React.createClass({
   },
 
   _onBackArrowPress: function() {
+    this._clearCreatePostData();
+    this.props.navigator.pop();
+  },
+
+  _clearCreatePostData: function() {
     createPostStore.setCaption('');
     createPostStore.setImageId('');
-    tabStateStore.setSelectedTab(TabLabel.HOME);
-    this.props.navigator.pop();
+    createPostStore.setGroupIds([]);
   },
 
   _getImageHeight: function() {

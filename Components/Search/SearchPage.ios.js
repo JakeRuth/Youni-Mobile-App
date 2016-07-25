@@ -4,12 +4,13 @@ var React = require('react-native');
 var Unicycle = require('../../Unicycle');
 
 var searchStore = require('../../stores/SearchStore');
+var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 
-var ExploreFeedPosts = require('../Post/ExploreFeedPosts');
+var SearchTypeSelector = require('./SearchTypeSelector');
 var SearchBarInput = require('./SearchBarInput');
 var SearchResultsList = require('./SearchResultsList');
+var ExploreFeedPosts = require('../Post/ExploreFeedPosts');
 var YouniHeader = require('../Common/YouniHeader');
-var EmptyResults = require('../Common/EmptyResults');
 var Spinner = require('../Common/Spinner');
 
 var {
@@ -20,8 +21,16 @@ var {
 } = React;
 
 var styles = StyleSheet.create({
-  searchPageContainer: {
+  container: {
     flex: 1
+  },
+  searchResultsContainer: {
+    flex: 1
+  },
+  searchBarContainer: {
+    borderRadius: 5,
+    marginLeft: 10,
+    marginRight: 10
   }
 });
 
@@ -37,32 +46,54 @@ var SearchPage = React.createClass({
 
   render: function() {
     var inExploreFeedView = searchStore.getInExploreFeedView(),
-        numResults = searchStore.getNumResults(),
         searchPageContent;
 
-    if (searchStore.isFirstPageOfResultsLoading()) {
-      searchPageContent = <Spinner/>;
-    }
-    else if (inExploreFeedView) {
+    if (inExploreFeedView) {
       searchPageContent = <ExploreFeedPosts navigator={this.props.navigator}/>;
     }
-    else if (numResults) {
-      searchPageContent = <SearchResultsList navigator={this.props.navigator}/>;
-    }
     else {
-      searchPageContent = <EmptyResults message={'no results to show'}/>;
+      searchPageContent = (
+        <View style={styles.searchResultsContainer}>
+          <SearchTypeSelector/>
+          {this._renderSearchResultsList()}
+        </View>
+      );
     }
 
     return (
-      <View style={styles.searchPageContainer}>
+      <View style={styles.container}>
 
         <YouniHeader>
-          <SearchBarInput/>
+          <SearchBarInput
+            style={styles.searchBarContainer}
+            active={!searchStore.getInExploreFeedView()}
+            value={searchStore.getSearchTerm()}
+            placeholder={`     Search ${userLoginMetadataStore.getNetworkName()}`}
+            onChangeText={(search) => {
+              searchStore.setSearchTerm(search);
+            }}
+            onSubmitEditing={() => {
+              var email = userLoginMetadataStore.getEmail();
+              searchStore.executeSearch(email);
+            }}
+            onClearSearchPress={() => {
+              searchStore.setSearchTerm('');
+              searchStore.setInExploreFeedView(true);
+            }}/>
         </YouniHeader>
         {searchPageContent}
 
       </View>
     );
+  },
+
+  _renderSearchResultsList: function() {
+    if (searchStore.isFirstPageOfResultsLoading()) {
+      return <Spinner/>;
+    }
+    else {
+      return <SearchResultsList navigator={this.props.navigator}/>;
+    }
   }
 
 });

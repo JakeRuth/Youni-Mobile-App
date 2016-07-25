@@ -23,7 +23,7 @@ var PostCommentsPopup = React.createClass({
     return {
       comments: this.props.post.firstComments,
       isLoading: false,
-      moreToFetch: true,
+      moreToFetch: false,
       offset: this.props.post.firstComments.length
     };
   },

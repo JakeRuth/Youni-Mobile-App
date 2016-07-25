@@ -1,9 +1,9 @@
 'use strict';
 
 var React = require('react-native');
-var Icon = require('react-native-vector-icons/Ionicons');
 var ProfileImageThumbnail = require('./ProfileImageThumbnail');
 var Colors = require('../../Utils/Common/Colors');
+var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 
 var {
   View,
@@ -21,24 +21,13 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     height: 55
   },
-  profileImage: {
-    alignSelf: 'center',
-    height: 45,
-    width: 45,
-    borderRadius: 22
-  },
-  noProfilePictureIcon: {
-    width: 45,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
   fullName: {
     flex: 1,
     fontSize: 16,
     fontWeight: '100',
     alignSelf: 'center',
     color: Colors.DARK_GRAY,
-    paddingLeft: 16
+    paddingLeft: 20
   }
 });
 
@@ -46,32 +35,13 @@ var UserListItem = React.createClass({
 
   propTypes: {
     user: React.PropTypes.object.isRequired,
+    displayNameOverride: React.PropTypes.string,
     navigator: React.PropTypes.object.isRequired
   },
 
   render: function() {
     var user = this.props.user,
-        firstName = user.firstName,
-        lastName = user.lastName,
-        email = user.email,
-        profileImageUrl = user.profileImageUrl,
-        profilePicture;
-
-    if (profileImageUrl) {
-      profilePicture = (
-        <ProfileImageThumbnail profileImageUrl={profileImageUrl}/>
-      );
-    }
-    else {
-      profilePicture = (
-        <View style={styles.noProfilePictureIcon}>
-          <Icon
-            name='ios-person'
-            size={40}
-            color={Colors.YOUNI_PRIMARY_PURPLE} />
-        </View>
-      );
-    }
+        email = user.email;
 
     return (
       <View style={this.props.style}>
@@ -80,11 +50,11 @@ var UserListItem = React.createClass({
           onPress={ () => {this._onUserListItemPress(email)} }>
 
           <View style={styles.container}>
-            {profilePicture}
+            <ProfileImageThumbnail profileImageUrl={user.profileImageUrl}/>
             <Text
               style={styles.fullName}
               numberOfLines={1}>
-              {firstName} {lastName}
+              {this._getDisplayName(user)}
             </Text>
           </View>
 
@@ -94,6 +64,10 @@ var UserListItem = React.createClass({
   },
 
   _onUserListItemPress: function(email) {
+    if (userLoginMetadataStore.getEmail() === email) {
+      return; // you shouldn't be allowed to click on your own profile
+    }
+
     //required within this function to avoid circular dependencies
     var ProfilePopup = require('../PopupPages/ProfilePopup');
 
@@ -101,6 +75,15 @@ var UserListItem = React.createClass({
       component: ProfilePopup,
       passProps: {profileUserEmail: this.props.user.email}
     });
+  },
+  
+  _getDisplayName: function(user) {
+    if (this.props.displayNameOverride) {
+      return this.props.displayNameOverride;
+    }
+    else {
+      return user.firstName + ' ' + user.lastName;
+    }
   }
 
 });

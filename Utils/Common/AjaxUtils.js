@@ -34,11 +34,15 @@ var AjaxUtils = {
   },
 
   _isRequestSuccessful(res) {
-    return (
-      (res !== undefined) &&
-      (res.ok) &&
-      (res.body !== undefined)
-    );
+    if (res === undefined || res === null) {
+      return false;
+    }
+
+    if (!res.ok || !res.body) {
+      return false;
+    }
+
+    return res.body.success
   }
 
 };

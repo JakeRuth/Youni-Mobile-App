@@ -10,6 +10,7 @@ var Spinner = require('./Common/Spinner');
 var YouniHeader = require('./Common/YouniHeader');
 var ErrorPage = require('./Common/ErrorPage');
 var ProfileIcon = require('./Profile/ProfileIcon');
+var CreatePostButton = require('./CreatePost/CreatePostButton');
 
 var homePostsStore = require('../stores/post/HomePostsStore');
 var userLoginMetadataStore = require('../stores/UserLoginMetadataStore');
@@ -40,8 +41,7 @@ var styles = StyleSheet.create({
     padding: 12
   },
   feedContainer: {
-    flex: 20,
-    paddingBottom: 50
+    flex: 1
   },
   logoContainer: {
     flex: 1,
@@ -52,6 +52,12 @@ var styles = StyleSheet.create({
     alignSelf: 'center',
     height: 33,
     width: 108
+  },
+  createPostButtonContainer: {
+    position: 'absolute',
+    bottom: 10,
+    // center the button horizontally.  48 is the width on the button
+    left: (Dimensions.get('window').width - 48) / 2
   }
 });
 
@@ -108,6 +114,10 @@ var HomePage = React.createClass({
 
         <View style={styles.feedContainer}>
           {content}
+        </View>
+
+        <View style={styles.createPostButtonContainer}>
+          <CreatePostButton navigator={this.props.navigator}/>
         </View>
 
       </View>

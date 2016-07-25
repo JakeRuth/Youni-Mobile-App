@@ -21,7 +21,7 @@ var styles = StyleSheet.create({
   }
 });
 
-var PostCommentPage = React.createClass({
+var PostCommentsPage = React.createClass({
 
   propTypes: {
     loading: React.PropTypes.bool,
@@ -87,4 +87,4 @@ var PostCommentPage = React.createClass({
 
 });
 
-module.exports = PostCommentPage;
+module.exports = PostCommentsPage;

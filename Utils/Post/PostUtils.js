@@ -45,12 +45,6 @@ var PostUtils = {
     return post;
   },
 
-  increaseViewCount: function(posts, id) {
-    var post = posts.get(id);
-    post.numViews++;
-    posts = posts.set(id, post);
-  },
-
   decreaseLikeCountFromList: function(posts, id) {
     var post = posts.get(id);
     post = this.unlikePost(post);
@@ -90,6 +84,14 @@ var PostUtils = {
     return posts;
   },
 
+  removePostsFromList: function(posts, postIds) {
+    for (var i = 0; i < postIds.length; i++) {
+      posts = posts.delete(postIds[i]);
+    }
+    
+    return posts;
+  },
+
   getPostJson: function(post, index) {
     return {
       posterProfileImageUrl: post.posterProfilePictureUrl,
@@ -101,13 +103,13 @@ var PostUtils = {
       timestamp: post.timestamp,
       photoUrl: post.photoUrl,
       numLikes: post.numLikes,
-      numViews: post.numViews,
       caption: post.caption,
       liked: post.liked,
       imageHeight: post.photoHeight,
       imageWidth: post.photoWidth,
       id: index,
-      isPostUserCurrentlyTrending: post.isCurrentlyTrending
+      isPostUserCurrentlyTrending: post.isCurrentlyTrending,
+      groups: post.groups
     };
   },
 

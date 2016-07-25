@@ -9,8 +9,7 @@ var {
   View,
   Text,
   StyleSheet,
-  TouchableHighlight,
-  AlertIOS
+  TouchableHighlight
 } = React;
 
 var ICON_SIZE = 25;
@@ -59,7 +58,7 @@ var PostStats = React.createClass({
     }
 
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, this.props.style]}>
         <TouchableHighlight
           onPress={this.props.onStarPress}
           underlayColor={'transparent'}>

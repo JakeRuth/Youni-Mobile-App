@@ -23,24 +23,11 @@ var editProfileInformationStore = Unicycle.createStore({
   },
   
   updateProfileInformation: function(callback) {
-    var firstName, lastName, bio,
+    var firstName = this.getFirstName(),
+        lastName = this.getLastName(),
+        bio = this.getBio(),
         userEmail = userLoginMetadataStore.getEmail(),
         that = this;
-
-    if (profileOwnerStore.getFirstName() !== this.getFirstName()) {
-      firstName = this.getFirstName();
-    }
-    if (profileOwnerStore.getLastName() !== this.getLastName()) {
-      lastName = this.getLastName();
-    }
-    if (profileOwnerStore.getBio() !== this.getBio()) {
-      bio = this.getBio();
-    }
-
-    if (!firstName && !lastName && !bio) {
-      callback();
-      return;
-    }
 
     this.set({
       isUpdateProfileInformationRequestInFlight: true

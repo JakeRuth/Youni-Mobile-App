@@ -21,13 +21,6 @@ var styles = StyleSheet.create({
     color: 'white',
     fontSize: 12,
     textAlign: 'center'
-  },
-  indicator: {
-    position: 'absolute',
-    top: 16,
-    borderWidth: .5,
-    borderColor: 'white',
-    width: 30
   }
 });
 
@@ -35,20 +28,10 @@ var ProfileStat = React.createClass({
 
   propTypes: {
     value: React.PropTypes.any.isRequired,
-    label: React.PropTypes.string.isRequired,
-    alignIndicatorTo: React.PropTypes.oneOf(['right', 'left']).isRequired
+    label: React.PropTypes.string.isRequired
   },
 
   render: function() {
-    var indicatorStyles = [styles.indicator];
-
-    if (this.props.alignIndicatorTo === 'right') {
-      indicatorStyles.push({ right: -10 });
-    }
-    else {
-      indicatorStyles.push({ left: -10 });
-    }
-
     return (
       <View>
         <Text style={styles.value}>
@@ -57,7 +40,6 @@ var ProfileStat = React.createClass({
         <Text style={styles.label}>
           {this.props.label}
         </Text>
-        <View style={indicatorStyles}/>
       </View>
     );
   }

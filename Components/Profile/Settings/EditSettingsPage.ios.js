@@ -2,7 +2,10 @@
 
 var React = require('react-native');
 var Unicycle = require('../../../Unicycle');
+
 var ChangeProfilePicture = require('./ChangeProfilePicture');
+var EditProfileFieldInput = require('../../Common/EditProfileFieldInput');
+
 var Colors = require('../../../Utils/Common/Colors');
 var profileOwnerStore = require('../../../stores/profile/ProfileOwnerStore');
 var editProfileInformationStore = require('../../../stores/profile/EditProfileInformationStore');
@@ -15,6 +18,9 @@ var {
 } = React;
 
 var styles = StyleSheet.create({
+  container: {
+    padding: 10
+  },
   changeProfilePictureContainer: {
     alignItems: 'center',
     paddingTop: 10,
@@ -22,27 +28,9 @@ var styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: Colors.LIGHT_GRAY
   },
-  editNameContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    flexDirection: 'row',
-    height: 44,
-    padding: 10
-  },
-  editNameLabel: {
-    fontWeight: '100',
-    color: Colors.DARK_GRAY,
-    fontSize: 16
-  },
-  editNameInput: {
-    flex: 1,
-    textAlign: 'right',
-    fontSize: 16
-  },
   editBioContainer: {
     flex: 1,
-    height: 80,
-    padding: 10
+    height: 80
   },
   editBioInput: {
     flex: 1,
@@ -61,7 +49,7 @@ var EditSettingsPage = React.createClass({
     Unicycle.listenTo(editProfileInformationStore)
   ],
 
-  componentDidMount: function() {
+  componentWillMount: function() {
     editProfileInformationStore.setFirstName(profileOwnerStore.getFirstName());
     editProfileInformationStore.setLastName(profileOwnerStore.getLastName());
     editProfileInformationStore.setBio(profileOwnerStore.getBio());
@@ -69,47 +57,26 @@ var EditSettingsPage = React.createClass({
 
   render: function() {
     return (
-      <View>
+      <View style={styles.container}>
 
         <View style={styles.changeProfilePictureContainer}>
           <ChangeProfilePicture/>
         </View>
-        {this._renderEditFirstNameInput()}
-        {this._renderEditLastNameInput()}
+
+        <EditProfileFieldInput
+          label="First Name"
+          value={editProfileInformationStore.getFirstName()}
+          placeholder={profileOwnerStore.getFirstName()}
+          onChangeText={(text) => editProfileInformationStore.setFirstName(text)}
+          maxLength={25}/>
+        <EditProfileFieldInput
+          label="Last Name"
+          value={editProfileInformationStore.getLastName()}
+          placeholder={profileOwnerStore.getLastName()}
+          onChangeText={(text) => editProfileInformationStore.setLastName(text)}
+          maxLength={25}/>
         {this._renderEditBioInput()}
 
-      </View>
-    );
-  },
-  
-  _renderEditFirstNameInput: function() {
-    return (
-      <View style={styles.editNameContainer}>
-        <Text style={styles.editNameLabel}>
-          First Name
-        </Text>
-        <TextInput
-          style={styles.editNameInput}
-          onChangeText={(text) => editProfileInformationStore.setFirstName(text)}
-          placeholder={profileOwnerStore.getFirstName()}
-          placeholderTextColor={Colors.DARK_GRAY}
-          maxLength={25}/>
-      </View>
-    );
-  },
-
-  _renderEditLastNameInput: function() {
-    return (
-      <View style={styles.editNameContainer}>
-        <Text style={styles.editNameLabel}>
-          Last Name
-        </Text>
-        <TextInput
-          style={styles.editNameInput}
-          onChangeText={(text) => editProfileInformationStore.setLastName(text)}
-          placeholder={profileOwnerStore.getLastName()}
-          placeholderTextColor={Colors.DARK_GRAY}
-          maxLength={25}/>
       </View>
     );
   },

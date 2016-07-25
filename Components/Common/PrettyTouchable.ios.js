@@ -18,7 +18,8 @@ var styles = StyleSheet.create({
     borderWidth: 1
   },
   invertedContainer: {
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    borderColor: Colors.YOUNI_PRIMARY_PURPLE
   },
   labelContainer: {
     flex: 1,

@@ -34,7 +34,7 @@ var BackArrow = React.createClass({
         underlayColor='transparent'
         onPress={this.props.onPress}>
 
-        <View>
+        <View style={this.props.style}>
           <Icon
             name='ios-arrow-back'
             size={22}
