@@ -52,14 +52,12 @@ var GroupThumbnailLink = React.createClass({
     );
   },
 
-  _onPress: function(email) {
+  _onPress: function() {
     var GroupPopup = require('../PopupPages/GroupPopup');
 
     this.props.navigator.push({
       component: GroupPopup,
-      passProps: {
-        ...this.props
-      }
+      passProps: {...this.props}
     })
   }
 

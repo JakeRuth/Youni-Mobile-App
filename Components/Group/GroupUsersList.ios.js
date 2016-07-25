@@ -87,7 +87,7 @@ var GroupUsersList = React.createClass({
   },
 
   _getUserDisplayName: function(user) {
-    var baseName = user.firstName + ' ' + user.lastName;
+    var baseName = `${user.firstName} ${user.lastName}`;
 
     if (user.isGroupAdmin) {
       return baseName + ' (admin)';

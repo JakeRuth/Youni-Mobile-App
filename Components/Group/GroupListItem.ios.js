@@ -57,7 +57,7 @@ var GroupListItem = React.createClass({
       <View style={this.props.style}>
         <TouchableHighlight
           underlayColor='transparent'
-          onPress={() => { this._onGroupListItemPress(group.email); }}>
+          onPress={() => this._onGroupListItemPress(group.email)}>
 
           <View style={styles.container}>
             <ProfileImageThumbnail profileImageUrl={group.badgeImageUrl}/>
@@ -73,12 +73,10 @@ var GroupListItem = React.createClass({
     );
   },
 
-  _onGroupListItemPress: function(email) {
+  _onGroupListItemPress: function() {
     this.props.navigator.push({
       component: GroupPopup,
-      passProps: {
-        ...this.props
-      }
+      passProps: {...this.props}
     });
   }
 
