@@ -29,7 +29,7 @@ var styles = StyleSheet.create({
     paddingTop: 10
   },
   description: {
-    color: '#56473B',
+    color: Colors.DARK_GRAY,
     fontWeight: '200',
     fontSize: 12,
     padding: 20,
