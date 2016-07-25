@@ -3,6 +3,7 @@
 var React = require('react-native');
 var Icon = require('react-native-vector-icons/Ionicons');
 
+var GroupManagePhotosPopup = require('../PopupPages/GroupManagePhotosPopup');
 var GroupManageUsersPopup = require('../PopupPages/GroupManageUsersPopup');
 var GroupEditInfoPopup = require('../PopupPages/GroupEditInfoPopup');
 
@@ -85,20 +86,21 @@ var GroupActionButton = React.createClass({
     },
     (buttonIndex) => {
       if (buttonIndex === 0) {
-        //TODO
+        this._pushPopup(GroupManagePhotosPopup);
       }
       else if (buttonIndex === 1) {
-        this.props.navigator.push({
-          component: GroupManageUsersPopup,
-          passProps: {...this.props}
-        });
+        this._pushPopup(GroupManageUsersPopup);
       }
       else if (buttonIndex === 2) {
-        this.props.navigator.push({
-          component: GroupEditInfoPopup,
-          passProps: {...this.props}
-        });
+        this._pushPopup(GroupEditInfoPopup);
       }
+    });
+  },
+  
+  _pushPopup(popup) {
+    this.props.navigator.push({
+      component: popup,
+      passProps: {...this.props}
     });
   }
 

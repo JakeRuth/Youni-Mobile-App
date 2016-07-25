@@ -143,9 +143,9 @@ var GroupUsersPopup = React.createClass({
         <Text
           style={styles.cancelLink}
           onPress={() => {
-              this.props.onPageReturnCallback();
-              this.props.navigator.pop();
-            }}>
+            this.props.onPageReturnCallback();
+            this.props.navigator.pop();
+          }}>
           Cancel
         </Text>
         <Text style={styles.pageHeader}>

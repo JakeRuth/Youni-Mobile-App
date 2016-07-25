@@ -26,12 +26,12 @@ var styles = StyleSheet.create({
 var PostGridThumbnail = React.createClass({
 
   propTypes: {
-    // If a post isn't passed in, just render a blank box.  Ex: Blocked users lead to post.size < page size
     post: React.PropTypes.object.isRequired,
-    likePhotoAction: React.PropTypes.func.isRequired,
-    unlikePhotoAction: React.PropTypes.func.isRequired,
-    onSubmitCommentAction: React.PropTypes.func.isRequired,
-    navigator: React.PropTypes.object.isRequired
+    likePhotoAction: React.PropTypes.func,
+    unlikePhotoAction: React.PropTypes.func,
+    onSubmitCommentAction: React.PropTypes.func,
+    navigator: React.PropTypes.object,
+    onPress: React.PropTypes.func
   },
 
   render: function() {
@@ -51,10 +51,15 @@ var PostGridThumbnail = React.createClass({
   },
 
   _onPostClick: function() {
-    this.props.navigator.push({
-      component: PostPopup,
-      passProps: {...this.props}
-    });
+    if (this.props.onPress) {
+      this.props.onPress();
+    }
+    else {
+      this.props.navigator.push({
+        component: PostPopup,
+        passProps: {...this.props}
+      });
+    }
   }
 
 });

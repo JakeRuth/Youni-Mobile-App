@@ -101,7 +101,7 @@ var GroupPopup = React.createClass({
           <GroupActionButton
             {...this.props}
             group={this.state.group}
-            onPageReturnCallback={this.getLatestGroupData}/>
+            onPageReturnCallback={() => this.reloadAllPageData()}/>
         }
 
       </ScrollView>
@@ -131,7 +131,7 @@ var GroupPopup = React.createClass({
     var that = this,
         offset = this.state.postOffset;
     
-    if (offset == INITIAL_PAGE_OFFSET) {
+    if (offset === INITIAL_PAGE_OFFSET) {
       this.setState({
         postsLoading: true
       });
@@ -244,6 +244,19 @@ var GroupPopup = React.createClass({
         callback(comment);
       }
     );
+  },
+
+  reloadAllPageData: function() {
+    this.setState({
+      posts: [],
+      postsLoading: false,
+      postsNextPageLoading: false,
+      postOffset: INITIAL_PAGE_OFFSET,
+      noMorePostsToFetch: false
+    });
+
+    this.getLatestGroupData();
+    this._requestGroupPosts();
   }
 
 });
