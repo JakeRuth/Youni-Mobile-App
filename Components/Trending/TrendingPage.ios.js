@@ -2,39 +2,33 @@
 
 var React = require('react-native');
 var Unicycle = require('../../Unicycle');
-var Icon = require('react-native-vector-icons/Ionicons');
-var trendingStore = require('../../stores/trending/TrendingStore');
-var YouniHeader = require('../Common/YouniHeader');
-var TrendingUsersList = require('./TrendingUsersList');
-var ErrorPage = require('../Common/ErrorPage');
+
 var TrendingPageFilter = require('./TrendingPageFilter');
+var TrendingUsersList = require('./TrendingUsersList');
+var TrendingDropdownTrigger = require('./TrendingDropdownTrigger');
+var TrendingFeedTypeDropdown = require('./TrendingFeedTypeDropdown');
+var YouniHeader = require('../Common/YouniHeader');
+var ErrorPage = require('../Common/ErrorPage');
+
+var trendingStore = require('../../stores/trending/TrendingStore');
 var TrendingFeedFilters = require('../../Utils/Enums/TrendingFeedFilters');
 
 var {
   View,
-  Text,
   StyleSheet,
-  AlertIOS
+  AlertIOS,
+  Dimensions
 } = React;
 
 var styles = StyleSheet.create({
   container: {
     flex: 1
   },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  trendingIcon: {
-    marginBottom: 2,
-    marginRight: 3
-  },
-  headerText: {
-    fontSize: 20,
-    fontWeight: '500',
-    textAlign: 'center',
-    color: 'white'
+  dropdownContainer: {
+    position: 'absolute',
+    top: 65,
+    // centered horizontally. 185 should be the width of the dropdown
+    left: (Dimensions.get('window').width - 185) / 2
   }
 });
 
@@ -54,7 +48,7 @@ var TrendingPage = React.createClass({
 
   getInitialState: function() {
     return {
-      selectedFeed: TrendingFeedFilters.DAILY
+      showDropdown: false
     };
   },
 
@@ -70,42 +64,56 @@ var TrendingPage = React.createClass({
     return (
       <View style={styles.container}>
 
-        <YouniHeader style={styles.header}>
-          <Icon
-            style={styles.trendingIcon}
-            name='podium'
-            size={25}
-            color='white'/>
-          <Text style={styles.headerText}>
-            People
-          </Text>
+        <YouniHeader>
+          <TrendingDropdownTrigger
+            selectedType={trendingStore.getSelectedType()}
+            onPress={this._toggleDropdownVisibility}
+            isDropdownVisible={this.state.showDropdown}/>
         </YouniHeader>
 
         {errorPage}
 
         <TrendingUsersList
-          users={this._getTrendingUsers(this.state.selectedFeed)}
+          users={this._getTrendingUsers(trendingStore.getSelectedFilter())}
           isPageLoading={trendingStore.isRequestInFlight()}
-          onPageRefresh={() => { this._requestTrendingUsers(this.state.selectedFeed) }}
+          onPageRefresh={() => { this._requestTrendingUsers(trendingStore.getSelectedFilter()) }}
           navigator={this.props.navigator}/>
         <TrendingPageFilter
-          selectedFeed={this.state.selectedFeed}
+          selectedFeed={trendingStore.getSelectedFilter()}
           currentFeed={TrendingFeedFilters.DAILY}
           weeklyFeed={TrendingFeedFilters.WEEKLY}
           allTimeFeed={TrendingFeedFilters.ALL_TIME}
           changeFeedSelector={(feed) => { this._changeFeedSelector(feed) }}/>
 
+        {this._renderDropdown()}
+
       </View>
     );
   },
+  
+  _renderDropdown: function() {
+    if (this.state.showDropdown) {
+      return (
+        <TrendingFeedTypeDropdown
+          style={styles.dropdownContainer}
+          onPress={() => this.setState({ showDropdown: false })}/>
+      );
+    }
+  },
 
   _changeFeedSelector: function(feed) {
-    if (!trendingStore.isRequestInFlight() && feed !== this.state.selectedFeed) {
-      this.setState({
-        selectedFeed: feed
-      });
+    if (!trendingStore.isRequestInFlight() && feed !== trendingStore.getSelectedFilter()) {
+      trendingStore.setSelectedFilter(feed);
       this._requestTrendingUsers(feed);
     }
+  },
+
+  _toggleDropdownVisibility: function() {
+    var currentState = this.state.showDropdown;
+
+    this.setState({
+      showDropdown: !currentState
+    });
   },
 
   _requestTrendingUsers: function(feed) {
@@ -133,7 +141,7 @@ var TrendingPage = React.createClass({
   },
 
   _onErrorPageReload: function() {
-    this._requestTrendingUsers(this.state.selectedFeed);
+    this._requestTrendingUsers(trendingStore.getSelectedFilter());
   }
 
 });

@@ -1,8 +1,11 @@
 'use strict';
 
 var React = require('react-native');
-var Unicycle = require('../../Unicycle');
 var immutable = require('immutable');
+var Unicycle = require('../../Unicycle');
+
+var TrendingFeedFilters = require('../../Utils/Enums/TrendingFeedFilters');
+var TrendingFeedType = require('../../Utils/Enums/TrendingFeedType');
 var UserUtils = require('../../Utils/User/UserUtils');
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 
@@ -14,7 +17,9 @@ var trendingStore = Unicycle.createStore({
       weeklyUsers: [],
       currentUsers: [],
       allTimeUsers: [],
-      pageLoadError: false
+      pageLoadError: false,
+      selectedFilter: TrendingFeedFilters.DAILY,
+      selectedType: TrendingFeedType.PEOPLE
     });
   },
 
@@ -99,6 +104,18 @@ var trendingStore = Unicycle.createStore({
       }
     );
   },
+  
+  setSelectedFilter: function(filter){
+    this.set({
+      selectedFilter: filter
+    });
+  },
+  
+  setSelectedType: function(type) {
+    this.set({
+      selectedType: type
+    });
+  },
 
   anyErrorsLoadingPage: function () {
     return this.get('pageLoadError');
@@ -118,6 +135,14 @@ var trendingStore = Unicycle.createStore({
 
   getAllTimeTrendingUsers: function () {
     return this.get('allTimeUsers');
+  },
+  
+  getSelectedFilter: function() {
+    return this.get('selectedFilter');
+  },
+  
+  getSelectedType: function() {
+    return this.get('selectedType').toJSON();
   },
 
   // TODO: Find a better way to do this, at the time this was all i could come up with :'(
