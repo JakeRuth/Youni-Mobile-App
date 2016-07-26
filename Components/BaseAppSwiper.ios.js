@@ -11,7 +11,7 @@ var BaseAppSwiper = React.createClass({
     return (
       <Swiper
         index={AppPage.HOME.index}
-        loop={true}
+        loop={false}
         showsPagination={false}>
         {this.props.children}
       </Swiper>
