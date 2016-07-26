@@ -36,6 +36,10 @@ var styles = StyleSheet.create({
 
 var ChangeProfilePicture = React.createClass({
 
+  propTypes: {
+    user: React.PropTypes.object.isRequired
+  },
+
   mixins: [
     Unicycle.listenTo(profileOwnerStore),
     Unicycle.listenTo(uploadProfileImageStore)
@@ -45,7 +49,7 @@ var ChangeProfilePicture = React.createClass({
     return (
       <View>
         <ProfileImage
-          profileImageUrl={profileOwnerStore.getProfileImageUrl()}
+          {...this.props}
           isUploading={uploadProfileImageStore.isUploadProfileImageRequestInFlight()}
           onPress={this.onUploadImagePress}/>
         <TouchableHighlight
