@@ -44,6 +44,7 @@ var styles = StyleSheet.create({
   }
 });
 
+// this is currently not being used as we re implement the trending feature, this may be deleted if it's not needed anymore
 var TrendingPageFilter = React.createClass({
 
   propTypes: {
@@ -56,9 +57,9 @@ var TrendingPageFilter = React.createClass({
     return (
       <View style={styles.container}>
 
-        {this._renderFeedSelector(TrendingFeedFilters.DAILY)}
-        {this._renderFeedSelector(TrendingFeedFilters.WEEKLY)}
-        {this._renderFeedSelector(TrendingFeedFilters.ALL_TIME)}
+        // {this._renderFeedSelector(TrendingFeedFilters.DAILY)}
+        // {this._renderFeedSelector(TrendingFeedFilters.WEEKLY)}
+        // {this._renderFeedSelector(TrendingFeedFilters.ALL_TIME)}
 
       </View>
     );

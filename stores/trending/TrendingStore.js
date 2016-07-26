@@ -13,47 +13,21 @@ var trendingStore = Unicycle.createStore({
 
   init: function () {
     this.set({
-      isTrendingRequestInFlight: true,
-      weeklyUsers: [],
-      currentUsers: [],
-      allTimeUsers: [],
+      isTrendingUserRequestInFlight: true,
+      isTrendingGroupRequestInFlight: true,
+      users: [],
+      groups: [],
       pageLoadError: false,
-      selectedFilter: TrendingFeedFilters.DAILY,
+      selectedFilter: TrendingFeedFilters.NOW,
       selectedType: TrendingFeedType.PEOPLE
     });
   },
 
-  $getTrendingUsers: function () {
+  requestTrendingUsers: function () {
     var that = this;
 
     this.set({
-      isTrendingRequestInFlight: true
-    });
-
-    AjaxUtils.ajax(
-      '/trending/getTopUsers',
-      {},
-      (res) => {
-        that.set({
-          weeklyUsers: immutable.List(UserUtils.convertResponseUserListToMap(res.body.users)),
-          isTrendingRequestInFlight: false,
-          pageLoadError: false
-        });
-      },
-      () => {
-        that.set({
-          isTrendingRequestInFlight: false,
-          pageLoadError: true
-        });
-      }
-    );
-  },
-
-  $getCurrentTrendingUsers: function () {
-    var that = this;
-
-    this.set({
-      isTrendingRequestInFlight: true
+      isTrendingUserRequestInFlight: true
     });
 
     AjaxUtils.ajax(
@@ -61,44 +35,40 @@ var trendingStore = Unicycle.createStore({
       {},
       (res) => {
         that.set({
-          currentUsers: immutable.List(UserUtils.convertResponseUserListToMap(res.body.users)),
-          isTrendingRequestInFlight: false,
+          users: immutable.List(UserUtils.convertResponseUserListToMap(res.body.users)),
+          isTrendingUserRequestInFlight: false,
           pageLoadError: false
         });
       },
       () => {
         that.set({
-          isTrendingRequestInFlight: false,
+          isTrendingUserRequestInFlight: false,
           pageLoadError: true
         });
       }
     );
   },
 
-  $getAllTimeTrendingUsers: function () {
+  requestTrendingGroups: function () {
     var that = this;
 
     this.set({
-      isTrendingRequestInFlight: true
+      isTrendingGroupRequestInFlight: true
     });
 
     AjaxUtils.ajax(
-      '/trending/getTopUsersAllTime',
+      '/trending/hackedHardcodedTrendingGroups',
       {},
       (res) => {
-        var users = UserUtils.convertResponseUserListToMap(res.body.users);
-
-        that._copyAllTimePointsToCurrentPoints(users);
-
         that.set({
-          allTimeUsers: immutable.List(users),
-          isTrendingRequestInFlight: false,
+          groups: res.body.groups,
+          isTrendingGroupRequestInFlight: false,
           pageLoadError: false
         });
       },
       () => {
         that.set({
-          isTrendingRequestInFlight: false,
+          isTrendingGroupRequestInFlight: false,
           pageLoadError: true
         });
       }
@@ -121,20 +91,20 @@ var trendingStore = Unicycle.createStore({
     return this.get('pageLoadError');
   },
 
-  isRequestInFlight: function () {
-    return this.get('isTrendingRequestInFlight');
+  isTrendingUserRequestInFlight: function () {
+    return this.get('isTrendingUserRequestInFlight');
   },
 
-  getCurrentTrendingUsers: function () {
-    return this.get('currentUsers');
+  isTrendingGroupRequestInFlight: function() {
+    return this.get('isTrendingGroupRequestInFlight');
   },
 
-  getWeeklyTrendingUsers: function () {
-    return this.get('weeklyUsers');
+  getTrendingUsers: function () {
+    return this.get('users');
   },
-
-  getAllTimeTrendingUsers: function () {
-    return this.get('allTimeUsers');
+  
+  getTrendingGroups: function() {
+    return this.get('groups');
   },
   
   getSelectedFilter: function() {

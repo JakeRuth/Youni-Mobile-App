@@ -2,12 +2,16 @@
 
 var React = require('react-native');
 var Unicycle = require('../../Unicycle');
-var explorePostsStore = require('../../stores/post/ExplorePostsStore');
-var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
-var FeedFilters = require('./FeedFilters');
+
 var PostList = require('./PostList');
 var ErrorPage = require('../Common/ErrorPage');
+var ListFilter = require('../Common/ListFilter');
 var Spinner = require('../Common/Spinner');
+
+var explorePostsStore = require('../../stores/post/ExplorePostsStore');
+var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
+var PostListFilter = require('../../Utils/Enums/PostListFilter');
+var ExploreFeedEndpoints = require('../../Utils/Enums/ExploreFeedEndpoints');
 
 var {
   View,
@@ -18,9 +22,6 @@ var {
 var styles = StyleSheet.create({
   exploreFeedContainer: {
     flex: 1
-  },
-  feedFilterContainer: {
-    alignItems: 'center'
   }
 });
 
@@ -34,6 +35,12 @@ var ExploreFeedPosts = React.createClass({
     Unicycle.listenTo(explorePostsStore),
     Unicycle.listenTo(userLoginMetadataStore)
   ],
+
+  getInitialState: function() {
+    return {
+      selectedFilter: PostListFilter.ALL
+    };
+  },
 
   componentDidMount: function() {
     this._requestExploreFeed();
@@ -73,13 +80,39 @@ var ExploreFeedPosts = React.createClass({
     return (
       <View style={styles.exploreFeedContainer}>
 
-        <View style={styles.feedFilterContainer}>
-          <FeedFilters disabled={explorePostsStore.isFeedRefreshing() || explorePostsStore.isRequestInFlight()}/>
-        </View>
+        <ListFilter
+          filters={[PostListFilter.MALE, PostListFilter.ALL, PostListFilter.FEMALE]}
+          selectedFilter={this.state.selectedFilter}
+          onPress={this.onFilterPress}/>
         {content}
 
       </View>
     );
+  },
+
+  onFilterPress: function(filter) {
+    if (explorePostsStore.isFeedRefreshing() || explorePostsStore.isRequestInFlight()) {
+      return;
+    }
+    
+    var endpoint;
+
+    if (filter === PostListFilter.ALL) {
+      endpoint = ExploreFeedEndpoints.DEFAULT;
+    }
+
+    if (filter === PostListFilter.FEMALE) {
+      endpoint = ExploreFeedEndpoints.FEMALE;
+    }
+
+    if (filter === PostListFilter.MALE) {
+      endpoint = ExploreFeedEndpoints.MALE;
+    }
+
+    explorePostsStore.setExploreFeedEndpoint(endpoint);
+    this.setState({
+      selectedFilter: filter
+    });
   },
 
   handleScroll(e) {

@@ -3,18 +3,21 @@
 var React = require('react-native');
 var Unicycle = require('../../Unicycle');
 
-var TrendingPageFilter = require('./TrendingPageFilter');
-var TrendingUsersList = require('./TrendingUsersList');
+var TrendingList = require('./TrendingList');
 var TrendingDropdownTrigger = require('./TrendingDropdownTrigger');
 var TrendingFeedTypeDropdown = require('./TrendingFeedTypeDropdown');
+var TrendingUser = require('./TrendingUser');
 var YouniHeader = require('../Common/YouniHeader');
+var ListFilter = require('../Common/ListFilter');
 var ErrorPage = require('../Common/ErrorPage');
 
 var trendingStore = require('../../stores/trending/TrendingStore');
 var TrendingFeedFilters = require('../../Utils/Enums/TrendingFeedFilters');
+var TrendingFeedType = require('../../Utils/Enums/TrendingFeedType');
 
 var {
   View,
+  Text,
   StyleSheet,
   AlertIOS,
   Dimensions
@@ -43,7 +46,8 @@ var TrendingPage = React.createClass({
   ],
 
   componentDidMount: function() {
-    Unicycle.exec('getCurrentTrendingUsers');
+    trendingStore.requestTrendingUsers();
+    // trendingStore.requestTrendingGroups();
   },
 
   getInitialState: function() {
@@ -53,8 +57,7 @@ var TrendingPage = React.createClass({
   },
 
   render: function() {
-    var isRequestInFlight = trendingStore.isRequestInFlight(),
-        anyErrorsLoadingPage = trendingStore.anyErrorsLoadingPage(),
+    var anyErrorsLoadingPage = trendingStore.anyErrorsLoadingPage(),
         errorPage;
 
     if (anyErrorsLoadingPage) {
@@ -73,22 +76,49 @@ var TrendingPage = React.createClass({
 
         {errorPage}
 
-        <TrendingUsersList
-          users={this._getTrendingUsers(trendingStore.getSelectedFilter())}
-          isPageLoading={trendingStore.isRequestInFlight()}
-          onPageRefresh={() => { this._requestTrendingUsers(trendingStore.getSelectedFilter()) }}
-          navigator={this.props.navigator}/>
-        <TrendingPageFilter
-          selectedFeed={trendingStore.getSelectedFilter()}
-          currentFeed={TrendingFeedFilters.DAILY}
-          weeklyFeed={TrendingFeedFilters.WEEKLY}
-          allTimeFeed={TrendingFeedFilters.ALL_TIME}
-          changeFeedSelector={(feed) => { this._changeFeedSelector(feed) }}/>
-
+        <ListFilter
+          filters={[TrendingFeedFilters.NOW, TrendingFeedFilters.SEMESTER]}
+          selectedFilter={TrendingFeedFilters.NOW}
+          onPress={()=>null}/>
+        {this._renderTrendingList()}
         {this._renderDropdown()}
 
       </View>
     );
+  },
+
+  _renderTrendingList: function() {
+    if (trendingStore.getSelectedType().label == TrendingFeedType.PEOPLE.label) {
+      return (
+        <TrendingList
+          isPageLoading={trendingStore.isTrendingUserRequestInFlight()}
+          onPageRefresh={() => { trendingStore.requestTrendingUsers(trendingStore.getSelectedFilter()) }}
+          navigator={this.props.navigator}>
+          
+          {this._renderTrendingUsers(trendingStore.getTrendingUsers())}
+          
+        </TrendingList>
+      );
+    }
+    else {
+      return <Text>meooow</Text>
+    }
+  },
+  
+  _renderTrendingUsers: function(trendingUsersJson) {
+    var trendingUsers = [];
+
+    for (var i = 0; i<trendingUsersJson.size; i++) {
+      trendingUsers.push(
+        <TrendingUser
+          navigator={this.props.navigator}
+          ranking={i + 1}
+          user={trendingUsersJson.get(i)}
+          key={i}/>
+      );
+    }
+
+    return trendingUsers;
   },
   
   _renderDropdown: function() {
@@ -101,13 +131,6 @@ var TrendingPage = React.createClass({
     }
   },
 
-  _changeFeedSelector: function(feed) {
-    if (!trendingStore.isRequestInFlight() && feed !== trendingStore.getSelectedFilter()) {
-      trendingStore.setSelectedFilter(feed);
-      this._requestTrendingUsers(feed);
-    }
-  },
-
   _toggleDropdownVisibility: function() {
     var currentState = this.state.showDropdown;
 
@@ -116,32 +139,8 @@ var TrendingPage = React.createClass({
     });
   },
 
-  _requestTrendingUsers: function(feed) {
-    if (feed === TrendingFeedFilters.DAILY) {
-      Unicycle.exec('getCurrentTrendingUsers');
-    }
-    else if (feed === TrendingFeedFilters.WEEKLY) {
-      Unicycle.exec('getTrendingUsers');
-    }
-    else if (feed === TrendingFeedFilters.ALL_TIME) {
-      Unicycle.exec('getAllTimeTrendingUsers');
-    }
-  },
-
-  _getTrendingUsers: function(feed) {
-    if (feed === TrendingFeedFilters.DAILY) {
-      return trendingStore.getCurrentTrendingUsers();
-    }
-    else if (feed === TrendingFeedFilters.WEEKLY) {
-      return trendingStore.getWeeklyTrendingUsers();
-    }
-    else if (feed === TrendingFeedFilters.ALL_TIME) {
-      return trendingStore.getAllTimeTrendingUsers();
-    }
-  },
-
   _onErrorPageReload: function() {
-    this._requestTrendingUsers(trendingStore.getSelectedFilter());
+    trendingStore.requestTrendingUsers();
   }
 
 });
