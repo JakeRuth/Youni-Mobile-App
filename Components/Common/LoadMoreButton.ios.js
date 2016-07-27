@@ -50,7 +50,7 @@ var LoadMoreButton = React.createClass({
     }
 
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, this.props.style]}>
         {content}
       </View>
     );
