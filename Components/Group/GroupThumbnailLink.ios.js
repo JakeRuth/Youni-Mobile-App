@@ -27,9 +27,10 @@ var GroupThumbnailLink = React.createClass({
 
   propTypes: {
     group: React.PropTypes.object.isRequired,
-    navigator: React.PropTypes.object.isRequired,
+    navigator: React.PropTypes.object,
     imageStyle: React.PropTypes.any,
-    labelColor: React.PropTypes.string
+    labelColor: React.PropTypes.string,
+    onPress: React.PropTypes.func
   },
 
   render: function() {
@@ -53,12 +54,18 @@ var GroupThumbnailLink = React.createClass({
   },
 
   _onPress: function() {
-    var GroupPopup = require('../PopupPages/GroupPopup');
+    if (this.props.navigator) {
+      let GroupPopup = require('../PopupPages/GroupPopup');
 
-    this.props.navigator.push({
-      component: GroupPopup,
-      passProps: {...this.props}
-    })
+      this.props.navigator.push({
+        component: GroupPopup,
+        passProps: {...this.props}
+      });
+    }
+    
+    if (this.props.onPress) {
+      this.props.onPress();
+    }
   }
 
 });

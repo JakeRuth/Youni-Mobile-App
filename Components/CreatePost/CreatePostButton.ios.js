@@ -36,7 +36,7 @@ var CreatePostButton = React.createClass({
     return (
       <TouchableHighlight
         style={styles.container}
-        underlayColor="transparent"
+        underlayColor={Colors.YOUNI_PRIMARY_PURPLE}
         onPress={() => ShowImagePicker.showImagePicker(this.props.navigator)}>
         <Icon
           name='android-camera'

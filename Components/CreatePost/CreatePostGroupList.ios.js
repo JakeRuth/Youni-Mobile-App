@@ -74,8 +74,7 @@ var CreatePostGroupList = React.createClass({
       let group = groups[i];
       groupElements.push(
         <CreatePostGroupListItem
-          groupIdString={group.id}
-          label={group.abbreviatedName}
+          group={group}
           key={i}/>
       );
     }

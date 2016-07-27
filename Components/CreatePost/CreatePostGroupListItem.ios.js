@@ -2,13 +2,14 @@
 
 var React = require('react-native');
 
-var PrettyTouchable = require('../Common/PrettyTouchable');
+var GroupThumbnailLink = require('../Group/GroupThumbnailLink');
 
 var createPostStore = require('../../stores/CreatePostStore');
 
 var {
   View,
-  StyleSheet
+  StyleSheet,
+  TouchableHighlight
 } = React;
 
 var styles = StyleSheet.create({
@@ -21,30 +22,28 @@ var styles = StyleSheet.create({
 var CreatePostGroupListItem = React.createClass({
 
   propTypes: {
-    groupIdString: React.PropTypes.string.isRequired,
-    label: React.PropTypes.string.isRequired
+    group: React.PropTypes.object.isRequired
   },
 
   render: function() {
+    var opacity = .5;
+
+    if (createPostStore.isGroupIdSelected(this.props.group.id)) {
+      opacity = 1;
+    }
+
     return (
-      <View style={styles.container}>
-        <PrettyTouchable
-          label={this.props.label}
-          containerStyle={{
-            paddingTop: 7,
-            paddingRight: 12,
-            paddingBottom: 7,
-            paddingLeft: 12,
-            borderRadius: 6
-          }}
-          labelStyle={{
-            fontSize: 14
-          }}
-          invertColors={!createPostStore.isGroupIdSelected(this.props.groupIdString)}
-          onPress={() => {
-            createPostStore.toggleGroupIdInList(this.props.groupIdString);
-          }}/>
-      </View>
+      <TouchableHighlight
+        style={styles.container}
+        underlayColor="transparent">
+
+        <View style={{ opacity: opacity }}>
+          <GroupThumbnailLink
+            group={this.props.group}
+            onPress={() => createPostStore.toggleGroupIdInList(this.props.group.id)}/>
+        </View>
+
+      </TouchableHighlight>
     );
   }
 
