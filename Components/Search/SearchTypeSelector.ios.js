@@ -29,7 +29,7 @@ var styles = StyleSheet.create({
     borderBottomColor: 'white'
   },
   selectedSelectorContainer: {
-    borderBottomColor: Colors.YOUNI_PRIMARY_PURPLE
+    borderBottomColor: Colors.YOUNI_PRIMARY
   },
   searchTypeSelector: {
     paddingBottom: 5,
@@ -39,7 +39,7 @@ var styles = StyleSheet.create({
     fontWeight: '100'
   },
   selectedSelector: {
-    color: Colors.YOUNI_PRIMARY_PURPLE
+    color: Colors.YOUNI_PRIMARY
   }
 });
 

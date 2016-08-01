@@ -15,6 +15,7 @@ var CreatePostButton = require('./CreatePost/CreatePostButton');
 var homePostsStore = require('../stores/post/HomePostsStore');
 var userLoginMetadataStore = require('../stores/UserLoginMetadataStore');
 var CacheUtils = require('../Utils/Common/CacheUtils');
+var Colors = require('../Utils/Common/Colors');
 
 var {
   View,
@@ -98,7 +99,9 @@ var HomePage = React.createClass({
     return (
       <View style={styles.homePageContainer}>
 
-        <YouniHeader style={styles.pageHeader}>
+        <YouniHeader
+          style={styles.pageHeader}
+          color={Colors.YOUNI_PRIMARY}>
           <NotificationIcon
             style={styles.notificationIcon}
             navigator={this.props.navigator}/>

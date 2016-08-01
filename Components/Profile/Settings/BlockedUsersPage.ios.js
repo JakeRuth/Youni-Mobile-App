@@ -42,13 +42,13 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     width: 75,
     height: 27,
-    borderColor: Colors.YOUNI_PRIMARY_PURPLE,
+    borderColor: Colors.YOUNI_PRIMARY,
     borderWidth: 1,
     borderRadius: 6
   },
   unblockButtonText: {
     fontWeight: '100',
-    color: Colors.YOUNI_PRIMARY_PURPLE,
+    color: Colors.YOUNI_PRIMARY,
     fontSize: 14
   },
   noBlockedUsersMessage: {

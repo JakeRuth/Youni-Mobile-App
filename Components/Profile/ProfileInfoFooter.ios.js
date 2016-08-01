@@ -55,7 +55,7 @@ var styles = StyleSheet.create({
   postCountLabel: {
     fontSize: 14,
     fontWeight: '100',
-    color: Colors.YOUNI_PRIMARY_PURPLE,
+    color: Colors.YOUNI_PRIMARY,
     padding: 10
   }
 });
@@ -77,10 +77,10 @@ var ProfileInfoFooter = React.createClass({
 
     if (this.props.currentPostViewMode === PostViewType.LIST) {
       postGridIconColor = Colors.MED_GRAY;
-      postListIconColor = Colors.YOUNI_PRIMARY_PURPLE;
+      postListIconColor = Colors.YOUNI_PRIMARY;
     }
     else {
-      postGridIconColor = Colors.YOUNI_PRIMARY_PURPLE;
+      postGridIconColor = Colors.YOUNI_PRIMARY;
       postListIconColor = Colors.MED_GRAY;
     }
 

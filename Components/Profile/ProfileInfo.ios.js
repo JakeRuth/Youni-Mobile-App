@@ -15,7 +15,7 @@ var {
 
 var styles = StyleSheet.create({
   container: {
-    backgroundColor: Colors.YOUNI_PRIMARY_PURPLE
+    backgroundColor: Colors.YOUNI_PRIMARY
   }
 });
 

@@ -17,7 +17,7 @@ var styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: Colors.YOUNI_PRIMARY_PURPLE,
+    backgroundColor: Colors.YOUNI_PRIMARY,
     height: 48,
     width: 48,
     borderRadius: 24,
@@ -36,7 +36,7 @@ var CreatePostButton = React.createClass({
     return (
       <TouchableHighlight
         style={styles.container}
-        underlayColor={Colors.YOUNI_PRIMARY_PURPLE}
+        underlayColor={Colors.YOUNI_PRIMARY}
         onPress={() => ShowImagePicker.showImagePicker(this.props.navigator)}>
         <Icon
           name='android-camera'

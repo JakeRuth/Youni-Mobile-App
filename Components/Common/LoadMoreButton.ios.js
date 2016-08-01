@@ -18,7 +18,7 @@ var styles = StyleSheet.create({
     alignSelf: 'center'
   },
   buttonContainer: {
-    backgroundColor: Color.YOUNI_PRIMARY_PURPLE,
+    backgroundColor: Color.YOUNI_PRIMARY,
     borderRadius: 2,
     padding: 5,
     margin: 3
@@ -60,7 +60,7 @@ var LoadMoreButton = React.createClass({
     return (
       <TouchableHighlight
         style={styles.buttonContainer}
-        underlayColor={Color.YOUNI_PRIMARY_PURPLE}
+        underlayColor={Color.YOUNI_PRIMARY}
         onPress={this.props.onPress}>
 
         <Text style={styles.text}>

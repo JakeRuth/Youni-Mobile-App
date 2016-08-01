@@ -38,13 +38,13 @@ var styles = StyleSheet.create({
     justifyContent: 'center'
   },
   statValue: {
-    color: Colors.YOUNI_PRIMARY_PURPLE,
+    color: Colors.YOUNI_PRIMARY,
     fontSize: 18,
     fontWeight: '300',
     textAlign: 'center'
   },
   statLabel: {
-    color: Colors.YOUNI_PRIMARY_PURPLE,
+    color: Colors.YOUNI_PRIMARY,
     fontSize: 11,
     fontWeight: '100',
     textAlign: 'center'

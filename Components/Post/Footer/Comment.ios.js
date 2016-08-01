@@ -31,7 +31,7 @@ var styles = StyleSheet.create({
   },
   commenterName: {
     textAlign: 'left',
-    color: Colors.YOUNI_PRIMARY_PURPLE,
+    color: Colors.YOUNI_PRIMARY,
     fontWeight: '100',
     fontSize: 12
   },

@@ -29,7 +29,7 @@ var styles = StyleSheet.create({
     flex: 1
   },
   filterLabel: {
-    color: Colors.YOUNI_PRIMARY_PURPLE,
+    color: Colors.YOUNI_PRIMARY,
     fontSize: 16,
     fontWeight: '100',
     textAlign: 'center'
@@ -39,7 +39,7 @@ var styles = StyleSheet.create({
     width: SELECTED_FILTER_UNDERLINE_WIDTH,
     height: 3,
     borderRadius: 1.5,
-    backgroundColor: Colors.YOUNI_PRIMARY_PURPLE
+    backgroundColor: Colors.YOUNI_PRIMARY
   }
 });
 

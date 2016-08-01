@@ -12,14 +12,14 @@ var {
 
 var styles = StyleSheet.create({
   container: {
-    backgroundColor: Colors.YOUNI_PRIMARY_PURPLE,
+    backgroundColor: Colors.YOUNI_PRIMARY,
     borderRadius: 4,
     borderColor: 'white',
     borderWidth: 1
   },
   invertedContainer: {
     backgroundColor: 'white',
-    borderColor: Colors.YOUNI_PRIMARY_PURPLE
+    borderColor: Colors.YOUNI_PRIMARY
   },
   labelContainer: {
     flex: 1,
@@ -32,7 +32,7 @@ var styles = StyleSheet.create({
     fontWeight: '100'
   },
   invertedLabel: {
-    color: Colors.YOUNI_PRIMARY_PURPLE
+    color: Colors.YOUNI_PRIMARY
   }
 });
 

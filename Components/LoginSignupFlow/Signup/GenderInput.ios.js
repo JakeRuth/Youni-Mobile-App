@@ -63,7 +63,7 @@ var GenderInput = React.createClass({
 
     if (this.state.genderSelected === gender) {
       selectorStyles.push({ backgroundColor: 'white' });
-      selectorLabelStyles.push({ color: Colors.YOUNI_PRIMARY_PURPLE });
+      selectorLabelStyles.push({ color: Colors.YOUNI_PRIMARY });
     }
 
     return (

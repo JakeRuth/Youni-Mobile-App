@@ -16,7 +16,7 @@ var styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     borderWidth: 1,
-    borderColor: Colors.YOUNI_PRIMARY_PURPLE,
+    borderColor: Colors.YOUNI_PRIMARY,
     borderRadius: 15,
     height: 30,
     marginRight: 16,
@@ -32,12 +32,12 @@ var styles = StyleSheet.create({
     borderRadius: 14
   },
   selectedFilter: {
-    backgroundColor: Colors.YOUNI_PRIMARY_PURPLE
+    backgroundColor: Colors.YOUNI_PRIMARY
   },
   filterLabel: {
     fontSize: 13,
     fontWeight: '100',
-    color: Colors.YOUNI_PRIMARY_PURPLE
+    color: Colors.YOUNI_PRIMARY
   },
   selectedFilterLabel: {
     color: 'white'

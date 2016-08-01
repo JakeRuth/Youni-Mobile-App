@@ -61,7 +61,7 @@ var EditSettingsButton = React.createClass({
       ],
       destructiveButtonIndex: 2,
       cancelButtonIndex: 3,
-      tintColor: Colors.YOUNI_PRIMARY_PURPLE
+      tintColor: Colors.YOUNI_PRIMARY
     },
     (buttonIndex) => {
       if (buttonIndex === 0) {

@@ -26,7 +26,7 @@ var ProfileIcon = React.createClass({
           underlayColor='transparent'>
           <Icon
             name='person'
-            size={22}
+            size={30}
             color='white'/>
         </TouchableHighlight>
     );

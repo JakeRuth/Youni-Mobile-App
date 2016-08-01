@@ -17,7 +17,7 @@ var {
 
 var styles = StyleSheet.create({
   container: {
-    backgroundColor: Colors.YOUNI_PRIMARY_PURPLE,
+    backgroundColor: Colors.YOUNI_PRIMARY,
     borderRadius: 4
   },
   dropdownListItem: {
@@ -63,7 +63,7 @@ var TrendingFeedDropdownType = React.createClass({
   _renderDropdownListItem: function(type) {
     return (
       <TouchableHighlight
-        underlayColor={Colors.YOUNI_PRIMARY_PURPLE}
+        underlayColor={Colors.YOUNI_PRIMARY}
         onPress={() => this._onPress(type)}>
         
         <View style={styles.dropdownListItem}>

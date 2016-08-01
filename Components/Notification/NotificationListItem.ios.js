@@ -64,13 +64,13 @@ var styles = StyleSheet.create({
     width: 40
   },
   logoContainer: {
-    backgroundColor: Colors.YOUNI_PRIMARY_PURPLE
+    backgroundColor: Colors.YOUNI_PRIMARY
   },
   logo: {
     width: 40,
     height: 40,
     borderRadius: 8,
-    backgroundColor: Colors.YOUNI_PRIMARY_PURPLE
+    backgroundColor: Colors.YOUNI_PRIMARY
   },
   blankLine: {
     width: Dimensions.get('window').width * (2/3),
@@ -149,7 +149,7 @@ var NotificationsListItem = React.createClass({
           <Icon
             name='person-add'
             size={22}
-            color={Colors.YOUNI_PRIMARY_PURPLE}/>
+            color={Colors.YOUNI_PRIMARY}/>
         </View>
       );
     }

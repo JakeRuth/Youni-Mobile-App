@@ -11,7 +11,7 @@ var {
 var styles = StyleSheet.create({
   container: {
     color: 'white',
-    backgroundColor: Colors.YOUNI_PRIMARY_PURPLE,
+    backgroundColor: Colors.YOUNI_PRIMARY,
     borderRadius: 4,
     borderColor: 'white',
     borderWidth: 1,

@@ -33,7 +33,7 @@ var styles = StyleSheet.create({
   },
   postCommentButtonLabel: {
     fontSize: 15,
-    color: Color.YOUNI_PRIMARY_PURPLE,
+    color: Color.YOUNI_PRIMARY,
     textAlign: 'center',
     padding: 5
   }

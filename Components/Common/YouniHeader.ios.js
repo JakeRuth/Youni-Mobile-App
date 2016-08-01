@@ -1,7 +1,6 @@
 'use strict';
 
 var React = require('react-native');
-var Color = require('../../Utils/Common/Colors');
 
 var {
   View,
@@ -11,16 +10,25 @@ var {
 var styles = StyleSheet.create({
   container: {
     height: 64,
-    backgroundColor: Color.YOUNI_PRIMARY_PURPLE,
     paddingTop: 28
   }
 });
 
 var YouniHeader = React.createClass({
 
+  propTypes: {
+    color: React.PropTypes.string
+  },
+  
+  getDefaultProps: function() {
+    return {
+      color: 'white'
+    }
+  },
+
   render: function() {
     return (
-      <View style={[styles.container, this.props.style]}>
+      <View style={[styles.container, {backgroundColor: this.props.color}, this.props.style]}>
         {this.props.children ? this.props.children : <View/>}
       </View>
     );

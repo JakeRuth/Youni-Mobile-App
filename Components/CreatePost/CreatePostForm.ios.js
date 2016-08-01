@@ -57,7 +57,7 @@ var styles = StyleSheet.create({
     height: 50,
     width: Dimensions.get('window').width,
     alignItems: 'center',
-    backgroundColor: Colors.YOUNI_PRIMARY_PURPLE
+    backgroundColor: Colors.YOUNI_PRIMARY
   },
   createPostText: {
     textAlign: 'center',

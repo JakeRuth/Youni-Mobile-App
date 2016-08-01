@@ -44,7 +44,7 @@ var {
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Color.YOUNI_PRIMARY_PURPLE
+    backgroundColor: Color.YOUNI_PRIMARY
   },
   headingContainer: {
     flex: 1,

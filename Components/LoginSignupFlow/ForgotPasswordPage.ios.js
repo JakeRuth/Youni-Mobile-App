@@ -40,7 +40,7 @@ var styles = StyleSheet.create({
     width: 120,
     height: 25,
     fontSize: 20,
-    backgroundColor: Color.YOUNI_PRIMARY_PURPLE,
+    backgroundColor: Color.YOUNI_PRIMARY,
     color: 'white',
     borderRadius: 3
   }
