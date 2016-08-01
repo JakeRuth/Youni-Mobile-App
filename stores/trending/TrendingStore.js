@@ -57,7 +57,7 @@ var trendingStore = Unicycle.createStore({
     });
 
     AjaxUtils.ajax(
-      '/trending/hackedHardcodedTrendingGroups',
+      '/trending/hackedTestCampusGroup',
       {},
       (res) => {
         that.set({

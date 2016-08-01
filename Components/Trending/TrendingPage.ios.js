@@ -6,10 +6,12 @@ var Unicycle = require('../../Unicycle');
 var TrendingList = require('./TrendingList');
 var TrendingDropdownTrigger = require('./TrendingDropdownTrigger');
 var TrendingFeedTypeDropdown = require('./TrendingFeedTypeDropdown');
-var TrendingUser = require('./TrendingUser');
+var TrendingListItem = require('./TrendingListItem');
+var UserListItem = require('../Common/UserListItem');
 var YouniHeader = require('../Common/YouniHeader');
 var ListFilter = require('../Common/ListFilter');
 var ErrorPage = require('../Common/ErrorPage');
+var GroupListItem = require('../Group/GroupListItem');
 
 var trendingStore = require('../../stores/trending/TrendingStore');
 var TrendingFeedFilters = require('../../Utils/Enums/TrendingFeedFilters');
@@ -47,7 +49,7 @@ var TrendingPage = React.createClass({
 
   componentDidMount: function() {
     trendingStore.requestTrendingUsers();
-    // trendingStore.requestTrendingGroups();
+    trendingStore.requestTrendingGroups();
   },
 
   getInitialState: function() {
@@ -92,7 +94,7 @@ var TrendingPage = React.createClass({
       return (
         <TrendingList
           isPageLoading={trendingStore.isTrendingUserRequestInFlight()}
-          onPageRefresh={() => { trendingStore.requestTrendingUsers(trendingStore.getSelectedFilter()) }}
+          onPageRefresh={() => { trendingStore.requestTrendingUsers() }}
           navigator={this.props.navigator}>
           
           {this._renderTrendingUsers(trendingStore.getTrendingUsers())}
@@ -101,7 +103,16 @@ var TrendingPage = React.createClass({
       );
     }
     else {
-      return <Text>meooow</Text>
+      return (
+        <TrendingList
+          isPageLoading={trendingStore.isTrendingGroupRequestInFlight()}
+          onPageRefresh={() => { trendingStore.requestTrendingGroups() }}
+          navigator={this.props.navigator}>
+
+          {this._renderTrendingGroups(trendingStore.getTrendingGroups())}
+
+        </TrendingList>
+      );
     }
   },
   
@@ -110,15 +121,39 @@ var TrendingPage = React.createClass({
 
     for (var i = 0; i<trendingUsersJson.size; i++) {
       trendingUsers.push(
-        <TrendingUser
-          navigator={this.props.navigator}
+        <TrendingListItem
           ranking={i + 1}
-          user={trendingUsersJson.get(i)}
-          key={i}/>
+          key={i}>
+
+          <UserListItem
+            {...this.props}
+            user={trendingUsersJson.get(i)}/>
+
+        </TrendingListItem>
       );
     }
 
     return trendingUsers;
+  },
+
+  _renderTrendingGroups: function(trendingGroupsJson) {
+    var trendingGroups = [];
+
+    for (var i = 0; i<trendingGroupsJson.size; i++) {
+      trendingGroups.push(
+        <TrendingListItem
+          ranking={i + 1}
+          key={i}>
+
+          <GroupListItem
+            {...this.props}
+            group={trendingGroupsJson.get(i).toJSON()}/>
+
+        </TrendingListItem>
+      );
+    }
+
+    return trendingGroups;
   },
   
   _renderDropdown: function() {

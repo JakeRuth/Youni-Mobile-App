@@ -2,9 +2,6 @@
 
 var React = require('react-native');
 
-var UserListItem = require('../Common/UserListItem');
-
-var trendingStore = require('../../stores/trending/TrendingStore');
 var Colors = require('../../Utils/Common/Colors');
 
 var {
@@ -23,17 +20,15 @@ var styles = StyleSheet.create({
     alignSelf: 'center',
     fontSize: 14,
     fontWeight: '100',
-    margin: 15,
+    marginRight: 15,
     color: Colors.DARK_GRAY
   }
 });
 
-var TrendingUser = React.createClass({
+var TrendingListItem = React.createClass({
 
   propTypes: {
-    ranking: React.PropTypes.number.isRequired,
-    user: React.PropTypes.object.isRequired,
-    navigator: React.PropTypes.object.isRequired
+    ranking: React.PropTypes.number.isRequired
   },
 
   render: function() {
@@ -44,7 +39,7 @@ var TrendingUser = React.createClass({
           {this.props.ranking}
         </Text>
 
-        <UserListItem {...this.props}/>
+        {this.props.children}
 
       </View>
     );
@@ -52,4 +47,4 @@ var TrendingUser = React.createClass({
 
 });
 
-module.exports = TrendingUser;
+module.exports = TrendingListItem;
