@@ -54,6 +54,10 @@ var GroupThumbnailLink = React.createClass({
   },
 
   _onPress: function() {
+    if (this.props.onPress) {
+      this.props.onPress();
+    }
+    
     if (this.props.navigator) {
       let GroupPopup = require('../PopupPages/GroupPopup');
 
@@ -61,10 +65,6 @@ var GroupThumbnailLink = React.createClass({
         component: GroupPopup,
         passProps: {...this.props}
       });
-    }
-    
-    if (this.props.onPress) {
-      this.props.onPress();
     }
   }
 

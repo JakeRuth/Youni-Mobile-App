@@ -95,32 +95,32 @@ var ExploreFeedPosts = React.createClass({
       return;
     }
     
-    var endpoint;
-
-    if (filter === PostListFilter.ALL) {
-      endpoint = ExploreFeedEndpoints.DEFAULT;
-    }
-
-    if (filter === PostListFilter.FEMALE) {
-      endpoint = ExploreFeedEndpoints.FEMALE;
-    }
-
-    if (filter === PostListFilter.MALE) {
-      endpoint = ExploreFeedEndpoints.MALE;
-    }
-
-    explorePostsStore.setExploreFeedEndpoint(endpoint);
+    explorePostsStore.setExploreFeedEndpoint(this._getApiPostEndpointForFilter(filter));
     this.setState({
       selectedFilter: filter
     });
   },
 
   handleScroll(e) {
-    var inifiniteScrollThreshold = -1,
+    var infiniteScrollThreshold = -1,
         userId = userLoginMetadataStore.getUserId();
 
-    if (e.nativeEvent.contentOffset.y < inifiniteScrollThreshold) {
+    if (e.nativeEvent.contentOffset.y < infiniteScrollThreshold) {
       Unicycle.exec('refreshExploreFeed', userId, true);
+    }
+  },
+
+  _getApiPostEndpointForFilter: function(filter) {
+    if (filter === PostListFilter.ALL) {
+      return ExploreFeedEndpoints.DEFAULT;
+    }
+
+    if (filter === PostListFilter.FEMALE) {
+      return ExploreFeedEndpoints.FEMALE;
+    }
+
+    if (filter === PostListFilter.MALE) {
+      return ExploreFeedEndpoints.MALE;
     }
   },
 

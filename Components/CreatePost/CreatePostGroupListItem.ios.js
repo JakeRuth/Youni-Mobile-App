@@ -26,18 +26,12 @@ var CreatePostGroupListItem = React.createClass({
   },
 
   render: function() {
-    var opacity = .5;
-
-    if (createPostStore.isGroupIdSelected(this.props.group.id)) {
-      opacity = 1;
-    }
-
     return (
       <TouchableHighlight
         style={styles.container}
         underlayColor="transparent">
 
-        <View style={{ opacity: opacity }}>
+        <View style={{ opacity: this._getListItemOpacity() }}>
           <GroupThumbnailLink
             group={this.props.group}
             onPress={() => createPostStore.toggleGroupIdInList(this.props.group.id)}/>
@@ -45,6 +39,15 @@ var CreatePostGroupListItem = React.createClass({
 
       </TouchableHighlight>
     );
+  },
+  
+  _getListItemOpacity: function() {
+    if (createPostStore.isGroupIdSelected(this.props.group.id)) {
+      return 1;
+    }
+    else {
+      return .5;
+    }
   }
 
 });
