@@ -90,7 +90,7 @@ var TrendingPage = React.createClass({
   },
 
   _renderTrendingList: function() {
-    if (trendingStore.getSelectedType().label == TrendingFeedType.PEOPLE.label) {
+    if (trendingStore.getSelectedType().label == TrendingFeedType.STUDENTS.label) {
       return (
         <TrendingList
           isPageLoading={trendingStore.isTrendingUserRequestInFlight()}

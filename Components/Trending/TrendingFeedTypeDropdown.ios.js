@@ -31,8 +31,7 @@ var styles = StyleSheet.create({
   label: {
     marginLeft: 8,
     color: 'white',
-    fontSize: 17,
-    fontWeight: '100'
+    fontSize: 17
   },
   separator: {
     height: 1,
@@ -53,7 +52,7 @@ var TrendingFeedDropdownType = React.createClass({
   render: function() {
     return (
       <View style={[styles.container, this.props.style]}>
-        {this._renderDropdownListItem(TrendingFeedType.PEOPLE)}
+        {this._renderDropdownListItem(TrendingFeedType.STUDENTS)}
         <View style={styles.separator}/>
         {this._renderDropdownListItem(TrendingFeedType.ORGANIZATIONS)}
       </View>
@@ -70,7 +69,7 @@ var TrendingFeedDropdownType = React.createClass({
           <Icon
             style={styles.icon}
             name={type.iconName}
-            size={20}
+            size={25}
             color='white'/>
           <Text style={styles.label}>
             {type.label}

@@ -19,7 +19,7 @@ var trendingStore = Unicycle.createStore({
       groups: [],
       pageLoadError: false,
       selectedFilter: TrendingFeedFilters.NOW,
-      selectedType: TrendingFeedType.PEOPLE
+      selectedType: TrendingFeedType.STUDENTS
     });
   },
 
