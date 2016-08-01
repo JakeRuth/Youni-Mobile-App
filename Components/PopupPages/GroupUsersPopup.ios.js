@@ -8,6 +8,7 @@ var Spinner = require('../Common/Spinner');
 var BackArrow = require('../Common/BackArrow');
 
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
+var Colors = require('../../Utils/Common/Colors');
 
 var {
   View,
@@ -23,7 +24,7 @@ var styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '500',
     textAlign: 'center',
-    color: 'white'
+    color: Colors.YOUNI_PRIMARY
   },
   groupListContainer: {
     flex: 1,

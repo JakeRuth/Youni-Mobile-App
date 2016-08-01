@@ -34,12 +34,12 @@ var styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '500',
     textAlign: 'center',
-    color: 'white'
+    color: Colors.YOUNI_PRIMARY
   },
   cancelLink: {
     fontSize: 16,
     textAlign: 'left',
-    color: 'white',
+    color: Colors.YOUNI_PRIMARY,
     padding: 12,
     paddingTop: 2,
     width: 75
@@ -173,7 +173,7 @@ var GroupManagePhotosPopup = React.createClass({
 
   _getDeleteIconColor: function() {
     if (manageGroupPhotosStore.getSelectedPostIdStrings().length) {
-      return 'white';
+      return Colors.YOUNI_PRIMARY;
     }
     else {
       return Colors.FADED_YOUNI_PRIMARY;

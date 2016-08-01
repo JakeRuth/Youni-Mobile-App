@@ -61,7 +61,7 @@ var ProfileGroups = React.createClass({
         content;
     
     if (this.state.groups === null) {
-      return <Spinner color="white"/>;
+      return <Spinner color={Colors.YOUNI_PRIMARY}/>;
     }
 
     for (var i = 0; i < this.state.groups.length; i++) {

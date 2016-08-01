@@ -1,11 +1,14 @@
 'use strict';
 
 var React = require('react-native');
+
 var PostLikesList = require('../Post/Footer/Like/PostLikesList');
 var YouniHeader = require('../Common/YouniHeader');
 var Spinner = require('../Common/Spinner');
 var BackArrow = require('../Common/BackArrow');
+
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
+var Colors = require('../../Utils/Common/Colors');
 var UserUtils = require('../../Utils/User/UserUtils');
 
 var {
@@ -22,7 +25,7 @@ var styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '500',
     textAlign: 'center',
-    color: 'white'
+    color: Colors.YOUNI_PRIMARY
   },
   spinnerContainer: {
     flex: 1,

@@ -26,7 +26,8 @@ var styles = StyleSheet.create({
 var BackArrow = React.createClass({
 
   propTypes: {
-    onPress: React.PropTypes.func.isRequired
+    onPress: React.PropTypes.func.isRequired,
+    color: React.PropTypes.string
   },
 
   render: function () {
@@ -40,11 +41,15 @@ var BackArrow = React.createClass({
           <Icon
             name='ios-arrow-back'
             size={30}
-            color={Colors.YOUNI_PRIMARY}/>
+            color={this._getColor()}/>
         </View>
 
       </TouchableHighlight>
     );
+  },
+  
+  _getColor: function() {
+    return this.props.color ? this.props.color : Colors.YOUNI_PRIMARY;
   }
 
 });

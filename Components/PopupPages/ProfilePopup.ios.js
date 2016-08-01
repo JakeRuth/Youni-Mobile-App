@@ -52,7 +52,8 @@ var ProfilePopup = React.createClass({
 
   propTypes: {
     navigator: React.PropTypes.object.isRequired,
-    profileUserEmail: React.PropTypes.string.isRequired
+    profileUserEmail: React.PropTypes.string.isRequired,
+    onBackArrowPress: React.PropTypes.func
   },
 
   getInitialState: function() {
@@ -102,7 +103,12 @@ var ProfilePopup = React.createClass({
           <Text style={styles.pageHeader}>
             {this._getBannerTitle()}
           </Text>
-          <BackArrow onPress={() => {this.props.navigator.pop();}}/>
+          <BackArrow onPress={() => {
+            if (this.props.onBackArrowPress) {
+              this.props.onBackArrowPress();
+            }
+            this.props.navigator.pop();
+          }}/>
           <BlockUserButton
             email={this.props.profileUserEmail}
             navigator={this.props.navigator}/>

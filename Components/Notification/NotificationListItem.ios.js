@@ -3,14 +3,18 @@
 var React = require('react-native');
 var Icon = require('react-native-vector-icons/Ionicons');
 var Unicycle = require('../../Unicycle');
+
 var LoadMoreButton = require('../Common/LoadMoreButton');
 var PostPopup = require('../PopupPages/PostPopup');
 var ProfilePopup = require('../PopupPages/ProfilePopup');
 var notificationStore = require('../../stores/NotificationStore');
 var profileOwnerStore = require('../../stores/profile/ProfileOwnerStore');
+
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
+var statusBarStyleStore = require('../../stores/StatusBarStyleStore');
 var NotificationUtils = require('../../Utils/Notification/NotificationUtils');
 var Colors = require('../../Utils/Common/Colors');
+var IosStatusBarStyles = require('../../Utils/Common/IosStatusBarStyles');
 
 var {
   View,
@@ -235,7 +239,8 @@ var NotificationsListItem = React.createClass({
       this.props.navigator.push({
         component: ProfilePopup,
         passProps: {
-          profileUserEmail: email
+          profileUserEmail: email,
+          onBackArrowPress: () => statusBarStyleStore.setStyle(IosStatusBarStyles.DEFAULT)
         }
       });
     }

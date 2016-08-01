@@ -1,9 +1,12 @@
 'use strict';
 
 var React = require('react-native');
+
 var YouniHeader = require('../Common/YouniHeader');
 var BackArrow = require('../Common/BackArrow');
 var NotificationsList = require('../Notification/NotificationsList');
+
+var Colors = require('../../Utils/Common/Colors');
 
 var {
   View,
@@ -19,7 +22,7 @@ var styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '500',
     textAlign: 'center',
-    color: 'white'
+    color: Colors.YOUNI_PRIMARY
   }
 });
 

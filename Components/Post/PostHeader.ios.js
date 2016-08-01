@@ -2,12 +2,16 @@
 
 var React = require('react-native');
 var Unicycle = require('../../Unicycle');
-var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
+
 var DeletePostIcon = require('./DeletePostIcon');
 var FlagPostIcon = require('./FlagPostIcon');
 var ProfilePopup = require('../PopupPages/ProfilePopup');
 var ProfileImageThumbnail = require('../Common/ProfileImageThumbnail');
+
+var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
+var statusBarStyleStore = require('../../stores/StatusBarStyleStore');
 var Colors = require('../../Utils/Common/Colors');
+var IosStatusBarStyles = require('../../Utils/Common/IosStatusBarStyles');
 
 var {
   View,
@@ -113,7 +117,10 @@ var PostHeader = React.createClass({
     if (this._shouldDisplayProfilePopup()) {
       this.props.navigator.push({
         component: ProfilePopup,
-        passProps: {profileUserEmail: this.props.post.posterEmail}
+        passProps: {
+          profileUserEmail: this.props.post.posterEmail,
+          onBackArrowPress: () => statusBarStyleStore.setStyle(IosStatusBarStyles.DEFAULT)
+        }
       });
     }
   },
