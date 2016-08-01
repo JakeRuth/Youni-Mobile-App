@@ -36,7 +36,7 @@ var styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '500',
     textAlign: 'center',
-    color: 'white'
+    color: Colors.YOUNI_PRIMARY
   },
   postImage: {
     flex: 1,
