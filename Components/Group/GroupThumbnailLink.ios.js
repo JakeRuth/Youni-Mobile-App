@@ -18,8 +18,8 @@ var styles = StyleSheet.create({
     marginTop: 1,
     color: Colors.DARK_GRAY,
     textAlign: 'center',
-    fontSize: 10,
-    fontWeight: '100'
+    fontSize: 12,
+    fontWeight: '300'
   }
 });
 
