@@ -6,6 +6,7 @@ var GroupThumbnailLink = require('../Group/GroupThumbnailLink');
 var Spinner = require('../Common/Spinner');
 
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
+var Colors = require('../../Utils/Common/Colors');
 
 var {
   Text,
@@ -30,9 +31,8 @@ var styles = StyleSheet.create({
   noGroupsMessage: {
     flex: 1,
     alignSelf: 'center',
-    color: 'white',
+    color: Colors.DARK_GRAY,
     fontSize: 12,
-    fontWeight: '100',
     textAlign: 'center',
     width: Dimensions.get('window').width * .5,
     marginTop: 35
