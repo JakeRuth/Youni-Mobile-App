@@ -5,6 +5,7 @@ var Unicycle = require('../../Unicycle');
 
 var searchStore = require('../../stores/SearchStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
+var Colors = require('../../Utils/Common/Colors');
 
 var SearchTypeSelector = require('./SearchTypeSelector');
 var SearchBarInput = require('./SearchBarInput');
@@ -63,7 +64,7 @@ var SearchPage = React.createClass({
     return (
       <View style={styles.container}>
 
-        <YouniHeader>
+        <YouniHeader color={Colors.EXPLORE_PRIMARY}>
           <SearchBarInput
             style={styles.searchBarContainer}
             active={!searchStore.getInExploreFeedView()}

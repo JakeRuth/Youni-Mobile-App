@@ -12,6 +12,7 @@ var explorePostsStore = require('../../stores/post/ExplorePostsStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var PostListFilter = require('../../Utils/Enums/PostListFilter');
 var ExploreFeedEndpoints = require('../../Utils/Enums/ExploreFeedEndpoints');
+var Colors = require('../../Utils/Common/Colors');
 
 var {
   View,
@@ -83,6 +84,7 @@ var ExploreFeedPosts = React.createClass({
         <ListFilter
           filters={[PostListFilter.MALE, PostListFilter.ALL, PostListFilter.FEMALE]}
           selectedFilter={this.state.selectedFilter}
+          color={Colors.EXPLORE_PRIMARY}
           onPress={this.onFilterPress}/>
         {content}
 
