@@ -54,7 +54,6 @@ var styles = StyleSheet.create({
   },
   postCountLabel: {
     fontSize: 14,
-    fontWeight: '100',
     color: Colors.YOUNI_PRIMARY,
     padding: 10
   }
@@ -136,9 +135,9 @@ var ProfileInfoFooter = React.createClass({
       <PrettyTouchable
         label="Following"
         containerStyle={{
-            width: Dimensions.get('window').width * .4,
-            height: 36
-          }}
+          width: Dimensions.get('window').width * .4,
+          height: 36
+        }}
         onPress={() => {
           this.props.navigator.push({
             component: UserFollowingListPopup

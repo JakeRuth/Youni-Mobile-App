@@ -34,7 +34,6 @@ var styles = StyleSheet.create({
     color: Colors.DARK_GRAY,
     fontSize: 12,
     textAlign: 'center',
-    fontWeight: '100',
     paddingTop: 10,
     paddingRight: 30,
     paddingLeft: 30
