@@ -19,7 +19,6 @@ var styles = StyleSheet.create({
   ranking: {
     alignSelf: 'center',
     fontSize: 14,
-    fontWeight: '100',
     marginRight: 15,
     color: Colors.DARK_GRAY
   }

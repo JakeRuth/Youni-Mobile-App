@@ -68,7 +68,7 @@ var SearchPage = React.createClass({
             style={styles.searchBarContainer}
             active={!searchStore.getInExploreFeedView()}
             value={searchStore.getSearchTerm()}
-            placeholder={`     Search ${userLoginMetadataStore.getNetworkName()}`}
+            placeholder={'     Search University'}
             onChangeText={(search) => {
               searchStore.setSearchTerm(search);
             }}

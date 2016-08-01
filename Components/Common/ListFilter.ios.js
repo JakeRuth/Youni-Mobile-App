@@ -31,7 +31,6 @@ var styles = StyleSheet.create({
   filterLabel: {
     color: Colors.YOUNI_PRIMARY,
     fontSize: 16,
-    fontWeight: '100',
     textAlign: 'center'
   },
   selectedFilterUnderline: {

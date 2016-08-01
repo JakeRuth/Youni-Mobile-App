@@ -17,7 +17,7 @@ var {
 var styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
-    marginBottom: 12
+    marginBottom: 1
   },
   postImage: {
     flex: 1,
