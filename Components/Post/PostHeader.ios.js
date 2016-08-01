@@ -13,7 +13,6 @@ var {
   View,
   Text,
   StyleSheet,
-  Dimensions,
   TouchableHighlight
 } = React;
 
@@ -27,24 +26,27 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row'
   },
+  nameAndTimestampContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    marginTop: 5
+  },
   profileName: {
     flex: 1,
-    fontWeight: '100',
     fontSize: 16,
     marginLeft: 12,
-    color: Colors.DARK_GRAY,
-    width: Dimensions.get('window').width * .66
+    color: Colors.DARK_GRAY
   },
   timestamp: {
+    flex: 1,
     fontSize: 13,
-    fontWeight: '100',
     marginLeft: 12,
     color: Colors.MED_GRAY
   },
   actionButtonContainer: {
     position: 'absolute',
     right: 12,
-    top: 20
+    top: 15
   }
 });
 
@@ -87,7 +89,7 @@ var PostHeader = React.createClass({
 
           <View style={styles.posterThumbnail}>
             <ProfileImageThumbnail profileImageUrl={this.props.post.posterProfileImageUrl}/>
-            <View>
+            <View style={styles.nameAndTimestampContainer}>
               <Text
                 style={styles.profileName}
                 numberOfLines={1}>

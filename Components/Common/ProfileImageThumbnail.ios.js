@@ -13,12 +13,12 @@ var {
 
 var styles = StyleSheet.create({
   profileImage: {
-    height: 40,
-    width: 40,
+    height: 48,
+    width: 48,
     borderRadius: 12
   },
   noProfilePictureIcon: {
-    width: 40,
+    width: 48,
     alignItems: 'center',
     justifyContent: 'center'
   }

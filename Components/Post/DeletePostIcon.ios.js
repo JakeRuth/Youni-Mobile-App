@@ -28,7 +28,7 @@ var DeletePostIcon = React.createClass({
 
         <Icon
           name='android-more-horizontal'
-          size={23}
+          size={30}
           color={Colors.DARK_GRAY}/>
 
       </TouchableHighlight>
