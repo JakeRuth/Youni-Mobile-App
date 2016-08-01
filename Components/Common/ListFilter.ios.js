@@ -29,7 +29,6 @@ var styles = StyleSheet.create({
     flex: 1
   },
   filterLabel: {
-    color: Colors.YOUNI_PRIMARY,
     fontSize: 16,
     textAlign: 'center'
   },
@@ -47,7 +46,8 @@ var ListFilter = React.createClass({
   propTypes: {
     filters: React.PropTypes.array.isRequired,
     selectedFilter: React.PropTypes.any.isRequired,
-    onPress: React.PropTypes.func.isRequired
+    onPress: React.PropTypes.func.isRequired,
+    color: React.PropTypes.string.isRequired
   },
 
   render: function() {
@@ -75,7 +75,7 @@ var ListFilter = React.createClass({
         key={index}>
 
         <View>
-          <Text style={styles.filterLabel}>
+          <Text style={[styles.filterLabel, {color: this.props.color}]}>
             {filter}
           </Text>
           {this._renderSelectedFilterUnderline(filter)}
@@ -87,9 +87,13 @@ var ListFilter = React.createClass({
 
   _renderSelectedFilterUnderline: function(filter) {
     if (this.props.selectedFilter === filter) {
-      let leftOffset = (this._getFilterWidth() - SELECTED_FILTER_UNDERLINE_WIDTH) / 2;
+      let style = {
+        backgroundColor: this.props.color,
+        left: (this._getFilterWidth() - SELECTED_FILTER_UNDERLINE_WIDTH) / 2
+      };
+      
       return (
-        <View style={[styles.selectedFilterUnderline, { left: leftOffset }]}/>
+        <View style={[styles.selectedFilterUnderline, style]}/>
       );
     }
   },

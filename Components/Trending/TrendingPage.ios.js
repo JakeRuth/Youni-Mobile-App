@@ -16,6 +16,7 @@ var GroupListItem = require('../Group/GroupListItem');
 var trendingStore = require('../../stores/trending/TrendingStore');
 var TrendingFeedFilters = require('../../Utils/Enums/TrendingFeedFilters');
 var TrendingFeedType = require('../../Utils/Enums/TrendingFeedType');
+var Colors = require('../../Utils/Common/Colors');
 
 var {
   View,
@@ -69,7 +70,7 @@ var TrendingPage = React.createClass({
     return (
       <View style={styles.container}>
 
-        <YouniHeader>
+        <YouniHeader color={Colors.TRENDING_PRIMARY}>
           <TrendingDropdownTrigger
             selectedType={trendingStore.getSelectedType()}
             onPress={this._toggleDropdownVisibility}
@@ -81,6 +82,7 @@ var TrendingPage = React.createClass({
         <ListFilter
           filters={[TrendingFeedFilters.NOW, TrendingFeedFilters.SEMESTER]}
           selectedFilter={TrendingFeedFilters.NOW}
+          color={Colors.TRENDING_PRIMARY}
           onPress={()=>null}/>
         {this._renderTrendingList()}
         {this._renderDropdown()}
