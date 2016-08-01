@@ -52,7 +52,7 @@ var ProfileImage = React.createClass({
         <Icon
           name='ios-person'
           size={150}
-          color={Colors.FADED_YOUNI_PRIMARY_PURPLE}/>
+          color={Colors.FADED_YOUNI_PRIMARY}/>
       );
     }
 

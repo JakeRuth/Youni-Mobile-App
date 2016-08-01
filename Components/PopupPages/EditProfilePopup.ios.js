@@ -7,7 +7,9 @@ var EditSettingsPage = require('../Profile/Settings/EditSettingsPage');
 var YouniHeader = require('../Common/YouniHeader');
 var Spinner = require('../Common/Spinner');
 var BackArrow = require('../Common/BackArrow');
+
 var editProfileInformationStore = require('../../stores/profile/EditProfileInformationStore');
+var Colors = require('../../Utils/Common/Colors');
 
 var {
   View,
@@ -30,21 +32,21 @@ var styles = StyleSheet.create({
   cancelLink: {
     fontSize: 16,
     textAlign: 'left',
-    color: 'white',
+    color: Colors.YOUNI_PRIMARY,
     padding: 12,
     paddingTop: 2
   },
   pageHeader: {
     flex: 1,
+    color: Colors.YOUNI_PRIMARY,
     fontSize: 20,
     fontWeight: '500',
-    textAlign: 'center',
-    color: 'white'
+    textAlign: 'center'
   },
   finishEditLink: {
     fontSize: 16,
     textAlign: 'right',
-    color: 'white',
+    color: Colors.YOUNI_PRIMARY,
     padding: 12,
     paddingTop: 2
   }

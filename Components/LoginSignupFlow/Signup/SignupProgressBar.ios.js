@@ -21,7 +21,7 @@ var styles = StyleSheet.create({
     width: 12,
     height: 12,
     borderRadius: 6,
-    backgroundColor: Colors.FADED_YOUNI_PRIMARY_PURPLE
+    backgroundColor: Colors.FADED_YOUNI_PRIMARY
   },
   filledStepSymbol: {
     backgroundColor: 'white'
@@ -29,7 +29,7 @@ var styles = StyleSheet.create({
   stepSymbolConnector: {
     flex: 1,
     height: 2,
-    backgroundColor: Colors.FADED_YOUNI_PRIMARY_PURPLE
+    backgroundColor: Colors.FADED_YOUNI_PRIMARY
   },
   filledStepSymbolConnector: {
     backgroundColor: 'white'

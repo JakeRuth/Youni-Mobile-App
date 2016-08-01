@@ -3,6 +3,8 @@
 var React = require('react-native');
 var Icon = require('react-native-vector-icons/Ionicons');
 
+var Colors = require('../../Utils/Common/Colors');
+
 var {
   View,
   StyleSheet,
@@ -14,7 +16,7 @@ var styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     left: 0,
-    paddingTop: 30,
+    paddingTop: 25,
     paddingLeft: 12,
     paddingRight: 30,
     paddingBottom: 15
@@ -37,8 +39,8 @@ var BackArrow = React.createClass({
         <View style={this.props.style}>
           <Icon
             name='ios-arrow-back'
-            size={22}
-            color='white'/>
+            size={30}
+            color={Colors.YOUNI_PRIMARY}/>
         </View>
 
       </TouchableHighlight>

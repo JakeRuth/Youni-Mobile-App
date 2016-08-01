@@ -29,7 +29,6 @@ var GroupThumbnailLink = React.createClass({
     group: React.PropTypes.object.isRequired,
     navigator: React.PropTypes.object,
     imageStyle: React.PropTypes.any,
-    labelColor: React.PropTypes.string,
     onPress: React.PropTypes.func
   },
 
@@ -44,7 +43,7 @@ var GroupThumbnailLink = React.createClass({
           <ProfileImageThumbnail
             style={this.props.imageStyle}
             profileImageUrl={this.props.group.badgeImageUrl}/>
-          <Text style={[styles.label, {color: this.props.labelColor}]}>
+          <Text style={styles.label}>
             {this.props.group.abbreviatedName}
           </Text>
         </View>

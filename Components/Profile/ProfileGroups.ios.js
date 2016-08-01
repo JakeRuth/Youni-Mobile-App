@@ -72,7 +72,6 @@ var ProfileGroups = React.createClass({
             width: (Dimensions.get('window').width - 94) / 4,
             alignItems: 'center'
           }}
-          labelColor="white"
           group={this.state.groups[i]}
           imageStyle={styles.groupImageStyle}
           navigator={this.props.navigator}

@@ -12,14 +12,14 @@ var {
 
 var styles = StyleSheet.create({
   swiperDot: {
-    backgroundColor: Colors.FADED_YOUNI_PRIMARY_PURPLE,
+    backgroundColor: Colors.FADED_YOUNI_PRIMARY,
     width: 7,
     height: 7,
     borderRadius: 3.5,
     marginRight: 9
   },
   activeSwiperDot: {
-    backgroundColor: 'white'
+    backgroundColor: Colors.YOUNI_PRIMARY
   }
 });
 

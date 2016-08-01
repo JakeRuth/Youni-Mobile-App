@@ -12,13 +12,13 @@ var {
 var styles = StyleSheet.create({
   value: {
     fontWeight: '300',
-    color: 'white',
+    color: Colors.DARK_GRAY,
     fontSize: 16,
     textAlign: 'center'
   },
   label: {
     fontWeight: '100',
-    color: 'white',
+    color: Colors.DARK_GRAY,
     fontSize: 12,
     textAlign: 'center'
   }

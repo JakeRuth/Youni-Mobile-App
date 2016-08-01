@@ -176,7 +176,7 @@ var GroupManagePhotosPopup = React.createClass({
       return 'white';
     }
     else {
-      return Colors.FADED_YOUNI_PRIMARY_PURPLE;
+      return Colors.FADED_YOUNI_PRIMARY;
     }
   },
   

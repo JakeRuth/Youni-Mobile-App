@@ -1,11 +1,33 @@
 'use strict';
 
 var React = require('react-native');
+
 var GetAllFollowingPage = require('../Profile/Following/GetAllFollowingPage');
-var OverlayPage = require('../Common/OverlayPage');
+var YouniHeader = require('../Common/YouniHeader');
+var BackArrow = require('../Common/BackArrow');
+
+var userLoginMetaDataStore = require('../../stores/UserLoginMetadataStore');
+var Colors = require('../../Utils/Common/Colors');
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 var UserUtils = require('../../Utils/User/UserUtils');
-var userLoginMetaDataStore = require('../../stores/UserLoginMetadataStore');
+
+var {
+  View,
+  Text,
+  StyleSheet
+} = React;
+
+var styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
+  pageHeader: {
+    fontSize: 20,
+    fontWeight: '500',
+    textAlign: 'center',
+    color: Colors.YOUNI_PRIMARY
+  }
+});
 
 var UserFollowingListPopup = React.createClass({
 
@@ -30,21 +52,23 @@ var UserFollowingListPopup = React.createClass({
   },
 
   render: function () {
-    var pageContent = (
-      <GetAllFollowingPage
-        initialPageLoading={this.state.initialPageLoading}
-        isLoading={this.state.isLoading}
-        moreToFetch={this.state.moreToFetch}
-        onLoadMorePress={this._requestFollowingUsers}
-        users={this.state.users}
-        navigator={this.props.navigator}/>
-    );
-
     return (
-      <OverlayPage
-        content={pageContent}
-        onBackArrowPress={() => {this.props.navigator.pop();}}
-        bannerTitle='Following'/>
+      <View style={styles.container}>
+        <YouniHeader>
+          <Text style={styles.pageHeader}>
+            Following
+          </Text>
+          <BackArrow onPress={() => this.props.navigator.pop()}/>
+        </YouniHeader>
+
+        <GetAllFollowingPage
+          initialPageLoading={this.state.initialPageLoading}
+          isLoading={this.state.isLoading}
+          moreToFetch={this.state.moreToFetch}
+          onLoadMorePress={this._requestFollowingUsers}
+          users={this.state.users}
+          navigator={this.props.navigator}/>
+      </View>
     );
   },
 

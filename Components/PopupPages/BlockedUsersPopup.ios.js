@@ -2,12 +2,15 @@
 
 var React = require('react-native');
 var Unicycle = require('../../Unicycle');
+
 var YouniHeader = require('../Common/YouniHeader');
 var Spinner = require('../Common/Spinner');
 var BackArrow = require('../Common/BackArrow');
 var BlockedUsersPage = require('../Profile/Settings/BlockedUsersPage');
+
 var editProfileInformationStore = require('../../stores/profile/EditProfileInformationStore');
 var userLoginMetaDataStore = require('../../stores/UserLoginMetadataStore');
+var Colors = require('../../Utils/Common/Colors');
 
 var {
   View,
@@ -24,7 +27,7 @@ var styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '500',
     textAlign: 'center',
-    color: 'white'
+    color: Colors.YOUNI_PRIMARY
   },
   spinnerContainer: {
     flex: 1,

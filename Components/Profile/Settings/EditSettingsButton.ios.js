@@ -21,7 +21,7 @@ var styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     right: 0,
-    paddingTop: 27,
+    paddingTop: 25,
     paddingRight: 12,
     paddingLeft: 15,
     paddingBottom: 15
@@ -44,8 +44,8 @@ var EditSettingsButton = React.createClass({
 
         <Icon
           name='ios-gear-outline'
-          size={25}
-          color='white'/>
+          size={30}
+          color={Colors.YOUNI_PRIMARY}/>
 
       </TouchableHighlight>
     );

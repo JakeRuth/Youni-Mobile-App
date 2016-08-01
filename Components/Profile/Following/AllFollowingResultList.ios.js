@@ -1,8 +1,10 @@
 'use strict';
 
 var React = require('react-native');
+
 var EmptyResults = require('../../Common/EmptyResults');
 var UserListItem = require('../../Common/UserListItem');
+var LoadMoreButton = require('../../Common/LoadMoreButton');
 
 var {
   View,
@@ -13,7 +15,8 @@ var {
 var styles = StyleSheet.create({
   allFollowingListContainer: {
     flex: 1,
-    padding: 20,
+    paddingRight: 20,
+    paddingLeft: 20,
     paddingTop: 5
   },
   scrollBar: {
@@ -25,6 +28,9 @@ var AllFollowingResultList = React.createClass({
 
   propTypes: {
     users: React.PropTypes.array.isRequired,
+    isLoading: React.PropTypes.bool.isRequired,
+    moreToFetch: React.PropTypes.bool.isRequired,
+    onLoadMorePress: React.PropTypes.func.isRequired,
     navigator: React.PropTypes.object.isRequired
   },
 
@@ -57,8 +63,16 @@ var AllFollowingResultList = React.createClass({
     }
 
     return (
-      <ScrollView style={styles.scrollBar}>
+      <ScrollView
+        style={styles.scrollBar}
+        automaticallyAdjustContentInsets={false}>
+
         {userResults}
+        <LoadMoreButton
+          isLoading={this.props.isLoading}
+          isVisible={this.props.moreToFetch}
+          onPress={this.props.onLoadMorePress}/>
+
       </ScrollView>
     );
   }

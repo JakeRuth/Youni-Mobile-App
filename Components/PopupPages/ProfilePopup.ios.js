@@ -5,6 +5,7 @@ var immutable = require('immutable');
 var Unicycle = require('../../Unicycle');
 
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
+var statusBarStyleStore = require('../../stores/StatusBarStyleStore');
 
 var ProfileInfo = require('../Profile/ProfileInfo');
 var ProfilePostList = require('../Profile/ProfilePostList');
@@ -17,6 +18,8 @@ var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 var UserUtils = require('../../Utils/User/UserUtils');
 var PostUtils = require('../../Utils/Post/PostUtils');
 var PostViewType = require('../../Utils/Enums/PostViewType');
+var Colors = require('../../Utils/Common/Colors');
+var IosStatusBarStyles = require('../../Utils/Common/IosStatusBarStyles');
 
 var INITIAL_PAGE_OFFSET = 0;
 var MAX_POSTS_PER_PAGE = 9;
@@ -36,7 +39,7 @@ var styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '500',
     textAlign: 'center',
-    color: 'white'
+    color: Colors.YOUNI_PRIMARY
   },
   spinnerContainer: {
     flex: 1,
@@ -56,7 +59,7 @@ var ProfilePopup = React.createClass({
     return {
       user: {},
       posts: [],
-      postViewMode: PostViewType.LIST,
+      postViewMode: PostViewType.GRID,
       profileLoading: true,
       isFollowing: null,
       postsLoading: false,
@@ -66,7 +69,8 @@ var ProfilePopup = React.createClass({
     };
   },
 
-  componentDidMount() {
+  componentDidMount: function() {
+    statusBarStyleStore.setDelayedStyle(IosStatusBarStyles.DEFAULT, 100);
     this._requestProfileInformation();
     this._requestUserPosts();
     this._requestIsUserFollowing();
