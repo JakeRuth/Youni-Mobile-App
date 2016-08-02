@@ -20,6 +20,7 @@ var SignupProgressBar = require('./Signup/SignupProgressBar');
 
 var Color = require('../../Utils/Common/Colors');
 var AutoLoginUtils = require('../../Utils/AutoLoginUtils');
+var LogoImageSize = require('../../Utils/Enums/LogoImageSize');
 var loginStore = require('../../stores/LoginStore');
 var signupStore = require('../../stores/SignupStore');
 var LoginSignupFlowAlerts = require('./LoginSignupFlowAlerts');
@@ -60,12 +61,12 @@ var styles = StyleSheet.create({
   appNameContainer: {
     alignSelf: 'flex-start',
     width: Dimensions.get('window').width,
-    marginTop: -20
+    marginTop: 20
   },
   appName: {
     alignSelf: 'center',
-    width: 288, //these dimensions were carefully picked to match the ratio of logo
-    height: 120
+    width: LogoImageSize.WIDTH * .4,
+    height: LogoImageSize.HEIGHT * .4
   },
   forgotPasswordLink: {
     paddingTop: 20,

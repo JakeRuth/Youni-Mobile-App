@@ -16,6 +16,7 @@ var homePostsStore = require('../stores/post/HomePostsStore');
 var userLoginMetadataStore = require('../stores/UserLoginMetadataStore');
 var CacheUtils = require('../Utils/Common/CacheUtils');
 var Colors = require('../Utils/Common/Colors');
+var LogoImageSize = require('../Utils/Enums/LogoImageSize');
 
 var {
   View,
@@ -51,8 +52,9 @@ var styles = StyleSheet.create({
   logo: {
     flex: 1,
     alignSelf: 'center',
-    height: 33,
-    width: 108
+    marginTop: 7,
+    height: LogoImageSize.HEIGHT * .15,
+    width: LogoImageSize.WIDTH * .15
   },
   createPostButtonContainer: {
     position: 'absolute',
