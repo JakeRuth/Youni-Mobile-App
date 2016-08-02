@@ -1,12 +1,16 @@
 'use strict';
 
 var React = require('react-native');
-var Unicycle = require('../../../Unicycle');
 var Icon = require('react-native-vector-icons/Ionicons');
+var Unicycle = require('../../../Unicycle');
+
 var EditProfilePopup = require('../../PopupPages/EditProfilePopup');
 var BlockedUsersPopup = require('../../PopupPages/BlockedUsersPopup');
+
 var AsyncStorageUtils = require('../../../Utils/Common/AsyncStorageUtils');
 var Colors = require('../../../Utils/Common/Colors');
+var IosStatusBarStyles = require('../../../Utils/Common/IosStatusBarStyles');
+var statusBarStyleStore = require('../../../stores/StatusBarStyleStore');
 
 var {
   View,
@@ -112,6 +116,8 @@ var EditSettingsButton = React.createClass({
     Unicycle.exec('refreshHomeFeedData');
     Unicycle.exec('refreshExploreFeedData');
     Unicycle.exec('reInitProfilePageState');
+
+    statusBarStyleStore.setStyle(IosStatusBarStyles.LIGHT_CONTENT);
     this.props.navigator.popToTop();
   }
 

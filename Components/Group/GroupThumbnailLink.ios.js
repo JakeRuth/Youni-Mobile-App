@@ -18,8 +18,7 @@ var styles = StyleSheet.create({
     marginTop: 1,
     color: Colors.DARK_GRAY,
     textAlign: 'center',
-    fontSize: 12,
-    fontWeight: '300'
+    fontSize: 12
   }
 });
 
@@ -40,9 +39,7 @@ var GroupThumbnailLink = React.createClass({
         onPress={this._onPress}>
 
         <View>
-          <ProfileImageThumbnail
-            style={this.props.imageStyle}
-            profileImageUrl={this.props.group.badgeImageUrl}/>
+          <ProfileImageThumbnail profileImageUrl={this.props.group.badgeImageUrl}/>
           <Text style={styles.label}>
             {this.props.group.abbreviatedName}
           </Text>

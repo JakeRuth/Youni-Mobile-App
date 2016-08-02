@@ -11,8 +11,10 @@ var BackArrow = require('../Common/BackArrow');
 var createPostStore = require('../../stores/CreatePostStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var homePostsStore = require('../../stores/post/HomePostsStore');
+var statusBarStyleStore = require('../../stores/StatusBarStyleStore');
 
 var Colors = require('../../Utils/Common/Colors');
+var IosStatusBarStyles = require('../../Utils/Common/IosStatusBarStyles');
 
 var {
   View,
@@ -45,7 +47,7 @@ var styles = StyleSheet.create({
   },
   captionInput: {
     fontSize: 16,
-    height: 96,
+    height: 65,
     paddingTop: 5,
     paddingBottom: 5,
     paddingRight: 15,
@@ -82,6 +84,8 @@ var CreatePostForm = React.createClass({
   },
 
   componentDidMount() {
+    statusBarStyleStore.setDelayedStyle(IosStatusBarStyles.DEFAULT, 100);
+
     DeviceEventEmitter.addListener('keyboardWillShow', () => {
       this.setState({isKeyboardVisible: true});
     });
@@ -162,6 +166,8 @@ var CreatePostForm = React.createClass({
       this._clearCreatePostData();
       homePostsStore.setScrollToTopOfPostFeed(true);
       Unicycle.exec('refreshHomeFeed', userLoginMetadataStore.getUserId());
+
+      statusBarStyleStore.setStyle(IosStatusBarStyles.LIGHT_CONTENT);
       this.props.navigator.pop();
     });
   },

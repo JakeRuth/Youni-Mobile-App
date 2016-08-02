@@ -24,10 +24,6 @@ var styles = StyleSheet.create({
     paddingLeft: 47,
     paddingRight: 47
   },
-  groupImageStyle: {
-    height: 52,
-    width: 52
-  },
   noGroupsMessage: {
     flex: 1,
     alignSelf: 'center',
@@ -73,7 +69,6 @@ var ProfileGroups = React.createClass({
             alignItems: 'center'
           }}
           group={this.state.groups[i]}
-          imageStyle={styles.groupImageStyle}
           navigator={this.props.navigator}
           key={i}/>
       );

@@ -66,7 +66,7 @@ var ShowImagePicker = {
 
   _getImagePickerOptions: function() {
     return {
-      title: 'Upload a photo',
+      title: 'Upload a Photo',
       quality: .5,
       allowsEditing: true,
       noData: false

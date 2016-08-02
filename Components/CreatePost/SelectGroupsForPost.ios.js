@@ -33,8 +33,7 @@ var styles = StyleSheet.create({
     flex: 1,
     color: Colors.DARK_GRAY,
     textAlign: 'left',
-    fontSize: 14,
-    fontWeight: '100'
+    fontSize: 14
   },
   separator: {
     flex: 1,
@@ -75,7 +74,7 @@ var SelectGroupsForPost = React.createClass({
         <View style={styles.showGroupsTrigger}>
           <Text
             style={styles.triggerLabel}>
-            Rep your group(s)
+            Rep Your Group(s)
           </Text>
           <Icon
             name={this._getArrowIconName()}
