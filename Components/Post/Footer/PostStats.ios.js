@@ -12,7 +12,7 @@ var {
   TouchableHighlight
 } = React;
 
-var ICON_SIZE = 25;
+var ICON_SIZE = 40;
 
 var styles = StyleSheet.create({
   container: {
@@ -26,14 +26,15 @@ var styles = StyleSheet.create({
     alignItems: 'center'
   },
   icon: {
-    marginTop: 3
+    marginTop: 3,
+    marginRight: 1
   },
   iconLabel: {
     alignSelf: 'center',
-    color: Colors.MED_GRAY,
+    color: Colors.DARK_GRAY,
     fontSize: 20,
     fontWeight: '200',
-    paddingLeft: 4,
+    paddingLeft: 8,
     paddingRight: 12.5
   }
 });
@@ -48,24 +49,16 @@ var PostStats = React.createClass({
   },
 
   render: function() {
-    var likedStarIconColor = { color: '' };
-
-    if (this.props.post.liked) {
-      likedStarIconColor.color = '#FFE700';
-    }
-    else {
-      likedStarIconColor.color = Colors.MED_GRAY;
-    }
-
     return (
       <View style={[styles.container, this.props.style]}>
         <TouchableHighlight
           onPress={this.props.onStarPress}
-          underlayColor={'transparent'}>
+          underlayColor='transparent'>
 
           <View style={styles.statContainer}>
             <Icon
-              style={[styles.icon, likedStarIconColor]}
+              style={styles.icon}
+              color="red"
               name={this._getStarIconName()}
               size={ICON_SIZE}/>
             <Text
@@ -108,10 +101,10 @@ var PostStats = React.createClass({
 
   _getStarIconName: function() {
     if (this.props.post.liked) {
-      return 'ios-star';
+      return 'ios-heart';
     }
     else {
-      return 'ios-star-outline';
+      return 'ios-heart-outline';
     }
   }
 

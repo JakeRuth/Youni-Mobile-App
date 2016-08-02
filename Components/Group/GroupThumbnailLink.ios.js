@@ -39,7 +39,9 @@ var GroupThumbnailLink = React.createClass({
         onPress={this._onPress}>
 
         <View>
-          <ProfileImageThumbnail profileImageUrl={this.props.group.badgeImageUrl}/>
+          <ProfileImageThumbnail
+            style={this.props.imageStyle}
+            profileImageUrl={this.props.group.badgeImageUrl}/>
           <Text style={styles.label}>
             {this.props.group.abbreviatedName}
           </Text>

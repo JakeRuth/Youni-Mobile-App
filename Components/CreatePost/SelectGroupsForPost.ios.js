@@ -13,6 +13,7 @@ var {
   View,
   Text,
   StyleSheet,
+  Dimensions,
   TouchableHighlight
 } = React;
 
@@ -87,11 +88,14 @@ var SelectGroupsForPost = React.createClass({
   },
 
   _renderGroupList: function() {
+    let size = (Dimensions.get('window').width - 30) / 4; // 30 = total horizontal padding
+    
     if (this.state.showGroups) {
       return (
         <View>
           <CreatePostGroupList
             groups={this.state.groups}
+            listItemSize={size}
             isLoading={this.state.groups === null}/>
           <View style={styles.separator}/>
         </View>

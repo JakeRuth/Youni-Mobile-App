@@ -22,10 +22,13 @@ var styles = StyleSheet.create({
 var CreatePostGroupListItem = React.createClass({
 
   propTypes: {
-    group: React.PropTypes.object.isRequired
+    group: React.PropTypes.object.isRequired,
+    size: React.PropTypes.number.isRequired
   },
 
   render: function() {
+    let size = this.props.size - 7; // subtract the added margin
+
     return (
       <TouchableHighlight
         style={styles.container}
@@ -34,6 +37,10 @@ var CreatePostGroupListItem = React.createClass({
         <View style={{ opacity: this._getListItemOpacity() }}>
           <GroupThumbnailLink
             group={this.props.group}
+            imageStyle={{
+              height: size,
+              width: size
+            }}
             onPress={() => createPostStore.toggleGroupIdInList(this.props.group.id)}/>
         </View>
 
