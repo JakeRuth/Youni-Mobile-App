@@ -20,14 +20,9 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     paddingBottom: 8
   },
-  statContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
   icon: {
     marginTop: 3,
-    marginRight: 1
+    marginRight: 20
   },
   iconLabel: {
     alignSelf: 'center',
@@ -39,7 +34,7 @@ var styles = StyleSheet.create({
   }
 });
 
-var PostStats = React.createClass({
+var PostInteractionControls = React.createClass({
 
   propTypes: {
     onStarPress: React.PropTypes.func,
@@ -54,43 +49,27 @@ var PostStats = React.createClass({
         <TouchableHighlight
           onPress={this.props.onStarPress}
           underlayColor='transparent'>
-
-          <View style={styles.statContainer}>
-            <Icon
-              style={styles.icon}
-              color="red"
-              name={this._getStarIconName()}
-              size={ICON_SIZE}/>
-            <Text
-              style={styles.iconLabel}
-              onPress={this._onNumLikesLabelPress}>
-              {this.props.post.numLikes}
-            </Text>
-          </View>
-
+          <Icon
+            style={styles.icon}
+            color="red"
+            name={this._getStarIconName()}
+            size={ICON_SIZE}/>
         </TouchableHighlight>
 
         <TouchableHighlight
           onPress={this.props.onCommentPress}
-          underlayColor={'transparent'}>
-
-          <View style={styles.statContainer}>
-            <Icon
-              style={styles.icon}
-              name='ios-chatbubble-outline'
-              size={ICON_SIZE}
-              color={Colors.MED_GRAY}/>
-            <Text style={styles.iconLabel}>
-              {this.props.post.numComments}
-            </Text>
-          </View>
-
+          underlayColor='transparent'>
+          <Icon
+            style={styles.icon}
+            name='ios-chatbubble-outline'
+            size={ICON_SIZE}
+            color={Colors.MED_GRAY}/>
         </TouchableHighlight>
       </View>
     );
   },
 
-  _onNumLikesLabelPress: function() {
+  _onPress: function() {
     this.props.navigator.push({
       component: PostLikesPopup,
       passProps: {
@@ -110,4 +89,4 @@ var PostStats = React.createClass({
 
 });
 
-module.exports = PostStats;
+module.exports = PostInteractionControls;

@@ -6,8 +6,20 @@ var InvertibleScrollView = require('react-native-invertible-scroll-view');
 var GroupThumbnailLink = require('../../Group/GroupThumbnailLink');
 
 var {
-  View
+  View,
+  StyleSheet
 } = React;
+
+var styles = StyleSheet.create({
+  groupThumbnailStyle: {
+    paddingLeft: 10
+  },
+  groupImageStyle: {
+    width: 38,
+    height: 38,
+    borderRadius: 8
+  }
+});
 
 var PostGroups = React.createClass({
 
@@ -26,7 +38,8 @@ var PostGroups = React.createClass({
     for (var i = 0; i < this.props.groups.length; i++) {
       groups.push(
         <GroupThumbnailLink
-          style={{ paddingLeft: 10 }}
+          style={styles.groupThumbnailStyle}
+          imageStyle={styles.groupImageStyle}
           group={this.props.groups[i]}
           navigator={this.props.navigator}
           key={i}/>

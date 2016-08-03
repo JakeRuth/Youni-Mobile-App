@@ -3,11 +3,12 @@
 var React = require('react-native');
 var Unicycle = require('../../../Unicycle');
 
-var PostStats = require('./PostStats');
+var PostInteractionControls = require('./PostInteractionControls');
 var PostGroups = require('./PostGroups');
 var Caption = require('./Caption');
 var CommentList = require('./CommentList');
 var ViewAllCommentsLink = require('./ViewAllCommentsLink');
+var ViewPostLikes = require('./Like/ViewPostLikes');
 var PostCommentsPopup = require('../../PopupPages/PostCommentsPopup');
 
 var userLoginMetadataStore = require('../../../stores/UserLoginMetadataStore');
@@ -23,7 +24,8 @@ var {
 var styles = StyleSheet.create({
   postFooter: {
     backgroundColor: 'white',
-    padding: 10
+    padding: 10,
+    paddingTop: 5
   },
   statsAndGroupContainer: {
     flexDirection: 'row'
@@ -67,7 +69,7 @@ var PostFooter = React.createClass({
       <View style={styles.postFooter}>
 
         <View style={styles.statsAndGroupContainer}>
-          <PostStats
+          <PostInteractionControls
             style={{ flex: 1 }}
             navigator={this.props.navigator}
             onStarPress={this.props.onStarPress(this.props.post.liked)}
@@ -78,6 +80,10 @@ var PostFooter = React.createClass({
             groups={this.props.post.groups}
             navigator={this.props.navigator}/>
         </View>
+
+        <ViewPostLikes
+          post={this.props.post}
+          navigator={this.props.navigator}/>
 
         {caption}
         {commentSeparator}
