@@ -46,7 +46,7 @@ var PrettyInput = React.createClass({
         style={[styles.container, this.props.style]}
         value={this.state.value}
         onChangeText={this._onTextChange}
-        placeholderTextColor={Colors.FADED_YOUNI_PRIMARY}/>
+        placeholderTextColor={Colors.LIGHT_GRAY}/>
     );
   },
 

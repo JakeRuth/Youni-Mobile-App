@@ -1,12 +1,11 @@
 'use strict';
 
+var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
+
 var Colors = {
 
-  YOUNI_PRIMARY: '#02A9EB',
-  TRENDING_PRIMARY: '#FF2A00',
-  EXPLORE_PRIMARY: '#03A361',
+  YOUNI_PRIMARY: userLoginMetadataStore.getNetworkColor() ? userLoginMetadataStore.getNetworkColor() : '#7700FF',
 
-  FADED_YOUNI_PRIMARY: '#89DAFA',
   LIGHT_YOUNI_PURPLE: '#E3E8FD',
   DARK_GRAY: '#1E2022',
   MED_GRAY: '#9B9B9B',

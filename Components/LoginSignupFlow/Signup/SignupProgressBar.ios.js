@@ -21,18 +21,20 @@ var styles = StyleSheet.create({
     width: 12,
     height: 12,
     borderRadius: 6,
-    backgroundColor: Colors.FADED_YOUNI_PRIMARY
+    opacity: .5,
+    backgroundColor: 'white'
   },
   filledStepSymbol: {
-    backgroundColor: 'white'
+    opacity: 1
   },
   stepSymbolConnector: {
     flex: 1,
     height: 2,
-    backgroundColor: Colors.FADED_YOUNI_PRIMARY
+    opacity: .5,
+    backgroundColor: 'white'
   },
   filledStepSymbolConnector: {
-    backgroundColor: 'white'
+    opacity: 1
   }
 });
 

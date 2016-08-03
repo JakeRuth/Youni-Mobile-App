@@ -84,7 +84,7 @@ var ExploreFeedPosts = React.createClass({
         <ListFilter
           filters={[PostListFilter.MALE, PostListFilter.ALL, PostListFilter.FEMALE]}
           selectedFilter={this.state.selectedFilter}
-          color={Colors.EXPLORE_PRIMARY}
+          color={Colors.YOUNI_PRIMARY}
           onPress={this.onFilterPress}/>
         {content}
 

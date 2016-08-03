@@ -5,73 +5,79 @@ var Unicycle = require('./../Unicycle');
 
 var userLoginMetadata = Unicycle.createStore({
 
-    init: function () {
-      this.set({
-        accessToken: '',
-        refreshToken: '',
-        userId: '',
-        email: '',
-        firstName: '',
-        lastName: '',
-        networkName: ''
-      });
-    },
+  init: function () {
+    this.set({
+      accessToken: '',
+      refreshToken: '',
+      userId: '',
+      email: '',
+      firstName: '',
+      lastName: '',
+      networkName: '',
+      networkColor: ''
+    });
+  },
 
-    $setAllMetadata: function (accessToken, refreshToken, userId, email, firstName, lastName, networkName) {
-      this.set({
-        accessToken: accessToken,
-        refreshToken: refreshToken,
-        userId: userId,
-        email: email,
-        firstName: firstName,
-        lastName: lastName,
-        networkName: networkName
-      });
-    },
+  $setAllMetadata: function (accessToken, refreshToken, userId, email, firstName, lastName, networkName, networkColor) {
+    this.set({
+      accessToken: accessToken,
+      refreshToken: refreshToken,
+      userId: userId,
+      email: email,
+      firstName: firstName,
+      lastName: lastName,
+      networkName: networkName,
+      networkColor: networkColor
+    });
+  },
 
-    setFirstName: function(value) {
-      this.set({
-        firstName: value
-      });
-    },
+  setFirstName: function (value) {
+    this.set({
+      firstName: value
+    });
+  },
 
-    setLastName: function(value) {
-      this.set({
-        lastName: value
-      });
-    },
+  setLastName: function (value) {
+    this.set({
+      lastName: value
+    });
+  },
 
-    getAccessToken: function() {
-      return this.get('accessToken');
-    },
+  getAccessToken: function () {
+    return this.get('accessToken');
+  },
 
-    getRefreshToken: function() {
-      return this.get('refreshToken');
-    },
+  getRefreshToken: function () {
+    return this.get('refreshToken');
+  },
 
-    getUserId: function() {
-      return this.get('userId');
-    },
+  getUserId: function () {
+    return this.get('userId');
+  },
 
-    getEmail: function() {
-      return this.get('email');
-    },
+  getEmail: function () {
+    return this.get('email');
+  },
 
-    getFirstName: function() {
-      return this.get('firstName');
-    },
+  getFirstName: function () {
+    return this.get('firstName');
+  },
 
-    getLastName: function() {
-      return this.get('lastName');
-    },
+  getLastName: function () {
+    return this.get('lastName');
+  },
 
-    getFullName: function() {
-      return this.getFirstName() + ' ' + this.getLastName();
-    },
+  getFullName: function () {
+    return this.getFirstName() + ' ' + this.getLastName();
+  },
 
-    getNetworkName: function() {
-      return this.get('networkName');
-    }
+  getNetworkName: function () {
+    return this.get('networkName');
+  },
+
+  getNetworkColor: function () {
+    return this.get('networkColor');
+  }
 
 });
 

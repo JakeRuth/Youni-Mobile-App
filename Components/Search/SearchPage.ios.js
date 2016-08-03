@@ -59,7 +59,7 @@ var SearchPage = React.createClass({
           <ListFilter
             filters={[SearchType.STUDENTS, SearchType.ORGANIZATIONS]}
             selectedFilter={searchStore.getSearchType()}
-            color={Colors.EXPLORE_PRIMARY}
+            color={Colors.YOUNI_PRIMARY}
             onPress={(filter) => searchStore.executeSearch(userLoginMetadataStore.getEmail(), filter)}/>
           {this._renderSearchResultsList()}
         </View>
@@ -69,7 +69,7 @@ var SearchPage = React.createClass({
     return (
       <View style={styles.container}>
 
-        <YouniHeader color={Colors.EXPLORE_PRIMARY}>
+        <YouniHeader color={Colors.YOUNI_PRIMARY}>
           <SearchBarInput
             style={styles.searchBarContainer}
             active={!searchStore.getInExploreFeedView()}

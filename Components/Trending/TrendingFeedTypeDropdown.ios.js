@@ -17,7 +17,7 @@ var {
 
 var styles = StyleSheet.create({
   container: {
-    backgroundColor: Colors.TRENDING_PRIMARY,
+    backgroundColor: Colors.YOUNI_PRIMARY,
     borderRadius: 4
   },
   dropdownListItem: {

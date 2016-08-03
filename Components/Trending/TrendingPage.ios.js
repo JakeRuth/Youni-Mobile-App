@@ -70,7 +70,7 @@ var TrendingPage = React.createClass({
     return (
       <View style={styles.container}>
 
-        <YouniHeader color={Colors.TRENDING_PRIMARY}>
+        <YouniHeader color={Colors.YOUNI_PRIMARY}>
           <TrendingDropdownTrigger
             selectedType={trendingStore.getSelectedType()}
             onPress={this._toggleDropdownVisibility}
@@ -82,7 +82,7 @@ var TrendingPage = React.createClass({
         <ListFilter
           filters={[TrendingFeedFilters.NOW, TrendingFeedFilters.SEMESTER]}
           selectedFilter={TrendingFeedFilters.NOW}
-          color={Colors.TRENDING_PRIMARY}
+          color={Colors.YOUNI_PRIMARY}
           onPress={()=>null}/>
         {this._renderTrendingList()}
         {this._renderDropdown()}

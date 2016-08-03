@@ -131,10 +131,10 @@ var GroupManagePhotosPopup = React.createClass({
             Manage Photos
           </Text>
           <Icon
-            style={styles.deletePhotosIcon}
+            style={[styles.deletePhotosIcon, { opacity: this._getDeleteIconOpacity() }]}
             size={20}
             name="android-delete"
-            color={this._getDeleteIconColor()}
+            color={Colors.YOUNI_PRIMARY}
             onPress={this._onDeletePhotosPress}/>
         </YouniHeader>
 
@@ -171,12 +171,12 @@ var GroupManagePhotosPopup = React.createClass({
     this.props.navigator.pop();
   },
 
-  _getDeleteIconColor: function() {
+  _getDeleteIconOpacity: function() {
     if (manageGroupPhotosStore.getSelectedPostIdStrings().length) {
-      return Colors.YOUNI_PRIMARY;
+      return 1;
     }
     else {
-      return Colors.FADED_YOUNI_PRIMARY;
+      return .5;
     }
   },
   
