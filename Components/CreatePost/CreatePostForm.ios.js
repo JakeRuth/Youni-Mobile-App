@@ -37,8 +37,7 @@ var styles = StyleSheet.create({
   pageHeader: {
     fontSize: 20,
     fontWeight: '500',
-    textAlign: 'center',
-    color: Colors.YOUNI_PRIMARY
+    textAlign: 'center'
   },
   postImage: {
     flex: 1,
@@ -58,8 +57,7 @@ var styles = StyleSheet.create({
     bottom: 0,
     height: 50,
     width: Dimensions.get('window').width,
-    alignItems: 'center',
-    backgroundColor: Colors.YOUNI_PRIMARY
+    alignItems: 'center'
   },
   createPostText: {
     textAlign: 'center',
@@ -111,7 +109,7 @@ var CreatePostForm = React.createClass({
 
     if (!imageUploadedSuccessfully || isPostUploading) {
       postButton = (
-        <View style={styles.createPostButton}>
+        <View style={[styles.createPostButton, { backgroundColor: Colors.getPrimaryAppColor() }]}>
           <Spinner color="white"/>
         </View>
       );
@@ -119,7 +117,7 @@ var CreatePostForm = React.createClass({
     else {
       postButton = (
         <TouchableHighlight
-          style={styles.createPostButton}
+          style={[styles.createPostButton, { backgroundColor: Colors.getPrimaryAppColor() }]}
           underlayColor="transparent"
           onPress={this._onSubmitPost}>
           <Text style={styles.createPostText}>POST</Text>
@@ -131,7 +129,7 @@ var CreatePostForm = React.createClass({
       <View style={containerStyles}>
 
         <YouniHeader>
-          <Text style={styles.pageHeader}>
+          <Text style={[styles.pageHeader, { color: Colors.getPrimaryAppColor() }]}>
             Create Post
           </Text>
           <BackArrow onPress={this._onBackArrowPress}/>

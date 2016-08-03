@@ -17,7 +17,6 @@ var {
 
 var styles = StyleSheet.create({
   container: {
-    backgroundColor: Colors.YOUNI_PRIMARY,
     borderRadius: 4
   },
   dropdownListItem: {
@@ -51,7 +50,7 @@ var TrendingFeedDropdownType = React.createClass({
 
   render: function() {
     return (
-      <View style={[styles.container, this.props.style]}>
+      <View style={[styles.container, { backgroundColor: Colors.getPrimaryAppColor() }, this.props.style]}>
         {this._renderDropdownListItem(TrendingFeedType.STUDENTS)}
         <View style={styles.separator}/>
         {this._renderDropdownListItem(TrendingFeedType.ORGANIZATIONS)}
@@ -62,7 +61,7 @@ var TrendingFeedDropdownType = React.createClass({
   _renderDropdownListItem: function(type) {
     return (
       <TouchableHighlight
-        underlayColor={Colors.YOUNI_PRIMARY}
+        underlayColor={Colors.getPrimaryAppColor()}
         onPress={() => this._onPress(type)}>
         
         <View style={styles.dropdownListItem}>

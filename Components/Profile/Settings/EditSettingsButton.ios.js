@@ -49,7 +49,7 @@ var EditSettingsButton = React.createClass({
         <Icon
           name='ios-gear-outline'
           size={30}
-          color={Colors.YOUNI_PRIMARY}/>
+          color={Colors.getPrimaryAppColor()}/>
 
       </TouchableHighlight>
     );
@@ -65,7 +65,7 @@ var EditSettingsButton = React.createClass({
       ],
       destructiveButtonIndex: 2,
       cancelButtonIndex: 3,
-      tintColor: Colors.YOUNI_PRIMARY
+      tintColor: Colors.getPrimaryAppColor()
     },
     (buttonIndex) => {
       if (buttonIndex === 0) {

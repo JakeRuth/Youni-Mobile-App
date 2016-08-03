@@ -32,13 +32,11 @@ var styles = StyleSheet.create({
     flex: 1,
     fontSize: 20,
     fontWeight: '500',
-    textAlign: 'center',
-    color: Colors.YOUNI_PRIMARY
+    textAlign: 'center'
   },
   cancelLink: {
     fontSize: 16,
     textAlign: 'left',
-    color: Colors.YOUNI_PRIMARY,
     padding: 12,
     paddingTop: 2,
     width: 75
@@ -46,7 +44,6 @@ var styles = StyleSheet.create({
   finishEditLink: {
     fontSize: 16,
     textAlign: 'right',
-    color: Colors.YOUNI_PRIMARY,
     padding: 12,
     paddingTop: 2,
     width: 75
@@ -141,18 +138,18 @@ var GroupUsersPopup = React.createClass({
     return (
       <YouniHeader style={styles.headerContentContainer}>
         <Text
-          style={styles.cancelLink}
+          style={[styles.cancelLink, { color: Colors.getPrimaryAppColor() }]}
           onPress={() => {
             this.props.onPageReturnCallback();
             this.props.navigator.pop();
           }}>
           Cancel
         </Text>
-        <Text style={styles.pageHeader}>
+        <Text style={[styles.pageHeader, { color: Colors.getPrimaryAppColor() }]}>
           Edit Profile
         </Text>
         <Text
-          style={styles.finishEditLink}
+          style={[styles.finishEditLink, { color: Colors.getPrimaryAppColor() }]}
           onPress={this._onFinishEdittingPress}>
           Done
         </Text>

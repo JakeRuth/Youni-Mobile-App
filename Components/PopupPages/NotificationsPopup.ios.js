@@ -21,8 +21,7 @@ var styles = StyleSheet.create({
   pageHeader: {
     fontSize: 20,
     fontWeight: '500',
-    textAlign: 'center',
-    color: Colors.YOUNI_PRIMARY
+    textAlign: 'center'
   }
 });
 
@@ -37,7 +36,7 @@ var NotificationsPopup = React.createClass({
       <View style={styles.container}>
 
         <YouniHeader>
-          <Text style={styles.pageHeader}>
+          <Text style={[styles.pageHeader, { color: Colors.getPrimaryAppColor() }]}>
             Notifications
           </Text>
           <BackArrow onPress={() => {this.props.navigator.pop();}}/>

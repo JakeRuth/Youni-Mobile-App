@@ -30,8 +30,7 @@ var styles = StyleSheet.create({
   pageHeader: {
     fontSize: 20,
     fontWeight: '500',
-    textAlign: 'center',
-    color: Colors.YOUNI_PRIMARY
+    textAlign: 'center'
   },
   contentContainer: {
     flex: 1
@@ -88,7 +87,7 @@ var GroupManageUsersPopup = React.createClass({
       <View style={styles.container}>
 
         <YouniHeader>
-          <Text style={styles.pageHeader}>
+          <Text style={[styles.pageHeader, { color: Colors.getPrimaryAppColor() }]}>
             Manage Members
           </Text>
           <BackArrow onPress={() => {

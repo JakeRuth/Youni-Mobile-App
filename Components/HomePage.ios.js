@@ -103,7 +103,7 @@ var HomePage = React.createClass({
 
         <YouniHeader
           style={styles.pageHeader}
-          color={Colors.YOUNI_PRIMARY}>
+          color={Colors.getPrimaryAppColor()}>
           <NotificationIcon
             style={styles.notificationIcon}
             navigator={this.props.navigator}/>

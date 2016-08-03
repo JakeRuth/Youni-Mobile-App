@@ -82,7 +82,7 @@ var GroupActionButton = React.createClass({
         'Cancel'
       ],
       cancelButtonIndex: 3,
-      tintColor: Colors.YOUNI_PRIMARY
+      tintColor: Colors.getPrimaryAppColor()
     },
     (buttonIndex) => {
       if (buttonIndex === 0) {

@@ -67,14 +67,10 @@ var styles = StyleSheet.create({
     height: 40,
     width: 40
   },
-  logoContainer: {
-    backgroundColor: Colors.YOUNI_PRIMARY
-  },
   logo: {
     width: 40,
     height: 40,
-    borderRadius: 8,
-    backgroundColor: Colors.YOUNI_PRIMARY
+    borderRadius: 8
   },
   blankLine: {
     width: Dimensions.get('window').width * (2/3),
@@ -141,7 +137,7 @@ var NotificationsListItem = React.createClass({
       return (
         <View style={styles.profileImageContainer}>
           <Image
-            style={styles.logo}
+            style={[styles.logo, { backgroundColor: Colors.getPrimaryAppColor() }]}
             source={require('../../images/logoWhiteTextBlankBackground.png')}
             resizeMode="contain"/>
         </View>
@@ -153,7 +149,7 @@ var NotificationsListItem = React.createClass({
           <Icon
             name='person-add'
             size={22}
-            color={Colors.YOUNI_PRIMARY}/>
+            color={Colors.getPrimaryAppColor()}/>
         </View>
       );
     }

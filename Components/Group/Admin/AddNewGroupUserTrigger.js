@@ -27,7 +27,6 @@ var styles = StyleSheet.create({
     marginRight: 8
   },
   triggerLabel: {
-    color: Colors.YOUNI_PRIMARY,
     fontSize: 18,
     fontWeight: '100'
   }
@@ -51,8 +50,8 @@ var AddNewGroupUserTrigger = React.createClass({
             style={styles.triggerIcon}
             name='ios-plus-outline'
             size={20}
-            color={Colors.YOUNI_PRIMARY}/>
-          <Text style={styles.triggerLabel}>
+            color={Colors.getPrimaryAppColor()}/>
+          <Text style={[styles.triggerLabel, { color: Colors.getPrimaryAppColor() }]}>
             Add New Member
           </Text>
         </View>

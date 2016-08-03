@@ -41,7 +41,7 @@ var FlagPostIcon = React.createClass({
         'Cancel'
       ],
       cancelButtonIndex: 1,
-      tintColor: Colors.YOUNI_PRIMARY
+      tintColor: Colors.getPrimaryAppColor()
     },
     (buttonIndex) => {
       if (buttonIndex === 0) {

@@ -12,7 +12,6 @@ var {
 
 var styles = StyleSheet.create({
   swiperDot: {
-    backgroundColor: Colors.YOUNI_PRIMARY,
     opacity: .5,
     width: 7,
     height: 7,
@@ -41,13 +40,13 @@ var ProfileInfoSwiper = React.createClass({
 
   _renderSwiperDot: function() {
     return (
-      <View style={[styles.swiperDot]}/>
+      <View style={[styles.swiperDot, { backgroundColor: Colors.getPrimaryAppColor() }]}/>
     );
   },
 
   _renderActiveSwiperDot: function() {
     return (
-      <View style={[styles.swiperDot, styles.activeSwiperDot]}/>
+      <View style={[styles.swiperDot, { backgroundColor: Colors.getPrimaryAppColor() }, styles.activeSwiperDot]}/>
     );
   }
 

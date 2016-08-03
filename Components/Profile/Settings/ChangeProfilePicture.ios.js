@@ -29,8 +29,7 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     height: 30,
     width: 30,
-    borderRadius: 15,
-    backgroundColor: Colors.YOUNI_PRIMARY
+    borderRadius: 15
   }
 });
 
@@ -53,8 +52,8 @@ var ChangeProfilePicture = React.createClass({
           isUploading={uploadProfileImageStore.isUploadProfileImageRequestInFlight()}
           onPress={this.onUploadImagePress}/>
         <TouchableHighlight
-          style={styles.uploadImageIconContainer}
-          underlayColor={Colors.YOUNI_PRIMARY}
+          style={[styles.uploadImageIconContainer, { backgroundColor: Colors.getPrimaryAppColor() }]}
+          underlayColor={Colors.getPrimaryAppColor()}
           onPress={this.onUploadImagePress}>
           <Icon
             name='android-camera'

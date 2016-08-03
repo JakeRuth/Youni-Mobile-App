@@ -36,8 +36,7 @@ var styles = StyleSheet.create({
     position: 'absolute',
     width: SELECTED_FILTER_UNDERLINE_WIDTH,
     height: 3,
-    borderRadius: 1.5,
-    backgroundColor: Colors.YOUNI_PRIMARY
+    borderRadius: 1.5
   }
 });
 
@@ -46,8 +45,7 @@ var ListFilter = React.createClass({
   propTypes: {
     filters: React.PropTypes.array.isRequired,
     selectedFilter: React.PropTypes.any.isRequired,
-    onPress: React.PropTypes.func.isRequired,
-    color: React.PropTypes.string.isRequired
+    onPress: React.PropTypes.func.isRequired
   },
 
   render: function() {
@@ -75,7 +73,7 @@ var ListFilter = React.createClass({
         key={index}>
 
         <View>
-          <Text style={[styles.filterLabel, {color: this.props.color}]}>
+          <Text style={[styles.filterLabel, {color: Colors.getPrimaryAppColor()}]}>
             {filter}
           </Text>
           {this._renderSelectedFilterUnderline(filter)}
@@ -88,7 +86,7 @@ var ListFilter = React.createClass({
   _renderSelectedFilterUnderline: function(filter) {
     if (this.props.selectedFilter === filter) {
       let style = {
-        backgroundColor: this.props.color,
+        backgroundColor: Colors.getPrimaryAppColor(),
         left: (this._getFilterWidth() - SELECTED_FILTER_UNDERLINE_WIDTH) / 2
       };
       

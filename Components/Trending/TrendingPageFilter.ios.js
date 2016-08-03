@@ -13,35 +13,35 @@ var {
 } = React;
 
 var styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    borderWidth: 1,
-    borderColor: Colors.YOUNI_PRIMARY,
-    borderRadius: 15,
-    height: 30,
-    marginRight: 16,
-    marginLeft: 16,
-    marginBottom: 5,
-    marginTop: 5
-  },
-  filter: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    margin: 1,
-    borderRadius: 14
-  },
-  selectedFilter: {
-    backgroundColor: Colors.YOUNI_PRIMARY
-  },
-  filterLabel: {
-    fontSize: 13,
-    fontWeight: '100',
-    color: Colors.YOUNI_PRIMARY
-  },
-  selectedFilterLabel: {
-    color: 'white'
-  }
+  // container: {
+  //   flexDirection: 'row',
+  //   borderWidth: 1,
+  //   borderColor: Colors.getPrimaryAppColor(),
+  //   borderRadius: 15,
+  //   height: 30,
+  //   marginRight: 16,
+  //   marginLeft: 16,
+  //   marginBottom: 5,
+  //   marginTop: 5
+  // },
+  // filter: {
+  //   flex: 1,
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  //   margin: 1,
+  //   borderRadius: 14
+  // },
+  // selectedFilter: {
+  //   backgroundColor: Colors.getPrimaryAppColor()
+  // },
+  // filterLabel: {
+  //   fontSize: 13,
+  //   fontWeight: '100',
+  //   color: Colors.getPrimaryAppColor()
+  // },
+  // selectedFilterLabel: {
+  //   color: 'white'
+  // }
 });
 
 // this is currently not being used as we re implement the trending feature, this may be deleted if it's not needed anymore

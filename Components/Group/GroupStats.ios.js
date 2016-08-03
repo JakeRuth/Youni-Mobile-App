@@ -38,13 +38,11 @@ var styles = StyleSheet.create({
     justifyContent: 'center'
   },
   statValue: {
-    color: Colors.YOUNI_PRIMARY,
     fontSize: 18,
     fontWeight: '300',
     textAlign: 'center'
   },
   statLabel: {
-    color: Colors.YOUNI_PRIMARY,
     fontSize: 11,
     fontWeight: '100',
     textAlign: 'center'
@@ -100,10 +98,10 @@ var GroupStats = React.createClass({
         onPress={onPressAction}>
 
         <View>
-          <Text style={styles.statValue}>
+          <Text style={[styles.statValue, { color: Colors.getPrimaryAppColor() }]}>
             {value}
           </Text>
-          <Text style={styles.statLabel}>
+          <Text style={[styles.statLabel, { color: Colors.getPrimaryAppColor() }]}>
             {label}
           </Text>
         </View>

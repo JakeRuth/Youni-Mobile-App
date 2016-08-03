@@ -11,7 +11,6 @@ var {
 var styles = StyleSheet.create({
   container: {
     color: 'white',
-    backgroundColor: Colors.YOUNI_PRIMARY,
     borderRadius: 4,
     borderColor: 'white',
     borderWidth: 1,
@@ -43,7 +42,7 @@ var PrettyInput = React.createClass({
     return (
       <TextInput
         {...this.props}
-        style={[styles.container, this.props.style]}
+        style={[styles.container, { backgroundColor: Colors.getPrimaryAppColor() }, this.props.style]}
         value={this.state.value}
         onChangeText={this._onTextChange}
         placeholderTextColor={Colors.LIGHT_GRAY}/>

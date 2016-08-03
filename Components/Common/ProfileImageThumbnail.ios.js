@@ -44,7 +44,7 @@ var ProfileImageThumbnail = React.createClass({
           <Icon
             name='ios-person'
             size={40}
-            color={Colors.YOUNI_PRIMARY} />
+            color={Colors.getPrimaryAppColor()} />
         </View>
       );
     }

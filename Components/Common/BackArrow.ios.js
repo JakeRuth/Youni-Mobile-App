@@ -49,7 +49,7 @@ var BackArrow = React.createClass({
   },
   
   _getColor: function() {
-    return this.props.color ? this.props.color : Colors.YOUNI_PRIMARY;
+    return this.props.color ? this.props.color : Colors.getPrimaryAppColor();
   }
 
 });

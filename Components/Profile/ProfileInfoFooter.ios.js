@@ -54,7 +54,6 @@ var styles = StyleSheet.create({
   },
   postCountLabel: {
     fontSize: 14,
-    color: Colors.YOUNI_PRIMARY,
     padding: 10
   }
 });
@@ -76,10 +75,10 @@ var ProfileInfoFooter = React.createClass({
 
     if (this.props.currentPostViewMode === PostViewType.LIST) {
       postGridIconColor = Colors.MED_GRAY;
-      postListIconColor = Colors.YOUNI_PRIMARY;
+      postListIconColor = Colors.getPrimaryAppColor();
     }
     else {
-      postGridIconColor = Colors.YOUNI_PRIMARY;
+      postGridIconColor = Colors.getPrimaryAppColor();
       postListIconColor = Colors.MED_GRAY;
     }
 
@@ -153,7 +152,7 @@ var ProfileInfoFooter = React.createClass({
   _renderPostCount: function() {
     return (
       <View style={styles.postCountContainer}>
-        <Text style={styles.postCountLabel}>
+        <Text style={[styles.postCountLabel, { color: Colors.getPrimaryAppColor() }]}>
           {this.props.user.numPosts + ' Posts'}
         </Text>
       </View>

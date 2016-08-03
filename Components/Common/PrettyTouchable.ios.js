@@ -12,14 +12,12 @@ var {
 
 var styles = StyleSheet.create({
   container: {
-    backgroundColor: Colors.YOUNI_PRIMARY,
     borderRadius: 4,
     borderColor: 'white',
     borderWidth: 1
   },
   invertedContainer: {
-    backgroundColor: 'white',
-    borderColor: Colors.YOUNI_PRIMARY
+    backgroundColor: 'white'
   },
   labelContainer: {
     flex: 1,
@@ -29,9 +27,6 @@ var styles = StyleSheet.create({
   label: {
     color: 'white',
     fontSize: 18
-  },
-  invertedLabel: {
-    color: Colors.YOUNI_PRIMARY
   }
 });
 
@@ -47,12 +42,12 @@ var PrettyTouchable = React.createClass({
   },
 
   render: function() {
-    var containerStyles = [styles.container, this.props.containerStyle],
+    var containerStyles = [styles.container, { backgroundColor: Colors.getPrimaryAppColor() }, this.props.containerStyle],
         labelStyles = [styles.label, this.props.labelStyle];
 
     if (this.props.invertColors) {
-      containerStyles.push(styles.invertedContainer);
-      labelStyles.push(styles.invertedLabel);
+      containerStyles.push([styles.invertedContainer, { borderColor: Colors.getPrimaryAppColor() }]);
+      labelStyles.push({ color: Colors.getPrimaryAppColor() });
     }
 
     return (

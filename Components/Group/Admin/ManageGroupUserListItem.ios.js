@@ -136,7 +136,7 @@ var ManageGroupUserListItem = React.createClass({
         'Cancel'
       ],
       cancelButtonIndex: 2,
-      tintColor: Colors.YOUNI_PRIMARY
+      tintColor: Colors.getPrimaryAppColor()
     },
     (buttonIndex) => {
       if (buttonIndex === 0) {
@@ -156,7 +156,7 @@ var ManageGroupUserListItem = React.createClass({
         'Cancel'
       ],
       cancelButtonIndex: 2,
-      tintColor: Colors.YOUNI_PRIMARY
+      tintColor: Colors.getPrimaryAppColor()
     },
     (buttonIndex) => {
       if (buttonIndex === 0) {
@@ -176,7 +176,7 @@ var ManageGroupUserListItem = React.createClass({
         'Cancel'
       ],
       cancelButtonIndex: 2,
-      tintColor: Colors.YOUNI_PRIMARY
+      tintColor: Colors.getPrimaryAppColor()
     },
     (buttonIndex) => {
       if (buttonIndex === 0) {

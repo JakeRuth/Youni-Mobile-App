@@ -33,13 +33,11 @@ var styles = StyleSheet.create({
     flex: 1,
     fontSize: 20,
     fontWeight: '500',
-    textAlign: 'center',
-    color: Colors.YOUNI_PRIMARY
+    textAlign: 'center'
   },
   cancelLink: {
     fontSize: 16,
     textAlign: 'left',
-    color: Colors.YOUNI_PRIMARY,
     padding: 12,
     paddingTop: 2,
     width: 75
@@ -120,21 +118,21 @@ var GroupManagePhotosPopup = React.createClass({
 
         <YouniHeader style={styles.headerContentContainer}>
           <Text
-            style={styles.cancelLink}
+            style={[styles.cancelLink, { color: Colors.getPrimaryAppColor() }]}
             onPress={() => {
               this.props.onPageReturnCallback();
               this.props.navigator.pop();
             }}>
             Cancel
           </Text>
-          <Text style={styles.pageHeader}>
+          <Text style={[styles.pageHeader, { color: Colors.getPrimaryAppColor() }]}>
             Manage Photos
           </Text>
           <Icon
             style={[styles.deletePhotosIcon, { opacity: this._getDeleteIconOpacity() }]}
             size={20}
             name="android-delete"
-            color={Colors.YOUNI_PRIMARY}
+            color={Colors.getPrimaryAppColor()}
             onPress={this._onDeletePhotosPress}/>
         </YouniHeader>
 

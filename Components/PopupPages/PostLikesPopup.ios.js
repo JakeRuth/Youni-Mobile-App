@@ -24,8 +24,7 @@ var styles = StyleSheet.create({
   pageHeader: {
     fontSize: 20,
     fontWeight: '500',
-    textAlign: 'center',
-    color: Colors.YOUNI_PRIMARY
+    textAlign: 'center'
   },
   spinnerContainer: {
     flex: 1,
@@ -82,7 +81,7 @@ var PostLikesPopup = React.createClass({
       <View style={styles.container}>
 
         <YouniHeader>
-          <Text style={styles.pageHeader}>
+          <Text style={[styles.pageHeader, { color: Colors.getPrimaryAppColor() }]}>
             Likes
           </Text>
           <BackArrow onPress={() => {this.props.navigator.pop();}}/>

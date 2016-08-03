@@ -33,7 +33,6 @@ var styles = StyleSheet.create({
   },
   postCommentButtonLabel: {
     fontSize: 15,
-    color: Color.YOUNI_PRIMARY,
     textAlign: 'center',
     padding: 5
   }
@@ -103,7 +102,7 @@ var CommentInput = React.createClass({
           }}
           underlayColor='transparent'>
 
-          <Text style={styles.postCommentButtonLabel}>
+          <Text style={[styles.postCommentButtonLabel, { color: Color.getPrimaryAppColor() }]}>
             Post
           </Text>
 
