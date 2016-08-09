@@ -30,7 +30,8 @@ var {
   Text,
   StyleSheet,
   Image,
-  Dimensions
+  Dimensions,
+  AlertIOS
 } = React;
 
 /*
@@ -352,6 +353,16 @@ var LoginSignupFlow = React.createClass({
     this.setState({
       isAutoLoginRequestInFlight: false
     });
+
+    AlertIOS.alert(
+      'Login Failed',
+      'The username/password you entered was incorrect, please try again.',
+      [
+        {
+          text: 'Ok'
+        }
+      ]
+    );
   },
 
   _onSignupPageOneSubmit: function() {
