@@ -47,7 +47,7 @@ var SelectGroupsForPost = React.createClass({
 
   getInitialState: function () {
     return {
-      showGroups: false,
+      showGroups: true,
       groups: null
     };
   },
