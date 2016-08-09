@@ -104,16 +104,16 @@ var HomePage = React.createClass({
         <YouniHeader
           style={styles.pageHeader}
           color={Colors.getPrimaryAppColor()}>
-          <NotificationIcon
-            style={styles.notificationIcon}
+          <ProfileIcon
+            style={styles.profileIcon}
             navigator={this.props.navigator}/>
           <View style={styles.logoContainer}>
             <Image
               style={styles.logo}
               source={require('../images/logoWhiteTextBlankBackground.png')}/>
           </View>
-          <ProfileIcon
-            style={styles.profileIcon}
+          <NotificationIcon
+            style={styles.notificationIcon}
             navigator={this.props.navigator}/>
         </YouniHeader>
 
