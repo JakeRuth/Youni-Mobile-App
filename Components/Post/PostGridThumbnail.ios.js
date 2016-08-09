@@ -31,7 +31,8 @@ var PostGridThumbnail = React.createClass({
     unlikePhotoAction: React.PropTypes.func,
     onSubmitCommentAction: React.PropTypes.func,
     navigator: React.PropTypes.object,
-    onPress: React.PropTypes.func
+    onPress: React.PropTypes.func,
+    renderedFromProfileView: React.PropTypes.bool
   },
 
   render: function() {

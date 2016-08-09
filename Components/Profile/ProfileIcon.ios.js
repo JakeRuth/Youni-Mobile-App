@@ -16,19 +16,19 @@ var ProfileIcon = React.createClass({
 
   render: function() {
     return (
-        <TouchableHighlight
-          onPress={()=>{
-            this.props.navigator.push({
-              component: ProfilePage
-            });
-          }}
-          style={this.props.style}
-          underlayColor='transparent'>
-          <Icon
-            name='person'
-            size={30}
-            color='white'/>
-        </TouchableHighlight>
+      <TouchableHighlight
+        onPress={()=>{
+          this.props.navigator.push({
+            component: ProfilePage
+          });
+        }}
+        style={this.props.style}
+        underlayColor='transparent'>
+        <Icon
+          name='person'
+          size={30}
+          color='white'/>
+      </TouchableHighlight>
     );
   }
 

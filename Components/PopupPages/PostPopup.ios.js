@@ -20,6 +20,7 @@ var PostPopup = React.createClass({
     likePhotoAction: React.PropTypes.func,
     unlikePhotoAction: React.PropTypes.func,
     onSubmitCommentAction: React.PropTypes.func,
+    renderedFromProfileView: React.PropTypes.bool,
     navigator: React.PropTypes.object.isRequired
   },
 
@@ -47,6 +48,7 @@ var PostPopup = React.createClass({
     return (
       <Post
         post={post}
+        renderedFromProfileView={this.props.renderedFromProfileView}
         likePhotoAction={this.props.likePhotoAction ? this.props.likePhotoAction : this._likePhotoAction}
         unlikePhotoAction={this.props.unlikePhotoAction ? this.props.unlikePhotoAction : this._unlikePhotoAction}
         onSubmitCommentAction={this.props.onSubmitCommentAction ? this.props.onSubmitCommentAction : this._onSubmitCommentCallback}
