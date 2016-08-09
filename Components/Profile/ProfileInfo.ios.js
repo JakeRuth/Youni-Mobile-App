@@ -9,15 +9,8 @@ var Colors = require('../../Utils/Common/Colors');
 var PostViewType = require('../../Utils/Enums/PostViewType');
 
 var {
-  View,
-  StyleSheet
+  View
 } = React;
-
-var styles = StyleSheet.create({
-  container: {
-    backgroundColor: Colors.YOUNI_PRIMARY_PURPLE
-  }
-});
 
 var ProfileInfo = React.createClass({
 
@@ -34,7 +27,7 @@ var ProfileInfo = React.createClass({
 
   render: function() {
     return (
-      <View style={styles.container}>
+      <View>
 
         <ProfileInfoBody {...this.props}/>
         <ProfileInfoFooter {...this.props}/>

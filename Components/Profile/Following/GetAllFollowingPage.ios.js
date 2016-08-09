@@ -15,9 +15,6 @@ var styles = StyleSheet.create({
   container: {
     flex: 1
   },
-  getAllFollowingPageContainer: {
-    flex: 1
-  },
   spinnerContainer: {
     paddingTop: 10
   }
@@ -46,19 +43,13 @@ var GetAllFollowingPage = React.createClass({
     }
     else {
       content = (
-        <AllFollowingResultList
-          users={this.props.users}
-          navigator={this.props.navigator}/>
+        <AllFollowingResultList {...this.props}/>
       );
     }
 
     return (
       <View style={styles.container}>
         {content}
-        <LoadMoreButton
-          onPress={this.props.onLoadMorePress}
-          isLoading={this.props.isLoading}
-          isVisible={this.props.moreToFetch}/>
       </View>
     );
   }

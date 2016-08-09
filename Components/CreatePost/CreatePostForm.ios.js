@@ -11,8 +11,10 @@ var BackArrow = require('../Common/BackArrow');
 var createPostStore = require('../../stores/CreatePostStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var homePostsStore = require('../../stores/post/HomePostsStore');
+var statusBarStyleStore = require('../../stores/StatusBarStyleStore');
 
 var Colors = require('../../Utils/Common/Colors');
+var IosStatusBarStyles = require('../../Utils/Common/IosStatusBarStyles');
 
 var {
   View,
@@ -35,8 +37,7 @@ var styles = StyleSheet.create({
   pageHeader: {
     fontSize: 20,
     fontWeight: '500',
-    textAlign: 'center',
-    color: 'white'
+    textAlign: 'center'
   },
   postImage: {
     flex: 1,
@@ -45,7 +46,7 @@ var styles = StyleSheet.create({
   },
   captionInput: {
     fontSize: 16,
-    height: 96,
+    height: 65,
     paddingTop: 5,
     paddingBottom: 5,
     paddingRight: 15,
@@ -56,8 +57,7 @@ var styles = StyleSheet.create({
     bottom: 0,
     height: 50,
     width: Dimensions.get('window').width,
-    alignItems: 'center',
-    backgroundColor: Colors.YOUNI_PRIMARY_PURPLE
+    alignItems: 'center'
   },
   createPostText: {
     textAlign: 'center',
@@ -82,6 +82,8 @@ var CreatePostForm = React.createClass({
   },
 
   componentDidMount() {
+    statusBarStyleStore.setDelayedStyle(IosStatusBarStyles.DEFAULT, 100);
+
     DeviceEventEmitter.addListener('keyboardWillShow', () => {
       this.setState({isKeyboardVisible: true});
     });
@@ -107,7 +109,7 @@ var CreatePostForm = React.createClass({
 
     if (!imageUploadedSuccessfully || isPostUploading) {
       postButton = (
-        <View style={styles.createPostButton}>
+        <View style={[styles.createPostButton, { backgroundColor: Colors.getPrimaryAppColor() }]}>
           <Spinner color="white"/>
         </View>
       );
@@ -115,7 +117,7 @@ var CreatePostForm = React.createClass({
     else {
       postButton = (
         <TouchableHighlight
-          style={styles.createPostButton}
+          style={[styles.createPostButton, { backgroundColor: Colors.getPrimaryAppColor() }]}
           underlayColor="transparent"
           onPress={this._onSubmitPost}>
           <Text style={styles.createPostText}>POST</Text>
@@ -127,7 +129,7 @@ var CreatePostForm = React.createClass({
       <View style={containerStyles}>
 
         <YouniHeader>
-          <Text style={styles.pageHeader}>
+          <Text style={[styles.pageHeader, { color: Colors.getPrimaryAppColor() }]}>
             Create Post
           </Text>
           <BackArrow onPress={this._onBackArrowPress}/>
@@ -162,6 +164,8 @@ var CreatePostForm = React.createClass({
       this._clearCreatePostData();
       homePostsStore.setScrollToTopOfPostFeed(true);
       Unicycle.exec('refreshHomeFeed', userLoginMetadataStore.getUserId());
+
+      statusBarStyleStore.setStyle(IosStatusBarStyles.LIGHT_CONTENT);
       this.props.navigator.pop();
     });
   },

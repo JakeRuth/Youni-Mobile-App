@@ -2,9 +2,8 @@
 
 var TrendingFeedFilters = {
 
-  DAILY: 'Daily',
-  WEEKLY: 'Weekly',
-  ALL_TIME: 'All Time'
+  NOW: 'Now',
+  SEMESTER: 'Semester'
 
 };
 

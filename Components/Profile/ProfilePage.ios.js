@@ -6,8 +6,11 @@ var Unicycle = require('../../Unicycle');
 
 var profileOwnerStore = require('../../stores/profile/ProfileOwnerStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
+var statusBarStyleStore = require('../../stores/StatusBarStyleStore');
 
 var PostViewType = require('../../Utils/Enums/PostViewType');
+var Colors = require('../../Utils/Common/Colors');
+var IosStatusBarStyles = require('../../Utils/Common/IosStatusBarStyles');
 
 var ProfileInfo = require('./ProfileInfo');
 var ProfilePostList = require('./ProfilePostList');
@@ -32,8 +35,7 @@ var styles = StyleSheet.create({
   pageHeader: {
     fontSize: 20,
     fontWeight: '500',
-    textAlign: 'center',
-    color: 'white'
+    textAlign: 'center'
   }
 });
 
@@ -49,11 +51,12 @@ var ProfilePage = React.createClass({
 
   getInitialState: function() {
     return {
-      postViewMode: PostViewType.LIST
+      postViewMode: PostViewType.GRID
     };
   },
 
   componentDidMount: function() {
+    statusBarStyleStore.setDelayedStyle(IosStatusBarStyles.DEFAULT, 100);
     Unicycle.exec('loadOwnerUsersProfile', userLoginMetadataStore.getEmail());
     this._requestProfilePosts();
   },
@@ -62,8 +65,6 @@ var ProfilePage = React.createClass({
     var isProfileInfoLoading = profileOwnerStore.isProfileInfoLoading(),
         anyErrorsLoadingPage = profileOwnerStore.anyErrorsLoadingPage(),
         content;
-
-    
 
     if (isProfileInfoLoading) {
       content = (
@@ -109,10 +110,13 @@ var ProfilePage = React.createClass({
       <View style={styles.container}>
 
         <YouniHeader>
-          <Text style={styles.pageHeader}>
+          <Text style={[styles.pageHeader, { color: Colors.getPrimaryAppColor() }]}>
             {profileOwnerStore.getFirstName() + ' ' + profileOwnerStore.getLastName()}
           </Text>
-          <BackArrow onPress={() => { this.props.navigator.pop(); }}/>
+          <BackArrow onPress={() => {
+            this.props.navigator.pop();
+            statusBarStyleStore.setStyle(IosStatusBarStyles.LIGHT_CONTENT);
+          }}/>
         </YouniHeader>
         <EditSettingsButton
           user={profileOwnerStore.getUserJson()}

@@ -60,7 +60,7 @@ var EditSettingsPage = React.createClass({
       <View style={styles.container}>
 
         <View style={styles.changeProfilePictureContainer}>
-          <ChangeProfilePicture/>
+          <ChangeProfilePicture {...this.props}/>
         </View>
 
         <EditProfileFieldInput

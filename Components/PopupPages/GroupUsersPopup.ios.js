@@ -8,6 +8,7 @@ var Spinner = require('../Common/Spinner');
 var BackArrow = require('../Common/BackArrow');
 
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
+var Colors = require('../../Utils/Common/Colors');
 
 var {
   View,
@@ -22,8 +23,7 @@ var styles = StyleSheet.create({
   pageHeader: {
     fontSize: 20,
     fontWeight: '500',
-    textAlign: 'center',
-    color: 'white'
+    textAlign: 'center'
   },
   groupListContainer: {
     flex: 1,
@@ -98,7 +98,7 @@ var GroupUsersPopup = React.createClass({
     return (
       <View style={styles.container}>
         <YouniHeader>
-          <Text style={styles.pageHeader}>
+          <Text style={[styles.pageHeader, { color: Colors.getPrimaryAppColor() }]}>
             Members
           </Text>
           <BackArrow onPress={() => this.props.navigator.pop()}/>

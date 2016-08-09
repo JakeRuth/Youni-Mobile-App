@@ -5,12 +5,14 @@ var Unicycle = require('../../Unicycle');
 
 var searchStore = require('../../stores/SearchStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
+var Colors = require('../../Utils/Common/Colors');
+var SearchType = require('../../Utils/Enums/SearchType');
 
-var SearchTypeSelector = require('./SearchTypeSelector');
 var SearchBarInput = require('./SearchBarInput');
 var SearchResultsList = require('./SearchResultsList');
 var ExploreFeedPosts = require('../Post/ExploreFeedPosts');
 var YouniHeader = require('../Common/YouniHeader');
+var ListFilter = require('../Common/ListFilter');
 var Spinner = require('../Common/Spinner');
 
 var {
@@ -54,7 +56,10 @@ var SearchPage = React.createClass({
     else {
       searchPageContent = (
         <View style={styles.searchResultsContainer}>
-          <SearchTypeSelector/>
+          <ListFilter
+            filters={[SearchType.STUDENTS, SearchType.ORGANIZATIONS]}
+            selectedFilter={searchStore.getSearchType()}
+            onPress={(filter) => searchStore.executeSearch(userLoginMetadataStore.getEmail(), filter)}/>
           {this._renderSearchResultsList()}
         </View>
       );
@@ -63,12 +68,12 @@ var SearchPage = React.createClass({
     return (
       <View style={styles.container}>
 
-        <YouniHeader>
+        <YouniHeader color={Colors.getPrimaryAppColor()}>
           <SearchBarInput
             style={styles.searchBarContainer}
             active={!searchStore.getInExploreFeedView()}
             value={searchStore.getSearchTerm()}
-            placeholder={`     Search ${userLoginMetadataStore.getNetworkName()}`}
+            placeholder={'     Search University'}
             onChangeText={(search) => {
               searchStore.setSearchTerm(search);
             }}

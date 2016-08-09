@@ -13,37 +13,38 @@ var {
 } = React;
 
 var styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    borderWidth: 1,
-    borderColor: Colors.YOUNI_PRIMARY_PURPLE,
-    borderRadius: 15,
-    height: 30,
-    marginRight: 16,
-    marginLeft: 16,
-    marginBottom: 5,
-    marginTop: 5
-  },
-  filter: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    margin: 1,
-    borderRadius: 14
-  },
-  selectedFilter: {
-    backgroundColor: Colors.YOUNI_PRIMARY_PURPLE
-  },
-  filterLabel: {
-    fontSize: 13,
-    fontWeight: '100',
-    color: Colors.YOUNI_PRIMARY_PURPLE
-  },
-  selectedFilterLabel: {
-    color: 'white'
-  }
+  // container: {
+  //   flexDirection: 'row',
+  //   borderWidth: 1,
+  //   borderColor: Colors.getPrimaryAppColor(),
+  //   borderRadius: 15,
+  //   height: 30,
+  //   marginRight: 16,
+  //   marginLeft: 16,
+  //   marginBottom: 5,
+  //   marginTop: 5
+  // },
+  // filter: {
+  //   flex: 1,
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  //   margin: 1,
+  //   borderRadius: 14
+  // },
+  // selectedFilter: {
+  //   backgroundColor: Colors.getPrimaryAppColor()
+  // },
+  // filterLabel: {
+  //   fontSize: 13,
+  //   fontWeight: '100',
+  //   color: Colors.getPrimaryAppColor()
+  // },
+  // selectedFilterLabel: {
+  //   color: 'white'
+  // }
 });
 
+// this is currently not being used as we re implement the trending feature, this may be deleted if it's not needed anymore
 var TrendingPageFilter = React.createClass({
 
   propTypes: {
@@ -56,9 +57,9 @@ var TrendingPageFilter = React.createClass({
     return (
       <View style={styles.container}>
 
-        {this._renderFeedSelector(TrendingFeedFilters.DAILY)}
-        {this._renderFeedSelector(TrendingFeedFilters.WEEKLY)}
-        {this._renderFeedSelector(TrendingFeedFilters.ALL_TIME)}
+        // {this._renderFeedSelector(TrendingFeedFilters.DAILY)}
+        // {this._renderFeedSelector(TrendingFeedFilters.WEEKLY)}
+        // {this._renderFeedSelector(TrendingFeedFilters.ALL_TIME)}
 
       </View>
     );

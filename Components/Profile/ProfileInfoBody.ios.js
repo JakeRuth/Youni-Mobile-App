@@ -31,10 +31,9 @@ var styles = StyleSheet.create({
     alignItems: 'center'
   },
   bio: {
-    color: 'white',
+    color: Colors.DARK_GRAY,
     fontSize: 12,
     textAlign: 'center',
-    fontWeight: '100',
     paddingTop: 10,
     paddingRight: 30,
     paddingLeft: 30
@@ -42,7 +41,7 @@ var styles = StyleSheet.create({
   sidelineDash: {
     position: 'absolute',
     top: 50,
-    backgroundColor: 'white',
+    backgroundColor: Colors.DARK_GRAY,
     height: .5,
     width: 25
   },

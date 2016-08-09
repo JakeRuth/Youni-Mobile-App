@@ -1,9 +1,12 @@
 'use strict';
 
 var React = require('react-native');
+
 var YouniHeader = require('../Common/YouniHeader');
 var BackArrow = require('../Common/BackArrow');
 var NotificationsList = require('../Notification/NotificationsList');
+
+var Colors = require('../../Utils/Common/Colors');
 
 var {
   View,
@@ -18,8 +21,7 @@ var styles = StyleSheet.create({
   pageHeader: {
     fontSize: 20,
     fontWeight: '500',
-    textAlign: 'center',
-    color: 'white'
+    textAlign: 'center'
   }
 });
 
@@ -34,7 +36,7 @@ var NotificationsPopup = React.createClass({
       <View style={styles.container}>
 
         <YouniHeader>
-          <Text style={styles.pageHeader}>
+          <Text style={[styles.pageHeader, { color: Colors.getPrimaryAppColor() }]}>
             Notifications
           </Text>
           <BackArrow onPress={() => {this.props.navigator.pop();}}/>

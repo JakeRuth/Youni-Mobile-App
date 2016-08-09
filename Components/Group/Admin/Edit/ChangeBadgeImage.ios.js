@@ -46,8 +46,7 @@ var styles = StyleSheet.create({
     right: -5,
     height: 30,
     width: 30,
-    borderRadius: 15,
-    backgroundColor: Colors.YOUNI_PRIMARY_PURPLE
+    borderRadius: 15
   }
 });
 
@@ -96,8 +95,8 @@ var ChangeBadgeImage = React.createClass({
             {badgeImage}
 
             <TouchableHighlight
-              style={styles.uploadBadeImageIcon}
-              underlayColor={Colors.YOUNI_PRIMARY_PURPLE}
+              style={[styles.uploadBadeImageIcon, { backgroundColor: Colors.getPrimaryAppColor() }]}
+              underlayColor={Colors.getPrimaryAppColor()}
               onPress={this.onUploadImagePress}>
               <Icon
                 name='android-camera'

@@ -2,8 +2,8 @@
 
 var TrendingFeedType = {
 
-  PEOPLE: {
-    label: 'People',
+  STUDENTS: {
+    label: 'Students',
     iconName: 'ios-person'
   },
   ORGANIZATIONS: {

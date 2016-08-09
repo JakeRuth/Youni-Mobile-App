@@ -2,12 +2,15 @@
 
 var React = require('react-native');
 var Unicycle = require('../../Unicycle');
+
 var YouniHeader = require('../Common/YouniHeader');
 var Spinner = require('../Common/Spinner');
 var BackArrow = require('../Common/BackArrow');
 var BlockedUsersPage = require('../Profile/Settings/BlockedUsersPage');
+
 var editProfileInformationStore = require('../../stores/profile/EditProfileInformationStore');
 var userLoginMetaDataStore = require('../../stores/UserLoginMetadataStore');
+var Colors = require('../../Utils/Common/Colors');
 
 var {
   View,
@@ -23,8 +26,7 @@ var styles = StyleSheet.create({
   pageHeader: {
     fontSize: 20,
     fontWeight: '500',
-    textAlign: 'center',
-    color: 'white'
+    textAlign: 'center'
   },
   spinnerContainer: {
     flex: 1,
@@ -68,7 +70,7 @@ var BlockedUsersPopup = React.createClass({
       <View style={styles.container}>
 
         <YouniHeader>
-          <Text style={styles.pageHeader}>
+          <Text style={[styles.pageHeader, { color: Colors.getPrimaryAppColor() }]}>
             Blocked Users
           </Text>
           <BackArrow onPress={() => {this.props.navigator.pop();}}/>

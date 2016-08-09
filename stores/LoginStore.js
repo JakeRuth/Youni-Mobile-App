@@ -43,7 +43,8 @@ var loginStore = Unicycle.createStore({
           email = res.body.username,
           firstName = res.body.firstName,
           lastName = res.body.lastName,
-          networkName = res.body.networkName;
+          networkName = res.body.networkName,
+          networkColor = res.body.networkColorHexCode;
 
         Unicycle.exec(
           'setAllMetadata',
@@ -53,7 +54,8 @@ var loginStore = Unicycle.createStore({
           email,
           firstName,
           lastName,
-          networkName
+          networkName,
+          networkColor
         );
 
         AsyncStorageUtils.saveItem('userId', userId);

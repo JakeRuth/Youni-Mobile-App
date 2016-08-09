@@ -1,12 +1,16 @@
 'use strict';
 
 var React = require('react-native');
-var Unicycle = require('../../../Unicycle');
 var Icon = require('react-native-vector-icons/Ionicons');
+var Unicycle = require('../../../Unicycle');
+
 var EditProfilePopup = require('../../PopupPages/EditProfilePopup');
 var BlockedUsersPopup = require('../../PopupPages/BlockedUsersPopup');
+
 var AsyncStorageUtils = require('../../../Utils/Common/AsyncStorageUtils');
 var Colors = require('../../../Utils/Common/Colors');
+var IosStatusBarStyles = require('../../../Utils/Common/IosStatusBarStyles');
+var statusBarStyleStore = require('../../../stores/StatusBarStyleStore');
 
 var {
   View,
@@ -21,7 +25,7 @@ var styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     right: 0,
-    paddingTop: 27,
+    paddingTop: 25,
     paddingRight: 12,
     paddingLeft: 15,
     paddingBottom: 15
@@ -44,8 +48,8 @@ var EditSettingsButton = React.createClass({
 
         <Icon
           name='ios-gear-outline'
-          size={25}
-          color='white'/>
+          size={30}
+          color={Colors.getPrimaryAppColor()}/>
 
       </TouchableHighlight>
     );
@@ -61,7 +65,7 @@ var EditSettingsButton = React.createClass({
       ],
       destructiveButtonIndex: 2,
       cancelButtonIndex: 3,
-      tintColor: Colors.YOUNI_PRIMARY_PURPLE
+      tintColor: Colors.getPrimaryAppColor()
     },
     (buttonIndex) => {
       if (buttonIndex === 0) {
@@ -112,6 +116,8 @@ var EditSettingsButton = React.createClass({
     Unicycle.exec('refreshHomeFeedData');
     Unicycle.exec('refreshExploreFeedData');
     Unicycle.exec('reInitProfilePageState');
+
+    statusBarStyleStore.setStyle(IosStatusBarStyles.LIGHT_CONTENT);
     this.props.navigator.popToTop();
   }
 

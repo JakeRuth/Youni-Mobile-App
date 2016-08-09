@@ -2,12 +2,17 @@
 
 var React = require('react-native');
 var Unicycle = require('../../Unicycle');
-var explorePostsStore = require('../../stores/post/ExplorePostsStore');
-var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
-var FeedFilters = require('./FeedFilters');
+
 var PostList = require('./PostList');
 var ErrorPage = require('../Common/ErrorPage');
+var ListFilter = require('../Common/ListFilter');
 var Spinner = require('../Common/Spinner');
+
+var explorePostsStore = require('../../stores/post/ExplorePostsStore');
+var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
+var PostListFilter = require('../../Utils/Enums/PostListFilter');
+var ExploreFeedEndpoints = require('../../Utils/Enums/ExploreFeedEndpoints');
+var Colors = require('../../Utils/Common/Colors');
 
 var {
   View,
@@ -18,9 +23,6 @@ var {
 var styles = StyleSheet.create({
   exploreFeedContainer: {
     flex: 1
-  },
-  feedFilterContainer: {
-    alignItems: 'center'
   }
 });
 
@@ -34,6 +36,12 @@ var ExploreFeedPosts = React.createClass({
     Unicycle.listenTo(explorePostsStore),
     Unicycle.listenTo(userLoginMetadataStore)
   ],
+
+  getInitialState: function() {
+    return {
+      selectedFilter: PostListFilter.ALL
+    };
+  },
 
   componentDidMount: function() {
     this._requestExploreFeed();
@@ -73,21 +81,47 @@ var ExploreFeedPosts = React.createClass({
     return (
       <View style={styles.exploreFeedContainer}>
 
-        <View style={styles.feedFilterContainer}>
-          <FeedFilters disabled={explorePostsStore.isFeedRefreshing() || explorePostsStore.isRequestInFlight()}/>
-        </View>
+        <ListFilter
+          filters={[PostListFilter.MALE, PostListFilter.ALL, PostListFilter.FEMALE]}
+          selectedFilter={this.state.selectedFilter}
+          onPress={this.onFilterPress}/>
         {content}
 
       </View>
     );
   },
 
+  onFilterPress: function(filter) {
+    if (explorePostsStore.isFeedRefreshing() || explorePostsStore.isRequestInFlight()) {
+      return;
+    }
+    
+    explorePostsStore.setExploreFeedEndpoint(this._getApiPostEndpointForFilter(filter));
+    this.setState({
+      selectedFilter: filter
+    });
+  },
+
   handleScroll(e) {
-    var inifiniteScrollThreshold = -1,
+    var infiniteScrollThreshold = -1,
         userId = userLoginMetadataStore.getUserId();
 
-    if (e.nativeEvent.contentOffset.y < inifiniteScrollThreshold) {
+    if (e.nativeEvent.contentOffset.y < infiniteScrollThreshold) {
       Unicycle.exec('refreshExploreFeed', userId, true);
+    }
+  },
+
+  _getApiPostEndpointForFilter: function(filter) {
+    if (filter === PostListFilter.ALL) {
+      return ExploreFeedEndpoints.DEFAULT;
+    }
+
+    if (filter === PostListFilter.FEMALE) {
+      return ExploreFeedEndpoints.FEMALE;
+    }
+
+    if (filter === PostListFilter.MALE) {
+      return ExploreFeedEndpoints.MALE;
     }
   },
 

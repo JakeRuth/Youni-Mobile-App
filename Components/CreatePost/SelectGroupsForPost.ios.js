@@ -13,6 +13,7 @@ var {
   View,
   Text,
   StyleSheet,
+  Dimensions,
   TouchableHighlight
 } = React;
 
@@ -33,8 +34,7 @@ var styles = StyleSheet.create({
     flex: 1,
     color: Colors.DARK_GRAY,
     textAlign: 'left',
-    fontSize: 14,
-    fontWeight: '100'
+    fontSize: 14
   },
   separator: {
     flex: 1,
@@ -75,7 +75,7 @@ var SelectGroupsForPost = React.createClass({
         <View style={styles.showGroupsTrigger}>
           <Text
             style={styles.triggerLabel}>
-            Rep your group(s)
+            Rep Your Group(s)
           </Text>
           <Icon
             name={this._getArrowIconName()}
@@ -88,11 +88,14 @@ var SelectGroupsForPost = React.createClass({
   },
 
   _renderGroupList: function() {
+    let size = (Dimensions.get('window').width - 30) / 4; // 30 = total horizontal padding
+    
     if (this.state.showGroups) {
       return (
         <View>
           <CreatePostGroupList
             groups={this.state.groups}
+            listItemSize={size}
             isLoading={this.state.groups === null}/>
           <View style={styles.separator}/>
         </View>

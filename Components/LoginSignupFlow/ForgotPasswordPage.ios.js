@@ -40,7 +40,6 @@ var styles = StyleSheet.create({
     width: 120,
     height: 25,
     fontSize: 20,
-    backgroundColor: Color.YOUNI_PRIMARY_PURPLE,
     color: 'white',
     borderRadius: 3
   }
@@ -95,7 +94,7 @@ var ForgotPasswordPage = React.createClass({
           placeholderTextColor={'lightgray'}
           onChangeText={(text) => { this.setState({ email: text }); }}/>
         <Text
-          style={styles.submitEmailForPasswordResetButton}
+          style={[styles.submitEmailForPasswordResetButton, { backgroundColor: Color.getPrimaryAppColor() }]}
           onPress={this._onSubmitPasswordChangeRequest}>
           Submit
         </Text>

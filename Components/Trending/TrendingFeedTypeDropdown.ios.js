@@ -17,7 +17,6 @@ var {
 
 var styles = StyleSheet.create({
   container: {
-    backgroundColor: Colors.YOUNI_PRIMARY_PURPLE,
     borderRadius: 4
   },
   dropdownListItem: {
@@ -31,13 +30,12 @@ var styles = StyleSheet.create({
   label: {
     marginLeft: 8,
     color: 'white',
-    fontSize: 17,
-    fontWeight: '100'
+    fontSize: 17
   },
   separator: {
     height: 1,
     backgroundColor: Colors.WHITE_SMOKE,
-    opacity: .1
+    opacity: .5
   },
   icon: {
     marginTop: 4
@@ -52,8 +50,8 @@ var TrendingFeedDropdownType = React.createClass({
 
   render: function() {
     return (
-      <View style={[styles.container, this.props.style]}>
-        {this._renderDropdownListItem(TrendingFeedType.PEOPLE)}
+      <View style={[styles.container, { backgroundColor: Colors.getPrimaryAppColor() }, this.props.style]}>
+        {this._renderDropdownListItem(TrendingFeedType.STUDENTS)}
         <View style={styles.separator}/>
         {this._renderDropdownListItem(TrendingFeedType.ORGANIZATIONS)}
       </View>
@@ -63,14 +61,14 @@ var TrendingFeedDropdownType = React.createClass({
   _renderDropdownListItem: function(type) {
     return (
       <TouchableHighlight
-        underlayColor={Colors.YOUNI_PRIMARY_PURPLE}
+        underlayColor={Colors.getPrimaryAppColor()}
         onPress={() => this._onPress(type)}>
         
         <View style={styles.dropdownListItem}>
           <Icon
             style={styles.icon}
             name={type.iconName}
-            size={20}
+            size={25}
             color='white'/>
           <Text style={styles.label}>
             {type.label}

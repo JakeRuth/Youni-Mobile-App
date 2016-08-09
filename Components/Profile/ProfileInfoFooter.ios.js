@@ -54,8 +54,6 @@ var styles = StyleSheet.create({
   },
   postCountLabel: {
     fontSize: 14,
-    fontWeight: '100',
-    color: Colors.YOUNI_PRIMARY_PURPLE,
     padding: 10
   }
 });
@@ -77,10 +75,10 @@ var ProfileInfoFooter = React.createClass({
 
     if (this.props.currentPostViewMode === PostViewType.LIST) {
       postGridIconColor = Colors.MED_GRAY;
-      postListIconColor = Colors.YOUNI_PRIMARY_PURPLE;
+      postListIconColor = Colors.getPrimaryAppColor();
     }
     else {
-      postGridIconColor = Colors.YOUNI_PRIMARY_PURPLE;
+      postGridIconColor = Colors.getPrimaryAppColor();
       postListIconColor = Colors.MED_GRAY;
     }
 
@@ -136,9 +134,9 @@ var ProfileInfoFooter = React.createClass({
       <PrettyTouchable
         label="Following"
         containerStyle={{
-            width: Dimensions.get('window').width * .4,
-            height: 36
-          }}
+          width: Dimensions.get('window').width * .4,
+          height: 36
+        }}
         onPress={() => {
           this.props.navigator.push({
             component: UserFollowingListPopup
@@ -154,7 +152,7 @@ var ProfileInfoFooter = React.createClass({
   _renderPostCount: function() {
     return (
       <View style={styles.postCountContainer}>
-        <Text style={styles.postCountLabel}>
+        <Text style={[styles.postCountLabel, { color: Colors.getPrimaryAppColor() }]}>
           {this.props.user.numPosts + ' Posts'}
         </Text>
       </View>

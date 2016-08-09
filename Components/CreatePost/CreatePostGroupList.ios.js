@@ -40,6 +40,7 @@ var CreatePostGroupList = React.createClass({
 
   propTypes: {
     groups: React.PropTypes.array,
+    listItemSize: React.PropTypes.number.isRequired,
     isLoading: React.PropTypes.bool
   },
 
@@ -74,8 +75,8 @@ var CreatePostGroupList = React.createClass({
       let group = groups[i];
       groupElements.push(
         <CreatePostGroupListItem
-          groupIdString={group.id}
-          label={group.abbreviatedName}
+          group={group}
+          size={this.props.listItemSize}
           key={i}/>
       );
     }

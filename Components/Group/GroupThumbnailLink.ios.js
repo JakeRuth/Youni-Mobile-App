@@ -18,8 +18,7 @@ var styles = StyleSheet.create({
     marginTop: 1,
     color: Colors.DARK_GRAY,
     textAlign: 'center',
-    fontSize: 10,
-    fontWeight: '100'
+    fontSize: 12
   }
 });
 
@@ -27,9 +26,9 @@ var GroupThumbnailLink = React.createClass({
 
   propTypes: {
     group: React.PropTypes.object.isRequired,
-    navigator: React.PropTypes.object.isRequired,
+    navigator: React.PropTypes.object,
     imageStyle: React.PropTypes.any,
-    labelColor: React.PropTypes.string
+    onPress: React.PropTypes.func
   },
 
   render: function() {
@@ -43,7 +42,7 @@ var GroupThumbnailLink = React.createClass({
           <ProfileImageThumbnail
             style={this.props.imageStyle}
             profileImageUrl={this.props.group.badgeImageUrl}/>
-          <Text style={[styles.label, {color: this.props.labelColor}]}>
+          <Text style={styles.label}>
             {this.props.group.abbreviatedName}
           </Text>
         </View>
@@ -53,12 +52,18 @@ var GroupThumbnailLink = React.createClass({
   },
 
   _onPress: function() {
-    var GroupPopup = require('../PopupPages/GroupPopup');
+    if (this.props.onPress) {
+      this.props.onPress();
+    }
+    
+    if (this.props.navigator) {
+      let GroupPopup = require('../PopupPages/GroupPopup');
 
-    this.props.navigator.push({
-      component: GroupPopup,
-      passProps: {...this.props}
-    })
+      this.props.navigator.push({
+        component: GroupPopup,
+        passProps: {...this.props}
+      });
+    }
   }
 
 });

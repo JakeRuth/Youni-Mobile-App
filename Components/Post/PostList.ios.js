@@ -24,9 +24,6 @@ var styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: -20,
     color: 'gray'
-  },
-  refreshIconContainer: {
-    alignItems: 'center'
   }
 });
 
@@ -46,6 +43,7 @@ var PostList = React.createClass({
     likePhotoAction: React.PropTypes.func.isRequired,
     unlikePhotoAction: React.PropTypes.func.isRequired,
     onSubmitCommentAction: React.PropTypes.func.isRequired,
+    loadMoreButtonStyle: React.PropTypes.object,
     navigator: React.PropTypes.object.isRequired
   },
 
@@ -106,6 +104,7 @@ var PostList = React.createClass({
   _renderLoadMorePostsButton: function() {
     return (
         <LoadMoreButton
+          style={this.props.loadMoreButtonStyle}
           onPress={this.props.onLoadMorePostsPress}
           isLoading={this.props.isNextPageLoading}
           isVisible={!this.props.noMorePostsToFetch}/>

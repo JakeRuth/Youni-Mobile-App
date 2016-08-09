@@ -2,9 +2,13 @@
 
 var React = require('react-native');
 var Unicycle = require('../../../Unicycle');
+
 var ProfilePopup = require('../../PopupPages/ProfilePopup');
-var userLoginMetadataStore = require('../../../stores/UserLoginMetadataStore');
+
 var Colors = require('../../../Utils/Common/Colors');
+var IosStatusBarStyles = require('../../../Utils/Common/IosStatusBarStyles');
+var statusBarStyleStore = require('../../../stores/StatusBarStyleStore');
+var userLoginMetadataStore = require('../../../stores/UserLoginMetadataStore');
 
 var {
   View,
@@ -31,8 +35,7 @@ var styles = StyleSheet.create({
   },
   commenterName: {
     textAlign: 'left',
-    color: Colors.YOUNI_PRIMARY_PURPLE,
-    fontWeight: '100',
+    color: Colors.DARK_GRAY,
     fontSize: 12
   },
   commentText: {
@@ -89,7 +92,10 @@ var Comment = React.createClass({
     if (this.props.commenterEmail && userEmail !== this.props.commenterEmail) {
       this.props.navigator.push({
         component: ProfilePopup,
-        passProps: {profileUserEmail: this.props.commenterEmail}
+        passProps: {
+          profileUserEmail: this.props.commenterEmail,
+          onBackArrowPress: () => statusBarStyleStore.setStyle(IosStatusBarStyles.DEFAULT)
+        }
       })
     }
   }

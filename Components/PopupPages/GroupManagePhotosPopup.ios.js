@@ -33,13 +33,11 @@ var styles = StyleSheet.create({
     flex: 1,
     fontSize: 20,
     fontWeight: '500',
-    textAlign: 'center',
-    color: 'white'
+    textAlign: 'center'
   },
   cancelLink: {
     fontSize: 16,
     textAlign: 'left',
-    color: 'white',
     padding: 12,
     paddingTop: 2,
     width: 75
@@ -120,21 +118,21 @@ var GroupManagePhotosPopup = React.createClass({
 
         <YouniHeader style={styles.headerContentContainer}>
           <Text
-            style={styles.cancelLink}
+            style={[styles.cancelLink, { color: Colors.getPrimaryAppColor() }]}
             onPress={() => {
               this.props.onPageReturnCallback();
               this.props.navigator.pop();
             }}>
             Cancel
           </Text>
-          <Text style={styles.pageHeader}>
+          <Text style={[styles.pageHeader, { color: Colors.getPrimaryAppColor() }]}>
             Manage Photos
           </Text>
           <Icon
-            style={styles.deletePhotosIcon}
+            style={[styles.deletePhotosIcon, { opacity: this._getDeleteIconOpacity() }]}
             size={20}
             name="android-delete"
-            color={this._getDeleteIconColor()}
+            color={Colors.getPrimaryAppColor()}
             onPress={this._onDeletePhotosPress}/>
         </YouniHeader>
 
@@ -171,12 +169,12 @@ var GroupManagePhotosPopup = React.createClass({
     this.props.navigator.pop();
   },
 
-  _getDeleteIconColor: function() {
+  _getDeleteIconOpacity: function() {
     if (manageGroupPhotosStore.getSelectedPostIdStrings().length) {
-      return 'white';
+      return 1;
     }
     else {
-      return Colors.FADED_YOUNI_PRIMARY_PURPLE;
+      return .5;
     }
   },
   

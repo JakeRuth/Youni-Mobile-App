@@ -27,8 +27,7 @@ var styles = StyleSheet.create({
   pageHeader: {
     fontSize: 20,
     fontWeight: '500',
-    textAlign: 'center',
-    color: 'white'
+    textAlign: 'center'
   },
   searchBarContainer: {
     backgroundColor: 'white',
@@ -79,7 +78,7 @@ var GroupAddNewMemberPopup = React.createClass({
       <View style={styles.container}>
 
         <YouniHeader>
-          <Text style={styles.pageHeader}>
+          <Text style={[styles.pageHeader, { color: Colors.getPrimaryAppColor() }]}>
             Add New Member
           </Text>
           <BackArrow onPress={() => {

@@ -13,7 +13,7 @@ var searchStore = Unicycle.createStore({
 
   init: function() {
     this.set({
-      searchType: SearchType.USER,
+      searchType: SearchType.STUDENTS,
       isInitialSearchPageLoading: false,
       pageOffset: 0,
       pageSize: 35,
@@ -40,7 +40,7 @@ var searchStore = Unicycle.createStore({
         });
       }
 
-      if (this.getSearchType() === SearchType.USER) {
+      if (this.getSearchType() === SearchType.STUDENTS) {
         this._executeUserSearch(email);
       }
       else {
@@ -63,7 +63,7 @@ var searchStore = Unicycle.createStore({
       isFetchingMoreResults: true
     });
 
-    if (this.getSearchType() === SearchType.USER) {
+    if (this.getSearchType() === SearchType.STUDENTS) {
       this._executeUserSearch(email, callback);
     }
     else {

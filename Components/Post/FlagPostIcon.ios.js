@@ -27,7 +27,7 @@ var FlagPostIcon = React.createClass({
 
         <Icon
           name='android-more-horizontal'
-          size={24}
+          size={30}
           color={Colors.DARK_GRAY}/>
 
       </TouchableHighlight>
@@ -41,7 +41,7 @@ var FlagPostIcon = React.createClass({
         'Cancel'
       ],
       cancelButtonIndex: 1,
-      tintColor: Colors.YOUNI_PRIMARY_PURPLE
+      tintColor: Colors.getPrimaryAppColor()
     },
     (buttonIndex) => {
       if (buttonIndex === 0) {

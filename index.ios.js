@@ -1,6 +1,9 @@
 'use strict';
 
 var React = require('react-native');
+var Unicycle = require('./Unicycle');
+
+var statusBarStyleStore = require('./stores/StatusBarStyleStore');
 var LoginSignupFlow = require('./Components/LoginSignupFlow/LoginSignupFlow');
 
 var {
@@ -19,12 +22,14 @@ var styles = StyleSheet.create({
 
 var RootNavigator = React.createClass({
 
+  mixins: [
+    Unicycle.listenTo(statusBarStyleStore)
+  ],
+
   render: function() {
     return (
       <View style={styles.container}>
-        <StatusBar
-          backgroundColor="white"
-          barStyle="light-content"/>
+        <StatusBar barStyle={statusBarStyleStore.getStyle()}/>
         <NavigatorIOS
           style={styles.container}
           navigationBarHidden={true}

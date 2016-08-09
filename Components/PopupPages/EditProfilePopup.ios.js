@@ -7,7 +7,9 @@ var EditSettingsPage = require('../Profile/Settings/EditSettingsPage');
 var YouniHeader = require('../Common/YouniHeader');
 var Spinner = require('../Common/Spinner');
 var BackArrow = require('../Common/BackArrow');
+
 var editProfileInformationStore = require('../../stores/profile/EditProfileInformationStore');
+var Colors = require('../../Utils/Common/Colors');
 
 var {
   View,
@@ -30,7 +32,6 @@ var styles = StyleSheet.create({
   cancelLink: {
     fontSize: 16,
     textAlign: 'left',
-    color: 'white',
     padding: 12,
     paddingTop: 2
   },
@@ -38,13 +39,11 @@ var styles = StyleSheet.create({
     flex: 1,
     fontSize: 20,
     fontWeight: '500',
-    textAlign: 'center',
-    color: 'white'
+    textAlign: 'center'
   },
   finishEditLink: {
     fontSize: 16,
     textAlign: 'right',
-    color: 'white',
     padding: 12,
     paddingTop: 2
   }
@@ -84,31 +83,16 @@ var EditProfilePopup = React.createClass({
           <View style={styles.headerContentContainer}>
 
             <Text
-              style={styles.cancelLink}
+              style={[styles.cancelLink, { color: Colors.getPrimaryAppColor() }]}
               onPress={() => { this.goBackOnePage(); }}>
               Cancel
             </Text>
-            <Text style={styles.pageHeader}>
+            <Text style={[styles.pageHeader, { color: Colors.getPrimaryAppColor() }]}>
               Edit Profile
             </Text>
             <Text
-              style={styles.finishEditLink}
-              onPress={() => {
-                if (!editProfileInformationStore.getFirstName() || !editProfileInformationStore.getLastName()) {
-                  AlertIOS.alert(
-                    'Fields cannot be blank.',
-                    '',
-                    [
-                      {
-                        text: 'Alright'
-                      }
-                    ]
-                  );
-                }
-                else {
-                  editProfileInformationStore.updateProfileInformation(this.goBackOnePage);
-                }
-              }}>
+              style={[styles.finishEditLink, { color: Colors.getPrimaryAppColor() }]}
+              onPress={this._onFinishEdittingPress}>
               Done
             </Text>
 
@@ -123,6 +107,23 @@ var EditProfilePopup = React.createClass({
 
   goBackOnePage: function() {
     this.props.navigator.pop();
+  },
+
+  _onFinishEdittingPress: function() {
+    if (!editProfileInformationStore.getFirstName() || !editProfileInformationStore.getLastName()) {
+      AlertIOS.alert(
+        'Fields cannot be blank.',
+        '',
+        [
+          {
+            text: 'Alright'
+          }
+        ]
+      );
+    }
+    else {
+      editProfileInformationStore.updateProfileInformation(this.goBackOnePage);
+    }
   }
 
 });

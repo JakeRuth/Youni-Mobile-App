@@ -1,11 +1,14 @@
 'use strict';
 
 var React = require('react-native');
+
 var PostLikesList = require('../Post/Footer/Like/PostLikesList');
 var YouniHeader = require('../Common/YouniHeader');
 var Spinner = require('../Common/Spinner');
 var BackArrow = require('../Common/BackArrow');
+
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
+var Colors = require('../../Utils/Common/Colors');
 var UserUtils = require('../../Utils/User/UserUtils');
 
 var {
@@ -21,8 +24,7 @@ var styles = StyleSheet.create({
   pageHeader: {
     fontSize: 20,
     fontWeight: '500',
-    textAlign: 'center',
-    color: 'white'
+    textAlign: 'center'
   },
   spinnerContainer: {
     flex: 1,
@@ -79,7 +81,7 @@ var PostLikesPopup = React.createClass({
       <View style={styles.container}>
 
         <YouniHeader>
-          <Text style={styles.pageHeader}>
+          <Text style={[styles.pageHeader, { color: Colors.getPrimaryAppColor() }]}>
             Likes
           </Text>
           <BackArrow onPress={() => {this.props.navigator.pop();}}/>

@@ -33,7 +33,6 @@ var styles = StyleSheet.create({
     height: 30,
     width: 30,
     backgroundColor: 'rgba(0, 0, 0, .25)',
-    paddingTop: 4,
     paddingLeft: 9,
     borderRadius: 15
   }
@@ -95,6 +94,7 @@ var GroupPopup = React.createClass({
           navigator={this.props.navigator}/>
         <BackArrow
           style={styles.backArrow}
+          color="white"
           onPress={() => this.props.navigator.pop() }/>
         {
           GroupUtils.isUserAdmin(this.state.group, userLoginMetadataStore.getEmail()) &&

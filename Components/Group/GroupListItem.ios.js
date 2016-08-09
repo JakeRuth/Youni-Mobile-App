@@ -25,7 +25,6 @@ var styles = StyleSheet.create({
   name: {
     flex: 1,
     fontSize: 16,
-    fontWeight: '100',
     alignSelf: 'center',
     color: Colors.DARK_GRAY,
     paddingLeft: 16

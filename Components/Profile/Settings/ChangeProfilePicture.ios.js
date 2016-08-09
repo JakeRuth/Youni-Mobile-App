@@ -29,12 +29,15 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     height: 30,
     width: 30,
-    borderRadius: 15,
-    backgroundColor: Colors.YOUNI_PRIMARY_PURPLE
+    borderRadius: 15
   }
 });
 
 var ChangeProfilePicture = React.createClass({
+
+  propTypes: {
+    user: React.PropTypes.object.isRequired
+  },
 
   mixins: [
     Unicycle.listenTo(profileOwnerStore),
@@ -45,12 +48,12 @@ var ChangeProfilePicture = React.createClass({
     return (
       <View>
         <ProfileImage
-          profileImageUrl={profileOwnerStore.getProfileImageUrl()}
+          {...this.props}
           isUploading={uploadProfileImageStore.isUploadProfileImageRequestInFlight()}
           onPress={this.onUploadImagePress}/>
         <TouchableHighlight
-          style={styles.uploadImageIconContainer}
-          underlayColor={Colors.YOUNI_PRIMARY_PURPLE}
+          style={[styles.uploadImageIconContainer, { backgroundColor: Colors.getPrimaryAppColor() }]}
+          underlayColor={Colors.getPrimaryAppColor()}
           onPress={this.onUploadImagePress}>
           <Icon
             name='android-camera'

@@ -2,8 +2,8 @@
 
 var SearchType = {
 
-  USER: 'user',
-  GROUP: 'group'
+  STUDENTS: 'Students',
+  ORGANIZATIONS: 'Organizations'
 
 };
 

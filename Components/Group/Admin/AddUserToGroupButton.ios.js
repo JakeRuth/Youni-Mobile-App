@@ -66,7 +66,7 @@ var AddUserToGroupButton = React.createClass({
         'Cancel'
       ],
       cancelButtonIndex: 2,
-      tintColor: Colors.YOUNI_PRIMARY_PURPLE
+      tintColor: Colors.getPrimaryAppColor()
     },
     (buttonIndex) => {
       if (buttonIndex === 0) {

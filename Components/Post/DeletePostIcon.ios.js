@@ -28,7 +28,7 @@ var DeletePostIcon = React.createClass({
 
         <Icon
           name='android-more-horizontal'
-          size={23}
+          size={30}
           color={Colors.DARK_GRAY}/>
 
       </TouchableHighlight>
@@ -42,7 +42,7 @@ var DeletePostIcon = React.createClass({
         'Cancel'
       ],
       cancelButtonIndex: 1,
-      tintColor: Colors.YOUNI_PRIMARY_PURPLE
+      tintColor: Colors.getPrimaryAppColor()
     },
     (buttonIndex) => {
       if (buttonIndex === 0) {

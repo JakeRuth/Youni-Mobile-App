@@ -42,13 +42,11 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     width: 75,
     height: 27,
-    borderColor: Colors.YOUNI_PRIMARY_PURPLE,
     borderWidth: 1,
     borderRadius: 6
   },
   unblockButtonText: {
     fontWeight: '100',
-    color: Colors.YOUNI_PRIMARY_PURPLE,
     fontSize: 14
   },
   noBlockedUsersMessage: {
@@ -117,10 +115,10 @@ var BlockedUsersPage = React.createClass({
   _renderUnblockUserButton: function(user) {
     return (
       <TouchableHighlight
-        style={styles.unblockButtonContainer}
+        style={[styles.unblockButtonContainer, { borderColor: Colors.getPrimaryAppColor() }]}
         underlayColor="transparent"
         onPress={() => { this._onUnBlockButtonPress(user); }}>
-        <Text style={styles.unblockButtonText}>
+        <Text style={[styles.unblockButtonText, { color: Colors.getPrimaryAppColor() }]}>
           Unblock
         </Text>
       </TouchableHighlight>

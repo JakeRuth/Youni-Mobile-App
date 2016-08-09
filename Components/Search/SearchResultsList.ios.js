@@ -70,7 +70,7 @@ var SearchResultsList = React.createClass({
   },
 
   _renderRow: function(item) {
-    if (searchStore.getSearchType() === SearchType.USER) {
+    if (searchStore.getSearchType() === SearchType.STUDENTS) {
       return (
         <UserListItem
           user={item}

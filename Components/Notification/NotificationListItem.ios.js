@@ -3,14 +3,18 @@
 var React = require('react-native');
 var Icon = require('react-native-vector-icons/Ionicons');
 var Unicycle = require('../../Unicycle');
+
 var LoadMoreButton = require('../Common/LoadMoreButton');
 var PostPopup = require('../PopupPages/PostPopup');
 var ProfilePopup = require('../PopupPages/ProfilePopup');
 var notificationStore = require('../../stores/NotificationStore');
 var profileOwnerStore = require('../../stores/profile/ProfileOwnerStore');
+
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
+var statusBarStyleStore = require('../../stores/StatusBarStyleStore');
 var NotificationUtils = require('../../Utils/Notification/NotificationUtils');
 var Colors = require('../../Utils/Common/Colors');
+var IosStatusBarStyles = require('../../Utils/Common/IosStatusBarStyles');
 
 var {
   View,
@@ -63,14 +67,10 @@ var styles = StyleSheet.create({
     height: 40,
     width: 40
   },
-  logoContainer: {
-    backgroundColor: Colors.YOUNI_PRIMARY_PURPLE
-  },
   logo: {
     width: 40,
     height: 40,
-    borderRadius: 8,
-    backgroundColor: Colors.YOUNI_PRIMARY_PURPLE
+    borderRadius: 8
   },
   blankLine: {
     width: Dimensions.get('window').width * (2/3),
@@ -137,7 +137,7 @@ var NotificationsListItem = React.createClass({
       return (
         <View style={styles.profileImageContainer}>
           <Image
-            style={styles.logo}
+            style={[styles.logo, { backgroundColor: Colors.getPrimaryAppColor() }]}
             source={require('../../images/logoWhiteTextBlankBackground.png')}
             resizeMode="contain"/>
         </View>
@@ -149,7 +149,7 @@ var NotificationsListItem = React.createClass({
           <Icon
             name='person-add'
             size={22}
-            color={Colors.YOUNI_PRIMARY_PURPLE}/>
+            color={Colors.getPrimaryAppColor()}/>
         </View>
       );
     }
@@ -235,7 +235,8 @@ var NotificationsListItem = React.createClass({
       this.props.navigator.push({
         component: ProfilePopup,
         passProps: {
-          profileUserEmail: email
+          profileUserEmail: email,
+          onBackArrowPress: () => statusBarStyleStore.setStyle(IosStatusBarStyles.DEFAULT)
         }
       });
     }

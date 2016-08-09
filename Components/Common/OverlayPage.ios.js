@@ -1,8 +1,11 @@
 'use strict';
 
 var React = require('react-native');
+
 var YouniHeader = require('./YouniHeader');
 var BackArrow = require('./BackArrow');
+
+var Colors = require('../../Utils/Common/Colors');
 
 var {
   View,
@@ -20,8 +23,7 @@ var styles = StyleSheet.create({
   pageHeader: {
     fontSize: 20,
     fontWeight: '500',
-    textAlign: 'center',
-    color: 'white'
+    textAlign: 'center'
   }
 });
 
@@ -75,7 +77,7 @@ var OverlayPage = React.createClass({
     return (
       <View style={styles.container}>
         <YouniHeader>
-          <Text style={styles.pageHeader}>
+          <Text style={[styles.pageHeader, { color: Colors.getPrimaryAppColor() }]}>
             {this.props.bannerTitle}
           </Text>
           <BackArrow onPress={this.props.onBackArrowPress}/>

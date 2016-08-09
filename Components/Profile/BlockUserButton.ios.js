@@ -47,7 +47,7 @@ var BlockUserButton = React.createClass({
           <Icon
             name='android-more-horizontal'
             size={28}
-            color='white' />
+            color={Colors.getPrimaryAppColor()} />
         </View>
 
       </TouchableHighlight>
@@ -62,7 +62,7 @@ var BlockUserButton = React.createClass({
       ],
       destructiveButtonIndex: 0,
       cancelButtonIndex: 1,
-      tintColor: Colors.YOUNI_PRIMARY_PURPLE
+      tintColor: Colors.getPrimaryAppColor()
     },
     (buttonIndex) => {
       if (buttonIndex === 0) {
