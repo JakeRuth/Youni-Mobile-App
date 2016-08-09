@@ -17,9 +17,10 @@ var styles = StyleSheet.create({
     alignItems: 'center'
   },
   ranking: {
+    width: 20,
     alignSelf: 'center',
     fontSize: 14,
-    marginRight: 15,
+    marginRight: 5,
     color: Colors.DARK_GRAY
   }
 });
