@@ -9,6 +9,8 @@ var TrendingFeedType = require('../../Utils/Enums/TrendingFeedType');
 var UserUtils = require('../../Utils/User/UserUtils');
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 
+var userLoginMetadataStore = require('../UserLoginMetadataStore');
+
 var trendingStore = Unicycle.createStore({
 
   init: function () {
@@ -31,8 +33,38 @@ var trendingStore = Unicycle.createStore({
     });
 
     AjaxUtils.ajax(
-      '/trending/hackedTestCampusUser',
-      {},
+      '/trending/getTrendingUsers',
+      {
+        networkName: userLoginMetadataStore.getNetworkName()
+      },
+      (res) => {
+        that.set({
+          users: immutable.List(UserUtils.convertResponseUserListToMap(res.body.users)),
+          isTrendingUserRequestInFlight: false,
+          pageLoadError: false
+        });
+      },
+      () => {
+        that.set({
+          isTrendingUserRequestInFlight: false,
+          pageLoadError: true
+        });
+      }
+    );
+  },
+
+  requestSemesterTrendingUsers: function () {
+    var that = this;
+
+    this.set({
+      isTrendingUserRequestInFlight: true
+    });
+
+    AjaxUtils.ajax(
+      '/trending/getTrendingUsers',
+      {
+        networkName: userLoginMetadataStore.getNetworkName()
+      },
       (res) => {
         that.set({
           users: immutable.List(UserUtils.convertResponseUserListToMap(res.body.users)),
@@ -57,8 +89,38 @@ var trendingStore = Unicycle.createStore({
     });
 
     AjaxUtils.ajax(
-      '/trending/hackedTestCampusGroup',
-      {},
+      '/trending/getTrendingGroups',
+      {
+        networkName: userLoginMetadataStore.getNetworkName()
+      },
+      (res) => {
+        that.set({
+          groups: res.body.groups,
+          isTrendingGroupRequestInFlight: false,
+          pageLoadError: false
+        });
+      },
+      () => {
+        that.set({
+          isTrendingGroupRequestInFlight: false,
+          pageLoadError: true
+        });
+      }
+    );
+  },
+
+  requestSemesterTrendingGroups: function () {
+    var that = this;
+
+    this.set({
+      isTrendingGroupRequestInFlight: true
+    });
+
+    AjaxUtils.ajax(
+      '/trending/getTrendingGroups',
+      {
+        networkName: userLoginMetadataStore.getNetworkName()
+      },
       (res) => {
         that.set({
           groups: res.body.groups,
@@ -75,10 +137,18 @@ var trendingStore = Unicycle.createStore({
     );
   },
   
-  setSelectedFilter: function(filter){
+  setSelectedFilter: function(filter) {
+    var currentFilter = this.getSelectedFilter();
+
+    if (filter === currentFilter) {
+      return;
+    }
+
     this.set({
       selectedFilter: filter
     });
+
+    this._requestFeedForFilterSelection(filter);
   },
   
   setSelectedType: function(type) {
@@ -87,11 +157,11 @@ var trendingStore = Unicycle.createStore({
     });
   },
 
-  anyErrorsLoadingPage: function () {
+  anyErrorsLoadingPage: function() {
     return this.get('pageLoadError');
   },
 
-  isTrendingUserRequestInFlight: function () {
+  isTrendingUserRequestInFlight: function() {
     return this.get('isTrendingUserRequestInFlight');
   },
 
@@ -99,7 +169,7 @@ var trendingStore = Unicycle.createStore({
     return this.get('isTrendingGroupRequestInFlight');
   },
 
-  getTrendingUsers: function () {
+  getTrendingUsers: function() {
     return this.get('users');
   },
   
@@ -121,6 +191,25 @@ var trendingStore = Unicycle.createStore({
   _copyAllTimePointsToCurrentPoints: function(users) {
     for (var i = 0; i < users.length; i++) {
       users[i].currentPoints = users[i].totalPoints;
+    }
+  },
+
+  _requestFeedForFilterSelection: function(filter) {
+    if (this.getSelectedType().label === TrendingFeedType.STUDENTS.label) {
+      if (filter === TrendingFeedFilters.NOW) {
+        this.requestTrendingUsers();
+      }
+      else {
+        this.requestSemesterTrendingUsers();
+      }
+    }
+    else {
+      if (filter === TrendingFeedFilters.NOW) {
+        this.requestTrendingGroups();
+      }
+      else {
+        this.requestSemesterTrendingGroups();
+      }
     }
   }
 

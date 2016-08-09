@@ -81,8 +81,8 @@ var TrendingPage = React.createClass({
 
         <ListFilter
           filters={[TrendingFeedFilters.NOW, TrendingFeedFilters.SEMESTER]}
-          selectedFilter={TrendingFeedFilters.NOW}
-          onPress={()=>null}/>
+          selectedFilter={trendingStore.getSelectedFilter()}
+          onPress={(filter) => trendingStore.setSelectedFilter(filter)}/>
         {this._renderTrendingList()}
         {this._renderDropdown()}
 
