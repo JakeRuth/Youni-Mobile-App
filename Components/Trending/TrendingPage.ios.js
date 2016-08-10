@@ -12,6 +12,7 @@ var YouniHeader = require('../Common/YouniHeader');
 var ListFilter = require('../Common/ListFilter');
 var ErrorPage = require('../Common/ErrorPage');
 var GroupListItem = require('../Group/GroupListItem');
+var RequestToCreateGroup = require('../Group/RequestToCreateGroup');
 
 var trendingStore = require('../../stores/trending/TrendingStore');
 var TrendingFeedFilters = require('../../Utils/Enums/TrendingFeedFilters');
@@ -35,6 +36,9 @@ var styles = StyleSheet.create({
     top: 65,
     // centered horizontally. 185 should be the width of the dropdown
     left: (Dimensions.get('window').width - 185) / 2
+  },
+  requestToCreateGroupContainer: {
+    alignItems: 'center'
   }
 });
 
@@ -110,6 +114,9 @@ var TrendingPage = React.createClass({
           onPageRefresh={() => { trendingStore.requestTrendingGroups() }}
           navigator={this.props.navigator}>
 
+          <View style={styles.requestToCreateGroupContainer}>
+            <RequestToCreateGroup {...this.props}/>
+          </View>
           {this._renderTrendingGroups(trendingStore.getTrendingGroups())}
 
         </TrendingList>
