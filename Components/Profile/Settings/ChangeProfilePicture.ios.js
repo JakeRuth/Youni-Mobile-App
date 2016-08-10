@@ -39,6 +39,12 @@ var ChangeProfilePicture = React.createClass({
     user: React.PropTypes.object.isRequired
   },
 
+  getInitialState: function() {
+    return {
+      profileImageUrl: this.props.user.profileImageUrl
+    };
+  },
+
   mixins: [
     Unicycle.listenTo(profileOwnerStore),
     Unicycle.listenTo(uploadProfileImageStore)
@@ -49,6 +55,7 @@ var ChangeProfilePicture = React.createClass({
       <View>
         <ProfileImage
           {...this.props}
+          imageOverrideUrl={this.state.profileImageUrl}
           isUploading={uploadProfileImageStore.isUploadProfileImageRequestInFlight()}
           onPress={this.onUploadImagePress}/>
         <TouchableHighlight
@@ -66,13 +73,18 @@ var ChangeProfilePicture = React.createClass({
 
   //TODO: ALL these function are repeated, stop the ugly!!!!!
   onUploadImagePress: function() {
+    var that = this;
+    
     UIImagePickerManager.showImagePicker(this._getImagePickerOptions(), (response) => {
       if (!response.didCancel) {
         uploadProfileImageStore.setIsUploadProfileImageRequestInFlight(true);
 
         NativeModules.FileTransfer.upload(this._getImageUploadOptions(response), (err, res) => {
           var imageUrl = JSON.parse(res.data).pictureUrl;
+          
           Unicycle.exec('setProfileImageUrl', imageUrl);
+          that.setState({ profileImageUrl: imageUrl });
+          userLoginMetadataStore.setProfileImageUrl(imageUrl);
           uploadProfileImageStore.setIsUploadProfileImageRequestInFlight(false);
         });
       }

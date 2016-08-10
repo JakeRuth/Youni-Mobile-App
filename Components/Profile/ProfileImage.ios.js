@@ -28,6 +28,7 @@ var ProfileImage = React.createClass({
 
   propTypes: {
     user: React.PropTypes.object.isRequired,
+    imageOverrideUrl: React.PropTypes.string.isRequired,
     onPress: React.PropTypes.func,
     isUploading: React.PropTypes.bool
   },
@@ -38,6 +39,13 @@ var ProfileImage = React.createClass({
     if (this.props.isUploading) {
       content = (
         <Spinner/>
+      );
+    }
+    else if (this.props.imageOverrideUrl) {
+      content = (
+        <Image
+          style={styles.profileImage}
+          source={{uri: this.props.imageOverrideUrl}}/>
       );
     }
     else if (this.props.user.profileImageUrl) {

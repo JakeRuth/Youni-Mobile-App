@@ -38,19 +38,21 @@ var loginStore = Unicycle.createStore({
       },
       (res) => {
         var userId = res.body.userId,
-          refreshToken = res.body.refreshToken,
-          accessToken = res.body.accessToken,
-          email = res.body.username,
-          firstName = res.body.firstName,
-          lastName = res.body.lastName,
-          networkName = res.body.networkName,
-          networkColor = res.body.networkColorHexCode;
+            profileImageUrl = res.body.userProfileImageUrl,
+            refreshToken = res.body.refreshToken,
+            accessToken = res.body.accessToken,
+            email = res.body.username,
+            firstName = res.body.firstName,
+            lastName = res.body.lastName,
+            networkName = res.body.networkName,
+            networkColor = res.body.networkColorHexCode;
 
         Unicycle.exec(
           'setAllMetadata',
           accessToken,
           refreshToken,
           userId,
+          profileImageUrl,
           email,
           firstName,
           lastName,

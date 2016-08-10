@@ -4,6 +4,7 @@ var React = require('react-native');
 var Unicycle = require('../../../Unicycle');
 
 var ProfilePopup = require('../../PopupPages/ProfilePopup');
+var ProfileImageThumbnail = require('../../Common/ProfileImageThumbnail');
 
 var Colors = require('../../../Utils/Common/Colors');
 var IosStatusBarStyles = require('../../../Utils/Common/IosStatusBarStyles');
@@ -13,7 +14,6 @@ var userLoginMetadataStore = require('../../../stores/UserLoginMetadataStore');
 var {
   View,
   Text,
-  Image,
   TouchableHighlight,
   StyleSheet
 } = React;
@@ -63,9 +63,10 @@ var Comment = React.createClass({
         onPress={this._onCommenterNamePress}>
 
         <View style={styles.container}>
-          <Image
+
+          <ProfileImageThumbnail
             style={styles.profilePicture}
-            source={{uri: this.props.commenterProfilePicture}}/>
+            profileImageUrl={this.props.commenterProfilePicture}/>
 
           <View style={styles.nameAndTextContainer}>
             <Text
@@ -77,6 +78,7 @@ var Comment = React.createClass({
               {this.props.commentText}
             </Text>
           </View>
+
         </View>
 
       </TouchableHighlight>

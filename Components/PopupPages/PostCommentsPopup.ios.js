@@ -21,7 +21,7 @@ var PostCommentsPopup = React.createClass({
 
   getInitialState: function() {
     return {
-      comments: this.props.post.firstComments,
+      comments: this._buildStateCommentsJson(this.props.post.firstComments),
       isLoading: false,
       moreToFetch: false,
       offset: this.props.post.firstComments.length
@@ -29,7 +29,7 @@ var PostCommentsPopup = React.createClass({
   },
 
   componentDidMount() {
-    if (this.props.post.numComments > 0) {
+    if (this.props.post.numComments > PostUtils.DEFAULT_MAX_COMMENTS_VISIBLE) {
       this.fetchComments();
     }
   },
@@ -39,7 +39,7 @@ var PostCommentsPopup = React.createClass({
       <PostCommentsPage
         {...this.props}
         loading={this.state.loading}
-        comments={this.state.comments}
+        comments={this._getComments()}
         moreToFetch={this.state.moreToFetch}
         onLoadMorePress={this.fetchComments}
         onSubmitCommentCallback={this.onSubmitCommentCallback}/>
@@ -58,11 +58,19 @@ var PostCommentsPopup = React.createClass({
   },
 
   onSubmitCommentCallback: function(comment) {
-    var commenterName = userLoginMetadataStore.getFullName();
+    var currentComments = this._getComments(),
+        commenterName = userLoginMetadataStore.getFullName(),
+        commenterProfilePictureUrl = userLoginMetadataStore.getProfileImageUrl();
 
-    this.state.comments.push({
+    currentComments.push({
       comment: comment,
-      commenterName: commenterName
+      commenterName: commenterName,
+      commenterProfilePicture: commenterProfilePictureUrl,
+      generatedFromPostCommentsPopupComponent: true
+    });
+
+    this.setState({
+      comments: currentComments
     });
   },
 
@@ -86,7 +94,7 @@ var PostCommentsPopup = React.createClass({
 
         that.setState({
           loading: false,
-          comments: currentComments.concat(comments),
+          comments: currentComments.concat(that._buildStateCommentsJson(comments)),
           moreToFetch: res.body.moreToFetch,
           offset: that.state.offset + that.PAGE_SIZE
         });
@@ -97,6 +105,52 @@ var PostCommentsPopup = React.createClass({
         });
       }
     );
+  },
+
+  _getComments: function() {
+    let comments = [];
+    for (let i = 0; i < this.state.comments.length; i++) {
+      let comment = this.state.comments[i];
+      if (comment.generatedFromPostCommentsPopupComponent) {
+        comments.push(comment);
+      }
+    }
+    return comments;
+  },
+
+  _buildStateCommentsJson: function(comments) {
+    let newComments = [];
+    for (let i = 0; i < comments.length; i++) {
+      newComments.push(this._addHackyFieldToComment(comments[i]));
+    }
+    return newComments;
+  },
+
+  /*
+   *
+   * Note from Jake (I am so infuriated right now)
+   *
+   * So, there is a bug where *sometimes* we will see a duplicate comment, when only one was posted
+   * This is purely a UI bug, the server only records one comment
+   *
+   * This bug always happens when there are no comments on a post, however sometimes it happens when there is already
+   * one comment or more than one comment on the post.
+   *
+   * I spent well over an hour debugging line for line and I could not figure out why this was happening, but here is what I found out:
+   * - By the time onSubmitCommentCallback is called, there is already the new comment in this components comment state
+   * -- seriously how the fuck did it get there....
+   * - The component that renders this component was not re called
+   * - the getInitialState wasn't called again (as expected)
+   * - somehow the state of this component is being updated and getting the new comment, but lord knows how that is happening
+   * - aaand this only happens sometimes, I can't find a good pattern.
+   *
+   *
+   * And that hopefully explains why I needed to cut my losses and make this dumb ass function.
+   *
+   */
+  _addHackyFieldToComment: function(comment) {
+    comment.generatedFromPostCommentsPopupComponent = true;
+    return comment
   }
 
 });

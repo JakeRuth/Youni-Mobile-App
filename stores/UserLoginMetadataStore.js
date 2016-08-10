@@ -10,6 +10,7 @@ var userLoginMetadata = Unicycle.createStore({
       accessToken: '',
       refreshToken: '',
       userId: '',
+      profileImageUrl: '',
       email: '',
       firstName: '',
       lastName: '',
@@ -18,11 +19,12 @@ var userLoginMetadata = Unicycle.createStore({
     });
   },
 
-  $setAllMetadata: function (accessToken, refreshToken, userId, email, firstName, lastName, networkName, networkColor) {
+  $setAllMetadata: function (accessToken, refreshToken, userId, profileImageUrl, email, firstName, lastName, networkName, networkColor) {
     this.set({
       accessToken: accessToken,
       refreshToken: refreshToken,
       userId: userId,
+      profileImageUrl: profileImageUrl,
       email: email,
       firstName: firstName,
       lastName: lastName,
@@ -54,6 +56,10 @@ var userLoginMetadata = Unicycle.createStore({
   getUserId: function () {
     return this.get('userId');
   },
+  
+  getProfileImageUrl: function() {
+    return this.get('profileImageUrl');
+  },
 
   getEmail: function () {
     return this.get('email');
@@ -77,6 +83,12 @@ var userLoginMetadata = Unicycle.createStore({
 
   getNetworkColor: function () {
     return this.get('networkColor');
+  },
+  
+  setProfileImageUrl: function(url) {
+    this.set({
+      profileImageUrl: url
+    });
   }
 
 });

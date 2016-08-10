@@ -223,7 +223,8 @@ var GroupPopup = React.createClass({
   onSubmitCommentAction: function(comment, post, callback) {
     var posts = this.state.posts,
         userId = userLoginMetadataStore.getUserId(),
-        commenterName = userLoginMetadataStore.getFullName();
+        commenterName = userLoginMetadataStore.getFullName(),
+        commenterProfileImage = userLoginMetadataStore.getProfileImageUrl();
 
     if (!comment) {
       return;
@@ -237,7 +238,7 @@ var GroupPopup = React.createClass({
         comment: comment
       },
       (res) => {
-        PostUtils.addCommentFromList(posts, post.id, comment, commenterName);
+        PostUtils.addCommentFromList(posts, post.id, comment, commenterName, commenterProfileImage);
         callback(comment);
       },
       () => {

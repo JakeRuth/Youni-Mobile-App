@@ -185,7 +185,8 @@ var explorePostsStore = Unicycle.createStore({
   addCommentOnPost: function(comment, post, callback) {
     var posts = this.getPosts(),
         userId = userLoginMetadataStore.getUserId(),
-        commenterName = userLoginMetadataStore.getFullName();
+        commenterName = userLoginMetadataStore.getFullName(),
+        commenterProfileImage = userLoginMetadataStore.getProfileImageUrl();
 
     if (!comment) {
       return;
@@ -199,7 +200,7 @@ var explorePostsStore = Unicycle.createStore({
         comment: comment
       },
       (res) => {
-        PostUtils.addCommentFromList(posts, post.id, comment, commenterName);
+        PostUtils.addCommentFromList(posts, post.id, comment, commenterName, commenterProfileImage);
         callback(comment);
       },
       () => {

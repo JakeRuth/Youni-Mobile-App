@@ -58,20 +58,21 @@ var PostUtils = {
     return post;
   },
 
-  addCommentFromList: function(posts, id, commentText, commenterName) {
+  addCommentFromList: function(posts, id, commentText, commenterName, commenterProfilePicture) {
     var post = posts.get(id);
-    post = this.addComment(post, commentText, commenterName);
+    post = this.addComment(post, commentText, commenterName, commenterProfilePicture);
     posts = posts.set(id, post);
     return posts;
   },
 
-  addComment: function(post, commentText, commenterName) {
+  addComment: function(post, commentText, commenterName, commenterProfilePicture) {
     post.numComments++;
 
     if (post.firstComments.length < this.DEFAULT_MAX_COMMENTS_VISIBLE) {
       post.firstComments.push({
         comment: commentText,
-        commenterName: commenterName
+        commenterName: commenterName,
+        commenterProfilePicture: commenterProfilePicture
       });
     }
 

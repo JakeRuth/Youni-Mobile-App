@@ -285,7 +285,8 @@ var profileOwnerStore = Unicycle.createStore({
     addCommentOnPost: function(comment, post, callback) {
       var posts = this.getPosts(),
           userId = userLoginMetadataStore.getUserId(),
-          commenterName = userLoginMetadataStore.getFullName();
+          commenterName = userLoginMetadataStore.getFullName(),
+          commenterProfileImage = userLoginMetadataStore.getProfileImageUrl();
 
       if (!comment) {
         return;
@@ -299,7 +300,7 @@ var profileOwnerStore = Unicycle.createStore({
           comment: comment
         },
         (res) => {
-          PostUtils.addCommentFromList(posts, post.id, comment, commenterName);
+          PostUtils.addCommentFromList(posts, post.id, comment, commenterName, commenterProfileImage);
           callback(comment);
         },
         () => {
