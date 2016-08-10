@@ -45,6 +45,7 @@ var NotificationUtils = {
       explanation: notification.explanation,
       isRead: notification.isRead,
       timestamp: notification.timestamp,
+      group: notification.group,
       id: id
     };
 
@@ -59,12 +60,14 @@ var NotificationUtils = {
     return type === this.TYPE_LIKE ||
            type === this.TYPE_COMMENT ||
            type === this.TYPE_FOLLOW ||
+           type === this.TYPE_ADDED_TO_GROUP ||
            type === this.TYPE_SYSTEM
   },
 
   TYPE_FOLLOW: 'follow',
   TYPE_LIKE: 'like',
   TYPE_COMMENT: 'comment',
+  TYPE_ADDED_TO_GROUP: 'addedToGroup',
   TYPE_SYSTEM: 'system'
 
 };

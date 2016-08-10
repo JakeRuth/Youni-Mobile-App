@@ -28,7 +28,8 @@ var GroupThumbnailLink = React.createClass({
     group: React.PropTypes.object.isRequired,
     navigator: React.PropTypes.object,
     imageStyle: React.PropTypes.any,
-    onPress: React.PropTypes.func
+    onPress: React.PropTypes.func,
+    hideLabel: React.PropTypes.bool
   },
 
   render: function() {
@@ -42,13 +43,21 @@ var GroupThumbnailLink = React.createClass({
           <ProfileImageThumbnail
             style={this.props.imageStyle}
             profileImageUrl={this.props.group.badgeImageUrl}/>
-          <Text style={styles.label}>
-            {this.props.group.abbreviatedName}
-          </Text>
+          {this._renderLabel()}
         </View>
 
       </TouchableHighlight>
     );
+  },
+  
+  _renderLabel: function() {
+    if (!this.props.hideLabel) {
+      return (
+        <Text style={styles.label}>
+          {this.props.group.abbreviatedName}
+        </Text>
+      );
+    }
   },
 
   _onPress: function() {

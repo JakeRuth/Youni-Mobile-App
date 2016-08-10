@@ -5,13 +5,16 @@ var Icon = require('react-native-vector-icons/Ionicons');
 var Unicycle = require('../../Unicycle');
 
 var LoadMoreButton = require('../Common/LoadMoreButton');
+var ProfileImageThumbnail = require('../Common/ProfileImageThumbnail');
+var GroupThumbnailLink = require('../Group/GroupThumbnailLink');
 var PostPopup = require('../PopupPages/PostPopup');
 var ProfilePopup = require('../PopupPages/ProfilePopup');
+
 var notificationStore = require('../../stores/NotificationStore');
 var profileOwnerStore = require('../../stores/profile/ProfileOwnerStore');
-
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var statusBarStyleStore = require('../../stores/StatusBarStyleStore');
+
 var NotificationUtils = require('../../Utils/Notification/NotificationUtils');
 var Colors = require('../../Utils/Common/Colors');
 var IosStatusBarStyles = require('../../Utils/Common/IosStatusBarStyles');
@@ -34,7 +37,7 @@ var styles = StyleSheet.create({
     marginBottom: 1,
     padding: 10
   },
-  profileImageContainer: {
+  leftImageThumbnailContainer: {
     alignItems: 'center',
     marginRight: 12,
     width: 44
@@ -121,9 +124,9 @@ var NotificationsListItem = React.createClass({
       <View style={unreadNotificationStyle}>
 
         <View style={styles.itemContainer}>
-          {this._renderProfileImage(this.props.notification)}
+          {this._renderLeftImageThumbnail(this.props.notification)}
           {this._renderMessage(this.props.notification)}
-          {this._renderPostImage(this.props.notification.post)}
+          {this._renderRightImageThumbnail(this.props.notification)}
         </View>
         <View style={styles.blankLine}/>
         {loadMoreNotificationsButton}
@@ -132,10 +135,10 @@ var NotificationsListItem = React.createClass({
     );
   },
 
-  _renderProfileImage: function(notification) {
+  _renderLeftImageThumbnail: function(notification) {
     if (notification.type === NotificationUtils.TYPE_SYSTEM) {
       return (
-        <View style={styles.profileImageContainer}>
+        <View style={styles.leftImageThumbnailContainer}>
           <Image
             style={[styles.logo, { backgroundColor: Colors.getPrimaryAppColor() }]}
             source={require('../../images/logoWhiteTextBlankBackground.png')}
@@ -145,7 +148,7 @@ var NotificationsListItem = React.createClass({
     }
     else if (notification.type === NotificationUtils.TYPE_FOLLOW) {
       return (
-        <View style={styles.profileImageContainer}>
+        <View style={styles.leftImageThumbnailContainer}>
           <Icon
             name='person-add'
             size={22}
@@ -153,17 +156,23 @@ var NotificationsListItem = React.createClass({
         </View>
       );
     }
+    else if (notification.type === NotificationUtils.TYPE_ADDED_TO_GROUP) {
+      return (
+        <GroupThumbnailLink
+          style={styles.leftImageThumbnailContainer}
+          imageStyle={styles.profileImage}
+          group={notification.group}
+          hideLabel={true}
+          navigator={this.props.navigator}/>
+      );
+    }
     else if (this.props.notification.senderUser) {
       return (
-        <TouchableHighlight
-          style={styles.profileImageContainer}
-          underlayColor="transparent"
-          onPress={this._onProfileImagePress}>
-          <Image
+        <View style={styles.leftImageThumbnailContainer}>
+          <ProfileImageThumbnail
             style={styles.profileImage}
-            resizeMode="cover"
-            source={{uri: this.props.notification.senderUser.profileImageUrl}}/>
-        </TouchableHighlight>
+            profileImageUrl={this.props.notification.senderUser.profileImageUrl}/>
+        </View>
       );
     }
   },
@@ -193,8 +202,8 @@ var NotificationsListItem = React.createClass({
     );
   },
 
-  _renderPostImage: function(post) {
-    if (post) {
+  _renderRightImageThumbnail: function(notification) {
+    if (notification.post) {
       return (
         <TouchableHighlight
           underlayColor="transparent"
@@ -202,14 +211,14 @@ var NotificationsListItem = React.createClass({
             this.props.navigator.push({
               component: PostPopup,
               passProps: {
-                post: post
+                post: notification.post
               }
             });
           }}>
           <Image
             style={styles.postImage}
             resizeMode="cover"
-            source={{uri: post.photoUrl}}/>
+            source={{uri: notification.post.photoUrl}}/>
         </TouchableHighlight>
       );
     }
