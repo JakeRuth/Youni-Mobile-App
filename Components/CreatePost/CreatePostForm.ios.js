@@ -26,7 +26,7 @@ var {
   StyleSheet,
   Dimensions,
   TouchableHighlight,
-  DeviceEventEmitter
+  Keyboard
 } = ReactNative;
 
 var styles = StyleSheet.create({
@@ -85,10 +85,10 @@ var CreatePostForm = React.createClass({
   componentDidMount() {
     statusBarStyleStore.setDelayedStyle(IosStatusBarStyles.DEFAULT, 100);
 
-    DeviceEventEmitter.addListener('keyboardWillShow', () => {
+    Keyboard.addListener('keyboardWillShow', () => {
       this.setState({isKeyboardVisible: true});
     });
-    DeviceEventEmitter.addListener('keyboardWillHide', () => {
+    Keyboard.addListener('keyboardWillHide', () => {
       this.setState({isKeyboardVisible: false});
     });
   },

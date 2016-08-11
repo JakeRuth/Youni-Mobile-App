@@ -8,8 +8,8 @@
   "dependencies": {
     "immutable": "^3.7.5",
     "node-emoji": "^1.1.1",
-    "react": "~15.0.2",
-    "react-native": "^0.26.2",
+    "react": "^15.1.0",
+    "react-native": "^0.27.2",
     "react-native-file-transfer": "0.0.3",
     "react-native-image-picker": "^0.13.1",
     "react-native-invertible-scroll-view": "^1.0.0",
