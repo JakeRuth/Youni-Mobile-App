@@ -2,7 +2,7 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
-var Icon = require('react-native-vector-icons/Ionicons');
+var Icon = require('react-native-vector-icons/MaterialIcons');
 var PrettyTouchable = require('../../Common/PrettyTouchable');
 
 var {
@@ -56,7 +56,7 @@ var ClassYearInput = React.createClass({
     return (
       <View style={styles.dropdownCaretContainer}>
         <Icon
-          name='android-arrow-dropdown'
+          name='arrow-drop-down'
           size={20}
           color='white'/>
       </View>

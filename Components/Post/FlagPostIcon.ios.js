@@ -3,7 +3,7 @@
 var React = require('react');
 var ReactNative = require('react-native');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
-var Icon = require('react-native-vector-icons/Ionicons');
+var Icon = require('react-native-vector-icons/MaterialIcons');
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 var Colors = require('../../Utils/Common/Colors');
 
@@ -27,7 +27,7 @@ var FlagPostIcon = React.createClass({
         onPress={this._onFlagPostIconPress}>
 
         <Icon
-          name='android-more-horizontal'
+          name='more-horiz'
           size={30}
           color={Colors.DARK_GRAY}/>
 

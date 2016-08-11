@@ -2,7 +2,7 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
-var Icon = require('react-native-vector-icons/Ionicons');
+var Icon = require('react-native-vector-icons/MaterialIcons');
 
 var RequestToCreateGroupPopup = require('../PopupPages/RequestToCreateGroupPopup');
 
@@ -50,7 +50,7 @@ var RequestToCreateGroup = React.createClass({
         <View style={styles.iconAndTextContainer}>
           <Icon
             style={styles.icon}
-            name='ios-plus-outline'
+            name='add-circle-outline'
             size={23}
             color={Colors.getPrimaryAppColor()}/>
           <Text style={[styles.label, { color: Colors.getPrimaryAppColor() }]}>

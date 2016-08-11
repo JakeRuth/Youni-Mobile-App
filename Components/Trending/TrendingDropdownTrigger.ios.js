@@ -2,7 +2,7 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
-var Icon = require('react-native-vector-icons/Ionicons');
+var Icon = require('react-native-vector-icons/MaterialIcons');
 
 var {
   View,
@@ -53,7 +53,7 @@ var TrendingDropdownTrigger = React.createClass({
         <View style={styles.container}>
           <Icon
             style={styles.trendingIcon}
-            name='podium'
+            name='equalizer'
             size={24}
             color='white'/>
           <Text style={styles.label}>
@@ -72,10 +72,10 @@ var TrendingDropdownTrigger = React.createClass({
 
   _getArrowIconName: function() {
     if (this.props.isDropdownVisible) {
-      return 'android-arrow-dropup';
+      return 'arrow-drop-up';
     }
     else {
-      return 'android-arrow-dropdown';
+      return 'arrow-drop-down';
     }
   }
 

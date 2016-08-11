@@ -2,7 +2,7 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
-var Icon = require('react-native-vector-icons/Ionicons');
+var Icon = require('react-native-vector-icons/MaterialIcons');
 var Unicycle = require('../../Unicycle');
 var NotificationCallout = require('./NotificationCallout');
 var NotificationsPopup = require('../PopupPages/NotificationsPopup');
@@ -53,7 +53,7 @@ var NotificationIcon = React.createClass({
             }}
             underlayColor='transparent'>
             <Icon
-              name='android-notifications-none'
+              name='notifications'
               size={30}
               color='white'/>
           </TouchableHighlight>

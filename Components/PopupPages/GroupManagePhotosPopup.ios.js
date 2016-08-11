@@ -2,7 +2,7 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
-var Icon = require('react-native-vector-icons/Ionicons');
+var Icon = require('react-native-vector-icons/MaterialIcons');
 var Unicycle = require('../../Unicycle');
 
 var ManageGroupPhotosList = require('../Group/Admin/ManageGroupPhotosList');
@@ -132,7 +132,7 @@ var GroupManagePhotosPopup = React.createClass({
           <Icon
             style={[styles.deletePhotosIcon, { opacity: this._getDeleteIconOpacity() }]}
             size={20}
-            name="android-delete"
+            name="delete"
             color={Colors.getPrimaryAppColor()}
             onPress={this._onDeletePhotosPress}/>
         </YouniHeader>

@@ -2,7 +2,7 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
-var Icon = require('react-native-vector-icons/Ionicons');
+var Icon = require('react-native-vector-icons/MaterialIcons');
 
 var Colors = require('../../Utils/Common/Colors');
 var searchStore = require('../../stores/SearchStore');
@@ -46,7 +46,7 @@ var BlockUserButton = React.createClass({
 
         <View>
           <Icon
-            name='android-more-horizontal'
+            name='more-horiz'
             size={28}
             color={Colors.getPrimaryAppColor()} />
         </View>

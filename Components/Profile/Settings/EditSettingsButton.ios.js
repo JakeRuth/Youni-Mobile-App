@@ -2,7 +2,7 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
-var Icon = require('react-native-vector-icons/Ionicons');
+var Icon = require('react-native-vector-icons/MaterialIcons');
 var Unicycle = require('../../../Unicycle');
 
 var EditProfilePopup = require('../../PopupPages/EditProfilePopup');
@@ -48,7 +48,7 @@ var EditSettingsButton = React.createClass({
         underlayColor='transparent'>
 
         <Icon
-          name='ios-gear-outline'
+          name='settings'
           size={30}
           color={Colors.getPrimaryAppColor()}/>
 

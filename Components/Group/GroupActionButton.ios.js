@@ -2,7 +2,7 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
-var Icon = require('react-native-vector-icons/Ionicons');
+var Icon = require('react-native-vector-icons/MaterialIcons');
 
 var GroupManagePhotosPopup = require('../PopupPages/GroupManagePhotosPopup');
 var GroupManageUsersPopup = require('../PopupPages/GroupManageUsersPopup');
@@ -32,8 +32,10 @@ var styles = StyleSheet.create({
     width: 30,
     backgroundColor: 'rgba(0, 0, 0, .25)',
     paddingTop: 4,
-    paddingLeft: 6,
     borderRadius: 15
+  },
+  icon: {
+    paddingLeft: 4
   }
 });
 
@@ -65,7 +67,8 @@ var GroupActionButton = React.createClass({
 
         <View style={styles.iconContainer}>
           <Icon
-            name='edit'
+            style={styles.icon}
+            name='more-horiz'
             size={22}
             color='white'/>
         </View>

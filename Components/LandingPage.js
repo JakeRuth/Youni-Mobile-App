@@ -3,7 +3,6 @@
 var React = require('react');
 var ReactNative = require('react-native');
 var Unicycle = require('../Unicycle');
-var Icon = require('react-native-vector-icons/Ionicons');
 
 var BaseAppSwiper = require('./BaseAppSwiper');
 var HomePage = require('./HomePage');

@@ -2,7 +2,7 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
-var Icon = require('react-native-vector-icons/Ionicons');
+var Icon = require('react-native-vector-icons/MaterialIcons');
 
 var CreatePostGroupList = require('./CreatePostGroupList');
 
@@ -136,10 +136,10 @@ var SelectGroupsForPost = React.createClass({
 
   _getArrowIconName: function() {
     if (this.state.showGroups) {
-      return 'android-arrow-dropup';
+      return 'arrow-drop-up';
     }
     else {
-      return 'android-arrow-dropdown';
+      return 'arrow-drop-down';
     }
   }
 

@@ -3,6 +3,7 @@
 var React = require('react');
 var ReactNative = require('react-native');
 var Icon = require('react-native-vector-icons/Ionicons');
+var MaterialIcon = require('react-native-vector-icons/MaterialIcons');
 var PostLikesPopup = require('../../PopupPages/PostLikesPopup');
 var Colors = require('../../../Utils/Common/Colors');
 
@@ -60,10 +61,10 @@ var PostInteractionControls = React.createClass({
         <TouchableHighlight
           onPress={this.props.onCommentPress}
           underlayColor='transparent'>
-          <Icon
+          <MaterialIcon
             style={styles.icon}
-            name='ios-chatbubble-outline'
-            size={ICON_SIZE}
+            name='chat-bubble-outline'
+            size={ICON_SIZE - 5 /* TODO: Get Jenny's input on this */}
             color={Colors.MED_GRAY}/>
         </TouchableHighlight>
       </View>

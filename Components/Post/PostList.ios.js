@@ -6,7 +6,6 @@ var homePostsStore = require('../../stores/post/HomePostsStore');
 var Post = require('./Post');
 var PostGrid = require('./PostGrid');
 var LoadMoreButton = require('../Common/LoadMoreButton');
-var Icon = require('react-native-vector-icons/Ionicons');
 
 var {
   View,

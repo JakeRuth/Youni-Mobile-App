@@ -2,7 +2,7 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
-var Icon = require('react-native-vector-icons/Ionicons');
+var Icon = require('react-native-vector-icons/MaterialIcons');
 
 var Colors = require('../../../Utils/Common/Colors');
 
@@ -49,7 +49,7 @@ var AddNewGroupUserTrigger = React.createClass({
         <View style={styles.triggerContainer}>
           <Icon
             style={styles.triggerIcon}
-            name='ios-plus-outline'
+            name='add-circle-outline'
             size={20}
             color={Colors.getPrimaryAppColor()}/>
           <Text style={[styles.triggerLabel, { color: Colors.getPrimaryAppColor() }]}>

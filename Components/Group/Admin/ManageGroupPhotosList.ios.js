@@ -2,7 +2,7 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
-var Icon = require('react-native-vector-icons/Ionicons');
+var Icon = require('react-native-vector-icons/MaterialIcons');
 
 var PostGridThumbnail = require('../../Post/PostGridThumbnail');
 var LoadMoreButton = require('../../Common/LoadMoreButton');
@@ -90,7 +90,7 @@ var ManageGroupPhotosList = React.createClass({
       return (
         <Icon
           style={styles.selectedIcon}
-          name='ios-checkmark'
+          name='check-circle'
           size={22}
           color="white"/>
       );

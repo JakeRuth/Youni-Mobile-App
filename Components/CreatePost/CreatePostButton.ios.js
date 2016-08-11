@@ -2,7 +2,7 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
-var Icon = require('react-native-vector-icons/Ionicons');
+var Icon = require('react-native-vector-icons/MaterialIcons');
 
 var ShowImagePicker = require('./ShowImagePicker');
 
@@ -39,7 +39,7 @@ var CreatePostButton = React.createClass({
         underlayColor={Colors.getPrimaryAppColor()}
         onPress={() => ShowImagePicker.showImagePicker(this.props.navigator)}>
         <Icon
-          name='android-camera'
+          name='photo-camera'
           size={22}
           color='white'/>
       </TouchableHighlight>

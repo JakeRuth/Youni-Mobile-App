@@ -2,7 +2,7 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
-var Icon = require('react-native-vector-icons/Ionicons');
+var Icon = require('react-native-vector-icons/MaterialIcons');
 
 var FollowUnfollowButton = require('./FollowUnfollowButton');
 var UserFollowingListPopup = require('../PopupPages/UserFollowingListPopup');
@@ -92,7 +92,7 @@ var ProfileInfoFooter = React.createClass({
             underlayColor="transparent"
             onPress={() => { this.props.onPostViewControlPress(PostViewType.LIST); }}>
             <Icon
-              name='android-menu'
+              name='menu'
               size={28}
               color={postListIconColor}/>
           </TouchableHighlight>
@@ -110,7 +110,7 @@ var ProfileInfoFooter = React.createClass({
             underlayColor="transparent"
             onPress={() => { this.props.onPostViewControlPress(PostViewType.GRID); }}>
             <Icon
-              name='android-apps'
+              name='apps'
               size={28}
               color={postGridIconColor}/>
           </TouchableHighlight>

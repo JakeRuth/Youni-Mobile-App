@@ -2,7 +2,7 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
-var Icon = require('react-native-vector-icons/Ionicons');
+var Icon = require('react-native-vector-icons/MaterialIcons');
 var UIImagePickerManager = require('NativeModules').UIImagePickerManager;
 
 var Spinner = require('../../../Common/Spinner');
@@ -100,7 +100,7 @@ var ChangeBadgeImage = React.createClass({
               underlayColor={Colors.getPrimaryAppColor()}
               onPress={this.onUploadImagePress}>
               <Icon
-                name='android-camera'
+                name='photo-camera'
                 size={15}
                 color='white'/>
             </TouchableHighlight>

@@ -2,7 +2,7 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
-var Icon = require('react-native-vector-icons/Ionicons');
+var Icon = require('react-native-vector-icons/MaterialIcons');
 var Unicycle = require('../../Unicycle');
 var notificationStore = require('../../stores/NotificationStore');
 var Spinner = require('../Common/Spinner');
@@ -67,7 +67,7 @@ var NotificationsList = React.createClass({
       return (
         <View style={styles.noNotificationsIndicator}>
           <Icon
-            name='android-notifications-none'
+            name='notifications'
             size={75}
             color={Colors.MED_GRAY}/>
           <Text style={styles.noNotificationsLabel}>

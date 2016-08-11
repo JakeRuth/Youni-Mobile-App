@@ -2,7 +2,7 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
-var Icon = require('react-native-vector-icons/Ionicons');
+var Icon = require('react-native-vector-icons/MaterialIcons');
 var Colors = require('../../Utils/Common/Colors');
 var Spinner = require('../Common/Spinner');
 
@@ -22,6 +22,9 @@ var styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 24
+  },
+  icon: {
+    marginTop: 25
   }
 });
 
@@ -59,8 +62,9 @@ var ProfileImage = React.createClass({
     else {
       content = (
         <Icon
-          name='ios-person'
-          size={150}
+          style={styles.icon}
+          name='person'
+          size={100}
           color={Colors.getPrimaryAppColor()}/>
       );
     }

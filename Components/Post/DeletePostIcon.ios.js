@@ -3,7 +3,7 @@
 var React = require('react');
 var ReactNative = require('react-native');
 var Unicycle = require('../../Unicycle');
-var Icon = require('react-native-vector-icons/Ionicons');
+var Icon = require('react-native-vector-icons/MaterialIcons');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var Colors = require('../../Utils/Common/Colors');
 
@@ -28,7 +28,7 @@ var DeletePostIcon = React.createClass({
         onPress={this._onDeleteIconPress}>
 
         <Icon
-          name='android-more-horizontal'
+          name='more-horiz'
           size={30}
           color={Colors.DARK_GRAY}/>
 

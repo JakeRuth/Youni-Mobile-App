@@ -2,7 +2,7 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
-var Icon = require('react-native-vector-icons/Ionicons');
+var Icon = require('react-native-vector-icons/MaterialIcons');
 var UIImagePickerManager = require('NativeModules').UIImagePickerManager;
 
 var Spinner = require('../../../Common/Spinner');
@@ -35,8 +35,8 @@ var styles = StyleSheet.create({
     height: 42,
     width: 42,
     borderRadius: 21,
-    paddingLeft: 5.5, // makes up for the fact the ion icons aren't naturally centered
-    paddingTop: 2,
+    paddingLeft: 4, // makes up for the fact the ion icons aren't naturally centered
+    paddingTop: 4,
     backgroundColor: 'rgba(0, 0, 0, .25)'
   }
 });
@@ -81,7 +81,7 @@ var ChangeProfilePicture = React.createClass({
     else {
       icon = (
         <Icon
-          name='android-camera'
+          name='photo-camera'
           size={35}
           color='white'/>
       );
