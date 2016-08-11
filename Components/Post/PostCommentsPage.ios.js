@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 var PostHeader = require('./PostHeader');
 var CommentList = require('./Footer/CommentList');
 var CommentInput = require('./Footer/CommentInput');
@@ -12,7 +13,7 @@ var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var {
   View,
   StyleSheet
-} = React;
+} = ReactNative;
 
 var styles = StyleSheet.create({
   container: {

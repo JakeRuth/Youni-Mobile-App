@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 var Unicycle = require('../../Unicycle');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var PostHeader = require('./PostHeader');
@@ -12,7 +13,7 @@ var {
   Image,
   StyleSheet,
   TouchableHighlight
-} = React;
+} = ReactNative;
 
 var styles = StyleSheet.create({
   container: {

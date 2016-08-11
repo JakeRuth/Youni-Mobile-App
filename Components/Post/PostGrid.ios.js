@@ -1,12 +1,13 @@
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 var PostGridThumbnail = require('./PostGridThumbnail');
 
 var {
   View,
   StyleSheet
-} = React;
+} = ReactNative;
 
 var styles = StyleSheet.create({
   postRow: {

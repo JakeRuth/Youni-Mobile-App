@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 var InvertibleScrollView = require('react-native-invertible-scroll-view');
 
 var GroupThumbnailLink = require('../../Group/GroupThumbnailLink');
@@ -8,7 +9,7 @@ var GroupThumbnailLink = require('../../Group/GroupThumbnailLink');
 var {
   View,
   StyleSheet
-} = React;
+} = ReactNative;
 
 var styles = StyleSheet.create({
   groupThumbnailStyle: {

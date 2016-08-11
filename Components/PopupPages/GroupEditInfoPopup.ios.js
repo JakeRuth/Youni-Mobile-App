@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 
 var ChangeCoverImage = require('../Group/Admin/Edit/ChangeCoverImage');
 var ChangeBadgeImage = require('../Group/Admin/Edit/ChangeBadgeImage');
@@ -19,7 +20,7 @@ var {
   AlertIOS,
   TextInput,
   StyleSheet
-} = React;
+} = ReactNative;
 
 var styles = StyleSheet.create({
   container: {
@@ -58,7 +59,7 @@ var styles = StyleSheet.create({
   }
 });
 
-var GroupUsersPopup = React.createClass({
+var GroupEditInfoPopup = React.createClass({
 
   propTypes: {
     group: React.PropTypes.shape({
@@ -217,4 +218,4 @@ var GroupUsersPopup = React.createClass({
 
 });
 
-module.exports = GroupUsersPopup;
+module.exports = GroupEditInfoPopup;

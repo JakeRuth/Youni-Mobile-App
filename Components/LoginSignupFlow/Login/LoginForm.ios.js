@@ -1,4 +1,7 @@
-var React = require('react-native');
+'use strict';
+
+var React = require('react');
+var ReactNative = require('react-native');
 var loginStore = require('../../../stores/LoginStore');
 var PrettyTouchable = require('../../Common/PrettyTouchable');
 var PrettyInput = require('../../Common/PrettyInput');
@@ -8,7 +11,7 @@ var {
   Text,
   StyleSheet,
   Dimensions
-} = React;
+} = ReactNative;
 
 var styles = StyleSheet.create({
   container: {

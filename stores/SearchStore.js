@@ -1,6 +1,5 @@
 'use strict';
 
-var React = require('react-native');
 var immutable = require('immutable');
 var Unicycle = require('../Unicycle');
 

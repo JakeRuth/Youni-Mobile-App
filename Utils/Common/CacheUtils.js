@@ -1,12 +1,12 @@
 'use strict';
 
-var React = require('react-native');
+var ReactNative = require('react-native');
 var Unicycle = require('../../Unicycle');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 
 var {
     AsyncStorage
-} = React;
+} = ReactNative;
 
 var CacheUtils = {
 

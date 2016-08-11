@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 
 var GroupStats = require('./GroupStats');
 
@@ -11,7 +12,7 @@ var {
   Image,
   Text,
   StyleSheet
-} = React;
+} = ReactNative;
 
 var styles = StyleSheet.create({
   container: {

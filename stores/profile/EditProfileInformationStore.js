@@ -1,6 +1,5 @@
 'use strict';
 
-var React = require('react-native');
 var Unicycle = require('../../Unicycle');
 var profileOwnerStore = require('./ProfileOwnerStore');
 var userLoginMetadataStore = require('../UserLoginMetadataStore');

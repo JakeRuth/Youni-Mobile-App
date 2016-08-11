@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 
 var YouniHeader = require('./YouniHeader');
 var BackArrow = require('./BackArrow');
@@ -14,7 +15,7 @@ var {
   ScrollView,
   Dimensions,
   DeviceEventEmitter
-} = React;
+} = ReactNative;
 
 var styles = StyleSheet.create({
   container: {

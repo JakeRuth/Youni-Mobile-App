@@ -1,6 +1,6 @@
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
 
 var Spinner = require('../Common/Spinner');
 var PrettyTouchable = require('../Common/PrettyTouchable');

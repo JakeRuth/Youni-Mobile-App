@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 var Unicycle = require('../Unicycle');
 var Icon = require('react-native-vector-icons/Ionicons');
 
@@ -20,7 +21,7 @@ var {
   AsyncStorage,
   AppStateIOS,
   PushNotificationIOS
-} = React;
+} = ReactNative;
 
 var styles = StyleSheet.create({
   tabBarContainer: {

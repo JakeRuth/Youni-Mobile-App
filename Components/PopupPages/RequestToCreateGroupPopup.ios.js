@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 
 var RequestToCreateGroupForm = require('../Group/RequestToCreateGroupForm');
 var YouniHeader = require('../Common/YouniHeader');
@@ -15,7 +16,7 @@ var {
   Text,
   StyleSheet,
   AlertIOS
-} = React;
+} = ReactNative;
 
 var styles = StyleSheet.create({
   container: {

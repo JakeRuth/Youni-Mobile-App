@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 var EULAAgreementPage = require('../EULAAgreementPage');
 
 var {
@@ -8,7 +9,7 @@ var {
   View,
   Dimensions,
   StyleSheet
-} = React;
+} = ReactNative;
 
 var styles = StyleSheet.create({
   top: {

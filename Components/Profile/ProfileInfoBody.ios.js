@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 
 var ProfileInfoSwiper = require('./ProfileInfoSwiper');
 var ProfileStat = require('./ProfileStat');
@@ -14,7 +15,7 @@ var {
   Text,
   View,
   StyleSheet
-} = React;
+} = ReactNative;
 
 var styles = StyleSheet.create({
   topBodyContainer: {

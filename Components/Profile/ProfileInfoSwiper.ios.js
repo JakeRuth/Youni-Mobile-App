@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 var Swiper = require('react-native-swiper');
 
 var Colors = require('../../Utils/Common/Colors');
@@ -8,7 +9,7 @@ var Colors = require('../../Utils/Common/Colors');
 var {
   View,
   StyleSheet
-} = React;
+} = ReactNative;
 
 var styles = StyleSheet.create({
   swiperDot: {

@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 var PostPopup = require('../PopupPages/PostPopup');
 var Colors = require('../../Utils/Common/Colors');
 
@@ -10,7 +11,7 @@ var {
   StyleSheet,
   Dimensions,
   TouchableHighlight
-} = React;
+} = ReactNative;
 
 var styles = StyleSheet.create({
   container: {

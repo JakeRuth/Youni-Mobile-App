@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 var homePostsStore = require('../../stores/post/HomePostsStore');
 var Post = require('./Post');
 var PostGrid = require('./PostGrid');
@@ -14,7 +15,7 @@ var {
   AppRegistry,
   ScrollView,
   TouchableHighlight
-} = React;
+} = ReactNative;
 
 var styles = StyleSheet.create({
   container: {

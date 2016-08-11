@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
+
 var OverlayPage = require('../Common/OverlayPage');
 var PostCommentsPage = require('../Post/PostCommentsPage');
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');

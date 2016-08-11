@@ -1,11 +1,12 @@
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 var Comment = require('./Comment');
 
 var {
   View
-} = React;
+} = ReactNative;
 
 var CommentList = React.createClass({
 

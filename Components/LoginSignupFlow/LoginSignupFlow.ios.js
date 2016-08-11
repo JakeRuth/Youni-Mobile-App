@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 var Unicycle = require('../../Unicycle');
 
 var LandingPage = require('../LandingPage');
@@ -32,7 +33,7 @@ var {
   Image,
   Dimensions,
   AlertIOS
-} = React;
+} = ReactNative;
 
 /*
  *
@@ -97,7 +98,7 @@ var LoginSignupFlow = React.createClass({
   },
 
   componentDidMount: function () {
-    AutoLoginUtils.attemptToAutoLoginUser(this._onSuccessfulLoginCallback, this._onFailedLoginCallback);
+    AutoLoginUtils.attemptToAutoLoginUser(this._onSuccessfulLoginCallback, this._autoLoginFailureCallback);
   },
 
   mixins: [
@@ -350,10 +351,6 @@ var LoginSignupFlow = React.createClass({
   },
 
   _onFailedLoginCallback: function() {
-    this.setState({
-      isAutoLoginRequestInFlight: false
-    });
-
     AlertIOS.alert(
       'Login Failed',
       'The username/password you entered was incorrect, please try again.',
@@ -405,6 +402,12 @@ var LoginSignupFlow = React.createClass({
         });
       });
     }
+  },
+
+  _autoLoginFailureCallback: function() {
+    this.setState({
+      isAutoLoginRequestInFlight: false
+    });
   },
 
   _clearSignupFieldStates: function() {

@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 
 var PrettyTouchable = require('../../Common/PrettyTouchable');
 var Spinner = require('../../Common/Spinner');
@@ -12,7 +13,7 @@ var {
   AlertIOS,
   StyleSheet,
   ActionSheetIOS
-} = React;
+} = ReactNative;
 
 var styles = StyleSheet.create({
   spinnerContainer: {

@@ -1,4 +1,7 @@
-var React = require('react-native');
+'use strict';
+
+var React = require('react');
+var ReactNative = require('react-native');
 
 var {
   View,
@@ -6,7 +9,7 @@ var {
   Image,
   StyleSheet,
   Dimensions
-} = React;
+} = ReactNative;
 
 var styles = StyleSheet.create({
   container: {

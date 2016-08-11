@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 var Colors = require('../../../Utils/Common/Colors');
 var Gender = require('../../../Utils/Enums/Gender');
 var signupStore = require('../../../stores/SignupStore');
@@ -11,7 +12,7 @@ var {
   Dimensions,
   StyleSheet,
   TouchableOpacity
-} = React;
+} = ReactNative;
 
 var styles = StyleSheet.create({
   container: {

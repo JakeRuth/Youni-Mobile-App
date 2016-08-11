@@ -1,6 +1,6 @@
 'use strict';
 
-var React = require('react-native');
+var ReactNative = require('react-native');
 var Unicycle = require('../../Unicycle');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var request = require('superagent');
@@ -8,7 +8,7 @@ var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com
 
 var {
   AsyncStorage
-} = React;
+} = ReactNative;
 
 // the purpose of this file is to refresh the app content after every 15 minutes
 // of inactivity.  So if there were no tab switches, or no ajax calls for 15

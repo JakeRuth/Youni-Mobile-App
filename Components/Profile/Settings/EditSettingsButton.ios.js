@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 var Icon = require('react-native-vector-icons/Ionicons');
 var Unicycle = require('../../../Unicycle');
 
@@ -18,7 +19,7 @@ var {
   StyleSheet,
   ActionSheetIOS,
   AlertIOS
-} = React;
+} = ReactNative;
 
 var styles = StyleSheet.create({
   settingIconContainer: {

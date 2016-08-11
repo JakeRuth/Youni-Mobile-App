@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 var Unicycle = require('../../Unicycle');
 var OverlayPage = require('../Common/OverlayPage');
 
@@ -8,7 +9,7 @@ var {
   Text,
   StyleSheet,
   ScrollView
-} = React;
+} = ReactNative;
 
 var styles = StyleSheet.create({
   container: {

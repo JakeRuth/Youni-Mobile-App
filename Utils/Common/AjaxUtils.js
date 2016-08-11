@@ -1,13 +1,13 @@
 'use strict';
 
-var React = require('react-native');
+var ReactNative = require('react-native');
 var request = require('superagent');
 var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com');
 var RefreshAppContentUtil = require('./RefreshAppContentUtil');
 
 var {
   AsyncStorage
-} = React;
+} = ReactNative;
 
 var AjaxUtils = {
 

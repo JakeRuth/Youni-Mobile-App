@@ -1,6 +1,7 @@
 'use strict'
 
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var Icon = require('react-native-vector-icons/Ionicons');
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
@@ -11,7 +12,7 @@ var {
   TouchableHighlight,
   ActionSheetIOS,
   AlertIOS
-} = React;
+} = ReactNative;
 
 var FlagPostIcon = React.createClass({
 

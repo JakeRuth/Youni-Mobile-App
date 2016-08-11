@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 var Unicycle = require('../../Unicycle');
 
 var DeletePostIcon = require('./DeletePostIcon');
@@ -18,7 +19,7 @@ var {
   Text,
   StyleSheet,
   TouchableHighlight
-} = React;
+} = ReactNative;
 
 var styles = StyleSheet.create({
   postHeader: {

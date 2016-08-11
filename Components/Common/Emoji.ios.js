@@ -1,9 +1,12 @@
-var React = require('react-native');
+'use strict';
+
+var React = require('react');
+var ReactNative = require('react-native');
 var nodeEmoji = require('node-emoji');
 
 var {
   Text
-} = React;
+} = ReactNative;
 
 var Emoji = React.createClass({
 

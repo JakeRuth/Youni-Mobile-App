@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 var Unicycle = require('../../Unicycle');
 var OverlayPage = require('../Common/OverlayPage');
 var Spinner = require('../Common/Spinner');
@@ -13,7 +14,7 @@ var {
   View,
   TextInput,
   AlertIOS
-} = React;
+} = ReactNative;
 
 var styles = StyleSheet.create({
   container: {

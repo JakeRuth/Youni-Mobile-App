@@ -1,6 +1,5 @@
 'use strict';
 
-var React = require('react-native');
 var Unicycle = require('./../Unicycle');
 var AsyncStorageUtils = require('../Utils/Common/AsyncStorageUtils');
 var AjaxUtils = require('../Utils/Common/AjaxUtils');

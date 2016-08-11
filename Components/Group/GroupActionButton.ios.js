@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 var Icon = require('react-native-vector-icons/Ionicons');
 
 var GroupManagePhotosPopup = require('../PopupPages/GroupManagePhotosPopup');
@@ -14,7 +15,7 @@ var {
   StyleSheet,
   ActionSheetIOS,
   TouchableHighlight
-} = React;
+} = ReactNative;
 
 var styles = StyleSheet.create({
   container: {

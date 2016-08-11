@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 var Icon = require('react-native-vector-icons/Ionicons');
 var UIImagePickerManager = require('NativeModules').UIImagePickerManager;
 
@@ -17,7 +18,7 @@ var {
   StyleSheet,
   NativeModules,
   TouchableHighlight
-} = React;
+} = ReactNative;
 
 var styles = StyleSheet.create({
   container: {

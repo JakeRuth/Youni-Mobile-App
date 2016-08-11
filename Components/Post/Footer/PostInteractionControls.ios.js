@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 var Icon = require('react-native-vector-icons/Ionicons');
 var PostLikesPopup = require('../../PopupPages/PostLikesPopup');
 var Colors = require('../../../Utils/Common/Colors');
@@ -10,7 +11,7 @@ var {
   Text,
   StyleSheet,
   TouchableHighlight
-} = React;
+} = ReactNative;
 
 var ICON_SIZE = 40;
 

@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 var Icon = require('react-native-vector-icons/Ionicons');
 
 var PostGridThumbnail = require('../../Post/PostGridThumbnail');
@@ -12,7 +13,7 @@ var {
   View,
   ScrollView,
   StyleSheet
-} = React;
+} = ReactNative;
 
 var styles = StyleSheet.create({
   postRow: {

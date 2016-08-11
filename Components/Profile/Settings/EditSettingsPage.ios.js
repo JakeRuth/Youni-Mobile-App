@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 var Unicycle = require('../../../Unicycle');
 
 var ChangeProfilePicture = require('./ChangeProfilePicture');
@@ -15,7 +16,7 @@ var {
   Text,
   TextInput,
   StyleSheet
-} = React;
+} = ReactNative;
 
 var styles = StyleSheet.create({
   container: {

@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 var Icon = require('react-native-vector-icons/Ionicons');
 
 var CreatePostGroupList = require('./CreatePostGroupList');
@@ -15,7 +16,7 @@ var {
   StyleSheet,
   Dimensions,
   TouchableHighlight
-} = React;
+} = ReactNative;
 
 var styles = StyleSheet.create({
   container: {

@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 var Emoji = require('../Common/Emoji');
 var Colors = require('../../Utils/Common/Colors');
 var TrendingFeedFilters = require('../../Utils/Enums/TrendingFeedFilters');
@@ -10,7 +11,7 @@ var {
   Text,
   StyleSheet,
   TouchableHighlight
-} = React;
+} = ReactNative;
 
 var styles = StyleSheet.create({
   // container: {

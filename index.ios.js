@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 var Unicycle = require('./Unicycle');
 
 var statusBarStyleStore = require('./stores/StatusBarStyleStore');
@@ -12,7 +13,7 @@ var {
   StyleSheet,
   AppRegistry,
   NavigatorIOS
-} = React;
+} = ReactNative;
 
 var styles = StyleSheet.create({
   container: {

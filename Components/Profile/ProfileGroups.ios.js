@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 
 var GroupThumbnailLink = require('../Group/GroupThumbnailLink');
 var Spinner = require('../Common/Spinner');
@@ -14,7 +15,7 @@ var {
   ScrollView,
   Dimensions,
   StyleSheet
-} = React;
+} = ReactNative;
 
 var styles = StyleSheet.create({
   container: {

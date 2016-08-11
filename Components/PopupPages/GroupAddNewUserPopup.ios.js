@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 
 var AddGroupUserList = require('../Group/Admin/AddGroupUserList');
 var SearchBarInput = require('../Search/SearchBarInput');
@@ -18,7 +19,7 @@ var {
   Text,
   ScrollView,
   StyleSheet
-} = React;
+} = ReactNative;
 
 var styles = StyleSheet.create({
   container: {

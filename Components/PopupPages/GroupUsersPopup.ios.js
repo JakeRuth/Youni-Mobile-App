@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 
 var GroupUsersList = require('../Group/GroupUsersList');
 var YouniHeader = require('../Common/YouniHeader');
@@ -14,7 +15,7 @@ var {
   View,
   Text,
   StyleSheet
-} = React;
+} = ReactNative;
 
 var styles = StyleSheet.create({
   container: {

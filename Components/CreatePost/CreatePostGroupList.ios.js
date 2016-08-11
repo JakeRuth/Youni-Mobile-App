@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 
 var CreatePostGroupListItem = require('./CreatePostGroupListItem');
 var Spinner = require('../Common/Spinner');
@@ -12,7 +13,7 @@ var {
   Text,
   StyleSheet,
   TouchableHighlight
-} = React;
+} = ReactNative;
 
 var styles = StyleSheet.create({
   container: {

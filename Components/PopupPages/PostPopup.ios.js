@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 var Unicycle = require('../../Unicycle');
 var Post = require('../Post/Post');
 var OverlayPage = require('../Common/OverlayPage');
@@ -11,7 +12,7 @@ var PostUtils = require('../../Utils/Post/PostUtils');
 
 var {
   View
-} = React;
+} = ReactNative;
 
 var PostPopup = React.createClass({
 

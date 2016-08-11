@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 
 var Colors = require('../../Utils/Common/Colors');
 
@@ -10,7 +11,7 @@ var {
   StyleSheet,
   Dimensions,
   TouchableHighlight
-} = React;
+} = ReactNative;
 
 var SELECTED_FILTER_UNDERLINE_WIDTH = 36;
 var FILTER_CONTAINER_SCREEN_SIZE_RATIO = .8;

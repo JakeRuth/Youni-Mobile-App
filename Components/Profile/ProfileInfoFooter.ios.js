@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 var Icon = require('react-native-vector-icons/Ionicons');
 
 var FollowUnfollowButton = require('./FollowUnfollowButton');
@@ -15,7 +16,7 @@ var {
   TouchableHighlight,
   Dimensions,
   StyleSheet
-} = React;
+} = ReactNative;
 
 var styles = StyleSheet.create({
   controlsAndFollowButtonContainer: {

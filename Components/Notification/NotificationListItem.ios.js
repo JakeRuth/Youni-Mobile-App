@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 var Icon = require('react-native-vector-icons/Ionicons');
 var Unicycle = require('../../Unicycle');
 
@@ -26,7 +27,7 @@ var {
   TouchableHighlight,
   StyleSheet,
   Dimensions
-} = React;
+} = ReactNative;
 
 var styles = StyleSheet.create({
   itemContainer: {
@@ -168,11 +169,16 @@ var NotificationsListItem = React.createClass({
     }
     else if (this.props.notification.senderUser) {
       return (
-        <View style={styles.leftImageThumbnailContainer}>
-          <ProfileImageThumbnail
-            style={styles.profileImage}
-            profileImageUrl={this.props.notification.senderUser.profileImageUrl}/>
-        </View>
+        <TouchableHighlight
+          style={styles.leftImageThumbnailContainer}
+          underlayColor="transparent"
+          onPress={this._onProfileImagePress}>
+          <View>
+            <ProfileImageThumbnail
+              style={styles.profileImage}
+              profileImageUrl={this.props.notification.senderUser.profileImageUrl}/>
+          </View>
+        </TouchableHighlight>
       );
     }
   },

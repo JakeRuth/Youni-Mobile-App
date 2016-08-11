@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 var Unicycle = require('../../Unicycle');
 var Icon = require('react-native-vector-icons/Ionicons');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
@@ -10,7 +11,7 @@ var {
   TouchableHighlight,
   ActionSheetIOS,
   AlertIOS
-} = React;
+} = ReactNative;
 
 var DeletePostIcon = React.createClass({
 

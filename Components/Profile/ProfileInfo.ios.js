@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 
 var ProfileInfoBody = require('./ProfileInfoBody');
 var ProfileInfoFooter = require('./ProfileInfoFooter');
@@ -10,7 +11,7 @@ var PostViewType = require('../../Utils/Enums/PostViewType');
 
 var {
   View
-} = React;
+} = ReactNative;
 
 var ProfileInfo = React.createClass({
 

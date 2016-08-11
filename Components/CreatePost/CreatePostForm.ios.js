@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 var Unicycle = require('../../Unicycle');
 
 var SelectGroupsForPost = require('./SelectGroupsForPost');
@@ -26,7 +27,7 @@ var {
   Dimensions,
   TouchableHighlight,
   DeviceEventEmitter
-} = React;
+} = ReactNative;
 
 var styles = StyleSheet.create({
   container: {
@@ -171,6 +172,7 @@ var CreatePostForm = React.createClass({
   },
 
   _onBackArrowPress: function() {
+    statusBarStyleStore.setStyle(IosStatusBarStyles.LIGHT_CONTENT);
     this._clearCreatePostData();
     this.props.navigator.pop();
   },

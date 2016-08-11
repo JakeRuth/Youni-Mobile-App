@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 var Icon = require('react-native-vector-icons/Ionicons');
 var Colors = require('../../Utils/Common/Colors');
 var Spinner = require('../Common/Spinner');
@@ -10,7 +11,7 @@ var {
   Image,
   StyleSheet,
   TouchableHighlight
-} = React;
+} = ReactNative;
 
 var styles = StyleSheet.create({
   profileImageContainer: {
@@ -28,7 +29,7 @@ var ProfileImage = React.createClass({
 
   propTypes: {
     user: React.PropTypes.object.isRequired,
-    imageOverrideUrl: React.PropTypes.string.isRequired,
+    imageOverrideUrl: React.PropTypes.string,
     onPress: React.PropTypes.func,
     isUploading: React.PropTypes.bool
   },
