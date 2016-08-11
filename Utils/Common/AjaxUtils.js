@@ -2,7 +2,7 @@
 
 var ReactNative = require('react-native');
 var request = require('superagent');
-var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com');
+var prefix = require('superagent-prefix')('http://youniappapi.com');
 var RefreshAppContentUtil = require('./RefreshAppContentUtil');
 
 var {
@@ -11,7 +11,7 @@ var {
 
 var AjaxUtils = {
 
-  SERVER_URL: 'http://greedyapi.elasticbeanstalk.com',
+  SERVER_URL: 'http://youniappapi.com',
 
   ajax: function(url, data, onSuccessCallback, onFailureCallback) {
     var that = this;

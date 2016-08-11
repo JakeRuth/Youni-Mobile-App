@@ -1,10 +1,10 @@
 'use strict';
 
 var ReactNative = require('react-native');
+var request = require('superagent');
+var prefix = require('superagent-prefix')('http://youniappapi.com');
 var Unicycle = require('../../Unicycle');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
-var request = require('superagent');
-var prefix = require('superagent-prefix')('http://greedyapi.elasticbeanstalk.com');
 
 var {
   AsyncStorage

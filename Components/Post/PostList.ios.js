@@ -103,11 +103,11 @@ var PostList = React.createClass({
 
   _renderLoadMorePostsButton: function() {
     return (
-        <LoadMoreButton
-          style={this.props.loadMoreButtonStyle}
-          onPress={this.props.onLoadMorePostsPress}
-          isLoading={this.props.isNextPageLoading}
-          isVisible={!this.props.noMorePostsToFetch}/>
+      <LoadMoreButton
+        style={this.props.loadMoreButtonStyle}
+        onPress={this.props.onLoadMorePostsPress}
+        isLoading={this.props.isNextPageLoading}
+        isVisible={!this.props.noMorePostsToFetch}/>
     );
   }
 

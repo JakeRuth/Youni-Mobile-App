@@ -14,12 +14,13 @@ var {
 
 var styles = StyleSheet.create({
   container: {
+    flex: 1,
     height: 30,
-    alignSelf: 'center'
-  },
-  buttonContainer: {
+    alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
     borderRadius: 2,
-    padding: 5,
+    padding: 10,
     margin: 3
   },
   text: {
@@ -42,32 +43,22 @@ var LoadMoreButton = React.createClass({
       return <View/>;
     }
     else if (this.props.isLoading) {
-      content = <Spinner/>;
+      return <Spinner/>;
     }
     else {
-      content = this._renderButton();
+      return (
+        <TouchableHighlight
+          style={[styles.container, this.props.style, { backgroundColor: Color.getPrimaryAppColor() }]}
+          underlayColor={Color.getPrimaryAppColor()}
+          onPress={this.props.onPress}>
+
+          <Text style={styles.text}>
+            Load more
+          </Text>
+
+        </TouchableHighlight>
+      );
     }
-
-    return (
-      <View style={[styles.container, this.props.style]}>
-        {content}
-      </View>
-    );
-  },
-
-  _renderButton: function() {
-    return (
-      <TouchableHighlight
-        style={[styles.buttonContainer, { backgroundColor: Color.getPrimaryAppColor() }]}
-        underlayColor={Color.getPrimaryAppColor()}
-        onPress={this.props.onPress}>
-
-        <Text style={styles.text}>
-          Load more
-        </Text>
-
-      </TouchableHighlight>
-    );
   }
 
 });

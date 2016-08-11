@@ -152,7 +152,9 @@ var HomePage = React.createClass({
         likePhotoAction={this.likePhotoAction}
         unlikePhotoAction={this.unlikePhotoAction}
         onSubmitCommentAction={this.onSubmitCommentAction}
-        loadMoreButtonStyle={{marginBottom: 70}}
+        loadMoreButtonStyle={{
+          marginBottom: 70
+        }}
         navigator={this.props.navigator}/>
     );
   },
