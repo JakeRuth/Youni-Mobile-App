@@ -2,7 +2,6 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
-var PostHeader = require('./PostHeader');
 var CommentList = require('./Footer/CommentList');
 var CommentInput = require('./Footer/CommentInput');
 var LoadMoreButton = require('../Common/LoadMoreButton');
@@ -45,11 +44,6 @@ var PostCommentsPage = React.createClass({
   render: function() {
     return (
       <View style={styles.container}>
-        <PostHeader
-          post={this.props.post}
-          viewerIsPostOwner={false}
-          renderedFromProfileView={false}
-          hideActionButton={true}/>
 
         <CommentList
           comments={this.props.comments}

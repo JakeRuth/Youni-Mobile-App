@@ -22,9 +22,6 @@ var styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 24
-  },
-  icon: {
-    marginTop: 25
   }
 });
 
@@ -62,7 +59,6 @@ var ProfileImage = React.createClass({
     else {
       content = (
         <Icon
-          style={styles.icon}
           name='person'
           size={100}
           color={Colors.getPrimaryAppColor()}/>

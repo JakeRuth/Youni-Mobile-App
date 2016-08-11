@@ -13,11 +13,7 @@ var {
 } = ReactNative;
 
 var styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
   spinnerContainer: {
-    flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
   },
@@ -55,14 +51,14 @@ var GroupPostList = React.createClass({
     }
     else if (this.props.posts.size) {
       return (
-        <View style={styles.container}>
+        <View>
           <PostList {...this.props}/>
         </View>
       );
     }
     else {
       return (
-        <Text style={[styles.container, styles.noPostsMessage]}>
+        <Text style={styles.noPostsMessage}>
           No Posts Yet
         </Text>
       );

@@ -25,7 +25,6 @@ var styles = StyleSheet.create({
 var PrettyInput = React.createClass({
 
   propTypes: {
-    style: React.PropTypes.object,
     keyboardType: React.PropTypes.string,
     secureTextEntry: React.PropTypes.bool,
     clearTextOnFocus: React.PropTypes.bool,

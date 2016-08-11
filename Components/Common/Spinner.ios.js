@@ -7,7 +7,7 @@ var Colors = require('../../Utils/Common/Colors');
 var {
   View,
   StyleSheet,
-  ActivityIndicatorIOS
+  ActivityIndicator
 } = ReactNative;
 
 var styles = StyleSheet.create({
@@ -27,7 +27,7 @@ var Spinner = React.createClass({
   render: function() {
     return(
       <View style={[styles.container, this.props.style]}>
-        <ActivityIndicatorIOS
+        <ActivityIndicator
           size={'small'}
           color={this.props.color ? this.props.color : Colors.getPrimaryAppColor()}/>
       </View>

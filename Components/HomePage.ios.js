@@ -38,10 +38,12 @@ var styles = StyleSheet.create({
     justifyContent: 'center'
   },
   notificationIcon: {
-    padding: 12
+    padding: 12,
+    paddingTop: 4
   },
   profileIcon: {
-    padding: 12
+    padding: 12,
+    paddingTop: 4
   },
   feedContainer: {
     flex: 1
@@ -51,9 +53,7 @@ var styles = StyleSheet.create({
     paddingBottom: 5
   },
   logo: {
-    flex: 1,
     alignSelf: 'center',
-    marginTop: 7,
     height: LogoImageSize.HEIGHT * .15,
     width: LogoImageSize.WIDTH * .15
   },
