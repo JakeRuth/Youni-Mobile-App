@@ -712,11 +712,11 @@
 				INFOPLIST_FILE = Youni/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.youniapp.youni;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.youniapp.youni;
 				PRODUCT_NAME = Youni;
 				PROVISIONING_PROFILE = "3dd8e932-7b43-45db-9f0b-01163db64331";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -738,11 +738,11 @@
 				INFOPLIST_FILE = Youni/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.youniapp.youni;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.youniapp.youni;
 				PRODUCT_NAME = Youni;
 				PROVISIONING_PROFILE = "3dd8e932-7b43-45db-9f0b-01163db64331";
 				TARGETED_DEVICE_FAMILY = 1;
