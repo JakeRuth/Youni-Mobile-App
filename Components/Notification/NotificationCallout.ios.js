@@ -11,9 +11,11 @@ var {
 
 var styles = StyleSheet.create({
   redDot: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: 'white',
     backgroundColor: 'red'
   }
 });

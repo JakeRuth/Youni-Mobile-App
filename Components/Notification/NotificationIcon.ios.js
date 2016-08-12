@@ -18,7 +18,7 @@ var styles = StyleSheet.create({
   callout: {
     position: 'absolute',
     top: 2,
-    left: 15
+    right: 2
   }
 });
 

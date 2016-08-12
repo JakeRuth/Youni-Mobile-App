@@ -11,7 +11,7 @@ var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 
 var PostCommentsPopup = React.createClass({
 
-  PAGE_SIZE: 20,
+  PAGE_SIZE: 40,
 
   propTypes: {
     navigator: React.PropTypes.object.isRequired,
