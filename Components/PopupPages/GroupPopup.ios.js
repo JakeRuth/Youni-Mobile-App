@@ -17,7 +17,7 @@ var GroupUtils = require('../../Utils/Group/GroupUtils');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 
 var INITIAL_PAGE_OFFSET = 0;
-var MAX_POSTS_PER_PAGE = 12;
+var MAX_POSTS_PER_PAGE = 51;
 
 var {
   View,
@@ -70,7 +70,7 @@ var GroupPopup = React.createClass({
 
   componentWillMount() {
     this.getLatestGroupData();
-    this._requestGroupPosts();
+    this._requestGroupPosts(true);
   },
 
   render: function() {
@@ -85,7 +85,7 @@ var GroupPopup = React.createClass({
         <GroupPostList
           posts={immutable.List(this.state.posts)}
           gridViewEnabled={true}
-          onLoadMorePostsPress={this._requestGroupPosts}
+          onLoadMorePostsPress={() => this._requestGroupPosts(true)}
           noMorePostsToFetch={this.state.noMorePostsToFetch}
           loading={this.state.postsLoading}
           isNextPageLoading={this.state.postsNextPageLoading}
@@ -128,7 +128,7 @@ var GroupPopup = React.createClass({
     );
   },
 
-  _requestGroupPosts: function() {
+  _requestGroupPosts: function(shouldRecurse) {
     var that = this,
         offset = this.state.postOffset;
     
@@ -163,6 +163,10 @@ var GroupPopup = React.createClass({
           postsNextPageLoading: false,
           noMorePostsToFetch: !res.body.moreToFetch
         });
+
+        if (shouldRecurse) {
+          that._requestGroupPosts();
+        }
       },
       () => {
         that.setState({
@@ -258,7 +262,7 @@ var GroupPopup = React.createClass({
     });
 
     this.getLatestGroupData();
-    this._requestGroupPosts();
+    this._requestGroupPosts(true);
   }
 
 });
