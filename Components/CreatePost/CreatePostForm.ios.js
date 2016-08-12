@@ -164,7 +164,8 @@ var CreatePostForm = React.createClass({
     Unicycle.exec('createPost', userId, () => {
       this._clearCreatePostData();
       homePostsStore.setScrollToTopOfPostFeed(true);
-      Unicycle.exec('refreshHomeFeed', userLoginMetadataStore.getUserId());
+      Unicycle.exec('refreshHomeFeedData');
+      Unicycle.exec('requestHomeFeed', userLoginMetadataStore.getUserId());
 
       statusBarStyleStore.setStyle(IosStatusBarStyles.LIGHT_CONTENT);
       this.props.navigator.pop();
