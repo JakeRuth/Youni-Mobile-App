@@ -163,7 +163,7 @@ var ProfilePage = React.createClass({
   _requestProfilePosts: function() {
     var userId = userLoginMetadataStore.getUserId(),
         email = userLoginMetadataStore.getEmail();
-    Unicycle.exec('getOwnerUserPosts', email, userId);
+    Unicycle.exec('getOwnerUserPosts', email, userId, true);
   },
 
   _onErrorPageReload: function() {

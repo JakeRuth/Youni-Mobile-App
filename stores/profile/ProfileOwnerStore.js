@@ -8,7 +8,7 @@ var PostUtils = require('../../Utils/Post/PostUtils');
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 
 var INITIAL_PAGE_OFFSET = 0;
-var MAX_POSTS_PER_PAGE = 9;
+var MAX_POSTS_PER_PAGE = 51;
 
 var profileOwnerStore = Unicycle.createStore({
 
@@ -99,7 +99,7 @@ var profileOwnerStore = Unicycle.createStore({
       );
     },
 
-    $getOwnerUserPosts(userEmail, userId) {
+    $getOwnerUserPosts(userEmail, userId, shouldRecurse) {
       var that = this,
           offset = this.getFeedPageOffset();
 
@@ -135,6 +135,10 @@ var profileOwnerStore = Unicycle.createStore({
             isLoadMorePostsRequestInFlight: false,
             noMorePostsToFetch: !res.body.moreResults
           });
+
+          if (shouldRecurse) {
+            Unicycle.exec('getOwnerUserPosts', userEmail, userId)
+          }
         },
         () => {
           that.set({
