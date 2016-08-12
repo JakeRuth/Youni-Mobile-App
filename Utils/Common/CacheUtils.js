@@ -5,34 +5,40 @@ var Unicycle = require('../../Unicycle');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 
 var {
-    AsyncStorage
+  AsyncStorage
 } = ReactNative;
 
+
+// Deprecated.  Currently not in use.
 var CacheUtils = {
 
-    HOME_FEED_POSTS_KEY: 'homeFeedPosts',
+  HOME_FEED_POSTS_KEY: 'homeFeedPosts',
 
-    loadHomeFeed: function() {
-        var userId = userLoginMetadataStore.getUserId(),
-            postsJson;
+  loadHomeFeed: function () {
+    var userId = userLoginMetadataStore.getUserId(),
+      postsJson;
 
-        AsyncStorage.getItem(this.HOME_FEED_POSTS_KEY).then((homeFeedPostsString) => {
-            if (homeFeedPostsString) {
-                postsJson = JSON.parse(homeFeedPostsString);
-                Unicycle.exec('setHomeFeedPosts', postsJson);
-                Unicycle.exec('refreshHomeFeed', userId);
-            }
-            else {
-                Unicycle.exec('requestHomeFeed', userId);
-            }
-        }).done();
-    },
+    AsyncStorage.getItem(this.HOME_FEED_POSTS_KEY).then((homeFeedPostsString) => {
+      if (homeFeedPostsString) {
+        postsJson = JSON.parse(homeFeedPostsString);
+        Unicycle.exec('setHomeFeedPosts', postsJson);
+        Unicycle.exec('refreshHomeFeed', userId);
+      }
+      else {
+        Unicycle.exec('requestHomeFeed', userId);
+      }
+    }).done();
+  },
 
-    saveHomeFeedPosts: function(postsJson) {
-        if (postsJson) {
-            AsyncStorage.setItem(this.HOME_FEED_POSTS_KEY, JSON.stringify(postsJson));
-        }
+  saveHomeFeedPosts: function (postsJson) {
+    if (postsJson) {
+      AsyncStorage.setItem(this.HOME_FEED_POSTS_KEY, JSON.stringify(postsJson));
     }
+  },
+
+  deleteHomeFeedPosts: function() {
+    
+  }
 
 };
 

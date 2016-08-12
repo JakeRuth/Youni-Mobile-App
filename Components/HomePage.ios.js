@@ -15,7 +15,6 @@ var CreatePostButton = require('./CreatePost/CreatePostButton');
 
 var homePostsStore = require('../stores/post/HomePostsStore');
 var userLoginMetadataStore = require('../stores/UserLoginMetadataStore');
-var CacheUtils = require('../Utils/Common/CacheUtils');
 var Colors = require('../Utils/Common/Colors');
 var LogoImageSize = require('../Utils/Enums/LogoImageSize');
 
@@ -77,7 +76,7 @@ var HomePage = React.createClass({
   ],
 
   componentDidMount: function() {
-    CacheUtils.loadHomeFeed();
+    this._requestHomeFeed();
   },
 
   render: function() {

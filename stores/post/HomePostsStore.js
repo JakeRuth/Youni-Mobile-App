@@ -4,7 +4,6 @@ var Unicycle = require('../../Unicycle');
 var immutable = require('immutable');
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 var PostUtils = require('../../Utils/Post/PostUtils');
-var CacheUtils = require('../../Utils/Common/CacheUtils');
 var userLoginMetadataStore = require('../UserLoginMetadataStore');
 
 var INITIAL_PAGE_OFFSET = 0;
@@ -55,10 +54,6 @@ var homePostsStore = Unicycle.createStore({
         var newPosts = immutable.List(PostUtils.createPostsJsonFromGreedy(res.body.posts, currentPostsSize));
         var allPosts = that.getPosts().concat(newPosts);
 
-        if (offset == INITIAL_PAGE_OFFSET) {
-          CacheUtils.saveHomeFeedPosts(res.body.posts);
-        }
-
         that.set({
           posts: allPosts,
           homeFeedPageOffset: offset + MAX_POSTS_PER_PAGE,
@@ -97,7 +92,6 @@ var homePostsStore = Unicycle.createStore({
       },
       (res) => {
         var newPosts = immutable.List(PostUtils.createPostsJsonFromGreedy(res.body.posts, 0));
-        CacheUtils.saveHomeFeedPosts(res.body.posts);
 
         that.set({
           homeFeedPageOffset: MAX_POSTS_PER_PAGE,
