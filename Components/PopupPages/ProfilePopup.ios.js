@@ -23,7 +23,7 @@ var Colors = require('../../Utils/Common/Colors');
 var IosStatusBarStyles = require('../../Utils/Common/IosStatusBarStyles');
 
 var INITIAL_PAGE_OFFSET = 0;
-var MAX_POSTS_PER_PAGE = 9;
+var MAX_POSTS_PER_PAGE = 51;
 
 var {
   View,
@@ -73,7 +73,7 @@ var ProfilePopup = React.createClass({
   componentDidMount: function() {
     statusBarStyleStore.setDelayedStyle(IosStatusBarStyles.DEFAULT, 100);
     this._requestProfileInformation();
-    this._requestUserPosts();
+    this._requestUserPosts(true);
     this._requestIsUserFollowing();
   },
 
@@ -139,7 +139,7 @@ var ProfilePopup = React.createClass({
         posts={immutable.List(this.state.posts)}
         user={this.state.user}
         gridViewEnabled={this.state.postViewMode === PostViewType.GRID}
-        onLoadMorePostsPress={this._requestUserPosts}
+        onLoadMorePostsPress={() => this._requestUserPosts(true)}
         noMorePostsToFetch={this.state.noMorePostsToFetch}
         viewerIsProfileOwner={false}
         loading={this.state.postsLoading}
@@ -160,7 +160,7 @@ var ProfilePopup = React.createClass({
     }
   },
 
-  _requestUserPosts: function() {
+  _requestUserPosts: function(shouldRecurse) {
     var userId = userLoginMetadataStore.getUserId(),
         that = this,
         offset = this.state.postOffset;
@@ -196,6 +196,10 @@ var ProfilePopup = React.createClass({
           postsNextPageLoading: false,
           noMorePostsToFetch: !res.body.moreResults
         });
+
+        if (shouldRecurse) {
+          that._requestUserPosts();
+        }
       },
       () => {
         that.setState({

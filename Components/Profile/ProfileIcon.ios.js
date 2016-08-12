@@ -3,7 +3,7 @@
 var React = require('react');
 var ReactNative = require('react-native');
 var Icon = require('react-native-vector-icons/MaterialIcons');
-var ProfilePage = require('./ProfilePage');
+var ProfileOwnerPage = require('./ProfileOwnerPage');
 
 var {
   TouchableHighlight
@@ -20,7 +20,7 @@ var ProfileIcon = React.createClass({
       <TouchableHighlight
         onPress={()=>{
           this.props.navigator.push({
-            component: ProfilePage
+            component: ProfileOwnerPage
           });
         }}
         style={this.props.style}

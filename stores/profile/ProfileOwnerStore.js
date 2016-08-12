@@ -149,40 +149,6 @@ var profileOwnerStore = Unicycle.createStore({
       );
     },
 
-    $refreshProfileOwnerPosts: function(userEmail, userId) {
-      var that = this;
-
-      this.set({
-        isProfileOwnerFeedRefreshing: true
-      });
-
-      AjaxUtils.ajax(
-        '/user/getPosts',
-        {
-          userEmail: userEmail,
-          requestingUserIdString: userId,
-          maxNumberOfPostsToFetch: MAX_POSTS_PER_PAGE,
-          fetchOffsetAmount: 0
-        },
-        (res) => {
-          var postsArray = PostUtils.createPostsJsonFromGreedy(res.body.posts, 0),
-              newPosts = immutable.List(postsArray);
-
-          that.set({
-            posts: newPosts,
-            feedPageOffset: MAX_POSTS_PER_PAGE,
-            isProfileOwnerFeedRefreshing: false,
-            noMorePostsToFetch: !res.body.moreResults
-          });
-        },
-        () => {
-          that.set({
-            isProfileOwnerFeedRefreshing: false
-          });
-        }
-      );
-    },
-
     $likePostFromOwnerProfilePage(id, postId, userId, callback) {
       var that = this;
       var posts = this.get('posts');
@@ -334,10 +300,6 @@ var profileOwnerStore = Unicycle.createStore({
 
     isPostCommentRequestInFlight: function() {
       return this.get('isPostCommentRequestInFlight');
-    },
-
-    isFeedRefreshing: function() {
-      return this.get('isProfileOwnerFeedRefreshing');
     },
 
     getNoMorePostsToFetch: function() {

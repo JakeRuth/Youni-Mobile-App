@@ -39,7 +39,7 @@ var styles = StyleSheet.create({
   }
 });
 
-var ProfilePage = React.createClass({
+var ProfileOwnerPage = React.createClass({
 
   propTypes: {
     navigator: React.PropTypes.object.isRequired
@@ -172,4 +172,4 @@ var ProfilePage = React.createClass({
 
 });
 
-module.exports = ProfilePage;
+module.exports = ProfileOwnerPage;
