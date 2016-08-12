@@ -6,7 +6,7 @@ var AjaxUtils = require('../Utils/Common/AjaxUtils');
 var NotificationUtils = require('../Utils/Notification/NotificationUtils');
 var userLoginMetaDataStore = require('../stores/UserLoginMetadataStore');
 
-var PAGE_SIZE = 14;
+var PAGE_SIZE = 25;
 
 var notificationStore = Unicycle.createStore({
 

@@ -25,8 +25,7 @@ var {
   ScrollView,
   StyleSheet,
   Dimensions,
-  TouchableHighlight,
-  Keyboard
+  TouchableHighlight
 } = ReactNative;
 
 var styles = StyleSheet.create({
@@ -40,14 +39,27 @@ var styles = StyleSheet.create({
     fontWeight: '500',
     textAlign: 'center'
   },
-  postImage: {
+  imageAndCaptionContainer: {
     flex: 1,
-    justifyContent: "space-around",
-    height: 250
+    flexDirection: 'row',
+    height: 110,
+    paddingTop: 5,
+    paddingBottom: 5,
+    marginBottom: 5,
+    backgroundColor: 'white',
+    borderTopWidth: 1,
+    borderTopColor: Colors.LIGHT_GRAY
+  },
+  postImage: {
+    backgroundColor: Colors.WHITE_SMOKE,
+    alignSelf: 'center',
+    width: 100,
+    height: 100,
+    margin: 5
   },
   captionInput: {
+    flex: 1,
     fontSize: 16,
-    height: 65,
     paddingTop: 5,
     paddingBottom: 5,
     paddingRight: 15,
@@ -76,58 +88,13 @@ var CreatePostForm = React.createClass({
     imageHeight: React.PropTypes.number.isRequired
   },
 
-  getInitialState: function () {
-    return {
-      isKeyboardVisible: false
-    };
-  },
-
-  componentDidMount() {
-    statusBarStyleStore.setDelayedStyle(IosStatusBarStyles.DEFAULT, 100);
-
-    Keyboard.addListener('keyboardWillShow', () => {
-      this.setState({isKeyboardVisible: true});
-    });
-    Keyboard.addListener('keyboardWillHide', () => {
-      this.setState({isKeyboardVisible: false});
-    });
-  },
-
   mixins: [
     Unicycle.listenTo(createPostStore)
   ],
 
   render: function() {
-    var imageUploadedSuccessfully = createPostStore.getImageId(),
-        isPostUploading = createPostStore.isRequestInFlight(),
-        containerStyles = [styles.container],
-        postButton;
-
-    // if the keyboard is showing, bump the post button up
-    if (this.state.isKeyboardVisible) {
-      containerStyles.push({ marginBottom: 256 });
-    }
-
-    if (!imageUploadedSuccessfully || isPostUploading) {
-      postButton = (
-        <View style={[styles.createPostButton, { backgroundColor: Colors.getPrimaryAppColor() }]}>
-          <Spinner color="white"/>
-        </View>
-      );
-    }
-    else {
-      postButton = (
-        <TouchableHighlight
-          style={[styles.createPostButton, { backgroundColor: Colors.getPrimaryAppColor() }]}
-          underlayColor="transparent"
-          onPress={this._onSubmitPost}>
-          <Text style={styles.createPostText}>POST</Text>
-        </TouchableHighlight>
-      );
-    }
-
     return (
-      <View style={containerStyles}>
+      <View style={styles.container}>
 
         <YouniHeader>
           <Text style={[styles.pageHeader, { color: Colors.getPrimaryAppColor() }]}>
@@ -137,25 +104,50 @@ var CreatePostForm = React.createClass({
         </YouniHeader>
 
         <ScrollView automaticallyAdjustContentInsets={false}>
-          <Image
-            style={[styles.postImage, { height: this._getImageHeight() }]}
-            resizeMode="contain"
-            source={{uri: this.props.imageUri, isStatic: true}} />
-          <TextInput
-            style={styles.captionInput}
-            placeholder="Add caption..."
-            placeholderColor={Colors.MED_GRAY}
-            onChangeText={(text) => { createPostStore.setCaption(text); }}
-            value={createPostStore.getCaption()}
-            multiline={true}
-            keyboardType="twitter"
-            maxLength={200}/>
+          <View style={styles.imageAndCaptionContainer}>
+            <TextInput
+              style={styles.captionInput}
+              placeholder="Add caption..."
+              placeholderColor={Colors.MED_GRAY}
+              onChangeText={(text) => { createPostStore.setCaption(text); }}
+              value={createPostStore.getCaption()}
+              multiline={true}
+              keyboardType="twitter"
+              maxLength={200}/>
+            <Image
+              style={styles.postImage}
+              resizeMode="contain"
+              source={{uri: this.props.imageUri, isStatic: true}} />
+          </View>
           <SelectGroupsForPost/>
         </ScrollView>
-        {postButton}
+        {this._renderPostButton()}
 
       </View>
     );
+  },
+
+  _renderPostButton: function() {
+    var imageUploadedSuccessfully = createPostStore.getImageId(),
+        isPostUploading = createPostStore.isRequestInFlight();
+
+    if (!imageUploadedSuccessfully || isPostUploading) {
+      return (
+        <View style={[styles.createPostButton, { backgroundColor: Colors.getPrimaryAppColor() }]}>
+          <Spinner color="white"/>
+        </View>
+      );
+    }
+    else {
+      return (
+        <TouchableHighlight
+          style={[styles.createPostButton, { backgroundColor: Colors.getPrimaryAppColor() }]}
+          underlayColor="transparent"
+          onPress={this._onSubmitPost}>
+          <Text style={styles.createPostText}>POST</Text>
+        </TouchableHighlight>
+      );
+    }
   },
 
   _onSubmitPost: function() {
@@ -182,18 +174,7 @@ var CreatePostForm = React.createClass({
     createPostStore.setCaption('');
     createPostStore.setImageId('');
     createPostStore.setGroupIds([]);
-  },
-
-  _getImageHeight: function() {
-    if (this.props.imageHeight >= this.MAX_IMAGE_HEIGHT) {
-      return this.MAX_IMAGE_HEIGHT;
-    }
-    else {
-      return this.props.imageHeight;
-    }
-  },
-
-  MAX_IMAGE_HEIGHT: 250
+  }
 
 });
 

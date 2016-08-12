@@ -36,11 +36,6 @@ var styles = StyleSheet.create({
     color: Colors.DARK_GRAY,
     textAlign: 'left',
     fontSize: 14
-  },
-  separator: {
-    flex: 1,
-    height: 1,
-    backgroundColor: Colors.LIGHT_GRAY
   }
 });
 
@@ -60,7 +55,6 @@ var SelectGroupsForPost = React.createClass({
   render: function() {
     return (
       <View style={styles.container}>
-        <View style={styles.separator}/>
         {this._renderTrigger()}
         {this._renderGroupList()}
       </View>
