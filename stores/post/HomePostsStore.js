@@ -8,7 +8,7 @@ var CacheUtils = require('../../Utils/Common/CacheUtils');
 var userLoginMetadataStore = require('../UserLoginMetadataStore');
 
 var INITIAL_PAGE_OFFSET = 0;
-var MAX_POSTS_PER_PAGE = 10;
+var MAX_POSTS_PER_PAGE = 51;
 
 var homePostsStore = Unicycle.createStore({
 

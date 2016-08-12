@@ -8,7 +8,7 @@ var ExploreFeedEndpoints = require('../../Utils/Enums/ExploreFeedEndpoints');
 var userLoginMetadataStore = require('../UserLoginMetadataStore');
 
 var INITIAL_PAGE_OFFSET = 0;
-var MAX_POSTS_PER_PAGE = 12;
+var MAX_POSTS_PER_PAGE = 51;
 
 var explorePostsStore = Unicycle.createStore({
 
@@ -26,7 +26,7 @@ var explorePostsStore = Unicycle.createStore({
     });
   },
 
-  $requestExploreFeed(userId, shouldUseRecursersion) {
+  $requestExploreFeed(userId, shouldUseRecursion) {
     var that = this,
         offset = this.getExploreFeedPageOffset();
 
@@ -64,7 +64,7 @@ var explorePostsStore = Unicycle.createStore({
         });
 
         // get two pages at a time, pass false to make sure this isn't called again
-        if (shouldUseRecursersion) {
+        if (shouldUseRecursion) {
           Unicycle.exec('requestExploreFeed', userId);
         }
       },
@@ -78,7 +78,7 @@ var explorePostsStore = Unicycle.createStore({
     );
   },
 
-  $refreshExploreFeed: function(userId, shouldUseRecursersion) {
+  $refreshExploreFeed: function(userId, shouldUseRecursion) {
     var that = this;
 
     this.set({
@@ -103,7 +103,7 @@ var explorePostsStore = Unicycle.createStore({
         });
 
         // get two pages at a time, pass false to make sure this isn't called again
-        if (shouldUseRecursersion) {
+        if (shouldUseRecursion) {
           Unicycle.exec('requestExploreFeed', userId);
         }
       },
