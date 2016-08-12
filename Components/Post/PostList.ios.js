@@ -18,7 +18,7 @@ var {
 
 var styles = StyleSheet.create({
   container: {
-    backgroundColor: '#F2F2F2'
+    backgroundColor: 'white'
   },
   pullDownToRefreshText: {
     alignSelf: 'center',
