@@ -30,6 +30,7 @@ var styles = StyleSheet.create({
 var Post = React.createClass({
 
   MAX_IMAGE_HEIGHT: 420,
+  DOUBLE_TAP_TIME_CONSTRAINT: 250,
 
   propTypes: {
     post: React.PropTypes.object.isRequired,
@@ -44,7 +45,8 @@ var Post = React.createClass({
   getInitialState: function() {
     return {
       isCommentRequestInFlight: false,
-      isLikeRequestInFlight: false
+      isLikeRequestInFlight: false,
+      timeOfLastPhotoTap: 0
     };
   },
 
@@ -55,7 +57,7 @@ var Post = React.createClass({
         <PostHeader {...this.props}/>
 
         <TouchableHighlight
-          onPress={ this._photoOnClickAction(this.props.post.liked) }
+          onPress={this._onDoubleTapPhotoAction}
           underlayColor="transparent">
           <Image
             style={[styles.postImage, {height: this._getImageHeight()}]}
@@ -81,12 +83,21 @@ var Post = React.createClass({
     }
   },
 
+  _onDoubleTapPhotoAction: function() {
+    var timeDifference = new Date().getTime() - this.state.timeOfLastPhotoTap;
+
+    if (timeDifference < this.DOUBLE_TAP_TIME_CONSTRAINT) {
+      this._photoOnClickAction(this.props.post.liked);
+    }
+
+    this.setState({
+      timeOfLastPhotoTap: new Date().getTime()
+    });
+  },
+
   _photoOnClickAction: function(liked) {
     if (!liked) {
-      return this._likePost;
-    }
-    else {
-      return () => { /* do nothing */ };
+      this._likePost();
     }
   },
 
