@@ -121,7 +121,6 @@ var GroupManagePhotosPopup = React.createClass({
           <Text
             style={[styles.cancelLink, { color: Colors.getPrimaryAppColor() }]}
             onPress={() => {
-              this.props.onPageReturnCallback();
               this.props.navigator.pop();
             }}>
             Cancel

@@ -2,7 +2,6 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
-var PrettyTouchable = require('./Common/PrettyTouchable');
 var Colors = require('../Utils/Common/Colors');
 
 var {
@@ -43,15 +42,8 @@ var NoHomeFeedPostsMessage = React.createClass({
           No posts from anyone you're following!
         </Text>
         <Text style={styles.noPostSubTitle}>
-          Search for classmates to follow.
+          Swipe to explore
         </Text>
-        <PrettyTouchable
-          label="Explore"
-          containerStyle={{
-            width: 150,
-            height: 44,
-            marginTop: 20
-          }}/>
 
       </View>
     );
