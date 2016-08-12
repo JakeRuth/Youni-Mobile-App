@@ -3,7 +3,7 @@
 var React = require('react');
 var ReactNative = require('react-native');
 var Icon = require('react-native-vector-icons/MaterialIcons');
-var UIImagePickerManager = require('NativeModules').UIImagePickerManager;
+var UIImagePickerManager = require('react-native-image-picker');
 
 var Spinner = require('../../../Common/Spinner');
 

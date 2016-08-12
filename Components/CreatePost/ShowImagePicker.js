@@ -1,7 +1,7 @@
 'use strict';
 
 var ReactNative = require('react-native');
-var UIImagePickerManager = require('NativeModules').UIImagePickerManager;
+var UIImagePickerManager = require('react-native-image-picker');
 
 var CreatePostForm = require('./CreatePostForm');
 var createPostStore = require('../../stores/CreatePostStore');

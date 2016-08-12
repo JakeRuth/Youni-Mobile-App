@@ -4,7 +4,7 @@ var React = require('react');
 var ReactNative = require('react-native');
 var Icon = require('react-native-vector-icons/MaterialIcons');
 var Unicycle = require('../../../Unicycle');
-var UIImagePickerManager = require('NativeModules').UIImagePickerManager;
+var UIImagePickerManager = require('react-native-image-picker');
 
 var ProfileImage = require('../ProfileImage');
 var profileOwnerStore = require('../../../stores/profile/ProfileOwnerStore');
