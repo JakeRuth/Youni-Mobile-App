@@ -50,7 +50,7 @@ var LoginSignupFlowAlerts = {
           text: 'Ok'
         }
       ]
-    )
+    );
   }
 
 };

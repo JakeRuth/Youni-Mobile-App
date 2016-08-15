@@ -11,6 +11,11 @@ var {
   Dimensions
 } = ReactNative;
 
+var originalSuccessfulSignupGraphicDimensions = {
+  width: 750,
+  height: 507
+};
+
 var styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -34,7 +39,8 @@ var styles = StyleSheet.create({
   },
   successEnvelopeImage: {
     flex: 1,
-    width: 241
+    width: originalSuccessfulSignupGraphicDimensions.width * .3,
+    height: originalSuccessfulSignupGraphicDimensions.height * .3
   },
   checkJunkFolderMessage: {
     textAlign: 'center',

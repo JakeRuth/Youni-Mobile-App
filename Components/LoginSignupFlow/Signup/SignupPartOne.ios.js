@@ -7,8 +7,10 @@ var signupStore = require('../../../stores/SignupStore');
 
 var {
   View,
+  Text,
   StyleSheet,
-  Dimensions
+  Dimensions,
+  AlertIOS
 } = ReactNative;
 
 var styles = StyleSheet.create({
@@ -18,14 +20,13 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     width: Dimensions.get('window').width
   },
-  emailInputContainer: {
+  inputContainer: {
     marginBottom: 20
   },
-  passwordInputContainer: {
-    marginBottom: 20
-  },
-  confirmPasswordInputContainer: {
-    marginBottom: 20
+  inviteCodeCalloutText: {
+    padding: 5,
+    paddingLeft: 20,
+    color: 'white'
   }
 });
 
@@ -35,7 +36,7 @@ var SignupPartOne = React.createClass({
     return (
       <View style={styles.container}>
 
-        <View style={styles.emailInputContainer}>
+        <View style={styles.inputContainer}>
           <PrettyInput
             style={{
               width: Dimensions.get('window').width * .8,
@@ -46,7 +47,7 @@ var SignupPartOne = React.createClass({
             keyboardType='email-address'/>
         </View>
 
-        <View style={styles.passwordInputContainer}>
+        <View style={styles.inputContainer}>
           <PrettyInput
             style={{
               width: Dimensions.get('window').width * .8,
@@ -58,7 +59,7 @@ var SignupPartOne = React.createClass({
             placeholder='Password'/>
         </View>
 
-        <View style={styles.confirmPasswordInputContainer}>
+        <View style={styles.inputContainer}>
           <PrettyInput
             style={{
               width: Dimensions.get('window').width * .8,
@@ -69,8 +70,35 @@ var SignupPartOne = React.createClass({
             clearTextOnFocus={true}
             placeholder='Confirm Password'/>
         </View>
+
+        <View style={styles.inputContainer}>
+          <PrettyInput
+            style={{
+              width: Dimensions.get('window').width * .8,
+              height: 44
+            }}
+            onTextChange={signupStore.setInviteCode}
+            placeholder='Invite Code (opt)'/>
+          <Text
+            style={styles.inviteCodeCalloutText}
+            onPress={this._onInviteCodeTextCalloutPress}>
+            What is this?
+          </Text>
+        </View>
         
       </View>
+    );
+  },
+  
+  _onInviteCodeTextCalloutPress: function() {
+    AlertIOS.alert(
+      'If you use a sign up code from a friend, both you and your friend will receive 1000 campus score points!',
+      '',
+      [
+        {
+          text: 'Ok'
+        }
+      ]
     );
   }
 

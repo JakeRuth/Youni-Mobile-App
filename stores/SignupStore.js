@@ -12,6 +12,7 @@ var signupStore = Unicycle.createStore({
       email: '',
       password: '',
       confirmPassword: '',
+      inviteCode: '',
       firstName: '',
       lastName: '',
       gender: '',
@@ -34,7 +35,8 @@ var signupStore = Unicycle.createStore({
         email: this.getEmail(),
         password: this.getPassword(),
         isFemale: isFemale,
-        classYear: this.getClassYear()
+        classYear: this.getClassYear(),
+        userInviteCode: this.getInviteCode()
       },
       (res) => {
         that.setIsCreateAccountRequestInFlight(false);
@@ -71,6 +73,12 @@ var signupStore = Unicycle.createStore({
   setConfirmPassword: function(confirmPassword) {
     this.set({
       confirmPassword: confirmPassword
+    });
+  },
+  
+  setInviteCode: function(code) {
+    this.set({
+      inviteCode: code
     });
   },
 
@@ -118,6 +126,10 @@ var signupStore = Unicycle.createStore({
 
   getConfirmPassword: function() {
     return this.get('confirmPassword');
+  },
+  
+  getInviteCode: function() {
+    return this.get('inviteCode');
   },
 
   getFirstName: function() {
