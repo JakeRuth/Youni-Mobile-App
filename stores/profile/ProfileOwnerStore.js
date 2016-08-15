@@ -31,6 +31,7 @@ var profileOwnerStore = Unicycle.createStore({
         bio: '',
         profileImageUrl: '',
         email: '',
+        userInviteToken: '',
         posts: [],
         feedPageOffset: INITIAL_PAGE_OFFSET
       });
@@ -63,7 +64,8 @@ var profileOwnerStore = Unicycle.createStore({
             email: res.body.userDetails['email'],
             profileImageUrl: res.body.userDetails['profileImageUrl'],
             numPosts: res.body.userDetails['numPosts'],
-            totalPoints: res.body.userDetails['allTimePoints']
+            totalPoints: res.body.userDetails['allTimePoints'],
+            userInviteToken: res.body.userDetails['userInviteCode']
           });
         },
         () => {
@@ -315,7 +317,8 @@ var profileOwnerStore = Unicycle.createStore({
         email: this.getEmail(),
         profileImageUrl: this.getProfileImageUrl(),
         numPosts: this.getNumPosts(),
-        totalPoints: this.getTotalPoints()
+        totalPoints: this.getTotalPoints(),
+        userInviteToken: this.getUserInviteToken()
       };
     },
 
@@ -349,6 +352,10 @@ var profileOwnerStore = Unicycle.createStore({
 
     getEmail: function() {
       return this.get('email');
+    },
+  
+    getUserInviteToken: function () {
+      return this.get('userInviteToken');
     },
 
     getPosts: function() {

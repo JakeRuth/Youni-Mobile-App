@@ -61,11 +61,12 @@ var EditSettingsButton = React.createClass({
       options: [
         'Edit Profile',
         'Blocked Users',
+        'Show Invite Token',
         'Logout',
         'Cancel'
       ],
-      destructiveButtonIndex: 2,
-      cancelButtonIndex: 3,
+      destructiveButtonIndex: 3,
+      cancelButtonIndex: 4,
       tintColor: Colors.getPrimaryAppColor()
     },
     (buttonIndex) => {
@@ -76,6 +77,9 @@ var EditSettingsButton = React.createClass({
         this._onShowBlockedUsersOptionSelect();
       }
       else if (buttonIndex === 2) {
+        this._onShowInviteTokenOptionSelect();
+      }
+      else if (buttonIndex === 3) {
         this._onLogoutButtonPressAreYouSurePrompt();
       }
     });
@@ -94,6 +98,32 @@ var EditSettingsButton = React.createClass({
     this.props.navigator.push({
       component: BlockedUsersPopup
     });
+  },
+  
+  _onShowInviteTokenOptionSelect: function() {
+    if (this.props.user.userInviteToken) {
+      AlertIOS.alert(
+        'Here is your user invite token.  If a user enters this token while creating an account, both you and your friend' +
+        'will get 1000 campus score points!',
+        this.props.user.userInviteToken,
+        [
+          {
+            text: 'Sweet'
+          }
+        ]
+      );
+    }
+    else {
+      AlertIOS.alert(
+        'You do not have a user invite token',
+        '',
+        [
+          {
+            text: 'Okay'
+          }
+        ]
+      );
+    }
   },
 
   _onLogoutButtonPressAreYouSurePrompt: function() {
