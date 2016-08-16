@@ -97,7 +97,7 @@ var Comment = React.createClass({
         component: ProfilePopup,
         passProps: {
           profileUserEmail: this.props.commenterEmail,
-          onBackArrowPress: () => statusBarStyleStore.setStyle(IosStatusBarStyles.DEFAULT)
+          onBackArrowPress: () => statusBarStyleStore.setStyle(IosStatusBarStyles.LIGHT_CONTENT)
         }
       })
     }

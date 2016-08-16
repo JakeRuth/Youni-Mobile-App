@@ -120,7 +120,7 @@ var PostHeader = React.createClass({
         component: ProfilePopup,
         passProps: {
           profileUserEmail: this.props.post.posterEmail,
-          onBackArrowPress: () => statusBarStyleStore.setStyle(IosStatusBarStyles.DEFAULT)
+          onBackArrowPress: () => statusBarStyleStore.setStyle(IosStatusBarStyles.LIGHT_CONTENT)
         }
       });
     }
