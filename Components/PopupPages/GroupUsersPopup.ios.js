@@ -35,6 +35,12 @@ var styles = StyleSheet.create({
     flex: 1,
     alignSelf: 'center',
     justifyContent: 'center'
+  },
+  noUsersMessage: {
+    marginTop: 100,
+    fontSize: 16,
+    color: Colors.DARK_GRAY,
+    textAlign: 'center'
   }
 });
 
@@ -80,6 +86,13 @@ var GroupUsersPopup = React.createClass({
         <View style={styles.spinnerContainer}>
           <Spinner/>
         </View>
+      );
+    }
+    else if (this.state.users.length === 0) {
+      content = (
+        <Text style={styles.noUsersMessage}>
+          This group has no users
+        </Text>
       );
     }
     else {
