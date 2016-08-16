@@ -212,7 +212,7 @@ var LoginSignupFlow = React.createClass({
               onPress={this._onSignupPageOneSubmit}/>
           </View>
 
-          <AgreeToTermsMessage/>
+          <AgreeToTermsMessage navigator={this.props.navigator}/>
 
           <FlowNavigationFooter
             label="Already have an account?"
@@ -251,7 +251,7 @@ var LoginSignupFlow = React.createClass({
               showSpinner={signupStore.isCreateAccountRequestInFlight()}/>
           </View>
 
-          <AgreeToTermsMessage/>
+          <AgreeToTermsMessage navigator={this.props.navigator}/>
 
           <FlowNavigationFooter
             label="Already have an account?"
