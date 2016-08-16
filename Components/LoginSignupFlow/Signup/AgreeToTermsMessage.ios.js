@@ -2,13 +2,13 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
-var EULAAgreementPage = require('../EULAAgreementPage');
 
 var {
   Text,
   View,
   Dimensions,
-  StyleSheet
+  StyleSheet,
+  Linking
 } = ReactNative;
 
 var styles = StyleSheet.create({
@@ -33,10 +33,6 @@ var styles = StyleSheet.create({
 
 var AgreeToTermsMessage = React.createClass({
 
-  propTypes: {
-    navigator: React.PropTypes.object.isRequired
-  },
-
   render: function() {
     return (
       <View>
@@ -47,11 +43,7 @@ var AgreeToTermsMessage = React.createClass({
 
         <Text
           style={styles.bottom}
-          onPress={() => {
-            this.props.navigator.push({
-              component: EULAAgreementPage
-            });
-          }}>
+          onPress={() => Linking.openURL('http://youniapp.com/privacyPolicy.html')}>
           <Text style={styles.underline}>Terms</Text> & <Text style={styles.underline}>Privacy Policy</Text>
         </Text>
 
