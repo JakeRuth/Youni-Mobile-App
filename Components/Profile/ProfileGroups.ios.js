@@ -78,7 +78,7 @@ var ProfileGroups = React.createClass({
     if (!groups.length) {
       content =  (
         <Text style={styles.noGroupsMessage}>
-          {`${this.props.user.firstName} does not belong to any on campus groups.`}
+          {`${this.props.user.firstName} does not belong to any groups.`}
         </Text>
       );
     }
