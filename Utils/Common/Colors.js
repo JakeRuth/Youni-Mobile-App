@@ -8,7 +8,7 @@ var Colors = {
     return userLoginMetadataStore.getNetworkColor() ? userLoginMetadataStore.getNetworkColor() : '#7700FF';
   },
 
-  LIGHT_YOUNI_PURPLE: '#E3E8FD',
+  LIGHT_PURPLE: '#E3E8FD',
   DARK_GRAY: '#1E2022',
   MED_GRAY: '#9B9B9B',
   LIGHT_GRAY: '#EAEAEA',

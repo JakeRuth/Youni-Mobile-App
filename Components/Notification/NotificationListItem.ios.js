@@ -112,7 +112,7 @@ var NotificationsListItem = React.createClass({
     }
 
     if (!this.props.notification.isRead) {
-      unreadNotificationStyle = { backgroundColor: Colors.LIGHT_YOUNI_PURPLE };
+      unreadNotificationStyle = { backgroundColor: Colors.LIGHT_PURPLE };
     }
 
     if (!NotificationUtils.isValidNotificationType(this.props.notification.type)) {
