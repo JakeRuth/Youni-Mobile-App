@@ -86,6 +86,7 @@ var OverlayPage = React.createClass({
 
         <ScrollView
           contentOffset={contentOffset}
+          keyboardShouldPersistTaps={true}
           automaticallyAdjustContentInsets={false}>
 
           {this.props.content}

@@ -13,9 +13,11 @@ var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 
 var {
   View,
+  ScrollView,
   Text,
   StyleSheet,
-  AlertIOS
+  AlertIOS,
+  Keyboard
 } = ReactNative;
 
 var styles = StyleSheet.create({
@@ -38,14 +40,34 @@ var RequestToCreateGroupPopup = React.createClass({
   getInitialState: function() {
     return {
       groupName: '',
+      inviteCode: '',
       additionalInfo: '',
-      isRequestInFlight: false
+      isRequestInFlight: false,
+      isKeyboardVisible: null
     };
   },
 
+  componentDidMount() {
+    Keyboard.addListener('keyboardWillShow', () => {
+      this.setState({isKeyboardVisible: true});
+    });
+    Keyboard.addListener('keyboardWillHide', () => {
+      this.setState({isKeyboardVisible: false});
+    });
+  },
+
   render: function () {
+    var hackyKeyboardPadding;
+
+    if (this.state.isKeyboardVisible) {
+      hackyKeyboardPadding = <View style={{ height: 270 }}/>;
+    }
+
     return (
-      <View style={styles.container}>
+      <ScrollView
+        style={styles.container}
+        keyboardShouldPersistTaps={true}
+        automaticallyAdjustContentInsets={false}>
         <YouniHeader>
           <Text style={[styles.pageHeader, { color: Colors.getPrimaryAppColor() }]}>
             Request New Organization
@@ -55,14 +77,18 @@ var RequestToCreateGroupPopup = React.createClass({
 
         <RequestToCreateGroupForm
           groupName={this.state.groupName}
+          inviteCode={this.state.inviteCode}
           additionalInfo={this.state.additionalInfo}
           isRequestInFlight={this.state.isRequestInFlight}
           onGroupNameInputChange={(text) => this.setState({ groupName: text })}
+          onInviteCodeInputChange={(text) => this.setState({ inviteCode: text })}
           onAdditionalInfoInputChange={(text) => this.setState({ additionalInfo: text })}
           onSubmit={this._onSubmitCreateGroupForm}
           navigator={this.props.navigator}/>
 
-      </View>
+        {hackyKeyboardPadding}
+
+      </ScrollView>
     );
   },
 
@@ -110,6 +136,7 @@ var RequestToCreateGroupPopup = React.createClass({
       {
         requestingUserEmail: userLoginMetaDataStore.getEmail(),
         groupName: this.state.groupName,
+        groupInviteCode: this.state.inviteCode,
         additionalInfo: this.state.additionalInfo
       },
       (res) => {
@@ -134,7 +161,8 @@ var RequestToCreateGroupPopup = React.createClass({
       'as we review the request!',
       [
         {
-          text: 'Hurray!'
+          text: 'Hurray!',
+          onPress: () => this.props.navigator.pop()
         }
       ]
     );

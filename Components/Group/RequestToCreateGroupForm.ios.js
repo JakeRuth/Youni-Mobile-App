@@ -24,7 +24,7 @@ var styles = StyleSheet.create({
   message: {
     marginBottom: 20
   },
-  groupNameInput: {
+  input: {
     color: Colors.DARK_GRAY,
     fontSize: 16,
     height: 44,
@@ -36,15 +36,7 @@ var styles = StyleSheet.create({
     borderWidth: 1
   },
   additionalInfoInput: {
-    color: Colors.DARK_GRAY,
-    fontSize: 16,
-    height: 100,
-    paddingTop: 5,
-    paddingLeft: 20,
-    paddingRight: 20,
-    marginBottom: 20,
-    borderRadius: 4,
-    borderWidth: 1
+    height: 100
   }
 });
 
@@ -52,9 +44,11 @@ var RequestToCreateGroupForm = React.createClass({
 
   propTypes: {
     groupName: React.PropTypes.string.isRequired,
+    inviteCode: React.PropTypes.string.isRequired,
     additionalInfo: React.PropTypes.string.isRequired,
     isRequestInFlight: React.PropTypes.bool,
     onGroupNameInputChange: React.PropTypes.func.isRequired,
+    onInviteCodeInputChange: React.PropTypes.func.isRequired,
     onAdditionalInfoInputChange: React.PropTypes.func.isRequired,
     onSubmit: React.PropTypes.func.isRequired,
     navigator: React.PropTypes.object.isRequired
@@ -71,15 +65,21 @@ var RequestToCreateGroupForm = React.createClass({
           Please provide us with as much information as possible to help expedite the review process.
         </Text>
         <TextInput
-          style={[styles.groupNameInput, additionalInputStyles]}
+          style={[styles.input, additionalInputStyles]}
           placeholder="Organization Name"
           placeholderColor={Colors.getPrimaryAppColor()}
           onChangeText={(text) => this.props.onGroupNameInputChange(text)}
           value={this.props.groupName}
-          multiline={true}
           maxLength={50}/>
         <TextInput
-          style={[styles.additionalInfoInput, additionalInputStyles]}
+          style={[styles.input, additionalInputStyles]}
+          placeholder="Invite Code (opt)"
+          placeholderColor={Colors.getPrimaryAppColor()}
+          onChangeText={(text) => this.props.onInviteCodeInputChange(text)}
+          value={this.props.inviteCode}
+          maxLength={50}/>
+        <TextInput
+          style={[styles.input, styles.additionalInfoInput, additionalInputStyles]}
           placeholder="Additional information that will help us verify your organization"
           placeholderColor={Colors.getPrimaryAppColor()}
           onChangeText={(text) => this.props.onAdditionalInfoInputChange(text)}

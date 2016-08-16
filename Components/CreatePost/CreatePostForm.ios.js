@@ -103,7 +103,9 @@ var CreatePostForm = React.createClass({
           <BackArrow onPress={this._onBackArrowPress}/>
         </YouniHeader>
 
-        <ScrollView automaticallyAdjustContentInsets={false}>
+        <ScrollView
+          automaticallyAdjustContentInsets={false}
+          keyboardShouldPersistTaps={true}>
           <View style={styles.imageAndCaptionContainer}>
             <TextInput
               style={styles.captionInput}
