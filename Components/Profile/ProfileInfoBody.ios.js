@@ -8,13 +8,15 @@ var ProfileStat = require('./ProfileStat');
 var ProfileImage = require('./ProfileImage');
 var ProfileGroups = require('./ProfileGroups');
 var GroupThumbnailLink = require('../Group/GroupThumbnailLink');
+var CampusScoreInfoAlert = require('../Common/CampusScoreInfoAlert');
 
 var Colors = require('../../Utils/Common/Colors');
 
 var {
   Text,
   View,
-  StyleSheet
+  StyleSheet,
+  TouchableHighlight
 } = ReactNative;
 
 var styles = StyleSheet.create({
@@ -75,12 +77,17 @@ var ProfileInfoBody = React.createClass({
     return (
       <View>
         <View style={styles.topBodyContainer}>
-          <View style={styles.postStatContainer}>
-            <ProfileStat
-              value={this.props.user.totalPoints}
-              label="Campus Score"
-              alignIndicatorTo="left"/>
-          </View>
+          <TouchableHighlight
+            style={styles.postStatContainer}
+            underlayColor="transparent"
+            onPress={() => CampusScoreInfoAlert.show()}>
+            <View>
+              <ProfileStat
+                value={this.props.user.totalPoints}
+                label="Campus Score"
+                alignIndicatorTo="left"/>
+            </View>
+          </TouchableHighlight>
           <View style={styles.profileImageContainer}>
             <ProfileImage {...this.props}/>
           </View>

@@ -4,6 +4,7 @@ var React = require('react');
 var ReactNative = require('react-native');
 
 var GroupUsersPopup = require('../PopupPages/GroupUsersPopup');
+var CampusScoreInfoAlert = require('../Common/CampusScoreInfoAlert');
 
 var Colors = require('../../Utils/Common/Colors');
 
@@ -79,7 +80,7 @@ var GroupStats = React.createClass({
 
         {this._renderStat(styles.postStatContainer, this.props.group.numPosts, 'Posts')}
         {this._renderSeparator()}
-        {this._renderStat(styles.campusScoreStatContainer, this.props.group.allTimeTrendPoints, 'Campus Score')}
+        {this._renderStat(styles.campusScoreStatContainer, this.props.group.allTimeTrendPoints, 'Campus Score', this._onCampusScoreStatPress)}
         {this._renderSeparator()}
         {this._renderStat(styles.memberStatContainer, this.props.group.numMembers, 'Members', this._onMembersStatPress)}
 
@@ -115,6 +116,10 @@ var GroupStats = React.createClass({
     return (
       <View style={styles.separator}/>
     )
+  },
+
+  _onCampusScoreStatPress: function() {
+    CampusScoreInfoAlert.show();
   },
 
   _onMembersStatPress: function() {
