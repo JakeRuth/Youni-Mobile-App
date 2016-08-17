@@ -60,7 +60,7 @@ var trendingStore = Unicycle.createStore({
     });
 
     AjaxUtils.ajax(
-      '/trending/getTrendingUsers',
+      '/trending/getSemesterTrendingUsers',
       {
         networkName: userLoginMetadataStore.getNetworkName()
       },
@@ -116,7 +116,7 @@ var trendingStore = Unicycle.createStore({
     });
 
     AjaxUtils.ajax(
-      '/trending/getTrendingGroups',
+      '/trending/getSemesterTrendingGroups',
       {
         networkName: userLoginMetadataStore.getNetworkName()
       },
