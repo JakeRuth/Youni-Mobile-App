@@ -20,7 +20,8 @@ var styles = StyleSheet.create({
   },
   label: {
     color: Colors.MED_GRAY,
-    fontSize: 12
+    fontSize: 12,
+    fontWeight: '600'
   }
 });
 

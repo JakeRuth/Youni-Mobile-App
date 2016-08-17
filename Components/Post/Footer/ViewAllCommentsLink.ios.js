@@ -15,8 +15,8 @@ var styles = StyleSheet.create({
     marginBottom: 8
   },
   viewAllText: {
-    fontSize: 14,
-    fontWeight: '100',
+    fontSize: 12,
+    fontWeight: '600',
     color: Colors.MED_GRAY
   }
 });

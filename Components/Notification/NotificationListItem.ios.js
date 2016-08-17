@@ -60,7 +60,6 @@ var styles = StyleSheet.create({
   message: {
     color: Colors.DARK_GRAY,
     fontSize: 14,
-    fontWeight: '100',
     marginTop: 4
   },
   timestamp: {
