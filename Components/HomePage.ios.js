@@ -5,6 +5,7 @@ var ReactNative = require('react-native');
 var Unicycle = require('../Unicycle');
 
 var NoHomeFeedPostsMessage = require('./NoHomeFeedPostsMessage');
+var InitialLoginTutorialPopup = require('./InitialLoginTutorialPopup');
 var NotificationIcon = require('./Notification/NotificationIcon');
 var PostList = require('./Post/PostList');
 var Spinner = require('./Common/Spinner');
@@ -124,6 +125,8 @@ var HomePage = React.createClass({
         <View style={styles.createPostButtonContainer}>
           <CreatePostButton navigator={this.props.navigator}/>
         </View>
+
+        <InitialLoginTutorialPopup/>
 
       </View>
     );

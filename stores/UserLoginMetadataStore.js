@@ -2,7 +2,7 @@
 
 var Unicycle = require('./../Unicycle');
 
-var userLoginMetadata = Unicycle.createStore({
+var userLoginMetadataStore = Unicycle.createStore({
 
   init: function () {
     this.set({
@@ -14,21 +14,38 @@ var userLoginMetadata = Unicycle.createStore({
       firstName: '',
       lastName: '',
       networkName: '',
-      networkColor: ''
+      networkColor: '',
+      showTutorialPopup: false
     });
   },
 
-  $setAllMetadata: function (accessToken, refreshToken, userId, profileImageUrl, email, firstName, lastName, networkName, networkColor) {
+  setAccessToken: function(value) {
     this.set({
-      accessToken: accessToken,
-      refreshToken: refreshToken,
-      userId: userId,
-      profileImageUrl: profileImageUrl,
-      email: email,
-      firstName: firstName,
-      lastName: lastName,
-      networkName: networkName,
-      networkColor: networkColor
+      accessToken: value
+    });
+  },
+
+  setRefreshToken: function(value) {
+    this.set({
+      refreshToken: value
+    });
+  },
+
+  setUserId: function(value) {
+    this.set({
+      userId: value
+    });
+  },
+
+  setProfileImageUrl: function(value) {
+    this.set({
+      profileImageUrl: value
+    });
+  },
+
+  setEmail: function(value) {
+    this.set({
+      email: value
     });
   },
 
@@ -41,6 +58,24 @@ var userLoginMetadata = Unicycle.createStore({
   setLastName: function (value) {
     this.set({
       lastName: value
+    });
+  },
+
+  setNetworkName: function(value) {
+    this.set({
+      networkName: value
+    });
+  },
+  
+  setNetworkColor: function(value) {
+    this.set({
+      networkColor: value
+    });
+  },
+
+  setShowTutorialPopup: function(value) {
+    this.set({
+      showTutorialPopup: value
     });
   },
 
@@ -83,13 +118,11 @@ var userLoginMetadata = Unicycle.createStore({
   getNetworkColor: function () {
     return this.get('networkColor');
   },
-  
-  setProfileImageUrl: function(url) {
-    this.set({
-      profileImageUrl: url
-    });
+
+  getShouldShowTutorialPopup: function() {
+    return this.get('showTutorialPopup');
   }
 
 });
 
-module.exports = userLoginMetadata;
+module.exports = userLoginMetadataStore;

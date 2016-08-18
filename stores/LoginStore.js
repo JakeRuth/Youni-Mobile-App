@@ -1,6 +1,8 @@
 'use strict';
 
-var Unicycle = require('./../Unicycle');
+var Unicycle = require('../Unicycle');
+
+var userLoginMetadataStore = require('./UserLoginMetadataStore');
 var AsyncStorageUtils = require('../Utils/Common/AsyncStorageUtils');
 var AjaxUtils = require('../Utils/Common/AjaxUtils');
 
@@ -44,20 +46,19 @@ var loginStore = Unicycle.createStore({
             firstName = res.body.firstName,
             lastName = res.body.lastName,
             networkName = res.body.networkName,
-            networkColor = res.body.networkColorHexCode;
+            networkColor = res.body.networkColorHexCode,
+            showTutorialPopup = res.body.showTutorialPopup;
 
-        Unicycle.exec(
-          'setAllMetadata',
-          accessToken,
-          refreshToken,
-          userId,
-          profileImageUrl,
-          email,
-          firstName,
-          lastName,
-          networkName,
-          networkColor
-        );
+        userLoginMetadataStore.setAccessToken(accessToken);
+        userLoginMetadataStore.setRefreshToken(refreshToken);
+        userLoginMetadataStore.setUserId(userId);
+        userLoginMetadataStore.setProfileImageUrl(profileImageUrl);
+        userLoginMetadataStore.setEmail(email);
+        userLoginMetadataStore.setFirstName(firstName);
+        userLoginMetadataStore.setLastName(lastName);
+        userLoginMetadataStore.setNetworkName(networkName);
+        userLoginMetadataStore.setNetworkColor(networkColor);
+        userLoginMetadataStore.setShowTutorialPopup(showTutorialPopup);
 
         AsyncStorageUtils.saveItem('userId', userId);
         AsyncStorageUtils.saveItem('email', email);

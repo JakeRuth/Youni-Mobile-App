@@ -2,6 +2,7 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
+
 var Colors = require('../../Utils/Common/Colors');
 
 var {
@@ -25,7 +26,7 @@ var Spinner = React.createClass({
   },
 
   render: function() {
-    return(
+    return (
       <View style={[styles.container, this.props.style]}>
         <ActivityIndicator
           size={'small'}
