@@ -2,6 +2,7 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
+var DismissKeyboard = require('dismissKeyboard');
 var Unicycle = require('./Unicycle');
 
 var statusBarStyleStore = require('./stores/StatusBarStyleStore');
@@ -12,7 +13,8 @@ var {
   StatusBar,
   StyleSheet,
   AppRegistry,
-  NavigatorIOS
+  NavigatorIOS,
+  TouchableWithoutFeedback
 } = ReactNative;
 
 var styles = StyleSheet.create({
@@ -31,13 +33,16 @@ var RootNavigator = React.createClass({
     return (
       <View style={styles.container}>
         <StatusBar barStyle={statusBarStyleStore.getStyle()}/>
-        <NavigatorIOS
-          style={styles.container}
-          navigationBarHidden={true}
-          initialRoute={{
-            title: '', // React Native as of 0.18.0 throws a warning if this isn't specified
-            component: LoginSignupFlow
-          }}/>
+
+        <TouchableWithoutFeedback onPress={() => DismissKeyboard()}>
+          <NavigatorIOS
+            style={styles.container}
+            navigationBarHidden={true}
+            initialRoute={{
+              title: '', // React Native as of 0.18.0 throws a warning if this isn't specified
+              component: LoginSignupFlow
+            }}/>
+        </TouchableWithoutFeedback>
       </View>
     );
   }
