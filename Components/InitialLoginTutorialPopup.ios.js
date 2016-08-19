@@ -17,13 +17,14 @@ var {
 
 var styles = StyleSheet.create({
   container: {
-    flex: 1,
     position: 'absolute',
-    top: 64
+    top:64,
+    height: Dimensions.get('window').height - 64
   },
   tutorialPopup: {
     flex: 1,
-    width: Dimensions.get('window').width
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height - 64
   }
 });
 
@@ -50,6 +51,7 @@ var InitialLoginTutorialPopup = React.createClass({
           onPress={this._onPress}>
           <Image
             style={styles.tutorialPopup}
+            resizeMode="contain"
             source={require('../images/initialLoginAppTutorialPopup.png')}/>
         </TouchableHighlight>
       );
