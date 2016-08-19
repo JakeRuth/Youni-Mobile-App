@@ -2,6 +2,7 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
+var DismissKeyboard = require('dismissKeyboard');
 var Unicycle = require('../../Unicycle');
 
 var LandingPage = require('../LandingPage');
@@ -32,7 +33,8 @@ var {
   StyleSheet,
   Image,
   Dimensions,
-  AlertIOS
+  AlertIOS,
+  TouchableWithoutFeedback
 } = ReactNative;
 
 /*
@@ -107,28 +109,36 @@ var LoginSignupFlow = React.createClass({
   ],
 
   render: function () {
+    var content;
+    
     if (this.state.isAutoLoginRequestInFlight) {
-      return (
+      content = (
         <View style={[styles.container, { backgroundColor: Color.getPrimaryAppColor() }]}>
           <Spinner/>
         </View>
       );
     }
     else if (this.state.currentPageInFlow === LoginSignupFlowPhases.INITIAL_PAGE) {
-      return this._renderInitialPage();
+      content = this._renderInitialPage();
     }
     else if (this.state.currentPageInFlow === LoginSignupFlowPhases.LOGIN_PAGE) {
-      return this._renderLoginPage();
+      content = this._renderLoginPage();
     }
     else if (this.state.currentPageInFlow === LoginSignupFlowPhases.CREATE_ACCOUNT_P1) {
-      return this._renderSignupPartOne();
+      content = this._renderSignupPartOne();
     }
     else if (this.state.currentPageInFlow === LoginSignupFlowPhases.CREATE_ACCOUNT_P2) {
-      return this._renderSignupPartTwo();
+      content = this._renderSignupPartTwo();
     }
     else if (this.state.currentPageInFlow === LoginSignupFlowPhases.SUCCESSFUL_SIGNUP_PAGE) {
-      return this._renderSuccessfulSignupPage();
+      content = this._renderSuccessfulSignupPage();
     }
+    
+    return (
+      <TouchableWithoutFeedback onPress={() => DismissKeyboard()}>
+        {content}
+      </TouchableWithoutFeedback>
+    );
   },
 
   _renderInitialPage: function() {

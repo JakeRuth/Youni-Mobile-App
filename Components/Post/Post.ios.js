@@ -12,7 +12,7 @@ var {
   Text,
   Image,
   StyleSheet,
-  TouchableHighlight
+  TouchableWithoutFeedback
 } = ReactNative;
 
 var styles = StyleSheet.create({
@@ -56,14 +56,12 @@ var Post = React.createClass({
 
         <PostHeader {...this.props}/>
 
-        <TouchableHighlight
-          onPress={this._onDoubleTapPhotoAction}
-          underlayColor="transparent">
+        <TouchableWithoutFeedback onPress={this._onDoubleTapPhotoAction}>
           <Image
             style={[styles.postImage, {height: this._getImageHeight()}]}
             resizeMode="cover"
             source={{uri: this.props.post.photoUrl}}/>
-        </TouchableHighlight>
+        </TouchableWithoutFeedback>
 
         <PostFooter
           {...this.props}

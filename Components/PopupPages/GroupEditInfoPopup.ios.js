@@ -2,6 +2,7 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
+var DismissKeyboard = require('dismissKeyboard');
 
 var ChangeCoverImage = require('../Group/Admin/Edit/ChangeCoverImage');
 var ChangeBadgeImage = require('../Group/Admin/Edit/ChangeBadgeImage');
@@ -19,7 +20,8 @@ var {
   Text,
   AlertIOS,
   TextInput,
-  StyleSheet
+  StyleSheet,
+  TouchableWithoutFeedback
 } = ReactNative;
 
 var styles = StyleSheet.create({
@@ -98,40 +100,44 @@ var GroupEditInfoPopup = React.createClass({
     }
 
     return (
-      <View style={styles.container}>
+      <TouchableWithoutFeedback
+        style={styles.container}
+        onPress={() => DismissKeyboard()}>
+        <View>
 
-        {this._renderHeader()}
+          {this._renderHeader()}
 
-        <ChangeCoverImage {...this.props}/>
+          <ChangeCoverImage {...this.props}/>
 
-        <View style={styles.editInformationControlsContainer}>
-          <EditProfileFieldInput
-            label="Title"
-            value={this.state.name}
-            placeholder={this.props.group.name}
-            onChangeText={(text) => this.setState({name: text}) }
-            maxLength={35}/>
-          <EditProfileFieldInput
-            label="Abbreviation"
-            value={this.state.abbreviatedName}
-            placeholder={this.props.group.abbreviatedName}
-            onChangeText={(text) => this.setState({abbreviatedName: text}) }
-            maxLength={5}/>
-          <TextInput
-            style={styles.editDescription}
-            onChangeText={(text) => this.setState({description: text}) }
-            value={this.state.description}
-            placeholder={editDescriptionPlaceholder}
-            placeholderTextColor={Colors.MED_GRAY}
-            multiline={true}
-            maxLength={125}
-            keyboardType="twitter"/>
-          <ChangeBadgeImage
-            groupIdString={this.props.group.id}
-            groupBadgeImageUrl={this.props.group.badgeImageUrl}/>
+          <View style={styles.editInformationControlsContainer}>
+            <EditProfileFieldInput
+              label="Title"
+              value={this.state.name}
+              placeholder={this.props.group.name}
+              onChangeText={(text) => this.setState({name: text}) }
+              maxLength={35}/>
+            <EditProfileFieldInput
+              label="Abbreviation"
+              value={this.state.abbreviatedName}
+              placeholder={this.props.group.abbreviatedName}
+              onChangeText={(text) => this.setState({abbreviatedName: text}) }
+              maxLength={5}/>
+            <TextInput
+              style={styles.editDescription}
+              onChangeText={(text) => this.setState({description: text}) }
+              value={this.state.description}
+              placeholder={editDescriptionPlaceholder}
+              placeholderTextColor={Colors.MED_GRAY}
+              multiline={true}
+              maxLength={125}
+              keyboardType="twitter"/>
+            <ChangeBadgeImage
+              groupIdString={this.props.group.id}
+              groupBadgeImageUrl={this.props.group.badgeImageUrl}/>
+          </View>
+
         </View>
-
-      </View>
+      </TouchableWithoutFeedback>
     );
   },
 

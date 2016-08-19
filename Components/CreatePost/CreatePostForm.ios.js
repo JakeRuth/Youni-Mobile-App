@@ -2,6 +2,7 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
+var DismissKeyboard = require('dismissKeyboard');
 var Unicycle = require('../../Unicycle');
 
 var SelectGroupsForPost = require('./SelectGroupsForPost');
@@ -25,7 +26,8 @@ var {
   ScrollView,
   StyleSheet,
   Dimensions,
-  TouchableHighlight
+  TouchableHighlight,
+  TouchableWithoutFeedback
 } = ReactNative;
 
 var styles = StyleSheet.create({
@@ -94,36 +96,40 @@ var CreatePostForm = React.createClass({
 
   render: function() {
     return (
-      <View style={styles.container}>
+      <TouchableWithoutFeedback
+        style={styles.container}
+        onPress={() => DismissKeyboard()}>
+        <View style={{ flex: 1 }}>
 
-        <YouniHeader>
-          <Text style={[styles.pageHeader, { color: Colors.getPrimaryAppColor() }]}>
-            Create Post
-          </Text>
-          <BackArrow onPress={this._onBackArrowPress}/>
-        </YouniHeader>
+          <YouniHeader>
+            <Text style={[styles.pageHeader, { color: Colors.getPrimaryAppColor() }]}>
+              Create Post
+            </Text>
+            <BackArrow onPress={this._onBackArrowPress}/>
+          </YouniHeader>
 
-        <ScrollView automaticallyAdjustContentInsets={false}>
-          <View style={styles.imageAndCaptionContainer}>
-            <TextInput
-              style={styles.captionInput}
-              placeholder="Add caption..."
-              placeholderColor={Colors.MED_GRAY}
-              onChangeText={(text) => { createPostStore.setCaption(text); }}
-              value={createPostStore.getCaption()}
-              multiline={true}
-              keyboardType="twitter"
-              maxLength={200}/>
-            <Image
-              style={styles.postImage}
-              resizeMode="contain"
-              source={{uri: this.props.imageUri, isStatic: true}} />
-          </View>
-          <SelectGroupsForPost/>
-        </ScrollView>
-        {this._renderPostButton()}
+          <ScrollView automaticallyAdjustContentInsets={false}>
+            <View style={styles.imageAndCaptionContainer}>
+              <TextInput
+                style={styles.captionInput}
+                placeholder="Add caption..."
+                placeholderColor={Colors.MED_GRAY}
+                onChangeText={(text) => { createPostStore.setCaption(text); }}
+                value={createPostStore.getCaption()}
+                multiline={true}
+                keyboardType="twitter"
+                maxLength={200}/>
+              <Image
+                style={styles.postImage}
+                resizeMode="contain"
+                source={{uri: this.props.imageUri, isStatic: true}} />
+            </View>
+            <SelectGroupsForPost/>
+          </ScrollView>
 
-      </View>
+          {this._renderPostButton()}
+        </View>
+      </TouchableWithoutFeedback>
     );
   },
 

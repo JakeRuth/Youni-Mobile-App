@@ -2,6 +2,7 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
+var DismissKeyboard = require('dismissKeyboard');
 
 var RequestToCreateGroupForm = require('../Group/RequestToCreateGroupForm');
 var YouniHeader = require('../Common/YouniHeader');
@@ -17,7 +18,8 @@ var {
   Text,
   StyleSheet,
   AlertIOS,
-  Keyboard
+  Keyboard,
+  TouchableWithoutFeedback
 } = ReactNative;
 
 var styles = StyleSheet.create({
@@ -64,31 +66,33 @@ var RequestToCreateGroupPopup = React.createClass({
     }
 
     return (
-      <ScrollView
+      <TouchableWithoutFeedback
         style={styles.container}
-        keyboardShouldPersistTaps={true}
-        automaticallyAdjustContentInsets={false}>
-        <YouniHeader>
-          <Text style={[styles.pageHeader, { color: Colors.getPrimaryAppColor() }]}>
-            Request New Organization
-          </Text>
-          <BackArrow onPress={() => this.props.navigator.pop()}/>
-        </YouniHeader>
+        onPress={() => DismissKeyboard()}>
+        <ScrollView automaticallyAdjustContentInsets={false}>
+          
+          <YouniHeader>
+            <Text style={[styles.pageHeader, { color: Colors.getPrimaryAppColor() }]}>
+              Request New Organization
+            </Text>
+            <BackArrow onPress={() => this.props.navigator.pop()}/>
+          </YouniHeader>
 
-        <RequestToCreateGroupForm
-          groupName={this.state.groupName}
-          inviteCode={this.state.inviteCode}
-          additionalInfo={this.state.additionalInfo}
-          isRequestInFlight={this.state.isRequestInFlight}
-          onGroupNameInputChange={(text) => this.setState({ groupName: text })}
-          onInviteCodeInputChange={(text) => this.setState({ inviteCode: text })}
-          onAdditionalInfoInputChange={(text) => this.setState({ additionalInfo: text })}
-          onSubmit={this._onSubmitCreateGroupForm}
-          navigator={this.props.navigator}/>
+          <RequestToCreateGroupForm
+            groupName={this.state.groupName}
+            inviteCode={this.state.inviteCode}
+            additionalInfo={this.state.additionalInfo}
+            isRequestInFlight={this.state.isRequestInFlight}
+            onGroupNameInputChange={(text) => this.setState({ groupName: text })}
+            onInviteCodeInputChange={(text) => this.setState({ inviteCode: text })}
+            onAdditionalInfoInputChange={(text) => this.setState({ additionalInfo: text })}
+            onSubmit={this._onSubmitCreateGroupForm}
+            navigator={this.props.navigator}/>
 
-        {hackyKeyboardPadding}
+          {hackyKeyboardPadding}
 
-      </ScrollView>
+        </ScrollView>
+      </TouchableWithoutFeedback>
     );
   },
 

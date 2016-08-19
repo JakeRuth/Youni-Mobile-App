@@ -22,8 +22,9 @@ var {
 } = ReactNative;
 
 var styles = StyleSheet.create({
-  postHeader: {
+  container: {
     flex: 1,
+    height: 64,
     flexDirection: 'row'
   },
   posterThumbnail: {
@@ -86,7 +87,7 @@ var PostHeader = React.createClass({
     }
 
     return (
-      <View style={styles.postHeader}>
+      <View style={styles.container}>
 
         <TouchableHighlight
           onPress={this.onProfilePress}

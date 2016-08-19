@@ -26,14 +26,12 @@ var styles = StyleSheet.create({
   heading: {
     textAlign: 'center',
     color: 'white',
-    fontWeight: '100',
     fontSize: 20,
     marginBottom: 20
   },
   subHeading: {
     textAlign: 'center',
     color: 'white',
-    fontWeight: '100',
     fontSize: 14,
     width: Dimensions.get('window').width * .9
   },

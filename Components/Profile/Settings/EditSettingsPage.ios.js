@@ -2,6 +2,7 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
+var DismissKeyboard = require('dismissKeyboard');
 var Unicycle = require('../../../Unicycle');
 
 var ChangeProfilePicture = require('./ChangeProfilePicture');
@@ -17,7 +18,8 @@ var {
   TextInput,
   Keyboard,
   ScrollView,
-  StyleSheet
+  StyleSheet,
+  TouchableWithoutFeedback
 } = ReactNative;
 
 var styles = StyleSheet.create({
@@ -81,31 +83,33 @@ var EditSettingsPage = React.createClass({
     }
 
     return (
-      <ScrollView
-        style={styles.container}
-        automaticallyAdjustContentInsets={false}>
+      <TouchableWithoutFeedback onPress={() => DismissKeyboard()}>
+        <ScrollView
+          style={styles.container}
+          automaticallyAdjustContentInsets={false}>
 
-        <View style={styles.changeProfilePictureContainer}>
-          <ChangeProfilePicture {...this.props}/>
-        </View>
+          <View style={styles.changeProfilePictureContainer}>
+            <ChangeProfilePicture {...this.props}/>
+          </View>
 
-        <EditProfileFieldInput
-          label="First Name"
-          value={editProfileInformationStore.getFirstName()}
-          placeholder={profileOwnerStore.getFirstName()}
-          onChangeText={(text) => editProfileInformationStore.setFirstName(text)}
-          maxLength={25}/>
-        <EditProfileFieldInput
-          label="Last Name"
-          value={editProfileInformationStore.getLastName()}
-          placeholder={profileOwnerStore.getLastName()}
-          onChangeText={(text) => editProfileInformationStore.setLastName(text)}
-          maxLength={25}/>
-        {this._renderEditBioInput()}
+          <EditProfileFieldInput
+            label="First Name"
+            value={editProfileInformationStore.getFirstName()}
+            placeholder={profileOwnerStore.getFirstName()}
+            onChangeText={(text) => editProfileInformationStore.setFirstName(text)}
+            maxLength={25}/>
+          <EditProfileFieldInput
+            label="Last Name"
+            value={editProfileInformationStore.getLastName()}
+            placeholder={profileOwnerStore.getLastName()}
+            onChangeText={(text) => editProfileInformationStore.setLastName(text)}
+            maxLength={25}/>
+          {this._renderEditBioInput()}
 
-        {hackyKeyboardPadding}
+          {hackyKeyboardPadding}
 
-      </ScrollView>
+        </ScrollView>
+      </TouchableWithoutFeedback>
     );
   },
 

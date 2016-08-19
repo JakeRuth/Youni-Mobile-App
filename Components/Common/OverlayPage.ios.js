@@ -2,6 +2,7 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
+var DismissKeyboard = require('dismissKeyboard');
 
 var YouniHeader = require('./YouniHeader');
 var BackArrow = require('./BackArrow');
@@ -14,7 +15,8 @@ var {
   StyleSheet,
   ScrollView,
   Dimensions,
-  Keyboard
+  Keyboard,
+  TouchableWithoutFeedback
 } = ReactNative;
 
 var styles = StyleSheet.create({
@@ -63,25 +65,29 @@ var OverlayPage = React.createClass({
     }
 
     return (
-      <View style={styles.container}>
-        <YouniHeader>
-          <Text style={[styles.pageHeader, { color: Colors.getPrimaryAppColor() }]}>
-            {this.props.bannerTitle}
-          </Text>
-          <BackArrow onPress={this.props.onBackArrowPress}/>
-        </YouniHeader>
+      <TouchableWithoutFeedback
+        style={styles.container}
+        onPress={() => DismissKeyboard()}>
+        <View>
+          <YouniHeader>
+            <Text style={[styles.pageHeader, { color: Colors.getPrimaryAppColor() }]}>
+              {this.props.bannerTitle}
+            </Text>
+            <BackArrow onPress={this.props.onBackArrowPress}/>
+          </YouniHeader>
 
-        <ScrollView
-          keyboardShouldPersistTaps={true}
-          automaticallyAdjustContentInsets={false}>
+          <ScrollView
+            keyboardShouldPersistTaps={true}
+            automaticallyAdjustContentInsets={false}>
 
-          {this.props.content}
+            {this.props.content}
 
-          { /* This is a hacky way to compute the bottom of the scroll views position */ }
-          {hackyKeyboardPadding}
+            { /* This is a hacky way to compute the bottom of the scroll views position */ }
+            {hackyKeyboardPadding}
 
-        </ScrollView>
-      </View>
+          </ScrollView>
+        </View>
+      </TouchableWithoutFeedback>
     );
   }
 
