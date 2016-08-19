@@ -10,9 +10,9 @@ var CampusScoreInfoAlert = {
 
   show: function() {
     AlertIOS.alert(
-      'Campus score is like your street cred at college.',
-      'You can increase your campus score in a number of ways, all revolving around you getting interaction from ' +
-      'fellow students.  A few examples of this are getting likes, follows, and comments on your posts.',
+      'Your campus score is your street cred at college. Your score will increase as other students start checking out ' +
+      'your profile, and interacting with the content you post.',
+      ''
       [
         {
           text: 'Cool!'

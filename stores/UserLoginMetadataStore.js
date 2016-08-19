@@ -11,6 +11,7 @@ var userLoginMetadataStore = Unicycle.createStore({
       userId: '',
       profileImageUrl: '',
       email: '',
+      password: '',
       firstName: '',
       lastName: '',
       networkName: '',
@@ -46,6 +47,12 @@ var userLoginMetadataStore = Unicycle.createStore({
   setEmail: function(value) {
     this.set({
       email: value
+    });
+  },
+
+  setPassword: function(value) {
+    this.set({
+      password: value
     });
   },
 
@@ -97,6 +104,10 @@ var userLoginMetadataStore = Unicycle.createStore({
 
   getEmail: function () {
     return this.get('email');
+  },
+
+  getPassword: function() {
+    return this.get('password');
   },
 
   getFirstName: function () {

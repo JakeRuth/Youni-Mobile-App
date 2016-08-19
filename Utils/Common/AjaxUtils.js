@@ -3,6 +3,8 @@
 var ReactNative = require('react-native');
 var request = require('superagent');
 var prefix = require('superagent-prefix')('http://youniappapi.com');
+
+var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var RefreshAppContentUtil = require('./RefreshAppContentUtil');
 
 var {
@@ -13,7 +15,7 @@ var AjaxUtils = {
 
   SERVER_URL: 'http://youniappapi.com',
 
-  ajax: function(url, data, onSuccessCallback, onFailureCallback) {
+  ajax: function(url, data, onSuccessCallback, onFailureCallback, wasRequestAlreadyRetried) {
     var that = this;
     
     RefreshAppContentUtil.activityTrigger();
@@ -27,8 +29,11 @@ var AjaxUtils = {
        if (that._isRequestSuccessful(res) && onSuccessCallback) {
          onSuccessCallback(res);
        }
-       else if (onFailureCallback) {
+       else if (wasRequestAlreadyRetried) {
          onFailureCallback();
+       }
+       else {
+         that._reLoginAndRetryRequest(url, data, onSuccessCallback, onFailureCallback);
        }
     });
   },
@@ -43,6 +48,30 @@ var AjaxUtils = {
     }
 
     return res.body.success
+  },
+
+  _reLoginAndRetryRequest: function(url, data, onSuccessCallback, onFailureCallback) {
+    this.ajax(
+      '/api/login',
+      {
+        username: userLoginMetadataStore.getEmail(),
+        password: userLoginMetadataStore.getPassword()
+      },
+      (res) => {
+        this.ajax(url, data, onSuccessCallback, this._forceCrash, true);
+      },
+      () => {
+        if (onFailureCallback) {
+          onFailureCallback();
+        }
+        this._forceCrash();
+      }
+    );
+  },
+
+  _forceCrash: function() {
+    var x;
+    x = x.y.z;
   }
 
 };

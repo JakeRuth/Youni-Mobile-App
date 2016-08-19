@@ -57,7 +57,6 @@ var SearchResultsList = React.createClass({
             initialListSize={searchStore.getSearchResults().length}
             dataSource={this.state.dataSource}
             renderRow={this._renderRow}
-            pageSize={searchStore.getPageSize()}
             renderScrollComponent={props => <RecyclerViewBackedScrollView {...props} />}/>
           <LoadMoreButton
             onPress={() => {

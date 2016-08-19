@@ -50,7 +50,12 @@ var ProfileGroups = React.createClass({
   },
 
   componentDidMount: function() {
-    this._requestUserGroups();
+    // TODO: Fix this with a non hacky solution
+    // So this component get's rendered multiple times for loading a profile and it's even called
+    // when the user prop is blank, so we need to make sure we only request the groups once we have a user's email.
+    if (this.props.user.email) {
+      this._requestUserGroups();
+    }
   },
 
   render: function() {

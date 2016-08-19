@@ -54,6 +54,7 @@ var loginStore = Unicycle.createStore({
         userLoginMetadataStore.setUserId(userId);
         userLoginMetadataStore.setProfileImageUrl(profileImageUrl);
         userLoginMetadataStore.setEmail(email);
+        userLoginMetadataStore.setPassword(password);
         userLoginMetadataStore.setFirstName(firstName);
         userLoginMetadataStore.setLastName(lastName);
         userLoginMetadataStore.setNetworkName(networkName);
