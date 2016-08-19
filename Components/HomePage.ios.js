@@ -133,11 +133,12 @@ var HomePage = React.createClass({
   },
 
   handleScroll(e) {
-    var inifiniteScrollThreshold = -1,
+    var infiniteScrollThreshold = -1,
         userId = userLoginMetadataStore.getUserId();
 
-    if (e.nativeEvent.contentOffset.y < inifiniteScrollThreshold) {
-      Unicycle.exec('refreshHomeFeed', userId);
+    if (e.nativeEvent.contentOffset.y < infiniteScrollThreshold) {
+      Unicycle.exec('refreshHomeFeedData');
+      Unicycle.exec('requestHomeFeed', userId);
     }
   },
 

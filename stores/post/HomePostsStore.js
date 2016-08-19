@@ -76,6 +76,8 @@ var homePostsStore = Unicycle.createStore({
     );
   },
 
+  // Deprecated! Do not use this.
+  // There is a weird bug with pictures not properly refreshing which leads to the wrong photos being displayed on the wrong posts
   $refreshHomeFeed(userId) {
     var that = this;
 
