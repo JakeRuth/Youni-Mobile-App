@@ -53,7 +53,6 @@ var PostCommentsPopup = React.createClass({
           this.props.navigator.pop();
         }}
         bannerTitle='Comments'
-        bumpContentUpWhenKeyboardShows={true}
         isKeyboardVisible={this.props.commentInputAutoFocus}/>
     );
   },

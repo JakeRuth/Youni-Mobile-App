@@ -41,8 +41,7 @@ var OverlayPage = React.createClass({
 
   getInitialState: function () {
     return {
-      isKeyboardVisible: this.props.isKeyboardVisible,
-      bottomOfScrollViewPosition: null
+      isKeyboardVisible: this.props.isKeyboardVisible
     };
   },
 
@@ -51,27 +50,15 @@ var OverlayPage = React.createClass({
     onBackArrowPress: React.PropTypes.func.isRequired,
     bannerTitle: React.PropTypes.string,
     isKeyboardVisible: React.PropTypes.bool,
-    bumpContentUpWhenKeyboardShows: React.PropTypes.bool,
     navigator: React.PropTypes.object
   },
 
   render: function () {
-    var contentOffset = {x: 0, y: 0},
-        hackyKeyboardPadding;
+    var hackyKeyboardPadding;
 
-    if (this.props.bumpContentUpWhenKeyboardShows && this.state.isKeyboardVisible) {
-      contentOffset = {
-        x: 0,
-        y: this._computePositionToScrollToWhenKeyboardDisplayed()
-      };
+    if (this.state.isKeyboardVisible) {
       hackyKeyboardPadding = (
-        <View
-          style={{height: 250}}
-          onLayout={(e) => {
-            this.setState({
-              bottomOfScrollViewPosition: e.nativeEvent.layout.y
-            });
-          }}/>
+        <View style={{height: 250}}/>
       );
     }
 
@@ -85,7 +72,6 @@ var OverlayPage = React.createClass({
         </YouniHeader>
 
         <ScrollView
-          contentOffset={contentOffset}
           keyboardShouldPersistTaps={true}
           automaticallyAdjustContentInsets={false}>
 
@@ -97,11 +83,6 @@ var OverlayPage = React.createClass({
         </ScrollView>
       </View>
     );
-  },
-
-  _computePositionToScrollToWhenKeyboardDisplayed: function () {
-    var spaceBetweenTopOfScreenAndTopOfKeyboard = (Dimensions.get('window').height - 300);
-    return this.state.bottomOfScrollViewPosition - spaceBetweenTopOfScreenAndTopOfKeyboard;
   }
 
 });

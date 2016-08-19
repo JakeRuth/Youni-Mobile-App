@@ -40,8 +40,7 @@ var PostPopup = React.createClass({
     return (
       <OverlayPage
         content={this._renderPost(this.props.post)}
-        onBackArrowPress={() => {this.props.navigator.pop();}}
-        bumpContentUpWhenKeyboardShows={true}/>
+        onBackArrowPress={() => {this.props.navigator.pop();}}/>
     );
   },
 
