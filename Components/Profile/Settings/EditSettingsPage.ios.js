@@ -15,6 +15,8 @@ var {
   View,
   Text,
   TextInput,
+  Keyboard,
+  ScrollView,
   StyleSheet
 } = ReactNative;
 
@@ -50,15 +52,38 @@ var EditSettingsPage = React.createClass({
     Unicycle.listenTo(editProfileInformationStore)
   ],
 
+  getInitialState: function () {
+    return {
+      isKeyboardVisible: false
+    };
+  },
+
   componentWillMount: function() {
     editProfileInformationStore.setFirstName(profileOwnerStore.getFirstName());
     editProfileInformationStore.setLastName(profileOwnerStore.getLastName());
     editProfileInformationStore.setBio(profileOwnerStore.getBio());
   },
 
+  componentDidMount() {
+    Keyboard.addListener('keyboardWillShow', () => {
+      this.setState({isKeyboardVisible: true});
+    });
+    Keyboard.addListener('keyboardWillHide', () => {
+      this.setState({isKeyboardVisible: false});
+    });
+  },
+
   render: function() {
+    var hackyKeyboardPadding;
+
+    if (this.state.isKeyboardVisible) {
+      hackyKeyboardPadding = <View style={{height: 250}}/>;
+    }
+
     return (
-      <View style={styles.container}>
+      <ScrollView
+        style={styles.container}
+        automaticallyAdjustContentInsets={false}>
 
         <View style={styles.changeProfilePictureContainer}>
           <ChangeProfilePicture {...this.props}/>
@@ -78,7 +103,9 @@ var EditSettingsPage = React.createClass({
           maxLength={25}/>
         {this._renderEditBioInput()}
 
-      </View>
+        {hackyKeyboardPadding}
+
+      </ScrollView>
     );
   },
 
