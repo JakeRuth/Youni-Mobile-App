@@ -46,6 +46,7 @@ var SignupPartTwo = React.createClass({
         <View style={styles.firstNameInputContainer}>
           <PrettyInput
             style={{
+              backgroundColor: 'transparent',
               width: Dimensions.get('window').width * .8,
               height: 44
             }}
@@ -56,6 +57,7 @@ var SignupPartTwo = React.createClass({
         <View style={styles.lastNameInputContainer}>
           <PrettyInput
             style={{
+              backgroundColor: 'transparent',
               width: Dimensions.get('window').width * .8,
               height: 44
             }}

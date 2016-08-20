@@ -33,7 +33,11 @@ var LoginSignupSelector = React.createClass({
           containerStyle={{
             width: buttonWidth,
             height: 44,
-            marginBottom: 20
+            marginBottom: 20,
+            borderWidth: 0
+          }}
+          labelStyles={{
+            color: 'transparent'
           }}
           invertColors={true}
           onPress={this.props.onLoginPress}/>
@@ -41,7 +45,8 @@ var LoginSignupSelector = React.createClass({
           label="Create Account"
           containerStyle={{
             width: buttonWidth,
-            height: 44
+            height: 44,
+            borderWidth: 0
           }}
           onPress={this.props.onCreateAccountPress}/>
       </View>

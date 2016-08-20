@@ -13,6 +13,7 @@ var {
 
 var styles = StyleSheet.create({
   dropdownCaretContainer: {
+    backgroundColor: 'transparent',
     position: 'absolute',
     right: 10,
     top: 13
@@ -38,6 +39,7 @@ var ClassYearInput = React.createClass({
         <PrettyTouchable
           label={label}
           containerStyle={{
+            backgroundColor: 'transparent',
             width: Dimensions.get('window').width * .8,
             height: 44
           }}

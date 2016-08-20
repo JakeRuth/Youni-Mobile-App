@@ -14,6 +14,9 @@ var {
 } = ReactNative;
 
 var styles = StyleSheet.create({
+  container: {
+    backgroundColor: 'transparent'
+  },
   top: {
     marginTop: 20,
     width: Dimensions.get('window').width,
@@ -41,7 +44,7 @@ var AgreeToTermsMessage = React.createClass({
 
   render: function() {
     return (
-      <View>
+      <View style={styles.container}>
 
         <Text style={styles.top}>
           By signing up, you agree to our

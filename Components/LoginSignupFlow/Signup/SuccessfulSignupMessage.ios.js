@@ -24,12 +24,14 @@ var styles = StyleSheet.create({
     width: Dimensions.get('window').width
   },
   heading: {
+    backgroundColor: 'transparent',
     textAlign: 'center',
     color: 'white',
     fontSize: 20,
     marginBottom: 20
   },
   subHeading: {
+    backgroundColor: 'transparent',
     textAlign: 'center',
     color: 'white',
     fontSize: 14,
@@ -41,6 +43,7 @@ var styles = StyleSheet.create({
     height: originalSuccessfulSignupGraphicDimensions.height * .3
   },
   checkJunkFolderMessage: {
+    backgroundColor: 'transparent',
     textAlign: 'center',
     color: 'white',
     fontWeight: 'bold',

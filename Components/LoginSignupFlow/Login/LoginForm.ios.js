@@ -32,6 +32,7 @@ var styles = StyleSheet.create({
   },
   showPasswordIcon: {
     position: 'absolute',
+    backgroundColor: 'transparent',
     right: 5,
     top: 8
   }
@@ -52,6 +53,7 @@ var LoginForm = React.createClass({
         <View style={styles.emailInputContainer}>
           <PrettyInput
             style={{
+              backgroundColor: 'transparent',
               width: Dimensions.get('window').width * .8,
               height: 44
             }}
@@ -64,6 +66,7 @@ var LoginForm = React.createClass({
         <View style={styles.passwordInputContainer}>
           <PrettyInput
             style={{
+              backgroundColor: 'transparent',
               width: Dimensions.get('window').width * .8,
               height: 44
             }}

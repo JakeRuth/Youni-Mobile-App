@@ -13,6 +13,7 @@ var {
 
 var styles = StyleSheet.create({
   container: {
+    backgroundColor: 'transparent',
     position: 'absolute',
     bottom: 30,
     width: Dimensions.get('window').width

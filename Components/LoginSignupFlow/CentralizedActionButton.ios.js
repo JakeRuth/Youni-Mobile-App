@@ -51,7 +51,11 @@ var CentralizedActionButton = React.createClass({
           {...this.props}
           containerStyle={{
             width: Dimensions.get('window').width * .8,
-            height: 44
+            height: 44,
+            borderWidth: 0
+          }}
+          labelStyle={{
+            color: 'transparent'
           }}
           invertColors={true}/>
       );

@@ -24,6 +24,7 @@ var styles = StyleSheet.create({
     marginBottom: 20
   },
   inviteCodeCalloutText: {
+    backgroundColor: 'transparent',
     padding: 5,
     paddingLeft: 20,
     color: 'white'
@@ -39,6 +40,7 @@ var SignupPartOne = React.createClass({
         <View style={styles.inputContainer}>
           <PrettyInput
             style={{
+              backgroundColor: 'transparent',
               width: Dimensions.get('window').width * .8,
               height: 44
             }}
@@ -50,6 +52,7 @@ var SignupPartOne = React.createClass({
         <View style={styles.inputContainer}>
           <PrettyInput
             style={{
+              backgroundColor: 'transparent',
               width: Dimensions.get('window').width * .8,
               height: 44
             }}
@@ -62,6 +65,7 @@ var SignupPartOne = React.createClass({
         <View style={styles.inputContainer}>
           <PrettyInput
             style={{
+              backgroundColor: 'transparent',
               width: Dimensions.get('window').width * .8,
               height: 44
             }}
@@ -74,6 +78,7 @@ var SignupPartOne = React.createClass({
         <View style={styles.inputContainer}>
           <PrettyInput
             style={{
+              backgroundColor: 'transparent',
               width: Dimensions.get('window').width * .8,
               height: 44
             }}

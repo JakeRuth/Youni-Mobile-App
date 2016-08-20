@@ -32,6 +32,7 @@ var styles = StyleSheet.create({
     borderRadius: 100
   },
   selectorLabel: {
+    backgroundColor: 'transparent',
     fontSize: 16,
     fontWeight: '100',
     color: 'white'

@@ -50,6 +50,11 @@ var styles = StyleSheet.create({
   container: {
     flex: 1
   },
+  backdropImage: {
+    flex: 1,
+    height: Dimensions.get('window').height,
+    width: Dimensions.get('window').width
+  },
   headingContainer: {
     flex: 1,
     alignItems: 'center',
@@ -72,6 +77,7 @@ var styles = StyleSheet.create({
     height: LogoImageSize.HEIGHT * .4
   },
   forgotPasswordLink: {
+    backgroundColor: 'transparent',
     paddingTop: 20,
     paddingBottom: 10,
     width: Dimensions.get('window').width,
@@ -136,14 +142,19 @@ var LoginSignupFlow = React.createClass({
     
     return (
       <TouchableWithoutFeedback onPress={() => DismissKeyboard()}>
-        {content}
+        <Image
+          style={styles.backdropImage}
+          resizeMode="cover"
+          source={require('../../images/backdropLoginSignUp.png')}>
+          {content}
+        </Image>
       </TouchableWithoutFeedback>
     );
   },
 
   _renderInitialPage: function() {
     return (
-      <View style={[styles.container, { backgroundColor: Color.getPrimaryAppColor() }]}>
+      <View style={styles.container}>
 
         <View style={styles.headingContainer}>
           <SignupProgressBar visible={false}/>
@@ -165,7 +176,7 @@ var LoginSignupFlow = React.createClass({
 
   _renderLoginPage: function() {
     return (
-      <View style={[styles.container, { backgroundColor: Color.getPrimaryAppColor() }]}>
+      <View style={styles.container}>
 
         <View style={styles.headingContainer}>
           <SignupProgressBar visible={false}/>
@@ -204,7 +215,7 @@ var LoginSignupFlow = React.createClass({
 
   _renderSignupPartOne: function() {
     return (
-      <View style={[styles.container, { backgroundColor: Color.getPrimaryAppColor() }]}>
+      <View style={styles.container}>
 
         <View style={styles.headingContainer}>
           <SignupProgressBar stepsCompleted={1}/>
@@ -242,7 +253,7 @@ var LoginSignupFlow = React.createClass({
 
   _renderSignupPartTwo: function() {
     return (
-      <View style={[styles.container, { backgroundColor: Color.getPrimaryAppColor() }]}>
+      <View style={styles.container}>
 
         <View style={styles.headingContainer}>
           <SignupProgressBar stepsCompleted={2}/>
@@ -282,7 +293,7 @@ var LoginSignupFlow = React.createClass({
 
   _renderSuccessfulSignupPage: function() {
     return (
-      <View style={[styles.container, { backgroundColor: Color.getPrimaryAppColor() }]}>
+      <View style={styles.container}>
 
         <View style={styles.headingContainer}>
           <SignupProgressBar stepsCompleted={3}/>
