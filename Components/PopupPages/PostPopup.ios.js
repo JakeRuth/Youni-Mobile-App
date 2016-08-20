@@ -24,11 +24,6 @@ var {
 var styles = StyleSheet.create({
   container: {
     flex: 1
-  },
-  pageHeader: {
-    fontSize: 20,
-    fontWeight: '500',
-    textAlign: 'center'
   }
 });
 
@@ -58,7 +53,7 @@ var PostPopup = React.createClass({
     return (
       <View style={styles.container}>
         <YouniHeader>
-          <BackArrow onPress={this.props.navigator.pop()}/>
+          <BackArrow onPress={() => this.props.navigator.pop()}/>
         </YouniHeader>
 
         <ScrollView automaticallyAdjustContentInsets={false}>
