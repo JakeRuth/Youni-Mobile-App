@@ -26,8 +26,10 @@ var AjaxUtils = {
      .send(data)
      .set('Accept', 'application/json')
      .end(function(err, res) {
-       if (that._isRequestSuccessful(res) && onSuccessCallback) {
-         onSuccessCallback(res);
+       if (that._isRequestSuccessful(res)) {
+         if (onSuccessCallback) {
+           onSuccessCallback(res);
+         }
        }
        else if (wasRequestAlreadyRetried) {
          onFailureCallback();
