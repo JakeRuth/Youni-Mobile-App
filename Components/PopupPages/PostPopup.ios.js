@@ -3,16 +3,34 @@
 var React = require('react');
 var ReactNative = require('react-native');
 var Unicycle = require('../../Unicycle');
+
 var Post = require('../Post/Post');
-var OverlayPage = require('../Common/OverlayPage');
+var YouniHeader = require('../Common/YouniHeader');
+var BackArrow = require('../Common/BackArrow');
+
 var explorePostsStore = require('../../stores/post/ExplorePostsStore');
 var profileOwnerStore = require('../../stores/profile/ProfileOwnerStore');
+
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
+var Colors = require('../../Utils/Common/Colors');
 var PostUtils = require('../../Utils/Post/PostUtils');
 
 var {
-  View
+  View,
+  ScrollView,
+  StyleSheet
 } = ReactNative;
+
+var styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
+  pageHeader: {
+    fontSize: 20,
+    fontWeight: '500',
+    textAlign: 'center'
+  }
+});
 
 var PostPopup = React.createClass({
 
@@ -38,21 +56,23 @@ var PostPopup = React.createClass({
 
   render: function () {
     return (
-      <OverlayPage
-        content={this._renderPost(this.props.post)}
-        onBackArrowPress={() => {this.props.navigator.pop();}}/>
-    );
-  },
+      <View style={styles.container}>
+        <YouniHeader>
+          <BackArrow onPress={this.props.navigator.pop()}/>
+        </YouniHeader>
 
-  _renderPost: function (post) {
-    return (
-      <Post
-        post={post}
-        renderedFromProfileView={this.props.renderedFromProfileView}
-        likePhotoAction={this.props.likePhotoAction ? this.props.likePhotoAction : this._likePhotoAction}
-        unlikePhotoAction={this.props.unlikePhotoAction ? this.props.unlikePhotoAction : this._unlikePhotoAction}
-        onSubmitCommentAction={this.props.onSubmitCommentAction ? this.props.onSubmitCommentAction : this._onSubmitCommentCallback}
-        navigator={this.props.navigator}/>
+        <ScrollView automaticallyAdjustContentInsets={false}>
+
+          <Post
+            post={this.state.post}
+            renderedFromProfileView={this.props.renderedFromProfileView}
+            likePhotoAction={this.props.likePhotoAction ? this.props.likePhotoAction : this._likePhotoAction}
+            unlikePhotoAction={this.props.unlikePhotoAction ? this.props.unlikePhotoAction : this._unlikePhotoAction}
+            onSubmitCommentAction={this.props.onSubmitCommentAction ? this.props.onSubmitCommentAction : this._onSubmitCommentCallback}
+            navigator={this.props.navigator}/>
+
+        </ScrollView>
+      </View>
     );
   },
 
