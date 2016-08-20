@@ -70,6 +70,10 @@ var ListFilter = React.createClass({
       <TouchableHighlight
         style={[styles.filterLabelContainer, { width: this._getFilterWidth() }]}
         underlayColor="transparent"
+        hitSlop={{
+          top: 20,
+          bottom: 20
+        }}
         onPress={() => this.props.onPress(filter)}
         key={index}>
 
