@@ -20,9 +20,6 @@ var {
 } = ReactNative;
 
 var styles = StyleSheet.create({
-  container: {
-    height: Dimensions.get('window').height
-  },
   pageHeader: {
     fontSize: 20,
     fontWeight: '500',
@@ -52,6 +49,7 @@ var OverlayPage = React.createClass({
     onBackArrowPress: React.PropTypes.func.isRequired,
     bannerTitle: React.PropTypes.string,
     isKeyboardVisible: React.PropTypes.bool,
+    keyboardShouldPersistTaps: React.PropTypes.bool,
     navigator: React.PropTypes.object
   },
 
@@ -60,15 +58,13 @@ var OverlayPage = React.createClass({
 
     if (this.state.isKeyboardVisible) {
       hackyKeyboardPadding = (
-        <View style={{height: 250}}/>
+        <View style={{ height: 300 }}/>
       );
     }
 
     return (
-      <TouchableWithoutFeedback
-        style={styles.container}
-        onPress={() => DismissKeyboard()}>
-        <View>
+      <TouchableWithoutFeedback onPress={() => DismissKeyboard()}>
+        <View style={{flex: 1}}>
           <YouniHeader>
             <Text style={[styles.pageHeader, { color: Colors.getPrimaryAppColor() }]}>
               {this.props.bannerTitle}
@@ -77,7 +73,8 @@ var OverlayPage = React.createClass({
           </YouniHeader>
 
           <ScrollView
-            keyboardShouldPersistTaps={true}
+            style={{flex: 1}}
+            keyboardShouldPersistTaps={this.props.keyboardShouldPersistTaps}
             automaticallyAdjustContentInsets={false}>
 
             {this.props.content}

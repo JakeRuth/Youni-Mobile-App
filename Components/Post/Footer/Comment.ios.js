@@ -2,6 +2,7 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
+var DismissKeyboard = require('dismissKeyboard');
 var Unicycle = require('../../../Unicycle');
 
 var ProfilePopup = require('../../PopupPages/ProfilePopup');
@@ -25,11 +26,13 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
     paddingBottom: 8
   },
+  profilePictureContainer: {
+    marginRight: 8
+  },
   profilePicture: {
     height: 32,
     width: 32,
-    borderRadius: 8,
-    marginRight: 8
+    borderRadius: 8
   },
   nameAndTextContainer: {
     flex: 1
@@ -57,17 +60,26 @@ var Comment = React.createClass({
     navigator: React.PropTypes.object.isRequired
   },
 
+  // TODO: If you want to get mad, change this top level TouchableHighlight to a View, for some reason
+  // it makes it so that you can't scroll through comments... I can't figure out why
   render: function() {
     return (
       <TouchableHighlight
         underlayColor="transparent"
-        onPress={this._onCommenterNamePress}>
+        onPress={() => DismissKeyboard()}>
 
         <View style={styles.container}>
 
-          <ProfileImageThumbnail
-            style={styles.profilePicture}
-            profileImageUrl={this.props.commenterProfilePicture}/>
+          <TouchableHighlight
+            style={styles.profilePictureContainer}
+            underlayColor="transparent"
+            onPress={this._onCommenterNamePress}>
+            <View>
+              <ProfileImageThumbnail
+                style={styles.profilePicture}
+                profileImageUrl={this.props.commenterProfilePicture}/>
+            </View>
+          </TouchableHighlight>
 
           <View style={styles.nameAndTextContainer}>
             <Text

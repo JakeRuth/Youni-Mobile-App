@@ -75,7 +75,8 @@ var ForgotPasswordPage = React.createClass({
         onBackArrowPress={() => {
           this.props.navigator.pop();
         }}
-        bannerTitle='Forgot Password'/>
+        bannerTitle='Forgot Password'
+        keyboardShouldPersistTaps={true}/>
     );
   },
 
