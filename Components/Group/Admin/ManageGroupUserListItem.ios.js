@@ -190,13 +190,22 @@ var ManageGroupUserListItem = React.createClass({
   },
 
   _removeAdminPermissionPrompt: function() {
+    var message;
+
+    if (userLoginMetadataStore.getEmail() === this.props.user.email) {
+      message = 'WARNING: You are about to remove your own admin status, you cannot undo this action.'
+    }
+    else {
+      message = `You are about to remove ${this.props.user.firstName}'s admin status.`;
+    }
+
     if (this.props.group.adminEmails.length <= 1) {
       this._alertCannotRemoveAdmin();
     }
     else {
       AlertIOS.alert(
         'Are you sure?',
-        `You are about to remove ${this.props.user.firstName}'s admin status.`,
+        message,
         [
           {
             text: 'Yes',
