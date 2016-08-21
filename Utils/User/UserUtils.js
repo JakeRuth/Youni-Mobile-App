@@ -43,7 +43,9 @@ var UserUtils = {
       numPosts: user['numPosts'],
       totalPoints: user['allTimePoints'],
       currentPoints: user['currentPoints'],
+      semesterTrendPoints: user['semesterTrendPoints'],
       isCurrentlyTrending: user['isCurrentlyTrending'],
+      nowTrendingScore: user['nowTrendingScore'],
       id: id
     };
   },

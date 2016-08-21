@@ -8,17 +8,22 @@ var TrendingList = require('./TrendingList');
 var TrendingDropdownTrigger = require('./TrendingDropdownTrigger');
 var TrendingFeedTypeDropdown = require('./TrendingFeedTypeDropdown');
 var TrendingListItem = require('./TrendingListItem');
-var UserListItem = require('../Common/UserListItem');
 var YouniHeader = require('../Common/YouniHeader');
 var ListFilter = require('../Common/ListFilter');
 var ErrorPage = require('../Common/ErrorPage');
 var GroupListItem = require('../Group/GroupListItem');
 var RequestToCreateGroup = require('../Group/RequestToCreateGroup');
+var ProfilePopup = require('../PopupPages/ProfilePopup');
+var GroupPopup = require('../PopupPages/GroupPopup');
 
-var trendingStore = require('../../stores/trending/TrendingStore');
+var Colors = require('../../Utils/Common/Colors');
+var IosStatusBarStyles = require('../../Utils/Common/IosStatusBarStyles');
 var TrendingFeedFilters = require('../../Utils/Enums/TrendingFeedFilters');
 var TrendingFeedType = require('../../Utils/Enums/TrendingFeedType');
-var Colors = require('../../Utils/Common/Colors');
+
+var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
+var statusBarStyleStore = require('../../stores/StatusBarStyleStore');
+var trendingStore = require('../../stores/trending/TrendingStore');
 
 var {
   View,
@@ -129,16 +134,24 @@ var TrendingPage = React.createClass({
     var trendingUsers = [];
 
     for (var i = 0; i<trendingUsersJson.size; i++) {
+      let user = trendingUsersJson.get(i),
+          score;
+      
+      if (trendingStore.getSelectedFilter() === TrendingFeedFilters.NOW) {
+        score = user.nowTrendingScore;
+      }
+      else {
+        score = user.semesterTrendPoints;
+      }
+
       trendingUsers.push(
         <TrendingListItem
+          name={`${user.firstName} ${user.lastName}`}
+          score={score}
+          imageUrl={user.profileImageUrl}
           ranking={i + 1}
-          key={i}>
-
-          <UserListItem
-            {...this.props}
-            user={trendingUsersJson.get(i)}/>
-
-        </TrendingListItem>
+          onPress={() => this._onUserPress(user.email)}
+          key={i}/>
       );
     }
 
@@ -149,16 +162,27 @@ var TrendingPage = React.createClass({
     var trendingGroups = [];
 
     for (var i = 0; i<trendingGroupsJson.size; i++) {
+      let group = trendingGroupsJson.get(i).toJSON(),
+          score;
+
+      if (trendingStore.getSelectedFilter() === TrendingFeedFilters.NOW) {
+        score = group.nowTrendingScore;
+      }
+      else {
+        score = group.semesterTrendPoints;
+      }
+
       trendingGroups.push(
         <TrendingListItem
+          name={group.name}
+          score={score}
+          imageUrl={group.badgeImageUrl}
           ranking={i + 1}
-          key={i}>
-
-          <GroupListItem
-            {...this.props}
-            group={trendingGroupsJson.get(i).toJSON()}/>
-
-        </TrendingListItem>
+          onPress={()=> this.props.navigator.push({
+            component: GroupPopup,
+            passProps: { group: group }
+          })}
+          key={i}/>
       );
     }
 
@@ -185,6 +209,18 @@ var TrendingPage = React.createClass({
 
   _onErrorPageReload: function() {
     trendingStore.requestTrendingUsers();
+  },
+
+  _onUserPress: function(userEmail) {
+    if (userEmail !== userLoginMetadataStore.getEmail())
+
+    this.props.navigator.push({
+      component: ProfilePopup,
+      passProps: {
+        profileUserEmail: userEmail,
+        onBackArrowPress: () => statusBarStyleStore.setStyle(IosStatusBarStyles.LIGHT_CONTENT)
+      }
+    })
   }
 
 });

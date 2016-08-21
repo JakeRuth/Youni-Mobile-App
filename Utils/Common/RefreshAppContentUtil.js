@@ -22,7 +22,7 @@ var RefreshAppContentUtil = {
 
   refreshDataTimer: null,
 
-  activityTrigger: function() {
+  restartTimer: function() {
     if (this.refreshDataTimer) {
       clearInterval(this.refreshDataTimer);
     }

@@ -73,7 +73,8 @@ var loginStore = Unicycle.createStore({
       () => {
         that.setIsLoginRequestInFlight(false);
         failureCallback();
-      }
+      },
+      true // do not retry request if failed
     );
   },
 

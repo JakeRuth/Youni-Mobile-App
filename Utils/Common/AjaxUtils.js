@@ -15,10 +15,10 @@ var AjaxUtils = {
 
   SERVER_URL: 'http://youniappapi.com',
 
-  ajax: function(url, data, onSuccessCallback, onFailureCallback, wasRequestAlreadyRetried) {
+  ajax: function(url, data, onSuccessCallback, onFailureCallback, doNotRetryRequest) {
     var that = this;
     
-    RefreshAppContentUtil.activityTrigger();
+    RefreshAppContentUtil.restartTimer();
 
     request
      .post(that.SERVER_URL + url)
@@ -31,7 +31,7 @@ var AjaxUtils = {
            onSuccessCallback(res);
          }
        }
-       else if (wasRequestAlreadyRetried) {
+       else if (doNotRetryRequest) {
          onFailureCallback();
        }
        else {
