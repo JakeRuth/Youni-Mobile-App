@@ -58,7 +58,7 @@ var CommentInput = React.createClass({
   render: function() {
     var postCommentButton = <View/>;
 
-    if (this.state.commentText.length > 0 || this.props.isCommentRequestInFlight) {
+    if (this.state.commentText.trim() || this.props.isCommentRequestInFlight) {
       postCommentButton = this._renderPostCommentButton();
     }
 
@@ -96,10 +96,12 @@ var CommentInput = React.createClass({
       content = (
         <TouchableHighlight
           onPress={() => {
-            this.props.onSubmitCommentAction(this.state.commentText);
-            this.setState({
-              commentText: ''
-            });
+            if (this.state.commentText.trim().length) {
+              this.props.onSubmitCommentAction(this.state.commentText);
+              this.setState({
+                commentText: ''
+              });
+            }
           }}
           underlayColor='transparent'>
 

@@ -2,6 +2,7 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
+var DismissKeyboard = require('dismissKeyboard');
 var Icon = require('react-native-vector-icons/MaterialIcons');
 var PrettyTouchable = require('../../Common/PrettyTouchable');
 
@@ -47,7 +48,10 @@ var ClassYearInput = React.createClass({
             paddingLeft: 20,
             alignItems: 'flex-start'
           }}
-          onPress={this.props.onPress}/>
+          onPress={() => {
+            DismissKeyboard();
+            this.props.onPress();
+          }}/>
 
         {this._renderDropDownCaret()}
       </View>

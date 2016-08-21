@@ -30,7 +30,7 @@ var ProfileInfoSwiper = React.createClass({
     return (
       <Swiper
         height={190}
-        loop={true}
+        loop={false}
         paginationStyle={{ bottom: 8 }}
         dot={this._renderSwiperDot()}
         activeDot={this._renderActiveSwiperDot()}>
