@@ -32,8 +32,7 @@ var styles = StyleSheet.create({
   blockedUserName: {
     paddingLeft: 10,
     color: Colors.DARK_GRAY,
-    fontSize: 16,
-    fontWeight: '100'
+    fontSize: 16
   },
   unblockButtonContainer: {
     position: 'absolute',
@@ -47,12 +46,10 @@ var styles = StyleSheet.create({
     borderRadius: 6
   },
   unblockButtonText: {
-    fontWeight: '100',
     fontSize: 14
   },
   noBlockedUsersMessage: {
     color: Colors.DARK_GRAY,
-    fontWeight: '100',
     padding: 20,
     textAlign: 'center'
   }
