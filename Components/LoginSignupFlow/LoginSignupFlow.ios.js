@@ -82,7 +82,7 @@ var styles = StyleSheet.create({
     paddingBottom: 10,
     width: Dimensions.get('window').width,
     color: 'white',
-    fontWeight: '100',
+    fontSize: 14,
     textAlign: 'center'
   },
   classYearPickerContainer: {

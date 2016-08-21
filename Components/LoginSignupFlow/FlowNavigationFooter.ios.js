@@ -21,8 +21,7 @@ var styles = StyleSheet.create({
   label: {
     textAlign: 'center',
     fontSize: 14,
-    color: 'white',
-    fontWeight: '100'
+    color: 'white'
   },
   clickableLabel: {
     textDecorationLine: 'underline',
