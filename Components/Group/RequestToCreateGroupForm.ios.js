@@ -73,7 +73,7 @@ var RequestToCreateGroupForm = React.createClass({
           maxLength={50}/>
         <TextInput
           style={[styles.input, additionalInputStyles]}
-          placeholder="Invite Code (opt)"
+          placeholder="Invite Code (Optional)"
           placeholderColor={Colors.getPrimaryAppColor()}
           onChangeText={(text) => this.props.onInviteCodeInputChange(text)}
           value={this.props.inviteCode}

@@ -83,7 +83,7 @@ var SignupPartOne = React.createClass({
               height: 44
             }}
             onTextChange={signupStore.setInviteCode}
-            placeholder='Invite Code (opt)'/>
+            placeholder='Invite Code (Optional)'/>
           <Text
             style={styles.inviteCodeCalloutText}
             onPress={this._onInviteCodeTextCalloutPress}>
