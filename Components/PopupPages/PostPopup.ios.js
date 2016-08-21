@@ -17,6 +17,7 @@ var PostUtils = require('../../Utils/Post/PostUtils');
 
 var {
   View,
+  Text,
   ScrollView,
   StyleSheet
 } = ReactNative;
@@ -24,6 +25,11 @@ var {
 var styles = StyleSheet.create({
   container: {
     flex: 1
+  },
+  pageHeader: {
+    fontSize: 20,
+    fontWeight: '500',
+    textAlign: 'center'
   }
 });
 
@@ -53,6 +59,9 @@ var PostPopup = React.createClass({
     return (
       <View style={styles.container}>
         <YouniHeader>
+          <Text style={[styles.pageHeader, { color: Colors.getPrimaryAppColor() }]}>
+            Experience
+          </Text>
           <BackArrow onPress={() => this.props.navigator.pop()}/>
         </YouniHeader>
 
