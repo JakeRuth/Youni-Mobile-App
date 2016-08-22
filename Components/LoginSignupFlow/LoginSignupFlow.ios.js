@@ -73,8 +73,8 @@ var styles = StyleSheet.create({
   },
   appName: {
     alignSelf: 'center',
-    width: LogoImageSize.WIDTH * .4,
-    height: LogoImageSize.HEIGHT * .4
+    width: LogoImageSize.WIDTH * .25,
+    height: LogoImageSize.HEIGHT * .25
   },
   forgotPasswordLink: {
     backgroundColor: 'transparent',

@@ -147,13 +147,15 @@ var trendingStore = Unicycle.createStore({
       selectedFilter: filter
     });
 
-    this._requestFeedForFilterSelection(filter);
+    this._requestFeedForCurrentSelection();
   },
   
   setSelectedType: function(type) {
     this.set({
       selectedType: type
     });
+
+    this._requestFeedForCurrentSelection();
   },
 
   anyErrorsLoadingPage: function() {
@@ -193,9 +195,9 @@ var trendingStore = Unicycle.createStore({
     }
   },
 
-  _requestFeedForFilterSelection: function(filter) {
+  _requestFeedForCurrentSelection: function() {
     if (this.getSelectedType().label === TrendingFeedType.STUDENTS.label) {
-      if (filter === TrendingFeedFilters.NOW) {
+      if (this.getSelectedFilter() === TrendingFeedFilters.NOW) {
         this.requestTrendingUsers();
       }
       else {
@@ -203,7 +205,7 @@ var trendingStore = Unicycle.createStore({
       }
     }
     else {
-      if (filter === TrendingFeedFilters.NOW) {
+      if (this.getSelectedFilter() === TrendingFeedFilters.NOW) {
         this.requestTrendingGroups();
       }
       else {

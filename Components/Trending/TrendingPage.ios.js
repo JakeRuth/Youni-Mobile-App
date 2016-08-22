@@ -60,7 +60,6 @@ var TrendingPage = React.createClass({
 
   componentDidMount: function() {
     trendingStore.requestTrendingUsers();
-    trendingStore.requestTrendingGroups();
   },
 
   getInitialState: function() {
@@ -105,7 +104,14 @@ var TrendingPage = React.createClass({
       return (
         <TrendingList
           isPageLoading={trendingStore.isTrendingUserRequestInFlight()}
-          onPageRefresh={() => { trendingStore.requestTrendingUsers() }}
+          onPageRefresh={() => {
+            if (trendingStore.getSelectedFilter() === TrendingFeedFilters.NOW) {
+              trendingStore.requestTrendingUsers();
+            }
+            else {
+              trendingStore.requestSemesterTrendingUsers();
+            }
+          }}
           navigator={this.props.navigator}>
           
           {this._renderTrendingUsers(trendingStore.getTrendingUsers())}
@@ -117,7 +123,14 @@ var TrendingPage = React.createClass({
       return (
         <TrendingList
           isPageLoading={trendingStore.isTrendingGroupRequestInFlight()}
-          onPageRefresh={() => { trendingStore.requestTrendingGroups() }}
+          onPageRefresh={() => {
+            if (trendingStore.getSelectedFilter() === TrendingFeedFilters.NOW) {
+              trendingStore.requestTrendingGroups();
+            }
+            else {
+              trendingStore.requestSemesterTrendingGroups();
+            }
+          }}
           navigator={this.props.navigator}>
 
           <View style={styles.requestToCreateGroupContainer}>

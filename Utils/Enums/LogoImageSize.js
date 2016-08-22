@@ -2,8 +2,8 @@
 
 var LogoImageSize = {
   
-  WIDTH: 777,
-  HEIGHT: 287
+  WIDTH: 956,
+  HEIGHT: 380
   
 };
 

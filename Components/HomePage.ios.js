@@ -53,9 +53,10 @@ var styles = StyleSheet.create({
     paddingBottom: 5
   },
   logo: {
+    marginTop: 2,
     alignSelf: 'center',
-    height: LogoImageSize.HEIGHT * .15,
-    width: LogoImageSize.WIDTH * .15
+    height: LogoImageSize.HEIGHT * .08,
+    width: LogoImageSize.WIDTH * .08
   },
   createPostButtonContainer: {
     position: 'absolute',
