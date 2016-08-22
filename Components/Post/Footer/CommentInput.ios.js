@@ -24,7 +24,6 @@ var styles = StyleSheet.create({
     backgroundColor: '#EBF7FF',
     color: '#525252',
     fontSize: 12,
-    height: 25,
     paddingLeft: 6,
     paddingRight: 6,
     borderRadius: 2
@@ -43,7 +42,8 @@ var CommentInput = React.createClass({
 
   getInitialState: function() {
     return {
-      commentText: ''
+      commentText: '',
+      inputHeight: 25
     };
   },
 
@@ -66,7 +66,7 @@ var CommentInput = React.createClass({
       <View style={styles.container}>
 
         <TextInput
-          style={styles.commentInput}
+          style={[styles.commentInput, { height: this.state.inputHeight }]}
           value={this.state.commentText}
           placeholder='Add a comment...'
           placeholderTextColor='#ADADAD'
@@ -77,6 +77,12 @@ var CommentInput = React.createClass({
           onChangeText={ (commentText) => {
             this.setState({
               commentText: commentText
+            });
+          }}
+          onChange={(event) => {
+            this.setState({
+              text: event.nativeEvent.text,
+              inputHeight: event.nativeEvent.contentSize.height
             });
           }}/>
         {postCommentButton}
