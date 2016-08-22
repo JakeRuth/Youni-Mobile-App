@@ -105,7 +105,7 @@ var EditSettingsButton = React.createClass({
   _onShowInviteTokenOptionSelect: function() {
     if (this.props.user.userInviteToken) {
       AlertIOS.alert(
-        'Here is your user invite token.  If a user enters this token while creating an account, both you and your friend' +
+        'Here is your invite token.  If a user enters this token while creating an account, both you and your friend' +
         'will get 1000 campus score points!',
         this.props.user.userInviteToken,
         [

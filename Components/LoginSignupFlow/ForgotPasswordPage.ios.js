@@ -140,7 +140,7 @@ var ForgotPasswordPage = React.createClass({
   _alertSuccessfulRequest: function() {
     AlertIOS.alert(
       'Success!',
-      "Email sent to: " + this.state.email + ", check your email for the password reset link",
+      "Email sent to: " + this.state.email + " check your email (check your JUNK folder too) for the password reset link",
       [
         {text: 'Ok'}
       ]
