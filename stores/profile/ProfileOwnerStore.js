@@ -6,6 +6,7 @@ var Unicycle = require('../../Unicycle');
 var userLoginMetadataStore = require('../UserLoginMetadataStore');
 var PostUtils = require('../../Utils/Post/PostUtils');
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
+var PostViewType = require('../../Utils/Enums/PostViewType');
 
 var INITIAL_PAGE_OFFSET = 0;
 var MAX_POSTS_PER_PAGE = 51;
@@ -33,6 +34,7 @@ var profileOwnerStore = Unicycle.createStore({
         email: '',
         userInviteToken: '',
         posts: [],
+        postViewMode: PostViewType.GRID,
         feedPageOffset: INITIAL_PAGE_OFFSET
       });
     },
@@ -246,6 +248,12 @@ var profileOwnerStore = Unicycle.createStore({
             lastName: lastName
         });
     },
+  
+    setPostViewMode: function(value) {
+      this.set({
+        postViewMode: value
+      });
+    },
 
     $setProfileImageUrl: function(url) {
       this.set({
@@ -360,6 +368,10 @@ var profileOwnerStore = Unicycle.createStore({
 
     getPosts: function() {
       return this.get('posts');
+    },
+  
+    getPostViewMode: function() {
+      return this.get('postViewMode');
     },
 
     getFeedPageOffset: function() {

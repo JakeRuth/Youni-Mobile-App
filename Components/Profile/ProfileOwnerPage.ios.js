@@ -49,12 +49,6 @@ var ProfileOwnerPage = React.createClass({
     Unicycle.listenTo(profileOwnerStore)
   ],
 
-  getInitialState: function() {
-    return {
-      postViewMode: PostViewType.GRID
-    };
-  },
-
   componentDidMount: function() {
     statusBarStyleStore.setDelayedStyle(IosStatusBarStyles.DEFAULT, 100);
     Unicycle.exec('loadOwnerUsersProfile', userLoginMetadataStore.getEmail());
@@ -84,13 +78,13 @@ var ProfileOwnerPage = React.createClass({
             navigator={this.props.navigator}
             viewerIsProfileOwner={true}
             user={profileOwnerStore.getUserJson()}
-            currentPostViewMode={this.state.postViewMode}
+            currentPostViewMode={profileOwnerStore.getPostViewMode()}
             onPostViewControlPress={this.onPostViewControlPress}/>
 
           <ProfilePostList
             posts={profileOwnerStore.getPosts()}
             user={profileOwnerStore.getUserJson()}
-            gridViewEnabled={this.state.postViewMode === PostViewType.GRID}
+            gridViewEnabled={profileOwnerStore.getPostViewMode() === PostViewType.GRID}
             onPostViewControlPress={this.onPostViewControlPress}
             noMorePostsToFetch={profileOwnerStore.getNoMorePostsToFetch()}
             viewerIsProfileOwner={true}
@@ -151,13 +145,11 @@ var ProfileOwnerPage = React.createClass({
   },
 
   onPostViewControlPress: function(postViewType) {
-    if (this.state.postViewMode === postViewType) {
+    if (profileOwnerStore.getPostViewMode() === postViewType) {
       return;
     }
 
-    this.setState({
-      postViewMode: postViewType
-    });
+    profileOwnerStore.setPostViewMode(postViewType);
   },
 
   _requestProfilePosts: function() {

@@ -2,10 +2,13 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
-var Unicycle = require('../../Unicycle');
 var Icon = require('react-native-vector-icons/MaterialIcons');
+var Unicycle = require('../../Unicycle');
+
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
+var profileOwnerStore = require('../../stores/profile/ProfileOwnerStore');
 var Colors = require('../../Utils/Common/Colors');
+var PostViewType = require('../../Utils/Enums/PostViewType');
 
 var {
   TouchableHighlight,
@@ -18,7 +21,8 @@ var DeletePostIcon = React.createClass({
   propTypes: {
     id: React.PropTypes.number.isRequired,
     postIdString: React.PropTypes.string.isRequired,
-    enabled: React.PropTypes.bool
+    enabled: React.PropTypes.bool,
+    navigator: React.PropTypes.object
   },
 
   render: function() {
@@ -84,6 +88,10 @@ var DeletePostIcon = React.createClass({
           }
         ]
       );
+    }
+
+    if (profileOwnerStore.getPostViewMode() === PostViewType.GRID) {
+      this.props.navigator.pop();
     }
   }
 

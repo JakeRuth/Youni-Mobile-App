@@ -74,7 +74,8 @@ var PostHeader = React.createClass({
           <DeletePostIcon
             id={this.props.post.id}
             postIdString={this.props.post.postIdString}
-            enabled={this.props.renderedFromProfileView}/>
+            enabled={this.props.renderedFromProfileView}
+            navigator={this.props.navigator}/>
         </View>
       );
     }
