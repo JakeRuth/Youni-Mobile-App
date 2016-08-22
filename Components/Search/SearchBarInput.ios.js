@@ -23,7 +23,6 @@ var styles = StyleSheet.create({
   searchBarInput: {
     height: 18,
     color: Colors.DARK_GRAY,
-    borderRadius: 5,
     fontSize: 16
   },
   searchIconContainer: {
