@@ -3,9 +3,11 @@
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 
 var Colors = {
+
+  DEFAULT_APP_PRIMARY: '#7700FF',
   
   getPrimaryAppColor: function() {
-    return userLoginMetadataStore.getNetworkColor() ? userLoginMetadataStore.getNetworkColor() : '#7700FF';
+    return userLoginMetadataStore.getNetworkColor() ? userLoginMetadataStore.getNetworkColor() : this.DEFAULT_APP_PRIMARY;
   },
 
   LIGHT_PURPLE: '#E3E8FD',
