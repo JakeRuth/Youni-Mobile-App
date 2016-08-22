@@ -30,7 +30,8 @@ var {
   Text,
   StyleSheet,
   AlertIOS,
-  Dimensions
+  Dimensions,
+  TouchableWithoutFeedback
 } = ReactNative;
 
 var styles = StyleSheet.create({
@@ -77,25 +78,27 @@ var TrendingPage = React.createClass({
     }
 
     return (
-      <View style={styles.container}>
+      <TouchableWithoutFeedback onPress={() => this.setState({ showDropdown: false })}>
+        <View style={styles.container}>
 
-        <YouniHeader color={Colors.getPrimaryAppColor()}>
-          <TrendingDropdownTrigger
-            selectedType={trendingStore.getSelectedType()}
-            onPress={this._toggleDropdownVisibility}
-            isDropdownVisible={this.state.showDropdown}/>
-        </YouniHeader>
+          <YouniHeader color={Colors.getPrimaryAppColor()}>
+            <TrendingDropdownTrigger
+              selectedType={trendingStore.getSelectedType()}
+              onPress={this._toggleDropdownVisibility}
+              isDropdownVisible={this.state.showDropdown}/>
+          </YouniHeader>
 
-        {errorPage}
+          {errorPage}
 
-        <ListFilter
-          filters={[TrendingFeedFilters.NOW, TrendingFeedFilters.SEMESTER]}
-          selectedFilter={trendingStore.getSelectedFilter()}
-          onPress={(filter) => trendingStore.setSelectedFilter(filter)}/>
-        {this._renderTrendingList()}
-        {this._renderDropdown()}
+          <ListFilter
+            filters={[TrendingFeedFilters.NOW, TrendingFeedFilters.SEMESTER]}
+            selectedFilter={trendingStore.getSelectedFilter()}
+            onPress={(filter) => trendingStore.setSelectedFilter(filter)}/>
+          {this._renderTrendingList()}
+          {this._renderDropdown()}
 
-      </View>
+        </View>
+      </TouchableWithoutFeedback>
     );
   },
 
@@ -191,10 +194,7 @@ var TrendingPage = React.createClass({
           score={score}
           imageUrl={group.badgeImageUrl}
           ranking={i + 1}
-          onPress={()=> this.props.navigator.push({
-            component: GroupPopup,
-            passProps: { group: group }
-          })}
+          onPress={() => this._onGroupPress(group)}
           key={i}/>
       );
     }
@@ -225,6 +225,13 @@ var TrendingPage = React.createClass({
   },
 
   _onUserPress: function(userEmail) {
+    if (this.state.showDropdown) {
+      this.setState({
+        showDropdown: false
+      });
+      return;
+    }
+
     if (userEmail !== userLoginMetadataStore.getEmail())
 
     this.props.navigator.push({
@@ -234,6 +241,20 @@ var TrendingPage = React.createClass({
         onBackArrowPress: () => statusBarStyleStore.setStyle(IosStatusBarStyles.LIGHT_CONTENT)
       }
     })
+  },
+
+  _onGroupPress: function(group) {
+    if (this.state.showDropdown) {
+      this.setState({
+        showDropdown: false
+      });
+      return;
+    }
+
+    this.props.navigator.push({
+      component: GroupPopup,
+      passProps: { group: group }
+    });
   }
 
 });
