@@ -77,6 +77,10 @@ var DeletePostIcon = React.createClass({
 
     if (this.props.enabled) {
       Unicycle.exec('deletePost', this.props.id, this.props.postIdString, userId);
+
+      if (profileOwnerStore.getPostViewMode() === PostViewType.GRID) {
+        this.props.navigator.pop();
+      }
     }
     else {
       AlertIOS.alert(
@@ -88,10 +92,6 @@ var DeletePostIcon = React.createClass({
           }
         ]
       );
-    }
-
-    if (profileOwnerStore.getPostViewMode() === PostViewType.GRID) {
-      this.props.navigator.pop();
     }
   }
 
