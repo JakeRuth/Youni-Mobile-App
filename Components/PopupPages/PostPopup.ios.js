@@ -10,6 +10,7 @@ var BackArrow = require('../Common/BackArrow');
 
 var explorePostsStore = require('../../stores/post/ExplorePostsStore');
 var profileOwnerStore = require('../../stores/profile/ProfileOwnerStore');
+var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 var Colors = require('../../Utils/Common/Colors');
@@ -72,7 +73,7 @@ var PostPopup = React.createClass({
             renderedFromProfileView={this.props.renderedFromProfileView}
             likePhotoAction={this.props.likePhotoAction ? this.props.likePhotoAction : this._likePhotoAction}
             unlikePhotoAction={this.props.unlikePhotoAction ? this.props.unlikePhotoAction : this._unlikePhotoAction}
-            onSubmitCommentAction={this.props.onSubmitCommentAction ? this.props.onSubmitCommentAction : this._onSubmitCommentCallback}
+            onSubmitCommentAction={this.props.onSubmitCommentAction ? this.props.onSubmitCommentAction : this._onSubmitComment}
             navigator={this.props.navigator}/>
 
         </ScrollView>
@@ -126,8 +127,31 @@ var PostPopup = React.createClass({
     );
   },
 
-  _onSubmitCommentCallback: function(post, comment, commenterName) {
-    PostUtils.addComment(post, comment, commenterName);
+  _onSubmitComment: function(comment, post, callback) {
+    var posts = this.state.posts,
+        userId = userLoginMetadataStore.getUserId(),
+        commenterName = userLoginMetadataStore.getFullName(),
+        commenterProfileImage = userLoginMetadataStore.getProfileImageUrl();
+
+    if (!comment) {
+      return;
+    }
+
+    AjaxUtils.ajax(
+      '/post/createComment',
+      {
+        postIdString: post.postIdString,
+        userIdString: userId,
+        comment: comment
+      },
+      (res) => {
+        PostUtils.addComment(post, comment, commenterName, commenterProfileImage);
+        callback(comment);
+      },
+      () => {
+        callback(comment);
+      }
+    );
   }
 
 });
