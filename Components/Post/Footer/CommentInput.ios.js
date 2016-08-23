@@ -43,7 +43,7 @@ var CommentInput = React.createClass({
   getInitialState: function() {
     return {
       commentText: '',
-      inputHeight: 25
+      inputHeight: 21
     };
   },
 
@@ -66,7 +66,7 @@ var CommentInput = React.createClass({
       <View style={styles.container}>
 
         <TextInput
-          style={[styles.commentInput, { height: this.state.inputHeight }]}
+          style={[styles.commentInput, { height: this.state.inputHeight + 4 }]}
           value={this.state.commentText}
           placeholder='Add a comment...'
           placeholderTextColor='#ADADAD'
@@ -81,7 +81,6 @@ var CommentInput = React.createClass({
           }}
           onChange={(event) => {
             this.setState({
-              text: event.nativeEvent.text,
               inputHeight: event.nativeEvent.contentSize.height
             });
           }}/>
