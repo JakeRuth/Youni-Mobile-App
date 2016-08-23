@@ -8,7 +8,8 @@ var {
   Text,
   Image,
   StyleSheet,
-  Dimensions
+  Dimensions,
+  AlertIOS
 } = ReactNative;
 
 var originalSuccessfulSignupGraphicDimensions = {
@@ -53,6 +54,20 @@ var styles = StyleSheet.create({
 });
 
 var SuccessfulSignupMessage = React.createClass({
+
+  componentDidMount: function() {
+    setTimeout(function() {
+      AlertIOS.alert(
+        'Email may be in the junk folder!!!',
+        ''
+        [
+          {
+            text: 'Okay'
+          }
+        ]
+      );
+    }, 1000);
+  },
 
   render: function() {
     return (
