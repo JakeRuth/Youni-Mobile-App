@@ -21,9 +21,8 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
-		381ED3801C44A7CC00782DA5 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 381ED37F1C44A7CC00782DA5 /* logo.png */; };
-		389BC1F81C45AD8A0080C92C /* logo1.png in Resources */ = {isa = PBXBuildFile; fileRef = 389BC1F71C45AD8A0080C92C /* logo1.png */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		9007ED4C1D6CFFE80054F4EE /* YouniSpashPage.png in Resources */ = {isa = PBXBuildFile; fileRef = 9007ED4B1D6CFFE80054F4EE /* YouniSpashPage.png */; };
 		9025E78B1C1143B800530B87 /* RCTFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9025E78A1C1143B800530B87 /* RCTFileTransfer.m */; };
 		9057330F1C53DA8900980BB7 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9057330E1C53DA8900980BB7 /* MaterialIcons.ttf */; };
 		906790D61C113E9F00CA4FB2 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 906790D51C113E9F00CA4FB2 /* Ionicons.ttf */; };
@@ -153,10 +152,9 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Youni/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Youni/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
-		381ED37F1C44A7CC00782DA5 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
-		389BC1F71C45AD8A0080C92C /* logo1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo1.png; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		9007ED4B1D6CFFE80054F4EE /* YouniSpashPage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = YouniSpashPage.png; path = ../../../../Downloads/YouniSpashPage.png; sourceTree = "<group>"; };
 		9025E78A1C1143B800530B87 /* RCTFileTransfer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCTFileTransfer.m; path = "../node_modules/react-native-file-transfer/RCTFileTransfer.m"; sourceTree = "<group>"; };
 		9057330E1C53DA8900980BB7 /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		906790D51C113E9F00CA4FB2 /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
@@ -272,6 +270,7 @@
 		13B07FAE1A68108700A75B9A /* Youni */ = {
 			isa = PBXGroup;
 			children = (
+				9007ED4B1D6CFFE80054F4EE /* YouniSpashPage.png */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -279,8 +278,6 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
-				389BC1F71C45AD8A0080C92C /* logo1.png */,
-				381ED37F1C44A7CC00782DA5 /* logo.png */,
 			);
 			name = Youni;
 			sourceTree = "<group>";
@@ -621,11 +618,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				381ED3801C44A7CC00782DA5 /* logo.png in Resources */,
+				9007ED4C1D6CFFE80054F4EE /* YouniSpashPage.png in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				9057330F1C53DA8900980BB7 /* MaterialIcons.ttf in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
-				389BC1F81C45AD8A0080C92C /* logo1.png in Resources */,
 				906790D61C113E9F00CA4FB2 /* Ionicons.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
