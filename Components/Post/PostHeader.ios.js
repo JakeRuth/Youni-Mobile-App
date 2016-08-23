@@ -24,7 +24,7 @@ var {
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: 64,
+    height: 70,
     flexDirection: 'row'
   },
   posterThumbnail: {
@@ -33,18 +33,16 @@ var styles = StyleSheet.create({
     flexDirection: 'row'
   },
   nameAndTimestampContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    marginTop: 5
+    flex: 1
   },
   profileName: {
-    flex: 1,
     fontSize: 16,
     marginLeft: 12,
     color: Colors.DARK_GRAY
   },
   timestamp: {
     flex: 1,
+    marginTop: 5,
     fontSize: 13,
     marginLeft: 12,
     color: Colors.MED_GRAY
