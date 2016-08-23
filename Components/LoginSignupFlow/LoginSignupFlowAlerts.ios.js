@@ -41,6 +41,10 @@ var LoginSignupFlowAlerts = {
       'Please contact support@youniapp.com with your sign up information and we can help you');
   },
 
+  successfulSignupCheckEmailButton: function() {
+    this._showAlert('What are you waiting for?  Go to your school email to activate your account!')
+  },
+
   _showAlert: function(title, subTitle) {
     AlertIOS.alert(
       title,

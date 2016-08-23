@@ -307,7 +307,7 @@ var LoginSignupFlow = React.createClass({
           <View>
             <CentralizedActionButton
               label="Check your .edu email"
-              onPress={()=>null}/>
+              onPress={()=> LoginSignupFlowAlerts.successfulSignupCheckEmailButton()}/>
           </View>
 
           <FlowNavigationFooter
