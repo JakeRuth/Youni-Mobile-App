@@ -2,24 +2,33 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
-var Unicycle = require('../../Unicycle');
-var OverlayPage = require('../Common/OverlayPage');
+
+var YouniHeader = require('../Common/YouniHeader');
+var BackArrow = require('../Common/BackArrow');
+
+var Colors = require('../../Utils/Common/Colors');
 
 var {
+  View,
   Text,
   StyleSheet,
   ScrollView
 } = ReactNative;
 
 var styles = StyleSheet.create({
-  container: {
+  eulaContainer: {
     flex: 1,
-    padding: 3
+    padding: 5
+  },
+  pageHeader: {
+    fontSize: 20,
+    fontWeight: '500',
+    textAlign: 'center'
   },
   heading: {
     fontSize: 20,
     fontWeight: '600',
-    padding: 5
+    paddingBottom: 5
   },
   paragraph: {
     fontSize: 12
@@ -34,18 +43,29 @@ var EULAAgreementPage = React.createClass({
 
   render: function() {
     return (
-      <OverlayPage
-        content={this.renderContent()}
-        onBackArrowPress={() => {
-          this.props.navigator.pop();
-        }}
-        bannerTitle='EULA'/>
+      <View style={{flex: 1}}>
+        <YouniHeader>
+          <Text style={[styles.pageHeader, { color: Colors.getPrimaryAppColor() }]}>
+            EULA
+          </Text>
+          <BackArrow onPress={() => this.props.navigator.pop()}/>
+        </YouniHeader>
+
+        <ScrollView
+          style={{flex: 1}}
+          keyboardShouldPersistTaps={this.props.keyboardShouldPersistTaps}
+          automaticallyAdjustContentInsets={false}>
+
+          {this.renderContent()}
+
+        </ScrollView>
+      </View>
     );
   },
 
   renderContent: function() {
     return (
-      <ScrollView style={styles.container}>
+      <View style={styles.eulaContainer}>
 
         <Text style={styles.heading}>
           Youni Terms of Agreement
@@ -118,7 +138,7 @@ var EULAAgreementPage = React.createClass({
           Youni shall not be obligated to indemnify or defend you with respect to any third party claim arising out or relating to the Youni App. To the extent Youni is required to provide indemnification by applicable law, Youni, not Apple, shall be solely responsible for the investigation, defense, settlement and discharge of any claim that the Youni App or your use of it infringes any third party intellectual property right.
         </Text>
 
-      </ScrollView>
+      </View>
     );
   }
 
