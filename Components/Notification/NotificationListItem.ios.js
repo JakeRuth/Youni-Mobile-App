@@ -140,8 +140,8 @@ var NotificationsListItem = React.createClass({
       return (
         <View style={styles.leftImageThumbnailContainer}>
           <Image
-            style={[styles.logo, { backgroundColor: Colors.getPrimaryAppColor() }]}
-            source={require('../../images/logoWhiteTextBlankBackground.png')}
+            style={styles.logo}
+            source={require('../../images/systemNotificationIcon.png')}
             resizeMode="contain"/>
         </View>
       );
