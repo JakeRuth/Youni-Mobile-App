@@ -26,7 +26,6 @@ var styles = StyleSheet.create({
   noPostSubTitle: {
     textAlign: 'center',
     fontSize: 14,
-    fontWeight: '100',
     color: Colors.MED_GRAY,
     paddingBottom: 10
   }

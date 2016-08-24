@@ -57,7 +57,6 @@ var styles = StyleSheet.create({
     padding: 30,
     marginTop: 100,
     fontSize: 14,
-    fontWeight: '100',
     textAlign: 'center'
   }
 });

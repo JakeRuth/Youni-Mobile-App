@@ -39,7 +39,6 @@ var styles = StyleSheet.create({
   loadingSectionMessage: {
     color: Colors.DARK_GRAY,
     fontSize: 16,
-    fontWeight: '100',
     padding: 24,
     paddingLeft: 0
   }

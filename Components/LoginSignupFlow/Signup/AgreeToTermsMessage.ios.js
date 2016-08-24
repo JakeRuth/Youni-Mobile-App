@@ -21,13 +21,11 @@ var styles = StyleSheet.create({
     marginTop: 20,
     width: Dimensions.get('window').width,
     color: 'white',
-    fontWeight: '100',
     textAlign: 'center'
   },
   bottom: {
     width: Dimensions.get('window').width,
     color: 'white',
-    fontWeight: '100',
     textAlign: 'center',
     paddingBottom: 15 // makes the text easier to click
   },

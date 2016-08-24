@@ -46,7 +46,6 @@ var styles = StyleSheet.create({
   },
   statLabel: {
     fontSize: 11,
-    fontWeight: '100',
     textAlign: 'center'
   },
   separator: {

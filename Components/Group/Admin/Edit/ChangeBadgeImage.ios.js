@@ -29,8 +29,7 @@ var styles = StyleSheet.create({
     top: 0,
     left: 0,
     color: Colors.DARK_GRAY,
-    fontSize: 16,
-    fontWeight: '100'
+    fontSize: 16
   },
   badgeImage: {
     marginTop: 10,

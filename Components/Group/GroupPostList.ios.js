@@ -21,8 +21,7 @@ var styles = StyleSheet.create({
     paddingTop: 100,
     color: Colors.MED_GRAY,
     textAlign: 'center',
-    fontSize: 14,
-    fontWeight: '100'
+    fontSize: 14
   }
 });
 

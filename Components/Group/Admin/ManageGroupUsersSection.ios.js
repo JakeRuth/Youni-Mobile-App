@@ -22,7 +22,6 @@ var styles = StyleSheet.create({
     marginLeft: 24,
     color: Colors.MED_GRAY,
     fontSize: 14,
-    fontWeight: '100',
     textAlign: 'left'
   },
   sectionContainer: {

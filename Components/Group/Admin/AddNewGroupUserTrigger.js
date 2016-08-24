@@ -28,8 +28,7 @@ var styles = StyleSheet.create({
     marginRight: 8
   },
   triggerLabel: {
-    fontSize: 18,
-    fontWeight: '100'
+    fontSize: 18
   }
 });
 

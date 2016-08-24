@@ -19,7 +19,6 @@ var styles = StyleSheet.create({
     height: 44
   },
   label: {
-    fontWeight: '100',
     color: Colors.DARK_GRAY,
     fontSize: 16,
     alignSelf: 'center'

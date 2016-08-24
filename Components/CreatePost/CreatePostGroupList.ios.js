@@ -29,7 +29,6 @@ var styles = StyleSheet.create({
   },
   noGroupsMessage: {
     color: Colors.DARK_GRAY,
-    fontWeight: '100',
     fontSize: 12
   },
   spinner: {

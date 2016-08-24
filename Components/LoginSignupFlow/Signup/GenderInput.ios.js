@@ -34,7 +34,6 @@ var styles = StyleSheet.create({
   selectorLabel: {
     backgroundColor: 'transparent',
     fontSize: 16,
-    fontWeight: '100',
     color: 'white'
   }
 });
