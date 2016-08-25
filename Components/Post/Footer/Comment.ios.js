@@ -41,12 +41,6 @@ var styles = StyleSheet.create({
     textAlign: 'left',
     color: Colors.DARK_GRAY,
     fontSize: 12
-  },
-  commentText: {
-    textAlign: 'left',
-    fontSize: 14,
-    fontWeight: '300',
-    color: Colors.DARK_GRAY
   }
 });
 
