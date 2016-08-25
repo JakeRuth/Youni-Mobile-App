@@ -2,6 +2,9 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
+
+var TruncatedText = require('../../Common/TruncatedText');
+
 var Colors = require('../../../Utils/Common/Colors');
 
 var {
@@ -31,9 +34,9 @@ var Caption = React.createClass({
     }
 
     return (
-      <Text style={styles.caption}>
-        {this.props.text}
-      </Text>
+      <TruncatedText
+        style={styles.caption}
+        text={this.props.text}/>
     );
   }
 

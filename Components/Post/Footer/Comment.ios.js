@@ -3,10 +3,10 @@
 var React = require('react');
 var ReactNative = require('react-native');
 var DismissKeyboard = require('dismissKeyboard');
-var Unicycle = require('../../../Unicycle');
 
 var ProfilePopup = require('../../PopupPages/ProfilePopup');
 var ProfileImageThumbnail = require('../../Common/ProfileImageThumbnail');
+var TruncatedText = require('../../Common/TruncatedText');
 
 var Colors = require('../../../Utils/Common/Colors');
 var IosStatusBarStyles = require('../../../Utils/Common/IosStatusBarStyles');
@@ -67,7 +67,6 @@ var Comment = React.createClass({
       <TouchableHighlight
         underlayColor="transparent"
         onPress={() => DismissKeyboard()}>
-
         <View style={styles.container}>
 
           <TouchableHighlight
@@ -87,13 +86,10 @@ var Comment = React.createClass({
               numberOfLines={1}>
               {this.props.commenterName}
             </Text>
-            <Text style={styles.commentText}>
-              {this.props.commentText}
-            </Text>
+            <TruncatedText text={this.props.commentText}/>
           </View>
 
         </View>
-
       </TouchableHighlight>
     );
   },

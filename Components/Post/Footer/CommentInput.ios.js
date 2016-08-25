@@ -40,10 +40,12 @@ var styles = StyleSheet.create({
 
 var CommentInput = React.createClass({
 
+  DEFAULT_INPUT_HEIGHT: 21,
+
   getInitialState: function() {
     return {
       commentText: '',
-      inputHeight: 21
+      inputHeight: this.DEFAULT_INPUT_HEIGHT
     };
   },
 
@@ -104,7 +106,8 @@ var CommentInput = React.createClass({
             if (this.state.commentText.trim().length) {
               this.props.onSubmitCommentAction(this.state.commentText);
               this.setState({
-                commentText: ''
+                commentText: '',
+                inputHeight: this.DEFAULT_INPUT_HEIGHT
               });
             }
           }}
