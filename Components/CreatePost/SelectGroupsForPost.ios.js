@@ -70,7 +70,7 @@ var SelectGroupsForPost = React.createClass({
         <View style={styles.showGroupsTrigger}>
           <Text
             style={styles.triggerLabel}>
-            Rep Your Group(s)
+            Tap to Rep Your Group(s)
           </Text>
           <Icon
             name={this._getArrowIconName()}

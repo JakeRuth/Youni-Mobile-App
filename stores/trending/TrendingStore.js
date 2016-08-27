@@ -20,7 +20,7 @@ var trendingStore = Unicycle.createStore({
       groups: [],
       pageLoadError: false,
       selectedFilter: TrendingFeedFilters.NOW,
-      selectedType: TrendingFeedType.STUDENTS
+      selectedType: TrendingFeedType.STUDENTS.label
     });
   },
 
@@ -183,7 +183,7 @@ var trendingStore = Unicycle.createStore({
   },
   
   getSelectedType: function() {
-    return this.get('selectedType').toJSON();
+    return this.get('selectedType');
   },
 
   // TODO: Find a better way to do this, at the time this was all i could come up with :'(
@@ -196,7 +196,7 @@ var trendingStore = Unicycle.createStore({
   },
 
   _requestFeedForCurrentSelection: function() {
-    if (this.getSelectedType().label === TrendingFeedType.STUDENTS.label) {
+    if (this.getSelectedType() === TrendingFeedType.STUDENTS.label) {
       if (this.getSelectedFilter() === TrendingFeedFilters.NOW) {
         this.requestTrendingUsers();
       }

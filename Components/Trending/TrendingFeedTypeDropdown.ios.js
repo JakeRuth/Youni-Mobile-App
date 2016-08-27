@@ -43,6 +43,8 @@ var styles = StyleSheet.create({
   }
 });
 
+// NO LONGER IN USE
+// DEPRECATED
 var TrendingFeedDropdownType = React.createClass({
   
   propTypes: {

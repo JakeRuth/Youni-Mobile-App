@@ -33,6 +33,8 @@ var styles = StyleSheet.create({
   }
 });
 
+// NO LONGER IN USE
+// DEPRECATED
 var TrendingDropdownTrigger = React.createClass({
 
   propTypes: {

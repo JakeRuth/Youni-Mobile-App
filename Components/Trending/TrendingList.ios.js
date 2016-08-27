@@ -11,6 +11,10 @@ var {
 } = ReactNative;
 
 var styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'white'
+  },
   spinner: {
     marginTop: 15
   }
@@ -36,6 +40,7 @@ var TrendingList = React.createClass({
 
     return (
       <ScrollView
+        style={styles.container}
         automaticallyAdjustContentInsets={false}
         onScroll={this._handleScroll}>
         {content}

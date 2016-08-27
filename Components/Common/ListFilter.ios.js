@@ -18,7 +18,7 @@ var FILTER_CONTAINER_SCREEN_SIZE_RATIO = .8;
 
 var styles = StyleSheet.create({
   container: {
-    height: 35,
+    height: 44,
     justifyContent: 'center',
     alignItems: 'center'
   },
@@ -30,13 +30,14 @@ var styles = StyleSheet.create({
     flex: 1
   },
   filterLabel: {
-    fontSize: 16,
+    fontSize: 18,
+    fontWeight: '600',
     textAlign: 'center'
   },
   selectedFilterUnderline: {
     position: 'absolute',
     width: SELECTED_FILTER_UNDERLINE_WIDTH,
-    height: 3,
+    height: 2,
     borderRadius: 1.5
   }
 });

@@ -23,11 +23,29 @@ var styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: Colors.LIGHT_GRAY
   },
+  rankingContainer: {
+    height: 30,
+    width: 30,
+    borderRadius: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 10
+  },
+  firstRankingContainer: {
+    backgroundColor: '#E8CD00',
+    color: 'white'
+  },
+  secondRankingContainer: {
+    backgroundColor: '#C7C7C7',
+    color: 'white'
+  },
+  thirdRankingContainer: {
+    backgroundColor: '#FC777F',
+    color: 'white'
+  },
   ranking: {
-    width: 40,
     textAlign: 'center',
-    fontSize: 16,
-    marginRight: 5,
+    fontSize: 20,
     color: Colors.DARK_GRAY
   },
   nameAndScoreContainer: {
@@ -40,7 +58,7 @@ var styles = StyleSheet.create({
     color: Colors.DARK_GRAY
   },
   score: {
-    fontSize: 14,
+    fontSize: 16,
     marginLeft: 12,
     color: Colors.MED_GRAY
   }
@@ -63,9 +81,7 @@ var TrendingListItem = React.createClass({
         onPress={this.props.onPress}>
         <View style={styles.container}>
 
-          <Text style={styles.ranking}>
-            {this.props.ranking}
-          </Text>
+          {this._renderRanking(this.props.ranking)}
 
           <ProfileImageThumbnail profileImageUrl={this.props.imageUrl}/>
 
@@ -83,6 +99,45 @@ var TrendingListItem = React.createClass({
         </View>
       </TouchableHighlight>
     );
+  },
+
+  _renderRanking: function(rank) {
+    if (rank === 1) {
+      return (
+        <View style={[styles.rankingContainer, styles.firstRankingContainer]}>
+          <Text style={[styles.ranking, { color: 'white' }]}>
+            {this.props.ranking}
+          </Text>
+        </View>
+      );
+    }
+    else if (rank === 2) {
+      return (
+        <View style={[styles.rankingContainer, styles.secondRankingContainer]}>
+          <Text style={[styles.ranking, { color: 'white' }]}>
+            {this.props.ranking}
+          </Text>
+        </View>
+      );
+    }
+    else if (rank === 3) {
+      return (
+        <View style={[styles.rankingContainer, styles.thirdRankingContainer]}>
+          <Text style={[styles.ranking, { color: 'white' }]}>
+            {this.props.ranking}
+          </Text>
+        </View>
+      );
+    }
+    else {
+      return (
+        <View style={styles.rankingContainer}>
+          <Text style={styles.ranking}>
+            {this.props.ranking}
+          </Text>
+        </View>
+      );
+    }
   }
 
 });

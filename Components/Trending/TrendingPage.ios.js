@@ -38,6 +38,17 @@ var styles = StyleSheet.create({
   container: {
     flex: 1
   },
+  pageHeader: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: '500',
+    textAlign: 'center'
+  },
+  listContainer: {
+    flex: 1,
+    backgroundColor: Colors.LIGHT_GRAY,
+    paddingTop: 5
+  },
   dropdownContainer: {
     position: 'absolute',
     top: 65,
@@ -63,12 +74,6 @@ var TrendingPage = React.createClass({
     trendingStore.requestTrendingUsers();
   },
 
-  getInitialState: function() {
-    return {
-      showDropdown: false
-    };
-  },
-
   render: function() {
     var anyErrorsLoadingPage = trendingStore.anyErrorsLoadingPage(),
         errorPage;
@@ -78,32 +83,36 @@ var TrendingPage = React.createClass({
     }
 
     return (
-      <TouchableWithoutFeedback onPress={() => this.setState({ showDropdown: false })}>
-        <View style={styles.container}>
+      <View style={styles.container}>
 
-          <YouniHeader color={Colors.getPrimaryAppColor()}>
-            <TrendingDropdownTrigger
-              selectedType={trendingStore.getSelectedType()}
-              onPress={this._toggleDropdownVisibility}
-              isDropdownVisible={this.state.showDropdown}/>
-          </YouniHeader>
+        <YouniHeader color={Colors.getPrimaryAppColor()}>
+          <Text style={styles.pageHeader}>
+            Trending
+          </Text>
+        </YouniHeader>
 
-          {errorPage}
+        {errorPage}
 
-          <ListFilter
-            filters={[TrendingFeedFilters.NOW, TrendingFeedFilters.SEMESTER]}
-            selectedFilter={trendingStore.getSelectedFilter()}
-            onPress={(filter) => trendingStore.setSelectedFilter(filter)}/>
+        <ListFilter
+          filters={[TrendingFeedType.STUDENTS.label, TrendingFeedType.ORGANIZATIONS.label]}
+          selectedFilter={trendingStore.getSelectedType()}
+          onPress={(type) => trendingStore.setSelectedType(type)}/>
+
+        <View style={styles.listContainer}>
           {this._renderTrendingList()}
-          {this._renderDropdown()}
-
         </View>
-      </TouchableWithoutFeedback>
+
+        <ListFilter
+          filters={[TrendingFeedFilters.NOW, TrendingFeedFilters.SEMESTER]}
+          selectedFilter={trendingStore.getSelectedFilter()}
+          onPress={(filter) => trendingStore.setSelectedFilter(filter)}/>
+
+      </View>
     );
   },
 
   _renderTrendingList: function() {
-    if (trendingStore.getSelectedType().label == TrendingFeedType.STUDENTS.label) {
+    if (trendingStore.getSelectedType() == TrendingFeedType.STUDENTS.label) {
       return (
         <TrendingList
           isPageLoading={trendingStore.isTrendingUserRequestInFlight()}
@@ -201,37 +210,12 @@ var TrendingPage = React.createClass({
 
     return trendingGroups;
   },
-  
-  _renderDropdown: function() {
-    if (this.state.showDropdown) {
-      return (
-        <TrendingFeedTypeDropdown
-          style={styles.dropdownContainer}
-          onPress={() => this.setState({ showDropdown: false })}/>
-      );
-    }
-  },
-
-  _toggleDropdownVisibility: function() {
-    var currentState = this.state.showDropdown;
-
-    this.setState({
-      showDropdown: !currentState
-    });
-  },
 
   _onErrorPageReload: function() {
     trendingStore.requestTrendingUsers();
   },
 
   _onUserPress: function(userEmail) {
-    if (this.state.showDropdown) {
-      this.setState({
-        showDropdown: false
-      });
-      return;
-    }
-
     if (userEmail !== userLoginMetadataStore.getEmail())
 
     this.props.navigator.push({
@@ -244,13 +228,6 @@ var TrendingPage = React.createClass({
   },
 
   _onGroupPress: function(group) {
-    if (this.state.showDropdown) {
-      this.setState({
-        showDropdown: false
-      });
-      return;
-    }
-
     this.props.navigator.push({
       component: GroupPopup,
       passProps: { group: group }
