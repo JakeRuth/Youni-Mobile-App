@@ -199,11 +199,33 @@ var explorePostsStore = Unicycle.createStore({
         comment: comment
       },
       (res) => {
-        PostUtils.addCommentFromList(posts, post.id, comment, commenterName, commenterProfileImage);
+        PostUtils.addCommentFromList(posts, post.id, comment, commenterName, commenterProfileImage, res.body.commentId);
         callback(comment);
       },
       () => {
         callback(comment);
+      }
+    );
+  },
+
+  deleteCommentFromPost: function(comment, post, callback) {
+    var posts = this.getPosts(),
+        userId = userLoginMetadataStore.getUserId(),
+        that = this;
+
+    AjaxUtils.ajax(
+      '/post/deleteComment',
+      {
+        commentIdString: comment.id,
+        userIdString: userId
+      },
+      (res) => {
+        PostUtils.deleteCommentFromList(posts, post.id, res.body.firstComments);
+        callback();
+        that.notifyListeners();
+      },
+      () => {
+
       }
     );
   },

@@ -37,6 +37,7 @@ var Post = React.createClass({
     viewerIsPostOwner: React.PropTypes.bool,
     renderedFromProfileView: React.PropTypes.bool,
     onSubmitCommentAction: React.PropTypes.func.isRequired,
+    onDeleteCommentAction: React.PropTypes.func.isRequired,
     likePhotoAction: React.PropTypes.func.isRequired,
     unlikePhotoAction: React.PropTypes.func.isRequired,
     navigator: React.PropTypes.object.isRequired

@@ -94,6 +94,7 @@ var ProfileOwnerPage = React.createClass({
             unlikePhotoAction={this.unlikePhotoAction}
             likePhotoAction={this.likePhotoAction}
             onSubmitCommentAction={this.onSubmitCommentAction}
+            onDeleteCommentAction={this.onDeleteCommentAction}
             navigator={this.props.navigator}/>
 
         </ScrollView>
@@ -142,6 +143,10 @@ var ProfileOwnerPage = React.createClass({
 
   onSubmitCommentAction: function(comment, post, callback) {
     profileOwnerStore.addCommentOnPost(comment, post, callback);
+  },
+
+  onDeleteCommentAction: function(comment, post, callback) {
+    profileOwnerStore.deleteCommentFromPost(comment, post, callback);
   },
 
   onPostViewControlPress: function(postViewType) {

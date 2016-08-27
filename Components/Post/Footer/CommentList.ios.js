@@ -20,6 +20,8 @@ var CommentList = React.createClass({
       })
     ).isRequired,
     maxCommentsToShow: React.PropTypes.number,
+    onDeleteCommentAction: React.PropTypes.func.isRequired,
+    post: React.PropTypes.object.isRequired,
     navigator: React.PropTypes.object.isRequired
   },
 
@@ -42,10 +44,9 @@ var CommentList = React.createClass({
 
       commentElements.push(
         <Comment
-          commenterName={commentsJson[i].commenterName}
-          commentText={commentsJson[i].comment}
-          commenterEmail={commentsJson[i].commenterEmail}
-          commenterProfilePicture={commentsJson[i].commenterProfilePicture}
+          comment={commentsJson[i]}
+          onDeleteCommentAction={this.props.onDeleteCommentAction}
+          post={this.props.post}
           key={i}
           navigator={this.props.navigator}/>
       );

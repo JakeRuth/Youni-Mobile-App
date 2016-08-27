@@ -75,6 +75,7 @@ var ExploreFeedPosts = React.createClass({
           likePhotoAction={this.likePhotoAction}
           unlikePhotoAction={this.unlikePhotoAction}
           onSubmitCommentAction={this.onSubmitCommentAction}
+          onDeleteCommentAction={this.onDeleteCommentAction}
           navigator={this.props.navigator}/>
       );
     }
@@ -141,6 +142,10 @@ var ExploreFeedPosts = React.createClass({
 
   onSubmitCommentAction: function(comment, post, callback) {
     explorePostsStore.addCommentOnPost(comment, post, callback);
+  },
+
+  onDeleteCommentAction: function(comment, post, callback) {
+    explorePostsStore.deleteCommentFromPost(comment, post, callback);
   }
 
 });

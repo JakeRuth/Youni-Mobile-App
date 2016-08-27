@@ -32,6 +32,7 @@ var PostCommentsPage = React.createClass({
     commentInputAutoFocus: React.PropTypes.bool,
     onLoadMorePress: React.PropTypes.func.isRequired,
     onSubmitCommentAction: React.PropTypes.func.isRequired,
+    onDeleteCommentAction: React.PropTypes.func.isRequired,
     onSubmitCommentCallback: React.PropTypes.func.isRequired
   },
 
@@ -47,6 +48,8 @@ var PostCommentsPage = React.createClass({
 
         <CommentList
           comments={this.props.comments}
+          post={this.props.post}
+          onDeleteCommentAction={this.props.onDeleteCommentAction}
           navigator={this.props.navigator}/>
 
         <LoadMoreButton

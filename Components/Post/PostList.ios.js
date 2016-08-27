@@ -43,6 +43,7 @@ var PostList = React.createClass({
     likePhotoAction: React.PropTypes.func.isRequired,
     unlikePhotoAction: React.PropTypes.func.isRequired,
     onSubmitCommentAction: React.PropTypes.func.isRequired,
+    onDeleteCommentAction: React.PropTypes.func.isRequired,
     loadMoreButtonStyle: React.PropTypes.object,
     navigator: React.PropTypes.object.isRequired
   },

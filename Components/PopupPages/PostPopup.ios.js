@@ -41,6 +41,7 @@ var PostPopup = React.createClass({
     likePhotoAction: React.PropTypes.func,
     unlikePhotoAction: React.PropTypes.func,
     onSubmitCommentAction: React.PropTypes.func,
+    onDeleteCommentAction: React.PropTypes.func,
     renderedFromProfileView: React.PropTypes.bool,
     navigator: React.PropTypes.object.isRequired
   },
@@ -74,6 +75,7 @@ var PostPopup = React.createClass({
             likePhotoAction={this.props.likePhotoAction ? this.props.likePhotoAction : this._likePhotoAction}
             unlikePhotoAction={this.props.unlikePhotoAction ? this.props.unlikePhotoAction : this._unlikePhotoAction}
             onSubmitCommentAction={this.props.onSubmitCommentAction ? this.props.onSubmitCommentAction : this._onSubmitComment}
+            onDeleteCommentAction={this.props.onDeleteCommentAction ? this._onDeleteFromPropsWithStateUpdate : this._onDeleteComment}
             navigator={this.props.navigator}/>
 
         </ScrollView>
@@ -152,6 +154,36 @@ var PostPopup = React.createClass({
         callback(comment);
       }
     );
+  },
+
+  _onDeleteComment: function(comment, post, callback) {
+    var userId = userLoginMetadataStore.getUserId(),
+        that = this;
+
+    AjaxUtils.ajax(
+      '/post/deleteComment',
+      {
+        commentIdString: comment.id,
+        userIdString: userId
+      },
+      (res) => {
+        that.setState({
+          post: PostUtils.deleteComment(post, res.body.firstComments)
+        });
+        callback();
+        that.forceUpdate();
+      },
+      () => {
+
+      }
+    );
+  },
+
+  _onDeleteFromPropsWithStateUpdate(comment, post, callback) {
+    this.props.onDeleteCommentAction(comment, post, () => {
+      this.forceUpdate();
+      callback();
+    });
   }
 
 });

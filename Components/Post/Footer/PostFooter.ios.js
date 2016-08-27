@@ -45,7 +45,8 @@ var PostFooter = React.createClass({
     onStarPress: React.PropTypes.func.isRequired,
     navigator: React.PropTypes.object.isRequired,
     isCommentRequestInFlight: React.PropTypes.bool.isRequired,
-    onSubmitCommentAction: React.PropTypes.func.isRequired
+    onSubmitCommentAction: React.PropTypes.func.isRequired,
+    onDeleteCommentAction: React.PropTypes.func.isRequired
   },
 
   render: function() {
@@ -93,6 +94,8 @@ var PostFooter = React.createClass({
         <CommentList
           comments={this.props.post.firstComments}
           maxCommentsToShow={PostUtils.DEFAULT_MAX_COMMENTS_VISIBLE}
+          onDeleteCommentAction={this.props.onDeleteCommentAction}
+          post={this.props.post}
           navigator={this.props.navigator}/>
 
       </View>
@@ -101,10 +104,7 @@ var PostFooter = React.createClass({
 
   _renderViewAllCommentsLink: function() {
     return (
-      <ViewAllCommentsLink
-        post={this.props.post}
-        onSubmitCommentAction={this.props.onSubmitCommentAction}
-        navigator={this.props.navigator}/>
+      <ViewAllCommentsLink {...this.props}/>
     );
   },
 
@@ -114,7 +114,8 @@ var PostFooter = React.createClass({
       passProps: {
         post: this.props.post,
         commentInputAutoFocus: true,
-        onSubmitCommentAction: this.props.onSubmitCommentAction
+        onSubmitCommentAction: this.props.onSubmitCommentAction,
+        onDeleteCommentAction: this.props.onDeleteCommentAction
       }
     });
   },

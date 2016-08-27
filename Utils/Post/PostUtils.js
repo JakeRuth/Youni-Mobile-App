@@ -16,22 +16,6 @@ var PostUtils = {
     return postsJson;
   },
 
-  //TODO: Fix me. BAD
-  createCommentsJsonFromGreedy: function(comments) {
-    var commentsJson = [];
-
-    for (var i = comments.length - 1; i >= 0; i--) {
-      var comment = comments[i];
-      commentsJson.push({
-        comment: comment.comment,
-        commenterName: comment.commenterName,
-        commenterEmail: comment.commenterEmail,
-        commenterProfilePicture: comment.commenterProfilePicture
-      });
-    }
-    return commentsJson;
-  },
-
   increaseLikeCountFromList: function(posts, id) {
     var post = posts.get(id);
     post = this.likePost(post);
@@ -58,24 +42,38 @@ var PostUtils = {
     return post;
   },
 
-  addCommentFromList: function(posts, id, commentText, commenterName, commenterProfilePicture) {
+  addCommentFromList: function(posts, id, commentText, commenterName, commenterProfilePicture, commentId) {
     var post = posts.get(id);
-    post = this.addComment(post, commentText, commenterName, commenterProfilePicture);
+    post = this.addComment(post, commentText, commenterName, commenterProfilePicture, commentId);
     posts = posts.set(id, post);
     return posts;
   },
 
-  addComment: function(post, commentText, commenterName, commenterProfilePicture) {
+  addComment: function(post, commentText, commenterName, commenterProfilePicture, commentId) {
     post.numComments++;
 
     if (post.firstComments.length < this.DEFAULT_MAX_COMMENTS_VISIBLE) {
       post.firstComments.push({
+        id: commentId,
         comment: commentText,
         commenterName: commenterName,
         commenterProfilePicture: commenterProfilePicture
       });
     }
 
+    return post;
+  },
+
+  deleteCommentFromList: function(posts, id, newFirstComments) {
+    var post = posts.get(id);
+    post = this.deleteComment(post, newFirstComments);
+    posts = posts.set(id, post);
+    return posts;
+  },
+
+  deleteComment: function(post, newFirstComments) {
+    post.numComments--;
+    post.firstComments = newFirstComments;
     return post;
   },
 

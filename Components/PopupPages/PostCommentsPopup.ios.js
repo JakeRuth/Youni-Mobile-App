@@ -17,6 +17,7 @@ var PostCommentsPopup = React.createClass({
     navigator: React.PropTypes.object.isRequired,
     post: React.PropTypes.object.isRequired,
     onSubmitCommentAction: React.PropTypes.func.isRequired,
+    onDeleteCommentAction: React.PropTypes.func.isRequired,
     commentInputAutoFocus: React.PropTypes.bool
   },
 
@@ -43,6 +44,7 @@ var PostCommentsPopup = React.createClass({
         comments={this._getComments()}
         moreToFetch={this.state.moreToFetch}
         onLoadMorePress={this.fetchComments}
+        onDeleteCommentAction={this.onDeleteComment}
         onSubmitCommentCallback={this.onSubmitCommentCallback}/>
     );
 
@@ -64,6 +66,7 @@ var PostCommentsPopup = React.createClass({
         commenterProfilePictureUrl = userLoginMetadataStore.getProfileImageUrl();
 
     currentComments.push({
+      id: comment.id,
       comment: comment,
       commenterName: commenterName,
       commenterProfilePicture: commenterProfilePictureUrl,
@@ -72,6 +75,32 @@ var PostCommentsPopup = React.createClass({
 
     this.setState({
       comments: currentComments
+    });
+  },
+
+  onDeleteComment: function(comment, post, callback) {
+    this.props.onDeleteCommentAction(comment, post, () => {
+      var comments = this._getComments(),
+          indexOfCommentToRemove;
+
+      for (var i = 0; i < comments.length; i++) {
+        if (comments[i].id === comment.id) {
+          indexOfCommentToRemove = i;
+          break;
+        }
+      }
+
+      if (indexOfCommentToRemove === 0) {
+        comments.shift();
+      }
+      else {
+        comments.splice(indexOfCommentToRemove, 1);
+      }
+
+      this.setState({
+        comments: comments
+      });
+      callback();
     });
   },
 
@@ -91,11 +120,9 @@ var PostCommentsPopup = React.createClass({
         maxToFetch: that.PAGE_SIZE
       },
       (res) => {
-        var comments = PostUtils.createCommentsJsonFromGreedy(res.body.comments);
-
         that.setState({
           loading: false,
-          comments: currentComments.concat(that._buildStateCommentsJson(comments)),
+          comments: currentComments.concat(that._buildStateCommentsJson(res.body.comments.reverse())),
           moreToFetch: res.body.moreToFetch,
           offset: that.state.offset + that.PAGE_SIZE
         });

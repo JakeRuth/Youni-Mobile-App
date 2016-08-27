@@ -92,6 +92,7 @@ var GroupPopup = React.createClass({
           likePhotoAction={this.likePhotoAction}
           unlikePhotoAction={this.unlikePhotoAction}
           onSubmitCommentAction={this.onSubmitCommentAction}
+          onDeleteCommentAction={this.onDeleteCommentAction}
           navigator={this.props.navigator}/>
         <BackArrow
           style={styles.backArrow}
@@ -243,11 +244,35 @@ var GroupPopup = React.createClass({
         comment: comment
       },
       (res) => {
-        PostUtils.addCommentFromList(posts, post.id, comment, commenterName, commenterProfileImage);
+        PostUtils.addCommentFromList(posts, post.id, comment, commenterName, commenterProfileImage, res.body.commentId);
         callback(comment);
       },
       () => {
         callback(comment);
+      }
+    );
+  },
+
+  onDeleteCommentAction: function(comment, post, callback) {
+    var posts = this.state.posts,
+        userId = userLoginMetadataStore.getUserId(),
+        that = this;
+
+    AjaxUtils.ajax(
+      '/post/deleteComment',
+      {
+        commentIdString: comment.id,
+        userIdString: userId
+      },
+      (res) => {
+        that.setState({
+          posts: PostUtils.deleteCommentFromList(posts, post.id, res.body.firstComments)
+        });
+        callback();
+        that.forceUpdate();
+      },
+      () => {
+
       }
     );
   },

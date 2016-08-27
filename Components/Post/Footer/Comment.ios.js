@@ -16,6 +16,8 @@ var userLoginMetadataStore = require('../../../stores/UserLoginMetadataStore');
 var {
   View,
   Text,
+  AlertIOS,
+  ActionSheetIOS,
   TouchableHighlight,
   StyleSheet
 } = ReactNative;
@@ -47,11 +49,21 @@ var styles = StyleSheet.create({
 var Comment = React.createClass({
 
   propTypes: {
-    commenterName: React.PropTypes.string.isRequired,
-    commentText: React.PropTypes.string.isRequired,
-    commenterEmail: React.PropTypes.string,
-    commenterProfilePicture: React.PropTypes.string,
+    comment: React.PropTypes.shape({
+      comment: React.PropTypes.string.isRequired,
+      commenterName: React.PropTypes.string.isRequired,
+      commenterEmail: React.PropTypes.string.isRequired,
+      commenterProfilePicture: React.PropTypes.string.isRequired
+    }).isRequired,
+    onDeleteCommentAction: React.PropTypes.func.isRequired,
+    post: React.PropTypes.object.isRequired,
     navigator: React.PropTypes.object.isRequired
+  },
+
+  getInitialState: function() {
+    return {
+      isDeleteRequestInFlight: false
+    };
   },
 
   // TODO: If you want to get mad, change this top level TouchableHighlight to a View, for some reason
@@ -59,8 +71,9 @@ var Comment = React.createClass({
   render: function() {
     return (
       <TouchableHighlight
+        style={this._getContainerStyle()}
         underlayColor="transparent"
-        onPress={() => DismissKeyboard()}>
+        onPress={this.onPress}>
         <View style={styles.container}>
 
           <TouchableHighlight
@@ -70,7 +83,7 @@ var Comment = React.createClass({
             <View>
               <ProfileImageThumbnail
                 style={styles.profilePicture}
-                profileImageUrl={this.props.commenterProfilePicture}/>
+                profileImageUrl={this.props.comment.commenterProfilePicture}/>
             </View>
           </TouchableHighlight>
 
@@ -78,9 +91,9 @@ var Comment = React.createClass({
             <Text
               style={styles.commenterName}
               numberOfLines={1}>
-              {this.props.commenterName}
+              {this.props.comment.commenterName}
             </Text>
-            <TruncatedText text={this.props.commentText}/>
+            <TruncatedText text={this.props.comment.comment}/>
           </View>
 
         </View>
@@ -88,21 +101,82 @@ var Comment = React.createClass({
     );
   },
 
-  _onCommenterNamePress: function() {
-    var userEmail = userLoginMetadataStore.getEmail();
+  onPress: function() {
+    DismissKeyboard();
+    if (this._isLoggedInUserCommentOwner() && this.props.onDeleteCommentAction) {
+      this._showDeleteCommentActionSheet();
+    }
+  },
 
+  _onCommenterNamePress: function() {
     // commenterEmail could be null.  when a user comments on the post and we add the comment json to the
     // comment list, we don't populate the email.  Which is OK, since it's only used to render the profile popup
     // and you aren't allowed to view your own profile from a popup
-    if (this.props.commenterEmail && userEmail !== this.props.commenterEmail) {
+    if (!this._isLoggedInUserCommentOwner()) {
       this.props.navigator.push({
         component: ProfilePopup,
         passProps: {
-          profileUserEmail: this.props.commenterEmail,
+          profileUserEmail: this.props.comment.commenterEmail,
           onBackArrowPress: () => statusBarStyleStore.setStyle(IosStatusBarStyles.LIGHT_CONTENT)
         }
       })
     }
+  },
+
+  _showDeleteCommentActionSheet: function() {
+    ActionSheetIOS.showActionSheetWithOptions({
+      options: [
+        'Delete comment',
+        'Cancel'
+      ],
+      cancelButtonIndex: 1,
+      tintColor: Colors.getPrimaryAppColor()
+    },
+    (buttonIndex) => {
+      if (buttonIndex === 0) {
+        this._alertConfirmDelete();
+      }
+    });
+  },
+
+  _alertConfirmDelete: function() {
+    AlertIOS.alert(
+      'Are you sure you want to permanently remove this comment?',
+      '',
+      [
+        {
+          text: 'Yes',
+          onPress: this._onConfirmDeleteComment
+        },
+        {
+          text: 'No'
+        }
+      ]
+    );
+  },
+
+  _onConfirmDeleteComment: function() {
+    this.setState({
+      isDeleteRequestInFlight: true
+    });
+
+    this.props.onDeleteCommentAction(this.props.comment, this.props.post, () => {
+      this.setState({
+        isDeleteRequestInFlight: false
+      });
+    })
+  },
+
+  _getContainerStyle: function() {
+    if (this.state.isDeleteRequestInFlight) {
+      return {
+        opacity: .5
+      };
+    }
+  },
+
+  _isLoggedInUserCommentOwner: function() {
+    return this.props.comment.commenterEmail && userLoginMetadataStore.getEmail() === this.props.comment.commenterEmail;
   }
 
 });

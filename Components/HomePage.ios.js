@@ -156,6 +156,7 @@ var HomePage = React.createClass({
         likePhotoAction={this.likePhotoAction}
         unlikePhotoAction={this.unlikePhotoAction}
         onSubmitCommentAction={this.onSubmitCommentAction}
+        onDeleteCommentAction={this.onDeleteCommentAction}
         loadMoreButtonStyle={{
           marginBottom: 70
         }}
@@ -178,6 +179,10 @@ var HomePage = React.createClass({
 
   onSubmitCommentAction: function(comment, post, callback) {
     homePostsStore.addCommentOnPost(comment, post, callback);
+  },
+
+  onDeleteCommentAction: function(comment, post, callback) {
+    homePostsStore.deleteCommentFromPost(comment, post, callback);
   }
 
 });
