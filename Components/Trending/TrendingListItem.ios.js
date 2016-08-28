@@ -32,15 +32,15 @@ var styles = StyleSheet.create({
     marginRight: 10
   },
   firstRankingContainer: {
-    backgroundColor: '#E8CD00',
+    backgroundColor: '#FBD964',
     color: 'white'
   },
   secondRankingContainer: {
-    backgroundColor: '#C7C7C7',
+    backgroundColor: '#C6C6C6',
     color: 'white'
   },
   thirdRankingContainer: {
-    backgroundColor: '#FC777F',
+    backgroundColor: '#E36C2D',
     color: 'white'
   },
   ranking: {
