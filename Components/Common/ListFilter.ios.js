@@ -38,7 +38,8 @@ var styles = StyleSheet.create({
     position: 'absolute',
     width: SELECTED_FILTER_UNDERLINE_WIDTH,
     height: 2,
-    borderRadius: 1.5
+    borderRadius: 1.5,
+    bottom: -5
   }
 });
 
