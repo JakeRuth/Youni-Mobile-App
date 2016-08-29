@@ -2,6 +2,7 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
+var Icon = require('react-native-vector-icons/MaterialIcons');
 var Unicycle = require('../../Unicycle');
 
 var TrendingList = require('./TrendingList');
@@ -31,12 +32,17 @@ var {
   StyleSheet,
   AlertIOS,
   Dimensions,
-  TouchableWithoutFeedback
+  TouchableHighlight
 } = ReactNative;
 
 var styles = StyleSheet.create({
   container: {
     flex: 1
+  },
+  whatIsThisIcon: {
+    position: 'absolute',
+    left: 5,
+    bottom: 8
   },
   pageHeader: {
     color: 'white',
@@ -80,6 +86,7 @@ var TrendingPage = React.createClass({
           <Text style={styles.pageHeader}>
             Trending
           </Text>
+          {this._renderWhatIsThisPageIcon()}
         </YouniHeader>
 
         <View style={styles.requestToCreateGroupContainer}>
@@ -201,8 +208,30 @@ var TrendingPage = React.createClass({
     return trendingGroups;
   },
 
-  _onErrorPageReload: function() {
-    trendingStore.requestTrendingUsers();
+  _renderWhatIsThisPageIcon: function() {
+    return (
+      <TouchableHighlight
+        style={styles.whatIsThisIcon}
+        underlayColor="transparent"
+        onPress={this._onWhatIsThisPageIconPress}>
+        <Icon
+          name='info-outline'
+          size={30}
+          color='white'/>
+      </TouchableHighlight>
+    );
+  },
+
+  _onWhatIsThisPageIconPress: function() {
+    AlertIOS.alert(
+      'Welcome to the Trending Page!',
+      "You're probably thinking, wtf is this, what are points?  On Youni every user, every group, has a campus score.  " +
+      "As you post, gain followers, and have students interact with your content, your campus score will increase!  " +
+      "Higher point values help you and the org's you rep get highlighted on our Trending Pages!!!",
+      {
+        text: 'Got it'
+      }
+    );
   },
 
   _onUserPress: function(userEmail) {
