@@ -3,6 +3,8 @@
 var Unicycle = require('../Unicycle');
 
 var userLoginMetadataStore = require('./UserLoginMetadataStore');
+var trendingStore = require('./trending/TrendingStore');
+
 var AsyncStorageUtils = require('../Utils/Common/AsyncStorageUtils');
 var AjaxUtils = require('../Utils/Common/AjaxUtils');
 
@@ -46,6 +48,8 @@ var loginStore = Unicycle.createStore({
             firstName = res.body.firstName,
             lastName = res.body.lastName,
             networkName = res.body.networkName,
+            trendingFeedFilter = res.body.trendingFeedFilter,
+            trendingFeedType = res.body.trendingFeedType,
             networkColor = res.body.networkColorHexCode,
             showTutorialPopup = res.body.showTutorialPopup;
 
@@ -60,6 +64,9 @@ var loginStore = Unicycle.createStore({
         userLoginMetadataStore.setNetworkName(networkName);
         userLoginMetadataStore.setNetworkColor(networkColor);
         userLoginMetadataStore.setShowTutorialPopup(showTutorialPopup);
+
+        trendingStore.setSelectedFilter(trendingFeedFilter);
+        trendingStore.setSelectedType(trendingFeedType);
 
         AsyncStorageUtils.saveItem('userId', userId);
         AsyncStorageUtils.saveItem('email', email);

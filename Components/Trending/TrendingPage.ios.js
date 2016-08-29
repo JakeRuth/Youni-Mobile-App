@@ -6,12 +6,9 @@ var Icon = require('react-native-vector-icons/MaterialIcons');
 var Unicycle = require('../../Unicycle');
 
 var TrendingList = require('./TrendingList');
-var TrendingDropdownTrigger = require('./TrendingDropdownTrigger');
-var TrendingFeedTypeDropdown = require('./TrendingFeedTypeDropdown');
 var TrendingListItem = require('./TrendingListItem');
 var YouniHeader = require('../Common/YouniHeader');
 var ListFilter = require('../Common/ListFilter');
-var ErrorPage = require('../Common/ErrorPage');
 var GroupListItem = require('../Group/GroupListItem');
 var RequestToCreateGroup = require('../Group/RequestToCreateGroup');
 var ProfilePopup = require('../PopupPages/ProfilePopup');
@@ -94,7 +91,7 @@ var TrendingPage = React.createClass({
         </View>
 
         <ListFilter
-          filters={[TrendingFeedType.STUDENTS.label, TrendingFeedType.ORGANIZATIONS.label]}
+          filters={[TrendingFeedType.STUDENTS, TrendingFeedType.ORGANIZATIONS]}
           selectedFilter={trendingStore.getSelectedType()}
           onPress={(type) => trendingStore.setSelectedType(type)}/>
 
@@ -112,7 +109,7 @@ var TrendingPage = React.createClass({
   },
 
   _renderTrendingList: function() {
-    if (trendingStore.getSelectedType() == TrendingFeedType.STUDENTS.label) {
+    if (trendingStore.getSelectedType() == TrendingFeedType.STUDENTS) {
       return (
         <TrendingList
           isPageLoading={trendingStore.isTrendingUserRequestInFlight()}

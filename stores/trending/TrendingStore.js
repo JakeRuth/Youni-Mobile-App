@@ -19,7 +19,7 @@ var trendingStore = Unicycle.createStore({
       users: [],
       groups: [],
       selectedFilter: TrendingFeedFilters.SEMESTER,
-      selectedType: TrendingFeedType.ORGANIZATIONS.label
+      selectedType: TrendingFeedType.ORGANIZATIONS
     });
   },
 
@@ -183,7 +183,7 @@ var trendingStore = Unicycle.createStore({
   },
 
   requestFeedForCurrentSelection: function() {
-    if (this.getSelectedType() === TrendingFeedType.STUDENTS.label) {
+    if (this.getSelectedType() === TrendingFeedType.STUDENTS) {
       if (this.getSelectedFilter() === TrendingFeedFilters.NOW) {
         this.requestTrendingUsers();
       }
