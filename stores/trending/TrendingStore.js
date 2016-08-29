@@ -18,9 +18,8 @@ var trendingStore = Unicycle.createStore({
       isTrendingGroupRequestInFlight: true,
       users: [],
       groups: [],
-      pageLoadError: false,
-      selectedFilter: TrendingFeedFilters.NOW,
-      selectedType: TrendingFeedType.STUDENTS.label
+      selectedFilter: TrendingFeedFilters.SEMESTER,
+      selectedType: TrendingFeedType.ORGANIZATIONS.label
     });
   },
 
@@ -39,14 +38,12 @@ var trendingStore = Unicycle.createStore({
       (res) => {
         that.set({
           users: immutable.List(UserUtils.convertResponseUserListToMap(res.body.users)),
-          isTrendingUserRequestInFlight: false,
-          pageLoadError: false
+          isTrendingUserRequestInFlight: false
         });
       },
       () => {
         that.set({
-          isTrendingUserRequestInFlight: false,
-          pageLoadError: true
+          isTrendingUserRequestInFlight: false
         });
       }
     );
@@ -67,14 +64,12 @@ var trendingStore = Unicycle.createStore({
       (res) => {
         that.set({
           users: immutable.List(UserUtils.convertResponseUserListToMap(res.body.users)),
-          isTrendingUserRequestInFlight: false,
-          pageLoadError: false
+          isTrendingUserRequestInFlight: false
         });
       },
       () => {
         that.set({
-          isTrendingUserRequestInFlight: false,
-          pageLoadError: true
+          isTrendingUserRequestInFlight: false
         });
       }
     );
@@ -95,14 +90,12 @@ var trendingStore = Unicycle.createStore({
       (res) => {
         that.set({
           groups: res.body.groups,
-          isTrendingGroupRequestInFlight: false,
-          pageLoadError: false
+          isTrendingGroupRequestInFlight: false
         });
       },
       () => {
         that.set({
-          isTrendingGroupRequestInFlight: false,
-          pageLoadError: true
+          isTrendingGroupRequestInFlight: false
         });
       }
     );
@@ -123,14 +116,12 @@ var trendingStore = Unicycle.createStore({
       (res) => {
         that.set({
           groups: res.body.groups,
-          isTrendingGroupRequestInFlight: false,
-          pageLoadError: false
+          isTrendingGroupRequestInFlight: false
         });
       },
       () => {
         that.set({
-          isTrendingGroupRequestInFlight: false,
-          pageLoadError: true
+          isTrendingGroupRequestInFlight: false
         });
       }
     );
@@ -147,7 +138,7 @@ var trendingStore = Unicycle.createStore({
       selectedFilter: filter
     });
 
-    this._requestFeedForCurrentSelection();
+    this.requestFeedForCurrentSelection();
   },
   
   setSelectedType: function(type) {
@@ -155,11 +146,7 @@ var trendingStore = Unicycle.createStore({
       selectedType: type
     });
 
-    this._requestFeedForCurrentSelection();
-  },
-
-  anyErrorsLoadingPage: function() {
-    return this.get('pageLoadError');
+    this.requestFeedForCurrentSelection();
   },
 
   isTrendingUserRequestInFlight: function() {
@@ -195,7 +182,7 @@ var trendingStore = Unicycle.createStore({
     }
   },
 
-  _requestFeedForCurrentSelection: function() {
+  requestFeedForCurrentSelection: function() {
     if (this.getSelectedType() === TrendingFeedType.STUDENTS.label) {
       if (this.getSelectedFilter() === TrendingFeedFilters.NOW) {
         this.requestTrendingUsers();

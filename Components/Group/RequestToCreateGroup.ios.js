@@ -18,7 +18,7 @@ var {
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: 45
+    height: 35
   },
   iconAndTextContainer: {
     flex: 1,

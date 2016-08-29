@@ -45,9 +45,7 @@ var styles = StyleSheet.create({
     textAlign: 'center'
   },
   listContainer: {
-    flex: 1,
-    backgroundColor: Colors.LIGHT_GRAY,
-    paddingTop: 5
+    flex: 1
   },
   dropdownContainer: {
     position: 'absolute',
@@ -71,17 +69,10 @@ var TrendingPage = React.createClass({
   ],
 
   componentDidMount: function() {
-    trendingStore.requestTrendingUsers();
+    trendingStore.requestFeedForCurrentSelection();
   },
 
   render: function() {
-    var anyErrorsLoadingPage = trendingStore.anyErrorsLoadingPage(),
-        errorPage;
-
-    if (anyErrorsLoadingPage) {
-      errorPage = <ErrorPage reloadButtonAction={this._onErrorPageReload}/>
-    }
-
     return (
       <View style={styles.container}>
 
@@ -91,7 +82,9 @@ var TrendingPage = React.createClass({
           </Text>
         </YouniHeader>
 
-        {errorPage}
+        <View style={styles.requestToCreateGroupContainer}>
+          <RequestToCreateGroup {...this.props}/>
+        </View>
 
         <ListFilter
           filters={[TrendingFeedType.STUDENTS.label, TrendingFeedType.ORGANIZATIONS.label]}
@@ -125,7 +118,7 @@ var TrendingPage = React.createClass({
             }
           }}
           navigator={this.props.navigator}>
-          
+
           {this._renderTrendingUsers(trendingStore.getTrendingUsers())}
           
         </TrendingList>
@@ -145,9 +138,6 @@ var TrendingPage = React.createClass({
           }}
           navigator={this.props.navigator}>
 
-          <View style={styles.requestToCreateGroupContainer}>
-            <RequestToCreateGroup {...this.props}/>
-          </View>
           {this._renderTrendingGroups(trendingStore.getTrendingGroups())}
 
         </TrendingList>
