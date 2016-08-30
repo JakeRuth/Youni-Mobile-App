@@ -9,8 +9,12 @@ var ProfileImage = require('./ProfileImage');
 var ProfileGroups = require('./ProfileGroups');
 var GroupThumbnailLink = require('../Group/GroupThumbnailLink');
 var CampusScoreInfoAlert = require('../Common/CampusScoreInfoAlert');
+var UserFollowingListPopup = require('../PopupPages/UserFollowingListPopup');
 
 var Colors = require('../../Utils/Common/Colors');
+var UserFollowRelationshipFilter = require('../../Utils/Enums/UserFollowRelationshipFilter');
+var followRelationshipStore = require('../../stores/profile/FollowRelationshipStore');
+var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 
 var {
   Text,
@@ -91,12 +95,24 @@ var ProfileInfoBody = React.createClass({
           <View style={styles.profileImageContainer}>
             <ProfileImage {...this.props}/>
           </View>
-          <View style={styles.postStatContainer}>
-            <ProfileStat
-              value={this.props.user.numFollowers}
-              label="Fans"
-              alignIndicatorTo="right"/>
-          </View>
+          <TouchableHighlight
+            style={styles.postStatContainer}
+            underlayColor="transparent"
+            onPress={() => {
+              if (userLoginMetadataStore.getEmail() === this.props.user.email) {
+                followRelationshipStore.setSelectedFilter(UserFollowRelationshipFilter.FANS);
+                this.props.navigator.push({
+                  component: UserFollowingListPopup
+                });
+              }
+            }}>
+            <View>
+              <ProfileStat
+                value={this.props.user.numFollowers}
+                label="Fans"
+                alignIndicatorTo="right"/>
+            </View>
+          </TouchableHighlight>
         </View>
         {this._renderBio()}
 
