@@ -2,11 +2,13 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
+var Unicycle = require('../../Unicycle');
 
 var GetAllFollowingPage = require('../Profile/Following/GetAllFollowingPage');
 var YouniHeader = require('../Common/YouniHeader');
 var BackArrow = require('../Common/BackArrow');
 
+var followRelationshipStore = require('../../stores/profile/FollowRelationshipStore');
 var userLoginMetaDataStore = require('../../stores/UserLoginMetadataStore');
 var Colors = require('../../Utils/Common/Colors');
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
@@ -31,24 +33,16 @@ var styles = StyleSheet.create({
 
 var UserFollowingListPopup = React.createClass({
 
-  PAGE_SIZE: 40,
-
   propTypes: {
     navigator: React.PropTypes.object.isRequired
   },
-
-  getInitialState: function() {
-    return {
-      initialPageLoading: false,
-      isLoading: false,
-      moreToFetch: false,
-      users: [],
-      offset: 0
-    };
-  },
+  
+  mixins: [
+    Unicycle.listenTo(followRelationshipStore)
+  ],
 
   componentDidMount() {
-    this._requestFollowingUsers();
+    followRelationshipStore.fetchFollowRelationships();
   },
 
   render: function () {
@@ -58,60 +52,25 @@ var UserFollowingListPopup = React.createClass({
           <Text style={[styles.pageHeader, { color: Colors.getPrimaryAppColor() }]}>
             Following
           </Text>
-          <BackArrow onPress={() => this.props.navigator.pop()}/>
+          <BackArrow onPress={() => {
+            // allow time for the navigator frame pop to take affect
+            setTimeout(function() {
+              followRelationshipStore.resetState();
+            }, 200);
+            this.props.navigator.pop();
+          }}/>
         </YouniHeader>
 
         <GetAllFollowingPage
-          initialPageLoading={this.state.initialPageLoading}
-          isLoading={this.state.isLoading}
-          moreToFetch={this.state.moreToFetch}
-          onLoadMorePress={this._requestFollowingUsers}
-          users={this.state.users}
+          initialPageLoading={followRelationshipStore.isInitialPageLoading()}
+          isLoading={followRelationshipStore.isLoading()}
+          moreToFetch={followRelationshipStore.getMoreToFetch()}
+          onLoadMorePress={followRelationshipStore.fetchFollowRelationships}
+          users={followRelationshipStore.getUsers()}
+          selectedFilter={followRelationshipStore.getSelectedFilter()}
+          onFilterPress={(filter) => followRelationshipStore.setSelectedFilter(filter)}
           navigator={this.props.navigator}/>
       </View>
-    );
-  },
-
-  _requestFollowingUsers: function() {
-    var that = this,
-        currentUsers = this.state.users,
-        userEmail = userLoginMetaDataStore.getEmail();
-
-    if (this.state.offset === 0) {
-      this.setState({
-        initialPageLoading: true
-      });
-    }
-    else {
-      this.setState({
-        isLoading: true
-      });
-    }
-
-    AjaxUtils.ajax(
-      '/user/fetchFollowing',
-      {
-        userEmail: userEmail,
-        fetchOffsetAmount: that.state.offset,
-        maxToFetch: that.PAGE_SIZE
-      },
-      (res) => {
-        var users = UserUtils.convertResponseUserListToMap(res.body.followingUsers);
-
-        that.setState({
-          users: currentUsers.concat(users),
-          moreToFetch: res.body.moreResults,
-          offset: that.state.offset + that.PAGE_SIZE,
-          initialPageLoading: false,
-          isLoading: false
-        });
-      },
-      () => {
-        that.setState({
-          initialPageLoading: false,
-          isLoading: false
-        });
-      }
     );
   }
 

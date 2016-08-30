@@ -2,9 +2,13 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
+
 var AllFollowingResultList = require('./AllFollowingResultList');
 var LoadMoreButton = require('../../Common/LoadMoreButton');
 var Spinner = require('../../Common/Spinner');
+var ListFilter = require('../../Common/ListFilter');
+
+var UserFollowRelationshipFilter = require('../../../Utils/Enums/UserFollowRelationshipFilter');
 
 var {
   View,
@@ -29,6 +33,8 @@ var GetAllFollowingPage = React.createClass({
     moreToFetch: React.PropTypes.bool.isRequired,
     onLoadMorePress: React.PropTypes.func.isRequired,
     users: React.PropTypes.array.isRequired,
+    selectedFilter: React.PropTypes.string.isRequired,
+    onFilterPress: React.PropTypes.func.isRequired,
     navigator: React.PropTypes.object.isRequired
   },
 
@@ -50,6 +56,10 @@ var GetAllFollowingPage = React.createClass({
 
     return (
       <View style={styles.container}>
+        <ListFilter
+          filters={[UserFollowRelationshipFilter.FOLLOWING, UserFollowRelationshipFilter.FANS]}
+          selectedFilter={this.props.selectedFilter}
+          onPress={this.props.onFilterPress}/>
         {content}
       </View>
     );
