@@ -224,7 +224,7 @@ var TrendingPage = React.createClass({
       'Welcome to the Trending Page!',
       "You're probably thinking, wtf is this, what are points?  On Youni every user, every group, has a campus score.  " +
       "As you post, gain followers, and have students interact with your content, your campus score will increase!  " +
-      "Higher point values help you and the org's you rep get highlighted on our Trending Pages!!!",
+      "Higher point values help you and your orgs get highlighted on our Trending Pages!!!",
       {
         text: 'Got it'
       }
