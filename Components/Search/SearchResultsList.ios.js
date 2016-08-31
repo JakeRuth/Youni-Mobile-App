@@ -18,7 +18,6 @@ var {
   Text,
   ListView,
   StyleSheet,
-  ScrollView,
   RecyclerViewBackedScrollView
 } = ReactNative;
 
@@ -50,9 +49,8 @@ var SearchResultsList = React.createClass({
     }
     else {
       return (
-        <ScrollView
-          style={styles.container}
-          automaticallyAdjustContentInsets={false}>
+        <View style={styles.container}>
+          {this.props.children}
           <ListView
             initialListSize={searchStore.getSearchResults().length}
             dataSource={this.state.dataSource}
@@ -64,7 +62,7 @@ var SearchResultsList = React.createClass({
             }}
             isLoading={searchStore.isFetchingMoreResults()}
             isVisible={searchStore.moreResultsToFetch()}/>
-        </ScrollView>
+        </View>
       );
     }
   },

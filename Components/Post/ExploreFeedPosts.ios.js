@@ -22,7 +22,7 @@ var {
 } = ReactNative;
 
 var styles = StyleSheet.create({
-  exploreFeedContainer: {
+  container: {
     flex: 1
   }
 });
@@ -67,7 +67,6 @@ var ExploreFeedPosts = React.createClass({
           posts={explorePostsStore.getPosts()}
           refreshable={true}
           isFeedRefreshing={explorePostsStore.isFeedRefreshing()}
-          onScroll={this.handleScroll}
           onLoadMorePostsPress={this._requestExploreFeed}
           isNextPageLoading={explorePostsStore.isLoadMorePostsRequestInFlight()}
           noMorePostsToFetch={explorePostsStore.getNoMorePostsToFetch()}
@@ -81,7 +80,7 @@ var ExploreFeedPosts = React.createClass({
     }
 
     return (
-      <View style={styles.exploreFeedContainer}>
+      <View style={styles.container}>
 
         <ListFilter
           filters={[PostListFilter.MALE, PostListFilter.ALL, PostListFilter.FEMALE]}
@@ -102,15 +101,6 @@ var ExploreFeedPosts = React.createClass({
     this.setState({
       selectedFilter: filter
     });
-  },
-
-  handleScroll(e) {
-    var infiniteScrollThreshold = -1,
-        userId = userLoginMetadataStore.getUserId();
-
-    if (e.nativeEvent.contentOffset.y < infiniteScrollThreshold) {
-      Unicycle.exec('refreshExploreFeed', userId, true);
-    }
   },
 
   _getApiPostEndpointForFilter: function(filter) {
