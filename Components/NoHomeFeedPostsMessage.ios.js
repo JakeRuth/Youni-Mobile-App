@@ -41,7 +41,7 @@ var NoHomeFeedPostsMessage = React.createClass({
           No posts from anyone you're following!
         </Text>
         <Text style={styles.noPostSubTitle}>
-          Swipe to explore
+          Swipe right or left to explore
         </Text>
 
       </View>

@@ -6,13 +6,11 @@ var immutable = require('immutable');
 
 var GroupInfo = require('../Group/GroupInfo');
 var GroupPostList = require('../Group/GroupPostList');
-var GroupActionButton = require('../Group/GroupActionButton');
 var BackArrow = require('../Common/BackArrow');
 
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 var UserUtils = require('../../Utils/User/UserUtils');
 var PostUtils = require('../../Utils/Post/PostUtils');
-var GroupUtils = require('../../Utils/Group/GroupUtils');
 
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 
@@ -81,7 +79,8 @@ var GroupPopup = React.createClass({
 
         <GroupInfo
           {...this.props}
-          group={this.state.group}/>
+          group={this.state.group}
+          onPageReturnCallback={() => this.reloadAllPageData()}/>
         <GroupPostList
           posts={immutable.List(this.state.posts)}
           gridViewEnabled={true}
@@ -98,13 +97,6 @@ var GroupPopup = React.createClass({
           style={styles.backArrow}
           color="white"
           onPress={() => this.props.navigator.pop() }/>
-        {
-          GroupUtils.isUserAdmin(this.state.group, userLoginMetadataStore.getEmail()) &&
-          <GroupActionButton
-            {...this.props}
-            group={this.state.group}
-            onPageReturnCallback={() => this.reloadAllPageData()}/>
-        }
 
       </ScrollView>
     );

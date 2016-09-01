@@ -4,8 +4,11 @@ var React = require('react');
 var ReactNative = require('react-native');
 
 var GroupStats = require('./GroupStats');
+var EditGroupButton = require('./Admin/Edit/EditGroupButton');
 
 var Colors = require('../../Utils/Common/Colors');
+var GroupUtils = require('../../Utils/Group/GroupUtils');
+var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 
 var {
   View,
@@ -35,6 +38,9 @@ var styles = StyleSheet.create({
     fontSize: 12,
     padding: 20,
     paddingTop: 2
+  },
+  adminEditGroupButtonContainer: {
+    alignItems: 'center'
   }
 });
 
@@ -52,7 +58,9 @@ var GroupInfo = React.createClass({
       allTimeTrendPoints: React.PropTypes.number.isRequired,
       numPosts: React.PropTypes.number.isRequired,
       numMembers: React.PropTypes.number.isRequired
-    }).isRequired
+    }).isRequired,
+    onPageReturnCallback: React.PropTypes.func.isRequired,
+    navigator: React.PropTypes.object.isRequired
   },
 
   render: function() {
@@ -71,10 +79,21 @@ var GroupInfo = React.createClass({
           {this.props.group.description}
         </Text>
 
+        {this._renderAdminEditGroupButton()}
         <GroupStats {...this.props}/>
 
       </View>
     );
+  },
+
+  _renderAdminEditGroupButton: function() {
+    if (GroupUtils.isUserAdmin(this.props.group, userLoginMetadataStore.getEmail())) {
+      return (
+        <View style={styles.adminEditGroupButtonContainer}>
+          <EditGroupButton {...this.props}/>
+        </View>
+      );
+    }
   }
 
 });

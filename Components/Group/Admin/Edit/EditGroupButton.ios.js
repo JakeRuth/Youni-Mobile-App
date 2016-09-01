@@ -2,15 +2,15 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
-var Icon = require('react-native-vector-icons/MaterialIcons');
 
-var GroupManagePhotosPopup = require('../PopupPages/GroupManagePhotosPopup');
-var GroupManageUsersPopup = require('../PopupPages/GroupManageUsersPopup');
-var GroupEditInfoPopup = require('../PopupPages/GroupEditInfoPopup');
+var GroupManagePhotosPopup = require('../../../PopupPages/GroupManagePhotosPopup');
+var GroupManageUsersPopup = require('../../../PopupPages/GroupManageUsersPopup');
+var GroupEditInfoPopup = require('../../../PopupPages/GroupEditInfoPopup');
 
-var Colors = require('../../Utils/Common/Colors');
+var Colors = require('../../../../Utils/Common/Colors');
 
 var {
+  Text,
   View,
   StyleSheet,
   ActionSheetIOS,
@@ -19,27 +19,23 @@ var {
 
 var styles = StyleSheet.create({
   container: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    paddingTop: 30,
-    paddingRight: 12,
-    paddingLeft: 30,
-    paddingBottom: 15
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    width: 193,
+    height: 40,
+    borderWidth: 1,
+    borderRadius: 6
   },
-  iconContainer: {
-    height: 30,
-    width: 30,
-    backgroundColor: 'rgba(0, 0, 0, .25)',
-    paddingTop: 4,
-    borderRadius: 15
-  },
-  icon: {
-    paddingLeft: 4
+  buttonLabel: {
+    flex: 1,
+    fontSize: 16,
+    textAlign: 'center'
   }
 });
 
-var GroupActionButton = React.createClass({
+var EditGroupButton = React.createClass({
 
   propTypes: {
     navigator: React.PropTypes.object.isRequired,
@@ -61,18 +57,12 @@ var GroupActionButton = React.createClass({
   render: function () {
     return (
       <TouchableHighlight
-        style={styles.container}
-        underlayColor='transparent'
+        style={[styles.container, { borderColor: Colors.getPrimaryAppColor() }]}
+        underlayColor="transparent"
         onPress={this._onButtonPress}>
-
-        <View style={styles.iconContainer}>
-          <Icon
-            style={styles.icon}
-            name='more-horiz'
-            size={22}
-            color='white'/>
-        </View>
-
+        <Text style={[styles.buttonLabel, {color: Colors.getPrimaryAppColor()}]}>
+          Administer Group
+        </Text>
       </TouchableHighlight>
     );
   },
@@ -110,4 +100,4 @@ var GroupActionButton = React.createClass({
 
 });
 
-module.exports = GroupActionButton;
+module.exports = EditGroupButton;
