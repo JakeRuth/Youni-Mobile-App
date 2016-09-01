@@ -13,6 +13,7 @@ var BackArrow = require('../Common/BackArrow');
 
 var Colors = require('../../Utils/Common/Colors');
 var exploreSearchOrgsStore = require('../../stores/group/ExploreSearchOrgsStore');
+var exploreFeedOrgsStore = require('../../stores/group/ExploreFeedOrgsStore');
 
 var {
   View,
@@ -23,7 +24,9 @@ var {
 
 var styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    paddingLeft: 20,
+    paddingRight: 20
   },
   pageHeader: {
     fontSize: 20,
@@ -71,7 +74,13 @@ var ExploreGroupsPopup = React.createClass({
             Orgs
           </Text>
 
-          <BackArrow onPress={() => this.props.navigator.pop()}/>
+          <BackArrow onPress={() => {
+            setTimeout(function() {
+              exploreFeedOrgsStore.resetState();
+            }, 150);
+            this.props.navigator.pop();
+            exploreFeedOrgsStore.requestTenMostRecentOrgs();
+          }}/>
 
           <TouchableHighlight
             style={styles.searchIconContainer}

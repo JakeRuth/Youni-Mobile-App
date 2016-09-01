@@ -10,6 +10,7 @@ var LoadMoreButton = require('../../Common/LoadMoreButton');
 var ListFilter = require('../../Common/ListFilter');
 
 var ExploreGroupFilters = require('../../../Utils/Enums/ExploreGroupFilters');
+var Colors = require('../../../Utils/Common/Colors');
 var exploreFeedOrgsStore = require('../../../stores/group/ExploreFeedOrgsStore');
 
 var {
@@ -21,13 +22,18 @@ var {
 
 var styles = StyleSheet.create({
   container: {
-    flex: 1,
-    paddingLeft: 20,
-    paddingRight: 20
+    flex: 1
+  },
+  singleListSectionLabel: {
+    textAlign: 'center',
+    fontSize: 16,
+    padding: 6
   }
 });
 
 var ExploreGroupsPage = React.createClass({
+
+  MIN_GROUPS_REQUIRED_FOR_LIST_VIEW: 8,
 
   propTypes: {
     navigator: React.PropTypes.object.isRequired
@@ -43,6 +49,15 @@ var ExploreGroupsPage = React.createClass({
   },
 
   render: function () {
+    if (exploreFeedOrgsStore.getMostRecentGroups().length < this.MIN_GROUPS_REQUIRED_FOR_LIST_VIEW) {
+      return this.renderSingleListView();
+    }
+    else {
+      return this.renderListFilterView();
+    }
+  },
+
+  renderListFilterView: function() {
     return (
       <View style={styles.container}>
 
@@ -60,6 +75,38 @@ var ExploreGroupsPage = React.createClass({
               onPress={exploreFeedOrgsStore.fetchMostRecentOrgs}
               isLoading={exploreFeedOrgsStore.isFetchingMoreRecentGroupsLoading()}
               isVisible={exploreFeedOrgsStore.getMoreMostRecentGroupsToFetch()}/>
+          </View>
+        </ScrollView>
+
+      </View>
+    );
+  },
+
+  renderSingleListView: function() {
+    return (
+      <View style={styles.container}>
+
+        <ScrollView
+          style={{flex: 1}}
+          automaticallyAdjustContentInsets={false}>
+          <View style={{flex: 1}}>
+
+            <Text style={[styles.singleListSectionLabel, {color: Colors.getPrimaryAppColor()}]}>
+              Recent
+            </Text>
+            {this._renderGroupsList()}
+
+            <Text style={[styles.singleListSectionLabel, {color: Colors.getPrimaryAppColor()}]}>
+              All
+            </Text>
+            <GroupResultsList
+              groups={exploreFeedOrgsStore.getAllAlphabeticalGroups()}
+              isInitialPageLoading={exploreFeedOrgsStore.isInitialFetchAllGroupsPageLoading()}
+              isLoading={exploreFeedOrgsStore.isFetchingAllGroupsLoading()}
+              moreToFetch={exploreFeedOrgsStore.getMoreAllGroupsToFetch()}
+              onLoadMorePress={exploreFeedOrgsStore.fetchAllOrgsAlphabetically}
+              navigator={this.props.navigator}/>
+
           </View>
         </ScrollView>
 

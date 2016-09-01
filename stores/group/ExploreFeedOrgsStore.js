@@ -28,6 +28,21 @@ var exploreFeedOrgsStore = Unicycle.createStore({
       currentFilter: ExploreGroupFilters.RECENT
     });
   },
+  
+  resetState: function() {
+    this.set({
+      mostRecentGroups: [],
+      allGroups: [],
+      mostRecentGroupsOffset: 0,
+      moreMostRecentGroupsToFetch: false,
+      allGroupsOffset: 0,
+      moreAllGroupsToFetch: false,
+      isGroupsOnExploreLoading: true,
+      isFetchingMoreRecentGroupsLoading: false,
+      isInitialFetchAllGroupsPageLoading: false,
+      isFetchingAllGroupsLoading: false
+    });
+  },
 
   requestTenMostRecentOrgs: function() {
     var that = this;
