@@ -146,16 +146,6 @@ var NotificationsListItem = React.createClass({
         </View>
       );
     }
-    else if (notification.type === NotificationUtils.TYPE_FOLLOW) {
-      return (
-        <View style={styles.leftImageThumbnailContainer}>
-          <Icon
-            name='person-add'
-            size={22}
-            color={Colors.getPrimaryAppColor()}/>
-        </View>
-      );
-    }
     else if (notification.type === NotificationUtils.TYPE_ADDED_TO_GROUP) {
       return (
         <GroupThumbnailLink
