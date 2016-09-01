@@ -6,7 +6,6 @@ var ReactNative = require('react-native');
 var ManageGroupUserListItem = require('../Group/Admin/ManageGroupUserListItem');
 var UserListItem = require('../Common/UserListItem');
 var LoadMoreButton = require('../Common/LoadMoreButton');
-var Spinner = require('../Common/Spinner');
 
 var {
   View,
@@ -18,9 +17,6 @@ var {
 var styles = StyleSheet.create({
   container: {
     flex: 1
-  },
-  spinnerContainer: {
-    paddingTop: 10
   }
 });
 

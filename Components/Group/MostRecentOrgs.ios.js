@@ -5,6 +5,7 @@ var ReactNative = require('react-native');
 var Unicycle = require('../../Unicycle');
 
 var GroupThumbnailLink = require('./GroupThumbnailLink');
+var ExploreGroupsPopup = require('../PopupPages/ExploreGroupsPopup');
 var Spinner = require('../Common/Spinner');
 
 var exploreFeedOrgsStore = require('../../stores/group/ExploreFeedOrgsStore');
@@ -31,10 +32,11 @@ var styles = StyleSheet.create({
   },
   seeAllTextTrigger: {
     position: 'absolute',
-    top: 7,
-    right: 10,
+    top: -3,
+    right: 0,
     fontSize: 16,
-    color: Colors.MED_GRAY
+    color: Colors.MED_GRAY,
+    padding: 10
   },
   groupThumbnailStyle: {
     paddingLeft: 3
@@ -74,7 +76,11 @@ var MostRecentOrgs = React.createClass({
           {this._renderContent()}
         </ScrollView>
 
-        <Text style={styles.seeAllTextTrigger}>
+        <Text
+          style={styles.seeAllTextTrigger}
+          onPress={() => this.props.navigator.push({
+            component: ExploreGroupsPopup
+          })}>
           See All
         </Text>
       </View>

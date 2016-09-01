@@ -20,15 +20,22 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    height: 55
+    paddingTop: 10,
+    paddingBottom: 10
+  },
+  nameAndTimestampContainer: {
+    flex: 1
   },
   name: {
     flex: 1,
     fontSize: 16,
-    alignSelf: 'center',
     color: Colors.DARK_GRAY,
     paddingLeft: 16
+  },
+  timestamp: {
+    fontSize: 16,
+    paddingLeft: 16,
+    color: Colors.MED_GRAY
   }
 });
 
@@ -45,7 +52,8 @@ var GroupListItem = React.createClass({
       adminEmails: React.PropTypes.array,
       allTimeTrendPoints: React.PropTypes.number.isRequired,
       numPosts: React.PropTypes.number.isRequired,
-      numMembers: React.PropTypes.number.isRequired
+      numMembers: React.PropTypes.number.isRequired,
+      showLastPostTimestamp: React.PropTypes.bool
     }).isRequired,
     navigator: React.PropTypes.object.isRequired
   },
@@ -61,16 +69,38 @@ var GroupListItem = React.createClass({
 
           <View style={styles.container}>
             <ProfileImageThumbnail profileImageUrl={group.badgeImageUrl}/>
-            <Text
-              style={styles.name}
-              numberOfLines={1}>
-              {group.name}
-            </Text>
+            {this._renderBody(group)}
           </View>
 
         </TouchableHighlight>
       </View>
     );
+  },
+
+  _renderBody: function(group) {
+    if (this.props.showLastPostTimestamp) {
+      return (
+        <View style={styles.nameAndTimestampContainer}>
+          <Text
+            style={styles.name}
+            numberOfLines={1}>
+            {group.name}
+          </Text>
+          <Text style={styles.timestamp}>
+            {group.lastPostAdded ? group.lastPostAdded : group.updated}
+          </Text>
+        </View>
+      );
+    }
+    else {
+      return (
+        <Text
+          style={styles.name}
+          numberOfLines={1}>
+          {group.name}
+        </Text>
+      );
+    }
   },
 
   _onGroupListItemPress: function() {

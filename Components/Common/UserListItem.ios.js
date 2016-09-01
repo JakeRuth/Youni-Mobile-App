@@ -23,8 +23,8 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    height: 55
+    paddingTop: 10,
+    paddingBottom: 10
   },
   fullName: {
     flex: 1,
