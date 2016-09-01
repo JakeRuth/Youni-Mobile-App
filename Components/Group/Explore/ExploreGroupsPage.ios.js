@@ -4,6 +4,7 @@ var React = require('react');
 var ReactNative = require('react-native');
 var Unicycle = require('../../../Unicycle');
 
+var GroupResultsList = require('./GroupResultsList');
 var GroupListItem = require('../../Group/GroupListItem');
 var LoadMoreButton = require('../../Common/LoadMoreButton');
 var ListFilter = require('../../Common/ListFilter');
@@ -21,8 +22,8 @@ var {
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    paddingTop: 0
+    paddingLeft: 20,
+    paddingRight: 20
   }
 });
 
@@ -38,6 +39,7 @@ var ExploreGroupsPage = React.createClass({
   
   componentDidMount: function() {
     exploreFeedOrgsStore.fetchMostRecentOrgs();
+    exploreFeedOrgsStore.fetchAllOrgsAlphabetically();
   },
 
   render: function () {
@@ -83,9 +85,13 @@ var ExploreGroupsPage = React.createClass({
     }
     else {
       return (
-        <Text>
-          Best page ever.
-        </Text>
+        <GroupResultsList
+          groups={exploreFeedOrgsStore.getAllAlphabeticalGroups()}
+          isInitialPageLoading={exploreFeedOrgsStore.isInitialFetchAllGroupsPageLoading()}
+          isLoading={exploreFeedOrgsStore.isFetchingAllGroupsLoading()}
+          moreToFetch={exploreFeedOrgsStore.getMoreAllGroupsToFetch()}
+          onLoadMorePress={exploreFeedOrgsStore.fetchAllOrgsAlphabetically}
+          navigator={this.props.navigator}/>
       );
     }
   }

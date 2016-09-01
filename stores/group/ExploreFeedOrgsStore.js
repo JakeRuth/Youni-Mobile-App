@@ -20,8 +20,11 @@ var exploreFeedOrgsStore = Unicycle.createStore({
       mostRecentGroupsOffset: 0,
       moreMostRecentGroupsToFetch: false,
       allGroupsOffset: 0,
+      moreAllGroupsToFetch: false,
       isGroupsOnExploreLoading: true,
       isFetchingMoreRecentGroupsLoading: false,
+      isInitialFetchAllGroupsPageLoading: false,
+      isFetchingAllGroupsLoading: false,
       currentFilter: ExploreGroupFilters.RECENT
     });
   },
@@ -90,12 +93,61 @@ var exploreFeedOrgsStore = Unicycle.createStore({
     );
   },
 
+  fetchAllOrgsAlphabetically: function() {
+    var currentGroups = this.getAllAlphabeticalGroups(),
+        currentOffset = this.get('allGroupsOffset'),
+        that = this;
+
+    if (currentOffset === 0) {
+      this.set({
+        isInitialFetchAllGroupsPageLoading: true
+      });
+    }
+    else {
+      this.set({
+        isFetchingAllGroupsLoading: true
+      });
+    }
+
+    AjaxUtils.ajax(
+      '/group/fetchAlphabetically',
+      {
+        networkSchoolName: userLoginMetadataStore.getNetworkName(),
+        offset: currentOffset,
+        max: PAGE_SIZE
+      },
+      (res) => {
+        that.set({
+          allGroups: currentGroups.concat(res.body.groups),
+          allGroupsOffset: currentOffset + PAGE_SIZE,
+          moreAllGroupsToFetch: res.body.moreToFetch,
+          isInitialFetchAllGroupsPageLoading: false,
+          isFetchingAllGroupsLoading: false
+        });
+      },
+      () => {
+        that.set({
+          isInitialFetchAllGroupsPageLoading: false,
+          isFetchingAllGroupsLoading: false
+        });
+      }
+    );
+  },
+
   isGroupsOnExploreLoading: function() {
     return this.get('isGroupsOnExploreLoading');
   },
 
   isFetchingMoreRecentGroupsLoading: function() {
     return this.get('isFetchingMoreRecentGroupsLoading');
+  },
+
+  isInitialFetchAllGroupsPageLoading: function() {
+    return this.get('isInitialFetchAllGroupsPageLoading');
+  },
+
+  isFetchingAllGroupsLoading: function() {
+    return this.get('isFetchingAllGroupsLoading');
   },
   
   getGroupsOnExplorePage: function() {
@@ -105,9 +157,17 @@ var exploreFeedOrgsStore = Unicycle.createStore({
   getMostRecentGroups: function() {
     return this.get('mostRecentGroups').toJSON();
   },
+
+  getAllAlphabeticalGroups: function() {
+    return this.get('allGroups').toJSON();
+  },
   
   getMoreMostRecentGroupsToFetch: function() {
     return this.get('moreMostRecentGroupsToFetch');
+  },
+  
+  getMoreAllGroupsToFetch: function() {
+    return this.get('moreAllGroupsToFetch');
   },
 
   getCurrentFilter: function() {
