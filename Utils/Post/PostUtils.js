@@ -2,6 +2,8 @@
 
 var immutable = require('immutable');
 
+var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
+
 var PostUtils = {
 
   DEFAULT_MAX_COMMENTS_VISIBLE: 3,
@@ -57,6 +59,7 @@ var PostUtils = {
         id: commentId,
         comment: commentText,
         commenterName: commenterName,
+        commenterEmail: userLoginMetadataStore.getEmail(),
         commenterProfilePicture: commenterProfilePicture
       });
     }

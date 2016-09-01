@@ -70,8 +70,8 @@ var PostCommentsPage = React.createClass({
   _onSubmitComment: function(comment) {
     var that = this,
         userId = userLoginMetadataStore.getUserId(),
-        callback = () => {
-          this.props.onSubmitCommentCallback(comment);
+        callback = (commentText, id) => {
+          this.props.onSubmitCommentCallback(commentText, id);
           this.setState({
             isCommentRequestInFlight: false
           });

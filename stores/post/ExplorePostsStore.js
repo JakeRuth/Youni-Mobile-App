@@ -200,10 +200,10 @@ var explorePostsStore = Unicycle.createStore({
       },
       (res) => {
         PostUtils.addCommentFromList(posts, post.id, comment, commenterName, commenterProfileImage, res.body.commentId);
-        callback(comment);
+        callback(comment, res.body.commentId);
       },
       () => {
-        callback(comment);
+        
       }
     );
   },

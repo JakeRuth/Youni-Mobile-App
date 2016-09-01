@@ -147,11 +147,11 @@ var PostPopup = React.createClass({
         comment: comment
       },
       (res) => {
-        PostUtils.addComment(post, comment, commenterName, commenterProfileImage);
-        callback(comment);
+        PostUtils.addComment(post, comment, commenterName, commenterProfileImage, res.body.commentId);
+        callback(comment, res.body.commentId);
       },
       () => {
-        callback(comment);
+        
       }
     );
   },

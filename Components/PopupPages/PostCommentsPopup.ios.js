@@ -60,15 +60,17 @@ var PostCommentsPopup = React.createClass({
     );
   },
 
-  onSubmitCommentCallback: function(comment) {
+  onSubmitCommentCallback: function(commentText, id) {
     var currentComments = this._getComments(),
         commenterName = userLoginMetadataStore.getFullName(),
+        commenterEmail = userLoginMetadataStore.getEmail(),
         commenterProfilePictureUrl = userLoginMetadataStore.getProfileImageUrl();
 
     currentComments.push({
-      id: comment.id,
-      comment: comment,
+      id: id,
+      comment: commentText,
       commenterName: commenterName,
+      commenterEmail: commenterEmail,
       commenterProfilePicture: commenterProfilePictureUrl,
       generatedFromPostCommentsPopupComponent: true
     });

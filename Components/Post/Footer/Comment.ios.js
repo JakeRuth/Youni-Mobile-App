@@ -90,6 +90,7 @@ var Comment = React.createClass({
           <View style={styles.nameAndTextContainer}>
             <Text
               style={styles.commenterName}
+              onPress={this._onCommenterNamePress}
               numberOfLines={1}>
               {this.props.comment.commenterName}
             </Text>
@@ -109,9 +110,6 @@ var Comment = React.createClass({
   },
 
   _onCommenterNamePress: function() {
-    // commenterEmail could be null.  when a user comments on the post and we add the comment json to the
-    // comment list, we don't populate the email.  Which is OK, since it's only used to render the profile popup
-    // and you aren't allowed to view your own profile from a popup
     if (!this._isLoggedInUserCommentOwner()) {
       this.props.navigator.push({
         component: ProfilePopup,
@@ -120,6 +118,9 @@ var Comment = React.createClass({
           onBackArrowPress: () => statusBarStyleStore.setStyle(IosStatusBarStyles.LIGHT_CONTENT)
         }
       })
+    }
+    else {
+      this._showDeleteCommentActionSheet();
     }
   },
 
