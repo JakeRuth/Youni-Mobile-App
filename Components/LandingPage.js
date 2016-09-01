@@ -69,8 +69,8 @@ var LandingPage = React.createClass({
     return (
       <BaseAppSwiper>
         <TrendingPage {...this.props}/>
-        <SearchPage {...this.props}/>
         <HomePage {...this.props}/>
+        <SearchPage {...this.props}/>
       </BaseAppSwiper>
     );
   },

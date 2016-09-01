@@ -7,6 +7,7 @@ var Unicycle = require('../../Unicycle');
 
 var ExploreGroupsPage = require('../Group/Explore/ExploreGroupsPage');
 var GroupResultsList = require('../Group/Explore/GroupResultsList');
+var RequestToCreateGroup = require('../Group/RequestToCreateGroup');
 var SearchBarInput = require('../Search/SearchBarInput');
 var YouniHeader = require('../Common/YouniHeader');
 var BackArrow = require('../Common/BackArrow');
@@ -46,6 +47,9 @@ var styles = StyleSheet.create({
     borderRadius: 5,
     marginLeft: 10,
     marginRight: 10
+  },
+  requestToCreateGroupContainer: {
+    alignItems: 'center'
   }
 });
 
@@ -128,7 +132,12 @@ var ExploreGroupsPopup = React.createClass({
     }
     else {
       return (
-        <ExploreGroupsPage navigator={this.props.navigator}/>
+        <View style={{flex: 1}}>
+          <View style={styles.requestToCreateGroupContainer}>
+            <RequestToCreateGroup {...this.props}/>
+          </View>
+          <ExploreGroupsPage navigator={this.props.navigator}/>
+        </View>
       );
     }
   },
