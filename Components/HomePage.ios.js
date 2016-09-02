@@ -41,11 +41,11 @@ var styles = StyleSheet.create({
   },
   notificationIcon: {
     padding: 12,
-    paddingTop: 4
+    paddingTop: 0
   },
   profileIcon: {
     padding: 12,
-    paddingTop: 4
+    paddingTop: 0
   },
   feedContainer: {
     flex: 1
@@ -55,7 +55,7 @@ var styles = StyleSheet.create({
     paddingBottom: 5
   },
   logo: {
-    marginTop: 2,
+    marginTop: -5,
     alignSelf: 'center',
     height: LogoImageSize.HEIGHT * .08,
     width: LogoImageSize.WIDTH * .08
@@ -146,7 +146,7 @@ var HomePage = React.createClass({
         <View style={styles.explorePageNavButtonContainer}>
           <NavButton
             onPress={() => mainAppSwipePageStore.setSwipeFrameAmount(1)}
-            iconName="equalizer"/>
+            iconName="explore"/>
         </View>
 
         <InitialLoginTutorialPopup/>

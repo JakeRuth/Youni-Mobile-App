@@ -81,9 +81,9 @@ var ExploreGroupsPopup = React.createClass({
           <BackArrow onPress={() => {
             setTimeout(function() {
               exploreFeedOrgsStore.resetState();
+              exploreFeedOrgsStore.requestTenMostRecentOrgs();
             }, 150);
             this.props.navigator.pop();
-            exploreFeedOrgsStore.requestTenMostRecentOrgs();
           }}/>
 
           <TouchableHighlight

@@ -27,7 +27,6 @@ var styles = StyleSheet.create({
     height: 30,
     textAlign: 'center',
     fontSize: 18,
-    fontWeight: '600',
     padding: 5
   },
   seeAllTextTrigger: {

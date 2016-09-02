@@ -31,7 +31,6 @@ var styles = StyleSheet.create({
   },
   filterLabel: {
     fontSize: 18,
-    fontWeight: '600',
     textAlign: 'center'
   },
   selectedFilterUnderline: {
