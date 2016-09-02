@@ -19,12 +19,16 @@ var MostRecentOrgs = require('../Group/MostRecentOrgs');
 var YouniHeader = require('../Common/YouniHeader');
 var ListFilter = require('../Common/ListFilter');
 var Spinner = require('../Common/Spinner');
+var NavButton = require('../Common/NavButton');
+var CreatePostButton = require('../CreatePost/CreatePostButton');
+var NotificationIcon = require('../Notification/NotificationIcon');
 
 var {
   View,
   Text,
   StyleSheet,
   ScrollView,
+  Dimensions,
   TouchableHighlight
 } = ReactNative;
 
@@ -33,16 +37,13 @@ var styles = StyleSheet.create({
     flex: 1
   },
   pageHeader: {
+    flex: 1,
     fontSize: 20,
     fontWeight: '500',
     textAlign: 'center',
     color: 'white'
   },
-  searchBarContainer: {
-    marginTop: 10,
-    borderRadius: 5
-  },
-  homeNavButtonContainer: {
+  notificationIcon: {
     position: 'absolute',
     left: 0,
     top: 0,
@@ -50,6 +51,10 @@ var styles = StyleSheet.create({
     paddingLeft: 16,
     paddingRight: 30,
     paddingBottom: 15
+  },
+  searchBarContainer: {
+    marginTop: 10,
+    borderRadius: 5
   },
   searchIconContainer: {
     position: 'absolute',
@@ -59,6 +64,22 @@ var styles = StyleSheet.create({
     paddingRight: 12,
     paddingLeft: 30,
     paddingBottom: 15
+  },
+  trendingPageNavButtonContainer: {
+    position: 'absolute',
+    bottom: 14,
+    left: 15
+  },
+  explorePageNavButtonContainer: {
+    position: 'absolute',
+    bottom: 14,
+    right: 15
+  },
+  createPostButtonContainer: {
+    position: 'absolute',
+    bottom: 10,
+    // center the button horizontally.  48 is the width on the button
+    left: (Dimensions.get('window').width - 48) / 2
   }
 });
 
@@ -111,7 +132,9 @@ var SearchPage = React.createClass({
           <Text style={styles.pageHeader}>
             Campus
           </Text>
-          {this._renderHomeNavButton()}
+          <NotificationIcon
+            style={styles.notificationIcon}
+            navigator={this.props.navigator}/>
           {this._renderSearchIcon()}
         </YouniHeader>
 
@@ -121,6 +144,20 @@ var SearchPage = React.createClass({
           automaticallyAdjustContentInsets={false}>
           {searchPageContent}
         </ScrollView>
+
+        <View style={styles.trendingPageNavButtonContainer}>
+          <NavButton
+            onPress={() => mainAppSwipePageStore.setSwipeFrameAmount(-1)}
+            iconName="equalizer"/>
+        </View>
+        <View style={styles.createPostButtonContainer}>
+          <CreatePostButton navigator={this.props.navigator}/>
+        </View>
+        <View style={styles.explorePageNavButtonContainer}>
+          <NavButton
+            onPress={() => mainAppSwipePageStore.setSwipeFrameAmount(1)}
+            iconName="explore"/>
+        </View>
 
       </View>
     );
@@ -159,20 +196,6 @@ var SearchPage = React.createClass({
     else {
       return <SearchResultsList navigator={this.props.navigator}/>;
     }
-  },
-
-  _renderHomeNavButton: function() {
-    return (
-      <TouchableHighlight
-        style={styles.homeNavButtonContainer}
-        underlayColor="transparent"
-        onPress={() => mainAppSwipePageStore.setSwipeFrameAmount(-1)}>
-        <Icon
-          name='home'
-          size={30}
-          color='white'/>
-      </TouchableHighlight>
-    );
   },
 
   _renderSearchIcon: function() {

@@ -2,18 +2,16 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
+var Icon = require('react-native-vector-icons/MaterialIcons');
 var Unicycle = require('../Unicycle');
 
 var NoHomeFeedPostsMessage = require('./NoHomeFeedPostsMessage');
 var InitialLoginTutorialPopup = require('./InitialLoginTutorialPopup');
-var NotificationIcon = require('./Notification/NotificationIcon');
 var PostList = require('./Post/PostList');
 var Spinner = require('./Common/Spinner');
 var YouniHeader = require('./Common/YouniHeader');
-var NavButton = require('./Common/NavButton');
 var ErrorPage = require('./Common/ErrorPage');
 var ProfileIcon = require('./Profile/ProfileIcon');
-var CreatePostButton = require('./CreatePost/CreatePostButton');
 
 var mainAppSwipePageStore = require('../stores/MainAppSwipePageStore');
 var homePostsStore = require('../stores/post/HomePostsStore');
@@ -24,10 +22,8 @@ var LogoImageSize = require('../Utils/Enums/LogoImageSize');
 var {
   View,
   Text,
-  Image,
   StyleSheet,
-  Dimensions,
-  AppRegistry
+  TouchableHighlight
 } = ReactNative;
 
 var styles = StyleSheet.create({
@@ -35,46 +31,32 @@ var styles = StyleSheet.create({
     flex: 1
   },
   pageHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  notificationIcon: {
-    padding: 12,
-    paddingTop: 0
+    flex: 1,
+    fontSize: 20,
+    fontWeight: '500',
+    textAlign: 'center',
+    color: 'white'
   },
   profileIcon: {
-    padding: 12,
-    paddingTop: 0
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    paddingTop: 26,
+    paddingRight: 16,
+    paddingLeft: 30,
+    paddingBottom: 15
+  },
+  homeNavButtonContainer: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    paddingTop: 26,
+    paddingLeft: 16,
+    paddingRight: 30,
+    paddingBottom: 15
   },
   feedContainer: {
     flex: 1
-  },
-  logoContainer: {
-    flex: 1,
-    paddingBottom: 5
-  },
-  logo: {
-    marginTop: -5,
-    alignSelf: 'center',
-    height: LogoImageSize.HEIGHT * .08,
-    width: LogoImageSize.WIDTH * .08
-  },
-  trendingPageNavButtonContainer: {
-    position: 'absolute',
-    bottom: 14,
-    left: 15
-  },
-  explorePageNavButtonContainer: {
-    position: 'absolute',
-    bottom: 14,
-    right: 15
-  },
-  createPostButtonContainer: {
-    position: 'absolute',
-    bottom: 10,
-    // center the button horizontally.  48 is the width on the button
-    left: (Dimensions.get('window').width - 48) / 2
   }
 });
 
@@ -115,38 +97,18 @@ var HomePage = React.createClass({
     return (
       <View style={styles.homePageContainer}>
 
-        <YouniHeader
-          style={styles.pageHeader}
-          color={Colors.getPrimaryAppColor()}>
+        <YouniHeader color={Colors.getPrimaryAppColor()}>
+          <Text style={styles.pageHeader}>
+            Me
+          </Text>
           <ProfileIcon
             style={styles.profileIcon}
             navigator={this.props.navigator}/>
-          <View style={styles.logoContainer}>
-            <Image
-              style={styles.logo}
-              source={require('../images/logoWhiteTextBlankBackground.png')}/>
-          </View>
-          <NotificationIcon
-            style={styles.notificationIcon}
-            navigator={this.props.navigator}/>
+          {this._renderHomeNavButton()}
         </YouniHeader>
 
         <View style={styles.feedContainer}>
           {content}
-        </View>
-
-        <View style={styles.trendingPageNavButtonContainer}>
-          <NavButton
-            onPress={() => mainAppSwipePageStore.setSwipeFrameAmount(-1)}
-            iconName="equalizer"/>
-        </View>
-        <View style={styles.createPostButtonContainer}>
-          <CreatePostButton navigator={this.props.navigator}/>
-        </View>
-        <View style={styles.explorePageNavButtonContainer}>
-          <NavButton
-            onPress={() => mainAppSwipePageStore.setSwipeFrameAmount(1)}
-            iconName="explore"/>
         </View>
 
         <InitialLoginTutorialPopup/>
@@ -183,6 +145,20 @@ var HomePage = React.createClass({
           marginBottom: 70
         }}
         navigator={this.props.navigator}/>
+    );
+  },
+
+  _renderHomeNavButton: function() {
+    return (
+      <TouchableHighlight
+        style={styles.homeNavButtonContainer}
+        underlayColor="transparent"
+        onPress={() => mainAppSwipePageStore.setSwipeFrameAmount(-1)}>
+        <Icon
+          name='home'
+          size={30}
+          color='white'/>
+      </TouchableHighlight>
     );
   },
 
