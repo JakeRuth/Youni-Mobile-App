@@ -22,6 +22,7 @@ var TrendingFeedType = require('../../Utils/Enums/TrendingFeedType');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var statusBarStyleStore = require('../../stores/StatusBarStyleStore');
 var trendingStore = require('../../stores/trending/TrendingStore');
+var mainAppSwipePageStore = require('../../stores/MainAppSwipePageStore');
 
 var {
   View,
@@ -38,8 +39,17 @@ var styles = StyleSheet.create({
   },
   whatIsThisIcon: {
     position: 'absolute',
-    left: 5,
-    bottom: 8
+    left: 16,
+    bottom: 10
+  },
+  homeNavButtonContainer: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    paddingTop: 26,
+    paddingRight: 12,
+    paddingLeft: 30,
+    paddingBottom: 20
   },
   pageHeader: {
     color: 'white',
@@ -84,6 +94,7 @@ var TrendingPage = React.createClass({
             Trending
           </Text>
           {this._renderWhatIsThisPageIcon()}
+          {this._renderHomeNavButton()}
         </YouniHeader>
 
         <View style={styles.requestToCreateGroupContainer}>
@@ -213,6 +224,20 @@ var TrendingPage = React.createClass({
         onPress={this._onWhatIsThisPageIconPress}>
         <Icon
           name='info-outline'
+          size={25}
+          color='white'/>
+      </TouchableHighlight>
+    );
+  },
+
+  _renderHomeNavButton: function() {
+    return (
+      <TouchableHighlight
+        style={styles.homeNavButtonContainer}
+        underlayColor="transparent"
+        onPress={() => mainAppSwipePageStore.setSwipeFrameAmount(1)}>
+        <Icon
+          name='home'
           size={30}
           color='white'/>
       </TouchableHighlight>

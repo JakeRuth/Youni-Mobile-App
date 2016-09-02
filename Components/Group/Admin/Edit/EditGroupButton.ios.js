@@ -61,7 +61,7 @@ var EditGroupButton = React.createClass({
         underlayColor="transparent"
         onPress={this._onButtonPress}>
         <Text style={[styles.buttonLabel, {color: Colors.getPrimaryAppColor()}]}>
-          Administer Group
+          Manage Group
         </Text>
       </TouchableHighlight>
     );

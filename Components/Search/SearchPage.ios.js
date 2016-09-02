@@ -2,11 +2,13 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
+var Icon = require('react-native-vector-icons/MaterialIcons');
 var Unicycle = require('../../Unicycle');
 
 var searchStore = require('../../stores/SearchStore');
 var exploreFeedOrgsStore = require('../../stores/group/ExploreFeedOrgsStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
+var mainAppSwipePageStore = require('../../stores/MainAppSwipePageStore');
 var Colors = require('../../Utils/Common/Colors');
 var SearchType = require('../../Utils/Enums/SearchType');
 
@@ -22,17 +24,41 @@ var {
   View,
   Text,
   StyleSheet,
-  ScrollView
+  ScrollView,
+  TouchableHighlight
 } = ReactNative;
 
 var styles = StyleSheet.create({
   container: {
     flex: 1
   },
+  pageHeader: {
+    fontSize: 20,
+    fontWeight: '500',
+    textAlign: 'center',
+    color: 'white'
+  },
   searchBarContainer: {
-    borderRadius: 5,
-    marginLeft: 10,
-    marginRight: 10
+    marginTop: 10,
+    borderRadius: 5
+  },
+  homeNavButtonContainer: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    paddingTop: 26,
+    paddingLeft: 16,
+    paddingRight: 30,
+    paddingBottom: 15
+  },
+  searchIconContainer: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    paddingTop: 26,
+    paddingRight: 12,
+    paddingLeft: 30,
+    paddingBottom: 15
   }
 });
 
@@ -40,6 +66,12 @@ var SearchPage = React.createClass({
 
   propTypes: {
     navigator: React.PropTypes.object.isRequired
+  },
+
+  getInitialState: function() {
+    return {
+      showSearchBar: false
+    }
   },
 
   mixins: [
@@ -53,6 +85,7 @@ var SearchPage = React.createClass({
     if (inExploreFeedView) {
       searchPageContent = (
         <View style={{flex: 1}}>
+          {this._renderSearchBar()}
           <MostRecentOrgs navigator={this.props.navigator}/>
           <ExploreFeedPosts navigator={this.props.navigator}/>
         </View>
@@ -61,6 +94,7 @@ var SearchPage = React.createClass({
     else {
       searchPageContent = (
         <View style={{flex: 1}}>
+          {this._renderSearchBar()}
           <ListFilter
             filters={[SearchType.STUDENTS, SearchType.ORGANIZATIONS]}
             selectedFilter={searchStore.getSearchType()}
@@ -74,22 +108,11 @@ var SearchPage = React.createClass({
       <View style={styles.container}>
 
         <YouniHeader color={Colors.getPrimaryAppColor()}>
-          <SearchBarInput
-            style={styles.searchBarContainer}
-            active={!searchStore.getInExploreFeedView()}
-            value={searchStore.getSearchTerm()}
-            placeholder={'     Search University'}
-            onChangeText={(search) => {
-              searchStore.setSearchTerm(search);
-            }}
-            onSubmitEditing={() => {
-              var email = userLoginMetadataStore.getEmail();
-              searchStore.executeSearch(email);
-            }}
-            onClearSearchPress={() => {
-              searchStore.setSearchTerm('');
-              searchStore.setInExploreFeedView(true);
-            }}/>
+          <Text style={styles.pageHeader}>
+            Campus
+          </Text>
+          {this._renderHomeNavButton()}
+          {this._renderSearchIcon()}
         </YouniHeader>
 
         <ScrollView
@@ -103,6 +126,32 @@ var SearchPage = React.createClass({
     );
   },
 
+  _renderSearchBar: function() {
+    if (this.state.showSearchBar) {
+      return (
+        <SearchBarInput
+          style={styles.searchBarContainer}
+          active={!searchStore.getInExploreFeedView()}
+          value={searchStore.getSearchTerm()}
+          placeholder={'     Search University'}
+          onChangeText={(search) => {
+            searchStore.setSearchTerm(search);
+          }}
+          onSubmitEditing={() => {
+            var email = userLoginMetadataStore.getEmail();
+            searchStore.executeSearch(email);
+          }}
+          onClearSearchPress={() => {
+            searchStore.setSearchTerm('');
+            searchStore.setInExploreFeedView(true);
+            this.setState({
+              showSearchBar: false
+            });
+          }}/>
+      );
+    }
+  },
+
   _renderSearchResultsList: function() {
     if (searchStore.isFirstPageOfResultsLoading()) {
       return <Spinner/>;
@@ -110,6 +159,34 @@ var SearchPage = React.createClass({
     else {
       return <SearchResultsList navigator={this.props.navigator}/>;
     }
+  },
+
+  _renderHomeNavButton: function() {
+    return (
+      <TouchableHighlight
+        style={styles.homeNavButtonContainer}
+        underlayColor="transparent"
+        onPress={() => mainAppSwipePageStore.setSwipeFrameAmount(-1)}>
+        <Icon
+          name='home'
+          size={30}
+          color='white'/>
+      </TouchableHighlight>
+    );
+  },
+
+  _renderSearchIcon: function() {
+    return (
+      <TouchableHighlight
+        style={styles.searchIconContainer}
+        underlayColor='transparent'
+        onPress={this.toggleShowSearchBarState}>
+        <Icon
+          name='search'
+          size={30}
+          color='white'/>
+      </TouchableHighlight>
+    );
   },
 
   handleScroll(e) {
@@ -120,6 +197,12 @@ var SearchPage = React.createClass({
       Unicycle.exec('refreshExploreFeed', userId, true);
       exploreFeedOrgsStore.requestTenMostRecentOrgs();
     }
+  },
+
+  toggleShowSearchBarState: function() {
+    this.setState({
+      showSearchBar: !this.state.showSearchBar
+    });
   }
 
 });

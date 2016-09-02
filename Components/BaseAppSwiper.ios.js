@@ -1,7 +1,7 @@
 'use strict';
 
 var React = require('react');
-var Swiper = require('react-native-swiper');
+var Swiper = require('./Swiper');
 
 var AppPage = require('../Utils/Enums/AppPage');
 

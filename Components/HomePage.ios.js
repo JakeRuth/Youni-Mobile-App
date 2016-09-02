@@ -10,10 +10,12 @@ var NotificationIcon = require('./Notification/NotificationIcon');
 var PostList = require('./Post/PostList');
 var Spinner = require('./Common/Spinner');
 var YouniHeader = require('./Common/YouniHeader');
+var NavButton = require('./Common/NavButton');
 var ErrorPage = require('./Common/ErrorPage');
 var ProfileIcon = require('./Profile/ProfileIcon');
 var CreatePostButton = require('./CreatePost/CreatePostButton');
 
+var mainAppSwipePageStore = require('../stores/MainAppSwipePageStore');
 var homePostsStore = require('../stores/post/HomePostsStore');
 var userLoginMetadataStore = require('../stores/UserLoginMetadataStore');
 var Colors = require('../Utils/Common/Colors');
@@ -57,6 +59,16 @@ var styles = StyleSheet.create({
     alignSelf: 'center',
     height: LogoImageSize.HEIGHT * .08,
     width: LogoImageSize.WIDTH * .08
+  },
+  trendingPageNavButtonContainer: {
+    position: 'absolute',
+    bottom: 14,
+    left: 15
+  },
+  explorePageNavButtonContainer: {
+    position: 'absolute',
+    bottom: 14,
+    right: 15
   },
   createPostButtonContainer: {
     position: 'absolute',
@@ -123,8 +135,18 @@ var HomePage = React.createClass({
           {content}
         </View>
 
+        <View style={styles.trendingPageNavButtonContainer}>
+          <NavButton
+            onPress={() => mainAppSwipePageStore.setSwipeFrameAmount(-1)}
+            iconName="equalizer"/>
+        </View>
         <View style={styles.createPostButtonContainer}>
           <CreatePostButton navigator={this.props.navigator}/>
+        </View>
+        <View style={styles.explorePageNavButtonContainer}>
+          <NavButton
+            onPress={() => mainAppSwipePageStore.setSwipeFrameAmount(1)}
+            iconName="equalizer"/>
         </View>
 
         <InitialLoginTutorialPopup/>
