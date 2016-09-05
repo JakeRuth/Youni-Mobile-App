@@ -4,16 +4,20 @@ var React = require('react');
 var ReactNative = require('react-native');
 
 var GroupStats = require('./GroupStats');
+var GroupActionButton = require('./GroupActionButton');
 var EditGroupButton = require('./Admin/Edit/EditGroupButton');
 
+var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 var Colors = require('../../Utils/Common/Colors');
 var GroupUtils = require('../../Utils/Group/GroupUtils');
+var UserGroupStatus = require('../../Utils/Enums/UserGroupStatus');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 
 var {
   View,
   Image,
   Text,
+  AlertIOS,
   StyleSheet
 } = ReactNative;
 
@@ -39,12 +43,24 @@ var styles = StyleSheet.create({
     padding: 20,
     paddingTop: 2
   },
-  adminEditGroupButtonContainer: {
+  groupActionButtonContainer: {
     alignItems: 'center'
   }
 });
 
 var GroupInfo = React.createClass({
+
+  getInitialState: function() {
+    return {
+      userGroupStatus: null,
+      loadingUserInGroupStatus: true,
+      requestToJoinInFlight: false
+    };
+  },
+
+  componentDidMount: function() {
+    this._requestUserGroupStatus();
+  },
 
   propTypes: {
     group: React.PropTypes.shape({
@@ -79,21 +95,93 @@ var GroupInfo = React.createClass({
           {this.props.group.description}
         </Text>
 
-        {this._renderAdminEditGroupButton()}
+        {this._renderGroupActionButton()}
         <GroupStats {...this.props}/>
 
       </View>
     );
   },
 
-  _renderAdminEditGroupButton: function() {
+  _renderGroupActionButton: function() {
     if (GroupUtils.isUserAdmin(this.props.group, userLoginMetadataStore.getEmail())) {
       return (
-        <View style={styles.adminEditGroupButtonContainer}>
+        <View style={styles.groupActionButtonContainer}>
           <EditGroupButton {...this.props}/>
         </View>
       );
     }
+    else if (this.props.group.allowsJoinRequests) {
+      return (
+        <View style={styles.groupActionButtonContainer}>
+          <GroupActionButton
+            userGroupStatus={this.state.userGroupStatus}
+            isLoading={this.state.loadingUserInGroupStatus || this.state.requestToJoinInFlight}
+            requestToJoinGroupAction={this.requestToJoin}
+            {...this.props}/>
+        </View>
+      );
+    }
+  },
+
+  _requestUserGroupStatus: function() {
+    if (!this.props.group.allowsJoinRequests) {
+      return;
+    }
+    
+    var that = this;
+    this.setState({
+      loadingUserInGroupStatus: true
+    });
+    
+    AjaxUtils.ajax(
+      '/group/getUsersJoinStatus',
+      {
+        groupIdString: this.props.group.id,
+        userEmail: userLoginMetadataStore.getEmail()
+      },
+      (res) => {
+        let status = UserGroupStatus.getById(res.body.status);
+
+        that.setState({
+          loadingUserInGroupStatus: false,
+          userGroupStatus: status
+        });
+      },
+      () => {
+        
+      }
+    );
+  },
+  
+  requestToJoin: function() {
+    var that = this;
+    this.setState({
+      requestToJoinInFlight: true
+    });
+
+    AjaxUtils.ajax(
+      '/group/requestToJoin',
+      {
+        groupIdString: this.props.group.id,
+        requestingUserEmail: userLoginMetadataStore.getEmail()
+      },
+      (res) => {
+        that.setState({
+          requestToJoinInFlight: false,
+          userGroupStatus: UserGroupStatus.REQUEST_TO_JOIN_PENDING
+        });
+        AlertIOS.alert(
+          'You have requested to join this organization!',
+          'You will be notified when an admin either accepts or denies this request.',
+          {
+            text: 'Okay'
+          }
+        );
+      },
+      () => {
+
+      }
+    );
   }
 
 });

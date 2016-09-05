@@ -8,6 +8,7 @@ var GroupManageUsersPopup = require('../../../PopupPages/GroupManageUsersPopup')
 var GroupEditInfoPopup = require('../../../PopupPages/GroupEditInfoPopup');
 
 var Colors = require('../../../../Utils/Common/Colors');
+var UserGroupStatus = require('../../../../Utils/Enums/UserGroupStatus');
 
 var {
   Text,
@@ -61,7 +62,7 @@ var EditGroupButton = React.createClass({
         underlayColor="transparent"
         onPress={this._onButtonPress}>
         <Text style={[styles.buttonLabel, {color: Colors.getPrimaryAppColor()}]}>
-          Manage Group
+          {UserGroupStatus.IS_ADMIN.label}
         </Text>
       </TouchableHighlight>
     );
