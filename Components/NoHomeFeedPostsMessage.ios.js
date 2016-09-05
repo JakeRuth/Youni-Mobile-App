@@ -41,7 +41,7 @@ var NoHomeFeedPostsMessage = React.createClass({
           No posts from anyone you're following!
         </Text>
         <Text style={styles.noPostSubTitle}>
-          Swipe right or left to explore
+          Find friends to follow from the Campus page
         </Text>
 
       </View>

@@ -61,14 +61,20 @@ var NotificationUtils = {
            type === this.TYPE_COMMENT ||
            type === this.TYPE_FOLLOW ||
            type === this.TYPE_ADDED_TO_GROUP ||
-           type === this.TYPE_SYSTEM
+           type === this.TYPE_SYSTEM ||
+           type === this.TYPE_REQUEST_TO_JOIN_GROUP ||
+           type === this.TYPE_JOIN_GROUP_DECLINED ||
+           type === this.TYPE_OTHER_ADMIN_RESPONDED_TO_JOIN_REQUEST
   },
 
   TYPE_FOLLOW: 'follow',
   TYPE_LIKE: 'like',
   TYPE_COMMENT: 'comment',
   TYPE_ADDED_TO_GROUP: 'addedToGroup',
-  TYPE_SYSTEM: 'system'
+  TYPE_SYSTEM: 'system',
+  TYPE_REQUEST_TO_JOIN_GROUP: 'requestToJoinGroup',
+  TYPE_JOIN_GROUP_DECLINED: 'requestToJoinGroupDeclined',
+  TYPE_OTHER_ADMIN_RESPONDED_TO_JOIN_REQUEST: 'otherAdminRespondedToJoinRequest'
 
 };
 

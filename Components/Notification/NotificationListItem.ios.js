@@ -146,7 +146,7 @@ var NotificationsListItem = React.createClass({
         </View>
       );
     }
-    else if (notification.type === NotificationUtils.TYPE_ADDED_TO_GROUP) {
+    else if (this._shouldRenderGroupThumbnail(notification)) {
       return (
         <GroupThumbnailLink
           style={styles.leftImageThumbnailContainer}
@@ -175,7 +175,7 @@ var NotificationsListItem = React.createClass({
   _renderMessage: function(notification) {
     var notificationSenderName;
 
-    if (notification.post) {
+    if (this._shouldRenderUserNameMessageHeader(notification)) {
       notificationSenderName = (
         <Text style={styles.senderName}>
           {notification.senderUser.firstName + ' ' + notification.senderUser.lastName}
@@ -185,14 +185,17 @@ var NotificationsListItem = React.createClass({
 
     return (
       <View style={styles.messageContainer}>
-
         {notificationSenderName}
-        <Text style={styles.message}>
+
+        <Text
+          style={styles.message}
+          onPress={this._onProfileImagePress}>
           {notification.label + '  '}
           <Text style={styles.timestamp}>
             {this.props.notification.timestamp}
           </Text>
         </Text>
+
       </View>
     );
   },
@@ -244,6 +247,17 @@ var NotificationsListItem = React.createClass({
         }
       });
     }
+  },
+
+  _shouldRenderUserNameMessageHeader: function(notification) {
+    return notification.post ||
+           notification.type === NotificationUtils.TYPE_REQUEST_TO_JOIN_GROUP ||
+           notification.type === NotificationUtils.TYPE_OTHER_ADMIN_RESPONDED_TO_JOIN_REQUEST;
+  },
+
+  _shouldRenderGroupThumbnail: function(notification) {
+    return notification.type === NotificationUtils.TYPE_JOIN_GROUP_DECLINED ||
+           notification.type === NotificationUtils.TYPE_ADDED_TO_GROUP;
   }
 
 });
