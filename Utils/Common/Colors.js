@@ -15,7 +15,8 @@ var Colors = {
   MED_GRAY: '#9B9B9B',
   LIGHT_GRAY: '#EAEAEA',
   BORDER_POP: '#D6D6D6',
-  WHITE_SMOKE: '#FAFAFA'
+  WHITE_SMOKE: '#FAFAFA',
+  LOUD_RED: '#FF5368'
 
 };
 

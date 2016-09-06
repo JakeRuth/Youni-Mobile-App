@@ -2,6 +2,7 @@
 
 var Unicycle = require('../Unicycle');
 
+var showUploadProfileImagePromptStore = require('./ShowUploadProfileImagePromptStore');
 var userLoginMetadataStore = require('./UserLoginMetadataStore');
 var trendingStore = require('./trending/TrendingStore');
 
@@ -51,7 +52,8 @@ var loginStore = Unicycle.createStore({
             trendingFeedFilter = res.body.trendingFeedFilter,
             trendingFeedType = res.body.trendingFeedType,
             networkColor = res.body.networkColorHexCode,
-            showTutorialPopup = res.body.showTutorialPopup;
+            showTutorialPopup = res.body.showTutorialPopup,
+            hasUploadedProfilePicture = profileImageUrl !== null;
 
         userLoginMetadataStore.setAccessToken(accessToken);
         userLoginMetadataStore.setRefreshToken(refreshToken);
@@ -64,6 +66,9 @@ var loginStore = Unicycle.createStore({
         userLoginMetadataStore.setNetworkName(networkName);
         userLoginMetadataStore.setNetworkColor(networkColor);
         userLoginMetadataStore.setShowTutorialPopup(showTutorialPopup);
+
+        showUploadProfileImagePromptStore.setShowOnHomeFeed(!hasUploadedProfilePicture);
+        showUploadProfileImagePromptStore.setShowOnProfilePage(!hasUploadedProfilePicture);
 
         trendingStore.setSelectedFilter(trendingFeedFilter);
         trendingStore.setSelectedType(trendingFeedType);

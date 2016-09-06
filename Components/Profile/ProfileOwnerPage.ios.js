@@ -7,8 +7,10 @@ var Unicycle = require('../../Unicycle');
 var profileOwnerStore = require('../../stores/profile/ProfileOwnerStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var statusBarStyleStore = require('../../stores/StatusBarStyleStore');
+var showUploadProfileImagePromptStore = require('../../stores/ShowUploadProfileImagePromptStore');
 
 var PostViewType = require('../../Utils/Enums/PostViewType');
+var AlignCallout = require('../../Utils/Enums/AlignCallout');
 var Colors = require('../../Utils/Common/Colors');
 var IosStatusBarStyles = require('../../Utils/Common/IosStatusBarStyles');
 
@@ -19,6 +21,8 @@ var YouniHeader = require('../Common/YouniHeader');
 var ErrorPage = require('../Common/ErrorPage');
 var Spinner = require('../Common/Spinner');
 var BackArrow = require('../Common/BackArrow');
+var UploadProfilePictureCallout = require('../Common/UploadProfilePictureCallout');
+var EditProfilePopup = require('../PopupPages/EditProfilePopup');
 
 var {
   View,
@@ -36,6 +40,11 @@ var styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '500',
     textAlign: 'center'
+  },
+  uploadProfileImageCalloutContainer: {
+    position: 'absolute',
+    top: 55,
+    right: 3
   }
 });
 
@@ -118,6 +127,24 @@ var ProfileOwnerPage = React.createClass({
           navigator={this.props.navigator}/>
         
         {content}
+
+        <View style={styles.uploadProfileImageCalloutContainer}>
+          <UploadProfilePictureCallout
+            isVisible={showUploadProfileImagePromptStore.getShowOnProfilePage()}
+            align={AlignCallout.TOP_RIGHT}
+            onPress={()=>{
+              this.props.navigator.push({
+                component: EditProfilePopup,
+                passProps: {
+                  user: profileOwnerStore.getUserJson()
+                }
+              });
+              // allow time for the navigator to push the profile page onto the stack
+              setTimeout(function() {
+                showUploadProfileImagePromptStore.setShowOnProfilePage(false);
+              }, 200);
+            }}/>
+        </View>
 
       </View>
     );

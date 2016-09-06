@@ -11,13 +11,18 @@ var PostList = require('./Post/PostList');
 var Spinner = require('./Common/Spinner');
 var YouniHeader = require('./Common/YouniHeader');
 var ErrorPage = require('./Common/ErrorPage');
+var UploadProfilePictureCallout = require('./Common/UploadProfilePictureCallout');
 var ProfileIcon = require('./Profile/ProfileIcon');
+var ProfileOwnerPage = require('./Profile/ProfileOwnerPage');
 
 var mainAppSwipePageStore = require('../stores/MainAppSwipePageStore');
 var homePostsStore = require('../stores/post/HomePostsStore');
 var userLoginMetadataStore = require('../stores/UserLoginMetadataStore');
+var showUploadProfileImagePromptStore = require('../stores/ShowUploadProfileImagePromptStore');
+
 var Colors = require('../Utils/Common/Colors');
 var LogoImageSize = require('../Utils/Enums/LogoImageSize');
+var AlignCallout = require('../Utils/Enums/AlignCallout');
 
 var {
   View,
@@ -57,6 +62,11 @@ var styles = StyleSheet.create({
   },
   feedContainer: {
     flex: 1
+  },
+  uploadProfileImageCalloutContainer: {
+    position: 'absolute',
+    top: 55,
+    right: 7
   }
 });
 
@@ -112,6 +122,21 @@ var HomePage = React.createClass({
         </View>
 
         <InitialLoginTutorialPopup/>
+
+        <View style={styles.uploadProfileImageCalloutContainer}>
+          <UploadProfilePictureCallout
+            isVisible={showUploadProfileImagePromptStore.getShowOnHomeFeed()}
+            align={AlignCallout.TOP_RIGHT}
+            onPress={()=>{
+              this.props.navigator.push({
+                component: ProfileOwnerPage
+              });
+              // allow time for the navigator to push the profile page onto the stack
+              setTimeout(function() {
+                showUploadProfileImagePromptStore.setShowOnHomeFeed(false);
+              }, 200);
+            }}/>
+        </View>
 
       </View>
     );
