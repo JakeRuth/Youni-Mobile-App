@@ -148,7 +148,9 @@ var GroupInfo = React.createClass({
         });
       },
       () => {
-        
+        that.setState({
+          loadingUserInGroupStatus: false
+        });
       }
     );
   },
@@ -179,7 +181,9 @@ var GroupInfo = React.createClass({
         );
       },
       () => {
-
+        that.setState({
+          requestToJoinInFlight: false
+        });
       }
     );
   }

@@ -6,6 +6,7 @@ var ReactNative = require('react-native');
 var GroupUsersList = require('../Group/GroupUsersList');
 var AddNewGroupUserTrigger = require('../Group/Admin/AddNewGroupUserTrigger');
 var ManageGroupUsersSection = require('../Group/Admin/ManageGroupUsersSection');
+var ManagePendingGroupUserListItem = require('../Group/Admin/ManagePendingGroupUserListItem');
 var ManageGroupUserListItem = require('../Group/Admin/ManageGroupUserListItem');
 var YouniHeader = require('../Common/YouniHeader');
 var Spinner = require('../Common/Spinner');
@@ -67,9 +68,11 @@ var GroupManageUsersPopup = React.createClass({
 
   getInitialState: function() {
     return {
+      isPendingUsersRequestInFlight: true,
       isAdminUsersRequestInFlight: true,
       isInitialUsersRequestInFlight: true,
       isMoreUsersRequestInFlight: false,
+      pendingUsers: [],
       adminUsers: [],
       users: [],
       moreToFetch: false,
@@ -78,6 +81,7 @@ var GroupManageUsersPopup = React.createClass({
   },
 
   componentDidMount() {
+    this._requestAllPendingUsers();
     this._requestAllGroupAdmins();
     this._fetchGroupUsers();
   },
@@ -101,6 +105,10 @@ var GroupManageUsersPopup = React.createClass({
           automaticallyAdjustContentInsets={false}>
           <AddNewGroupUserTrigger onPress={this.onAddUserTriggerPress}/>
 
+          <ManageGroupUsersSection heading="Pending Members">
+            {this._renderPendingUsers()}
+          </ManageGroupUsersSection>
+
           <ManageGroupUsersSection heading="Admin">
             {this._renderAdminGroupUsers()}
           </ManageGroupUsersSection>
@@ -112,6 +120,37 @@ var GroupManageUsersPopup = React.createClass({
 
       </View>
     );
+  },
+
+  _renderPendingUsers: function() {
+    var content;
+
+    if (this.state.isPendingUsersRequestInFlight) {
+      content = (
+        <Text style={styles.loadingSectionMessage}>
+          Loading pending members...
+        </Text>
+      );
+    }
+    else {
+      content = [];
+      for (var i = 0; i < this.state.pendingUsers.length; i++) {
+        let user = this.state.pendingUsers[i];
+        content.push(
+          <ManagePendingGroupUserListItem
+            navigator={this.props.navigator}
+            groupId={this.props.group.id}
+            user={user}
+            key={i}/>
+        );
+      }
+    }
+
+    return (
+      <View>
+        {content}
+      </View>
+    )
   },
   
   _renderAdminGroupUsers: function() {
@@ -195,6 +234,30 @@ var GroupManageUsersPopup = React.createClass({
       }
     });
   },
+
+  _requestAllPendingUsers: function() {
+    var that = this;
+
+    AjaxUtils.ajax(
+      '/group/getAllPendingJoinRequests',
+      {
+        userEmail: userLoginMetadataStore.getEmail(),
+        groupIdString: that.props.group.id
+      },
+      (res) => {
+        that.setState({
+          pendingUsers: res.body.pendingUsers,
+          isPendingUsersRequestInFlight: false
+        });
+      },
+      () => {
+        that.setState({
+          isPendingUsersRequestInFlight: false
+        });
+      }
+    );
+  },
+
   
   _requestAllGroupAdmins: function() {
     var that = this;

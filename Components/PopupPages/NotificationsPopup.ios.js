@@ -8,6 +8,8 @@ var BackArrow = require('../Common/BackArrow');
 var NotificationsList = require('../Notification/NotificationsList');
 
 var Colors = require('../../Utils/Common/Colors');
+var IosStatusBarStyles = require('../../Utils/Common/IosStatusBarStyles');
+var statusBarStyleStore = require('../../stores/StatusBarStyleStore');
 
 var {
   View,
@@ -32,6 +34,10 @@ var NotificationsPopup = React.createClass({
     navigator: React.PropTypes.object.isRequired
   },
 
+  componentDidMount: function() {
+    statusBarStyleStore.setStyle(IosStatusBarStyles.DEFAULT);
+  },
+
   render: function () {
     return (
       <View style={styles.container}>
@@ -40,7 +46,10 @@ var NotificationsPopup = React.createClass({
           <Text style={[styles.pageHeader, { color: Colors.getPrimaryAppColor() }]}>
             Notifications
           </Text>
-          <BackArrow onPress={() => {this.props.navigator.pop();}}/>
+          <BackArrow onPress={() => {
+            this.props.navigator.pop();
+            statusBarStyleStore.setStyle(IosStatusBarStyles.LIGHT_CONTENT);
+          }}/>
         </YouniHeader>
 
         <NotificationsList navigator={this.props.navigator}/>
