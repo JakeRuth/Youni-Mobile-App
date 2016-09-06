@@ -110,7 +110,7 @@ var GroupInfo = React.createClass({
         </View>
       );
     }
-    else if (this.props.group.allowsJoinRequests) {
+    else if (this.props.group.allowJoinRequests) {
       return (
         <View style={styles.groupActionButtonContainer}>
           <GroupActionButton
@@ -124,7 +124,7 @@ var GroupInfo = React.createClass({
   },
 
   _requestUserGroupStatus: function() {
-    if (!this.props.group.allowsJoinRequests) {
+    if (!this.props.group.allowJoinRequests) {
       return;
     }
     

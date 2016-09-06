@@ -10,6 +10,7 @@ var EditProfileFieldInput = require('../Common/EditProfileFieldInput');
 var YouniHeader = require('../Common/YouniHeader');
 var Spinner = require('../Common/Spinner');
 var BackArrow = require('../Common/BackArrow');
+var SwitchWithLabel = require('../Common/SwitchWithLabel');
 
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
@@ -58,6 +59,16 @@ var styles = StyleSheet.create({
     flex: 1,
     height: 80,
     fontSize: 16
+  },
+  requestToJoinSwitchDescription: {
+    color: Colors.MED_GRAY,
+    fontSize: 12
+  },
+  contentSeparator: {
+    height: 1,
+    marginTop: 5,
+    marginBottom: 5,
+    backgroundColor: Colors.LIGHT_GRAY
   }
 });
 
@@ -85,7 +96,8 @@ var GroupEditInfoPopup = React.createClass({
       isRequestInFlight: false,
       name: this.props.group.name,
       abbreviatedName: this.props.group.abbreviatedName,
-      description: this.props.group.description
+      description: this.props.group.description,
+      allowJoinRequests: this.props.group.allowJoinRequests
     };
   },
 
@@ -116,12 +128,14 @@ var GroupEditInfoPopup = React.createClass({
               placeholder={this.props.group.name}
               onChangeText={(text) => this.setState({name: text}) }
               maxLength={35}/>
+            <View style={styles.contentSeparator}/>
             <EditProfileFieldInput
               label="Abbreviation"
               value={this.state.abbreviatedName}
               placeholder={this.props.group.abbreviatedName}
               onChangeText={(text) => this.setState({abbreviatedName: text}) }
               maxLength={5}/>
+            <View style={styles.contentSeparator}/>
             <TextInput
               style={styles.editDescription}
               onChangeText={(text) => this.setState({description: text}) }
@@ -131,9 +145,21 @@ var GroupEditInfoPopup = React.createClass({
               multiline={true}
               maxLength={125}
               keyboardType="twitter"/>
+            <View style={styles.contentSeparator}/>
             <ChangeBadgeImage
               groupIdString={this.props.group.id}
               groupBadgeImageUrl={this.props.group.badgeImageUrl}/>
+            <View style={styles.contentSeparator}/>
+            <View>
+              <SwitchWithLabel
+                label='Allows join requests'
+                value={this.state.allowJoinRequests}
+                onValueChange={(value) => this.setState({ allowJoinRequests: value })}/>
+              <Text style={styles.requestToJoinSwitchDescription}>
+                When turned on, outside users can request to join your org.
+              </Text>
+            </View>
+            <View style={styles.contentSeparator}/>
           </View>
 
         </View>
@@ -195,7 +221,8 @@ var GroupEditInfoPopup = React.createClass({
         groupIdString: this.props.group.id,
         name: this.state.name,
         abbreviatedName: this.state.abbreviatedName,
-        description: this.state.description
+        description: this.state.description,
+        allowJoinRequests: this.state.allowJoinRequests
       },
       (res) => {
         that.setState({

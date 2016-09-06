@@ -87,6 +87,16 @@ var GroupManageUsersPopup = React.createClass({
   },
 
   render: function () {
+    var managePendingUsersSection;
+
+    if (this.state.pendingUsers.length !== 0) {
+      managePendingUsersSection = (
+        <ManageGroupUsersSection heading="Pending Members">
+          {this._renderPendingUsers()}
+        </ManageGroupUsersSection>
+      );
+    }
+
     return (
       <View style={styles.container}>
 
@@ -105,9 +115,7 @@ var GroupManageUsersPopup = React.createClass({
           automaticallyAdjustContentInsets={false}>
           <AddNewGroupUserTrigger onPress={this.onAddUserTriggerPress}/>
 
-          <ManageGroupUsersSection heading="Pending Members">
-            {this._renderPendingUsers()}
-          </ManageGroupUsersSection>
+          {managePendingUsersSection}
 
           <ManageGroupUsersSection heading="Admin">
             {this._renderAdminGroupUsers()}
@@ -123,7 +131,7 @@ var GroupManageUsersPopup = React.createClass({
   },
 
   _renderPendingUsers: function() {
-    var content;
+    var content = <View/>;
 
     if (this.state.isPendingUsersRequestInFlight) {
       content = (

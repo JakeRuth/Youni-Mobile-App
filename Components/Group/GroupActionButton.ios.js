@@ -138,7 +138,7 @@ var GroupActionButton = React.createClass({
   _shouldHideButton: function() {
     return this.props.userGroupStatus === UserGroupStatus.IN_GROUP ||
            this.props.group.isPublic ||
-           !this.props.group.allowsJoinRequests;
+           !this.props.group.allowJoinRequests;
   },
 
   _getContainerStyles: function() {
