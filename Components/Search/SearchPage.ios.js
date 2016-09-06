@@ -223,9 +223,14 @@ var SearchPage = React.createClass({
   },
 
   toggleShowSearchBarState: function() {
+    var originalState = this.state.showSearchBar;
     this.setState({
-      showSearchBar: !this.state.showSearchBar
+      showSearchBar: !originalState
     });
+
+    if (originalState) {
+      searchStore.setInExploreFeedView(true);
+    }
   }
 
 });
