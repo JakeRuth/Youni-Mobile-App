@@ -21,7 +21,7 @@ var LoginSignupFlowAlerts = {
   },
 
   unexpectedEmailFormat: function() {
-    this._showAlert('Unexpected email format', 'Email must be valid, and end with .edu');
+    this._showAlert('Unexpected email format', 'Email must be valid, contain no whitespaces, and end with .edu');
   },
 
   signupSuccess: function(message) {

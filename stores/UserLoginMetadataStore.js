@@ -15,8 +15,7 @@ var userLoginMetadataStore = Unicycle.createStore({
       firstName: '',
       lastName: '',
       networkName: '',
-      networkColor: '',
-      showTutorialPopup: false
+      networkColor: ''
     });
   },
 
@@ -80,12 +79,6 @@ var userLoginMetadataStore = Unicycle.createStore({
     });
   },
 
-  setShowTutorialPopup: function(value) {
-    this.set({
-      showTutorialPopup: value
-    });
-  },
-
   getAccessToken: function () {
     return this.get('accessToken');
   },
@@ -128,10 +121,6 @@ var userLoginMetadataStore = Unicycle.createStore({
 
   getNetworkColor: function () {
     return this.get('networkColor');
-  },
-
-  getShouldShowTutorialPopup: function() {
-    return this.get('showTutorialPopup');
   }
 
 });

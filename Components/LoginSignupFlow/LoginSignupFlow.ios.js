@@ -386,12 +386,13 @@ var LoginSignupFlow = React.createClass({
   _onSignupPageOneSubmit: function() {
     var email = signupStore.getEmail(),
         password = signupStore.getPassword(),
-        confirmPassword = signupStore.getConfirmPassword();
+        confirmPassword = signupStore.getConfirmPassword(),
+        emailContainsWhitespace = email.length !== email.replace(" ", "").length;
 
     if (!email || !password || !confirmPassword) {
       LoginSignupFlowAlerts.missingFields();
     }
-    else if (!email.endsWith('.edu') || email.indexOf('@') === -1) {
+    else if (!email.endsWith('.edu') || email.indexOf('@') === -1 || emailContainsWhitespace) {
       LoginSignupFlowAlerts.unexpectedEmailFormat();
     }
     else if (password !== confirmPassword) {

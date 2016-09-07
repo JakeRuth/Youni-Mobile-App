@@ -6,7 +6,6 @@ var Icon = require('react-native-vector-icons/MaterialIcons');
 var Unicycle = require('../Unicycle');
 
 var NoHomeFeedPostsMessage = require('./NoHomeFeedPostsMessage');
-var InitialLoginTutorialPopup = require('./InitialLoginTutorialPopup');
 var PostList = require('./Post/PostList');
 var Spinner = require('./Common/Spinner');
 var YouniHeader = require('./Common/YouniHeader');
@@ -120,8 +119,6 @@ var HomePage = React.createClass({
         <View style={styles.feedContainer}>
           {content}
         </View>
-
-        <InitialLoginTutorialPopup/>
 
         <View style={styles.uploadProfileImageCalloutContainer}>
           <UploadProfilePictureCallout
