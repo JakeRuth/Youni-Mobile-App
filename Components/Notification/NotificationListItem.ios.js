@@ -136,17 +136,7 @@ var NotificationsListItem = React.createClass({
   },
 
   _renderLeftImageThumbnail: function(notification) {
-    if (notification.type === NotificationUtils.TYPE_SYSTEM) {
-      return (
-        <View style={styles.leftImageThumbnailContainer}>
-          <Image
-            style={styles.logo}
-            source={require('../../images/systemNotificationIcon.png')}
-            resizeMode="contain"/>
-        </View>
-      );
-    }
-    else if (this._shouldRenderGroupThumbnail(notification)) {
+    if (this._shouldRenderGroupThumbnail(notification)) {
       return (
         <GroupThumbnailLink
           style={styles.leftImageThumbnailContainer}
@@ -154,6 +144,16 @@ var NotificationsListItem = React.createClass({
           group={notification.group}
           hideLabel={true}
           navigator={this.props.navigator}/>
+      );
+    }
+    else if (notification.type === NotificationUtils.TYPE_SYSTEM) {
+      return (
+        <View style={styles.leftImageThumbnailContainer}>
+          <Image
+            style={styles.logo}
+            source={require('../../images/systemNotificationIcon.png')}
+            resizeMode="contain"/>
+        </View>
       );
     }
     else if (this.props.notification.senderUser) {
@@ -257,7 +257,9 @@ var NotificationsListItem = React.createClass({
 
   _shouldRenderGroupThumbnail: function(notification) {
     return notification.type === NotificationUtils.TYPE_JOIN_GROUP_DECLINED ||
-           notification.type === NotificationUtils.TYPE_ADDED_TO_GROUP;
+           notification.type === NotificationUtils.TYPE_ADDED_TO_GROUP ||
+           notification.type === NotificationUtils.TYPE_OTHER_ADMIN_RESPONDED_TO_JOIN_REQUEST ||
+           (notification.type === NotificationUtils.TYPE_SYSTEM && notification.group);
   }
 
 });
