@@ -177,7 +177,9 @@ var NotificationsListItem = React.createClass({
 
     if (this._shouldRenderUserNameMessageHeader(notification)) {
       notificationSenderName = (
-        <Text style={styles.senderName}>
+        <Text
+          style={styles.senderName}
+          onPress={this._onProfileImagePress}>
           {notification.senderUser.firstName + ' ' + notification.senderUser.lastName}
         </Text>
       );
@@ -187,9 +189,7 @@ var NotificationsListItem = React.createClass({
       <View style={styles.messageContainer}>
         {notificationSenderName}
 
-        <Text
-          style={styles.message}
-          onPress={this._onProfileImagePress}>
+        <Text style={styles.message}>
           {notification.label + '  '}
           <Text style={styles.timestamp}>
             {this.props.notification.timestamp}
