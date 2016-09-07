@@ -62,7 +62,7 @@ var GroupManageUsersPopup = React.createClass({
       numPosts: React.PropTypes.number.isRequired,
       numMembers: React.PropTypes.number.isRequired
     }).isRequired,
-    onPageReturnCallback: React.PropTypes.func.isRequired,
+    onPageReturnCallback: React.PropTypes.func,
     navigator: React.PropTypes.object.isRequired
   },
 
@@ -105,7 +105,7 @@ var GroupManageUsersPopup = React.createClass({
             Manage Members
           </Text>
           <BackArrow onPress={() => {
-            this.props.onPageReturnCallback();
+            this.props.onPageReturnCallback ? this.props.onPageReturnCallback() : () => null;
             this.props.navigator.pop();
           }}/>
         </YouniHeader>

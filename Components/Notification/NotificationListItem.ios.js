@@ -10,6 +10,7 @@ var ProfileImageThumbnail = require('../Common/ProfileImageThumbnail');
 var GroupThumbnailLink = require('../Group/GroupThumbnailLink');
 var PostPopup = require('../PopupPages/PostPopup');
 var ProfilePopup = require('../PopupPages/ProfilePopup');
+var GroupManageUsersPopup = require('../PopupPages/GroupManageUsersPopup');
 
 var notificationStore = require('../../stores/NotificationStore');
 var profileOwnerStore = require('../../stores/profile/ProfileOwnerStore');
@@ -217,6 +218,25 @@ var NotificationsListItem = React.createClass({
             style={styles.postImage}
             resizeMode="cover"
             source={{uri: notification.post.photoUrl}}/>
+        </TouchableHighlight>
+      );
+    }
+    else if (notification.type === NotificationUtils.TYPE_REQUEST_TO_JOIN_GROUP) {
+      return (
+        <TouchableHighlight
+          underlayColor="transparent"
+          onPress={() => {
+            this.props.navigator.push({
+              component: GroupManageUsersPopup,
+              passProps: {
+                group: notification.group
+              }
+            });
+          }}>
+          <Icon
+            name='keyboard-arrow-right'
+            size={30}
+            color={Colors.getPrimaryAppColor()}/>
         </TouchableHighlight>
       );
     }
