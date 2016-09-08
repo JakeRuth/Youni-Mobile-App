@@ -104,7 +104,7 @@ let styles = StyleSheet.create({
 });
 
 
-var Swiper = React.createClass({
+var CustomSwiper = React.createClass({
 
   /**
    * Props Validation
@@ -653,4 +653,4 @@ var Swiper = React.createClass({
   
 });
 
-module.exports = Swiper;
+module.exports = CustomSwiper;
