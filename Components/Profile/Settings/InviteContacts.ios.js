@@ -61,26 +61,33 @@ var InviteContacts = React.createClass({
   },
 
   render: function () {
-    let contactsJson = this.props.contactsJson;
-    let contacts = [];
+    let contactsJson = this.props.contactsJson,
+        contacts = [],
+        numIgnoredContacts = 0;
 
     for (var i = 0; i < contactsJson.length; i++) {
       let contact = contactsJson[i];
       let contactMobileNumber = ContactUtils.getPhoneNumber(contact);
-      contacts.push(
-        <IOSPhoneContact
-          key={i}
-          contact={contact}
-          isSelected={contactsStore.isPhoneNumberSelected(contactMobileNumber)}
-          onPress={() => contactsStore.toggleSelectedPhoneNumber(contactMobileNumber)}/>
-      );
+      // for some reason it's possible to create a contact with no phone numbers...
+      if (contactMobileNumber) {
+        contacts.push(
+          <IOSPhoneContact
+            key={i}
+            contact={contact}
+            isSelected={contactsStore.isPhoneNumberSelected(contactMobileNumber)}
+            onPress={() => contactsStore.toggleSelectedPhoneNumber(contactMobileNumber)}/>
+        );
+      }
+      else {
+        numIgnoredContacts++;
+      }
     }
 
     return (
       <View style={styles.container}>
 
         <Text style={styles.totalContactCountLabel}>
-          {`${contactsStore.getContacts().length} Contacts`}
+          {`${contactsStore.getContacts().length - numIgnoredContacts} Contacts`}
         </Text>
 
         <ScrollView

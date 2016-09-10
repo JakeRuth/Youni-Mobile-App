@@ -50,7 +50,7 @@ var ContactUtils = {
     }
 
     // if all else fails, return any number...
-    if (contact.phoneNumbers[0].number) {
+    if (contact.phoneNumbers && contact.phoneNumbers[0] && contact.phoneNumbers[0].number) {
       return contact.phoneNumbers[0].number;
     }
 
