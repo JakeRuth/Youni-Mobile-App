@@ -25,7 +25,7 @@ var contactsStore = Unicycle.createStore({
     
     for (var i = 0; i < allContacts.length; i++) {
       let number = ContactUtils.getPhoneNumber(allContacts[i]);
-      if (!this.isPhoneNumberSelected(number)) {
+      if (number && !this.isPhoneNumberSelected(number)) {
         currentSelectedNumbers.push(number);
       }
     }
