@@ -7,6 +7,7 @@ var IOSPhoneContact = require('../../Common/IOSPhoneContact');
 
 var Colors = require('../../../Utils/Common/Colors');
 var ContactUtils = require('../../../Utils/Common/ContactUtils');
+var CommunicationUtils = require('../../../Utils/Common/CommunicationUtils');
 var contactsStore = require('../../../stores/ContactsStore');
 
 var {
@@ -98,8 +99,8 @@ var InviteContacts = React.createClass({
 
         <TouchableHighlight
           style={[styles.inviteFriendsButton, {backgroundColor: Colors.getPrimaryAppColor()}]}
-          underlayColor="transparent"
-          onPress={() => console.log(contactsStore.getSelectedPhoneNumbers())}>
+          underlayColor={Colors.getPrimaryAppColor()}
+          onPress={() => CommunicationUtils.sendText(contactsStore.getSelectedPhoneNumbers(), this.inviteFriendsTextMessageBody)}>
           <Text style={styles.inviteFriendsButtonLabel}>
             {`Invite ${this.props.numSelectedPhoneNumbers} Friends`}
           </Text>
@@ -119,7 +120,10 @@ var InviteContacts = React.createClass({
         Select All
       </Text>
     );
-  }
+  },
+
+  inviteFriendsTextMessageBody: "I'd like for you to join the Youni fam with me!  It makes college more awesome, if you " +
+                                "don't download it, we can't be friends anymore."
 
 });
 
