@@ -18,6 +18,12 @@ var contactsStore = Unicycle.createStore({
       contacts: contacts
     });
   },
+
+  setSelectedPhoneNumbers: function(phoneNumbers) {
+    this.set({
+      selectedPhoneNumbers: phoneNumbers
+    });
+  },
   
   selectAllContacts: function() {
     var allContacts = this.getContacts(),
@@ -25,7 +31,8 @@ var contactsStore = Unicycle.createStore({
     
     for (var i = 0; i < allContacts.length; i++) {
       let number = ContactUtils.getPhoneNumber(allContacts[i]);
-      if (number && !this.isPhoneNumberSelected(number)) {
+      // safe here to assume that all contacts have a phone number since we filtered them out when initially loading them. See ContactUtils.getAll
+      if (!this.isPhoneNumberSelected(number)) {
         currentSelectedNumbers.push(number);
       }
     }

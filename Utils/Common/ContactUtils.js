@@ -18,7 +18,16 @@ var ContactUtils = {
         callback(IOSPermissions.DENIED);
       }
       else {
-        callback(contacts.sort(this._sortContactAlphabeticallyByGivenName));
+        // only store contacts that have a phone number
+        let contactsWithPhoneNumber = [];
+        
+        for (let i = 0; i < contacts.length; i++) {
+          if (this.getPhoneNumber(contacts[i])) {
+            contactsWithPhoneNumber.push(contacts[i]);
+          }
+        }
+        
+        callback(contactsWithPhoneNumber.sort(this._sortContactAlphabeticallyByGivenName));
       }
     })
   },

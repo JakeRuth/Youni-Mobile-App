@@ -13,6 +13,7 @@ var contactsStore = require('../../../stores/ContactsStore');
 var {
   View,
   Text,
+  AlertIOS,
   ScrollView,
   StyleSheet,
   TouchableHighlight
@@ -37,7 +38,7 @@ var styles = StyleSheet.create({
     padding: 10,
     textAlign: 'center'
   },
-  selectAllButton: {
+  bulkSelectButton: {
     position: 'absolute',
     top: 12,
     right: 24,
@@ -100,30 +101,73 @@ var InviteContacts = React.createClass({
         <TouchableHighlight
           style={[styles.inviteFriendsButton, {backgroundColor: Colors.getPrimaryAppColor()}]}
           underlayColor={Colors.getPrimaryAppColor()}
-          onPress={() => CommunicationUtils.sendText(contactsStore.getSelectedPhoneNumbers(), this.inviteFriendsTextMessageBody)}>
+          onPress={this._onInviteFriendsPress}>
           <Text style={styles.inviteFriendsButtonLabel}>
             {`Invite ${this.props.numSelectedPhoneNumbers} Friends`}
           </Text>
         </TouchableHighlight>
 
-        {this._renderSelectAllButton()}
+        {this._renderBulkSelectButton()}
 
       </View>
     );
   },
 
-  _renderSelectAllButton: function() {
-    return (
-      <Text
-        style={[styles.selectAllButton, {color: Colors.getPrimaryAppColor()}]}
-        onPress={contactsStore.selectAllContacts}>
-        Select All
-      </Text>
-    );
+  _renderBulkSelectButton: function() {
+    var allContactsSelected = contactsStore.getSelectedPhoneNumbers().length === contactsStore.getContacts().length;
+    
+    if (allContactsSelected) {
+      return (
+        <Text
+          style={[styles.bulkSelectButton, {color: Colors.getPrimaryAppColor()}]}
+          onPress={() => contactsStore.setSelectedPhoneNumbers([])}>
+          Deselect All
+        </Text>
+      );
+    }
+    else {
+      return (
+        <Text
+          style={[styles.bulkSelectButton, {color: Colors.getPrimaryAppColor()}]}
+          onPress={contactsStore.selectAllContacts}>
+          Select All
+        </Text>
+      );
+    }
+  },
+
+  _onInviteFriendsPress: function() {
+    var numContactsSelected = contactsStore.getSelectedPhoneNumbers().length;
+
+    if (numContactsSelected <= 0) {
+      AlertIOS.alert(
+        'You must select at least one contact before inviting friends.',
+        '',
+        {
+          text: 'Okay'
+        }
+      );
+    }
+    else if (numContactsSelected > this.NUM_SELECTED_CONTACTS_THRESHOLD_TO_SHOW_WARNING) {
+      AlertIOS.alert(
+        `You've selected ${numContactsSelected} contacts!`,
+        'Please be patient, your phone may take a while to load this message.',
+        [
+          {
+            text: 'Send',
+            onPress: () => CommunicationUtils.sendText(contactsStore.getSelectedPhoneNumbers(), this.inviteFriendsTextMessageBody)
+          },
+          {
+            text: "Don't send"
+          }
+        ]
+      );
+    }
   },
 
   inviteFriendsTextMessageBody: "I'd like for you to join the Youni fam with me!  It makes college more awesome, if you " +
-                                "don't download it, we can't be friends anymore."
+                                "don't download it, we can't be friends anymore.\n\nClick to download -> http://goo.gl/cfrbji",
+  NUM_SELECTED_CONTACTS_THRESHOLD_TO_SHOW_WARNING: 50
 
 });
 
