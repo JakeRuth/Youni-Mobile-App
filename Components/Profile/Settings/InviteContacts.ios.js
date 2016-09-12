@@ -4,6 +4,7 @@ var React = require('react');
 var ReactNative = require('react-native');
 
 var IOSPhoneContact = require('../../Common/IOSPhoneContact');
+var SearchBarInput = require('../../Search/SearchBarInput');
 
 var Colors = require('../../../Utils/Common/Colors');
 var ContactUtils = require('../../../Utils/Common/ContactUtils');
@@ -25,6 +26,9 @@ var styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: Colors.MED_GRAY
   },
+  searchBarContainer: {
+    margin: 10
+  },
   scrollContainer: {
     flex: 1,
     paddingLeft: 12,
@@ -33,6 +37,7 @@ var styles = StyleSheet.create({
     marginRight: 12
   },
   totalContactCountLabel: {
+    position: 'relative',
     color: Colors.DARK_GRAY,
     fontSize: 18,
     padding: 10,
@@ -40,7 +45,7 @@ var styles = StyleSheet.create({
   },
   bulkSelectButton: {
     position: 'absolute',
-    top: 12,
+    top: 64,
     right: 24,
     fontSize: 16
   },
@@ -87,6 +92,14 @@ var InviteContacts = React.createClass({
 
     return (
       <View style={styles.container}>
+
+        <SearchBarInput
+          style={styles.searchBarContainer}
+          value={contactsStore.getSearchTerm()}
+          alwaysShowClearButton={contactsStore.getSearchTerm().length > 0}
+          placeholder={'     Search Contacts'}
+          onChangeText={(search) => contactsStore.setSearchTerm(search)}
+          onClearSearchPress={() => contactsStore.setSearchTerm('')}/>
 
         <Text style={styles.totalContactCountLabel}>
           {`${contactsStore.getContacts().length - numIgnoredContacts} Contacts`}
@@ -162,6 +175,9 @@ var InviteContacts = React.createClass({
           }
         ]
       );
+    }
+    else {
+      CommunicationUtils.sendText(contactsStore.getSelectedPhoneNumbers(), this.inviteFriendsTextMessageBody);
     }
   },
 

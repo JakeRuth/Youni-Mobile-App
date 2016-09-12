@@ -31,6 +31,26 @@ var ContactUtils = {
       }
     })
   },
+  
+  getDisplayName: function(contact) {
+    var name = '';
+
+    if (contact.givenName) {
+      name += contact.givenName;
+    }
+    if (contact.middleName) {
+      name += ` ${contact.middleName}`;
+    }
+    if (contact.familyName) {
+      name += ` ${contact.familyName}`;
+    }
+
+    if (name.length === 0) {
+      name = 'Contact has no name';
+    }
+
+    return name;
+  },
 
   getPhoneNumber: function(contact) {
     // first try to find a mobile number, then have a chain of other defaults

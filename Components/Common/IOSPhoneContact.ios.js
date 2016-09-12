@@ -5,6 +5,7 @@ var ReactNative = require('react-native');
 var Icon = require('react-native-vector-icons/MaterialIcons');
 
 var Colors = require('../../Utils/Common/Colors');
+var ContactUtils = require('../../Utils/Common/ContactUtils');
 
 var {
   View,
@@ -68,7 +69,7 @@ var IOSPhoneContact = React.createClass({
           <Text
             style={styles.fullName}
             numberOfLines={1}>
-            {this._getContactName()}
+            {ContactUtils.getDisplayName(this.props.contact)}
           </Text>
           {this._renderSelectedIndicator()}
         </View>
@@ -94,26 +95,6 @@ var IOSPhoneContact = React.createClass({
           color={Colors.getPrimaryAppColor()}/>
       );
     }
-  },
-  
-  _getContactName: function() {
-    var name = '';
-
-    if (this.props.contact.givenName) {
-      name += this.props.contact.givenName;
-    }
-    if (this.props.contact.middleName) {
-      name += ` ${this.props.contact.middleName}`;
-    }
-    if (this.props.contact.familyName) {
-      name += ` ${this.props.contact.familyName}`;
-    }
-
-    if (name.length === 0) {
-      name = 'Contact has no name';
-    }
-    
-    return name;
   }
 
 });

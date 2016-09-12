@@ -51,7 +51,8 @@ var SearchBarInput = React.createClass({
     onChangeText: React.PropTypes.func.isRequired,
     onSubmitEditing: React.PropTypes.func.isRequired,
     onClearSearchPress: React.PropTypes.func.isRequired,
-    active: React.PropTypes.bool
+    active: React.PropTypes.bool,
+    alwaysShowClearButton: React.PropTypes.bool
   },
 
   render: function() {
@@ -85,7 +86,7 @@ var SearchBarInput = React.createClass({
   },
 
   _renderClearSearchButton: function() {
-    if (this.props.active) {
+    if (this.props.alwaysShowClearButton || this.props.active) {
       return (
         <TouchableHighlight
           style={styles.clearSearchButtonContainer}

@@ -162,6 +162,7 @@ var InviteFriendsPage = React.createClass({
           contactsPermissionAuthorized: true
         });
         contactsStore.setContacts(res);
+        contactsStore.setAllContacts(res);
       }
 
       this.setState({

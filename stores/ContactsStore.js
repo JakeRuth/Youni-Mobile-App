@@ -8,8 +8,16 @@ var contactsStore = Unicycle.createStore({
 
   init: function() {
     this.set({
-      contacts: [],
-      selectedPhoneNumbers: []
+      allContacts: [],
+      contacts: [], // can be filtered if a search term is present
+      selectedPhoneNumbers: [],
+      searchTerm: ''
+    });
+  },
+
+  setAllContacts: function(contacts) {
+    this.set({
+      allContacts: contacts
     });
   },
 
@@ -22,6 +30,21 @@ var contactsStore = Unicycle.createStore({
   setSelectedPhoneNumbers: function(phoneNumbers) {
     this.set({
       selectedPhoneNumbers: phoneNumbers
+    });
+  },
+  
+  setSearchTerm: function(searchTerm) {
+    var filteredContacts = [];
+    if (searchTerm.length > 0) {
+      filteredContacts = this._filterContactsForSearchTerm(searchTerm);
+    }
+    else {
+      filteredContacts = this.getAllContacts();
+    }
+
+    this.set({
+      searchTerm: searchTerm,
+      contacts: filteredContacts
     });
   },
   
@@ -74,6 +97,10 @@ var contactsStore = Unicycle.createStore({
     });
   },
 
+  getAllContacts: function() {
+    return this.get('allContacts').toJSON();
+  },
+
   getContacts: function() {
     return this.get('contacts').toJSON();
   },
@@ -82,8 +109,28 @@ var contactsStore = Unicycle.createStore({
     return this.get('selectedPhoneNumbers').toJSON();
   },
   
+  getSearchTerm: function() {
+    return this.get('searchTerm');
+  },
+  
   isPhoneNumberSelected: function(number) {
     return this.getSelectedPhoneNumbers().indexOf(number) !== -1;
+  },
+
+  _filterContactsForSearchTerm: function(searchTerm) {
+    var filteredContacts = [],
+        allContacts = this.getAllContacts();
+
+    for (var i = 0; i < allContacts.length; i++) {
+      let name = ContactUtils.getDisplayName(allContacts[i]),
+          isMatch = name.match(new RegExp(searchTerm, 'i'));
+      
+      if (isMatch) {
+        filteredContacts.push(allContacts[i]);
+      }
+    }
+    
+    return filteredContacts;
   }
 
 });
