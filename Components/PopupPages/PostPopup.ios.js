@@ -14,11 +14,13 @@ var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 var Colors = require('../../Utils/Common/Colors');
+var LogoImageSize = require('../../Utils/Enums/LogoImageSize');
 var PostUtils = require('../../Utils/Post/PostUtils');
 
 var {
   View,
   Text,
+  Image,
   ScrollView,
   StyleSheet
 } = ReactNative;
@@ -28,9 +30,13 @@ var styles = StyleSheet.create({
     flex: 1
   },
   pageHeader: {
-    fontSize: 20,
-    fontWeight: '500',
-    textAlign: 'center'
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  logo: {
+    marginTop: -12,
+    width: LogoImageSize.WIDTH * .1,
+    height: LogoImageSize.HEIGHT * .1
   }
 });
 
@@ -60,11 +66,13 @@ var PostPopup = React.createClass({
   render: function () {
     return (
       <View style={styles.container}>
-        <YouniHeader>
-          <Text style={[styles.pageHeader, { color: Colors.getPrimaryAppColor() }]}>
-            Experience
-          </Text>
-          <BackArrow onPress={() => this.props.navigator.pop()}/>
+        <YouniHeader style={[styles.pageHeader, {backgroundColor: Colors.getPrimaryAppColor()}]}>
+          <Image
+            style={styles.logo}
+            source={require('../../images/logoWhiteTextBlankBackground.png')}/>
+          <BackArrow
+            onPress={() => this.props.navigator.pop()}
+            color="white"/>
         </YouniHeader>
 
         <ScrollView automaticallyAdjustContentInsets={false}>

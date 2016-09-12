@@ -20,7 +20,6 @@ var userLoginMetadataStore = require('../stores/UserLoginMetadataStore');
 var showUploadProfileImagePromptStore = require('../stores/ShowUploadProfileImagePromptStore');
 
 var Colors = require('../Utils/Common/Colors');
-var LogoImageSize = require('../Utils/Enums/LogoImageSize');
 var AlignCallout = require('../Utils/Enums/AlignCallout');
 
 var {
