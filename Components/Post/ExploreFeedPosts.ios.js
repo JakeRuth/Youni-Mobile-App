@@ -75,6 +75,9 @@ var ExploreFeedPosts = React.createClass({
           unlikePhotoAction={this.unlikePhotoAction}
           onSubmitCommentAction={this.onSubmitCommentAction}
           onDeleteCommentAction={this.onDeleteCommentAction}
+          loadMoreButtonStyle={{
+            marginBottom: 70
+          }}
           navigator={this.props.navigator}/>
       );
     }

@@ -121,7 +121,7 @@ var GroupActionButton = React.createClass({
 
   _alertRequestToJoinGroup: function() {
     AlertIOS.alert(
-      'Are you are you want to request to join this group?',
+      'Are you sure you want to request to join this group?',
       '',
       [
         {
