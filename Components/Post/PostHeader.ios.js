@@ -93,7 +93,7 @@ var PostHeader = React.createClass({
           underlayColor='transparent'>
 
           <View style={styles.posterThumbnail}>
-            <ProfileImageThumbnail profileImageUrl={this.props.post.posterProfileImageUrl}/>
+            <ProfileImageThumbnail profileImageUrl={this.props.post.posterProfilePictureUrl}/>
             <View style={styles.nameAndTimestampContainer}>
               <Text
                 style={styles.profileName}

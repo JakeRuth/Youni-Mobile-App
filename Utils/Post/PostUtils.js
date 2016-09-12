@@ -96,7 +96,7 @@ var PostUtils = {
 
   getPostJson: function(post, index) {
     return {
-      posterProfileImageUrl: post.posterProfilePictureUrl,
+      posterProfilePictureUrl: post.posterProfilePictureUrl,
       postIdString: post.postIdString,
       firstComments: post.firstComments,
       numComments: post.numComments,
