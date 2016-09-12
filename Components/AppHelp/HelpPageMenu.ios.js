@@ -57,7 +57,6 @@ var HelpPageMenu = React.createClass({
         <ScrollView
           contentContainerStyle={{alignItems: 'center'}}
           horizontal={true}
-          showsHorizontalScrollIndicator={false}
           automaticallyAdjustContentInsets={false}>
           {content}
         </ScrollView>
@@ -69,21 +68,30 @@ var HelpPageMenu = React.createClass({
     return (
       <View style={styles.labelContainer}>
         <Text
-          style={[styles.label, {color: Colors.getPrimaryAppColor()}]}
+          style={[styles.label, {color: this._getLabelColor(filter)}]}
           onPress={() => this.props.onFilterPress(filter)}
           key={index}>
           {filter}
         </Text>
-        {this.renderSelectedUnderline(filter)}
+        {this._renderSelectedUnderline(filter)}
       </View>
     );
   },
 
-  renderSelectedUnderline: function(filter) {
+  _renderSelectedUnderline: function(filter) {
     if (filter === this.props.selectedFilter) {
       return (
         <View style={[styles.selectedFilterUnderline, {backgroundColor: Colors.getPrimaryAppColor()}]}/>
       );
+    }
+  },
+
+  _getLabelColor: function(filter) {
+    if (filter === this.props.selectedFilter) {
+      return Colors.getPrimaryAppColor();
+    }
+    else {
+      return Colors.MED_GRAY;
     }
   }
 
