@@ -11,6 +11,8 @@ var BackArrow = require('../Common/BackArrow');
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 var Colors = require('../../Utils/Common/Colors');
 
+var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
+
 var {
   View,
   Text,
@@ -141,6 +143,7 @@ var GroupUsersPopup = React.createClass({
       '/group/fetchUsers',
       {
         groupIdString: this.props.group.id,
+        requestingUserEmail: userLoginMetadataStore.getEmail(),
         fetchOffset: this.state.offset,
         maxToFetch: this.PAGE_SIZE
       },

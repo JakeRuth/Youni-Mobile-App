@@ -46,6 +46,7 @@ var UserUtils = {
       semesterTrendPoints: user['semesterTrendPoints'],
       isCurrentlyTrending: user['isCurrentlyTrending'],
       nowTrendingScore: user['nowTrendingScore'],
+      isFollowing: user['isFollowing'],
       id: id
     };
   },

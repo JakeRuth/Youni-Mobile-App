@@ -4,6 +4,7 @@ var React = require('react');
 var ReactNative = require('react-native');
 
 var ProfileImageThumbnail = require('./ProfileImageThumbnail');
+var ToggleFollowButton = require('./ToggleFollowButton');
 
 var Colors = require('../../Utils/Common/Colors');
 var IosStatusBarStyles = require('../../Utils/Common/IosStatusBarStyles');
@@ -39,13 +40,19 @@ var UserListItem = React.createClass({
 
   propTypes: {
     user: React.PropTypes.object.isRequired,
+    showToggleFollowButton: React.PropTypes.bool,
     displayNameOverride: React.PropTypes.string,
     navigator: React.PropTypes.object.isRequired
   },
 
   render: function() {
     var user = this.props.user,
-        email = user.email;
+        email = user.email,
+        toggleFollowButton;
+
+    if (this.props.showToggleFollowButton) {
+      toggleFollowButton = <ToggleFollowButton user={this.props.user}/>;
+    }
 
     return (
       <View style={this.props.style}>
@@ -60,6 +67,7 @@ var UserListItem = React.createClass({
               numberOfLines={1}>
               {this._getDisplayName(user)}
             </Text>
+            {toggleFollowButton}
           </View>
 
         </TouchableHighlight>
@@ -79,7 +87,7 @@ var UserListItem = React.createClass({
       component: ProfilePopup,
       passProps: {
         profileUserEmail: this.props.user.email,
-        onBackArrowPress: () => statusBarStyleStore.setStyle(IosStatusBarStyles.DEFAULT)
+        onBackArrowPress: () => statusBarStyleStore.setStyle(IosStatusBarStyles.LIGHT_CONTENT)
       }
     });
   },

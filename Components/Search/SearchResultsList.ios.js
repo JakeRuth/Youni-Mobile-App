@@ -50,7 +50,6 @@ var SearchResultsList = React.createClass({
     else {
       return (
         <View style={styles.container}>
-          {this.props.children}
           <ListView
             initialListSize={searchStore.getSearchResults().length}
             dataSource={this.state.dataSource}
@@ -72,6 +71,7 @@ var SearchResultsList = React.createClass({
       return (
         <UserListItem
           user={item}
+          showToggleFollowButton={true}
           navigator={this.props.navigator}/>
       );
     }

@@ -62,6 +62,7 @@ var GroupUsersList = React.createClass({
           <UserListItem
             key={i}
             user={users[i]}
+            showToggleFollowButton={true}
             displayNameOverride={this._getUserDisplayName(users[i])}
             navigator={this.props.navigator}/>
         );

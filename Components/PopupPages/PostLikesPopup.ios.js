@@ -12,6 +12,8 @@ var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 var Colors = require('../../Utils/Common/Colors');
 var UserUtils = require('../../Utils/User/UserUtils');
 
+var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
+
 var {
   View,
   Text,
@@ -113,6 +115,7 @@ var PostLikesPopup = React.createClass({
       '/post/fetchLikerUsers',
       {
         postIdString: this.props.postId,
+        requestingUserEmail: userLoginMetadataStore.getEmail(),
         fetchOffsetAmount: that.state.offset,
         maxToFetch: that.PAGE_SIZE
       },

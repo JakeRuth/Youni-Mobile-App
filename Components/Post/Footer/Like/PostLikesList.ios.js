@@ -75,6 +75,7 @@ var PostLikesList = React.createClass({
       <UserListItem
         key={index}
         user={user}
+        showToggleFollowButton={true}
         navigator={this.props.navigator}/>
     );
   }
