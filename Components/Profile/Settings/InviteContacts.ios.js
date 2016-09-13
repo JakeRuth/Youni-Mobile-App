@@ -2,6 +2,7 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
+var LowMemListView = require('react-native-sglistview');
 
 var IOSPhoneContact = require('../../Common/IOSPhoneContact');
 var SearchBarInput = require('../../Search/SearchBarInput');
@@ -15,9 +16,10 @@ var {
   View,
   Text,
   AlertIOS,
-  ScrollView,
+  ListView,
   StyleSheet,
-  TouchableHighlight
+  TouchableHighlight,
+  RecyclerViewBackedScrollView
 } = ReactNative;
 
 var styles = StyleSheet.create({
@@ -68,28 +70,6 @@ var InviteContacts = React.createClass({
   },
 
   render: function () {
-    let contactsJson = this.props.contactsJson,
-        contacts = [],
-        numIgnoredContacts = 0;
-
-    for (var i = 0; i < contactsJson.length; i++) {
-      let contact = contactsJson[i];
-      let contactMobileNumber = ContactUtils.getPhoneNumber(contact);
-      // for some reason it's possible to create a contact with no phone numbers...
-      if (contactMobileNumber) {
-        contacts.push(
-          <IOSPhoneContact
-            key={i}
-            contact={contact}
-            isSelected={contactsStore.isPhoneNumberSelected(contactMobileNumber)}
-            onPress={() => contactsStore.toggleSelectedPhoneNumber(contactMobileNumber)}/>
-        );
-      }
-      else {
-        numIgnoredContacts++;
-      }
-    }
-
     return (
       <View style={styles.container}>
 
@@ -102,14 +82,15 @@ var InviteContacts = React.createClass({
           onClearSearchPress={() => contactsStore.setSearchTerm('')}/>
 
         <Text style={styles.totalContactCountLabel}>
-          {`${contactsStore.getContacts().length - numIgnoredContacts} Contacts`}
+          {`${contactsStore.getContacts().length} Contacts`}
         </Text>
 
-        <ScrollView
+        <LowMemListView
           style={styles.scrollContainer}
-          automaticallyAdjustContentInsets={false}>
-          {contacts}
-        </ScrollView>
+          initialListSize={this.props.contactsJson.length}
+          dataSource={this._getDataSource()}
+          renderRow={this._renderRow}
+          renderScrollComponent={(props) => <RecyclerViewBackedScrollView {...props}/>}/>
 
         <TouchableHighlight
           style={[styles.inviteFriendsButton, {backgroundColor: Colors.getPrimaryAppColor()}]}
@@ -123,6 +104,16 @@ var InviteContacts = React.createClass({
         {this._renderBulkSelectButton()}
 
       </View>
+    );
+  },
+
+  _renderRow: function(contact) {
+    let contactMobileNumber = ContactUtils.getPhoneNumber(contact);
+    return (
+      <IOSPhoneContact
+        contact={contact}
+        isSelected={contactsStore.isPhoneNumberSelected(contactMobileNumber)}
+        onPress={() => contactsStore.toggleSelectedPhoneNumber(contactMobileNumber)}/>
     );
   },
 
@@ -147,6 +138,11 @@ var InviteContacts = React.createClass({
         </Text>
       );
     }
+  },
+
+  _getDataSource: function() {
+    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    return ds.cloneWithRows(this.props.contactsJson);
   },
 
   _onInviteFriendsPress: function() {
