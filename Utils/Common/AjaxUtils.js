@@ -5,7 +5,6 @@ var request = require('superagent');
 var prefix = require('superagent-prefix')('http://youniappapi.com');
 
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
-var RefreshAppContentUtil = require('./RefreshAppContentUtil');
 
 var {
   AsyncStorage
@@ -17,8 +16,6 @@ var AjaxUtils = {
 
   ajax: function(url, data, onSuccessCallback, onFailureCallback, doNotRetryRequest) {
     var that = this;
-    
-    RefreshAppContentUtil.restartTimer();
 
     request
      .post(that.SERVER_URL + url)
