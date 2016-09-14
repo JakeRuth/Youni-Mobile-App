@@ -44,7 +44,7 @@ var GroupResultsList = React.createClass({
   },
 
   render: function () {
-    var groups = this.props.groups,
+    var groups = this._getGroups(this.props.groups),
         content;
 
     if (this.props.isInitialPageLoading) {
@@ -54,7 +54,7 @@ var GroupResultsList = React.createClass({
       content = <EmptyResults message="No groups found"/>;
     }
     else {
-      content = this._getGroups(groups);
+      content = groups;
     }
 
     return (
@@ -88,7 +88,7 @@ var GroupResultsList = React.createClass({
       )
     }
 
-    return groupResults
+    return groupResults;
   }
 
 });

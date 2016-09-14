@@ -123,7 +123,7 @@ var WelcomeUserInfoPrompts = React.createClass({
 
   onDismissPromptPress: function() {
     AlertIOS.alert(
-      'If you ever need help, get to the Help Center from the settings icon on your profile!',
+      'If you ever need help, access the Help Center from the settings icon on your profile!',
       'Enjoy Youni ^_^',
       [
         {
