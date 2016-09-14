@@ -156,7 +156,7 @@ var SearchPage = React.createClass({
         <View style={styles.explorePageNavButtonContainer}>
           <NavButton
             onPress={() => mainAppSwipePageStore.setSwipeFrameAmount(1)}
-            iconName="explore"/>
+            showYouniU={true}/>
         </View>
 
       </View>
