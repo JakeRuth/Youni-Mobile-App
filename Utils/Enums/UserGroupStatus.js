@@ -5,7 +5,8 @@ var UserGroupStatus = {
 
   NOT_IN_GROUP: {
     id: 'notInGroup',
-    label: 'Join Organization'
+    label: 'Join Organization',
+    secondaryLabel: 'Join'
   },
   IN_GROUP: {
     id: 'inGroup',

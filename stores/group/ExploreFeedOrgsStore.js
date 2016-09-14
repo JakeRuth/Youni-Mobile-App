@@ -40,7 +40,8 @@ var exploreFeedOrgsStore = Unicycle.createStore({
       isGroupsOnExploreLoading: true,
       isFetchingMoreRecentGroupsLoading: false,
       isInitialFetchAllGroupsPageLoading: false,
-      isFetchingAllGroupsLoading: false
+      isFetchingAllGroupsLoading: false,
+      currentFilter: ExploreGroupFilters.RECENT
     });
   },
 

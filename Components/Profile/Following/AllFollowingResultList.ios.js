@@ -7,6 +7,9 @@ var EmptyResults = require('../../Common/EmptyResults');
 var UserListItem = require('../../Common/UserListItem');
 var LoadMoreButton = require('../../Common/LoadMoreButton');
 
+var followRelationshipStore = require('../../../stores/profile/FollowRelationshipStore');
+var UserFollowRelationshipFilter = require('../../../Utils/Enums/UserFollowRelationshipFilter');
+
 var {
   View,
   StyleSheet,
@@ -39,7 +42,7 @@ var AllFollowingResultList = React.createClass({
     var content;
 
     if (!this.props.users.length) {
-      content = <EmptyResults message={"You aren't following anyone!"}/>
+      content = <EmptyResults message={this._getEmptyResultsMessage()}/>
     }
     else {
       content = this.renderResultList(this.props.users);
@@ -76,6 +79,15 @@ var AllFollowingResultList = React.createClass({
 
       </ScrollView>
     );
+  },
+
+  _getEmptyResultsMessage: function() {
+    if (followRelationshipStore.getSelectedFilter() === UserFollowRelationshipFilter.FOLLOWING) {
+      return "You aren't following anyone!";
+    }
+    else {
+      return "No fans";
+    }
   }
 
 });

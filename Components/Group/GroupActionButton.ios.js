@@ -18,13 +18,14 @@ var {
 
 var styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
-    width: 193,
-    height: 40,
-    borderRadius: 6
+    borderRadius: 6,
+    paddingTop: 6,
+    paddingRight: 12,
+    paddingBottom: 6,
+    paddingLeft: 12
   },
   buttonLabel: {
     flex: 1,
@@ -57,6 +58,7 @@ var GroupActionButton = React.createClass({
       UserGroupStatus.REQUEST_TO_JOIN_PENDING,
       UserGroupStatus.NOT_IN_GROUP
     ]),
+    useSecondaryUserGroupStatusLabel: React.PropTypes.bool,
     requestToJoinGroupAction: React.PropTypes.func.isRequired,
     isLoading: React.PropTypes.bool
   },
@@ -77,13 +79,22 @@ var GroupActionButton = React.createClass({
         <TouchableHighlight
           underlayColor="transparent"
           onPress={this._onButtonPress}>
-          <View style={this._getContainerStyles()}>
+          <View style={[this._getContainerStyles(), this.props.style]}>
             <Text style={this._getButtonStyles()}>
-              {this.props.userGroupStatus.label}
+              {this._getButtonLabel()}
             </Text>
           </View>
         </TouchableHighlight>
       );
+    }
+  },
+  
+  _getButtonLabel: function() {
+    if (this.props.useSecondaryUserGroupStatusLabel && this.props.userGroupStatus.secondaryLabel) {
+      return this.props.userGroupStatus.secondaryLabel;
+    }
+    else {
+      return this.props.userGroupStatus.label;
     }
   },
 

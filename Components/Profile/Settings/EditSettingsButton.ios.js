@@ -146,7 +146,10 @@ var EditSettingsButton = React.createClass({
 
   _onHelpCenterOptionSelect: function() {
     this.props.navigator.push({
-      component: AppHelpPage
+      component: AppHelpPage,
+      passProps: {
+        onClosePress: () => this.props.navigator.pop()
+      }
     });
   },
 

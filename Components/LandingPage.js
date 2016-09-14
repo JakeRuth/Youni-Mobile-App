@@ -8,9 +8,11 @@ var BaseAppSwiper = require('./BaseAppSwiper');
 var HomePage = require('./HomePage');
 var SearchPage = require('./Search/SearchPage');
 var TrendingPage = require('./Trending/TrendingPage');
+var WelcomeUserInfoPrompts = require('./WelcomePages/WelcomeUserInfoPrompts');
 
 var notificationStore = require('../stores/NotificationStore');
 var searchStore = require('../stores/SearchStore');
+var userLoginMetadataStore = require('../stores/UserLoginMetadataStore');
 
 var Color = require('../Utils/Common/Colors');
 var NotificationUtils = require('../Utils/Notification/NotificationUtils');
@@ -35,7 +37,8 @@ var LandingPage = React.createClass({
   },
 
   mixins: [
-    Unicycle.listenTo(notificationStore)
+    Unicycle.listenTo(notificationStore),
+    Unicycle.listenTo(userLoginMetadataStore)
   ],
 
   getInitialState: function() {
@@ -66,13 +69,18 @@ var LandingPage = React.createClass({
   },
 
   render: function() {
-    return (
-      <BaseAppSwiper>
-        <TrendingPage {...this.props}/>
-        <SearchPage {...this.props}/>
-        <HomePage {...this.props}/>
-      </BaseAppSwiper>
-    );
+    if (userLoginMetadataStore.getShowInitialInfoPrompts()) {
+      return <WelcomeUserInfoPrompts {...this.props}/>;
+    }
+    else {
+      return (
+        <BaseAppSwiper>
+          <TrendingPage {...this.props}/>
+          <SearchPage {...this.props}/>
+          <HomePage {...this.props}/>
+        </BaseAppSwiper>
+      );
+    }
   },
 
   _onNotificationRegistration: function(deviceToken) {

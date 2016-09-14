@@ -38,6 +38,8 @@ var GroupResultsList = React.createClass({
     isLoading: React.PropTypes.bool.isRequired,
     moreToFetch: React.PropTypes.bool.isRequired,
     onLoadMorePress: React.PropTypes.func.isRequired,
+    hidePublicGroups: React.PropTypes.bool,
+    showQuickGroupActionButton: React.PropTypes.bool,
     navigator: React.PropTypes.object.isRequired
   },
 
@@ -48,19 +50,11 @@ var GroupResultsList = React.createClass({
     if (this.props.isInitialPageLoading) {
       content = <Spinner/>;
     }
-    else if (this.props.groups.length === 0) {
-      content = <EmptyResults message="No groups found for search"/>;
+    else if (groups.length === 0) {
+      content = <EmptyResults message="No groups found"/>;
     }
     else {
-      let groupResults = [];
-      for (var i = 0; i < groups.length; i++) {
-        groupResults.push(
-          <GroupListItem
-            group={groups[i]}
-            navigator={this.props.navigator}/>
-        )
-      }
-      content = groupResults;
+      content = this._getGroups(groups);
     }
 
     return (
@@ -72,10 +66,29 @@ var GroupResultsList = React.createClass({
         <LoadMoreButton
           onPress={this.props.onLoadMorePress}
           isLoading={this.props.isLoading}
-          isVisible={this.props.groups.length && this.props.moreToFetch}/>
+          isVisible={groups.length && this.props.moreToFetch}/>
 
       </ScrollView>
     );
+  },
+
+  _getGroups: function(groups) {
+    let groupResults = [];
+
+    for (var i = 0; i < groups.length; i++) {
+      if (this.props.hidePublicGroups && groups[i].isPublic) {
+        continue;
+      }
+
+      groupResults.push(
+        <GroupListItem
+          group={groups[i]}
+          showQuickGroupActionButton={this.props.showQuickGroupActionButton}
+          navigator={this.props.navigator}/>
+      )
+    }
+
+    return groupResults
   }
 
 });

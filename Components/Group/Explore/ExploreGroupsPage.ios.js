@@ -36,12 +36,21 @@ var ExploreGroupsPage = React.createClass({
   MIN_GROUPS_REQUIRED_FOR_LIST_VIEW: 8,
 
   propTypes: {
-    navigator: React.PropTypes.object.isRequired
+    navigator: React.PropTypes.object.isRequired,
+    forceListFilterView: React.PropTypes.bool,
+    hidePublicGroups: React.PropTypes.bool,
+    showQuickGroupActionButton: React.PropTypes.bool
   },
 
   mixins: [
     Unicycle.listenTo(exploreFeedOrgsStore)
   ],
+
+  componentWillMount: function() {
+    if (this.props.forceListFilterView) {
+      exploreFeedOrgsStore.toggleFilter(ExploreGroupFilters.All);
+    }
+  },
   
   componentDidMount: function() {
     exploreFeedOrgsStore.fetchMostRecentOrgs();
@@ -49,7 +58,9 @@ var ExploreGroupsPage = React.createClass({
   },
 
   render: function () {
-    if (exploreFeedOrgsStore.getMostRecentGroups().length < this.MIN_GROUPS_REQUIRED_FOR_LIST_VIEW) {
+    let shouldRenderSingleListView = !this.props.forceListFilterView &&
+      exploreFeedOrgsStore.getMostRecentGroups().length < this.MIN_GROUPS_REQUIRED_FOR_LIST_VIEW;
+    if (shouldRenderSingleListView) {
       return this.renderSingleListView();
     }
     else {
@@ -61,10 +72,7 @@ var ExploreGroupsPage = React.createClass({
     return (
       <View style={styles.container}>
 
-        <ListFilter
-          filters={[ExploreGroupFilters.RECENT, ExploreGroupFilters.All]}
-          selectedFilter={exploreFeedOrgsStore.getCurrentFilter()}
-          onPress={(filter) => exploreFeedOrgsStore.toggleFilter(filter)}/>
+        {this.renderListFilter()}
 
         <ScrollView
           style={{flex: 1}}
@@ -80,6 +88,17 @@ var ExploreGroupsPage = React.createClass({
 
       </View>
     );
+  },
+
+  renderListFilter: function() {
+    if (!this.props.forceListFilterView) {
+      return (
+        <ListFilter
+          filters={[ExploreGroupFilters.RECENT, ExploreGroupFilters.All]}
+          selectedFilter={exploreFeedOrgsStore.getCurrentFilter()}
+          onPress={(filter) => exploreFeedOrgsStore.toggleFilter(filter)}/>
+      );
+    }
   },
 
   renderSingleListView: function() {
@@ -138,6 +157,8 @@ var ExploreGroupsPage = React.createClass({
           isLoading={exploreFeedOrgsStore.isFetchingAllGroupsLoading()}
           moreToFetch={exploreFeedOrgsStore.getMoreAllGroupsToFetch()}
           onLoadMorePress={exploreFeedOrgsStore.fetchAllOrgsAlphabetically}
+          hidePublicGroups={this.props.hidePublicGroups}
+          showQuickGroupActionButton={this.props.showQuickGroupActionButton}
           navigator={this.props.navigator}/>
       );
     }

@@ -3,14 +3,19 @@
 var React = require('react');
 var ReactNative = require('react-native');
 
+var GroupActionButton = require('./GroupActionButton');
 var GroupPopup = require('../PopupPages/GroupPopup');
 var ProfileImageThumbnail = require('../Common/ProfileImageThumbnail');
 
 var Colors = require('../../Utils/Common/Colors');
+var AjaxUtils = require('../../Utils/Common/AjaxUtils');
+var UserGroupStatus = require('../../Utils/Enums/UserGroupStatus');
+var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 
 var {
   View,
   Text,
+  AlertIOS,
   StyleSheet,
   TouchableHighlight
 } = ReactNative;
@@ -55,7 +60,15 @@ var GroupListItem = React.createClass({
       numMembers: React.PropTypes.number.isRequired,
       showLastPostTimestamp: React.PropTypes.bool
     }).isRequired,
+    showQuickGroupActionButton: React.PropTypes.bool,
     navigator: React.PropTypes.object.isRequired
+  },
+
+  getInitialState: function() {
+    return {
+      userInGroupStatusForQuickJoin: UserGroupStatus.NOT_IN_GROUP,
+      requestToJoinInFlight: false
+    };
   },
 
   render: function() {
@@ -70,6 +83,7 @@ var GroupListItem = React.createClass({
           <View style={styles.container}>
             <ProfileImageThumbnail profileImageUrl={group.badgeImageUrl}/>
             {this._renderBody(group)}
+            {this._renderGroupActionButton()}
           </View>
 
         </TouchableHighlight>
@@ -103,11 +117,69 @@ var GroupListItem = React.createClass({
     }
   },
 
+  _renderGroupActionButton: function() {
+    if (this.props.showQuickGroupActionButton) {
+      return (
+        <GroupActionButton
+          {...this.props}
+          style={{
+            height: 34
+          }}
+          userGroupStatus={this.state.userInGroupStatusForQuickJoin}
+          isLoading={this.state.requestToJoinInFlight}
+          useSecondaryUserGroupStatusLabel={true}
+          requestToJoinGroupAction={this._requestToJoin}/>
+      );
+    }
+  },
+
   _onGroupListItemPress: function() {
     this.props.navigator.push({
       component: GroupPopup,
       passProps: {...this.props}
     });
+  },
+
+  _requestToJoin: function() {
+    var that = this;
+    this.setState({
+      requestToJoinInFlight: true
+    });
+
+    AjaxUtils.ajax(
+      '/group/requestToJoin',
+      {
+        groupIdString: this.props.group.id,
+        requestingUserEmail: userLoginMetadataStore.getEmail()
+      },
+      (res) => {
+        that.setState({
+          requestToJoinInFlight: false,
+          userInGroupStatusForQuickJoin: UserGroupStatus.REQUEST_TO_JOIN_PENDING
+        });
+        AlertIOS.alert(
+          'You have requested to join this organization!',
+          'You will be notified when an admin either accepts or denies this request.',
+          {
+            text: 'Okay'
+          }
+        );
+      },
+      () => {
+        // this should never happen... but rather do this then crash during the first use of the app
+        that.setState({
+          requestToJoinInFlight: false
+        });
+        AlertIOS.alert(
+          'Could not request to join',
+          'You may already be a member of this group.  If you believe this is an error please contact support@youniapp.com',
+          {
+            text: 'Okay'
+          }
+        );
+      },
+      true // do not retry
+    );
   }
 
 });

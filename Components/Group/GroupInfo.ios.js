@@ -114,10 +114,14 @@ var GroupInfo = React.createClass({
       return (
         <View style={styles.groupActionButtonContainer}>
           <GroupActionButton
+            {...this.props}
+            style={{
+              width: 193,
+              height: 40
+            }}
             userGroupStatus={this.state.userGroupStatus}
             isLoading={this.state.loadingUserInGroupStatus || this.state.requestToJoinInFlight}
-            requestToJoinGroupAction={this.requestToJoin}
-            {...this.props}/>
+            requestToJoinGroupAction={this.requestToJoin}/>
         </View>
       );
     }

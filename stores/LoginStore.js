@@ -52,6 +52,7 @@ var loginStore = Unicycle.createStore({
             trendingFeedFilter = res.body.trendingFeedFilter,
             trendingFeedType = res.body.trendingFeedType,
             networkColor = res.body.networkColorHexCode,
+            showInitialInfoPrompts = res.body.showInitialInfoPrompts,
             hasUploadedProfilePicture = profileImageUrl !== null;
 
         userLoginMetadataStore.setAccessToken(accessToken);
@@ -64,6 +65,7 @@ var loginStore = Unicycle.createStore({
         userLoginMetadataStore.setLastName(lastName);
         userLoginMetadataStore.setNetworkName(networkName);
         userLoginMetadataStore.setNetworkColor(networkColor);
+        userLoginMetadataStore.setShowInitialInfoPrompts(showInitialInfoPrompts);
 
         showUploadProfileImagePromptStore.setShowOnHomeFeed(!hasUploadedProfilePicture);
         showUploadProfileImagePromptStore.setShowOnProfilePage(!hasUploadedProfilePicture);

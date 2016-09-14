@@ -31,13 +31,18 @@ var styles = StyleSheet.create({
   },
   label: {
     fontSize: 18
+  },
+  overrideLabel: {
+    flex: 1,
+    textAlign: 'center'
   }
 });
 
 var RequestToCreateGroup = React.createClass({
 
   propTypes: {
-    navigator: React.PropTypes.object.isRequired
+    navigator: React.PropTypes.object.isRequired,
+    labelOverride: React.PropTypes.string
   },
 
   render: function() {
@@ -46,7 +51,21 @@ var RequestToCreateGroup = React.createClass({
         style={styles.container}
         underlayColor="transparent"
         onPress={() => this._onPress()}>
+        {this.renderLabel()}
+      </TouchableHighlight>
+    );
+  },
 
+  renderLabel: function() {
+    if (this.props.labelOverride) {
+      return (
+        <Text style={[styles.label, styles.overrideLabel]}>
+          {this.props.labelOverride}
+        </Text>
+      );
+    }
+    else {
+      return (
         <View style={styles.iconAndTextContainer}>
           <Icon
             style={styles.icon}
@@ -57,9 +76,8 @@ var RequestToCreateGroup = React.createClass({
             Request to Create Organization
           </Text>
         </View>
-
-      </TouchableHighlight>
-    );
+      );
+    }
   },
 
   _onPress: function() {

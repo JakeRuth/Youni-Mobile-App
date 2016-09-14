@@ -28,6 +28,16 @@ var styles = StyleSheet.create({
     fontWeight: '500',
     textAlign: 'center'
   },
+  dismissPageButton: {
+    fontSize: 16,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    paddingTop: 32,
+    paddingLeft: 12,
+    paddingRight: 30,
+    paddingBottom: 15
+  },
   helpImage: {
     flex: 1,
     alignSelf: 'center',
@@ -38,7 +48,8 @@ var styles = StyleSheet.create({
 var AppHelpPage = React.createClass({
 
   propTypes: {
-    navigator: React.PropTypes.object.isRequired
+    onClosePress: React.PropTypes.func.isRequired,
+    showDismissButton: React.PropTypes.bool
   },
 
   getInitialState: function() {
@@ -54,7 +65,7 @@ var AppHelpPage = React.createClass({
           <Text style={[styles.pageHeader, { color: Colors.getPrimaryAppColor() }]}>
             Help Center
           </Text>
-          <BackArrow onPress={() => this.props.navigator.pop()}/>
+          {this._renderCloseButton()}
         </YouniHeader>
 
         <HelpPageMenu
@@ -66,6 +77,21 @@ var AppHelpPage = React.createClass({
         {this._renderHelpPagesForCurrentFilter()}
       </View>
     );
+  },
+
+  _renderCloseButton: function() {
+    if (this.props.showDismissButton) {
+      return (
+        <Text
+          style={[styles.dismissPageButton, { color: Colors.getPrimaryAppColor() }]}
+          onPress={this.props.onClosePress}>
+          Dismiss
+        </Text>
+      );
+    }
+    else {
+      return <BackArrow onPress={() => this.props.navigator.pop()}/>;
+    }
   },
   
   _renderHelpPagesForCurrentFilter: function() {

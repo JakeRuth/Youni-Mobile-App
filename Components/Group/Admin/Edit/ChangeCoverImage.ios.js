@@ -41,7 +41,7 @@ var styles = StyleSheet.create({
   }
 });
 
-var ChangeProfilePicture = React.createClass({
+var ChangeCoverImage = React.createClass({
 
   propTypes: {
     group: React.PropTypes.shape({
@@ -156,4 +156,4 @@ var ChangeProfilePicture = React.createClass({
 
 });
 
-module.exports = ChangeProfilePicture;
+module.exports = ChangeCoverImage;

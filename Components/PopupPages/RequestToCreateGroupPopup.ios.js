@@ -161,8 +161,8 @@ var RequestToCreateGroupPopup = React.createClass({
   _alertSuccessfulRequest: function() {
     AlertIOS.alert(
       'Success!',
-      'We have received your request, we will send a response to the email associated with this account as soon' +
-      'as we review the request!',
+      "We have received your request!  If your group is legitimate and accepted you will receive a notification from " +
+      "us when it's created",
       [
         {
           text: 'Hurray!',

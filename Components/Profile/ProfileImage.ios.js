@@ -46,6 +46,7 @@ var ProfileImage = React.createClass({
       content = (
         <Image
           style={styles.profileImage}
+          resizeMode="contain"
           source={{uri: this.props.imageOverrideUrl}}/>
       );
     }
@@ -53,6 +54,7 @@ var ProfileImage = React.createClass({
       content = (
         <Image
           style={styles.profileImage}
+          resizeMode="contain"
           source={{uri: this.props.user.profileImageUrl}}/>
       );
     }
