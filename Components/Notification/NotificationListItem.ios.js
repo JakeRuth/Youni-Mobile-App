@@ -7,6 +7,7 @@ var Unicycle = require('../../Unicycle');
 
 var LoadMoreButton = require('../Common/LoadMoreButton');
 var ProfileImageThumbnail = require('../Common/ProfileImageThumbnail');
+var ToggleFollowButton = require('../Common/ToggleFollowButton');
 var GroupThumbnailLink = require('../Group/GroupThumbnailLink');
 var PostPopup = require('../PopupPages/PostPopup');
 var ProfilePopup = require('../PopupPages/ProfilePopup');
@@ -239,6 +240,9 @@ var NotificationsListItem = React.createClass({
             color={Colors.getPrimaryAppColor()}/>
         </TouchableHighlight>
       );
+    }
+    else if (notification.type === NotificationUtils.TYPE_FOLLOW) {
+      return <ToggleFollowButton user={notification.senderUser}/>
     }
   },
 
