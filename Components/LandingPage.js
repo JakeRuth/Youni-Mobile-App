@@ -13,6 +13,8 @@ var WelcomeUserInfoPrompts = require('./WelcomePages/WelcomeUserInfoPrompts');
 var notificationStore = require('../stores/NotificationStore');
 var searchStore = require('../stores/SearchStore');
 var userLoginMetadataStore = require('../stores/UserLoginMetadataStore');
+var trendingStore = require('../stores/trending/TrendingStore');
+var exploreFeedOrgsStore = require('../stores/group/ExploreFeedOrgsStore');
 
 var Color = require('../Utils/Common/Colors');
 var NotificationUtils = require('../Utils/Notification/NotificationUtils');
@@ -98,6 +100,16 @@ var LandingPage = React.createClass({
   },
 
   _handleAppStateChange: function(currentAppState) {
+    if (currentAppState === 'active') {
+      console.log('refreshing');
+      let userId = userLoginMetadataStore.getUserId();
+      trendingStore.requestFeedForCurrentSelection();
+      exploreFeedOrgsStore.requestTenMostRecentOrgs();
+      Unicycle.exec('refreshExploreFeed', userId, true);
+      Unicycle.exec('refreshHomeFeedData');
+      Unicycle.exec('requestHomeFeed', userId);
+    }
+    
     this.setState({
       currentAppState: currentAppState
     });
