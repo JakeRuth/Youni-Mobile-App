@@ -53,7 +53,7 @@ var Comment = React.createClass({
       comment: React.PropTypes.string.isRequired,
       commenterName: React.PropTypes.string.isRequired,
       commenterEmail: React.PropTypes.string.isRequired,
-      commenterProfilePicture: React.PropTypes.string.isRequired
+      commenterProfilePicture: React.PropTypes.string
     }).isRequired,
     onDeleteCommentAction: React.PropTypes.func.isRequired,
     post: React.PropTypes.object.isRequired,

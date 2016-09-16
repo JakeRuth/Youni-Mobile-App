@@ -22,7 +22,7 @@ var NotificationUtils = require('../Utils/Notification/NotificationUtils');
 var {
   StyleSheet,
   AsyncStorage,
-  AppStateIOS,
+  AppState,
   PushNotificationIOS
 } = ReactNative;
 
@@ -45,7 +45,7 @@ var LandingPage = React.createClass({
 
   getInitialState: function() {
     return {
-      currentAppState: AppStateIOS.currentState
+      currentAppState: AppState.currentState
     };
   },
 
@@ -60,14 +60,14 @@ var LandingPage = React.createClass({
       }
     });
 
-    AppStateIOS.addEventListener('change', this._handleAppStateChange);
+    AppState.addEventListener('change', this._handleAppStateChange);
 
     notificationStore.countUnreadNotifications();
     this._pollForNotifications();
   },
 
   componentWillUnmount: function() {
-    AppStateIOS.removeEventListener('change', this._handleAppStateChange);
+    AppState.removeEventListener('change', this._handleAppStateChange);
   },
 
   render: function() {

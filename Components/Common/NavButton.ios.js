@@ -35,7 +35,7 @@ var NavButton = React.createClass({
   propTypes: {
     onPress: React.PropTypes.func.isRequired,
     iconName: React.PropTypes.string,
-    showYouniU: React.PropTypes.string
+    showYouniU: React.PropTypes.bool
   },
 
   render: function() {
