@@ -65,7 +65,7 @@ var TrendingListItem = React.createClass({
 
   propTypes: {
     name: React.PropTypes.string.isRequired,
-    score: React.PropTypes.string.isRequired,
+    score: React.PropTypes.any.isRequired, // Tech debt: This could be a string or a number (both work)
     imageUrl: React.PropTypes.string,
     ranking: React.PropTypes.number.isRequired,
     onPress: React.PropTypes.func.isRequired
