@@ -11,8 +11,8 @@ var Spinner = require('./Common/Spinner');
 var YouniHeader = require('./Common/YouniHeader');
 var ErrorPage = require('./Common/ErrorPage');
 var UploadProfilePictureCallout = require('./Common/UploadProfilePictureCallout');
-var ProfileIcon = require('./Profile/ProfileIcon');
 var ProfileOwnerPage = require('./Profile/ProfileOwnerPage');
+var InviteFriendsPage = require('./Profile/Settings/InviteFriendsPage');
 
 var mainAppSwipePageStore = require('../stores/MainAppSwipePageStore');
 var homePostsStore = require('../stores/post/HomePostsStore');
@@ -40,7 +40,7 @@ var styles = StyleSheet.create({
     textAlign: 'center',
     color: 'white'
   },
-  profileIcon: {
+  addContactsIcon: {
     position: 'absolute',
     right: 0,
     top: 0,
@@ -109,10 +109,8 @@ var HomePage = React.createClass({
           <Text style={styles.pageHeader}>
             Me
           </Text>
-          <ProfileIcon
-            style={styles.profileIcon}
-            navigator={this.props.navigator}/>
           {this._renderHomeNavButton()}
+          {this._renderInviteContactsButton()}
         </YouniHeader>
 
         <View style={styles.feedContainer}>
@@ -174,6 +172,24 @@ var HomePage = React.createClass({
         onPress={() => mainAppSwipePageStore.setSwipeFrameAmount(-1)}>
         <Icon
           name='home'
+          size={30}
+          color='white'/>
+      </TouchableHighlight>
+    );
+  },
+
+  _renderInviteContactsButton: function() {
+    return (
+      <TouchableHighlight
+        style={styles.addContactsIcon}
+        underlayColor="transparent"
+        onPress={() => {
+          this.props.navigator.push({
+            component: InviteFriendsPage
+          });
+        }}>
+        <Icon
+          name='person-add'
           size={30}
           color='white'/>
       </TouchableHighlight>

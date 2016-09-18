@@ -8,7 +8,6 @@ var Unicycle = require('../../../Unicycle');
 var EditProfilePopup = require('../../PopupPages/EditProfilePopup');
 var BlockedUsersPopup = require('../../PopupPages/BlockedUsersPopup');
 var AppHelpPage = require('../../AppHelp/AppHelpPage');
-var InviteFriendsPage = require('./InviteFriendsPage');
 
 var AsyncStorageUtils = require('../../../Utils/Common/AsyncStorageUtils');
 var Colors = require('../../../Utils/Common/Colors');
@@ -65,14 +64,13 @@ var EditSettingsButton = React.createClass({
       options: [
         'Edit Profile',
         'Blocked Users',
-        'Invite Friends',
         'Show Invite Token',
         'Help Center',
         'Logout',
         'Cancel'
       ],
-      destructiveButtonIndex: 5,
-      cancelButtonIndex: 6,
+      destructiveButtonIndex: 4,
+      cancelButtonIndex: 5,
       tintColor: Colors.getPrimaryAppColor()
     },
     (buttonIndex) => {
@@ -83,15 +81,12 @@ var EditSettingsButton = React.createClass({
         this._onShowBlockedUsersOptionSelect();
       }
       else if (buttonIndex === 2) {
-        this._onInviteFriendsOptionSelect();
-      }
-      else if (buttonIndex === 3) {
         this._onShowInviteTokenOptionSelect();
       }
-      else if (buttonIndex === 4) {
+      else if (buttonIndex === 3) {
         this._onHelpCenterOptionSelect();
       }
-      else if (buttonIndex === 5) {
+      else if (buttonIndex === 4) {
         this._onLogoutButtonPressAreYouSurePrompt();
       }
     });
@@ -109,12 +104,6 @@ var EditSettingsButton = React.createClass({
   _onShowBlockedUsersOptionSelect: function() {
     this.props.navigator.push({
       component: BlockedUsersPopup
-    });
-  },
-
-  _onInviteFriendsOptionSelect: function() {
-    this.props.navigator.push({
-      component: InviteFriendsPage
     });
   },
   

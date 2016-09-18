@@ -22,6 +22,7 @@ var Spinner = require('../Common/Spinner');
 var NavButton = require('../Common/NavButton');
 var CreatePostButton = require('../CreatePost/CreatePostButton');
 var NotificationIcon = require('../Notification/NotificationIcon');
+var ProfileIcon = require('../Profile/ProfileIcon');
 
 var {
   View,
@@ -59,10 +60,19 @@ var styles = StyleSheet.create({
   searchIconContainer: {
     position: 'absolute',
     top: 0,
+    right: 36,
+    paddingTop: 28,
+    paddingRight: 6,
+    paddingLeft: 15,
+    paddingBottom: 15
+  },
+  profileIcon: {
+    position: 'absolute',
+    top: 0,
     right: 0,
     paddingTop: 26,
-    paddingRight: 12,
-    paddingLeft: 30,
+    paddingRight: 6,
+    paddingLeft: 6,
     paddingBottom: 15
   },
   trendingPageNavButtonContainer: {
@@ -136,6 +146,9 @@ var SearchPage = React.createClass({
             style={styles.notificationIcon}
             navigator={this.props.navigator}/>
           {this._renderSearchIcon()}
+          <ProfileIcon
+            style={styles.profileIcon}
+            navigator={this.props.navigator}/>
         </YouniHeader>
 
         <ScrollView
@@ -206,7 +219,7 @@ var SearchPage = React.createClass({
         onPress={this.toggleShowSearchBarState}>
         <Icon
           name='search'
-          size={30}
+          size={28}
           color='white'/>
       </TouchableHighlight>
     );
