@@ -77,19 +77,25 @@ var UserListItem = React.createClass({
 
   _onUserListItemPress: function(email) {
     if (userLoginMetadataStore.getEmail() === email) {
-      return; // you shouldn't be allowed to click on your own profile
+      //required within this function to avoid circular dependencies
+      var ProfileOwnerPage = require('../Profile/ProfileOwnerPage');
+
+      this.props.navigator.push({
+        component: ProfileOwnerPage
+      });
     }
+    else {
+      //required within this function to avoid circular dependencies
+      var ProfilePopup = require('../PopupPages/ProfilePopup');
 
-    //required within this function to avoid circular dependencies
-    var ProfilePopup = require('../PopupPages/ProfilePopup');
-
-    this.props.navigator.push({
-      component: ProfilePopup,
-      passProps: {
-        profileUserEmail: this.props.user.email,
-        onBackArrowPress: () => statusBarStyleStore.setStyle(IosStatusBarStyles.LIGHT_CONTENT)
-      }
-    });
+      this.props.navigator.push({
+        component: ProfilePopup,
+        passProps: {
+          profileUserEmail: this.props.user.email,
+          onBackArrowPress: () => statusBarStyleStore.setStyle(IosStatusBarStyles.LIGHT_CONTENT)
+        }
+      });
+    }
   },
   
   _getDisplayName: function(user) {

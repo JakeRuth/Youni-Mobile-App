@@ -13,6 +13,7 @@ var GroupListItem = require('../Group/GroupListItem');
 var RequestToCreateGroup = require('../Group/RequestToCreateGroup');
 var ProfilePopup = require('../PopupPages/ProfilePopup');
 var GroupPopup = require('../PopupPages/GroupPopup');
+var ProfileOwnerPage = require('../Profile/ProfileOwnerPage');
 
 var Colors = require('../../Utils/Common/Colors');
 var IosStatusBarStyles = require('../../Utils/Common/IosStatusBarStyles');
@@ -257,15 +258,20 @@ var TrendingPage = React.createClass({
   },
 
   _onUserPress: function(userEmail) {
-    if (userEmail !== userLoginMetadataStore.getEmail())
-
-    this.props.navigator.push({
-      component: ProfilePopup,
-      passProps: {
-        profileUserEmail: userEmail,
-        onBackArrowPress: () => statusBarStyleStore.setStyle(IosStatusBarStyles.LIGHT_CONTENT)
-      }
-    })
+    if (userEmail == userLoginMetadataStore.getEmail()) {
+      this.props.navigator.push({
+        component: ProfileOwnerPage
+      });
+    }
+    else {
+      this.props.navigator.push({
+        component: ProfilePopup,
+        passProps: {
+          profileUserEmail: userEmail,
+          onBackArrowPress: () => statusBarStyleStore.setStyle(IosStatusBarStyles.LIGHT_CONTENT)
+        }
+      });
+    }
   },
 
   _onGroupPress: function(group) {

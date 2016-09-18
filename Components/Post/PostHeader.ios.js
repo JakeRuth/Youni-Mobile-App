@@ -8,6 +8,7 @@ var DeletePostIcon = require('./DeletePostIcon');
 var FlagPostIcon = require('./FlagPostIcon');
 var ProfilePopup = require('../PopupPages/ProfilePopup');
 var ProfileImageThumbnail = require('../Common/ProfileImageThumbnail');
+var ProfileOwnerPage = require('../Profile/ProfileOwnerPage');
 
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var statusBarStyleStore = require('../../stores/StatusBarStyleStore');
@@ -59,7 +60,6 @@ var PostHeader = React.createClass({
   propTypes: {
     post: React.PropTypes.object.isRequired,
     renderedFromProfileView: React.PropTypes.bool,
-    hideActionButton: React.PropTypes.bool,
     navigator: React.PropTypes.object
   },
 
@@ -77,7 +77,7 @@ var PostHeader = React.createClass({
         </View>
       );
     }
-    else if (!this.props.hideActionButton) {
+    else {
       actionButton = (
         <View style={styles.actionButtonContainer}>
           <FlagPostIcon postId={this.props.post.postIdString}/>
@@ -115,7 +115,16 @@ var PostHeader = React.createClass({
   },
 
   onProfilePress: function() {
-    if (this._shouldDisplayProfilePopup()) {
+    if (this.props.renderedFromProfileView) {
+      return;
+    }
+
+    if (this._isViewerPostOwner()) {
+      this.props.navigator.push({
+        component: ProfileOwnerPage
+      });
+    }
+    else {
       this.props.navigator.push({
         component: ProfilePopup,
         passProps: {
@@ -127,7 +136,7 @@ var PostHeader = React.createClass({
   },
 
   _shouldDisplayProfilePopup: function() {
-    return !this._isViewerPostOwner() && !this.props.renderedFromProfileView && !this.props.hideActionButton;
+    return !this._isViewerPostOwner() && !this.props.renderedFromProfileView;
   },
 
   _isViewerPostOwner: function() {
