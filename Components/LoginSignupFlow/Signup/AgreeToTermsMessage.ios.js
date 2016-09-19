@@ -3,7 +3,7 @@
 var React = require('react');
 var ReactNative = require('react-native');
 
-var EULAAgreementPage = require('../EULAAgreementPage');
+var LoginSignupNavigationState = require('../../../Utils/Enums/LoginSignupNavigationState');
 
 var {
   Text,
@@ -51,7 +51,7 @@ var AgreeToTermsMessage = React.createClass({
         <Text style={styles.bottom}>
           <Text
             style={styles.underline}
-            onPress={() => this.props.navigator.push({ component: EULAAgreementPage })}>
+            onPress={() => this.props.navigator.push(LoginSignupNavigationState.AGREE_TO_TERMS_ROUTE)}>
             Terms
           </Text>
           {' & '}

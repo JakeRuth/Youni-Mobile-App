@@ -15,6 +15,7 @@ var IosStatusBarStyles = require('../../../Utils/Common/IosStatusBarStyles');
 
 var userLoginMetadataStore = require('../../../stores/UserLoginMetadataStore');
 var statusBarStyleStore = require('../../../stores/StatusBarStyleStore');
+var userLoginStatusStore = require('../../../stores/common/UserLoginStatusStore');
 
 var {
   View,
@@ -167,6 +168,7 @@ var EditSettingsButton = React.createClass({
 
     statusBarStyleStore.setStyle(IosStatusBarStyles.LIGHT_CONTENT);
     this.props.navigator.popToTop();
+    userLoginStatusStore.setIsLoggedIn(false);
   }
 
 });
