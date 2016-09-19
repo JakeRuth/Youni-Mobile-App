@@ -4,7 +4,7 @@ var React = require('react');
 var ReactNative = require('react-native');
 var Icon = require('react-native-vector-icons/MaterialIcons');
 
-var AppNavigationState = require('../../Utils/Enums/AppNavigationState');
+var ProfileOwnerPage = require('./ProfileOwnerPage');
 
 var {
   TouchableHighlight
@@ -19,7 +19,9 @@ var ProfileIcon = React.createClass({
   render: function() {
     return (
       <TouchableHighlight
-        onPress={() => this.props.navigator.push(AppNavigationState.PROFILE_OWNER_ROUTE)}
+        onPress={() => this.props.navigator.push({
+          component: ProfileOwnerPage
+        })}
         underlayColor='transparent'
         style={this.props.style}>
         <Icon

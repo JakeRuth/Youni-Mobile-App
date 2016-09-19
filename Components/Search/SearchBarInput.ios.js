@@ -49,7 +49,7 @@ var SearchBarInput = React.createClass({
     value: React.PropTypes.string,
     placeholder: React.PropTypes.string.isRequired,
     onChangeText: React.PropTypes.func.isRequired,
-    onSubmitEditing: React.PropTypes.func.isRequired,
+    onSubmitEditing: React.PropTypes.func,
     onClearSearchPress: React.PropTypes.func.isRequired,
     active: React.PropTypes.bool,
     alwaysShowClearButton: React.PropTypes.bool

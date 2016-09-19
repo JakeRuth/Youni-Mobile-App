@@ -5,10 +5,10 @@ var ReactNative = require('react-native');
 var Icon = require('react-native-vector-icons/MaterialIcons');
 var Unicycle = require('../../Unicycle');
 
+var NotificationsPopup = require('../PopupPages/NotificationsPopup');
 var NotificationCallout = require('./NotificationCallout');
 
 var notificationStore = require('../../stores/NotificationStore');
-var AppNavigationState = require('../../Utils/Enums/AppNavigationState');
 
 var {
   View,
@@ -49,7 +49,9 @@ var NotificationIcon = React.createClass({
           <TouchableHighlight
             onPress={()=>{
               notificationStore.resetNumUnreadNotifications();
-              this.props.navigator.push(AppNavigationState.NOTIFICATION_ROUTE);
+              this.props.navigator.push({
+                component: NotificationsPopup
+              });
             }}
             underlayColor='transparent'>
             <Icon
