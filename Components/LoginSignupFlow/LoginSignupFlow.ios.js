@@ -17,11 +17,11 @@ var ClassYearPicker = require('./Signup/ClassYearPicker');
 var AgreeToTermsMessage = require('./Signup/AgreeToTermsMessage');
 var SuccessfulSignupMessage = require('./Signup/SuccessfulSignupMessage');
 var SignupProgressBar = require('./Signup/SignupProgressBar');
+var ForgotPasswordPage = require('./ForgotPasswordPage');
 
 var Color = require('../../Utils/Common/Colors');
 var AutoLoginUtils = require('../../Utils/AutoLoginUtils');
 var LogoImageSize = require('../../Utils/Enums/LogoImageSize');
-var LoginSignupNavigationState = require('../../Utils/Enums/LoginSignupNavigationState');
 var loginStore = require('../../stores/LoginStore');
 var signupStore = require('../../stores/SignupStore');
 var userLoginStatusStore = require('../../stores/common/UserLoginStatusStore');
@@ -353,7 +353,9 @@ var LoginSignupFlow = React.createClass({
   },
 
   _onForgotPasswordClick: function () {
-    this.props.navigator.push(LoginSignupNavigationState.FORGOT_PASSWORD_ROUTE);
+    this.props.navigator.push({
+      component: ForgotPasswordPage
+    });
   },
 
   _onSuccessfulLoginCallback: function() {
