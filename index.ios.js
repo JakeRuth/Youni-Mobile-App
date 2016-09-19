@@ -4,15 +4,16 @@ var React = require('react');
 var ReactNative = require('react-native');
 var Unicycle = require('./Unicycle');
 
-var statusBarStyleStore = require('./stores/StatusBarStyleStore');
-var LoginSignupFlow = require('./Components/LoginSignupFlow/LoginSignupFlow');
+var LoggedInUserBasePage = require('./Components/LoggedInUserBasePage');
+var LoggedOutUserBasePage = require('./Components/LoggedOutUserBasePage');
+
+var userLoginStatusStore = require('./stores/common/UserLoginStatusStore');
 
 var {
   View,
   StatusBar,
   StyleSheet,
-  AppRegistry,
-  NavigatorIOS
+  AppRegistry
 } = ReactNative;
 
 var styles = StyleSheet.create({
@@ -24,21 +25,23 @@ var styles = StyleSheet.create({
 var RootNavigator = React.createClass({
 
   mixins: [
-    Unicycle.listenTo(statusBarStyleStore)
+    Unicycle.listenTo(userLoginStatusStore)
   ],
 
   render: function() {
+    var content;
+
+    if (userLoginStatusStore.isLoggedIn()) {
+      content = <LoggedInUserBasePage/>;
+    }
+    else {
+      content = <LoggedOutUserBasePage/>;
+    }
+
     return (
       <View style={styles.container}>
-        <StatusBar barStyle={statusBarStyleStore.getStyle()}/>
-        <NavigatorIOS
-          style={styles.container}
-          navigationBarHidden={true}
-          interactivePopGestureEnabled={true}
-          initialRoute={{
-            title: '', // React Native as of 0.18.0 throws a warning if this isn't specified
-            component: LoginSignupFlow
-          }}/>
+        <StatusBar barStyle='light-content'/>
+        {content}
       </View>
     );
   }

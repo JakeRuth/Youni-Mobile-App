@@ -4,8 +4,10 @@ var React = require('react');
 var ReactNative = require('react-native');
 var Icon = require('react-native-vector-icons/MaterialIcons');
 var Unicycle = require('../../Unicycle');
-var NotificationCallout = require('./NotificationCallout');
+
 var NotificationsPopup = require('../PopupPages/NotificationsPopup');
+var NotificationCallout = require('./NotificationCallout');
+
 var notificationStore = require('../../stores/NotificationStore');
 
 var {

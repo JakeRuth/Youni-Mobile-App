@@ -20,6 +20,7 @@ var Color = require('../Utils/Common/Colors');
 var NotificationUtils = require('../Utils/Notification/NotificationUtils');
 
 var {
+  View,
   StyleSheet,
   AsyncStorage,
   AppState,
@@ -27,7 +28,7 @@ var {
 } = ReactNative;
 
 var styles = StyleSheet.create({
-  tabBarContainer: {
+  container: {
     flex: 1
   }
 });
@@ -71,11 +72,13 @@ var LandingPage = React.createClass({
   },
 
   render: function() {
+    var content;
+
     if (userLoginMetadataStore.getShowInitialInfoPrompts()) {
-      return <WelcomeUserInfoPrompts {...this.props}/>;
+      content = <WelcomeUserInfoPrompts {...this.props}/>;
     }
     else {
-      return (
+      content = (
         <BaseAppSwiper>
           <TrendingPage {...this.props}/>
           <SearchPage {...this.props}/>
@@ -83,6 +86,12 @@ var LandingPage = React.createClass({
         </BaseAppSwiper>
       );
     }
+
+    return (
+      <View style={styles.container}>
+        {content}
+      </View>
+    )
   },
 
   _onNotificationRegistration: function(deviceToken) {

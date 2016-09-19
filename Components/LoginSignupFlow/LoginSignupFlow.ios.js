@@ -5,12 +5,10 @@ var ReactNative = require('react-native');
 var DismissKeyboard = require('dismissKeyboard');
 var Unicycle = require('../../Unicycle');
 
-var LandingPage = require('../LandingPage');
 var LoginSignupSelector = require('./LoginSignupSelector');
 var FlowNavigationFooter = require('./FlowNavigationFooter');
 var CentralizedActionButton = require('./CentralizedActionButton');
 var Spinner = require('../Common/Spinner');
-var ForgotPasswordPage = require('./ForgotPasswordPage');
 
 var LoginForm = require('./Login/LoginForm');
 var SignupPartOne = require('./Signup/SignupPartOne');
@@ -19,12 +17,14 @@ var ClassYearPicker = require('./Signup/ClassYearPicker');
 var AgreeToTermsMessage = require('./Signup/AgreeToTermsMessage');
 var SuccessfulSignupMessage = require('./Signup/SuccessfulSignupMessage');
 var SignupProgressBar = require('./Signup/SignupProgressBar');
+var ForgotPasswordPage = require('./ForgotPasswordPage');
 
 var Color = require('../../Utils/Common/Colors');
 var AutoLoginUtils = require('../../Utils/AutoLoginUtils');
 var LogoImageSize = require('../../Utils/Enums/LogoImageSize');
 var loginStore = require('../../stores/LoginStore');
 var signupStore = require('../../stores/SignupStore');
+var userLoginStatusStore = require('../../stores/common/UserLoginStatusStore');
 var LoginSignupFlowAlerts = require('./LoginSignupFlowAlerts');
 
 var {
@@ -359,16 +359,7 @@ var LoginSignupFlow = React.createClass({
   },
 
   _onSuccessfulLoginCallback: function() {
-    this.props.navigator.push({
-      component: LandingPage
-    });
-
-    // give the navigator animation time to slide in the LandingPage
-    setTimeout(function() {
-      this.setState({
-        isAutoLoginRequestInFlight: false
-      });
-    }.bind(this), 500);
+    userLoginStatusStore.setIsLoggedIn(true);
   },
 
   _onFailedLoginCallback: function() {

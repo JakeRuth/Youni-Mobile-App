@@ -3,8 +3,10 @@
 var React = require('react');
 var ReactNative = require('react-native');
 var Unicycle = require('../../Unicycle');
+
 var OverlayPage = require('../Common/OverlayPage');
 var Spinner = require('../Common/Spinner');
+
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 var Color = require('../../Utils/Common/Colors');
 
@@ -13,12 +15,14 @@ var {
   StyleSheet,
   View,
   TextInput,
-  AlertIOS
+  AlertIOS,
+  Dimensions
 } = ReactNative;
 
 var styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    height: Dimensions.get('window').height
   },
   message: {
     textAlign: 'center',
@@ -93,7 +97,7 @@ var ForgotPasswordPage = React.createClass({
         <TextInput
           style={styles.emailInput}
           placeholder='email@college.edu'
-          placeholderTextColor={'lightgray'}
+          placeholderTextColor='lightgray'
           onChangeText={(text) => { this.setState({ email: text }); }}/>
         <Text
           style={[styles.submitEmailForPasswordResetButton, { backgroundColor: Color.getPrimaryAppColor() }]}

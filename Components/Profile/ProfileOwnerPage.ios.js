@@ -4,16 +4,6 @@ var React = require('react');
 var ReactNative = require('react-native');
 var Unicycle = require('../../Unicycle');
 
-var profileOwnerStore = require('../../stores/profile/ProfileOwnerStore');
-var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
-var statusBarStyleStore = require('../../stores/StatusBarStyleStore');
-var showUploadProfileImagePromptStore = require('../../stores/ShowUploadProfileImagePromptStore');
-
-var PostViewType = require('../../Utils/Enums/PostViewType');
-var AlignCallout = require('../../Utils/Enums/AlignCallout');
-var Colors = require('../../Utils/Common/Colors');
-var IosStatusBarStyles = require('../../Utils/Common/IosStatusBarStyles');
-
 var ProfileInfo = require('./ProfileInfo');
 var ProfilePostList = require('./ProfilePostList');
 var EditSettingsButton = require('./Settings/EditSettingsButton');
@@ -23,6 +13,14 @@ var Spinner = require('../Common/Spinner');
 var BackArrow = require('../Common/BackArrow');
 var UploadProfilePictureCallout = require('../Common/UploadProfilePictureCallout');
 var EditProfilePopup = require('../PopupPages/EditProfilePopup');
+
+var profileOwnerStore = require('../../stores/profile/ProfileOwnerStore');
+var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
+var showUploadProfileImagePromptStore = require('../../stores/ShowUploadProfileImagePromptStore');
+
+var PostViewType = require('../../Utils/Enums/PostViewType');
+var AlignCallout = require('../../Utils/Enums/AlignCallout');
+var Colors = require('../../Utils/Common/Colors');
 
 var {
   View,
@@ -59,7 +57,6 @@ var ProfileOwnerPage = React.createClass({
   ],
 
   componentDidMount: function() {
-    statusBarStyleStore.setDelayedStyle(IosStatusBarStyles.DEFAULT, 100);
     Unicycle.exec('loadOwnerUsersProfile', userLoginMetadataStore.getEmail());
     this._requestProfilePosts();
   },
@@ -117,10 +114,7 @@ var ProfileOwnerPage = React.createClass({
           <Text style={[styles.pageHeader, { color: Colors.getPrimaryAppColor() }]}>
             {profileOwnerStore.getFirstName() + ' ' + profileOwnerStore.getLastName()}
           </Text>
-          <BackArrow onPress={() => {
-            this.props.navigator.pop();
-            statusBarStyleStore.setStyle(IosStatusBarStyles.LIGHT_CONTENT);
-          }}/>
+          <BackArrow onPress={() => this.props.navigator.pop()}/>
         </YouniHeader>
         <EditSettingsButton
           user={profileOwnerStore.getUserJson()}

@@ -13,10 +13,8 @@ var YouniHeader = require('../Common/YouniHeader');
 var BackArrow = require('../Common/BackArrow');
 
 var Colors = require('../../Utils/Common/Colors');
-var IosStatusBarStyles = require('../../Utils/Common/IosStatusBarStyles');
 var exploreSearchOrgsStore = require('../../stores/group/ExploreSearchOrgsStore');
 var exploreFeedOrgsStore = require('../../stores/group/ExploreFeedOrgsStore');
-var statusBarStyleStore = require('../../stores/StatusBarStyleStore');
 
 var {
   View,
@@ -84,7 +82,6 @@ var ExploreGroupsPopup = React.createClass({
             setTimeout(function() {
               exploreFeedOrgsStore.resetState();
               exploreFeedOrgsStore.requestTenMostRecentOrgs();
-              statusBarStyleStore.setStyle(IosStatusBarStyles.LIGHT_CONTENT);
             }, 150);
             this.props.navigator.pop();
           }}/>

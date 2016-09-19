@@ -51,7 +51,9 @@ var AgreeToTermsMessage = React.createClass({
         <Text style={styles.bottom}>
           <Text
             style={styles.underline}
-            onPress={() => this.props.navigator.push({ component: EULAAgreementPage })}>
+            onPress={() => this.props.navigator.push({
+              component: EULAAgreementPage
+            })}>
             Terms
           </Text>
           {' & '}

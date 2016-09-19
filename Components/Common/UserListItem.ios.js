@@ -7,8 +7,6 @@ var ProfileImageThumbnail = require('./ProfileImageThumbnail');
 var ToggleFollowButton = require('./ToggleFollowButton');
 
 var Colors = require('../../Utils/Common/Colors');
-var IosStatusBarStyles = require('../../Utils/Common/IosStatusBarStyles');
-var statusBarStyleStore = require('../../stores/StatusBarStyleStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 
 var {
@@ -91,8 +89,7 @@ var UserListItem = React.createClass({
       this.props.navigator.push({
         component: ProfilePopup,
         passProps: {
-          profileUserEmail: this.props.user.email,
-          onBackArrowPress: () => statusBarStyleStore.setStyle(IosStatusBarStyles.LIGHT_CONTENT)
+          profileUserEmail: this.props.user.email
         }
       });
     }

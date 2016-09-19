@@ -16,12 +16,10 @@ var GroupPopup = require('../PopupPages/GroupPopup');
 var ProfileOwnerPage = require('../Profile/ProfileOwnerPage');
 
 var Colors = require('../../Utils/Common/Colors');
-var IosStatusBarStyles = require('../../Utils/Common/IosStatusBarStyles');
 var TrendingFeedFilters = require('../../Utils/Enums/TrendingFeedFilters');
 var TrendingFeedType = require('../../Utils/Enums/TrendingFeedType');
 
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
-var statusBarStyleStore = require('../../stores/StatusBarStyleStore');
 var trendingStore = require('../../stores/trending/TrendingStore');
 var mainAppSwipePageStore = require('../../stores/MainAppSwipePageStore');
 
@@ -267,8 +265,7 @@ var TrendingPage = React.createClass({
       this.props.navigator.push({
         component: ProfilePopup,
         passProps: {
-          profileUserEmail: userEmail,
-          onBackArrowPress: () => statusBarStyleStore.setStyle(IosStatusBarStyles.LIGHT_CONTENT)
+          profileUserEmail: userEmail
         }
       });
     }

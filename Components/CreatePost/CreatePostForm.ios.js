@@ -13,10 +13,8 @@ var BackArrow = require('../Common/BackArrow');
 var createPostStore = require('../../stores/CreatePostStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var homePostsStore = require('../../stores/post/HomePostsStore');
-var statusBarStyleStore = require('../../stores/StatusBarStyleStore');
 
 var Colors = require('../../Utils/Common/Colors');
-var IosStatusBarStyles = require('../../Utils/Common/IosStatusBarStyles');
 
 var {
   View,
@@ -166,13 +164,11 @@ var CreatePostForm = React.createClass({
       Unicycle.exec('requestHomeFeed', userLoginMetadataStore.getUserId());
       Unicycle.exec('refreshExploreFeed', userLoginMetadataStore.getUserId(), true);
 
-      statusBarStyleStore.setStyle(IosStatusBarStyles.LIGHT_CONTENT);
       this.props.navigator.pop();
     });
   },
 
   _onBackArrowPress: function() {
-    statusBarStyleStore.setStyle(IosStatusBarStyles.LIGHT_CONTENT);
     this._clearCreatePostData();
     this.props.navigator.pop();
   },
