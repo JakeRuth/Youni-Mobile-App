@@ -9,8 +9,6 @@ var ProfileImageThumbnail = require('../../Common/ProfileImageThumbnail');
 var TruncatedText = require('../../Common/TruncatedText');
 
 var Colors = require('../../../Utils/Common/Colors');
-var IosStatusBarStyles = require('../../../Utils/Common/IosStatusBarStyles');
-var statusBarStyleStore = require('../../../stores/StatusBarStyleStore');
 var userLoginMetadataStore = require('../../../stores/UserLoginMetadataStore');
 
 var {
@@ -114,8 +112,7 @@ var Comment = React.createClass({
       this.props.navigator.push({
         component: ProfilePopup,
         passProps: {
-          profileUserEmail: this.props.comment.commenterEmail,
-          onBackArrowPress: () => statusBarStyleStore.setStyle(IosStatusBarStyles.LIGHT_CONTENT)
+          profileUserEmail: this.props.comment.commenterEmail
         }
       })
     }

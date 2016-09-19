@@ -7,7 +7,6 @@ var Unicycle = require('./Unicycle');
 var LoggedInUserBasePage = require('./Components/LoggedInUserBasePage');
 var LoggedOutUserBasePage = require('./Components/LoggedOutUserBasePage');
 
-var statusBarStyleStore = require('./stores/StatusBarStyleStore');
 var userLoginStatusStore = require('./stores/common/UserLoginStatusStore');
 
 var {
@@ -26,7 +25,6 @@ var styles = StyleSheet.create({
 var RootNavigator = React.createClass({
 
   mixins: [
-    Unicycle.listenTo(statusBarStyleStore),
     Unicycle.listenTo(userLoginStatusStore)
   ],
 
@@ -42,7 +40,7 @@ var RootNavigator = React.createClass({
 
     return (
       <View style={styles.container}>
-        <StatusBar barStyle={statusBarStyleStore.getStyle()}/>
+        <StatusBar barStyle='light-content'/>
         {content}
       </View>
     );

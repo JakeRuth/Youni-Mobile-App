@@ -11,9 +11,7 @@ var ProfileImageThumbnail = require('../Common/ProfileImageThumbnail');
 var ProfileOwnerPage = require('../Profile/ProfileOwnerPage');
 
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
-var statusBarStyleStore = require('../../stores/StatusBarStyleStore');
 var Colors = require('../../Utils/Common/Colors');
-var IosStatusBarStyles = require('../../Utils/Common/IosStatusBarStyles');
 
 var {
   View,
@@ -128,8 +126,7 @@ var PostHeader = React.createClass({
       this.props.navigator.push({
         component: ProfilePopup,
         passProps: {
-          profileUserEmail: this.props.post.posterEmail,
-          onBackArrowPress: () => statusBarStyleStore.setStyle(IosStatusBarStyles.LIGHT_CONTENT)
+          profileUserEmail: this.props.post.posterEmail
         }
       });
     }

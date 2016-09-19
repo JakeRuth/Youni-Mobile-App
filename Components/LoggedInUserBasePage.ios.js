@@ -6,6 +6,7 @@ var ReactNative = require('react-native');
 var YouniNavigator = require('./Common/YouniNavigator');
 var LandingPage = require('./LandingPage');
 var ProfileOwnerPage = require('./Profile/ProfileOwnerPage');
+var NotificationsPopup = require('./PopupPages/NotificationsPopup');
 
 var AppNavigationState = require('../Utils/Enums/AppNavigationState');
 
@@ -40,12 +41,15 @@ var LoggedInUserBasePage = React.createClass({
       routeJson = route;
     }
 
-    switch (routeJson.id) {
-      case AppNavigationState.INITIAL_ROUTE.id:
+    switch (routeJson) {
+      case AppNavigationState.INITIAL_ROUTE:
         return <LandingPage navigator={navigator}/>;
       
-      case AppNavigationState.PROFILE_OWNER_ROUTE.id:
+      case AppNavigationState.PROFILE_OWNER_ROUTE:
         return <ProfileOwnerPage navigator={navigator}/>;
+      
+      case AppNavigationState.NOTIFICATION_ROUTE:
+        return <NotificationsPopup navigator={navigator}/>;
 
       default:
         return <View/>;

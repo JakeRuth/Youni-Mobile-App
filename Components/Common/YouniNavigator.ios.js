@@ -23,7 +23,7 @@ var YouniNavigator = React.createClass({
       gestures: {
         pop: {
           ...Navigator.SceneConfigs.FloatFromRight.gestures.pop,
-          edgeHitWidth: Dimensions.get('window').width / 2
+          edgeHitWidth: Dimensions.get('window').width / 3
         }
       }
     };

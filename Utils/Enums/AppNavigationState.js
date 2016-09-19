@@ -8,6 +8,10 @@ var AppNavigationState = {
   
   PROFILE_OWNER_ROUTE: {
     id: 'profileOwner'
+  },
+
+  NOTIFICATION_ROUTE: {
+    id: 'notification'
   }
 
 };

@@ -5,9 +5,6 @@ var ReactNative = require('react-native');
 var immutable = require('immutable');
 var Unicycle = require('../../Unicycle');
 
-var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
-var statusBarStyleStore = require('../../stores/StatusBarStyleStore');
-
 var ProfileInfo = require('../Profile/ProfileInfo');
 var ProfilePostList = require('../Profile/ProfilePostList');
 var BlockUserButton = require('../Profile/BlockUserButton');
@@ -20,7 +17,8 @@ var UserUtils = require('../../Utils/User/UserUtils');
 var PostUtils = require('../../Utils/Post/PostUtils');
 var PostViewType = require('../../Utils/Enums/PostViewType');
 var Colors = require('../../Utils/Common/Colors');
-var IosStatusBarStyles = require('../../Utils/Common/IosStatusBarStyles');
+
+var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 
 var INITIAL_PAGE_OFFSET = 0;
 var MAX_POSTS_PER_PAGE = 51;
@@ -52,8 +50,7 @@ var ProfilePopup = React.createClass({
 
   propTypes: {
     navigator: React.PropTypes.object.isRequired,
-    profileUserEmail: React.PropTypes.string.isRequired,
-    onBackArrowPress: React.PropTypes.func
+    profileUserEmail: React.PropTypes.string.isRequired
   },
 
   getInitialState: function() {
@@ -71,7 +68,6 @@ var ProfilePopup = React.createClass({
   },
 
   componentDidMount: function() {
-    statusBarStyleStore.setDelayedStyle(IosStatusBarStyles.DEFAULT, 100);
     this._requestProfileInformation();
     this._requestUserPosts(true);
     this._requestIsUserFollowing();
@@ -104,9 +100,6 @@ var ProfilePopup = React.createClass({
             {this._getBannerTitle()}
           </Text>
           <BackArrow onPress={() => {
-            if (this.props.onBackArrowPress) {
-              this.props.onBackArrowPress();
-            }
             this.props.navigator.pop();
           }}/>
           <BlockUserButton

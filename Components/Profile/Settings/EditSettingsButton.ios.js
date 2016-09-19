@@ -11,10 +11,8 @@ var AppHelpPage = require('../../AppHelp/AppHelpPage');
 
 var AsyncStorageUtils = require('../../../Utils/Common/AsyncStorageUtils');
 var Colors = require('../../../Utils/Common/Colors');
-var IosStatusBarStyles = require('../../../Utils/Common/IosStatusBarStyles');
 
 var userLoginMetadataStore = require('../../../stores/UserLoginMetadataStore');
-var statusBarStyleStore = require('../../../stores/StatusBarStyleStore');
 var userLoginStatusStore = require('../../../stores/common/UserLoginStatusStore');
 
 var {
@@ -166,7 +164,6 @@ var EditSettingsButton = React.createClass({
     Unicycle.exec('reInitProfilePageState');
     userLoginMetadataStore.setNetworkColor(Colors.DEFAULT_APP_PRIMARY);
 
-    statusBarStyleStore.setStyle(IosStatusBarStyles.LIGHT_CONTENT);
     this.props.navigator.popToTop();
     userLoginStatusStore.setIsLoggedIn(false);
   }
