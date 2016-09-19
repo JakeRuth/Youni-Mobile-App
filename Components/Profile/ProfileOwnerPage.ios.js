@@ -32,8 +32,7 @@ var {
 
 var styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: 'white'
+    flex: 1
   },
   pageHeader: {
     fontSize: 20,

@@ -22,8 +22,7 @@ var {
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: Dimensions.get('window').height,
-    backgroundColor: 'white'
+    height: Dimensions.get('window').height
   },
   message: {
     textAlign: 'center',

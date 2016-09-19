@@ -18,8 +18,7 @@ var {
 var styles = StyleSheet.create({
   eulaContainer: {
     flex: 1,
-    padding: 5,
-    backgroundColor: 'white'
+    padding: 5
   },
   pageHeader: {
     fontSize: 20,

@@ -11,7 +11,7 @@ var {
 
 var styles = StyleSheet.create({
   container: {
-    flex: 1
+    backgroundColor: 'white'
   }
 });
 
@@ -29,8 +29,8 @@ var YouniNavigator = React.createClass({
     };
 
     return (
-      <Navigator 
-        style={styles.container}
+      <Navigator
+        sceneStyle={styles.container}
         configureScene={() => FloatFromRight}
         {...this.props}/>
     );
