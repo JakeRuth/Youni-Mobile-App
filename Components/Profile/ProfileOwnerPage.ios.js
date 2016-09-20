@@ -49,6 +49,7 @@ var styles = StyleSheet.create({
 var ProfileOwnerPage = React.createClass({
 
   propTypes: {
+    hideBackButton: React.PropTypes.bool,
     navigator: React.PropTypes.object.isRequired
   },
 
@@ -63,16 +64,12 @@ var ProfileOwnerPage = React.createClass({
 
   render: function() {
     var isProfileInfoLoading = profileOwnerStore.isProfileInfoLoading(),
-        anyErrorsLoadingPage = profileOwnerStore.anyErrorsLoadingPage(),
         content;
 
     if (isProfileInfoLoading) {
       content = (
         <Spinner/>
       );
-    }
-    else if (anyErrorsLoadingPage) {
-      content = <ErrorPage reloadButtonAction={this._onErrorPageReload}/>;
     }
     else {
       content = (
@@ -110,16 +107,7 @@ var ProfileOwnerPage = React.createClass({
     return (
       <View style={styles.container}>
 
-        <YouniHeader>
-          <Text style={[styles.pageHeader, { color: Colors.getPrimaryAppColor() }]}>
-            {profileOwnerStore.getFirstName() + ' ' + profileOwnerStore.getLastName()}
-          </Text>
-          <BackArrow onPress={() => this.props.navigator.pop()}/>
-        </YouniHeader>
-        <EditSettingsButton
-          user={profileOwnerStore.getUserJson()}
-          navigator={this.props.navigator}/>
-        
+        {this._renderHeader()}
         {content}
 
         <View style={styles.uploadProfileImageCalloutContainer}>
@@ -142,6 +130,36 @@ var ProfileOwnerPage = React.createClass({
 
       </View>
     );
+  },
+
+  _renderHeader: function() {
+    if (this.props.hideBackButton) {
+      return (
+        <YouniHeader color={Colors.getPrimaryAppColor()}>
+          <Text style={[styles.pageHeader, { color: 'white' }]}>
+            {profileOwnerStore.getFirstName() + ' ' + profileOwnerStore.getLastName()}
+          </Text>
+          <EditSettingsButton
+            user={profileOwnerStore.getUserJson()}
+            color="white"
+            navigator={this.props.navigator}/>
+        </YouniHeader>
+      );
+    }
+    else {
+      return (
+        <YouniHeader>
+          <Text style={[styles.pageHeader, { color: Colors.getPrimaryAppColor() }]}>
+            {profileOwnerStore.getFirstName() + ' ' + profileOwnerStore.getLastName()}
+          </Text>
+          <BackArrow onPress={() => this.props.navigator.pop()}/>
+          <EditSettingsButton
+            user={profileOwnerStore.getUserJson()}
+            color={Colors.getPrimaryAppColor()}
+            navigator={this.props.navigator}/>
+        </YouniHeader>
+      );
+    }
   },
 
   handleScroll(e) {

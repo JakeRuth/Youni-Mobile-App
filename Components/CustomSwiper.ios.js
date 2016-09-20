@@ -12,7 +12,7 @@ var ReactNative = require('react-native');
 var TimerMixin = require('react-timer-mixin');
 
 var Unicycle = require('../Unicycle');
-var mainAppSwipePageStore = require('../stores/MainAppSwipePageStore');
+var mainAppSwipePageStore = require('../stores/common/MainAppSwipePageStore');
 
 var {
   StyleSheet,
@@ -25,7 +25,6 @@ var {
   Platform,
   ActivityIndicator
 } = ReactNative;
-
 
 let { width, height } = Dimensions.get('window')
 
@@ -364,6 +363,7 @@ var CustomSwiper = React.createClass({
       offset: offset,
       loopJump: loopJump,
     })
+    mainAppSwipePageStore.setCurrentPageIndex(index);
   },
 
   /**
@@ -643,7 +643,7 @@ var CustomSwiper = React.createClass({
   },
   
   _performHackyAutoScroll: function() {
-    var mainAppSwipePageStore = require('../stores/MainAppSwipePageStore');
+    var mainAppSwipePageStore = require('../stores/common/MainAppSwipePageStore');
     
     if (mainAppSwipePageStore.shouldTriggerAutoScroll()) {
       this.youniCustomScrollBy(mainAppSwipePageStore.getSwipeFrameAmount());

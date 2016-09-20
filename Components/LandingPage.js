@@ -5,9 +5,11 @@ var ReactNative = require('react-native');
 var Unicycle = require('../Unicycle');
 
 var BaseAppSwiper = require('./BaseAppSwiper');
+var BaseNavBar = require('./BaseNavBar');
 var HomePage = require('./HomePage');
 var SearchPage = require('./Search/SearchPage');
 var TrendingPage = require('./Trending/TrendingPage');
+var ProfileOwnerPage = require('./Profile/ProfileOwnerPage');
 var WelcomeUserInfoPrompts = require('./WelcomePages/WelcomeUserInfoPrompts');
 
 var notificationStore = require('../stores/NotificationStore');
@@ -16,7 +18,6 @@ var userLoginMetadataStore = require('../stores/UserLoginMetadataStore');
 var trendingStore = require('../stores/trending/TrendingStore');
 var exploreFeedOrgsStore = require('../stores/group/ExploreFeedOrgsStore');
 
-var Color = require('../Utils/Common/Colors');
 var NotificationUtils = require('../Utils/Notification/NotificationUtils');
 
 var {
@@ -72,26 +73,28 @@ var LandingPage = React.createClass({
   },
 
   render: function() {
-    var content;
-
     if (userLoginMetadataStore.getShowInitialInfoPrompts()) {
-      content = <WelcomeUserInfoPrompts {...this.props}/>;
-    }
-    else {
-      content = (
-        <BaseAppSwiper>
-          <TrendingPage {...this.props}/>
-          <SearchPage {...this.props}/>
-          <HomePage {...this.props}/>
-        </BaseAppSwiper>
+      return (
+        <View style={styles.container}>
+          <WelcomeUserInfoPrompts {...this.props}/>
+        </View>
       );
     }
-
-    return (
-      <View style={styles.container}>
-        {content}
-      </View>
-    )
+    else {
+      return (
+        <View style={styles.container}>
+          <BaseAppSwiper>
+            <TrendingPage {...this.props}/>
+            <SearchPage {...this.props}/>
+            <HomePage {...this.props}/>
+            <ProfileOwnerPage
+              {...this.props}
+              hideBackButton={true}/>
+          </BaseAppSwiper>
+          <BaseNavBar {...this.props}/>
+        </View>
+      );
+    }
   },
 
   _onNotificationRegistration: function(deviceToken) {

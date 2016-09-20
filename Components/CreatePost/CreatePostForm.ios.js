@@ -13,8 +13,10 @@ var BackArrow = require('../Common/BackArrow');
 var createPostStore = require('../../stores/CreatePostStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var homePostsStore = require('../../stores/post/HomePostsStore');
+var mainAppSwipePageStore = require('../../stores/common/MainAppSwipePageStore');
 
 var Colors = require('../../Utils/Common/Colors');
+var BasePageIndex = require('../../Utils/Enums/BasePageIndex');
 
 var {
   View,
@@ -164,6 +166,7 @@ var CreatePostForm = React.createClass({
       Unicycle.exec('requestHomeFeed', userLoginMetadataStore.getUserId());
       Unicycle.exec('refreshExploreFeed', userLoginMetadataStore.getUserId(), true);
 
+      mainAppSwipePageStore.navigatorTo(BasePageIndex.FEED);
       this.props.navigator.pop();
     });
   },

@@ -16,7 +16,6 @@ var profileOwnerStore = Unicycle.createStore({
     init: function () {
       //TODO: Figure out why we can't call `this._setInitialState()` here...
       this.set({
-        pageLoadError: false,
         isProfileInfoLoading: false,
         isUserPostsRequestInFlight: false,
         isLoadMorePostsRequestInFlight: false,
@@ -47,7 +46,6 @@ var profileOwnerStore = Unicycle.createStore({
       var that = this;
 
       this.set({
-        pageLoadError: false,
         isProfileInfoLoading: true
       });
 
@@ -72,7 +70,6 @@ var profileOwnerStore = Unicycle.createStore({
         },
         () => {
           that.set({
-            pageLoadError: true,
             isProfileInfoLoading: false
           });
         }
@@ -308,10 +305,6 @@ var profileOwnerStore = Unicycle.createStore({
   
         }
       );
-    },
-
-    anyErrorsLoadingPage: function() {
-      return this.get('pageLoadError');
     },
 
     isProfileInfoLoading() {

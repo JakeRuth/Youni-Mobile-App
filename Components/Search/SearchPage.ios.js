@@ -8,10 +8,9 @@ var Unicycle = require('../../Unicycle');
 var searchStore = require('../../stores/SearchStore');
 var exploreFeedOrgsStore = require('../../stores/group/ExploreFeedOrgsStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
-var mainAppSwipePageStore = require('../../stores/MainAppSwipePageStore');
 var Colors = require('../../Utils/Common/Colors');
 var SearchType = require('../../Utils/Enums/SearchType');
-
+var InviteFriendsPage = require('../Profile/Settings/InviteFriendsPage');
 var SearchBarInput = require('./SearchBarInput');
 var SearchResultsList = require('./SearchResultsList');
 var ExploreFeedPosts = require('../Post/ExploreFeedPosts');
@@ -19,10 +18,7 @@ var MostRecentOrgs = require('../Group/MostRecentOrgs');
 var YouniHeader = require('../Common/YouniHeader');
 var ListFilter = require('../Common/ListFilter');
 var Spinner = require('../Common/Spinner');
-var NavButton = require('../Common/NavButton');
-var CreatePostButton = require('../CreatePost/CreatePostButton');
 var NotificationIcon = require('../Notification/NotificationIcon');
-var ProfileIcon = require('../Profile/ProfileIcon');
 
 var {
   View,
@@ -57,39 +53,14 @@ var styles = StyleSheet.create({
     marginTop: 10,
     borderRadius: 5
   },
-  searchIconContainer: {
+  addContactsIcon: {
     position: 'absolute',
-    top: 0,
-    right: 36,
-    paddingTop: 28,
-    paddingRight: 6,
-    paddingLeft: 15,
-    paddingBottom: 15
-  },
-  profileIcon: {
-    position: 'absolute',
-    top: 0,
     right: 0,
+    top: 0,
     paddingTop: 26,
-    paddingRight: 6,
-    paddingLeft: 6,
+    paddingRight: 16,
+    paddingLeft: 30,
     paddingBottom: 15
-  },
-  trendingPageNavButtonContainer: {
-    position: 'absolute',
-    bottom: 14,
-    left: 15
-  },
-  explorePageNavButtonContainer: {
-    position: 'absolute',
-    bottom: 14,
-    right: 15
-  },
-  createPostButtonContainer: {
-    position: 'absolute',
-    bottom: 10,
-    // center the button horizontally.  48 is the width on the button
-    left: (Dimensions.get('window').width - 48) / 2
   }
 });
 
@@ -97,12 +68,6 @@ var SearchPage = React.createClass({
 
   propTypes: {
     navigator: React.PropTypes.object.isRequired
-  },
-
-  getInitialState: function() {
-    return {
-      showSearchBar: false
-    }
   },
 
   mixins: [
@@ -145,10 +110,7 @@ var SearchPage = React.createClass({
           <NotificationIcon
             style={styles.notificationIcon}
             navigator={this.props.navigator}/>
-          {this._renderSearchIcon()}
-          <ProfileIcon
-            style={styles.profileIcon}
-            navigator={this.props.navigator}/>
+          {this._renderInviteContactsButton()}
         </YouniHeader>
 
         <ScrollView
@@ -158,48 +120,47 @@ var SearchPage = React.createClass({
           {searchPageContent}
         </ScrollView>
 
-        <View style={styles.trendingPageNavButtonContainer}>
-          <NavButton
-            onPress={() => mainAppSwipePageStore.setSwipeFrameAmount(-1)}
-            iconName="equalizer"/>
-        </View>
-        <View style={styles.createPostButtonContainer}>
-          <CreatePostButton navigator={this.props.navigator}/>
-        </View>
-        <View style={styles.explorePageNavButtonContainer}>
-          <NavButton
-            onPress={() => mainAppSwipePageStore.setSwipeFrameAmount(1)}
-            showYouniU={true}/>
-        </View>
-
       </View>
     );
   },
 
+  _renderInviteContactsButton: function() {
+    return (
+      <TouchableHighlight
+        style={styles.addContactsIcon}
+        underlayColor="transparent"
+        onPress={() => {
+          this.props.navigator.push({
+            component: InviteFriendsPage
+          });
+        }}>
+        <Icon
+          name='person-add'
+          size={26}
+          color='white'/>
+      </TouchableHighlight>
+    );
+  },
+
   _renderSearchBar: function() {
-    if (this.state.showSearchBar) {
-      return (
-        <SearchBarInput
-          style={styles.searchBarContainer}
-          active={!searchStore.getInExploreFeedView()}
-          value={searchStore.getSearchTerm()}
-          placeholder={'     Search University'}
-          onChangeText={(search) => {
-            searchStore.setSearchTerm(search);
-          }}
-          onSubmitEditing={() => {
-            var email = userLoginMetadataStore.getEmail();
-            searchStore.executeSearch(email);
-          }}
-          onClearSearchPress={() => {
-            searchStore.setSearchTerm('');
-            searchStore.setInExploreFeedView(true);
-            this.setState({
-              showSearchBar: false
-            });
-          }}/>
-      );
-    }
+    return (
+      <SearchBarInput
+        style={styles.searchBarContainer}
+        active={!searchStore.getInExploreFeedView()}
+        value={searchStore.getSearchTerm()}
+        placeholder={'     Search University'}
+        onChangeText={(search) => {
+          searchStore.setSearchTerm(search);
+        }}
+        onSubmitEditing={() => {
+          var email = userLoginMetadataStore.getEmail();
+          searchStore.executeSearch(email);
+        }}
+        onClearSearchPress={() => {
+          searchStore.setSearchTerm('');
+          searchStore.setInExploreFeedView(true);
+        }}/>
+    );
   },
 
   _renderSearchResultsList: function() {
@@ -211,20 +172,6 @@ var SearchPage = React.createClass({
     }
   },
 
-  _renderSearchIcon: function() {
-    return (
-      <TouchableHighlight
-        style={styles.searchIconContainer}
-        underlayColor='transparent'
-        onPress={this.toggleShowSearchBarState}>
-        <Icon
-          name='search'
-          size={28}
-          color='white'/>
-      </TouchableHighlight>
-    );
-  },
-
   handleScroll(e) {
     var infiniteScrollThreshold = -1,
         userId = userLoginMetadataStore.getUserId();
@@ -232,17 +179,6 @@ var SearchPage = React.createClass({
     if (e.nativeEvent.contentOffset.y < infiniteScrollThreshold) {
       Unicycle.exec('refreshExploreFeed', userId, true);
       exploreFeedOrgsStore.requestTenMostRecentOrgs();
-    }
-  },
-
-  toggleShowSearchBarState: function() {
-    var originalState = this.state.showSearchBar;
-    this.setState({
-      showSearchBar: !originalState
-    });
-
-    if (originalState) {
-      searchStore.setInExploreFeedView(true);
     }
   }
 

@@ -39,6 +39,7 @@ var EditSettingsButton = React.createClass({
 
   propTypes: {
     user: React.PropTypes.object.isRequired,
+    color: React.PropTypes.string.isRequired,
     navigator: React.PropTypes.object.isRequired
   },
 
@@ -52,7 +53,7 @@ var EditSettingsButton = React.createClass({
         <Icon
           name='settings'
           size={30}
-          color={Colors.getPrimaryAppColor()}/>
+          color={this.props.color}/>
 
       </TouchableHighlight>
     );

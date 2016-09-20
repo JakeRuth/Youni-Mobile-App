@@ -2,7 +2,6 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
-var Icon = require('react-native-vector-icons/MaterialIcons');
 var Unicycle = require('../Unicycle');
 
 var NoHomeFeedPostsMessage = require('./NoHomeFeedPostsMessage');
@@ -10,10 +9,7 @@ var PostList = require('./Post/PostList');
 var Spinner = require('./Common/Spinner');
 var YouniHeader = require('./Common/YouniHeader');
 var ErrorPage = require('./Common/ErrorPage');
-var ProfileOwnerPage = require('./Profile/ProfileOwnerPage');
-var InviteFriendsPage = require('./Profile/Settings/InviteFriendsPage');
 
-var mainAppSwipePageStore = require('../stores/MainAppSwipePageStore');
 var homePostsStore = require('../stores/post/HomePostsStore');
 var userLoginMetadataStore = require('../stores/UserLoginMetadataStore');
 
@@ -22,8 +18,7 @@ var Colors = require('../Utils/Common/Colors');
 var {
   View,
   Text,
-  StyleSheet,
-  TouchableHighlight
+  StyleSheet
 } = ReactNative;
 
 var styles = StyleSheet.create({
@@ -36,24 +31,6 @@ var styles = StyleSheet.create({
     fontWeight: '500',
     textAlign: 'center',
     color: 'white'
-  },
-  addContactsIcon: {
-    position: 'absolute',
-    right: 0,
-    top: 0,
-    paddingTop: 26,
-    paddingRight: 16,
-    paddingLeft: 30,
-    paddingBottom: 15
-  },
-  homeNavButtonContainer: {
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    paddingTop: 26,
-    paddingLeft: 16,
-    paddingRight: 30,
-    paddingBottom: 15
   },
   feedContainer: {
     flex: 1
@@ -99,10 +76,8 @@ var HomePage = React.createClass({
 
         <YouniHeader color={Colors.getPrimaryAppColor()}>
           <Text style={styles.pageHeader}>
-            Me
+            Feed
           </Text>
-          {this._renderHomeNavButton()}
-          {this._renderInviteContactsButton()}
         </YouniHeader>
 
         <View style={styles.feedContainer}>
@@ -138,38 +113,6 @@ var HomePage = React.createClass({
         onSubmitCommentAction={this.onSubmitCommentAction}
         onDeleteCommentAction={this.onDeleteCommentAction}
         navigator={this.props.navigator}/>
-    );
-  },
-
-  _renderHomeNavButton: function() {
-    return (
-      <TouchableHighlight
-        style={styles.homeNavButtonContainer}
-        underlayColor="transparent"
-        onPress={() => mainAppSwipePageStore.setSwipeFrameAmount(-1)}>
-        <Icon
-          name='home'
-          size={30}
-          color='white'/>
-      </TouchableHighlight>
-    );
-  },
-
-  _renderInviteContactsButton: function() {
-    return (
-      <TouchableHighlight
-        style={styles.addContactsIcon}
-        underlayColor="transparent"
-        onPress={() => {
-          this.props.navigator.push({
-            component: InviteFriendsPage
-          });
-        }}>
-        <Icon
-          name='person-add'
-          size={30}
-          color='white'/>
-      </TouchableHighlight>
     );
   },
 

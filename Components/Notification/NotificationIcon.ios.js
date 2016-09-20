@@ -56,7 +56,7 @@ var NotificationIcon = React.createClass({
             underlayColor='transparent'>
             <Icon
               name='notifications-none'
-              size={30}
+              size={26}
               color='white'/>
           </TouchableHighlight>
           {notificationCallout}

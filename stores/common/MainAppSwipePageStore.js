@@ -1,14 +1,31 @@
 'use strict';
 
-var immutable = require('immutable');
-var Unicycle = require('../Unicycle');
+var Unicycle = require('../../Unicycle');
 
 var mainAppSwipePageStore = Unicycle.createStore({
 
   init: function() {
     this.set({
+      currentPageIndex: 1,
       swipeFrameAmount: 0,
       shouldTriggerAutoScroll: false
+    });
+  },
+
+  navigatorTo: function(pageIndex) {
+    var currentIndex = this.getCurrentPageIndex();
+    if (currentIndex === pageIndex) {
+      return;
+    }
+
+    var swipeAmount = currentIndex - pageIndex;
+    swipeAmount *= -1;
+    this.setSwipeFrameAmount(swipeAmount);
+  },
+  
+  setCurrentPageIndex: function(value) {
+    this.set({
+      currentPageIndex: value
     });
   },
   
@@ -27,6 +44,10 @@ var mainAppSwipePageStore = Unicycle.createStore({
   
   shouldTriggerAutoScroll: function() {
     return this.get('shouldTriggerAutoScroll');
+  },
+
+  getCurrentPageIndex: function() {
+    return this.get('currentPageIndex')
   },
 
   getSwipeFrameAmount: function() {
