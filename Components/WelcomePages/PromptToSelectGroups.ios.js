@@ -45,7 +45,8 @@ var styles = StyleSheet.create({
     textAlign: 'center'
   },
   underline: {
-    textDecorationLine: 'underline'
+    textDecorationLine: 'underline',
+    fontWeight: 'bold'
   }
 });
 
