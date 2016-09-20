@@ -31,10 +31,6 @@ var styles = StyleSheet.create({
   },
   label: {
     fontSize: 18
-  },
-  overrideLabel: {
-    flex: 1,
-    textAlign: 'center'
   }
 });
 
@@ -42,7 +38,7 @@ var RequestToCreateGroup = React.createClass({
 
   propTypes: {
     navigator: React.PropTypes.object.isRequired,
-    labelOverride: React.PropTypes.string
+    labelOverride: React.PropTypes.element
   },
 
   render: function() {
@@ -58,11 +54,7 @@ var RequestToCreateGroup = React.createClass({
 
   renderLabel: function() {
     if (this.props.labelOverride) {
-      return (
-        <Text style={[styles.label, styles.overrideLabel]}>
-          {this.props.labelOverride}
-        </Text>
-      );
+      return this.props.labelOverride;
     }
     else {
       return (

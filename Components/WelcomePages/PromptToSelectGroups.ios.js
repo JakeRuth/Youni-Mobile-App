@@ -38,6 +38,14 @@ var styles = StyleSheet.create({
   requestToCreateGroupContainer: {
     alignItems: 'center',
     paddingTop: 10
+  },
+  requestToCreateGroupMessage: {
+    flex: 1,
+    fontSize: 14,
+    textAlign: 'center'
+  },
+  underline: {
+    textDecorationLine: 'underline'
   }
 });
 
@@ -55,7 +63,11 @@ var PromptToSelectGroups = React.createClass({
         <View style={styles.joinGroupsContainer}>
           <View style={styles.requestToCreateGroupContainer}>
             <RequestToCreateGroup
-              labelOverride="Don't see your group? Request it!"
+              labelOverride={
+                <Text style={styles.requestToCreateGroupMessage}>
+                  If you don't see your group, <Text style={styles.underline}>click here</Text> to send us a request to create it!
+                </Text>
+              }
               navigator={this.props.navigator}/>
           </View>
           <ExploreGroupsPage
