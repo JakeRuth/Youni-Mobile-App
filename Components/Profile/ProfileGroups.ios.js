@@ -98,7 +98,10 @@ var ProfileGroups = React.createClass({
     }
 
     return (
-      <View style={{flex: 1}}>
+      <View style={{
+        flex: 1,
+        marginTop: 2
+      }}>
         {content}
         {this.props.children}
       </View>

@@ -84,9 +84,9 @@ var LandingPage = React.createClass({
       return (
         <View style={styles.container}>
           <BaseAppSwiper>
-            <TrendingPage {...this.props}/>
-            <SearchPage {...this.props}/>
             <HomePage {...this.props}/>
+            <SearchPage {...this.props}/>
+            <TrendingPage {...this.props}/>
             <ProfileOwnerPage
               {...this.props}
               hideBackButton={true}/>

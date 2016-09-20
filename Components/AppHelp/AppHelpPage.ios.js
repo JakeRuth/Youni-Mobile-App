@@ -32,10 +32,10 @@ var styles = StyleSheet.create({
     fontSize: 16,
     position: 'absolute',
     top: 0,
-    left: 0,
+    right: 0,
     paddingTop: 32,
-    paddingLeft: 12,
-    paddingRight: 30,
+    paddingRight: 12,
+    paddingLeft: 30,
     paddingBottom: 15
   },
   helpImage: {

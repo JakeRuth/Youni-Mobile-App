@@ -60,8 +60,8 @@ var BaseNavBar = React.createClass({
     return (
       <View style={styles.container}>
         <View style={styles.navIconContainer}>
-          
-          {this._renderIcon(BasePageIndex.TRENDING, 'equalizer')}
+
+          {this._renderIcon(BasePageIndex.FEED, 'home')}
           {this._renderIcon(BasePageIndex.EXPLORE, 'explore')}
           
           <Icon
@@ -69,11 +69,12 @@ var BaseNavBar = React.createClass({
             name='photo-camera'
             size={34}
             color={Colors.MED_GRAY}/>
-          
-          {this._renderIcon(BasePageIndex.FEED, 'home')}
+
+          {this._renderIcon(BasePageIndex.TRENDING, 'equalizer')}
           
           <TouchableHighlight
             style={[styles.imageContainer, { backgroundColor: this._getColor(BasePageIndex.PROFILE) }]}
+            underlayColor='transparent'
             onPress={() => mainAppSwipePageStore.navigatorTo(BasePageIndex.PROFILE)}>
             <Image
               style={styles.image}
@@ -89,7 +90,7 @@ var BaseNavBar = React.createClass({
   _renderIcon: function(index, name) {
     return (
       <TouchableHighlight
-        underlayColor={Colors.MED_GRAY}
+        underlayColor='transparent'
         onPress={() => mainAppSwipePageStore.navigatorTo(index)}>
         <Icon
           name={name}

@@ -66,7 +66,7 @@ var PromptToSelectGroups = React.createClass({
             <RequestToCreateGroup
               labelOverride={
                 <Text style={styles.requestToCreateGroupMessage}>
-                  If you don't see your group, <Text style={styles.underline}>click here</Text> to send us a request to create it!
+                  If you don't see your group, <Text style={styles.underline}>click here</Text> to request it!
                 </Text>
               }
               navigator={this.props.navigator}/>
