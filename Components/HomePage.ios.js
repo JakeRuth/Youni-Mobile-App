@@ -112,6 +112,9 @@ var HomePage = React.createClass({
         unlikePhotoAction={this.unlikePhotoAction}
         onSubmitCommentAction={this.onSubmitCommentAction}
         onDeleteCommentAction={this.onDeleteCommentAction}
+        loadMoreButtonStyle={{
+          marginBottom: 40
+        }}
         navigator={this.props.navigator}/>
     );
   },

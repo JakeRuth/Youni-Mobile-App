@@ -19,6 +19,7 @@ var IOSPermissions = require('../../../Utils/Enums/IOSPermissions');
 var {
   View,
   Text,
+  AlertIOS,
   StyleSheet,
   Dimensions
 } = ReactNative;
@@ -163,6 +164,18 @@ var InviteFriendsPage = React.createClass({
         });
         contactsStore.setContacts(res);
         contactsStore.setAllContacts(res);
+
+        if (res.length >= 1000) {
+          AlertIOS.alert(
+            'Wow, you have a ton of contacts!',
+            'We apologize for this, but since you are so popular this page may be a bit laggy.',
+            [
+              {
+                text: 'Okay'
+              }
+            ]
+          );
+        }
       }
 
       this.setState({

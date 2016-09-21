@@ -56,6 +56,9 @@ var SearchResultsList = React.createClass({
             renderRow={this._renderRow}
             renderScrollComponent={props => <RecyclerViewBackedScrollView {...props} />}/>
           <LoadMoreButton
+            style={{
+              marginBottom: 40
+            }}
             onPress={() => {
               searchStore.fetchNextPage(userLoginMetadataStore.getEmail(), this._onFetchNextPageOfResults);
             }}

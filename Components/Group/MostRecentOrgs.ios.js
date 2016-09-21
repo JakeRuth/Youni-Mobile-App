@@ -65,7 +65,7 @@ var MostRecentOrgs = React.createClass({
     return (
       <View style={styles.container}>
         <Text style={[styles.title, { color: Colors.getPrimaryAppColor() }]}>
-          Recent Orgs
+          Orgs
         </Text>
 
         <ScrollView
