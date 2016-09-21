@@ -28,8 +28,7 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 2
+    justifyContent: 'center'
   },
   postStatContainer: {
     flex: 3

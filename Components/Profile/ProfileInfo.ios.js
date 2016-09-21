@@ -10,8 +10,15 @@ var Colors = require('../../Utils/Common/Colors');
 var PostViewType = require('../../Utils/Enums/PostViewType');
 
 var {
-  View
+  View,
+  StyleSheet
 } = ReactNative;
+
+var styles = StyleSheet.create({
+  container: {
+    marginTop: 10
+  }
+});
 
 var ProfileInfo = React.createClass({
 
@@ -28,7 +35,7 @@ var ProfileInfo = React.createClass({
 
   render: function() {
     return (
-      <View>
+      <View style={styles.container}>
 
         <ProfileInfoBody {...this.props}/>
         <ProfileInfoFooter {...this.props}/>
