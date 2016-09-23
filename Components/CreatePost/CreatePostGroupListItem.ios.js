@@ -31,8 +31,9 @@ var CreatePostGroupListItem = React.createClass({
     let size = this.props.size - 7; // subtract the added margin
 
     return (
+      // add 10 to the height to account for the label displayed under the group thumbnail image
       <TouchableHighlight
-        style={styles.container}
+        style={[styles.container, { height: this.props.size + 10 }]}
         underlayColor="transparent">
 
         <View style={{ opacity: this._getListItemOpacity() }}>

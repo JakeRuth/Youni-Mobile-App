@@ -22,11 +22,6 @@ var styles = StyleSheet.create({
     paddingTop: 15,
     paddingBottom: 15
   },
-  separator: {
-    flex: 1,
-    height: 1,
-    backgroundColor: Colors.LIGHT_GRAY
-  },
   noGroupsMessage: {
     color: Colors.DARK_GRAY,
     fontSize: 12

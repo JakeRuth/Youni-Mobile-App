@@ -87,7 +87,8 @@ var CreatePostForm = React.createClass({
 
   propTypes: {
     imageUri: React.PropTypes.string.isRequired,
-    imageHeight: React.PropTypes.number.isRequired
+    imageHeight: React.PropTypes.number.isRequired,
+    navigator: React.PropTypes.object.isRequired
   },
 
   mixins: [
