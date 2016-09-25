@@ -10,15 +10,15 @@ var createPostStore = Unicycle.createStore({
       isRequestInFlight: false,
       imageId: '',
       caption: '',
-      groupIds: []
+      groupIds: [],
+      campusChallengeIdString: '',
+      submitChallengeAnonymously: false
     });
   },
 
   $createPost: function (userId, onSuccessCallback) {
     var that = this,
-        caption = this.getCaption(),
-        groupIds = this.getGroupIds(),
-        imageId = this.getImageId();
+        caption = this.getCaption();
 
     this.set({
       isRequestInFlight: true
@@ -28,9 +28,11 @@ var createPostStore = Unicycle.createStore({
       '/post/create',
       {
         posterUserIdString: userId,
-        pictureIdString: imageId,
-        groupIdStrings: groupIds.toJSON(),
-        caption: caption ? caption : '_' //TODO: Fix this in the api!!!!
+        pictureIdString: this.getImageId(),
+        groupIdStrings: this.getGroupIds().toJSON(),
+        caption: caption ? caption : '_', //TODO: Fix this in the api!!!!
+        campusChallengeIdString: this.getCampusChallengeIdString(),
+        submitChallengeAnonymously: this.getSubmitChallengeAnonymously()
       },
       (res) => {
         that.set({
@@ -62,6 +64,18 @@ var createPostStore = Unicycle.createStore({
   setGroupIds: function(ids) {
     this.set({
       groupIds: ids
+    });
+  },
+
+  setCampusChallengeIdString: function(id) {
+    this.set({
+      campusChallengeIdString: id
+    });
+  },
+
+  setSubmitChallengeAnonymously: function(value) {
+    this.set({
+      submitChallengeAnonymously: value
     });
   },
 
@@ -100,6 +114,14 @@ var createPostStore = Unicycle.createStore({
   
   getGroupIds: function() {
     return this.get('groupIds');
+  },
+
+  getCampusChallengeIdString: function() {
+    return this.get('campusChallengeIdString');
+  },
+
+  getSubmitChallengeAnonymously: function() {
+    return this.get('submitChallengeAnonymously');
   }
 
 });

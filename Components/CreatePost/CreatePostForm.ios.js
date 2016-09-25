@@ -6,6 +6,7 @@ var DismissKeyboard = require('dismissKeyboard');
 var Unicycle = require('../../Unicycle');
 
 var SelectGroupsForPost = require('./SelectGroupsForPost');
+var SelectCampusChallenge = require('./SelectCampusChallenge');
 var YouniHeader = require('../Common/YouniHeader');
 var Spinner = require('../Common/Spinner');
 var BackArrow = require('../Common/BackArrow');
@@ -33,13 +34,15 @@ var {
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: Dimensions.get('window').height,
-    backgroundColor: Colors.LIGHT_GRAY
+    height: Dimensions.get('window').height
   },
   pageHeader: {
     fontSize: 20,
     fontWeight: '500',
     textAlign: 'center'
+  },
+  form: {
+    backgroundColor: Colors.WHITE_SMOKE
   },
   imageAndCaptionContainer: {
     flex: 1,
@@ -109,7 +112,9 @@ var CreatePostForm = React.createClass({
             <BackArrow onPress={this._onBackArrowPress}/>
           </YouniHeader>
 
-          <ScrollView automaticallyAdjustContentInsets={false}>
+          <ScrollView
+            style={styles.form}
+            automaticallyAdjustContentInsets={false}>
             <View style={styles.imageAndCaptionContainer}>
               <TextInput
                 style={styles.captionInput}
@@ -125,6 +130,7 @@ var CreatePostForm = React.createClass({
                 resizeMode="contain"
                 source={{uri: this.props.imageUri, isStatic: true}} />
             </View>
+            <SelectCampusChallenge/>
             <SelectGroupsForPost/>
           </ScrollView>
 
