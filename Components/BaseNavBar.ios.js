@@ -63,6 +63,7 @@ var BaseNavBar = React.createClass({
 
           {this._renderIcon(BasePageIndex.FEED, 'home')}
           {this._renderIcon(BasePageIndex.EXPLORE, 'explore')}
+          {this._renderIcon(BasePageIndex.CAMPUS_CHALLENGE, 'blur-on')}
           
           <Icon
             onPress={() => ShowImagePicker.showImagePicker(this.props.navigator)}

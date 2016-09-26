@@ -8,6 +8,7 @@ var BaseAppSwiper = require('./BaseAppSwiper');
 var BaseNavBar = require('./BaseNavBar');
 var HomePage = require('./HomePage');
 var SearchPage = require('./Search/SearchPage');
+var CampusChallengePage = require('./CampusChallenge/CampusChallengePage');
 var TrendingPage = require('./Trending/TrendingPage');
 var ProfileOwnerPage = require('./Profile/ProfileOwnerPage');
 var WelcomeUserInfoPrompts = require('./WelcomePages/WelcomeUserInfoPrompts');
@@ -86,6 +87,7 @@ var LandingPage = React.createClass({
           <BaseAppSwiper>
             <HomePage {...this.props}/>
             <SearchPage {...this.props}/>
+            <CampusChallengePage {...this.props}/>
             <TrendingPage {...this.props}/>
             <ProfileOwnerPage
               {...this.props}

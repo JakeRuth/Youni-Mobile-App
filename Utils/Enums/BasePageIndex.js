@@ -4,8 +4,9 @@ var BasePageIndex = {
 
   FEED: 0,
   EXPLORE: 1,
-  TRENDING: 2,
-  PROFILE: 3
+  CAMPUS_CHALLENGE: 2,
+  TRENDING: 3,
+  PROFILE: 4
   
 };
 
