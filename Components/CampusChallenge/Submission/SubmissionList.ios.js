@@ -31,8 +31,8 @@ var SubmissionList = React.createClass({
     gridViewEnabled: React.PropTypes.bool,
     upVoteAction: React.PropTypes.func.isRequired,
     removeUpVoteAction: React.PropTypes.func.isRequired,
-    onSubmitCommentAction: React.PropTypes.func.isRequired,
-    onDeleteCommentAction: React.PropTypes.func.isRequired,
+    onSubmitCommentAction: React.PropTypes.func,
+    onDeleteCommentAction: React.PropTypes.func,
     loadMoreButtonStyle: React.PropTypes.object,
     navigator: React.PropTypes.object.isRequired
   },

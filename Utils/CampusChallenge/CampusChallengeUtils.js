@@ -30,6 +30,14 @@ var CampusChallengeUtils = {
       submission.postJson.liked = false;
     }
     return submissions;
+  },
+  
+  getSubmissionByPostId: function(submissions, postId) {
+    return submissions.find((sub) => {
+      if (sub.postJson && sub.postJson.postIdString) {
+        return sub.postJson.postIdString === postId;
+      }
+    });
   }
 
 };

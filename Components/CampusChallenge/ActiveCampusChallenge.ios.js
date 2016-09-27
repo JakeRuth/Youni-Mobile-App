@@ -74,8 +74,8 @@ var ActiveCampusChallenge = React.createClass({
           gridViewEnabled={this.state.postViewMode === PostViewType.GRID}
           upVoteAction={(submissionId) => campusChallengeStore.upVoteSubmission(submissionId)}
           removeUpVoteAction={(submissionId) => campusChallengeStore.removeUpVoteForSubmission(submissionId)}
-          onSubmitCommentAction={() => null}
-          onDeleteCommentAction={() => null}
+          onSubmitCommentAction={campusChallengeStore.submitComment}
+          onDeleteCommentAction={campusChallengeStore.deleteComment}
           loadMoreButtonStyle={{
             marginBottom: 40
           }}
