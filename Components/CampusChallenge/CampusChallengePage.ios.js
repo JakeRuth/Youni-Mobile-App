@@ -52,7 +52,8 @@ var CampusChallengePage = React.createClass({
   ],
   
   componentDidMount: function() {
-    campusChallengeStore.requestCurrentChallenge();
+    let callback = () => campusChallengeStore.fetchSubmissions(true);
+    campusChallengeStore.requestCurrentChallenge(callback);
   },
 
   render: function() {
@@ -76,7 +77,12 @@ var CampusChallengePage = React.createClass({
       );
     }
     else {
-      content = <ActiveCampusChallenge challenge={campusChallengeStore.getCurrentChallenge()}/>;
+      content = (
+        <ActiveCampusChallenge
+          challenge={campusChallengeStore.getCurrentChallenge()}
+          challengeSubmissions={campusChallengeStore.getSubmissions()}
+          navigator={this.props.navigator}/>
+      );
     }
 
     return (

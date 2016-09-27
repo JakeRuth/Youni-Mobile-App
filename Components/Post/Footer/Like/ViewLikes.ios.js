@@ -3,8 +3,6 @@
 var React = require('react');
 var ReactNative = require('react-native');
 
-var PostLikesPopup = require('../../../PopupPages/PostLikesPopup');
-
 var Colors = require('../../../../Utils/Common/Colors');
 
 var {
@@ -25,19 +23,19 @@ var styles = StyleSheet.create({
   }
 });
 
-var ViewPostLikes = React.createClass({
+var ViewLikes = React.createClass({
 
   propTypes: {
-    post: React.PropTypes.object.isRequired,
-    navigator: React.PropTypes.object.isRequired
+    numLikes: React.PropTypes.number,
+    onPress: React.PropTypes.func.isRequired
   },
 
   render: function() {
-    if (this.props.post.numLikes) {
+    if (this.props.numLikes) {
       return (
         <TouchableHighlight
           style={styles.container}
-          onPress={this._onPress}
+          onPress={this.props.onPress}
           underlayColor='transparent'>
           <Text style={styles.label}>
             {this._getLabel()}
@@ -50,24 +48,15 @@ var ViewPostLikes = React.createClass({
     }
   },
 
-  _onPress: function() {
-    this.props.navigator.push({
-      component: PostLikesPopup,
-      passProps: {
-        postId: this.props.post.postIdString
-      }
-    })
-  },
-
   _getLabel: function() {
-    if (this.props.post.numLikes === 1) {
+    if (this.props.numLikes === 1) {
       return 'View 1 like';
     }
     else {
-      return `View ${this.props.post.numLikes} likes`;
+      return `View ${this.props.numLikes} likes`;
     }
   }
 
 });
 
-module.exports = ViewPostLikes;
+module.exports = ViewLikes;

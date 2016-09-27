@@ -5,13 +5,14 @@ var ReactNative = require('react-native');
 var Icon = require('react-native-vector-icons/MaterialIcons');
 var Unicycle = require('../../Unicycle');
 
+var PostActionButton = require('./PostActionButton');
+
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var profileOwnerStore = require('../../stores/profile/ProfileOwnerStore');
 var Colors = require('../../Utils/Common/Colors');
 var PostViewType = require('../../Utils/Enums/PostViewType');
 
 var {
-  TouchableHighlight,
   ActionSheetIOS,
   AlertIOS
 } = ReactNative;
@@ -27,16 +28,9 @@ var DeletePostIcon = React.createClass({
 
   render: function() {
     return (
-      <TouchableHighlight
-        underlayColor='transparent'
-        onPress={this._onDeleteIconPress}>
-
-        <Icon
-          name='more-horiz'
-          size={30}
-          color={Colors.DARK_GRAY}/>
-
-      </TouchableHighlight>
+      <PostActionButton
+        {...this.props}
+        onPress={this._onDeleteIconPress}/>
     );
   },
 

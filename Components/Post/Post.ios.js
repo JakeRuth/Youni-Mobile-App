@@ -34,7 +34,6 @@ var Post = React.createClass({
 
   propTypes: {
     post: React.PropTypes.object.isRequired,
-    viewerIsPostOwner: React.PropTypes.bool,
     renderedFromProfileView: React.PropTypes.bool,
     onSubmitCommentAction: React.PropTypes.func.isRequired,
     onDeleteCommentAction: React.PropTypes.func.isRequired,
@@ -45,7 +44,6 @@ var Post = React.createClass({
 
   getInitialState: function() {
     return {
-      isCommentRequestInFlight: false,
       isLikeRequestInFlight: false,
       timeOfLastPhotoTap: 0
     };
@@ -66,8 +64,7 @@ var Post = React.createClass({
 
         <PostFooter
           {...this.props}
-          onStarPress={this._onStarPress}
-          isCommentRequestInFlight={this.state.isCommentRequestInFlight}/>
+          onStarPress={this._onStarPress}/>
 
       </View>
     );

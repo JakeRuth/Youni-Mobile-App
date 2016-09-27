@@ -2,14 +2,16 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
-var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var Icon = require('react-native-vector-icons/MaterialIcons');
+
+var PostActionButton = require('./PostActionButton');
+
+var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 var Colors = require('../../Utils/Common/Colors');
 
 
 var {
-  TouchableHighlight,
   ActionSheetIOS,
   AlertIOS
 } = ReactNative;
@@ -21,18 +23,7 @@ var FlagPostIcon = React.createClass({
   },
 
   render: function() {
-    return (
-      <TouchableHighlight
-        underlayColor='transparent'
-        onPress={this._onFlagPostIconPress}>
-
-        <Icon
-          name='more-horiz'
-          size={30}
-          color={Colors.DARK_GRAY}/>
-
-      </TouchableHighlight>
-    );
+    return <PostActionButton onPress={this._onFlagPostIconPress}/>;
   },
 
   _onFlagPostIconPress: function() {

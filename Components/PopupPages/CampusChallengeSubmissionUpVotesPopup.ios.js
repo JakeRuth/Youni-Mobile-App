@@ -36,18 +36,18 @@ var styles = StyleSheet.create({
   }
 });
 
-var PostLikesPopup = React.createClass({
+var CampusChallengeSubmissionUpVotesPopup = React.createClass({
 
   PAGE_SIZE: 50,
 
   propTypes: {
     navigator: React.PropTypes.object.isRequired,
-    postId: React.PropTypes.string.isRequired
+    submissionId: React.PropTypes.string.isRequired
   },
 
   getInitialState: function() {
     return {
-      likerUsers: [],
+      upVoteUsers: [],
       isInitialPageLoading: true,
       isLoadingMore: false,
       moreToFetch: false,
@@ -56,7 +56,7 @@ var PostLikesPopup = React.createClass({
   },
 
   componentDidMount() {
-    this._fetchLikerUsers();
+    this._fetchUpVoteUsers();
   },
 
   render: function () {
@@ -74,8 +74,8 @@ var PostLikesPopup = React.createClass({
         <LikesList
           isLoadingMoreUsers={this.state.isLoadingMore}
           moreToFetch={this.state.moreToFetch}
-          onLoadMorePress={this._fetchLikerUsers}
-          users={this.state.likerUsers}
+          onLoadMorePress={this._fetchUpVoteUsers}
+          users={this.state.upVoteUsers}
           navigator={this.props.navigator}/>
       );
     }
@@ -85,9 +85,9 @@ var PostLikesPopup = React.createClass({
 
         <YouniHeader>
           <Text style={[styles.pageHeader, { color: Colors.getPrimaryAppColor() }]}>
-            Likes
+            Up Votes
           </Text>
-          <BackArrow onPress={() => {this.props.navigator.pop();}}/>
+          <BackArrow onPress={() => this.props.navigator.pop()}/>
         </YouniHeader>
 
         {pageContent}
@@ -96,9 +96,9 @@ var PostLikesPopup = React.createClass({
     );
   },
 
-  _fetchLikerUsers: function() {
+  _fetchUpVoteUsers: function() {
     var that = this,
-        currentLikerUsers = this.state.likerUsers;
+        currentUpVoteUsers = this.state.upVoteUsers;
 
     if (this.state.offset === 0) {
       this.setState({
@@ -112,18 +112,18 @@ var PostLikesPopup = React.createClass({
     }
 
     AjaxUtils.ajax(
-      '/post/fetchLikerUsers',
+      '/campusChallenge/fetchUpVotesForSubmission',
       {
-        postIdString: this.props.postId,
-        requestingUserEmail: userLoginMetadataStore.getEmail(),
-        fetchOffsetAmount: that.state.offset,
+        campusChallengeSubmissionIdString: this.props.submissionId,
+        userEmail: userLoginMetadataStore.getEmail(),
+        fetchOffset: that.state.offset,
         maxToFetch: that.PAGE_SIZE
       },
       (res) => {
-        var likerUsers = UserUtils.convertResponseUserListToMap(res.body.users);
+        var upVoteUsers = UserUtils.convertResponseUserListToMap(res.body.users);
 
         that.setState({
-          likerUsers: currentLikerUsers.concat(likerUsers),
+          upVoteUsers: currentUpVoteUsers.concat(upVoteUsers),
           moreToFetch: res.body.moreToFetch,
           offset: that.state.offset + that.PAGE_SIZE,
           isInitialPageLoading: false,
@@ -141,4 +141,4 @@ var PostLikesPopup = React.createClass({
 
 });
 
-module.exports = PostLikesPopup;
+module.exports = CampusChallengeSubmissionUpVotesPopup;

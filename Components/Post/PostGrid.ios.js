@@ -26,7 +26,6 @@ var PostGrid = React.createClass({
     unlikePhotoAction: React.PropTypes.func.isRequired,
     onSubmitCommentAction: React.PropTypes.func.isRequired,
     onDeleteCommentAction: React.PropTypes.func.isRequired,
-    viewerIsPostOwner: React.PropTypes.bool,
     renderedFromProfileView: React.PropTypes.bool,
     navigator: React.PropTypes.object.isRequired
   },

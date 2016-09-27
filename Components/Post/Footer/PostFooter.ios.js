@@ -9,8 +9,9 @@ var PostGroups = require('./PostGroups');
 var Caption = require('./Caption');
 var CommentList = require('./CommentList');
 var ViewAllCommentsLink = require('./ViewAllCommentsLink');
-var ViewPostLikes = require('./Like/ViewPostLikes');
+var ViewLikes = require('./Like/ViewLikes');
 var PostCommentsPopup = require('../../PopupPages/PostCommentsPopup');
+var PostLikesPopup = require('../../PopupPages/PostLikesPopup');
 
 var userLoginMetadataStore = require('../../../stores/UserLoginMetadataStore');
 var PostUtils = require('../../../Utils/Post/PostUtils');
@@ -44,7 +45,6 @@ var PostFooter = React.createClass({
     post: React.PropTypes.object.isRequired,
     onStarPress: React.PropTypes.func.isRequired,
     navigator: React.PropTypes.object.isRequired,
-    isCommentRequestInFlight: React.PropTypes.bool.isRequired,
     onSubmitCommentAction: React.PropTypes.func.isRequired,
     onDeleteCommentAction: React.PropTypes.func.isRequired
   },
@@ -83,9 +83,16 @@ var PostFooter = React.createClass({
             navigator={this.props.navigator}/>
         </View>
 
-        <ViewPostLikes
-          post={this.props.post}
-          navigator={this.props.navigator}/>
+        <ViewLikes
+          numLikes={this.props.post.numLikes}
+          onPress={() => {
+            this.props.navigator.push({
+              component: PostLikesPopup,
+              passProps: {
+                postId: this.props.post.postIdString
+              }
+            });
+          }}/>
 
         {caption}
         {commentSeparator}

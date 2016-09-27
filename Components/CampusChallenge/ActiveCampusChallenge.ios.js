@@ -5,9 +5,13 @@ var ReactNative = require('react-native');
 
 var ChallengeCoverPhoto = require('./ChallengeCoverPhoto');
 var SubmissionPostViewControls = require('./SubmissionPostViewControls');
+var SubmissionList = require('./Submission/SubmissionList');
+var Spinner = require('../Common/Spinner');
+var EmptyResults = require('../Common/EmptyResults');
 
 var Colors = require('../../Utils/Common/Colors');
 var PostViewType = require('../../Utils/Enums/PostViewType');
+var campusChallengeStore = require('../../stores/campusChallenge/CampusChallengeStore');
 
 var {
   View,
@@ -23,6 +27,13 @@ var styles = StyleSheet.create({
   endTime: {
     fontSize: 18,
     textAlign: 'center'
+  },
+  prizeMessage: {
+    color: Colors.MED_GRAY,
+    fontWeight: '500',
+    fontSize: 16,
+    textAlign: 'center',
+    paddingBottom: 5
   }
 });
 
@@ -34,14 +45,50 @@ var ActiveCampusChallenge = React.createClass({
       name: React.PropTypes.string.isRequired,
       description: React.PropTypes.string.isRequired,
       coverPhotoUrl: React.PropTypes.string.isRequired,
+      prizes: React.PropTypes.array.isRequired,
       secondsRemaining: React.PropTypes.number.isRequired,
       minutesRemaining: React.PropTypes.number.isRequired,
       hoursRemaining: React.PropTypes.number.isRequired,
       daysRemaining: React.PropTypes.number.isRequired
-    }).isRequired
+    }).isRequired,
+    challengeSubmissions: React.PropTypes.array,
+    navigator: React.PropTypes.object.isRequired
+  },
+  
+  getInitialState: function() {
+    return {
+      postViewMode: PostViewType.GRID
+    };
   },
 
   render: function() {
+    var postsElement;
+
+    if (this.props.challengeSubmissions && this.props.challengeSubmissions.length) {
+      postsElement = (
+        <SubmissionList
+          submissions={this.props.challengeSubmissions}
+          onLoadMoreSubmissionsPress={() => campusChallengeStore.fetchSubmissions(true)}
+          isNextPageLoading={campusChallengeStore.isFetchingNextPage()}
+          noMoreSubmissionsToFetch={!campusChallengeStore.getMoreToFetch()}
+          gridViewEnabled={this.state.postViewMode === PostViewType.GRID}
+          likePhotoAction={() => null}
+          unlikePhotoAction={() => null}
+          onSubmitCommentAction={() => null}
+          onDeleteCommentAction={() => null}
+          loadMoreButtonStyle={{
+            marginBottom: 40
+          }}
+          navigator={this.props.navigator}/>
+      );
+    }
+    else if (campusChallengeStore.isFetchingFirstPage()) {
+      postsElement = <Spinner/>;
+    }
+    else {
+      postsElement = <EmptyResults message="No submissions yet"/>;
+    }
+
     return (
       <View style={styles.container}>
 
@@ -51,12 +98,18 @@ var ActiveCampusChallenge = React.createClass({
           photoUrl={this.props.challenge.coverPhotoUrl}/>
 
         <SubmissionPostViewControls
-          currentPostViewMode={PostViewType.GRID}
-          onPostViewControlPress={()=>null}>
+          currentPostViewMode={this.state.postViewMode}
+          onPostViewControlPress={this._togglePostViewMode}>
           <Text style={[styles.endTime, { color: Colors.getPrimaryAppColor() }]}>
             {this._getTimeRemainingText()}
           </Text>
         </SubmissionPostViewControls>
+
+        <Text style={styles.prizeMessage}>
+          {this.props.challenge.prizes[0]}
+        </Text>
+
+        {postsElement}
 
       </View>
     );
@@ -87,6 +140,19 @@ var ActiveCampusChallenge = React.createClass({
     }
 
     return message;
+  },
+  
+  _togglePostViewMode: function() {
+    if (this.state.postViewMode === PostViewType.GRID) {
+      this.setState({
+        postViewMode: PostViewType.LIST
+      });
+    }
+    else {
+      this.setState({
+        postViewMode: PostViewType.GRID
+      });
+    }
   }
 
 });

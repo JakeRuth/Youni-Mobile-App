@@ -132,10 +132,6 @@ var PostHeader = React.createClass({
     }
   },
 
-  _shouldDisplayProfilePopup: function() {
-    return !this._isViewerPostOwner() && !this.props.renderedFromProfileView;
-  },
-
   _isViewerPostOwner: function() {
     return this.props.post.posterEmail === userLoginMetadataStore.getEmail();
   }

@@ -38,7 +38,7 @@ var styles = StyleSheet.create({
   }
 });
 
-var PostLikesList = React.createClass({
+var LikesList = React.createClass({
 
   propTypes: {
     users: React.PropTypes.array.isRequired,
@@ -82,4 +82,4 @@ var PostLikesList = React.createClass({
 
 });
 
-module.exports = PostLikesList;
+module.exports = LikesList;

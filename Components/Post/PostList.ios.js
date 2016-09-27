@@ -2,7 +2,9 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
+
 var homePostsStore = require('../../stores/post/HomePostsStore');
+
 var Post = require('./Post');
 var PostGrid = require('./PostGrid');
 var LoadMoreButton = require('../Common/LoadMoreButton');
@@ -11,9 +13,7 @@ var {
   View,
   Text,
   StyleSheet,
-  AppRegistry,
-  ScrollView,
-  TouchableHighlight
+  ScrollView
 } = ReactNative;
 
 var styles = StyleSheet.create({
@@ -37,7 +37,6 @@ var PostList = React.createClass({
     noMorePostsToFetch: React.PropTypes.bool.isRequired,
     refreshable: React.PropTypes.bool,
     isFeedRefreshing: React.PropTypes.bool,
-    viewerIsPostOwner: React.PropTypes.bool,
     renderedFromProfileView: React.PropTypes.bool,
     gridViewEnabled: React.PropTypes.bool,
     likePhotoAction: React.PropTypes.func.isRequired,
