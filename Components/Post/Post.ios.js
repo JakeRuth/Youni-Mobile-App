@@ -34,6 +34,13 @@ var Post = React.createClass({
 
   propTypes: {
     post: React.PropTypes.object.isRequired,
+    /* 
+     * this is needed for two reasons:
+     * 1) When this component was created, it was intended for Posts only so all the post action parameters are very opinionated
+     * 2) There is an immediate business need for the campus challenge feature and there is unfortunately not enough time for me
+     *    to refactor all this code to make this component more extensible, still not sure if that would be the right move anyways
+     */
+    renderedFromCampusChallenge: React.PropTypes.bool,
     renderedFromProfileView: React.PropTypes.bool,
     onSubmitCommentAction: React.PropTypes.func.isRequired,
     onDeleteCommentAction: React.PropTypes.func.isRequired,
@@ -71,11 +78,21 @@ var Post = React.createClass({
   },
 
   _onStarPress: function(liked) {
-    if (liked) {
-      return this._unlikePost;
+    if (this.props.renderedFromCampusChallenge) {
+      if (liked) {
+        return this.props.unlikePhotoAction;
+      }
+      else {
+        return this.props.likePhotoAction;
+      }
     }
     else {
-      return this._likePost;
+      if (liked) {
+        return this._unlikePost;
+      }
+      else {
+        return this._likePost;
+      }
     }
   },
 

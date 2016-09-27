@@ -54,7 +54,7 @@ var PostInteractionControls = React.createClass({
           <Icon
             style={styles.icon}
             color="red"
-            name={this._getStarIconName()}
+            name={this._getHeartIconName()}
             size={ICON_SIZE}/>
         </TouchableHighlight>
 
@@ -80,7 +80,7 @@ var PostInteractionControls = React.createClass({
     })
   },
 
-  _getStarIconName: function() {
+  _getHeartIconName: function() {
     if (this.props.post.liked) {
       return 'ios-heart';
     }

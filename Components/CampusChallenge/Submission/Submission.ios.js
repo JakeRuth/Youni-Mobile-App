@@ -28,10 +28,20 @@ var Submission = React.createClass({
         <Post
           {...this.props}
           post={this.props.submission.postJson}
-          likePhotoAction={this.props.upVoteAction}
-          unlikePhotoAction={this.props.removeUpVoteAction}/>
+          renderedFromCampusChallenge={true}
+          likePhotoAction={this.upVotePostAction}
+          unlikePhotoAction={this.removeUpVoteForPostAction}/>
       );
     }
+  },
+
+  // this function needs to get wrapped since the submission object ins't available in a post
+  upVotePostAction: function() {
+    this.props.upVoteAction(this.props.submission.id);
+  },
+  
+  removeUpVoteForPostAction: function() {
+    this.props.removeUpVoteAction(this.props.submission.id);
   }
 
 });

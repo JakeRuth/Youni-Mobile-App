@@ -23,19 +23,11 @@ var styles = StyleSheet.create({
 
 var AnonymousSubmissionFooter = React.createClass({
 
-  DOUBLE_TAP_TIME_CONSTRAINT: 250,
-
   propTypes: {
     submission: React.PropTypes.object.isRequired,
     upVoteAction: React.PropTypes.func.isRequired,
     removeUpVoteAction: React.PropTypes.func.isRequired,
     navigator: React.PropTypes.object.isRequired
-  },
-
-  getInitialState: function() {
-    return {
-      isLikeRequestInFlight: false // use to not spam up vote requests
-    };
   },
 
   render: function() {
@@ -45,12 +37,12 @@ var AnonymousSubmissionFooter = React.createClass({
       <View style={styles.container}>
 
         <TouchableHighlight
-          onPress={this.props.onStarPress}
+          onPress={this._onHeartIconPress}
           underlayColor='transparent'>
           <Icon
             style={styles.icon}
             color="red"
-            name={this._getStarIconName()}
+            name={this._getHeartIconName()}
             size={40}/>
         </TouchableHighlight>
 
@@ -70,8 +62,17 @@ var AnonymousSubmissionFooter = React.createClass({
       </View>
     );
   },
+  
+  _onHeartIconPress: function() {
+    if (this.props.submission.upVoted) {
+      this.props.removeUpVoteAction(this.props.submission.id);
+    }
+    else {
+      this.props.upVoteAction(this.props.submission.id);
+    }
+  },
 
-  _getStarIconName: function() {
+  _getHeartIconName: function() {
     if (this.props.submission.upVoted) {
       return 'ios-heart';
     }

@@ -3,6 +3,7 @@
 var Unicycle = require('../../Unicycle');
 
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
+var CampusChallengeUtils = require('../../Utils/CampusChallenge/CampusChallengeUtils');
 var userLoginMetadataStore = require('../UserLoginMetadataStore');
 
 var MAX_SUBMISSIONS_PER_PAGE = 40;
@@ -18,7 +19,8 @@ var campusChallengeStore = Unicycle.createStore({
       isFetchingFirstPage: false,
       isFetchingNextPage: false,
       offset: 0,
-      moreToFetch: true
+      moreToFetch: true,
+      isVoteRequestInFlight: false
     });
   },
 
@@ -98,6 +100,70 @@ var campusChallengeStore = Unicycle.createStore({
         that.set({
           isFetchingFirstPage: false,
           isFetchingNextPage: false
+        });
+      }
+    );
+  },
+  
+  upVoteSubmission: function(submissionId) {
+    var that = this;
+
+    if (this.get('isVoteRequestInFlight')) {
+      return;
+    }
+    
+    //optimistically up vote submission
+    this.set({
+      submissions: CampusChallengeUtils.upVoteSubmissionFromList(this.getSubmissions(), submissionId),
+      isVoteRequestInFlight: true
+    });
+
+    AjaxUtils.ajax(
+      '/campusChallenge/upVoteSubmission',
+      {
+        campusChallengeSubmissionIdString: submissionId,
+        userEmail: userLoginMetadataStore.getEmail()
+      },
+      (res) => {
+        that.set({
+          isVoteRequestInFlight: false
+        });
+      },
+      () => {
+        that.set({
+          isVoteRequestInFlight: false
+        });
+      }
+    );
+  },
+
+  removeUpVoteForSubmission: function(submissionId) {
+    var that = this;
+
+    if (this.get('isVoteRequestInFlight')) {
+      return;
+    }
+
+    //optimistically remove up vote on submission
+    this.set({
+      submissions: CampusChallengeUtils.removeUpVoteOnSubmissionFromList(this.getSubmissions(), submissionId),
+      isVoteRequestInFlight: true
+    });
+
+    AjaxUtils.ajax(
+      '/campusChallenge/removeUpVoteSubmission',
+      {
+        campusChallengeSubmissionIdString: submissionId,
+        userEmail: userLoginMetadataStore.getEmail()
+      },
+      (res) => {
+        that.set({
+          isVoteRequestInFlight: false
+        });
+      },
+      () => {
+        that.set({
+          isVoteRequestInFlight: false
         });
       }
     );

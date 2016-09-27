@@ -28,6 +28,7 @@ var styles = StyleSheet.create({
 
 var AnonymousSubmission = React.createClass({
 
+  DOUBLE_TAP_TIME_CONSTRAINT: 250,
   MAX_IMAGE_HEIGHT: 420,
 
   propTypes: {
@@ -78,7 +79,7 @@ var AnonymousSubmission = React.createClass({
 
   _photoOnClickAction: function(upVoted) {
     if (!upVoted) {
-      // TODO:
+      this.props.upVoteAction(this.props.submission.id);
     }
   },
 

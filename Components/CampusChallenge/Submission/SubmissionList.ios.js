@@ -67,9 +67,9 @@ var SubmissionList = React.createClass({
     for (var i = 0; i < submissionsJson.length; i++) {
       submissions.push(
         <Submission
+          {...this.props}
           key={i}
-          submission={submissionsJson[i]}
-          navigator={this.props.navigator}/>
+          submission={submissionsJson[i]}/>
       );
     }
 
