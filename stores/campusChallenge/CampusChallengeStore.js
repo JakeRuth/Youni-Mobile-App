@@ -21,7 +21,8 @@ var campusChallengeStore = Unicycle.createStore({
       isFetchingNextPage: false,
       offset: 0,
       moreToFetch: true,
-      isVoteRequestInFlight: false
+      isVoteRequestInFlight: false,
+      hasLoggedInUserEnteredChallenge: null
     });
   },
 
@@ -226,6 +227,31 @@ var campusChallengeStore = Unicycle.createStore({
       }
     );
   },
+  
+  requestHasLoggedInUserEnteredChallenge: function() {
+    var that = this;
+
+    // reset as if it has no value.  Null is meaningful!
+    this.set({
+      hasLoggedInUserEnteredChallenge: null
+    });
+
+    AjaxUtils.ajax(
+      '/campusChallenge/hasUserEntered',
+      {
+        campusChallengeIdString: this.getCurrentChallenge().id,
+        userEmail: userLoginMetadataStore.getEmail()
+      },
+      (res) => {
+        that.set({
+          hasLoggedInUserEnteredChallenge: res.body.userEnteredChallenge
+        });
+      },
+      () => {
+        
+      }
+    );
+  },
 
   isLoadingCurrentChallenge: function() {
     return this.get('isLoadingCurrentChallenge');
@@ -255,6 +281,10 @@ var campusChallengeStore = Unicycle.createStore({
 
   getMoreToFetch: function() {
     return this.get('moreToFetch');
+  },
+  
+  getHasLoggedInUserEnteredChallenge: function() {
+    return this.get('hasLoggedInUserEnteredChallenge');
   }
 
 });

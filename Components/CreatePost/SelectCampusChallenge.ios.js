@@ -9,9 +9,8 @@ var Spinner = require('../Common/Spinner');
 var PrettyTouchable = require('../Common/PrettyTouchable');
 
 var createPostStore = require('../../stores/CreatePostStore');
-var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
+var campusChallengeStore = require('../../stores/campusChallenge/CampusChallengeStore');
 var Colors = require('../../Utils/Common/Colors');
-var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 
 var {
   View,
@@ -49,25 +48,12 @@ var styles = StyleSheet.create({
 
 var SelectCampusChallenge = React.createClass({
 
-  getInitialState: function () {
-    return {
-      campusChallenge: null,
-      isLoading: true,
-      hasUserEnteredChallenge: null,
-      noCurrentChallenge: null
-    };
-  },
-
-  componentDidMount: function() {
-    this._requestCurrentChallenge();
-  },
-
   mixins: [
     Unicycle.listenTo(createPostStore)
   ],
 
   render: function() {
-    if (this.state.noCurrentChallenge) {
+    if (campusChallengeStore.getNoCurrentChallenge()) {
       return <View/>;
     }
     else {
@@ -110,28 +96,23 @@ var SelectCampusChallenge = React.createClass({
   },
 
   _renderButton: function() {
-    if (this.state.isLoading) {
-      return <Spinner/>;
-    }
-    else {
-      return (
-        <PrettyTouchable
-          label={this.state.campusChallenge.name}
-          containerStyle={{
-            height: 34,
-            paddingLeft: 12,
-            paddingRight: 12
-          }}
-          invertColors={this.state.hasUserEnteredChallenge && !createPostStore.getCampusChallengeIdString()}
-          onPress={this._onButtonPress}/>
-      );
-    }
+    return (
+      <PrettyTouchable
+        label={campusChallengeStore.getCurrentChallenge().name}
+        containerStyle={{
+          height: 34,
+          paddingLeft: 12,
+          paddingRight: 12
+        }}
+        invertColors={this._isButtonSelected()}
+        onPress={this._onButtonPress}/>
+    );
   },
 
   _onButtonPress: function() {
     var challengeId = createPostStore.getCampusChallengeIdString();
 
-    if (this.state.hasUserEnteredChallenge) {
+    if (campusChallengeStore.getHasLoggedInUserEnteredChallenge()) {
       AlertIOS.alert(
         'You have already entered this challenge.',
         'Limit one submission per student.',
@@ -146,58 +127,12 @@ var SelectCampusChallenge = React.createClass({
       createPostStore.setCampusChallengeIdString('');
     }
     else {
-      createPostStore.setCampusChallengeIdString(this.state.campusChallenge.id);
+      createPostStore.setCampusChallengeIdString(campusChallengeStore.getCurrentChallenge().id);
     }
   },
-
-  _requestCurrentChallenge: function() {
-    var that = this;
-
-    this.setState({
-      isLoading: true
-    });
-
-    AjaxUtils.ajax(
-      '/campusChallenge/getCurrentForNetwork',
-      {
-        networkName: userLoginMetadataStore.getNetworkName()
-      },
-      (res) => {
-        that.setState({
-          campusChallenge: res.body.challenge,
-          noCurrentChallenge: res.body.isChallengeEmpty
-        });
-        if (res.body.challenge.id) {
-          that._hasUserAlreadyEnteredChallenge(res.body.challenge.id);
-        }
-      },
-      () => {
-
-      }
-    );
-  },
-
-  _hasUserAlreadyEnteredChallenge: function(challengeId) {
-    var that = this;
-
-    AjaxUtils.ajax(
-      '/campusChallenge/hasUserEntered',
-      {
-        campusChallengeIdString: challengeId,
-        userEmail: userLoginMetadataStore.getEmail()
-      },
-      (res) => {
-        that.setState({
-          hasUserEnteredChallenge: res.body.userEnteredChallenge,
-          isLoading: false
-        });
-      },
-      () => {
-        that.setState({
-          isLoading: false
-        });
-      }
-    );
+  
+  _isButtonSelected: function() {
+    return !campusChallengeStore.getHasLoggedInUserEnteredChallenge() && !createPostStore.getCampusChallengeIdString()
   }
 
 });

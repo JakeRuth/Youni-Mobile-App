@@ -187,6 +187,7 @@ var CreatePostForm = React.createClass({
     createPostStore.setCaption('');
     createPostStore.setImageId('');
     createPostStore.setGroupIds([]);
+    createPostStore.setCampusChallengeIdString('');
   }
 
 });

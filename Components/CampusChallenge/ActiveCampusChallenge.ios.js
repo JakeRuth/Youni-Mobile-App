@@ -4,6 +4,7 @@ var React = require('react');
 var ReactNative = require('react-native');
 
 var ChallengeCoverPhoto = require('./ChallengeCoverPhoto');
+var ChallengeActionButton = require('./ChallengeActionButton');
 var SubmissionPostViewControls = require('./SubmissionPostViewControls');
 var SubmissionList = require('./Submission/SubmissionList');
 var Spinner = require('../Common/Spinner');
@@ -34,6 +35,11 @@ var styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
     paddingBottom: 5
+  },
+  challengeActionButtonContainer: {
+    position: 'absolute',
+    left: 0,
+    bottom: 35
   }
 });
 
@@ -110,6 +116,10 @@ var ActiveCampusChallenge = React.createClass({
         </Text>
 
         {postsElement}
+        
+        <View style={styles.challengeActionButtonContainer}>
+          <ChallengeActionButton navigator={this.props.navigator}/>
+        </View>
 
       </View>
     );

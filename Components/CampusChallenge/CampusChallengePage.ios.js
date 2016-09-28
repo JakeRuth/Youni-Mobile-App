@@ -52,7 +52,10 @@ var CampusChallengePage = React.createClass({
   ],
   
   componentDidMount: function() {
-    let callback = () => campusChallengeStore.fetchSubmissions(true);
+    let callback = () => {
+      campusChallengeStore.fetchSubmissions(true);
+      campusChallengeStore.requestHasLoggedInUserEnteredChallenge();
+    };
     campusChallengeStore.requestCurrentChallenge(callback);
   },
 
