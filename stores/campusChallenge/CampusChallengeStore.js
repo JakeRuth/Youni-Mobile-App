@@ -25,6 +25,21 @@ var campusChallengeStore = Unicycle.createStore({
       hasLoggedInUserEnteredChallenge: null
     });
   },
+  
+  reInit: function() {
+    this.set({
+      isLoadingCurrentChallenge: true,
+      currentChallenge: null,
+      noCurrentChallenge: false,
+      submissions: [],
+      isFetchingFirstPage: false,
+      isFetchingNextPage: false,
+      offset: 0,
+      moreToFetch: true,
+      isVoteRequestInFlight: false,
+      hasLoggedInUserEnteredChallenge: null
+    });
+  },
 
   requestCurrentChallenge: function(callback) {
     var that = this;
@@ -64,7 +79,7 @@ var campusChallengeStore = Unicycle.createStore({
     
     var that = this,
         currentOffset = this.get('offset'),
-        currentSubmissions = this.getSubmissions();
+        currentSubmissions;
 
     if (currentOffset === 0) {
       this.set({
@@ -77,6 +92,7 @@ var campusChallengeStore = Unicycle.createStore({
       });
     }
 
+    currentSubmissions = this.getSubmissions();
     AjaxUtils.ajax(
       '/campusChallenge/fetchRecentSubmissions',
       {

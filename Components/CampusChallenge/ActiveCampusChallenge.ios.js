@@ -16,6 +16,7 @@ var campusChallengeStore = require('../../stores/campusChallenge/CampusChallenge
 
 var {
   View,
+  ScrollView,
   Text,
   StyleSheet,
   TouchableHighlight
@@ -58,6 +59,7 @@ var ActiveCampusChallenge = React.createClass({
       daysRemaining: React.PropTypes.number.isRequired
     }).isRequired,
     challengeSubmissions: React.PropTypes.array,
+    handleScroll: React.PropTypes.func.isRequired,
     navigator: React.PropTypes.object.isRequired
   },
   
@@ -97,30 +99,35 @@ var ActiveCampusChallenge = React.createClass({
 
     return (
       <View style={styles.container}>
+        <ScrollView
+          style={styles.container}
+          automaticallyAdjustContentInsets={false}
+          onScroll={this.props.handleScroll}>
 
-        <ChallengeCoverPhoto
-          name={this.props.challenge.name}
-          description={this.props.challenge.description}
-          photoUrl={this.props.challenge.coverPhotoUrl}/>
+          <ChallengeCoverPhoto
+            name={this.props.challenge.name}
+            description={this.props.challenge.description}
+            photoUrl={this.props.challenge.coverPhotoUrl}/>
 
-        <SubmissionPostViewControls
-          currentPostViewMode={this.state.postViewMode}
-          onPostViewControlPress={this._togglePostViewMode}>
-          <Text style={[styles.endTime, { color: Colors.getPrimaryAppColor() }]}>
-            {this._getTimeRemainingText()}
+          <SubmissionPostViewControls
+            currentPostViewMode={this.state.postViewMode}
+            onPostViewControlPress={this._togglePostViewMode}>
+            <Text style={[styles.endTime, { color: Colors.getPrimaryAppColor() }]}>
+              {this._getTimeRemainingText()}
+            </Text>
+          </SubmissionPostViewControls>
+
+          <Text style={styles.prizeMessage}>
+            {this.props.challenge.prizes[0]}
           </Text>
-        </SubmissionPostViewControls>
 
-        <Text style={styles.prizeMessage}>
-          {this.props.challenge.prizes[0]}
-        </Text>
+          {postsElement}
 
-        {postsElement}
-        
+        </ScrollView>
+
         <View style={styles.challengeActionButtonContainer}>
           <ChallengeActionButton navigator={this.props.navigator}/>
         </View>
-
       </View>
     );
   },

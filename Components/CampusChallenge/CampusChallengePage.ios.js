@@ -15,6 +15,7 @@ var {
   View,
   Text,
   StyleSheet,
+  ScrollView,
   TouchableHighlight
 } = ReactNative;
 
@@ -52,11 +53,7 @@ var CampusChallengePage = React.createClass({
   ],
   
   componentDidMount: function() {
-    let callback = () => {
-      campusChallengeStore.fetchSubmissions(true);
-      campusChallengeStore.requestHasLoggedInUserEnteredChallenge();
-    };
-    campusChallengeStore.requestCurrentChallenge(callback);
+    this._loadPage();
   },
 
   render: function() {
@@ -84,6 +81,7 @@ var CampusChallengePage = React.createClass({
         <ActiveCampusChallenge
           challenge={campusChallengeStore.getCurrentChallenge()}
           challengeSubmissions={campusChallengeStore.getSubmissions()}
+          handleScroll={this.handleScroll}
           navigator={this.props.navigator}/>
       );
     }
@@ -101,6 +99,23 @@ var CampusChallengePage = React.createClass({
 
       </View>
     );
+  },
+
+  handleScroll(e) {
+    var infiniteScrollThreshold = -1;
+
+    if (e.nativeEvent.contentOffset.y < infiniteScrollThreshold) {
+      campusChallengeStore.reInit();
+      this._loadPage();
+    }
+  },
+
+  _loadPage: function() {
+    let callback = () => {
+      campusChallengeStore.fetchSubmissions(true);
+      campusChallengeStore.requestHasLoggedInUserEnteredChallenge();
+    };
+    campusChallengeStore.requestCurrentChallenge(callback);
   }
 
 });
