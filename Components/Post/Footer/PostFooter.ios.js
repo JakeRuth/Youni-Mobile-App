@@ -50,14 +50,7 @@ var PostFooter = React.createClass({
   },
 
   render: function() {
-    var caption, viewAllCommentsLink, commentSeparator;
-
-    // TODO: Fix this crap
-    if (this.props.post.caption !== '_') {
-      caption = (
-        <Caption text={this.props.post.caption}/>
-      );
-    }
+    var viewAllCommentsLink, commentSeparator;
 
     if (this._showCommentSeparator()) {
       commentSeparator = <View style={styles.blankLine}/>;
@@ -94,7 +87,7 @@ var PostFooter = React.createClass({
             });
           }}/>
 
-        {caption}
+        <Caption text={this.props.post.caption}/>
         {commentSeparator}
         {viewAllCommentsLink}
         

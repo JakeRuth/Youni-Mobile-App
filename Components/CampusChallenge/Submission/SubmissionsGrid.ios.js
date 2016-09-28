@@ -3,11 +3,11 @@
 var React = require('react');
 var ReactNative = require('react-native');
 
+var SubmissionGridThumbnail = require('./SubmissionGridThumbnail');
+
 var {
   View,
-  Image,
-  StyleSheet,
-  Dimensions
+  StyleSheet
 } = ReactNative;
 
 var styles = StyleSheet.create({
@@ -16,11 +16,6 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center'
-  },
-  image: {
-    margin: 1,
-    height: Dimensions.get('window').width / 3,
-    width: Dimensions.get('window').width / 3
   }
 });
 
@@ -32,7 +27,6 @@ var SubmissionsGrid = React.createClass({
     removeUpVoteAction: React.PropTypes.func.isRequired,
     onSubmitCommentAction: React.PropTypes.func.isRequired,
     onDeleteCommentAction: React.PropTypes.func.isRequired,
-    viewerIsSubmissionOwner: React.PropTypes.bool,
     navigator: React.PropTypes.object.isRequired
   },
 
@@ -53,14 +47,14 @@ var SubmissionsGrid = React.createClass({
     );
   },
 
-  _renderSubmissionRow: function(leftPostJson, middlePostJson, rightPostJson, index) {
+  _renderSubmissionRow: function(leftSubmissionJson, middleSubmissionJson, rightSubmissionJson, index) {
     return (
       <View
         style={styles.submissionRow}
         key={index}>
-        {this._renderGridItem(leftPostJson)}
-        {this._renderGridItem(middlePostJson)}
-        {this._renderGridItem(rightPostJson)}
+        {this._renderGridItem(leftSubmissionJson)}
+        {this._renderGridItem(middleSubmissionJson)}
+        {this._renderGridItem(rightSubmissionJson)}
       </View>
     );
   },
@@ -68,20 +62,10 @@ var SubmissionsGrid = React.createClass({
   _renderGridItem: function(submission) {
     if (submission) {
       return (
-        <Image
-          style={styles.image}
-          resizeMode="cover"
-          source={{uri: this._getSubmissionPhotoUrl(submission)}}/>
+        <SubmissionGridThumbnail
+          {...this.props}
+          submission={submission}/>
       );
-    }
-  },
-
-  _getSubmissionPhotoUrl: function(submission) {
-    if (submission.postId && !submission.isAnonymous) {
-      return submission.postJson.photoUrl;
-    }
-    else {
-      return submission.photoUrl;
     }
   }
 

@@ -27,7 +27,6 @@ var SubmissionList = React.createClass({
     onLoadMoreSubmissionsPress: React.PropTypes.func.isRequired,
     isNextPageLoading: React.PropTypes.bool.isRequired,
     noMoreSubmissionsToFetch: React.PropTypes.bool.isRequired,
-    viewerIsSubmissionOwner: React.PropTypes.bool,
     gridViewEnabled: React.PropTypes.bool,
     upVoteAction: React.PropTypes.func.isRequired,
     removeUpVoteAction: React.PropTypes.func.isRequired,

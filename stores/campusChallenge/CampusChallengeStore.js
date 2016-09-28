@@ -123,7 +123,7 @@ var campusChallengeStore = Unicycle.createStore({
     );
   },
   
-  upVoteSubmission: function(submissionId) {
+  upVoteSubmission: function(submissionId, callback) {
     var that = this;
 
     if (this.get('isVoteRequestInFlight')) {
@@ -135,6 +135,9 @@ var campusChallengeStore = Unicycle.createStore({
       submissions: CampusChallengeUtils.upVoteSubmissionFromList(this.getSubmissions(), submissionId),
       isVoteRequestInFlight: true
     });
+    if (callback) {
+      callback();
+    }
 
     AjaxUtils.ajax(
       '/campusChallenge/upVoteSubmission',
@@ -155,7 +158,7 @@ var campusChallengeStore = Unicycle.createStore({
     );
   },
 
-  removeUpVoteForSubmission: function(submissionId) {
+  removeUpVoteForSubmission: function(submissionId, callback) {
     var that = this;
 
     if (this.get('isVoteRequestInFlight')) {
@@ -167,6 +170,9 @@ var campusChallengeStore = Unicycle.createStore({
       submissions: CampusChallengeUtils.removeUpVoteOnSubmissionFromList(this.getSubmissions(), submissionId),
       isVoteRequestInFlight: true
     });
+    if (callback) {
+      callback();
+    }
 
     AjaxUtils.ajax(
       '/campusChallenge/removeUpVoteSubmission',

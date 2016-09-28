@@ -29,7 +29,8 @@ var Caption = React.createClass({
   },
 
   render: function() {
-    if (!this.props.text) {
+    // Bad Tech Debt.  The api doesn't let a post be created with no caption, so '_' is equivalent to empty string.  See request to create post
+    if (!this.props.text || this.props.text === '_') {
       return <View/>;
     }
 

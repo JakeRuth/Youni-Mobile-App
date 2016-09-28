@@ -2,14 +2,11 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
-var Unicycle = require('../../Unicycle');
 
 var Post = require('../Post/Post');
 var YouniHeader = require('../Common/YouniHeader');
 var BackArrow = require('../Common/BackArrow');
 
-var explorePostsStore = require('../../stores/post/ExplorePostsStore');
-var profileOwnerStore = require('../../stores/profile/ProfileOwnerStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
@@ -57,11 +54,6 @@ var PostPopup = React.createClass({
       post: this.props.post // post can change if it get's liked or commented on
     };
   },
-
-  mixins: [
-    Unicycle.listenTo(explorePostsStore),
-    Unicycle.listenTo(profileOwnerStore)
-  ],
 
   render: function () {
     return (

@@ -2,11 +2,10 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
+
 var PostPopup = require('../PopupPages/PostPopup');
-var Colors = require('../../Utils/Common/Colors');
 
 var {
-  View,
   Image,
   StyleSheet,
   Dimensions,

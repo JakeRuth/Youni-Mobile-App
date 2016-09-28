@@ -80,8 +80,8 @@ var ActiveCampusChallenge = React.createClass({
           isNextPageLoading={campusChallengeStore.isFetchingNextPage()}
           noMoreSubmissionsToFetch={!campusChallengeStore.getMoreToFetch()}
           gridViewEnabled={this.state.postViewMode === PostViewType.GRID}
-          upVoteAction={(submissionId) => campusChallengeStore.upVoteSubmission(submissionId)}
-          removeUpVoteAction={(submissionId) => campusChallengeStore.removeUpVoteForSubmission(submissionId)}
+          upVoteAction={(submissionId, callback) => campusChallengeStore.upVoteSubmission(submissionId, callback)}
+          removeUpVoteAction={(submissionId, callback) => campusChallengeStore.removeUpVoteForSubmission(submissionId, callback)}
           onSubmitCommentAction={campusChallengeStore.submitComment}
           onDeleteCommentAction={campusChallengeStore.deleteComment}
           loadMoreButtonStyle={{

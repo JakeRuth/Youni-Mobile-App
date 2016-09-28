@@ -7,13 +7,7 @@ var CampusChallengeUtils = {
       return sub.id === upVotedSubmissionId;
     });
 
-    submission.numVotes++;
-    submission.upVoted = true;
-
-    if (submission.postJson && submission.postJson.numLikes >= 0) {
-      submission.postJson.numLikes++;
-      submission.postJson.liked = true;
-    }
+    this.upVoteSubmission(submission);
     return submissions;
   },
 
@@ -22,6 +16,22 @@ var CampusChallengeUtils = {
       return sub.id === removedUpVoteSubmissionId;
     });
 
+    this.removeUpVoteOnSubmission(submission);
+    return submissions;
+  },
+
+  upVoteSubmission: function(submission) {
+    submission.numVotes++;
+    submission.upVoted = true;
+
+    if (submission.postJson && submission.postJson.numLikes >= 0) {
+      submission.postJson.numLikes++;
+      submission.postJson.liked = true;
+    }
+    return submission;
+  },
+
+  removeUpVoteOnSubmission: function(submission) {
     submission.numVotes--;
     submission.upVoted = false;
 
@@ -29,7 +39,7 @@ var CampusChallengeUtils = {
       submission.postJson.numLikes--;
       submission.postJson.liked = false;
     }
-    return submissions;
+    return submission;
   },
   
   getSubmissionByPostId: function(submissions, postId) {
