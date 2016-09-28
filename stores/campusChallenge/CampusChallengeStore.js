@@ -22,7 +22,7 @@ var campusChallengeStore = Unicycle.createStore({
       offset: 0,
       moreToFetch: true,
       isVoteRequestInFlight: false,
-      hasLoggedInUserEnteredChallenge: null
+      loggedInUserSubmission: null
     });
   },
   
@@ -37,7 +37,7 @@ var campusChallengeStore = Unicycle.createStore({
       offset: 0,
       moreToFetch: true,
       isVoteRequestInFlight: false,
-      hasLoggedInUserEnteredChallenge: null
+      loggedInUserSubmission: null
     });
   },
 
@@ -250,23 +250,23 @@ var campusChallengeStore = Unicycle.createStore({
     );
   },
   
-  requestHasLoggedInUserEnteredChallenge: function() {
+  requestLoggedInUserSubmission: function() {
     var that = this;
 
     // reset as if it has no value.  Null is meaningful!
     this.set({
-      hasLoggedInUserEnteredChallenge: null
+      loggedInUserSubmission: null
     });
 
     AjaxUtils.ajax(
-      '/campusChallenge/hasUserEntered',
+      '/campusChallenge/getSubmissionForUser',
       {
         campusChallengeIdString: this.getCurrentChallenge().id,
         userEmail: userLoginMetadataStore.getEmail()
       },
       (res) => {
         that.set({
-          hasLoggedInUserEnteredChallenge: res.body.userEnteredChallenge
+          loggedInUserSubmission: res.body.submission
         });
       },
       () => {
@@ -305,8 +305,19 @@ var campusChallengeStore = Unicycle.createStore({
     return this.get('moreToFetch');
   },
   
-  getHasLoggedInUserEnteredChallenge: function() {
-    return this.get('hasLoggedInUserEnteredChallenge');
+  getLoggedInUserSubmission: function() {
+    let sub = this.get('loggedInUserSubmission');
+    return sub ? sub.toJSON() : null;
+  },
+  
+  hasLoggedInUserEntered: function() {
+    let sub = this.getLoggedInUserSubmission();
+    if (sub === null) {
+      return null; // null is meaningful to callers
+    }
+    
+    // it can be an empty map
+    return sub.id ? true : false;
   }
 
 });

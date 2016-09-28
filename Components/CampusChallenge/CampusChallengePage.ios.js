@@ -113,7 +113,7 @@ var CampusChallengePage = React.createClass({
   _loadPage: function() {
     let callback = () => {
       campusChallengeStore.fetchSubmissions(true);
-      campusChallengeStore.requestHasLoggedInUserEnteredChallenge();
+      campusChallengeStore.requestLoggedInUserSubmission();
     };
     campusChallengeStore.requestCurrentChallenge(callback);
   }

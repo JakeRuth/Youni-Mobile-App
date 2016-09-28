@@ -183,7 +183,7 @@ var CreatePostForm = React.createClass({
 
       let callback = () => {
         campusChallengeStore.fetchSubmissions(true);
-        campusChallengeStore.requestHasLoggedInUserEnteredChallenge();
+        campusChallengeStore.requestLoggedInUserSubmission();
       };
       campusChallengeStore.reInit();
       campusChallengeStore.requestCurrentChallenge(callback);

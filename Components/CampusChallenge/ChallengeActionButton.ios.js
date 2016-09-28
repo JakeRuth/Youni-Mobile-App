@@ -3,6 +3,7 @@
 var React = require('react');
 var ReactNative = require('react-native');
 
+var CampusChallengeSubmissionPopup = require('../PopupPages/CampusChallengeSubmissionPopup');
 var Spinner = require('../Common/Spinner');
 
 var ShowImagePicker = require('../CreatePost/ShowImagePicker');
@@ -39,17 +40,17 @@ var ChallengeActionButton = React.createClass({
   },
 
   render: function() {
-    var hasUserEnteredChallenge = campusChallengeStore.getHasLoggedInUserEnteredChallenge(),
+    var submission = campusChallengeStore.hasLoggedInUserEntered(),
         content;
 
-    if (hasUserEnteredChallenge === null) {
+    if (submission === null) {
       content = (
         <View>
           <Spinner color="white"/>
         </View>
       );
     }
-    else if (hasUserEnteredChallenge) {
+    else if (submission) {
       content = (
         <Text style={styles.label}>
           View Submission
@@ -75,14 +76,19 @@ var ChallengeActionButton = React.createClass({
   },
 
   _onPress: function() {
-    var hasUserEnteredChallenge = campusChallengeStore.getHasLoggedInUserEnteredChallenge();
+    var submission = campusChallengeStore.hasLoggedInUserEntered();
 
-    if (hasUserEnteredChallenge === null) {
+    if (submission === null) {
       return;
     }
 
-    if (hasUserEnteredChallenge) {
-      
+    if (submission) {
+      this.props.navigator.push({
+        component: CampusChallengeSubmissionPopup,
+        passProps: {
+          submission: campusChallengeStore.getLoggedInUserSubmission()
+        }
+      });
     }
     else {
       createPostStore.setCampusChallengeIdString(campusChallengeStore.getCurrentChallenge().id);

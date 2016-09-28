@@ -8,8 +8,12 @@ var YouniHeader = require('../Common/YouniHeader');
 var BackArrow = require('../Common/BackArrow');
 
 var Colors = require('../../Utils/Common/Colors');
+var AjaxUtils = require('../../Utils/Common/AjaxUtils');
+var PostUtils = require('../../Utils/Post/PostUtils');
 var LogoImageSize = require('../../Utils/Enums/LogoImageSize');
 var CampusChallengeUtils = require('../../Utils/CampusChallenge/CampusChallengeUtils');
+
+var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 
 var {
   View,
@@ -40,14 +44,15 @@ var CampusChallengeSubmissionPopup = React.createClass({
     submission: React.PropTypes.object.isRequired,
     onSubmitCommentAction: React.PropTypes.func,
     onDeleteCommentAction: React.PropTypes.func,
-    upVoteAction: React.PropTypes.func.isRequired,
-    removeUpVoteAction: React.PropTypes.func.isRequired,
+    upVoteAction: React.PropTypes.func,
+    removeUpVoteAction: React.PropTypes.func,
     navigator: React.PropTypes.object.isRequired
   },
 
   getInitialState: function() {
     return {
-      submission: this.props.submission
+      submission: this.props.submission,
+      isVoteRequestInFlight: false // used to prevent API call spam (from rapid user tapping)
     };
   },
 
@@ -68,8 +73,10 @@ var CampusChallengeSubmissionPopup = React.createClass({
           <Submission
             {...this.props}
             submission={this.state.submission}
-            upVoteAction={this.upVoteAction}
-            removeUpVoteAction={this.removeUpVoteAction}/>
+            upVoteAction={this.props.upVoteAction ? this.upVoteAction : this._upVote}
+            removeUpVoteAction={this.props.removeUpVoteAction ? this.removeUpVoteAction : this._removeUpVote}
+            onSubmitCommentAction={this.props.onSubmitCommentAction ? this.props.onSubmitCommentAction : this._submitComment}
+            onDeleteCommentAction={this.props.onDeleteCommentAction ? this.props.onDeleteCommentAction : this._deleteComment}/>
         </ScrollView>
 
       </View>
@@ -91,6 +98,131 @@ var CampusChallengeSubmissionPopup = React.createClass({
         submission: CampusChallengeUtils.removeUpVoteOnSubmission(this.state.submission)
       });
     });
+  },
+
+  _upVote: function() {
+    var that = this;
+
+    if (this.state.isVoteRequestInFlight) {
+      return;
+    }
+
+    //optimistically up vote submission
+    this.setState({
+      submission: CampusChallengeUtils.upVoteSubmission(this.state.submission),
+      isVoteRequestInFlight: true
+    });
+
+    AjaxUtils.ajax(
+      '/campusChallenge/upVoteSubmission',
+      {
+        campusChallengeSubmissionIdString: this.state.submission.id,
+        userEmail: userLoginMetadataStore.getEmail()
+      },
+      (res) => {
+        that.setState({
+          isVoteRequestInFlight: false
+        });
+      },
+      () => {
+        that.setState({
+          isVoteRequestInFlight: false
+        });
+      }
+    );
+  },
+
+  _removeUpVote: function() {
+    var that = this;
+
+    if (this.state.isVoteRequestInFlight) {
+      return;
+    }
+
+    //optimistically remove up vote on submission
+    this.setState({
+      submission: CampusChallengeUtils.removeUpVoteOnSubmission(this.state.submission),
+      isVoteRequestInFlight: true
+    });
+
+    AjaxUtils.ajax(
+      '/campusChallenge/removeUpVoteSubmission',
+      {
+        campusChallengeSubmissionIdString: this.state.submission.id,
+        userEmail: userLoginMetadataStore.getEmail()
+      },
+      (res) => {
+        that.setState({
+          isVoteRequestInFlight: false
+        });
+      },
+      () => {
+        that.setState({
+          isVoteRequestInFlight: false
+        });
+      }
+    );
+  },
+
+  _submitComment: function(comment, post, callback) {
+    if (this.state.submission.isAnonymous) {
+      return;
+    }
+
+    var that = this,
+        currSubmission = this.state.submission,
+        commenterName = userLoginMetadataStore.getFullName(),
+        commenterProfileImage = userLoginMetadataStore.getProfileImageUrl();
+
+    if (!comment) {
+      return;
+    }
+
+    AjaxUtils.ajax(
+      '/post/createComment',
+      {
+        postIdString: post.postIdString,
+        userIdString: userLoginMetadataStore.getUserId(),
+        comment: comment
+      },
+      (res) => {
+        currSubmission.postJson = PostUtils.addComment(post, comment, commenterName, commenterProfileImage, res.body.commentId);
+        that.setState({
+          submission: currSubmission
+        });
+        callback(comment, res.body.commentId);
+      },
+      () => {
+
+      }
+    );
+  },
+
+  _deleteComment: function(comment, post, callback) {
+    if (this.state.submission.isAnonymous) {
+      return;
+    }
+
+    var that = this,
+        currSubmission = this.state.submission;
+
+    AjaxUtils.ajax(
+      '/post/deleteComment',
+      {
+        commentIdString: comment.id,
+        userIdString: userLoginMetadataStore.getUserId()
+      },
+      (res) => {
+        currSubmission.postJson = PostUtils.deleteComment(post, res.body.firstComments);
+        that.setState({
+          submission: currSubmission
+        });
+        callback();
+      },
+      () => {
+
+      }
+    );
   }
 
 });

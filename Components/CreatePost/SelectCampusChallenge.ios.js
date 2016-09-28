@@ -104,7 +104,7 @@ var SelectCampusChallenge = React.createClass({
           paddingLeft: 12,
           paddingRight: 12
         }}
-        invertColors={this._isButtonSelected()}
+        invertColors={!this._isButtonSelected()}
         onPress={this._onButtonPress}/>
     );
   },
@@ -112,7 +112,7 @@ var SelectCampusChallenge = React.createClass({
   _onButtonPress: function() {
     var challengeId = createPostStore.getCampusChallengeIdString();
 
-    if (campusChallengeStore.getHasLoggedInUserEnteredChallenge()) {
+    if (campusChallengeStore.hasLoggedInUserEntered()) {
       AlertIOS.alert(
         'You have already entered this challenge.',
         'Limit one submission per student.',
@@ -132,7 +132,7 @@ var SelectCampusChallenge = React.createClass({
   },
   
   _isButtonSelected: function() {
-    return !campusChallengeStore.getHasLoggedInUserEnteredChallenge() && !createPostStore.getCampusChallengeIdString()
+    return !campusChallengeStore.hasLoggedInUserEntered() && createPostStore.getCampusChallengeIdString()
   }
 
 });
