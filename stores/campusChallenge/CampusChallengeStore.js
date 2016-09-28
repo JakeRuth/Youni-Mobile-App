@@ -73,7 +73,7 @@ var campusChallengeStore = Unicycle.createStore({
   },
 
   fetchSubmissions: function(shouldRecurse) {
-    if (!this.getCurrentChallenge()) {
+    if (!this.getCurrentChallenge().id) {
       return;
     }
     
@@ -251,7 +251,12 @@ var campusChallengeStore = Unicycle.createStore({
   },
   
   requestLoggedInUserSubmission: function() {
-    var that = this;
+    var that = this,
+        campusChallengeId = this.getCurrentChallenge().id;
+
+    if (!campusChallengeId) {
+      return;
+    }
 
     // reset as if it has no value.  Null is meaningful!
     this.set({
@@ -261,7 +266,7 @@ var campusChallengeStore = Unicycle.createStore({
     AjaxUtils.ajax(
       '/campusChallenge/getSubmissionForUser',
       {
-        campusChallengeIdString: this.getCurrentChallenge().id,
+        campusChallengeIdString: campusChallengeId,
         userEmail: userLoginMetadataStore.getEmail()
       },
       (res) => {
