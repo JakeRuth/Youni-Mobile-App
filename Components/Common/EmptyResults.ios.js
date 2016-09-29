@@ -28,13 +28,16 @@ var styles = StyleSheet.create({
 var EmptyResults = React.createClass({
 
   propTypes: {
-    message: React.PropTypes.string
+    message: React.PropTypes.string,
+    textStyle: React.PropTypes.object
   },
 
   render: function() {
     return (
       <View style={styles.emptySearchResultsContainer}>
-        <Text style={styles.emptySearchText}>{this.props.message}</Text>
+        <Text style={[styles.emptySearchText, this.props.textStyle]}>
+          {this.props.message}
+        </Text>
       </View>
     )
   }

@@ -14,9 +14,7 @@ var campusChallengeStore = require('../../stores/campusChallenge/CampusChallenge
 var {
   View,
   Text,
-  StyleSheet,
-  ScrollView,
-  TouchableHighlight
+  StyleSheet
 } = ReactNative;
 
 var styles = StyleSheet.create({

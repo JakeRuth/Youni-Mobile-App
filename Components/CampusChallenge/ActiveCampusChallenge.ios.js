@@ -3,6 +3,7 @@
 var React = require('react');
 var ReactNative = require('react-native');
 
+var PastChallengesBanner = require('./PastChallengesBanner');
 var ChallengeCoverPhoto = require('./ChallengeCoverPhoto');
 var ChallengeActionButton = require('./ChallengeActionButton');
 var SubmissionPostViewControls = require('./SubmissionPostViewControls');
@@ -94,7 +95,11 @@ var ActiveCampusChallenge = React.createClass({
       postsElement = <Spinner/>;
     }
     else {
-      postsElement = <EmptyResults message="No submissions yet"/>;
+      postsElement = (
+        <EmptyResults
+          textStyle={{marginTop: 20}}
+          message="No submissions yet"/>
+      );
     }
 
     return (
@@ -103,6 +108,8 @@ var ActiveCampusChallenge = React.createClass({
           style={styles.container}
           automaticallyAdjustContentInsets={false}
           onScroll={this.props.handleScroll}>
+
+          <PastChallengesBanner navigator={this.props.navigator}/>
 
           <ChallengeCoverPhoto
             name={this.props.challenge.name}

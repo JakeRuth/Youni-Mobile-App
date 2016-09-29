@@ -20,14 +20,11 @@ var styles = StyleSheet.create({
     justifyContent: 'center'
   },
   name: {
-    height: 40,
     color: Colors.WHITE_SMOKE,
     fontSize: 38,
     textAlign: 'center'
   },
   description: {
-    paddingTop: 8,
-    height: 40,
     color: Colors.WHITE_SMOKE,
     fontSize: 14,
     textAlign: 'center'
