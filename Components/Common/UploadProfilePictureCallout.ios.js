@@ -53,7 +53,7 @@ var UploadProfilePictureCallout = React.createClass({
           underlayColor={Colors.LOUD_RED}
           onPress={this.props.onPress}>
 
-          <View style={{felx: 1}}>
+          <View style={{flex: 1}}>
             <Text style={styles.label}>
               Upload Profile Picture
             </Text>
