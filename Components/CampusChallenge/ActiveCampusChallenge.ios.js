@@ -76,6 +76,7 @@ var ActiveCampusChallenge = React.createClass({
     if (this.props.challengeSubmissions && this.props.challengeSubmissions.length) {
       postsElement = (
         <SubmissionList
+          style={{marginBottom: 60}}
           submissions={this.props.challengeSubmissions}
           onLoadMoreSubmissionsPress={() => campusChallengeStore.fetchSubmissions(true)}
           isNextPageLoading={campusChallengeStore.isFetchingNextPage()}

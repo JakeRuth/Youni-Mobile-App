@@ -39,7 +39,7 @@ var SubmissionList = React.createClass({
   render: function() {
     return (
       <ScrollView
-        style={styles.container}
+        style={[styles.container, this.props.style]}
         automaticallyAdjustContentInsets={false}>
 
         {this._renderSubmissions()}

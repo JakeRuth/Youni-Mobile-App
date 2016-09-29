@@ -99,7 +99,7 @@ var Post = React.createClass({
   _onDoubleTapPhotoAction: function() {
     var timeDifference = new Date().getTime() - this.state.timeOfLastPhotoTap;
 
-    if (timeDifference < this.DOUBLE_TAP_TIME_CONSTRAINT) {
+    if (timeDifference < this.DOUBLE_TAP_TIME_CONSTRAINT && !this.state.isLikeRequestInFlight) {
       this._photoOnClickAction(this.props.post.liked);
     }
 
@@ -109,7 +109,14 @@ var Post = React.createClass({
   },
 
   _photoOnClickAction: function(liked) {
-    if (!liked) {
+    if (liked) {
+      return;
+    }
+
+    if (this.props.renderedFromCampusChallenge) {
+      this.props.likePhotoAction();
+    }
+    else {
       this._likePost();
     }
   },

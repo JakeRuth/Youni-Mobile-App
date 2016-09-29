@@ -90,6 +90,7 @@ var CampusChallengeSubmissionPopup = React.createClass({
         submission: CampusChallengeUtils.upVoteSubmission(this.state.submission)
       });
     });
+    this.forceUpdate();
   },
 
   removeUpVoteAction: function() {
@@ -98,6 +99,7 @@ var CampusChallengeSubmissionPopup = React.createClass({
         submission: CampusChallengeUtils.removeUpVoteOnSubmission(this.state.submission)
       });
     });
+    this.forceUpdate();
   },
 
   _upVote: function() {

@@ -20,11 +20,13 @@ var styles = StyleSheet.create({
     justifyContent: 'center'
   },
   name: {
+    backgroundColor: 'transparent',
     color: Colors.WHITE_SMOKE,
     fontSize: 38,
     textAlign: 'center'
   },
   description: {
+    backgroundColor: 'transparent',
     color: Colors.WHITE_SMOKE,
     fontSize: 14,
     textAlign: 'center'
