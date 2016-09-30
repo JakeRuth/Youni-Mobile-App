@@ -60,7 +60,9 @@ var SubmissionsGrid = React.createClass({
     // if there are winning submissions render them first
     if (winningSubmissionsJson) {
       for (var j = 0; j < winningSubmissionsJson.length; j++) {
-        submissionElements.push(this._renderGridItem(winningSubmissionsJson[j], j));
+        // pass in the submissions json since that's what get's update from likes, comments, etc.
+        let sub = submissionsJson.find((sub) => { return sub.id === winningSubmissionsJson[j].id });
+        submissionElements.push(this._renderGridItem(sub, j));
       }
     }
 
