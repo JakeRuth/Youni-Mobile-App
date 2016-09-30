@@ -82,6 +82,7 @@ var CampusChallengePopup = React.createClass({
       submissionsElement = (
         <SubmissionList
           submissions={this.state.submissions}
+          winningSubmissions={this.props.challenge.winningSubmissions}
           onLoadMoreSubmissionsPress={() => this.fetchSubmissions(true)}
           isNextPageLoading={this.state.loadingNextPageOfSubmissions}
           noMoreSubmissionsToFetch={!this.state.moreToFetch}
@@ -180,7 +181,7 @@ var CampusChallengePopup = React.createClass({
 
     currentSubmissions = this.state.submissions;
     AjaxUtils.ajax(
-      '/campusChallenge/fetchRecentSubmissions',
+      '/campusChallenge/fetchTopSubmissions',
       {
         campusChallengeIdString: this.props.challenge.id,
         userEmail: userLoginMetadataStore.getEmail(),

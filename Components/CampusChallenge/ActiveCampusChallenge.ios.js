@@ -48,17 +48,7 @@ var styles = StyleSheet.create({
 var ActiveCampusChallenge = React.createClass({
 
   propTypes: {
-    challenge: React.PropTypes.shape({
-      id: React.PropTypes.string.isRequired,
-      name: React.PropTypes.string.isRequired,
-      description: React.PropTypes.string.isRequired,
-      coverPhotoUrl: React.PropTypes.string.isRequired,
-      prizes: React.PropTypes.array.isRequired,
-      secondsRemaining: React.PropTypes.number.isRequired,
-      minutesRemaining: React.PropTypes.number.isRequired,
-      hoursRemaining: React.PropTypes.number.isRequired,
-      daysRemaining: React.PropTypes.number.isRequired
-    }).isRequired,
+    challenge: React.PropTypes.object.isRequired,
     challengeSubmissions: React.PropTypes.array,
     handleScroll: React.PropTypes.func.isRequired,
     navigator: React.PropTypes.object.isRequired

@@ -24,6 +24,7 @@ var SubmissionList = React.createClass({
 
   propTypes: {
     submissions: React.PropTypes.array.isRequired,
+    winningSubmissions: React.PropTypes.array,
     onLoadMoreSubmissionsPress: React.PropTypes.func.isRequired,
     isNextPageLoading: React.PropTypes.bool.isRequired,
     noMoreSubmissionsToFetch: React.PropTypes.bool.isRequired,
