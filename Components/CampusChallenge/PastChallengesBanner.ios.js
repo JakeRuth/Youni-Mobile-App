@@ -4,6 +4,7 @@ var React = require('react');
 var ReactNative = require('react-native');
 
 var PastChallengeBannerListItem = require('./PastChallengeBannerListItem');
+var PastChallengeWinnersPopup = require('../PopupPages/PastChallengeWinnersPopup');
 
 var Colors = require('../../Utils/Common/Colors');
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
@@ -65,7 +66,16 @@ var PastChallengesBanner = React.createClass({
           <Text style={[styles.label, { color: Colors.getPrimaryAppColor() }]}>
             Past
           </Text>
-          <Text style={styles.seeAllLink}>
+          <Text
+            style={styles.seeAllLink}
+            onPress={() => {
+              this.props.navigator.push({
+                component: PastChallengeWinnersPopup,
+                passProps: {
+                  pastChallenges: this.state.pastChallenges
+                }
+              });
+            }}>
             See All
           </Text>
         </View>

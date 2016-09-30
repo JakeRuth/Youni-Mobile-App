@@ -36,7 +36,7 @@ var SubmissionsGridThumbnail = React.createClass({
     removeUpVoteAction: React.PropTypes.func.isRequired,
     onSubmitCommentAction: React.PropTypes.func.isRequired,
     onDeleteCommentAction: React.PropTypes.func.isRequired,
-    navigator: React.PropTypes.object.isRequired
+    navigator: React.PropTypes.object
   },
 
   render: function() {
@@ -57,10 +57,12 @@ var SubmissionsGridThumbnail = React.createClass({
   },
 
   _onGridPress: function() {
-    this.props.navigator.push({
-      component: CampusChallengeSubmissionPopup,
-      passProps: {...this.props}
-    })
+    if (this.props.navigator) {
+      this.props.navigator.push({
+        component: CampusChallengeSubmissionPopup,
+        passProps: {...this.props}
+      });
+    }
   },
 
   _getSubmissionPhotoUrl: function(submission) {
