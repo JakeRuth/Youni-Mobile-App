@@ -17,7 +17,7 @@ var {
 
 var styles = StyleSheet.create({
   container: {
-    width: 120,
+    width: 180,
     height: 60,
     marginLeft: 12,
     borderRadius: 8

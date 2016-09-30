@@ -15,7 +15,7 @@ var {
 var styles = StyleSheet.create({
   container: {
     position: 'relative',
-    height: 80,
+    height: Dimensions.get('window').width / 3, // keep 1:3 height:width ratio
     width: Dimensions.get('window').width,
     justifyContent: 'center'
   },
