@@ -16,6 +16,7 @@ var Colors = require('../../Utils/Common/Colors');
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 var PostViewType = require('../../Utils/Enums/PostViewType');
 var CampusChallengeUtils = require('../../Utils/CampusChallenge/CampusChallengeUtils');
+var PostUtils = require('../../Utils/Post/PostUtils');
 
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 
@@ -272,12 +273,61 @@ var CampusChallengePopup = React.createClass({
     );
   },
 
-  submitComment: function() {
+  submitComment: function(comment, post, callback) {
+    var that = this,
+        commenterName = userLoginMetadataStore.getFullName(),
+        commenterProfileImage = userLoginMetadataStore.getProfileImageUrl();
 
+    if (!comment) {
+      return;
+    }
+
+    AjaxUtils.ajax(
+      '/post/createComment',
+      {
+        postIdString: post.postIdString,
+        userIdString: userLoginMetadataStore.getUserId(),
+        comment: comment
+      },
+      (res) => {
+        let submissions = that.state.submissions;
+        let submissionForPost = CampusChallengeUtils.getSubmissionByPostId(submissions, post.postIdString);
+        submissionForPost.postJson = PostUtils.addComment(post, comment, commenterName, commenterProfileImage, res.body.commentId);
+
+        that.setState({
+          submissions: submissions
+        });
+        callback(comment, res.body.commentId);
+      },
+      () => {
+
+      }
+    );
   },
 
-  deleteComment: function() {
+  deleteComment: function(comment, post, callback) {
+    var that = this;
 
+    AjaxUtils.ajax(
+      '/post/deleteComment',
+      {
+        commentIdString: comment.id,
+        userIdString: userLoginMetadataStore.getUserId()
+      },
+      (res) => {
+        let submissions = that.state.submissions;
+        let submissionForPost = CampusChallengeUtils.getSubmissionByPostId(submissions, post.postIdString);
+        submissionForPost.postJson = PostUtils.deleteComment(post, res.body.firstComments);
+
+        that.setState({
+          submissions: submissions
+        });
+        callback();
+      },
+      () => {
+
+      }
+    );
   }
 
 });
