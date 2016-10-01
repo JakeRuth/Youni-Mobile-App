@@ -12,6 +12,7 @@ var Spinner = require('../Common/Spinner');
 var EmptyResults = require('../Common/EmptyResults');
 
 var Colors = require('../../Utils/Common/Colors');
+var CampusChallengeUtils = require('../../Utils/CampusChallenge/CampusChallengeUtils');
 var PostViewType = require('../../Utils/Enums/PostViewType');
 var campusChallengeStore = require('../../stores/campusChallenge/CampusChallengeStore');
 
@@ -111,7 +112,7 @@ var ActiveCampusChallenge = React.createClass({
             currentPostViewMode={this.state.postViewMode}
             onPostViewControlPress={this._togglePostViewMode}>
             <Text style={[styles.endTime, { color: Colors.getPrimaryAppColor() }]}>
-              {this._getTimeRemainingText()}
+              {CampusChallengeUtils.getTimeTextForChallenge(this.props.challenge)}
             </Text>
           </SubmissionPostViewControls>
 
@@ -128,33 +129,6 @@ var ActiveCampusChallenge = React.createClass({
         </View>
       </View>
     );
-  },
-
-  _getTimeRemainingText: function() {
-    let {
-      daysRemaining,
-      hoursRemaining,
-      minutesRemaining,
-      secondsRemaining
-    } = this.props.challenge;
-    let message = '';
-
-    if (daysRemaining) {
-      message += `${daysRemaining}d `;
-    }
-    if (daysRemaining || hoursRemaining > 0) {
-      message += `${hoursRemaining}h `;
-    }
-    if (daysRemaining || hoursRemaining || minutesRemaining > 0) {
-      message += `${minutesRemaining}m`;
-    }
-
-    //edge case
-    if (!daysRemaining && !hoursRemaining && !minutesRemaining) {
-      message = `${secondsRemaining}s`;
-    }
-
-    return message;
   },
   
   _togglePostViewMode: function() {

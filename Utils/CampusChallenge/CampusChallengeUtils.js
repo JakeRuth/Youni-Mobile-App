@@ -48,6 +48,38 @@ var CampusChallengeUtils = {
         return sub.postJson.postIdString === postId;
       }
     });
+  },
+  
+  getTimeTextForChallenge: function(challenge) {
+    if (challenge.winningSubmissions && challenge.winningSubmissions.length) {
+      return challenge.endDate;
+    }
+    else {
+      let {
+        daysRemaining,
+        hoursRemaining,
+        minutesRemaining,
+        secondsRemaining
+      } = challenge;
+      let message = '';
+
+      if (daysRemaining) {
+        message += `${daysRemaining}d `;
+      }
+      if (daysRemaining || hoursRemaining > 0) {
+        message += `${hoursRemaining}h `;
+      }
+      if (daysRemaining || hoursRemaining || minutesRemaining > 0) {
+        message += `${minutesRemaining}m`;
+      }
+
+      //edge case
+      if (!daysRemaining && !hoursRemaining && !minutesRemaining) {
+        message = `${secondsRemaining}s`;
+      }
+
+      return message;
+    }
   }
 
 };

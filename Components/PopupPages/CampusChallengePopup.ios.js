@@ -133,7 +133,7 @@ var CampusChallengePopup = React.createClass({
             currentPostViewMode={this.state.postViewMode}
             onPostViewControlPress={this._togglePostViewMode}>
             <Text style={[styles.endTime, { color: Colors.getPrimaryAppColor() }]}>
-              {this.props.challenge.endDate}
+              {CampusChallengeUtils.getTimeTextForChallenge(this.props.challenge)}
             </Text>
           </SubmissionPostViewControls>
 
