@@ -48,8 +48,7 @@ var styles = StyleSheet.create({
 var AppHelpPage = React.createClass({
 
   propTypes: {
-    onClosePress: React.PropTypes.func.isRequired,
-    showDismissButton: React.PropTypes.bool
+    onClosePress: React.PropTypes.func.isRequired
   },
 
   getInitialState: function() {
@@ -65,7 +64,7 @@ var AppHelpPage = React.createClass({
           <Text style={[styles.pageHeader, { color: Colors.getPrimaryAppColor() }]}>
             Help Center
           </Text>
-          {this._renderCloseButton()}
+          <BackArrow onPress={() => this.props.navigator.pop()}/>
         </YouniHeader>
 
         <HelpPageMenu
@@ -77,21 +76,6 @@ var AppHelpPage = React.createClass({
         {this._renderHelpPagesForCurrentFilter()}
       </View>
     );
-  },
-
-  _renderCloseButton: function() {
-    if (this.props.showDismissButton) {
-      return (
-        <Text
-          style={[styles.dismissPageButton, { color: Colors.getPrimaryAppColor() }]}
-          onPress={this.props.onClosePress}>
-          Dismiss
-        </Text>
-      );
-    }
-    else {
-      return <BackArrow onPress={() => this.props.navigator.pop()}/>;
-    }
   },
   
   _renderHelpPagesForCurrentFilter: function() {

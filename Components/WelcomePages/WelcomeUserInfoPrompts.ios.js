@@ -5,7 +5,6 @@ var ReactNative = require('react-native');
 
 var InitialPromptUploadPicture = require('./InitialPromptUploadPicture');
 var PromptToSelectGroups = require('./PromptToSelectGroups');
-var AppHelpPage = require('../AppHelp/AppHelpPage');
 
 var Colors = require('../../Utils/Common/Colors');
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
@@ -74,15 +73,8 @@ var WelcomeUserInfoPrompts = React.createClass({
       content = (
         <PromptToSelectGroups
           style={styles.bodyContainer}
-          onDonePress={this.goToHelpPage}
+          onDonePress={this.onDismissPromptPress}
           navigator={this.props.navigator}/>
-      );
-    }
-    else if (this.state.page === WelcomeUserPage.VIEW_HELP) {
-      content = (
-        <AppHelpPage
-          onClosePress={this.onDismissPromptPress}
-          showDismissButton={true}/>
       );
     }
     
@@ -98,27 +90,23 @@ var WelcomeUserInfoPrompts = React.createClass({
   },
 
   renderPageHeader: function() {
-    if (this.state.page !== WelcomeUserPage.VIEW_HELP) {
-      return (
-        <View style={styles.headingContainer}>
-          <Text style={[styles.heading, { color: Colors.getPrimaryAppColor() }]}>
-            {this.getPageHeaderLabel()}
-          </Text>
-        </View>
-      );
-    }
+    return (
+      <View style={styles.headingContainer}>
+        <Text style={[styles.heading, { color: Colors.getPrimaryAppColor() }]}>
+          {this.getPageHeaderLabel()}
+        </Text>
+      </View>
+    );
   },
 
   renderSkipButton: function() {
-    if (this.state.page !== WelcomeUserPage.VIEW_HELP) {
-      return (
-        <Text
-          style={[styles.skipStepButton, { color: Colors.getPrimaryAppColor() }]}
-          onPress={this.onSkipPress}>
-          Skip
-        </Text>
-      );
-    }
+    return (
+      <Text
+        style={[styles.skipStepButton, { color: Colors.getPrimaryAppColor() }]}
+        onPress={this.onSkipPress}>
+        Skip
+      </Text>
+    );
   },
 
   onDismissPromptPress: function() {
@@ -151,20 +139,13 @@ var WelcomeUserInfoPrompts = React.createClass({
       this.goToGroupSelectionPage();
     }
     else if (this.state.page === WelcomeUserPage.SELECT_GROUPS) {
-      this.goToHelpPage();
+      this.onDismissPromptPress();
     }
   },
 
   goToGroupSelectionPage: function() {
     this.setState({
       page: WelcomeUserPage.SELECT_GROUPS
-    });
-  },
-
-  goToHelpPage: function() {
-    exploreFeedOrgsStore.resetState();
-    this.setState({
-      page: WelcomeUserPage.VIEW_HELP
     });
   },
 
