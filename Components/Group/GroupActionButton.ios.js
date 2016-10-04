@@ -29,7 +29,7 @@ var styles = StyleSheet.create({
   },
   buttonLabel: {
     flex: 1,
-    fontSize: 16,
+    fontSize: 14,
     color: 'white',
     textAlign: 'center',
     alignSelf: 'center'

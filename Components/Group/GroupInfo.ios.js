@@ -6,6 +6,7 @@ var ReactNative = require('react-native');
 var GroupStats = require('./GroupStats');
 var GroupActionButton = require('./GroupActionButton');
 var EditGroupButton = require('./Admin/Edit/EditGroupButton');
+var GroupUsersPopup = require('../PopupPages/GroupUsersPopup');
 
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 var Colors = require('../../Utils/Common/Colors');
@@ -18,7 +19,8 @@ var {
   Image,
   Text,
   AlertIOS,
-  StyleSheet
+  StyleSheet,
+  TouchableHighlight
 } = ReactNative;
 
 var styles = StyleSheet.create({
@@ -44,7 +46,39 @@ var styles = StyleSheet.create({
     paddingTop: 2
   },
   groupActionButtonContainer: {
+    flex: 1,
     alignItems: 'center'
+  },
+  groupStatsContainer: {
+    height: 70,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: 15,
+    paddingBottom: 15
+  },
+  stat: {
+    alignSelf: 'flex-start',
+    width: 90,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  leftStat: {
+    borderRightWidth: 1,
+    borderRightColor: Colors.LIGHT_GRAY
+  },
+  rightStat: {
+    borderLeftWidth: 1,
+    borderLeftColor: Colors.LIGHT_GRAY
+  },
+  statValue: {
+    fontSize: 18,
+    fontWeight: '300',
+    textAlign: 'center'
+  },
+  statLabel: {
+    fontSize: 11,
+    textAlign: 'center'
   }
 });
 
@@ -95,8 +129,42 @@ var GroupInfo = React.createClass({
           {this.props.group.description}
         </Text>
 
-        {this._renderGroupActionButton()}
-        <GroupStats {...this.props}/>
+        <View style={styles.groupStatsContainer}>
+
+          <TouchableHighlight
+            style={[styles.stat, styles.leftStat]}
+            underlayColor="transparent">
+
+            <View>
+              <Text style={[styles.statValue, { color: Colors.getPrimaryAppColor() }]}>
+                {this.props.group.numPosts}
+              </Text>
+              <Text style={[styles.statLabel, { color: Colors.getPrimaryAppColor() }]}>
+                Posts
+              </Text>
+            </View>
+
+          </TouchableHighlight>
+
+          {this._renderGroupActionButton()}
+
+          <TouchableHighlight
+            style={[styles.stat, styles.rightStat]}
+            underlayColor="transparent"
+            onPress={this._onMembersStatPress}>
+
+            <View>
+              <Text style={[styles.statValue, { color: Colors.getPrimaryAppColor() }]}>
+                {this.props.group.numMembers}
+              </Text>
+              <Text style={[styles.statLabel, { color: Colors.getPrimaryAppColor() }]}>
+                Members
+              </Text>
+            </View>
+
+          </TouchableHighlight>
+
+        </View>
 
       </View>
     );
@@ -116,8 +184,8 @@ var GroupInfo = React.createClass({
           <GroupActionButton
             {...this.props}
             style={{
-              width: 193,
-              height: 40
+              width: 146,
+              height: 34
             }}
             userGroupStatus={this.state.userGroupStatus}
             isLoading={this.state.loadingUserInGroupStatus || this.state.requestToJoinInFlight}
@@ -125,6 +193,15 @@ var GroupInfo = React.createClass({
         </View>
       );
     }
+  },
+
+  _onMembersStatPress: function() {
+    this.props.navigator.push({
+      component: GroupUsersPopup,
+      passProps: {
+        group: this.props.group
+      }
+    })
   },
 
   _requestUserGroupStatus: function() {

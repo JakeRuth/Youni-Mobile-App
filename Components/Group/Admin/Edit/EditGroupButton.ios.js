@@ -24,8 +24,8 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
-    width: 193,
-    height: 40,
+    width: 146,
+    height: 34,
     borderWidth: 1,
     borderRadius: 6
   },
