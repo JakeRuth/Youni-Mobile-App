@@ -16,7 +16,8 @@ var Colors = {
   LIGHT_GRAY: '#EAEAEA',
   BORDER_POP: '#D6D6D6',
   WHITE_SMOKE: '#FAFAFA',
-  LOUD_RED: '#FF5368'
+  LOUD_RED: '#FF5368',
+  DARK_TEXT_SHADOW: '#656565'
 
 };
 

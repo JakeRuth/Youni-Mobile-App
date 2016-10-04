@@ -3,12 +3,14 @@
 var React = require('react');
 var CustomSwiper = require('./CustomSwiper');
 
+var mainAppSwipePageStore = require('../stores/common/MainAppSwipePageStore');
+
 var BaseAppSwiper = React.createClass({
 
   render: function() {
     return (
       <CustomSwiper
-        index={1}
+        index={mainAppSwipePageStore.getCurrentPageIndex()}
         loop={false}
         showsPagination={false}>
         {this.props.children}

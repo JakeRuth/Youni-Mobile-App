@@ -4,7 +4,6 @@ var Unicycle = require('../Unicycle');
 
 var showUploadProfileImagePromptStore = require('./ShowUploadProfileImagePromptStore');
 var userLoginMetadataStore = require('./UserLoginMetadataStore');
-var trendingStore = require('./trending/TrendingStore');
 
 var AsyncStorageUtils = require('../Utils/Common/AsyncStorageUtils');
 var AjaxUtils = require('../Utils/Common/AjaxUtils');
@@ -53,6 +52,7 @@ var loginStore = Unicycle.createStore({
             trendingFeedType = res.body.trendingFeedType,
             networkColor = res.body.networkColorHexCode,
             showInitialInfoPrompts = res.body.showInitialInfoPrompts,
+            shouldShowCompetitionPopup = res.body.shouldShowCompetitionPopup,
             hasUploadedProfilePicture = profileImageUrl !== null;
 
         userLoginMetadataStore.setAccessToken(accessToken);
@@ -66,12 +66,10 @@ var loginStore = Unicycle.createStore({
         userLoginMetadataStore.setNetworkName(networkName);
         userLoginMetadataStore.setNetworkColor(networkColor);
         userLoginMetadataStore.setShowInitialInfoPrompts(showInitialInfoPrompts);
+        userLoginMetadataStore.setShouldShowCompetitionPopup(shouldShowCompetitionPopup);
 
         showUploadProfileImagePromptStore.setShowOnHomeFeed(!hasUploadedProfilePicture);
         showUploadProfileImagePromptStore.setShowOnProfilePage(!hasUploadedProfilePicture);
-
-        trendingStore.setSelectedFilter(trendingFeedFilter);
-        trendingStore.setSelectedType(trendingFeedType);
 
         AsyncStorageUtils.saveItem('userId', userId);
         AsyncStorageUtils.saveItem('email', email);

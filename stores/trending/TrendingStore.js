@@ -10,6 +10,8 @@ var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 
 var userLoginMetadataStore = require('../UserLoginMetadataStore');
 
+// This is no longer in use, but we are keeping it around since we are not sure if trending will ever make a comeback
+// DEPRECATED
 var trendingStore = Unicycle.createStore({
 
   init: function () {
