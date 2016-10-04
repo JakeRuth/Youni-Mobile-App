@@ -27,12 +27,13 @@ var styles = StyleSheet.create({
     justifyContent: 'center'
   },
   popup: {
+    position: 'relative',
     borderRadius: 12,
     backgroundColor: 'white',
     width: Dimensions.get('window').width * .9,
     paddingTop: 28,
     paddingRight: 12,
-    paddingBottom: 28,
+    paddingBottom: 10,
     paddingLeft: 12
   },
   title: {
@@ -57,6 +58,15 @@ var styles = StyleSheet.create({
     color: Colors.DARK_GRAY,
     textAlign: 'left',
     marginBottom: 15
+  },
+  endDate: {
+    fontSize: 18,
+    textAlign: 'center'
+  },
+  learnMoreFooterText: {
+    fontSize: 10,
+    color: Colors.DARK_GRAY,
+    textAlign: 'center'
   }
 });
 
@@ -75,7 +85,7 @@ var CompetitionInfoPopup = React.createClass({
             Want to win a $500 party?
           </Text>
           <Text style={styles.description}>
-            Get your organization on Youni and start building your org’s reputation on campus! Ends 10/27/16
+            Get your organization on Youni and start building your org’s reputation on campus!
           </Text>
           <Text style={styles.rulesTitle}>
             Competition Rules
@@ -90,17 +100,24 @@ var CompetitionInfoPopup = React.createClass({
             3. Find your invite code on your org page to invite members and friends!
           </Text>
           <Text style={styles.rule}>
-            4. The more like, comments, etc your posts get the better chance you have at winning!
+            4. The more like, comments, etc. your posts get the better chance you have at winning!
+          </Text>
+          <Text style={[styles.endDate, { color: Colors.getPrimaryAppColor() }]}>
+            End: 10/27/16
           </Text>
           <PrettyTouchable
             label="Got it!"
             containerStyle={{
-              marginTop: 20,
+              marginTop: 10,
               height: 44,
               width: 295,
               alignSelf: 'center'
             }}
             onPress={this._onPress}/>
+
+          <Text style={styles.learnMoreFooterText}>
+            Still have questions?  Contact us! support@youniapp.com
+          </Text>
         </View>
 
       </View>
