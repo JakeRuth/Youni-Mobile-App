@@ -43,7 +43,7 @@ var LoadMoreButton = React.createClass({
     }
     else if (this.props.isLoading) {
       return (
-        <View style={styles.container}>
+        <View style={[styles.container, this.props.style]}>
           <Spinner/>
         </View>
       );

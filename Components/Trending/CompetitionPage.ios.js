@@ -70,7 +70,7 @@ var styles = StyleSheet.create({
 // super temp replacement for the trending page before we axe it for good.  #BusinessInitiativesAreWack
 var CompetitionPage = React.createClass({
 
-  PAGE_SIZE: 5,
+  PAGE_SIZE: 50,
 
   propTypes: {
     navigator: React.PropTypes.object.isRequired
