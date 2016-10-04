@@ -4,6 +4,7 @@ var React = require('react');
 var ReactNative = require('react-native');
 
 var ProfileImageThumbnail = require('../Common/ProfileImageThumbnail');
+var GroupPopup = require('../PopupPages/GroupPopup');
 
 var Colors = require('../../Utils/Common/Colors');
 
@@ -55,7 +56,8 @@ var CompetitionListItem = React.createClass({
 
   propTypes: {
     group: React.PropTypes.object.isRequired,
-    ranking: React.PropTypes.number.isRequired
+    ranking: React.PropTypes.number.isRequired,
+    navigator: React.PropTypes.object.isRequired
   },
 
   render: function() {
@@ -63,7 +65,7 @@ var CompetitionListItem = React.createClass({
       <View>
         <TouchableHighlight
           underlayColor="transparent"
-          onPress={this.props.onPress}>
+          onPress={this._onPress}>
           <View style={styles.container}>
 
             {this._renderRanking(this.props.ranking)}
@@ -117,6 +119,13 @@ var CompetitionListItem = React.createClass({
         </View>
       );
     }
+  },
+
+  _onPress: function() {
+    this.props.navigator.push({
+      component: GroupPopup,
+      passProps: {...this.props}
+    });
   }
 
 });

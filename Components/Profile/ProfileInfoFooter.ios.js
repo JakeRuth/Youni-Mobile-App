@@ -47,15 +47,6 @@ var styles = StyleSheet.create({
     width: 1.5,
     backgroundColor: Colors.MED_GRAY,
     opacity: .4
-  },
-  postCountContainer: {
-    backgroundColor: Colors.WHITE_SMOKE,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  postCountLabel: {
-    fontSize: 14,
-    padding: 10
   }
 });
 
@@ -116,7 +107,6 @@ var ProfileInfoFooter = React.createClass({
           </TouchableHighlight>
 
         </View>
-        {this._renderPostCount()}
       </View>
     );
   },
@@ -148,16 +138,6 @@ var ProfileInfoFooter = React.createClass({
   
   _renderFollowUnfollowButton: function() {
     return <FollowUnfollowButton {...this.props}/>;
-  },
-
-  _renderPostCount: function() {
-    return (
-      <View style={styles.postCountContainer}>
-        <Text style={[styles.postCountLabel, { color: Colors.getPrimaryAppColor() }]}>
-          {this.props.user.numPosts + ' Posts'}
-        </Text>
-      </View>
-    );
   }
 
 });

@@ -105,7 +105,8 @@ var CompetitionPage = React.createClass({
           <CompetitionListItem
             key={i}
             ranking={i + 1}
-            group={this.state.groups[i]}/>
+            group={this.state.groups[i]}
+            navigator={this.props.navigator}/>
         );
       }
     }
