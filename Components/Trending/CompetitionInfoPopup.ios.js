@@ -51,13 +51,13 @@ var styles = StyleSheet.create({
     color: Colors.DARK_GRAY,
     fontWeight: '500',
     textAlign: 'center',
-    margin: 15
+    margin: 12
   },
   rule: {
     fontSize: 18,
     color: Colors.DARK_GRAY,
     textAlign: 'left',
-    marginBottom: 15
+    marginBottom: 8
   },
   endDate: {
     fontSize: 18,
@@ -94,13 +94,13 @@ var CompetitionInfoPopup = React.createClass({
             1. Make sure to join your org
           </Text>
           <Text style={styles.rule}>
-            2. Post and tag your org
+            2. Post photos and tag your org
           </Text>
           <Text style={styles.rule}>
             3. Find your invite code on your org page to invite members and friends!
           </Text>
           <Text style={styles.rule}>
-            4. The more like, comments, etc. your posts get the better chance you have at winning!
+            4. The more likes, comments, etc. your photos get, the better chance your org has at winning!
           </Text>
           <Text style={[styles.endDate, { color: Colors.getPrimaryAppColor() }]}>
             End: 10/27/16
@@ -110,7 +110,7 @@ var CompetitionInfoPopup = React.createClass({
             containerStyle={{
               marginTop: 10,
               height: 44,
-              width: 295,
+              width: Dimensions.get('window').width * .8,
               alignSelf: 'center'
             }}
             onPress={this._onPress}/>

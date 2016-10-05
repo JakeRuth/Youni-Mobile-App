@@ -180,7 +180,7 @@ var GroupInfo = React.createClass({
           <GroupActionButton
             {...this.props}
             style={{
-              width: 146,
+              width: 160,
               height: 34,
               marginBottom: 12,
               alignItems: 'center'
