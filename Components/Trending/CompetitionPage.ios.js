@@ -64,6 +64,11 @@ var styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     left: 0
+  },
+  forceUpdateMessage: {
+    fontSize: 18,
+    textAlign: 'center',
+    color: Colors.LOUD_RED
   }
 });
 
@@ -93,7 +98,11 @@ var CompetitionPage = React.createClass({
 
   render: function() {
     var content;
-    
+
+    // !!! This is here to force user's to update the app.
+    if (userLoginMetadataStore.getShowUserUpdateMessageForFinishedCompetition()) {
+      return this._renderHackyForceUpdateMessage();
+    }
     if (this.state.isInitialPageLoading) {
       content = <Spinner/>;
     }
@@ -116,7 +125,7 @@ var CompetitionPage = React.createClass({
 
         <YouniHeader color={Colors.getPrimaryAppColor()}>
           <Text style={styles.pageHeader}>
-            Competition
+            Competition Leaderboard
           </Text>
         </YouniHeader>
 
@@ -222,6 +231,31 @@ var CompetitionPage = React.createClass({
         moreToFetch: false
       }, this._fetchGroups);
     }
+  },
+
+  // since this is a temp feature I didn't care too much about code quality since we will delete this ina few weeks anyways
+  _renderHackyForceUpdateMessage: function() {
+    return (
+      <View style={styles.container}>
+
+        <YouniHeader color={Colors.getPrimaryAppColor()}>
+          <Text style={styles.pageHeader}>
+            Competition
+          </Text>
+        </YouniHeader>
+
+        <View style={{
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}>
+          <Text style={styles.forceUpdateMessage}>
+            You are running an old version of Youni, please update before this version stops working
+          </Text>
+        </View>
+
+      </View>
+    );
   }
 
 });

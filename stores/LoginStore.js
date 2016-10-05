@@ -53,6 +53,7 @@ var loginStore = Unicycle.createStore({
             networkColor = res.body.networkColorHexCode,
             showInitialInfoPrompts = res.body.showInitialInfoPrompts,
             shouldShowCompetitionPopup = res.body.shouldShowCompetitionPopup,
+            showUserUpdateMessageForFinishedCompetition = res.body.showUserUpdateMessageForFinishedCompetition,
             hasUploadedProfilePicture = profileImageUrl !== null;
 
         userLoginMetadataStore.setAccessToken(accessToken);
@@ -67,6 +68,7 @@ var loginStore = Unicycle.createStore({
         userLoginMetadataStore.setNetworkColor(networkColor);
         userLoginMetadataStore.setShowInitialInfoPrompts(showInitialInfoPrompts);
         userLoginMetadataStore.setShouldShowCompetitionPopup(shouldShowCompetitionPopup);
+        userLoginMetadataStore.setShowUserUpdateMessageForFinishedCompetition(showUserUpdateMessageForFinishedCompetition);
 
         showUploadProfileImagePromptStore.setShowOnHomeFeed(!hasUploadedProfilePicture);
         showUploadProfileImagePromptStore.setShowOnProfilePage(!hasUploadedProfilePicture);
