@@ -29,7 +29,7 @@ var styles = StyleSheet.create({
   },
   buttonLabel: {
     flex: 1,
-    fontSize: 14,
+    fontSize: 16,
     color: 'white',
     textAlign: 'center',
     alignSelf: 'center'
@@ -44,7 +44,7 @@ var GroupActionButton = React.createClass({
       id: React.PropTypes.string.isRequired,
       name: React.PropTypes.string.isRequired,
       abbreviatedName: React.PropTypes.string.isRequired,
-      description: React.PropTypes.string.isRequired,
+      description: React.PropTypes.string,
       coverImageUrl: React.PropTypes.string.isRequired,
       badgeImageUrl: React.PropTypes.string.isRequired,
       adminEmails: React.PropTypes.array,
@@ -66,13 +66,6 @@ var GroupActionButton = React.createClass({
   render: function () {
     if (this._shouldHideButton()) {
       return <View/>;
-    }
-    else if (this.props.isLoading) {
-      return (
-        <View style={styles.container}>
-          <Spinner/>
-        </View>
-      );
     }
     else {
       return (
@@ -149,7 +142,8 @@ var GroupActionButton = React.createClass({
   _shouldHideButton: function() {
     return this.props.userGroupStatus === UserGroupStatus.IN_GROUP ||
            this.props.group.isPublic ||
-           !this.props.group.allowJoinRequests;
+           !this.props.group.allowJoinRequests ||
+           this.props.isLoading;
   },
 
   _getContainerStyles: function() {

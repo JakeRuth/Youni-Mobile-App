@@ -31,7 +31,7 @@ var GroupUsersList = React.createClass({
       id: React.PropTypes.string.isRequired,
       name: React.PropTypes.string.isRequired,
       abbreviatedName: React.PropTypes.string.isRequired,
-      description: React.PropTypes.string.isRequired,
+      description: React.PropTypes.string,
       coverImageUrl: React.PropTypes.string.isRequired,
       badgeImageUrl: React.PropTypes.string.isRequired,
       adminEmails: React.PropTypes.array,

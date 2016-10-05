@@ -45,31 +45,18 @@ var styles = StyleSheet.create({
     padding: 20,
     paddingTop: 2
   },
-  groupActionButtonContainer: {
-    flex: 1,
-    alignItems: 'center'
+  editGroupButtonContainer: {
+    alignItems: 'center',
+    marginBottom: 12
   },
   groupStatsContainer: {
-    height: 70,
+    height: 60,
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: 15,
-    paddingBottom: 15
-  },
-  stat: {
-    alignSelf: 'flex-start',
-    width: 90,
     alignItems: 'center',
     justifyContent: 'center'
   },
-  leftStat: {
-    borderRightWidth: 1,
-    borderRightColor: Colors.LIGHT_GRAY
-  },
-  rightStat: {
-    borderLeftWidth: 1,
-    borderLeftColor: Colors.LIGHT_GRAY
+  stat: {
+    flex: 1
   },
   statValue: {
     fontSize: 18,
@@ -78,6 +65,20 @@ var styles = StyleSheet.create({
   },
   statLabel: {
     fontSize: 11,
+    textAlign: 'center'
+  },
+  statSeparator: {
+    backgroundColor: Colors.LIGHT_GRAY,
+    height: 36,
+    width: 2
+  },
+  groupInviteCodeContainer: {
+    justifyContent: 'center',
+    backgroundColor: Colors.WHITE_SMOKE,
+    height: 32
+  },
+  groupInviteCode: {
+    fontSize: 16,
     textAlign: 'center'
   }
 });
@@ -101,7 +102,7 @@ var GroupInfo = React.createClass({
       id: React.PropTypes.string.isRequired,
       name: React.PropTypes.string.isRequired,
       abbreviatedName: React.PropTypes.string.isRequired,
-      description: React.PropTypes.string.isRequired,
+      description: React.PropTypes.string,
       coverImageUrl: React.PropTypes.string.isRequired,
       badgeImageUrl: React.PropTypes.string.isRequired,
       adminEmails: React.PropTypes.array,
@@ -130,41 +131,36 @@ var GroupInfo = React.createClass({
         </Text>
 
         <View style={styles.groupStatsContainer}>
-
           <TouchableHighlight
             style={[styles.stat, styles.leftStat]}
             underlayColor="transparent">
-
             <View>
-              <Text style={[styles.statValue, { color: Colors.getPrimaryAppColor() }]}>
+              <Text style={styles.statValue}>
                 {this.props.group.numPosts}
               </Text>
-              <Text style={[styles.statLabel, { color: Colors.getPrimaryAppColor() }]}>
+              <Text style={styles.statLabel}>
                 Posts
               </Text>
             </View>
-
           </TouchableHighlight>
-
-          {this._renderGroupActionButton()}
-
+          <View style={styles.statSeparator}/>
           <TouchableHighlight
             style={[styles.stat, styles.rightStat]}
             underlayColor="transparent"
             onPress={this._onMembersStatPress}>
-
             <View>
-              <Text style={[styles.statValue, { color: Colors.getPrimaryAppColor() }]}>
+              <Text style={styles.statValue}>
                 {this.props.group.numMembers}
               </Text>
-              <Text style={[styles.statLabel, { color: Colors.getPrimaryAppColor() }]}>
+              <Text style={styles.statLabel}>
                 Members
               </Text>
             </View>
-
           </TouchableHighlight>
-
         </View>
+
+        {this._renderGroupActionButton()}
+        {this._renderGroupInviteCode()}
 
       </View>
     );
@@ -173,23 +169,40 @@ var GroupInfo = React.createClass({
   _renderGroupActionButton: function() {
     if (GroupUtils.isUserAdmin(this.props.group, userLoginMetadataStore.getEmail())) {
       return (
-        <View style={styles.groupActionButtonContainer}>
+        <View style={styles.editGroupButtonContainer}>
           <EditGroupButton {...this.props}/>
         </View>
       );
     }
     else if (this.props.group.allowJoinRequests) {
       return (
-        <View style={styles.groupActionButtonContainer}>
+        <View style={{alignItems: 'center'}}>
           <GroupActionButton
             {...this.props}
             style={{
               width: 146,
-              height: 34
+              height: 34,
+              marginBottom: 12,
+              alignItems: 'center'
             }}
             userGroupStatus={this.state.userGroupStatus}
             isLoading={this.state.loadingUserInGroupStatus || this.state.requestToJoinInFlight}
             requestToJoinGroupAction={this.requestToJoin}/>
+        </View>
+      );
+    }
+  },
+
+  _renderGroupInviteCode: function() {
+    var doesInviteCodeExist = this.props.group && this.props.group.inviteCode;
+    var isUserInGroup = this.state.userGroupStatus === UserGroupStatus.IN_GROUP || this.state.userGroupStatus === UserGroupStatus.IS_ADMIN;
+
+    if (doesInviteCodeExist && isUserInGroup) {
+      return (
+        <View style={styles.groupInviteCodeContainer}>
+          <Text style={[styles.groupInviteCode, { color: Colors.getPrimaryAppColor() }]}>
+            {`Organization Code: ${this.props.group.inviteCode}`}
+          </Text>
         </View>
       );
     }

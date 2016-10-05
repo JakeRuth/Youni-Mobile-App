@@ -55,6 +55,8 @@ var styles = StyleSheet.create({
   }
 });
 
+
+// DEPRECATED, this was moved into GroupStats, leaving around a bit before deleting though... feel free to delete after November '16
 var GroupStats = React.createClass({
 
   propTypes: {
@@ -62,7 +64,7 @@ var GroupStats = React.createClass({
       id: React.PropTypes.string.isRequired,
       name: React.PropTypes.string.isRequired,
       abbreviatedName: React.PropTypes.string.isRequired,
-      description: React.PropTypes.string.isRequired,
+      description: React.PropTypes.string,
       coverImageUrl: React.PropTypes.string.isRequired,
       badgeImageUrl: React.PropTypes.string.isRequired,
       adminEmails: React.PropTypes.array,
