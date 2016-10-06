@@ -40,6 +40,7 @@ var styles = StyleSheet.create({
   },
   description: {
     color: Colors.DARK_GRAY,
+    textAlign: 'center',
     fontWeight: '200',
     fontSize: 12,
     padding: 20,
@@ -197,7 +198,7 @@ var GroupInfo = React.createClass({
     var doesInviteCodeExist = this.props.group && this.props.group.inviteCode;
     var isUserInGroup = this.state.userGroupStatus === UserGroupStatus.IN_GROUP || this.state.userGroupStatus === UserGroupStatus.IS_ADMIN;
 
-    if (doesInviteCodeExist && isUserInGroup) {
+    if (doesInviteCodeExist && isUserInGroup && !this.props.group.isPublic) {
       return (
         <View style={styles.groupInviteCodeContainer}>
           <Text style={[styles.groupInviteCode, { color: Colors.getPrimaryAppColor() }]}>

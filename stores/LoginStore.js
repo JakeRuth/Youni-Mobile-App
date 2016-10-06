@@ -36,7 +36,7 @@ var loginStore = Unicycle.createStore({
     AjaxUtils.ajax(
       '/api/login',
       {
-        username: email.toLowerCase(),
+        username: email.toLowerCase().trim(),
         password: password
       },
       (res) => {
