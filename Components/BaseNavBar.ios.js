@@ -67,14 +67,7 @@ var BaseNavBar = React.createClass({
           {this._renderIcon(BasePageIndex.CAMPUS_CHALLENGE, 'blur-on')}
           
           <Icon
-            onPress={() => {
-              // make sure to reset these values, if a user posts more than once in a sessions we don't want
-              // certain create post form items to be pre selected
-              createPostStore.setCampusChallengeIdString('');
-              createPostStore.setSubmitChallengeAnonymously(false);
-              
-              ShowImagePicker.showImagePicker(this.props.navigator);
-            }}
+            onPress={() => ShowImagePicker.showImagePicker(this.props.navigator)}
             name='photo-camera'
             size={34}
             color={Colors.MED_GRAY}/>

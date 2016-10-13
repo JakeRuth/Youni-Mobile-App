@@ -6,7 +6,6 @@ var DismissKeyboard = require('dismissKeyboard');
 var Unicycle = require('../../Unicycle');
 
 var SelectGroupsForPost = require('./SelectGroupsForPost');
-var SelectCampusChallenge = require('./SelectCampusChallenge');
 var YouniHeader = require('../Common/YouniHeader');
 var Spinner = require('../Common/Spinner');
 var BackArrow = require('../Common/BackArrow');
@@ -15,7 +14,6 @@ var createPostStore = require('../../stores/CreatePostStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var homePostsStore = require('../../stores/post/HomePostsStore');
 var mainAppSwipePageStore = require('../../stores/common/MainAppSwipePageStore');
-var campusChallengeStore = require('../../stores/campusChallenge/CampusChallengeStore');
 
 var Colors = require('../../Utils/Common/Colors');
 var BasePageIndex = require('../../Utils/Enums/BasePageIndex');
@@ -131,7 +129,6 @@ var CreatePostForm = React.createClass({
                 resizeMode="contain"
                 source={{uri: this.props.imageUri, isStatic: true}} />
             </View>
-            <SelectCampusChallenge/>
             <SelectGroupsForPost/>
           </ScrollView>
 
@@ -172,22 +169,10 @@ var CreatePostForm = React.createClass({
       Unicycle.exec('refreshHomeFeedData');
       Unicycle.exec('requestHomeFeed', userLoginMetadataStore.getUserId());
       Unicycle.exec('refreshExploreFeed', userLoginMetadataStore.getUserId(), true);
-
-      if (createPostStore.getSubmitChallengeAnonymously()) {
-        mainAppSwipePageStore.navigatorTo(BasePageIndex.CAMPUS_CHALLENGE);
-      }
-      else {
-        mainAppSwipePageStore.navigatorTo(BasePageIndex.FEED);
-      }
+      
+      mainAppSwipePageStore.navigatorTo(BasePageIndex.FEED);
+      
       this._clearCreatePostData();
-
-      let callback = () => {
-        campusChallengeStore.fetchSubmissions(true);
-        campusChallengeStore.requestLoggedInUserSubmission();
-      };
-      campusChallengeStore.reInit();
-      campusChallengeStore.requestCurrentChallenge(callback);
-
       this.props.navigator.pop();
     });
   },
@@ -201,7 +186,6 @@ var CreatePostForm = React.createClass({
     createPostStore.setCaption('');
     createPostStore.setImageId('');
     createPostStore.setGroupIds([]);
-    createPostStore.setCampusChallengeIdString('');
   }
 
 });

@@ -8,6 +8,7 @@ var BaseAppSwiper = require('./BaseAppSwiper');
 var BaseNavBar = require('./BaseNavBar');
 var HomePage = require('./HomePage');
 var SearchPage = require('./Search/SearchPage');
+var CampusChallengePage = require('./CampusChallenge/CampusChallengePage');
 var CompetitionPage = require('./Trending/CompetitionPage');
 var ProfileOwnerPage = require('./Profile/ProfileOwnerPage');
 var WelcomeUserInfoPrompts = require('./WelcomePages/WelcomeUserInfoPrompts');
