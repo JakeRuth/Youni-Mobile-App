@@ -8,15 +8,13 @@ var BaseAppSwiper = require('./BaseAppSwiper');
 var BaseNavBar = require('./BaseNavBar');
 var HomePage = require('./HomePage');
 var SearchPage = require('./Search/SearchPage');
-var CampusChallengePage = require('./CampusChallenge/CampusChallengePage');
-var TrendingPage = require('./Trending/TrendingPage');
+var CompetitionPage = require('./Trending/CompetitionPage');
 var ProfileOwnerPage = require('./Profile/ProfileOwnerPage');
 var WelcomeUserInfoPrompts = require('./WelcomePages/WelcomeUserInfoPrompts');
 
 var notificationStore = require('../stores/NotificationStore');
 var searchStore = require('../stores/SearchStore');
 var userLoginMetadataStore = require('../stores/UserLoginMetadataStore');
-var trendingStore = require('../stores/trending/TrendingStore');
 var exploreFeedOrgsStore = require('../stores/group/ExploreFeedOrgsStore');
 
 var NotificationUtils = require('../Utils/Notification/NotificationUtils');
@@ -88,7 +86,7 @@ var LandingPage = React.createClass({
             <HomePage {...this.props}/>
             <SearchPage {...this.props}/>
             <CampusChallengePage {...this.props}/>
-            <TrendingPage {...this.props}/>
+            <CompetitionPage {...this.props}/>
             <ProfileOwnerPage
               {...this.props}
               hideBackButton={true}/>
@@ -117,7 +115,6 @@ var LandingPage = React.createClass({
     if (currentAppState === 'active') {
       console.log('refreshing');
       let userId = userLoginMetadataStore.getUserId();
-      trendingStore.requestFeedForCurrentSelection();
       exploreFeedOrgsStore.requestTenMostRecentOrgs();
       Unicycle.exec('refreshExploreFeed', userId, true);
       Unicycle.exec('refreshHomeFeedData');

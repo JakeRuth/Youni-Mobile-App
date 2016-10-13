@@ -79,7 +79,7 @@ var BaseNavBar = React.createClass({
             size={34}
             color={Colors.MED_GRAY}/>
 
-          {this._renderIcon(BasePageIndex.TRENDING, 'equalizer')}
+          {this._renderIcon(BasePageIndex.TRENDING, 'swap-vert')}
           
           <TouchableHighlight
             style={[styles.imageContainer, { backgroundColor: this._getColor(BasePageIndex.PROFILE) }]}

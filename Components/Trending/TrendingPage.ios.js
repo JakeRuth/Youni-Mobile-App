@@ -60,6 +60,8 @@ var styles = StyleSheet.create({
   }
 });
 
+// This page is no longer in use, but we are keeping it around since we are not sure if trending will ever make a comeback
+// DEPRECATED
 var TrendingPage = React.createClass({
 
   propTypes: {

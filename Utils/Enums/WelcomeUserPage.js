@@ -3,8 +3,7 @@
 var WelcomeUserPage = {
   
   UPLOAD_PICTURE: 'uploadPicture',
-  SELECT_GROUPS: 'selectGroups',
-  VIEW_HELP: 'viewHelp'
+  SELECT_GROUPS: 'selectGroups'
   
 };
 

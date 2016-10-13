@@ -16,7 +16,9 @@ var userLoginMetadataStore = Unicycle.createStore({
       lastName: '',
       networkName: '',
       networkColor: '',
-      showInitialInfoPrompts: false
+      showInitialInfoPrompts: false,
+      shouldShowCompetitionPopup: false,
+      showUserUpdateMessageForFinishedCompetition: false
     });
   },
 
@@ -85,6 +87,18 @@ var userLoginMetadataStore = Unicycle.createStore({
       showInitialInfoPrompts: value
     });
   },
+  
+  setShouldShowCompetitionPopup: function(value) {
+    this.set({
+      shouldShowCompetitionPopup: value
+    });
+  },
+  
+  setShowUserUpdateMessageForFinishedCompetition: function(value) {
+    this.set({
+      showUserUpdateMessageForFinishedCompetition: value
+    });
+  },
 
   getAccessToken: function () {
     return this.get('accessToken');
@@ -132,6 +146,14 @@ var userLoginMetadataStore = Unicycle.createStore({
   
   getShowInitialInfoPrompts: function() {
     return this.get('showInitialInfoPrompts');
+  },
+  
+  getShouldShowCompetitionPopup: function() {
+    return this.get('shouldShowCompetitionPopup');
+  },
+  
+  getShowUserUpdateMessageForFinishedCompetition: function() {
+    return this.get('showUserUpdateMessageForFinishedCompetition');
   }
 
 });

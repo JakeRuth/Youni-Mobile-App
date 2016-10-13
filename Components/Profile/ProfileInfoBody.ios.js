@@ -87,8 +87,8 @@ var ProfileInfoBody = React.createClass({
             onPress={() => CampusScoreInfoAlert.show()}>
             <View>
               <ProfileStat
-                value={this.props.user.totalPoints}
-                label="Campus Score"
+                value={this.props.user.numPosts}
+                label="Posts"
                 alignIndicatorTo="left"/>
             </View>
           </TouchableHighlight>

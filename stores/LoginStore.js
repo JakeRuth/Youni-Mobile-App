@@ -4,7 +4,6 @@ var Unicycle = require('../Unicycle');
 
 var showUploadProfileImagePromptStore = require('./ShowUploadProfileImagePromptStore');
 var userLoginMetadataStore = require('./UserLoginMetadataStore');
-var trendingStore = require('./trending/TrendingStore');
 
 var AsyncStorageUtils = require('../Utils/Common/AsyncStorageUtils');
 var AjaxUtils = require('../Utils/Common/AjaxUtils');
@@ -37,7 +36,7 @@ var loginStore = Unicycle.createStore({
     AjaxUtils.ajax(
       '/api/login',
       {
-        username: email.toLowerCase(),
+        username: email.toLowerCase().trim(),
         password: password
       },
       (res) => {
@@ -53,6 +52,8 @@ var loginStore = Unicycle.createStore({
             trendingFeedType = res.body.trendingFeedType,
             networkColor = res.body.networkColorHexCode,
             showInitialInfoPrompts = res.body.showInitialInfoPrompts,
+            shouldShowCompetitionPopup = res.body.shouldShowCompetitionPopup,
+            showUserUpdateMessageForFinishedCompetition = res.body.showUserUpdateMessageForFinishedCompetition,
             hasUploadedProfilePicture = profileImageUrl !== null;
 
         userLoginMetadataStore.setAccessToken(accessToken);
@@ -66,12 +67,11 @@ var loginStore = Unicycle.createStore({
         userLoginMetadataStore.setNetworkName(networkName);
         userLoginMetadataStore.setNetworkColor(networkColor);
         userLoginMetadataStore.setShowInitialInfoPrompts(showInitialInfoPrompts);
+        userLoginMetadataStore.setShouldShowCompetitionPopup(shouldShowCompetitionPopup);
+        userLoginMetadataStore.setShowUserUpdateMessageForFinishedCompetition(showUserUpdateMessageForFinishedCompetition);
 
         showUploadProfileImagePromptStore.setShowOnHomeFeed(!hasUploadedProfilePicture);
         showUploadProfileImagePromptStore.setShowOnProfilePage(!hasUploadedProfilePicture);
-
-        trendingStore.setSelectedFilter(trendingFeedFilter);
-        trendingStore.setSelectedType(trendingFeedType);
 
         AsyncStorageUtils.saveItem('userId', userId);
         AsyncStorageUtils.saveItem('email', email);
