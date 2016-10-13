@@ -2,9 +2,7 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
-var Icon = require('react-native-vector-icons/MaterialIcons');
 
-var CampusChallengePopup = require('./CampusChallengePopup');
 var Post = require('../Post/Post');
 var YouniHeader = require('../Common/YouniHeader');
 var BackArrow = require('../Common/BackArrow');
@@ -21,9 +19,7 @@ var {
   Text,
   Image,
   ScrollView,
-  StyleSheet,
-  Dimensions,
-  TouchableHighlight
+  StyleSheet
 } = ReactNative;
 
 var styles = StyleSheet.create({
@@ -38,23 +34,6 @@ var styles = StyleSheet.create({
     marginTop: -12,
     width: LogoImageSize.WIDTH * .1,
     height: LogoImageSize.HEIGHT * .1
-  },
-  campusChallengeCallout: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: Colors.LIGHT_GRAY,
-    height: 44,
-    width: Dimensions.get('window').width
-  },
-  campusChallengeCalloutMessage: {
-    width: Dimensions.get('window').width - 60, // make room for absolutely position arrow so they don't overlap
-    textAlign: 'center',
-    fontSize: 14
-  },
-  campusChallengeArrow: {
-    position: 'absolute',
-    top: 14,
-    right: 12
   }
 });
 
@@ -73,12 +52,7 @@ var PostPopup = React.createClass({
   getInitialState: function() {
     return {
       post: this.props.post, // post can change if it get's liked or commented on
-      challenge: null
     };
-  },
-
-  componentDidMount: function() {
-    this.requestCurrentCampusChallenge();
   },
 
   render: function () {
@@ -93,8 +67,6 @@ var PostPopup = React.createClass({
             color="white"/>
         </YouniHeader>
 
-        {this._renderChallengeCallout()}
-
         <ScrollView automaticallyAdjustContentInsets={false}>
 
           <Post
@@ -108,55 +80,6 @@ var PostPopup = React.createClass({
 
         </ScrollView>
       </View>
-    );
-  },
-
-  _renderChallengeCallout: function() {
-    if (this.state.challenge) {
-      return (
-        <TouchableHighlight
-          underlayColor="transparent"
-          onPress={() => {
-            this.props.navigator.push({
-              component: CampusChallengePopup,
-              passProps: {
-                challenge: this.state.challenge
-              }
-            });
-          }}>
-
-          <View style={styles.campusChallengeCallout}>
-            <Text style={[styles.campusChallengeCalloutMessage, { color: Colors.getPrimaryAppColor() }]}>
-              This is entered in the {this.state.challenge.name} challenge
-            </Text>
-            <Icon
-              style={styles.campusChallengeArrow}
-              name="keyboard-arrow-right"
-              size={20}
-              color={Colors.getPrimaryAppColor()}/>
-          </View>
-
-        </TouchableHighlight>
-      );
-    }
-  },
-
-  requestCurrentCampusChallenge: function() {
-    var that = this;
-    AjaxUtils.ajax(
-      '/campusChallenge/getActiveChallengeForPost',
-      {
-        postIdString: this.props.post.postIdString,
-        userEmail: userLoginMetadataStore.getEmail()
-      },
-      (res) => {
-        that.setState({
-          challenge: res.body.challenge
-        })
-      },
-      () => {
-
-      }
     );
   },
 
