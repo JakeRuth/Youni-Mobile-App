@@ -4,7 +4,9 @@ var React = require('react');
 var ReactNative = require('react-native');
 var Unicycle = require('../../Unicycle');
 
-var ActiveCampusChallenge = require('./ActiveCampusChallenge');
+var CampusChallengeHeader = require('./CampusChallengeHeader');
+var ChallengeCountdown = require('./ChallengeCountdown');
+var ChallengeActionButtons = require('./ChallengeActionButtons');
 var YouniHeader = require('../Common/YouniHeader');
 var Spinner = require('../Common/Spinner');
 
@@ -14,7 +16,9 @@ var campusChallengeStore = require('../../stores/campusChallenge/CampusChallenge
 var {
   View,
   Text,
-  StyleSheet
+  Image,
+  StyleSheet,
+  Dimensions
 } = ReactNative;
 
 var styles = StyleSheet.create({
@@ -32,6 +36,14 @@ var styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  challengeContainer: {
+    flex: 1,
+    marginBottom: 35
+  },
+  coverPhoto: {
+    width: Dimensions.get('window').width,
+    height: 138
   },
   noCampusChallengeMessage: {
     color: Colors.DARK_GRAY,
@@ -59,29 +71,13 @@ var CampusChallengePage = React.createClass({
         currentChallenge = campusChallengeStore.getCurrentChallenge();
 
     if (campusChallengeStore.isLoadingCurrentChallenge()) {
-      content = (
-        <View style={styles.centerAll}>
-          <Spinner/>
-        </View>
-      );
+      content = this._renderSpinner();
     }
     else if (campusChallengeStore.getNoCurrentChallenge()) {
-      content = (
-        <View style={styles.centerAll}>
-          <Text style={styles.noCampusChallengeMessage}>
-            There are no active campus challenges, please check back soon!
-          </Text>
-        </View>
-      );
+      content = this._renderNoChallengeMessage();
     }
     else {
-      content = (
-        <ActiveCampusChallenge
-          challenge={campusChallengeStore.getCurrentChallenge()}
-          challengeSubmissions={campusChallengeStore.getSubmissions()}
-          handleScroll={this.handleScroll}
-          navigator={this.props.navigator}/>
-      );
+      content = this._renderCampusChallenge();
     }
 
     return (
@@ -89,7 +85,7 @@ var CampusChallengePage = React.createClass({
 
         <YouniHeader color={Colors.getPrimaryAppColor()}>
           <Text style={styles.pageHeader}>
-            Campus Challenge
+            Youni Challenge
           </Text>
         </YouniHeader>
 
@@ -99,19 +95,50 @@ var CampusChallengePage = React.createClass({
     );
   },
 
-  handleScroll(e) {
-    var infiniteScrollThreshold = -1;
+  _renderCampusChallenge: function() {
+    let challenge = campusChallengeStore.getCurrentChallenge();
+    return (
+      <View style={styles.challengeContainer}>
+        <CampusChallengeHeader
+          campusChallenge={challenge}
+          navigator={this.props.navigator}/>
+        <Image
+          style={styles.coverPhoto}
+          resizeMode="cover"
+          source={{uri: challenge.coverPhotoUrl}}/>
+        <ChallengeCountdown
+          days={challenge.daysRemaining}
+          hours={challenge.hoursRemaining}
+          minutes={challenge.minutesRemaining}
+          seconds={challenge.secondsRemaining}/>
+        <ChallengeActionButtons
+          campusChallenge={challenge}
+          navigator={this.props.navigator}/>
+      </View>
+    );
+  },
 
-    if (e.nativeEvent.contentOffset.y < infiniteScrollThreshold) {
-      campusChallengeStore.reInit();
-      this._loadPage();
-    }
+  _renderSpinner: function() {
+    return (
+      <View style={styles.centerAll}>
+        <Spinner/>
+      </View>
+    );
+  },
+
+  _renderNoChallengeMessage: function() {
+    return (
+      <View style={styles.centerAll}>
+        <Text style={styles.noCampusChallengeMessage}>
+          There are no active campus challenges, please check back soon!
+        </Text>
+      </View>
+    );
   },
 
   _loadPage: function() {
     let callback = () => {
-      campusChallengeStore.fetchSubmissions(true);
-      campusChallengeStore.requestLoggedInUserSubmission();
+      campusChallengeStore.requestLoggedInUserSubmissions();
     };
     campusChallengeStore.requestCurrentChallenge(callback);
   }
