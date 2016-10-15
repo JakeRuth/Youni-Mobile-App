@@ -49,7 +49,7 @@ var ViewCampusChallengeSubmissionButton = React.createClass({
     return (
       <TouchableHighlight
         style={[styles.container, { backgroundColor: this._getContainerBackgroundColor() }]}
-        underlayColor={Colors.getPrimaryAppColor()}
+        underlayColor={this._getContainerBackgroundColor()}
         onPress={()=>null}>
 
         <Text style={styles.label}>

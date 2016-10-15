@@ -60,6 +60,7 @@ var LoginForm = React.createClass({
             onTextChange={(email) => {
               loginStore.setEmail(email);
             }}
+            autoCorrect={false}
             placeholder='email@college.edu'
             keyboardType='email-address'/>
         </View>
