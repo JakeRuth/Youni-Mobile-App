@@ -42,10 +42,7 @@ var CampusChallengeSubmissionPopup = React.createClass({
 
   propTypes: {
     submission: React.PropTypes.object.isRequired,
-    onSubmitCommentAction: React.PropTypes.func,
-    onDeleteCommentAction: React.PropTypes.func,
     upVoteAction: React.PropTypes.func,
-    removeUpVoteAction: React.PropTypes.func,
     navigator: React.PropTypes.object.isRequired
   },
 
@@ -73,10 +70,7 @@ var CampusChallengeSubmissionPopup = React.createClass({
           <Submission
             {...this.props}
             submission={this.state.submission}
-            upVoteAction={this.props.upVoteAction ? this.upVoteAction : this._upVote}
-            removeUpVoteAction={this.props.removeUpVoteAction ? this.removeUpVoteAction : this._removeUpVote}
-            onSubmitCommentAction={this.props.onSubmitCommentAction ? this.props.onSubmitCommentAction : this._submitComment}
-            onDeleteCommentAction={this.props.onDeleteCommentAction ? this.props.onDeleteCommentAction : this._deleteComment}/>
+            upVoteAction={this.props.upVoteAction ? this.upVoteAction : this._upVote}/>
         </ScrollView>
 
       </View>

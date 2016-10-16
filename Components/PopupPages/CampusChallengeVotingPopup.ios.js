@@ -8,6 +8,7 @@ var YouniHeader = require('../Common/YouniHeader');
 var BackArrow = require('../Common/BackArrow');
 
 var Colors = require('../../Utils/Common/Colors');
+var campusChallengeStore = require('../../stores/campusChallenge/CampusChallengeStore');
 
 var {
   View,
@@ -110,7 +111,7 @@ var CampusChallengeVotingPopup = React.createClass({
               this.props.navigator.push({
                 component: require('../PopupPages/SubmitCampusChallengePopup'),
                 passProps: {
-                  campusChallenge: challenge,
+                  campusChallenge: campusChallengeStore.getCurrentChallenge(),
                   ...this.props
                 }
               });
@@ -119,7 +120,15 @@ var CampusChallengeVotingPopup = React.createClass({
               style={styles.viewSubmissionsButton}
               buttonLabelStyle={styles.viewSubmissionsButtonLabel}
               label="View All Submissions"
-              onPress={() => null}/>
+              onPress={() => {
+                this.props.navigator.push({
+                  component: require('../PopupPages/AllCampusChallengeSubmissionsPopup'),
+                  passProps: {
+                    campusChallenge: campusChallengeStore.getCurrentChallenge(),
+                    ...this.props
+                  }
+                })
+              }}/>
           </View>
 
         </View>

@@ -26,7 +26,6 @@ var AnonymousSubmissionFooter = React.createClass({
   propTypes: {
     submission: React.PropTypes.object.isRequired,
     upVoteAction: React.PropTypes.func.isRequired,
-    removeUpVoteAction: React.PropTypes.func.isRequired,
     navigator: React.PropTypes.object.isRequired
   },
 
@@ -64,10 +63,7 @@ var AnonymousSubmissionFooter = React.createClass({
   },
   
   _onHeartIconPress: function() {
-    if (this.props.submission.upVoted) {
-      this.props.removeUpVoteAction(this.props.submission.id);
-    }
-    else {
+    if (!this.props.submission.upVoted) {
       this.props.upVoteAction(this.props.submission.id);
     }
   },

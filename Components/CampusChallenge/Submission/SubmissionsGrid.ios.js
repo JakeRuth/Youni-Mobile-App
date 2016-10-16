@@ -46,9 +46,6 @@ var SubmissionsGrid = React.createClass({
     submissions: React.PropTypes.array.isRequired,
     winningSubmissions: React.PropTypes.array,
     upVoteAction: React.PropTypes.func.isRequired,
-    removeUpVoteAction: React.PropTypes.func.isRequired,
-    onSubmitCommentAction: React.PropTypes.func.isRequired,
-    onDeleteCommentAction: React.PropTypes.func.isRequired,
     navigator: React.PropTypes.object.isRequired
   },
 

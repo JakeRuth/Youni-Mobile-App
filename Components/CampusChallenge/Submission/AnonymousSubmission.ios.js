@@ -34,7 +34,6 @@ var AnonymousSubmission = React.createClass({
   propTypes: {
     submission: React.PropTypes.object.isRequired,
     upVoteAction: React.PropTypes.func.isRequired,
-    removeUpVoteAction: React.PropTypes.func.isRequired,
     navigator: React.PropTypes.object.isRequired
   },
 
@@ -69,20 +68,15 @@ var AnonymousSubmission = React.createClass({
     var timeDifference = new Date().getTime() - this.state.timeOfLastPhotoTap;
 
     if (timeDifference < this.DOUBLE_TAP_TIME_CONSTRAINT) {
-      this._photoOnClickAction(this.props.submission.upVoted);
+      if (!this.props.submission.upVoted) {
+        this.props.upVoteAction(this.props.submission.id);
+      }
     }
 
     this.setState({
       timeOfLastPhotoTap: new Date().getTime()
     });
   },
-
-  _photoOnClickAction: function(upVoted) {
-    if (!upVoted) {
-      this.props.upVoteAction(this.props.submission.id);
-    }
-  },
-
 
   _getImageHeight: function() {
     var height = this.props.submission.photoHeight / 2;

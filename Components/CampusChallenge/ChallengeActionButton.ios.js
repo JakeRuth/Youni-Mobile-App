@@ -37,7 +37,7 @@ var ChallengeActionButton = React.createClass({
     label: React.PropTypes.string.isRequired,
     onPress: React.PropTypes.func.isRequired,
     iconName: React.PropTypes.string,
-    buttonLabelStyle: React.PropTypes.object
+    buttonLabelStyle: React.PropTypes.number
   },
 
   render: function() {
