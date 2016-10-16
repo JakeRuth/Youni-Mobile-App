@@ -2,98 +2,72 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
+var Icon = require('react-native-vector-icons/MaterialIcons');
 
-var CampusChallengeSubmissionPopup = require('../PopupPages/CampusChallengeSubmissionPopup');
-var Spinner = require('../Common/Spinner');
-
-var ShowImagePicker = require('../CreatePost/ShowImagePicker');
 var Colors = require('../../Utils/Common/Colors');
-var campusChallengeStore = require('../../stores/campusChallenge/CampusChallengeStore');
-var createPostStore = require('../../stores/CreatePostStore');
 
 var {
   View,
   Text,
   StyleSheet,
-  Dimensions,
   TouchableHighlight
 } = ReactNative;
 
 var styles = StyleSheet.create({
   container: {
-    height: 35,
-    width: Dimensions.get('window').width,
-    alignItems: 'center',
-    justifyContent: 'center'
+    flex: 1
   },
-  label: {
-    fontSize: 16,
+  button: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    borderRadius: 4
+  },
+  buttonLabel: {
     color: 'white',
-    textAlign: 'center'
+    fontSize: 30,
+    marginRight: 15
   }
 });
 
 var ChallengeActionButton = React.createClass({
 
   propTypes: {
-    navigator: React.PropTypes.object.isRequired
+    label: React.PropTypes.string.isRequired,
+    onPress: React.PropTypes.func.isRequired,
+    iconName: React.PropTypes.string,
+    buttonLabelStyle: React.PropTypes.object
   },
 
   render: function() {
-    var submission = campusChallengeStore.hasLoggedInUserEntered(),
-        content;
+    var icon;
 
-    if (submission === null) {
-      content = (
-        <View>
-          <Spinner color="white"/>
-        </View>
+    if (this.props.iconName) {
+      icon = (
+        <Icon
+          name={this.props.iconName}
+          size={30}
+          color="white"/>
       );
     }
-    else if (submission) {
-      content = (
-        <Text style={styles.label}>
-          View Submission
-        </Text>
-      );
-    }
-    else {
-      content = (
-        <Text style={styles.label}>
-          Enter Challenge
-        </Text>
-      );
-    }
+
 
     return (
       <TouchableHighlight
-        style={[styles.container, { backgroundColor: Colors.getPrimaryAppColor() }]}
-        underlayColor={Colors.getPrimaryAppColor()}
-        onPress={this._onPress}>
-        {content}
+        style={[styles.container, this.props.style]}
+        underlay={Colors.getPrimaryAppColor()}
+        onPress={this.props.onPress}>
+
+        <View style={[styles.button, { backgroundColor: Colors.getPrimaryAppColor() }]}>
+          <Text style={[styles.buttonLabel, this.props.buttonLabelStyle]}>
+            {this.props.label}
+          </Text>
+          {icon}
+        </View>
+
       </TouchableHighlight>
     );
-  },
-
-  _onPress: function() {
-    var submission = campusChallengeStore.hasLoggedInUserEntered();
-
-    if (submission === null) {
-      return;
-    }
-
-    if (submission) {
-      this.props.navigator.push({
-        component: CampusChallengeSubmissionPopup,
-        passProps: {
-          submission: campusChallengeStore.getLoggedInUserSubmission()
-        }
-      });
-    }
-    else {
-      createPostStore.setCampusChallengeIdString(campusChallengeStore.getCurrentChallenge().id);
-      ShowImagePicker.showImagePicker(this.props.navigator);
-    }
   }
 
 });

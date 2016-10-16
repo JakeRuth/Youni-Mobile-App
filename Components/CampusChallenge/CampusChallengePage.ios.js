@@ -6,7 +6,7 @@ var Unicycle = require('../../Unicycle');
 
 var CampusChallengeHeader = require('./CampusChallengeHeader');
 var ChallengeCountdown = require('./ChallengeCountdown');
-var ChallengeActionButtons = require('./ChallengeActionButtons');
+var ChallengeActionButton = require('./ChallengeActionButton');
 var YouniHeader = require('../Common/YouniHeader');
 var Spinner = require('../Common/Spinner');
 
@@ -44,6 +44,19 @@ var styles = StyleSheet.create({
   coverPhoto: {
     width: Dimensions.get('window').width,
     height: 138
+  },
+  buttonsContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    maxHeight: 150
+  },
+  enterChallengeButton: {
+    marginLeft: 5,
+    marginRight: 2.5
+  },
+  voteButton: {
+    marginRight: 5,
+    marginLeft: 2.5
   },
   noCampusChallengeMessage: {
     color: Colors.DARK_GRAY,
@@ -97,8 +110,10 @@ var CampusChallengePage = React.createClass({
 
   _renderCampusChallenge: function() {
     let challenge = campusChallengeStore.getCurrentChallenge();
+
     return (
       <View style={styles.challengeContainer}>
+
         <CampusChallengeHeader
           campusChallenge={challenge}
           navigator={this.props.navigator}/>
@@ -111,9 +126,36 @@ var CampusChallengePage = React.createClass({
           hours={challenge.hoursRemaining}
           minutes={challenge.minutesRemaining}
           seconds={challenge.secondsRemaining}/>
-        <ChallengeActionButtons
-          campusChallenge={challenge}
-          navigator={this.props.navigator}/>
+
+        <View style={styles.buttonsContainer}>
+          <ChallengeActionButton
+            style={styles.enterChallengeButton}
+            label="Enter"
+            iconName="photo-camera"
+            onPress={() => {
+              this.props.navigator.push({
+                component: require('../PopupPages/SubmitCampusChallengePopup'),
+                passProps: {
+                  campusChallenge: challenge,
+                  ...this.props
+                }
+              });
+            }}/>
+          <ChallengeActionButton
+            style={styles.voteButton}
+            label="Vote"
+            iconName="arrow-upward"
+            onPress={() => {
+              this.props.navigator.push({
+                component: require('../PopupPages/CampusChallengeVotingPopup'),
+                passProps: {
+                  campusChallenge: challenge,
+                  ...this.props
+                }
+              });
+            }}/>
+        </View>
+
       </View>
     );
   },
