@@ -4,7 +4,7 @@ var React = require('react');
 var ReactNative = require('react-native');
 
 var SubmissionGridThumbnail = require('./Submission/SubmissionGridThumbnail');
-var CampusChallengePopup = require('../PopupPages/CampusChallengePopup');
+var AllCampusChallengeSubmissionsPopup = require('../PopupPages/AllCampusChallengeSubmissionsPopup');
 
 var Colors = require('../../Utils/Common/Colors');
 
@@ -45,19 +45,21 @@ var styles = StyleSheet.create({
 var PastChallengeWinnersListItem = React.createClass({
 
   propTypes: {
-    challenge: React.PropTypes.object.isRequired,
+    campusChallenge: React.PropTypes.object.isRequired,
     navigator: React.PropTypes.object.isRequired
   },
 
   render: function() {
-    var winningSubmissions = this.props.challenge.winningSubmissions,
+    var winningSubmissions = this.props.campusChallenge.winningSubmissions,
         winningPhotos = [];
 
     for (var i = 0; i < winningSubmissions.length; i++) {
       winningPhotos.push(
         <SubmissionGridThumbnail
           key={i}
-          submission={winningSubmissions[i]}/>
+          index={i}
+          submission={winningSubmissions[i]}
+          navigator={this.props.navigator}/>
       );
     }
 
@@ -67,10 +69,10 @@ var PastChallengeWinnersListItem = React.createClass({
         <View style={styles.header}>
           <View style={styles.nameAndDate}>
             <Text style={styles.name}>
-              {this.props.challenge.name}
+              {this.props.campusChallenge.name}
             </Text>
             <Text style={styles.endDate}>
-              Ended: {this.props.challenge.endDate}
+              Ended: {this.props.campusChallenge.endDate}
             </Text>
           </View>
 
@@ -78,7 +80,7 @@ var PastChallengeWinnersListItem = React.createClass({
             style={styles.seeAllLink}
             onPress={() => {
               this.props.navigator.push({
-                component: CampusChallengePopup,
+                component: AllCampusChallengeSubmissionsPopup,
                 passProps: {...this.props}
               });
             }}>

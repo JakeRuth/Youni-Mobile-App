@@ -189,10 +189,7 @@ var SubmitToChallengeForm = React.createClass({
       },
       (res) => {
         this.props.navigator.pop();
-        let callback = () => {
-          campusChallengeStore.requestLoggedInUserSubmissions();
-        };
-        campusChallengeStore.requestCurrentChallenge(callback);
+        campusChallengeStore.requestCurrentChallenge();
       },
       () => {
         AlertIOS.alert(

@@ -6,6 +6,7 @@ var ReactNative = require('react-native');
 var PastChallengeWinnersListItem = require('../CampusChallenge/PastChallengeWinnersListItem');
 var YouniHeader = require('../Common/YouniHeader');
 var BackArrow = require('../Common/BackArrow');
+var Spinner = require('../Common/Spinner');
 var LoadMoreButton = require('../Common/LoadMoreButton');
 
 var Colors = require('../../Utils/Common/Colors');
@@ -28,6 +29,16 @@ var styles = StyleSheet.create({
     fontWeight: '500',
     color: 'white',
     textAlign: 'center'
+  },
+  noChallengesMessageContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  noChallengesMessage: {
+    textAlign: 'center',
+    color: Colors.DARK_GRAY,
+    fontSize: 16
   }
 });
 
@@ -36,16 +47,16 @@ var PastChallengeWinnersPopup = React.createClass({
   PAGE_SIZE: 40,
 
   propTypes: {
-    pastChallenges: React.PropTypes.array.isRequired,
     navigator: React.PropTypes.object.isRequired
   },
   
   getInitialState: function() {
     return {
-      challenges: this.props.pastChallenges,
+      challenges: [],
       moreToFetch: false,
-      offset: this.props.pastChallenges.length,
-      isLoading: false
+      offset: 0,
+      isLoadingFirstPage: false,
+      isLoadingNextPage: false
     };
   },
 
@@ -54,16 +65,22 @@ var PastChallengeWinnersPopup = React.createClass({
   },
 
   render: function () {
-    var challenges = this.state.challenges,
-        challengeElements = [];
+    var content;
 
-    for (var i = 0; i < challenges.length; i++) {
-      challengeElements.push(
-        <PastChallengeWinnersListItem
-          key={i}
-          challenge={challenges[i]}
-          navigator={this.props.navigator}/>
-      );
+    if (this.state.isLoadingFirstPage) {
+      content = <Spinner/>;
+    }
+    else if (this.state.challenges.length === 0) {
+      content = (
+        <View style={styles.noChallengesMessageContainer}>
+          <Text style={styles.noChallengesMessage}>
+            No Past Challenges
+          </Text>
+        </View>
+      )
+    }
+    else {
+      content = this._renderPastChallenges();
     }
 
     return (
@@ -78,17 +95,34 @@ var PastChallengeWinnersPopup = React.createClass({
             onPress={() => this.props.navigator.pop()}/>
         </YouniHeader>
 
-        <ScrollView
-          style={{flex: 1}}
-          automaticallyAdjustContentInsets={false}>
-          {challengeElements}
-          <LoadMoreButton
-            onPress={this.fetchPastChallenges}
-            isLoading={this.state.isLoading}
-            isVisible={this.state.moreToFetch}/>
-        </ScrollView>
+        {content}
 
       </View>
+    );
+  },
+
+  _renderPastChallenges: function() {
+    var challengeElements = [];
+
+    for (var i = 0; i < this.state.challenges.length; i++) {
+      challengeElements.push(
+        <PastChallengeWinnersListItem
+          key={i}
+          campusChallenge={this.state.challenges[i]}
+          navigator={this.props.navigator}/>
+      );
+    }
+
+    return (
+      <ScrollView
+        style={{flex: 1}}
+        automaticallyAdjustContentInsets={false}>
+        {challengeElements}
+        <LoadMoreButton
+          onPress={this.fetchPastChallenges}
+          isLoading={this.state.isLoadingNextPage}
+          isVisible={this.state.moreToFetch}/>
+      </ScrollView>
     );
   },
   
@@ -97,9 +131,16 @@ var PastChallengeWinnersPopup = React.createClass({
         currentOffset = this.state.offset,
         currChallenges = this.state.challenges;
 
-    this.setState({
-      isLoading: true
-    });
+    if (this.state.offset === 0) {
+      this.setState({
+        isLoadingFirstPage: true
+      });
+    }
+    else {
+      this.setState({
+        isLoadingNextPage: true
+      });
+    }
 
     AjaxUtils.ajax(
       '/campusChallenge/fetchFinishedChallengesForNetwork',
@@ -114,12 +155,14 @@ var PastChallengeWinnersPopup = React.createClass({
           challenges: currChallenges.concat(res.body.challenges),
           offset: currentOffset + that.PAGE_SIZE,
           moreToFetch: res.body.moreToFetch,
-          isLoading: false
+          isLoadingFirstPage: false,
+          isLoadingNextPage: false
         });
       },
       () => {
         this.setState({
-          isLoading: false
+          isLoadingFirstPage: false,
+          isLoadingNextPage: false
         });
       }
     );

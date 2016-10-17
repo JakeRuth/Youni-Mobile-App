@@ -51,8 +51,7 @@ var ChallengeActionButton = React.createClass({
           color="white"/>
       );
     }
-
-
+    
     return (
       <TouchableHighlight
         style={[styles.container, this.props.style]}

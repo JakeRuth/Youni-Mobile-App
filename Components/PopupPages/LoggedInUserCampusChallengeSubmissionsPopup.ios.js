@@ -59,7 +59,7 @@ var LoggedInUserCampusChallengeSubmissionsPopup = React.createClass({
       }
 
       submissions.push(
-        <View>
+        <View key={i}>
           <Submission
             submission={submission}
             navigator={this.props.navigator}/>

@@ -133,7 +133,7 @@ var SubmissionHeader = React.createClass({
       this.props.navigator.push({
         component: require('../../PopupPages/ProfilePopup'),
         passProps: {
-          profileUserEmail: this.props.submissions.user.email
+          profileUserEmail: this.props.submission.user.email
         }
       });
     }

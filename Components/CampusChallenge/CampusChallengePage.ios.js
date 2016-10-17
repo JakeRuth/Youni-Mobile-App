@@ -2,11 +2,13 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
+var Icon = require('react-native-vector-icons/MaterialIcons');
 var Unicycle = require('../../Unicycle');
 
 var CampusChallengeHeader = require('./CampusChallengeHeader');
 var ChallengeCountdown = require('./ChallengeCountdown');
 var ChallengeActionButton = require('./ChallengeActionButton');
+var PastChallengeWinnersPopup = require('../PopupPages/PastChallengeWinnersPopup');
 var YouniHeader = require('../Common/YouniHeader');
 var Spinner = require('../Common/Spinner');
 
@@ -31,6 +33,16 @@ var styles = StyleSheet.create({
     fontWeight: '500',
     textAlign: 'center',
     color: 'white'
+  },
+  viewPastChallengesIcon: {
+    backgroundColor: 'transparent',
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    paddingTop: 25,
+    paddingRight: 12,
+    paddingLeft: 30,
+    paddingBottom: 15
   },
   centerAll: {
     flex: 1,
@@ -76,7 +88,7 @@ var CampusChallengePage = React.createClass({
   ],
   
   componentDidMount: function() {
-    this._loadPage();
+    campusChallengeStore.requestCurrentChallenge();
   },
 
   render: function() {
@@ -100,6 +112,16 @@ var CampusChallengePage = React.createClass({
           <Text style={styles.pageHeader}>
             Youni Challenge
           </Text>
+          <Icon
+            style={styles.viewPastChallengesIcon}
+            name="equalizer"
+            size={30}
+            color="white"
+            onPress={() => {
+              this.props.navigator.push({
+                component: PastChallengeWinnersPopup
+              });
+            }}/>
         </YouniHeader>
 
         {content}
@@ -176,13 +198,6 @@ var CampusChallengePage = React.createClass({
         </Text>
       </View>
     );
-  },
-
-  _loadPage: function() {
-    let callback = () => {
-      campusChallengeStore.requestLoggedInUserSubmissions();
-    };
-    campusChallengeStore.requestCurrentChallenge(callback);
   }
 
 });
