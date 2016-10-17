@@ -29,7 +29,6 @@ var SubmissionList = React.createClass({
     isNextPageLoading: React.PropTypes.bool.isRequired,
     noMoreSubmissionsToFetch: React.PropTypes.bool.isRequired,
     gridViewEnabled: React.PropTypes.bool,
-    upVoteAction: React.PropTypes.func.isRequired,
     navigator: React.PropTypes.object.isRequired
   },
 

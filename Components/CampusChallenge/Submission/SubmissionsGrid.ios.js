@@ -45,7 +45,6 @@ var SubmissionsGrid = React.createClass({
   propTypes: {
     submissions: React.PropTypes.array.isRequired,
     winningSubmissions: React.PropTypes.array,
-    upVoteAction: React.PropTypes.func.isRequired,
     navigator: React.PropTypes.object.isRequired
   },
 

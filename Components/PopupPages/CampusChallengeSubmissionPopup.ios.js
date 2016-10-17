@@ -54,7 +54,6 @@ var CampusChallengeSubmissionPopup = React.createClass({
 
   propTypes: {
     submission: React.PropTypes.object.isRequired,
-    upVoteAction: React.PropTypes.func,
     index: React.PropTypes.number.isRequired,
     navigator: React.PropTypes.object.isRequired
   },

@@ -57,11 +57,7 @@ var PastChallengeWinnersListItem = React.createClass({
       winningPhotos.push(
         <SubmissionGridThumbnail
           key={i}
-          submission={winningSubmissions[i]}
-          upVoteAction={() => null}
-          removeUpVoteAction={() => null}
-          onSubmitCommentAction={() => null}
-          onDeleteCommentAction={() => null}/>
+          submission={winningSubmissions[i]}/>
       );
     }
 

@@ -68,7 +68,6 @@ var AllCampusChallengeSubmissionsPopup = React.createClass({
         <SubmissionList
           submissions={this.state.submissions}
           onLoadMoreSubmissionsPress={() => this.fetchSubmissions(true)}
-          upVoteAction={() => null}
           isNextPageLoading={this.state.isFetchingNextPage}
           noMoreSubmissionsToFetch={!this.state.moreToFetch}
           gridViewEnabled={true}

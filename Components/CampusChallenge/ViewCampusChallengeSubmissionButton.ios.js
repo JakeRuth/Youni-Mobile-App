@@ -3,6 +3,8 @@
 var React = require('react');
 var ReactNative = require('react-native');
 
+var LoggedInUserCampusChallengeSubmissionsPopup = require('../PopupPages/LoggedInUserCampusChallengeSubmissionsPopup');
+
 var Colors = require('../../Utils/Common/Colors');
 var AjaxUtils = require('../../Utils/Common/AjaxUtils');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
@@ -50,7 +52,7 @@ var ViewCampusChallengeSubmissionButton = React.createClass({
       <TouchableHighlight
         style={[styles.container, { backgroundColor: this._getContainerBackgroundColor() }]}
         underlayColor={this._getContainerBackgroundColor()}
-        onPress={()=>null}>
+        onPress={this._onPress}>
 
         <Text style={styles.label}>
           {this._getButtonLabel()}
@@ -58,6 +60,18 @@ var ViewCampusChallengeSubmissionButton = React.createClass({
 
       </TouchableHighlight>
     );
+  },
+  
+  _onPress: function() {
+    if (this.state.submissions.length > 0) {
+      this.props.navigator.push({
+        component: LoggedInUserCampusChallengeSubmissionsPopup,
+        passProps: {
+          submissions: this.state.submissions,
+          navigator: this.props.navigator
+        }
+      });
+    }
   },
 
   _getButtonLabel: function() {

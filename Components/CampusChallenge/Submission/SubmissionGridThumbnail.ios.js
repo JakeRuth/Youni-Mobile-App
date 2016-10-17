@@ -32,7 +32,6 @@ var SubmissionsGridThumbnail = React.createClass({
 
   propTypes: {
     submission: React.PropTypes.object.isRequired,
-    upVoteAction: React.PropTypes.func.isRequired,
     index: React.PropTypes.number.isRequired,
     navigator: React.PropTypes.object
   },

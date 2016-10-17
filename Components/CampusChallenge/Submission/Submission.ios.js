@@ -42,7 +42,6 @@ var Submission = React.createClass({
 
   propTypes: {
     submission: React.PropTypes.object.isRequired,
-    upVoteAction: React.PropTypes.func.isRequired,
     navigator: React.PropTypes.object.isRequired
   },
 
