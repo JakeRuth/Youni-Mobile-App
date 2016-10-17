@@ -83,6 +83,7 @@ var SubmissionsGrid = React.createClass({
         <SubmissionGridThumbnail
           {...this.props}
           key={index}
+          index={index}
           submission={submission}>
           {this._renderGridItemChildren(submission)}
         </SubmissionGridThumbnail>
