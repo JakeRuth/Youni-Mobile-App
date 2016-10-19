@@ -38,13 +38,6 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     position: 'relative'
   },
-  votesText: {
-    fontSize: 18,
-    position: 'absolute',
-    top: 16,
-    width: Dimensions.get('window').width,
-    textAlign: 'center'
-  },
   rankingText: {
     fontSize: 30
   }
@@ -74,9 +67,6 @@ var CampusChallengeSubmissionPopup = React.createClass({
         <Submission {...this.props}/>
         
         <View style={styles.statsContainer}>
-          <Text style={[styles.votesText, { color: Colors.getPrimaryAppColor() }]}>
-            {this._getVotesText()}
-          </Text>
           <Text style={[styles.rankingText, { color: Colors.getPrimaryAppColor() }]}>
             {this._getRankingText()}
           </Text>
@@ -84,17 +74,6 @@ var CampusChallengeSubmissionPopup = React.createClass({
 
       </View>
     );
-  },
-  
-  _getVotesText: function() {
-    let numVotes = this.props.submission.numVotes;
-
-    if (numVotes > 1) {
-      return `${numVotes} votes`;
-    }
-    else if (numVotes === 1) {
-      return '1 vote';
-    }
   },
   
   _getRankingText: function() {

@@ -3,19 +3,18 @@
 var React = require('react');
 var ReactNative = require('react-native');
 
-var ChallengeActionButton = require('../CampusChallenge/ChallengeActionButton');
+var NoMoreSubmissionsToVoteOnPage = require('../CampusChallenge/Voting/NoMoreSubmissionsToVoteOnPage');
 var YouniHeader = require('../Common/YouniHeader');
 var BackArrow = require('../Common/BackArrow');
 
 var Colors = require('../../Utils/Common/Colors');
-var campusChallengeStore = require('../../stores/campusChallenge/CampusChallengeStore');
+var NonSwipeBackablePage = require('../../Utils/Enums/NonSwipeBackablePage');
+var hackyNonSwipeBackablePageStore = require('../../stores/common/HackyNonSwipeBackablePageStore');
 
 var {
   View,
   Text,
-  Image,
-  StyleSheet,
-  Dimensions
+  StyleSheet
 } = ReactNative;
 
 var styles = StyleSheet.create({
@@ -27,43 +26,6 @@ var styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '500',
     textAlign: 'center'
-  },
-  title: {
-    fontSize: 30,
-    textAlign: 'center',
-    paddingHorizontal: Dimensions.get('window').width * .1,
-    paddingVertical: 12
-  },
-  funnyGuyPic: {
-    flex: 1,
-    height: 200,
-    width: Dimensions.get('window').width
-  },
-  checkBackText: {
-    color: Colors.DARK_GRAY,
-    fontSize: 30,
-    textAlign: 'center',
-    margin: 10
-  },
-  buttonsContainer: {
-    flexDirection: 'row',
-    marginBottom: 5
-  },
-  enterChallengeButton: {
-    height: 125,
-    marginLeft: 5,
-    marginRight: 2.5
-  },
-  viewSubmissionsButton: {
-    height: 125,
-    marginRight: 5,
-    marginLeft: 2.5
-  },
-  viewSubmissionsButtonLabel: {
-    flex: 1,
-    fontSize: 25,
-    textAlign: 'center',
-    marginRight: 0
   }
 });
 
@@ -72,6 +34,14 @@ var CampusChallengeVotingPopup = React.createClass({
   propTypes: {
     campusChallenge: React.PropTypes.object.isRequired,
     navigator: React.PropTypes.object.isRequired
+  },
+
+  componentDidMount: function() {
+    hackyNonSwipeBackablePageStore.setPage(NonSwipeBackablePage.CHALLENGE_SUBMISSION_VOTING_CARD_SLIDE);
+  },
+
+  componentWillUnmount: function() {
+    hackyNonSwipeBackablePageStore.hidePage();
   },
 
   render: function () {
@@ -84,54 +54,28 @@ var CampusChallengeVotingPopup = React.createClass({
           </Text>
           <BackArrow
             color="white"
-            onPress={() => this.props.navigator.pop()}/>
+            onPress={() => {
+              this.props.navigator.pop();
+              // allow time for pop navigation to take place
+              setTimeout(() => {
+                hackyNonSwipeBackablePageStore.hidePage();
+              }, 100);
+            }}/>
         </YouniHeader>
 
-        <View style={styles.container}>
-
-          <Text style={[styles.title, { color: Colors.getPrimaryAppColor() }]}>
-            No More {this.props.campusChallenge.name} Submissions
-          </Text>
-
-          <Image
-            style={styles.funnyGuyPic}
-            resizeMode="contain"
-            source={require('../../images/noMoreSubmissions.png')}/>
-
-          <Text style={styles.checkBackText}>
-            Check Back Later!
-          </Text>
-
-          <View style={styles.buttonsContainer}>
-            <ChallengeActionButton
-              style={styles.enterChallengeButton}
-              label="Enter"
-              iconName="photo-camera"
-              onPress={() => {
-              this.props.navigator.push({
-                component: require('../PopupPages/SubmitCampusChallengePopup'),
-                passProps: {
-                  campusChallenge: campusChallengeStore.getCurrentChallenge(),
-                  ...this.props
-                }
-              });
-            }}/>
-            <ChallengeActionButton
-              style={styles.viewSubmissionsButton}
-              buttonLabelStyle={styles.viewSubmissionsButtonLabel}
-              label="View All Submissions"
-              onPress={() => {
-                this.props.navigator.push({
-                  component: require('../PopupPages/AllCampusChallengeSubmissionsPopup'),
-                  passProps: {
-                    campusChallenge: campusChallengeStore.getCurrentChallenge(),
-                    ...this.props
-                  }
-                })
-              }}/>
-          </View>
-
-        </View>
+        {/*
+          * HACK!!!!
+          * 
+          * Due to these facts:
+          * - once the Navigator is mounted you cannot change it's scene navigation gestures (animations)
+          * - Failed on multiple other attempts using Modal, store for the edgeHitWidth, and other things this was the only solution I could find
+          * 
+          * The real visible component that should be here is actually rendered hackily using stores and
+          * is rendered in LoggedInUserBasePage component.
+          * Again, the whole reason this is done is to 'disable' the swipe back page navigator functionality.
+          * 
+          */}
+        <NoMoreSubmissionsToVoteOnPage {...this.props}/>
         
       </View>
     );

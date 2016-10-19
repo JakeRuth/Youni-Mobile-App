@@ -26,12 +26,6 @@ var styles = StyleSheet.create({
     fontWeight: '500',
     color: 'white',
     textAlign: 'center'
-  },
-  votesText: {
-    fontSize: 18,
-    width: Dimensions.get('window').width,
-    textAlign: 'center',
-    marginBottom: 10
   }
 });
 
@@ -47,23 +41,13 @@ var LoggedInUserCampusChallengeSubmissionsPopup = React.createClass({
 
     for (let i = 0; i < this.props.submissions.length; i++) {
       let votesElement,
-          submission = this.props.submissions[i],
-          votesText = this._getSubmissionVotesText(submission.numVotes);
-
-      if (votesText) {
-        votesElement = (
-          <Text style={[styles.votesText, { color: Colors.getPrimaryAppColor() }]}>
-            {votesText}
-          </Text>
-        );
-      }
+          submission = this.props.submissions[i];
 
       submissions.push(
         <View key={i}>
           <Submission
             submission={submission}
             navigator={this.props.navigator}/>
-          {votesElement}
         </View>
       );
     }
@@ -87,18 +71,6 @@ var LoggedInUserCampusChallengeSubmissionsPopup = React.createClass({
 
       </View>
     );
-  },
-
-  _getSubmissionVotesText: function(numVotes) {
-    if (numVotes > 1) {
-      return `${numVotes} votes`;
-    }
-    else if (numVotes === 1) {
-      return '1 vote';
-    }
-    else {
-      return '';
-    }
   }
 
 });

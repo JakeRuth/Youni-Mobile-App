@@ -63,7 +63,7 @@ var SubmissionHeader = React.createClass({
 
   propTypes: {
     submission: React.PropTypes.object.isRequired,
-    navigator: React.PropTypes.object.isRequired
+    navigator: React.PropTypes.object
   },
 
   render: function() {
@@ -120,7 +120,7 @@ var SubmissionHeader = React.createClass({
   },
 
   onPress: function() {
-    if (this.props.submission.isAnonymous) {
+    if (this.props.navigator && this.props.submission.isAnonymous) {
       return;
     }
 

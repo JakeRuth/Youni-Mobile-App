@@ -20,8 +20,7 @@ var styles = StyleSheet.create({
 var SubmissionFooter = React.createClass({
 
   propTypes: {
-    submission: React.PropTypes.object.isRequired,
-    navigator: React.PropTypes.object.isRequired
+    submission: React.PropTypes.object.isRequired
   },
 
   render: function() {

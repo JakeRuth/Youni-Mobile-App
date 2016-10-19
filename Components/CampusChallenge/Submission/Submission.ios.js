@@ -6,18 +6,22 @@ var Icon = require('react-native-vector-icons/Ionicons');
 
 var SubmissionHeader = require('./SubmissionHeader');
 var SubmissionFooter = require('./SubmissionFooter');
+var Spinner = require('../../Common/Spinner');
 
 var Colors = require('../../../Utils/Common/Colors');
 
 var {
   View,
   Image,
+  Text,
+  Dimensions,
   StyleSheet
 } = ReactNative;
 
 var styles = StyleSheet.create({
   container: {
     height: 433,
+    width: Dimensions.get('window').width - 24, // subtract horizontal margin
     backgroundColor: 'white',
     borderRadius: 8,
     margin: 12,
@@ -33,6 +37,12 @@ var styles = StyleSheet.create({
     flex: 1,
     justifyContent: "space-around",
     backgroundColor: '#F0F0F0'
+  },
+  votesText: {
+    fontSize: 18,
+    width: Dimensions.get('window').width,
+    textAlign: 'center',
+    marginBottom: 10
   }
 });
 
@@ -42,24 +52,56 @@ var Submission = React.createClass({
 
   propTypes: {
     submission: React.PropTypes.object.isRequired,
-    navigator: React.PropTypes.object.isRequired
+    navigator: React.PropTypes.object
+  },
+
+  getInitialState: function() {
+    return {
+      showImageLoader: true
+    };
   },
 
   render: function() {
     var submission = this.props.submission;
 
     return (
-      <View style={styles.container}>
+      <View>
+        <View style={styles.container}>
 
-        <SubmissionHeader {...this.props}/>
-        <Image
-          style={[styles.submissionImage, {height: this._getImageHeight()}]}
-          resizeMode="cover"
-          source={{uri: submission.photoUrl}}/>
-        <SubmissionFooter {...this.props}/>
+          <SubmissionHeader {...this.props}/>
 
+          <Image
+            style={[styles.submissionImage, {height: this._getImageHeight()}]}
+            resizeMode="cover"
+            source={{uri: submission.photoUrl}}
+            onLoadStart={() => this.setState({ showImageLoader: true })}
+            onLoadEnd={() => this.setState({ showImageLoader: false })}>
+            {this._renderImageLoadingSpinner()}
+          </Image>
+
+          <SubmissionFooter {...this.props}/>
+
+        </View>
+
+        {this._renderVotesCount(submission)}
       </View>
     );
+  },
+  
+  _renderVotesCount: function(submission) {
+    if (submission.numVotes > 0) {
+      return (
+        <Text style={[styles.votesText, { color: Colors.getPrimaryAppColor() }]}>
+          {this._getSubmissionVotesText(submission.numVotes)}
+        </Text>
+      );
+    }
+  },
+
+  _renderImageLoadingSpinner: function() {
+    if (this.state.showImageLoader) {
+      return <Spinner/>;
+    }
   },
 
   _getImageHeight: function() {
@@ -69,6 +111,15 @@ var Submission = React.createClass({
     }
     else {
       return this.MAX_IMAGE_HEIGHT;
+    }
+  },
+
+  _getSubmissionVotesText: function(numVotes) {
+    if (numVotes > 1) {
+      return `${numVotes} votes`;
+    }
+    else {
+      return '1 vote';
     }
   }
 
