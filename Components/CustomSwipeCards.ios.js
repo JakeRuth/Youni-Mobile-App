@@ -77,7 +77,8 @@ var CustomSwipeCards = React.createClass({
       yupStyle: styles.yup,
       yupTextStyle: styles.yupText,
       nopeStyle: styles.nope,
-      nopeTextStyle: styles.nopeText
+      nopeTextStyle: styles.nopeText,
+      indexOfLastCard: null
     };
   },
 
@@ -127,6 +128,13 @@ var CustomSwipeCards = React.createClass({
       this.setState({
         card: nextProps.cards[this.props.cards.length]
       }, () => this._animateEntrance);
+    }
+    // Youni HACK
+    // if the current card is not in the props passed in, we can assume it has been removed
+    else if (nextProps.cards.indexOf(this.state.card) === -1) {
+      this.setState({
+        card: nextProps.cards[this.props.indexOfLastCard]
+      },this._resetState);
     }
   },
 

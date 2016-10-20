@@ -19,7 +19,8 @@ var {
   View,
   Text,
   Image,
-  StyleSheet
+  StyleSheet,
+  TouchableHighlight
 } = ReactNative;
 
 var styles = StyleSheet.create({
@@ -111,7 +112,8 @@ var ChallengeSubmissionVotingCardSlider = React.createClass({
           handleYup={this.upVoteSubmission}
           handleNope={this.noVoteSubmission}
           cardRemoved={this.cardRemoved}
-          renderNoMoreCards={() => <Spinner/>}/>
+          renderNoMoreCards={() => <Spinner/>}
+          indexOfLastCard={this.state.indexOfLastCardRemoved}/>
         {this._renderGhostUpVoteControl()}
         {this._renderGhostNoVoteControl()}
       </View>
@@ -120,24 +122,48 @@ var ChallengeSubmissionVotingCardSlider = React.createClass({
 
   renderUpVoteIndicator: function() {
     return (
-      <View style={[styles.voteControl, styles.upVoteControl]}>
+      <TouchableHighlight
+        style={[styles.voteControl, styles.upVoteControl]}
+        underlayColor="lightgreen"
+        onPress={() => this.onVoteIndicatorPress(true)}>
         <Icon
           name='arrow-upward'
           size={25}
           color={Colors.DARK_GRAY}/>
-      </View>
+      </TouchableHighlight>
     );
   },
 
   renderNoVoteIndicator: function() {
     return (
-      <View style={[styles.voteControl, styles.noVoteControl]}>
+      <TouchableHighlight
+        style={[styles.voteControl, styles.noVoteControl]}
+        underlayColor={Colors.LOUD_RED}
+        onPress={() => this.onVoteIndicatorPress(false)}>
         <Icon
           name='clear'
           size={25}
           color={Colors.DARK_GRAY}/>
-      </View>
+      </TouchableHighlight>
     );
+  },
+  
+  onVoteIndicatorPress: function(isUpVote) {
+    let submissions = this.state.submissions,
+      currSubmissionIndex = this.state.indexOfLastCardRemoved === null ? 0 : this.state.indexOfLastCardRemoved + 1,
+      currSubmission = submissions[currSubmissionIndex];
+
+    if (isUpVote) {
+      this.upVoteSubmission(currSubmission);
+    }
+    else {
+      this.noVoteSubmission(currSubmission);
+    }
+
+    submissions.splice(currSubmissionIndex, 1);
+    this.setState({
+      submissions: submissions
+    }, this.ifNoMoreSubmissionsCloseSliderOrGetMore);
   },
 
   cardRemoved: function() {
@@ -151,21 +177,9 @@ var ChallengeSubmissionVotingCardSlider = React.createClass({
       newRemovedCardIndex = currentRemovedCardIndex + 1;
     }
 
-    let callback = () => {
-      let isLastSubmissionInArray = this.state.indexOfLastCardRemoved >= this.state.submissions.length - 1;
-      if (isLastSubmissionInArray) {
-        if (this.state.moreToFetch) {
-          this.fetchSubmissionsForVoting();
-        }
-        else {
-          hackyNonSwipeBackablePageStore.hidePage();
-        }
-      }
-    };
-
     this.setState({
       indexOfLastCardRemoved: newRemovedCardIndex
-    }, callback);
+    }, this.ifNoMoreSubmissionsCloseSliderOrGetMore);
   },
 
   _renderGhostUpVoteControl: function() {
@@ -182,6 +196,18 @@ var ChallengeSubmissionVotingCardSlider = React.createClass({
         {this.renderNoVoteIndicator()}
       </View>
     );
+  },
+
+  ifNoMoreSubmissionsCloseSliderOrGetMore: function() {
+    let isLastSubmissionInArray = this.state.indexOfLastCardRemoved >= this.state.submissions.length - 1;
+    if (isLastSubmissionInArray) {
+      if (this.state.moreToFetch) {
+        this.fetchSubmissionsForVoting();
+      }
+      else {
+        hackyNonSwipeBackablePageStore.hidePage();
+      }
+    }
   },
 
   fetchSubmissionsForVoting: function() {
@@ -232,6 +258,7 @@ var ChallengeSubmissionVotingCardSlider = React.createClass({
         userEmail: userLoginMetadataStore.getEmail()
       },
       (res) => {
+        console.log('up: ',res)
         that.setState({
           isVoteRequestInFlight: false
         });
@@ -258,6 +285,7 @@ var ChallengeSubmissionVotingCardSlider = React.createClass({
         userEmail: userLoginMetadataStore.getEmail()
       },
       (res) => {
+        console.log('no: ',res)
         that.setState({
           isVoteRequestInFlight: false
         });
