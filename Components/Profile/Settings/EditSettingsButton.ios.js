@@ -7,7 +7,6 @@ var Unicycle = require('../../../Unicycle');
 
 var EditProfilePopup = require('../../PopupPages/EditProfilePopup');
 var BlockedUsersPopup = require('../../PopupPages/BlockedUsersPopup');
-var AppHelpPage = require('../../AppHelp/AppHelpPage');
 
 var AsyncStorageUtils = require('../../../Utils/Common/AsyncStorageUtils');
 var Colors = require('../../../Utils/Common/Colors');
@@ -65,7 +64,6 @@ var EditSettingsButton = React.createClass({
         'Edit Profile',
         'Blocked Users',
         'Show Invite Token',
-        'Help Center',
         'Logout',
         'Cancel'
       ],
@@ -84,9 +82,6 @@ var EditSettingsButton = React.createClass({
         this._onShowInviteTokenOptionSelect();
       }
       else if (buttonIndex === 3) {
-        this._onHelpCenterOptionSelect();
-      }
-      else if (buttonIndex === 4) {
         this._onLogoutButtonPressAreYouSurePrompt();
       }
     });
@@ -131,15 +126,6 @@ var EditSettingsButton = React.createClass({
         ]
       );
     }
-  },
-
-  _onHelpCenterOptionSelect: function() {
-    this.props.navigator.push({
-      component: AppHelpPage,
-      passProps: {
-        onClosePress: () => this.props.navigator.pop()
-      }
-    });
   },
 
   _onLogoutButtonPressAreYouSurePrompt: function() {

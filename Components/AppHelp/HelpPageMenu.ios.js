@@ -37,6 +37,7 @@ var styles = StyleSheet.create({
   }
 });
 
+// Currently deprecated and unused, may be able to be deleted in the future but I'll leave it around for now
 var HelpPageMenu = React.createClass({
 
   propTypes: {

@@ -16,7 +16,6 @@ var exploreFeedOrgsStore = require('../../stores/group/ExploreFeedOrgsStore');
 var {
   View,
   Text,
-  AlertIOS,
   StyleSheet
 } = ReactNative;
 
@@ -110,15 +109,6 @@ var WelcomeUserInfoPrompts = React.createClass({
   },
 
   onDismissPromptPress: function() {
-    AlertIOS.alert(
-      'If you ever need help, access the Help Center from the settings icon on your profile!',
-      'Enjoy Youni ^_^',
-      [
-        {
-          text: 'Enter your campus!'
-        }
-      ]
-    );
     userLoginMetadataStore.setShowInitialInfoPrompts(false);
     showUploadProfileImagePromptStore.setShowOnHomeFeed(false);
     showUploadProfileImagePromptStore.setShowOnProfilePage(false);
