@@ -20,7 +20,10 @@ var {
 
 var styles = StyleSheet.create({
   container: {
-    height: 433,
+    flex: 1
+  },
+  submissionContainer: {
+    flex: 1,
     width: Dimensions.get('window').width - 24, // subtract horizontal margin
     backgroundColor: 'white',
     borderRadius: 8,
@@ -48,7 +51,7 @@ var styles = StyleSheet.create({
 
 var Submission = React.createClass({
 
-  MAX_IMAGE_HEIGHT: 306,
+  MAX_IMAGE_HEIGHT: Dimensions.get('window').height / 2.5,
 
   propTypes: {
     submission: React.PropTypes.object.isRequired,
@@ -65,8 +68,8 @@ var Submission = React.createClass({
     var submission = this.props.submission;
 
     return (
-      <View>
-        <View style={styles.container}>
+      <View style={styles.container}>
+        <View style={styles.submissionContainer}>
 
           <SubmissionHeader {...this.props}/>
 

@@ -35,19 +35,20 @@ var styles = StyleSheet.create({
     color: Colors.DARK_GRAY,
     fontSize: 30,
     textAlign: 'center',
-    margin: 10
+    padding: 10
   },
   buttonsContainer: {
+    flex: 1,
     flexDirection: 'row',
-    marginBottom: 5
+    maxHeight: 150,
+    minHeight: 70,
+    paddingBottom: 5
   },
   enterChallengeButton: {
-    height: 125,
     marginLeft: 5,
     marginRight: 2.5
   },
   viewSubmissionsButton: {
-    height: 125,
     marginRight: 5,
     marginLeft: 2.5
   },

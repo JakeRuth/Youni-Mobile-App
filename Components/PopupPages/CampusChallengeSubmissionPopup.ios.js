@@ -33,7 +33,6 @@ var styles = StyleSheet.create({
     height: LogoImageSize.HEIGHT * .1
   },
   statsContainer: {
-    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     position: 'relative'

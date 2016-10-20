@@ -36,7 +36,7 @@ var Caption = React.createClass({
 
     return (
       <TruncatedText
-        style={styles.caption}
+        style={[styles.caption, this.props.style]}
         text={this.props.text}/>
     );
   }

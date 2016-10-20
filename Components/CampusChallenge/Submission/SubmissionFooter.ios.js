@@ -12,8 +12,10 @@ var {
 
 var styles = StyleSheet.create({
   container: {
-    padding: 10,
-    paddingTop: 5
+    padding: 5
+  },
+  caption: {
+    textAlign: 'center'
   }
 });
 
@@ -28,7 +30,9 @@ var SubmissionFooter = React.createClass({
 
     return (
       <View style={styles.container}>
-        <Caption text={this.props.submission.caption}/>
+        <Caption
+          style={styles.caption}
+          text={this.props.submission.caption}/>
       </View>
     );
   }
