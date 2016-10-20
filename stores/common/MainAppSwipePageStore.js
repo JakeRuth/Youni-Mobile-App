@@ -6,7 +6,7 @@ var mainAppSwipePageStore = Unicycle.createStore({
 
   init: function() {
     this.set({
-      currentPageIndex: 1,
+      currentPageIndex: 2,
       swipeFrameAmount: 0,
       shouldTriggerAutoScroll: false
     });

@@ -9,7 +9,6 @@ var BaseNavBar = require('./BaseNavBar');
 var HomePage = require('./HomePage');
 var SearchPage = require('./Search/SearchPage');
 var CampusChallengePage = require('./CampusChallenge/CampusChallengePage');
-var CompetitionPage = require('./Trending/CompetitionPage');
 var ProfileOwnerPage = require('./Profile/ProfileOwnerPage');
 var WelcomeUserInfoPrompts = require('./WelcomePages/WelcomeUserInfoPrompts');
 
@@ -87,7 +86,6 @@ var LandingPage = React.createClass({
             <HomePage {...this.props}/>
             <SearchPage {...this.props}/>
             <CampusChallengePage {...this.props}/>
-            <CompetitionPage {...this.props}/>
             <ProfileOwnerPage
               {...this.props}
               hideBackButton={true}/>

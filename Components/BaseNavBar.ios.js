@@ -64,15 +64,15 @@ var BaseNavBar = React.createClass({
 
           {this._renderIcon(BasePageIndex.FEED, 'home')}
           {this._renderIcon(BasePageIndex.EXPLORE, 'explore')}
-          {this._renderIcon(BasePageIndex.CAMPUS_CHALLENGE, 'blur-on')}
-          
+
+
           <Icon
             onPress={() => ShowImagePicker.showImagePicker(this.props.navigator)}
             name='photo-camera'
             size={34}
             color={Colors.MED_GRAY}/>
-
-          {this._renderIcon(BasePageIndex.TRENDING, 'swap-vert')}
+          
+          {this._renderIcon(BasePageIndex.CAMPUS_CHALLENGE, 'blur-on')}
           
           <TouchableHighlight
             style={[styles.imageContainer, { backgroundColor: this._getColor(BasePageIndex.PROFILE) }]}
