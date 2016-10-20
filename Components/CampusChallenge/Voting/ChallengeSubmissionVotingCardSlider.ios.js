@@ -32,12 +32,11 @@ var styles = StyleSheet.create({
     alignItems: 'center'
   },
   voteControl: {
-    backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'center',
     height: 80,
     width: 80,
     borderRadius: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
     shadowColor: Colors.DARK_TEXT_SHADOW,
     shadowOpacity: 0.8,
     shadowRadius: 2,
@@ -45,6 +44,12 @@ var styles = StyleSheet.create({
       height: 1,
       width: 0
     }
+  },
+  upVoteControl: {
+    backgroundColor: 'lightgreen'
+  },
+  noVoteControl: {
+    backgroundColor: Colors.LOUD_RED
   },
   noVoteControlPosition: {
     position: 'absolute',
@@ -115,22 +120,22 @@ var ChallengeSubmissionVotingCardSlider = React.createClass({
 
   renderUpVoteIndicator: function() {
     return (
-      <View style={styles.voteControl}>
+      <View style={[styles.voteControl, styles.upVoteControl]}>
         <Icon
           name='arrow-upward'
           size={25}
-          color={Colors.getPrimaryAppColor()}/>
+          color={Colors.DARK_GRAY}/>
       </View>
     );
   },
 
   renderNoVoteIndicator: function() {
     return (
-      <View style={styles.voteControl}>
+      <View style={[styles.voteControl, styles.noVoteControl]}>
         <Icon
           name='clear'
           size={25}
-          color={Colors.LOUD_RED}/>
+          color={Colors.DARK_GRAY}/>
       </View>
     );
   },
