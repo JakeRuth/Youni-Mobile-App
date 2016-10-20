@@ -19,7 +19,7 @@ var explorePostsStore = Unicycle.createStore({
       isExploreFeedRefreshing: false,
       isLoadMorePostsRequestInFlight: false,
       isLikeRequestInFlight: false,
-      noMorePostsToFetch: false,
+      noMorePostsToFetch: true,
       exploreFeedPageOffset: INITIAL_PAGE_OFFSET,
       pageLoadError: false,
       exploreFeedEndpoint: ExploreFeedEndpoints.DEFAULT

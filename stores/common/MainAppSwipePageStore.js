@@ -2,13 +2,21 @@
 
 var Unicycle = require('../../Unicycle');
 
+var userLoginMetadataStore = require('../UserLoginMetadataStore');
+var campusChallengeStore = require('../campusChallenge/CampusChallengeStore');
+
+var BasePageIndex = require('../../Utils/Enums/BasePageIndex');
+
 var mainAppSwipePageStore = Unicycle.createStore({
 
   init: function() {
     this.set({
       currentPageIndex: 2,
       swipeFrameAmount: 0,
-      shouldTriggerAutoScroll: false
+      shouldTriggerAutoScroll: false,
+      _hasSwipedToExplorePage: false,
+      _hasSwipedToHomePage: false,
+      _hasSwipedToProfilePage: false
     });
   },
 
@@ -24,6 +32,7 @@ var mainAppSwipePageStore = Unicycle.createStore({
   },
   
   setCurrentPageIndex: function(value) {
+    this._loadInitialPageData(value);
     this.set({
       currentPageIndex: value
     });
@@ -52,6 +61,34 @@ var mainAppSwipePageStore = Unicycle.createStore({
 
   getSwipeFrameAmount: function() {
     return this.get('swipeFrameAmount');
+  },
+
+  // sooo hacky :(
+  _loadInitialPageData: function(pageIndex) {
+    var userId = userLoginMetadataStore.getUserId();
+
+    if (pageIndex === BasePageIndex.FEED && !this.get('_hasSwipedToHomePage')) {
+      Unicycle.exec('requestHomeFeed', userId);
+      this.set({
+        _hasSwipedToHomePage: true
+      });
+    }
+
+    else if (pageIndex === BasePageIndex.EXPLORE && !this.get('_hasSwipedToExplorePage')) {
+      Unicycle.exec('requestExploreFeed', userId, true);
+      this.set({
+        _hasSwipedToExplorePage: true
+      });
+    }
+
+    else if (pageIndex === BasePageIndex.PROFILE && !this.get('_hasSwipedToProfilePage')) {
+      var email = userLoginMetadataStore.getEmail();
+      Unicycle.exec('loadOwnerUsersProfile', userLoginMetadataStore.getEmail());
+      Unicycle.exec('getOwnerUserPosts', email, userId, true);
+      this.set({
+        _hasSwipedToProfilePage: true
+      });
+    }
   }
 
 });

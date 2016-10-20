@@ -59,7 +59,9 @@ var HomePage = React.createClass({
   ],
 
   componentDidMount: function() {
-    this._requestHomeFeed();
+    // initial data loading for this page is handled in mainAppSwipePageStore
+    // this is done so that we don't have to load all the main app pages (ones rendered by LandingPage that you can swipe to)
+    // when the app loads.  Now we only load the page when it is swiped to
   },
 
   render: function() {

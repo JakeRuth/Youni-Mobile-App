@@ -11,6 +11,7 @@ var Spinner = require('../Common/Spinner');
 
 var explorePostsStore = require('../../stores/post/ExplorePostsStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
+
 var PostListFilter = require('../../Utils/Enums/PostListFilter');
 var ExploreFeedEndpoints = require('../../Utils/Enums/ExploreFeedEndpoints');
 var Colors = require('../../Utils/Common/Colors');
@@ -45,7 +46,9 @@ var ExploreFeedPosts = React.createClass({
   },
 
   componentDidMount: function() {
-    this._requestExploreFeed();
+    // initial data loading for this page is handled in mainAppSwipePageStore
+    // this is done so that we don't have to load all the main app pages (ones rendered by LandingPage that you can swipe to)
+    // when the app loads.  Now we only load the page when it is swiped to
   },
 
   render: function() {

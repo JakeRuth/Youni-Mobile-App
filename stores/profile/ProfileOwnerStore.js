@@ -16,8 +16,8 @@ var profileOwnerStore = Unicycle.createStore({
     init: function () {
       //TODO: Figure out why we can't call `this._setInitialState()` here...
       this.set({
-        isProfileInfoLoading: false,
-        isUserPostsRequestInFlight: false,
+        isProfileInfoLoading: true,
+        isUserPostsRequestInFlight: true,
         isLoadMorePostsRequestInFlight: false,
         isLikeRequestInFlight: false,
         isPostCommentRequestInFlight: false,
