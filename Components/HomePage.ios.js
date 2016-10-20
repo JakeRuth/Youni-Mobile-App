@@ -9,6 +9,7 @@ var PostList = require('./Post/PostList');
 var Spinner = require('./Common/Spinner');
 var YouniHeader = require('./Common/YouniHeader');
 var ErrorPage = require('./Common/ErrorPage');
+var NotificationIcon = require('./Notification/NotificationIcon');
 
 var homePostsStore = require('../stores/post/HomePostsStore');
 var userLoginMetadataStore = require('../stores/UserLoginMetadataStore');
@@ -31,6 +32,15 @@ var styles = StyleSheet.create({
     fontWeight: '500',
     textAlign: 'center',
     color: 'white'
+  },
+  notificationIcon: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    paddingTop: 26,
+    paddingLeft: 16,
+    paddingRight: 30,
+    paddingBottom: 15
   },
   feedContainer: {
     flex: 1
@@ -78,6 +88,9 @@ var HomePage = React.createClass({
           <Text style={styles.pageHeader}>
             Feed
           </Text>
+          <NotificationIcon
+            style={styles.notificationIcon}
+            navigator={this.props.navigator}/>
         </YouniHeader>
 
         <View style={styles.feedContainer}>

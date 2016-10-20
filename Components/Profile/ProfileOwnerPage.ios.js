@@ -13,6 +13,7 @@ var Spinner = require('../Common/Spinner');
 var BackArrow = require('../Common/BackArrow');
 var UploadProfilePictureCallout = require('../Common/UploadProfilePictureCallout');
 var EditProfilePopup = require('../PopupPages/EditProfilePopup');
+var NotificationIcon = require('../Notification/NotificationIcon');
 
 var profileOwnerStore = require('../../stores/profile/ProfileOwnerStore');
 var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
@@ -38,6 +39,15 @@ var styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '500',
     textAlign: 'center'
+  },
+  notificationIcon: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    paddingTop: 26,
+    paddingLeft: 16,
+    paddingRight: 30,
+    paddingBottom: 15
   },
   uploadProfileImageCalloutContainer: {
     position: 'absolute',
@@ -142,6 +152,9 @@ var ProfileOwnerPage = React.createClass({
           <EditSettingsButton
             user={profileOwnerStore.getUserJson()}
             color="white"
+            navigator={this.props.navigator}/>
+          <NotificationIcon
+            style={styles.notificationIcon}
             navigator={this.props.navigator}/>
         </YouniHeader>
       );

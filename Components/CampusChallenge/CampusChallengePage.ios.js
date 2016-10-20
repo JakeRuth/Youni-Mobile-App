@@ -11,6 +11,7 @@ var ChallengeActionButton = require('./ChallengeActionButton');
 var PastChallengeWinnersPopup = require('../PopupPages/PastChallengeWinnersPopup');
 var YouniHeader = require('../Common/YouniHeader');
 var Spinner = require('../Common/Spinner');
+var NotificationIcon = require('../Notification/NotificationIcon');
 
 var Colors = require('../../Utils/Common/Colors');
 var campusChallengeStore = require('../../stores/campusChallenge/CampusChallengeStore');
@@ -33,6 +34,15 @@ var styles = StyleSheet.create({
     fontWeight: '500',
     textAlign: 'center',
     color: 'white'
+  },
+  notificationIcon: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    paddingTop: 26,
+    paddingLeft: 16,
+    paddingRight: 30,
+    paddingBottom: 15
   },
   viewPastChallengesIcon: {
     backgroundColor: 'transparent',
@@ -122,6 +132,9 @@ var CampusChallengePage = React.createClass({
                 component: PastChallengeWinnersPopup
               });
             }}/>
+          <NotificationIcon
+            style={styles.notificationIcon}
+            navigator={this.props.navigator}/>
         </YouniHeader>
 
         {content}
