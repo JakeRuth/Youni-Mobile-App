@@ -94,6 +94,7 @@ var NoMoreSubmissionsToVoteOnPage = React.createClass({
               component: require('../../PopupPages/SubmitCampusChallengePopup'),
               passProps: {
                 campusChallenge: campusChallengeStore.getCurrentChallenge(),
+                  goBackNPagesAfterSuccessfulSubmit: 2,
                 ...this.props
               }
             });

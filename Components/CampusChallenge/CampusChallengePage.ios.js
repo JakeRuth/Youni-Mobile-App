@@ -172,6 +172,7 @@ var CampusChallengePage = React.createClass({
                 component: require('../PopupPages/SubmitCampusChallengePopup'),
                 passProps: {
                   campusChallenge: challenge,
+                  goBackNPagesAfterSuccessfulSubmit: 1,
                   ...this.props
                 }
               });
@@ -184,8 +185,7 @@ var CampusChallengePage = React.createClass({
               this.props.navigator.push({
                 component: require('../PopupPages/CampusChallengeVotingPopup'),
                 passProps: {
-                  campusChallenge: challenge,
-                  ...this.props
+                  campusChallenge: challenge
                 }
               });
             }}/>

@@ -54,6 +54,7 @@ var SubmitToChallengeForm = React.createClass({
 
   propTypes: {
     campusChallenge: React.PropTypes.object.isRequired,
+    goBackNPagesAfterSuccessfulSubmit: React.PropTypes.number.isRequired,
     navigator: React.PropTypes.object.isRequired
   },
 
@@ -188,7 +189,7 @@ var SubmitToChallengeForm = React.createClass({
         submitChallengeAnonymously: this.state.submitAnonymously
       },
       (res) => {
-        this.props.navigator.pop();
+        that.props.navigator.popN(this.props.goBackNPagesAfterSuccessfulSubmit);
         campusChallengeStore.requestCurrentChallenge();
       },
       () => {
