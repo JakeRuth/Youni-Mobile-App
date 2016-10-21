@@ -171,7 +171,7 @@ var SubmitToChallengeForm = React.createClass({
       );
     }
     // make sure all required parameters exist
-    else {
+    else if (this.state.pictureId) {
       this._submit();
     }
   },

@@ -54,6 +54,7 @@ var Submission = React.createClass({
 
   propTypes: {
     submission: React.PropTypes.object.isRequired,
+    onDeleteSubmission: React.PropTypes.func,
     navigator: React.PropTypes.object
   },
 

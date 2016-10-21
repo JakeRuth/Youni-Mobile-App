@@ -66,6 +66,7 @@ var SubmissionHeader = React.createClass({
 
   propTypes: {
     submission: React.PropTypes.object.isRequired,
+    onDeleteSubmission: React.PropTypes.func,
     navigator: React.PropTypes.object
   },
 
@@ -80,7 +81,7 @@ var SubmissionHeader = React.createClass({
         </TouchableHighlight>
 
         <View style={styles.actionButtonContainer}>
-          <PostActionButton onPress={this._onFlagSubmissionPress}/>
+          <PostActionButton onPress={this._onActionButtonPress}/>
         </View>
 
       </View>
@@ -123,7 +124,7 @@ var SubmissionHeader = React.createClass({
   },
 
   onPress: function() {
-    if (this.props.navigator && this.props.submission.isAnonymous) {
+    if (!this.props.navigator && this.props.submission.isAnonymous) {
       return;
     }
 
@@ -142,27 +143,68 @@ var SubmissionHeader = React.createClass({
     }
   },
 
-  _onFlagSubmissionPress: function() {
+  _onActionButtonPress: function() {
+    if (userLoginMetadataStore.getEmail() === this.props.submission.user.email) {
+      this._showSubmissionOwnerActionButtonOptions();
+    }
+    else {
+      this._showActionButtonOptions();
+    }
+  },
+
+  _showSubmissionOwnerActionButtonOptions: function() {
     ActionSheetIOS.showActionSheetWithOptions({
-        options: [
-          'Flag Submission',
-          'Cancel'
-        ],
-        cancelButtonIndex: 1,
-        tintColor: Colors.getPrimaryAppColor()
-      },
-      (buttonIndex) => {
-        if (buttonIndex === 0) {
-          this._sendFlagSubmissionRequest();
-          this._alertSuccessfulSubmissionFlag();
+      options: [
+        'Delete Submission',
+        'Cancel'
+      ],
+      cancelButtonIndex: 1,
+      tintColor: Colors.getPrimaryAppColor()
+    },
+    (buttonIndex) => {
+      if (buttonIndex === 0) {
+        if (this.props.onDeleteSubmission) {
+          AlertIOS.alert(
+            'Are you sure you want to delete this submission?',
+            'You cannot undo this action.',
+            [
+              {
+                text: 'Yes',
+                onPress: () => this.props.onDeleteSubmission(this.props.submission.id)
+              },
+              {
+                text: 'No'
+              }
+            ]
+          );
         }
-      });
+        else {
+          this._alertCannotDeletePost();
+        }
+      }
+    });
+  },
+
+  _showActionButtonOptions: function() {
+    ActionSheetIOS.showActionSheetWithOptions({
+      options: [
+        'Flag Submission',
+        'Cancel'
+      ],
+      cancelButtonIndex: 1,
+      tintColor: Colors.getPrimaryAppColor()
+    },
+    (buttonIndex) => {
+      if (buttonIndex === 0) {
+        this._sendFlagSubmissionRequest();
+        this._alertSuccessfulSubmissionFlag();
+      }
+    });
   },
 
   _sendFlagSubmissionRequest: function() {
     var userEmail = userLoginMetadataStore.getEmail();
 
-    //TODO: Think if we may want to implement some feedback here
     AjaxUtils.ajax(
       '/campusChallenge/flagSubmission',
       {
@@ -170,11 +212,35 @@ var SubmissionHeader = React.createClass({
         campusChallengeSubmissionIdString: this.props.submission.id
       },
       (res) => {
-        console.log(res)//no opt
+        //no opt
       },
       () => {
         //no opt
       }
+    );
+  },
+
+  _alertPostDeleted: function() {
+    AlertIOS.alert(
+      "Post Deleted",
+      '',
+      [
+        {
+          text: 'Okay'
+        }
+      ]
+    );
+  },
+
+  _alertCannotDeletePost: function() {
+    AlertIOS.alert(
+      "You can only delete submissions from the 'View My Submission(s) button.",
+      'Located on the home page for the challenge.',
+      [
+        {
+          text: 'Okay'
+        }
+      ]
     );
   },
   

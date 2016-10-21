@@ -68,6 +68,7 @@ var ViewCampusChallengeSubmissionButton = React.createClass({
         component: LoggedInUserCampusChallengeSubmissionsPopup,
         passProps: {
           submissions: this.state.submissions,
+          onDeleteSubmission: (subId) => this._onDeleteSubmission(subId),
           navigator: this.props.navigator
         }
       });
@@ -90,6 +91,35 @@ var ViewCampusChallengeSubmissionButton = React.createClass({
     else {
       return Colors.getPrimaryAppColor();
     }
+  },
+
+  _onDeleteSubmission: function(submissionId) {
+    var that = this,
+        currSubmissions = this.state.submissions,
+        subToDelete = currSubmissions.find((sub) => {return sub.id === submissionId}),
+        indexOfSubToDelete = currSubmissions.indexOf(subToDelete);
+
+    // optimistically delete post
+    currSubmissions.splice(indexOfSubToDelete, 1);
+    this.setState({
+      submissions: currSubmissions
+    }, () => {
+      this.props.navigator.pop();
+    });
+
+    AjaxUtils.ajax(
+      '/campusChallenge/deleteSubmission',
+      {
+        campusChallengeSubmissionIdString: submissionId,
+        userIdString: userLoginMetadataStore.getUserId()
+      },
+      (res) => {
+        // no opt
+      },
+      () => {
+        // no opt
+      }
+    );
   },
 
   _requestSubmissions: function() {

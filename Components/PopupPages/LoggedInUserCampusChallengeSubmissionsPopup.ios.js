@@ -33,6 +33,7 @@ var LoggedInUserCampusChallengeSubmissionsPopup = React.createClass({
 
   propTypes: {
     submissions: React.PropTypes.array.isRequired,
+    onDeleteSubmission: React.PropTypes.func.isRequired,
     navigator: React.PropTypes.object.isRequired
   },
 
@@ -47,7 +48,7 @@ var LoggedInUserCampusChallengeSubmissionsPopup = React.createClass({
         <View key={i}>
           <Submission
             submission={submission}
-            navigator={this.props.navigator}/>
+            {...this.props}/>
         </View>
       );
     }
