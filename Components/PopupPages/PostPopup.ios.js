@@ -3,7 +3,6 @@
 var React = require('react');
 var ReactNative = require('react-native');
 
-var Post = require('../Post/Post');
 var YouniHeader = require('../Common/YouniHeader');
 var BackArrow = require('../Common/BackArrow');
 
@@ -51,11 +50,14 @@ var PostPopup = React.createClass({
 
   getInitialState: function() {
     return {
-      post: this.props.post, // post can change if it get's liked or commented on
+      post: this.props.post // post can change if it get's liked or commented on
     };
   },
 
   render: function () {
+    // solves circular dependency (cause currently unknown)
+    var Post = require('../Post/Post');
+
     return (
       <View style={styles.container}>
         <YouniHeader style={[styles.pageHeader, {backgroundColor: Colors.getPrimaryAppColor()}]}>

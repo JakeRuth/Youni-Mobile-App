@@ -276,10 +276,10 @@ var GroupPopup = React.createClass({
       postsNextPageLoading: false,
       postOffset: INITIAL_PAGE_OFFSET,
       noMorePostsToFetch: false
+    }, () => {
+      this.getLatestGroupData();
+      this._requestGroupPosts(true);
     });
-
-    this.getLatestGroupData();
-    this._requestGroupPosts(true);
   }
 
 });
