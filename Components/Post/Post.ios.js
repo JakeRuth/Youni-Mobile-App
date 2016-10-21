@@ -23,7 +23,7 @@ var styles = StyleSheet.create({
   postImage: {
     flex: 1,
     justifyContent: "space-around",
-    backgroundColor: '#F0F0F0'
+    backgroundColor: 'white'
   }
 });
 
@@ -65,7 +65,7 @@ var Post = React.createClass({
         <TouchableWithoutFeedback onPress={this._onDoubleTapPhotoAction}>
           <Image
             style={[styles.postImage, {height: this._getImageHeight()}]}
-            resizeMode="cover"
+            resizeMode="contain"
             source={{uri: this.props.post.photoUrl}}/>
         </TouchableWithoutFeedback>
 

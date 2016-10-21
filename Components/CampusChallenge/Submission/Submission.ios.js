@@ -38,8 +38,7 @@ var styles = StyleSheet.create({
   },
   submissionImage: {
     flex: 1,
-    justifyContent: "space-around",
-    backgroundColor: '#F0F0F0'
+    backgroundColor: 'white'
   },
   votesText: {
     fontSize: 18,
@@ -75,7 +74,7 @@ var Submission = React.createClass({
 
           <Image
             style={[styles.submissionImage, {height: this._getImageHeight()}]}
-            resizeMode="cover"
+            resizeMode="contain"
             source={{uri: submission.photoUrl}}
             onLoadStart={() => this.setState({ showImageLoader: true })}
             onLoadEnd={() => this.setState({ showImageLoader: false })}>
