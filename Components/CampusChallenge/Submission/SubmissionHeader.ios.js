@@ -8,13 +8,16 @@ var Emoji = require('../../Common/Emoji');
 var ProfileImageThumbnail = require('../../Common/ProfileImageThumbnail');
 
 var Colors = require('../../../Utils/Common/Colors');
+var AjaxUtils = require('../../../Utils/Common/AjaxUtils');
 var userLoginMetadataStore = require('../../../stores/UserLoginMetadataStore');
 
 var {
   View,
   Text,
   StyleSheet,
-  TouchableHighlight
+  AlertIOS,
+  TouchableHighlight,
+  ActionSheetIOS
 } = ReactNative;
 
 var styles = StyleSheet.create({
@@ -77,7 +80,7 @@ var SubmissionHeader = React.createClass({
         </TouchableHighlight>
 
         <View style={styles.actionButtonContainer}>
-          <PostActionButton onPress={() => null}/>
+          <PostActionButton onPress={this._onFlagSubmissionPress}/>
         </View>
 
       </View>
@@ -137,8 +140,53 @@ var SubmissionHeader = React.createClass({
         }
       });
     }
-  }
+  },
 
+  _onFlagSubmissionPress: function() {
+    ActionSheetIOS.showActionSheetWithOptions({
+        options: [
+          'Flag Submission',
+          'Cancel'
+        ],
+        cancelButtonIndex: 1,
+        tintColor: Colors.getPrimaryAppColor()
+      },
+      (buttonIndex) => {
+        if (buttonIndex === 0) {
+          this._sendFlagSubmissionRequest();
+          this._alertSuccessfulSubmissionFlag();
+        }
+      });
+  },
+
+  _sendFlagSubmissionRequest: function() {
+    var userEmail = userLoginMetadataStore.getEmail();
+
+    //TODO: Think if we may want to implement some feedback here
+    AjaxUtils.ajax(
+      '/campusChallenge/flagSubmission',
+      {
+        userEmail: userEmail,
+        campusChallengeSubmissionIdString: this.props.submission.id
+      },
+      (res) => {
+        console.log(res)//no opt
+      },
+      () => {
+        //no opt
+      }
+    );
+  },
+  
+  _alertSuccessfulSubmissionFlag: function() {
+    AlertIOS.alert(
+      'Submission flagged',
+      '',
+      [
+        {text: 'Got it'}
+      ]
+    );
+  }
 
 });
 

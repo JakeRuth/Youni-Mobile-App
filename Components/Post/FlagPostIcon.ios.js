@@ -67,7 +67,7 @@ var FlagPostIcon = React.createClass({
       [
         {text: 'Got it'}
       ]
-    )
+    );
   }
 
 });
