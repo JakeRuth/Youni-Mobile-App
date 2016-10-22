@@ -124,7 +124,7 @@ var SubmissionHeader = React.createClass({
   },
 
   onPress: function() {
-    if (!this.props.navigator && this.props.submission.isAnonymous) {
+    if (!this.props.navigator || this.props.submission.isAnonymous) {
       return;
     }
 
