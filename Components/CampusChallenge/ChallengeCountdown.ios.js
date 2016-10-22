@@ -18,10 +18,14 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  timeLabel: {
+  timeRemaining: {
     color: Colors.DARK_GRAY,
     fontSize: 40,
     fontWeight: '300'
+  },
+  label: {
+    color: Colors.MED_GRAY,
+    fontSize: 11
   }
 });
 
@@ -54,7 +58,10 @@ var ChallengeCountdown = React.createClass({
   render: function() {
     return (
       <View style={styles.container}>
-        <Text style={styles.timeLabel}>
+        <Text style={styles.label}>
+          Time remaining until the winners are picked
+        </Text>
+        <Text style={styles.timeRemaining}>
           {this._getLabel()}
         </Text>
       </View>

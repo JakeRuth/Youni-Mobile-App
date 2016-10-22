@@ -19,7 +19,6 @@ var campusChallengeStore = require('../../stores/campusChallenge/CampusChallenge
 var {
   View,
   Text,
-  Image,
   StyleSheet,
   Dimensions
 } = ReactNative;
@@ -63,10 +62,6 @@ var styles = StyleSheet.create({
     flex: 1,
     marginBottom: 35
   },
-  coverPhoto: {
-    width: Dimensions.get('window').width,
-    height: 138
-  },
   buttonsContainer: {
     flex: 1,
     flexDirection: 'row',
@@ -79,6 +74,12 @@ var styles = StyleSheet.create({
   voteButton: {
     marginRight: 5,
     marginLeft: 2.5
+  },
+  voteButtonLabel: {
+    flex: 1,
+    fontSize: 25,
+    textAlign: 'center',
+    marginRight: 0
   },
   noCampusChallengeMessage: {
     color: Colors.DARK_GRAY,
@@ -152,10 +153,6 @@ var CampusChallengePage = React.createClass({
         <CampusChallengeHeader
           campusChallenge={challenge}
           navigator={this.props.navigator}/>
-        <Image
-          style={styles.coverPhoto}
-          resizeMode="cover"
-          source={{uri: challenge.coverPhotoUrl}}/>
         <ChallengeCountdown
           days={challenge.daysRemaining}
           hours={challenge.hoursRemaining}
@@ -179,8 +176,8 @@ var CampusChallengePage = React.createClass({
             }}/>
           <ChallengeActionButton
             style={styles.voteButton}
-            label="Vote"
-            iconName="arrow-upward"
+            buttonLabelStyle={styles.voteButtonLabel}
+            label="Start Voting!"
             onPress={() => {
               this.props.navigator.push({
                 component: require('../PopupPages/CampusChallengeVotingPopup'),
