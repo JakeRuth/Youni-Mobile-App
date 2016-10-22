@@ -28,11 +28,18 @@ var styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F5FCFF'
   },
+  helpText: {
+    color: Colors.MED_GRAY,
+    fontSize: 14,
+    textAlign: 'center',
+    paddingTop: 10
+  },
   cardContainer: {
     flex: 1,
     alignItems: 'center'
   },
   voteControl: {
+    backgroundColor: 'white',
     height: 80,
     width: 80,
     borderRadius: 40,
@@ -45,12 +52,6 @@ var styles = StyleSheet.create({
       height: 1,
       width: 0
     }
-  },
-  upVoteControl: {
-    backgroundColor: 'lightgreen'
-  },
-  noVoteControl: {
-    backgroundColor: Colors.LOUD_RED
   },
   noVoteControlPosition: {
     position: 'absolute',
@@ -101,12 +102,17 @@ var ChallengeSubmissionVotingCardSlider = React.createClass({
   renderSwiper: function() {
     return (
       <View style={styles.container}>
+        <Text style={styles.helpText}>
+          Swipe left or right to vote! Swoooosh
+        </Text>
+        {this._renderGhostUpVoteControl()}
+        {this._renderGhostNoVoteControl()}
         <CustomSwipeCards
           containerStyle={styles.cardContainer}
           cards={this.state.submissions}
           renderCard={(submission) => <Submission submission={submission}/>}
-          yupView={this.renderUpVoteIndicator()}
-          noView={this.renderNoVoteIndicator()}
+          yupView={this.renderUpVoteIndicator({backgroundColor: 'lightgreen'})}
+          noView={this.renderNoVoteIndicator({backgroundColor: Colors.LOUD_RED})}
           yupStyle={styles.upVoteControlPosition}
           nopeStyle={styles.noVoteControlPosition}
           handleYup={this.upVoteSubmission}
@@ -114,36 +120,34 @@ var ChallengeSubmissionVotingCardSlider = React.createClass({
           cardRemoved={this.cardRemoved}
           renderNoMoreCards={() => <Spinner/>}
           indexOfLastCard={this.state.indexOfLastCardRemoved}/>
-        {this._renderGhostUpVoteControl()}
-        {this._renderGhostNoVoteControl()}
       </View>
     );
   },
 
-  renderUpVoteIndicator: function() {
+  renderUpVoteIndicator: function(styleOverrides) {
     return (
       <TouchableHighlight
-        style={[styles.voteControl, styles.upVoteControl]}
+        style={[styles.voteControl, styleOverrides]}
         underlayColor="lightgreen"
         onPress={() => this.onVoteIndicatorPress(true)}>
         <Icon
           name='arrow-upward'
-          size={25}
-          color={Colors.DARK_GRAY}/>
+          size={30}
+          color="green"/>
       </TouchableHighlight>
     );
   },
 
-  renderNoVoteIndicator: function() {
+  renderNoVoteIndicator: function(styleOverrides) {
     return (
       <TouchableHighlight
-        style={[styles.voteControl, styles.noVoteControl]}
+        style={[styles.voteControl, styleOverrides]}
         underlayColor={Colors.LOUD_RED}
         onPress={() => this.onVoteIndicatorPress(false)}>
         <Icon
           name='clear'
-          size={25}
-          color={Colors.DARK_GRAY}/>
+          size={30}
+          color="red"/>
       </TouchableHighlight>
     );
   },
@@ -184,7 +188,7 @@ var ChallengeSubmissionVotingCardSlider = React.createClass({
 
   _renderGhostUpVoteControl: function() {
     return (
-      <View style={[styles.upVoteControlPosition, { opacity: .3 }]}>
+      <View style={styles.upVoteControlPosition}>
         {this.renderUpVoteIndicator()}
       </View>
     );
@@ -192,7 +196,7 @@ var ChallengeSubmissionVotingCardSlider = React.createClass({
 
   _renderGhostNoVoteControl: function() {
     return (
-      <View style={[styles.noVoteControlPosition, { opacity: .3 }]}>
+      <View style={styles.noVoteControlPosition}>
         {this.renderNoVoteIndicator()}
       </View>
     );
