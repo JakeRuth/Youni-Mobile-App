@@ -15,7 +15,7 @@ var {
 var styles = StyleSheet.create({
   commentText: {
     textAlign: 'left',
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: '300',
     color: Colors.DARK_GRAY
   },
