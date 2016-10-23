@@ -2,7 +2,6 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
-var Icon = require('react-native-vector-icons/MaterialIcons');
 var CustomSwipeCards = require('../../CustomSwipeCards');
 
 var Submission = require('../Submission/Submission');
@@ -19,8 +18,7 @@ var {
   View,
   Text,
   Image,
-  StyleSheet,
-  TouchableHighlight
+  StyleSheet
 } = ReactNative;
 
 var styles = StyleSheet.create({
@@ -37,31 +35,6 @@ var styles = StyleSheet.create({
   cardContainer: {
     flex: 1,
     alignItems: 'center'
-  },
-  voteControl: {
-    backgroundColor: 'white',
-    height: 80,
-    width: 80,
-    borderRadius: 40,
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: Colors.DARK_TEXT_SHADOW,
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
-    shadowOffset: {
-      height: 1,
-      width: 0
-    }
-  },
-  noVoteControlPosition: {
-    position: 'absolute',
-    bottom: 22,
-    left: 50
-  },
-  upVoteControlPosition: {
-    position: 'absolute',
-    bottom: 22,
-    right: 50
   }
 });
 
@@ -105,50 +78,14 @@ var ChallengeSubmissionVotingCardSlider = React.createClass({
         <Text style={styles.helpText}>
           Swipe left or right to vote! Swoooosh
         </Text>
-        {this._renderGhostUpVoteControl()}
-        {this._renderGhostNoVoteControl()}
         <CustomSwipeCards
-          containerStyle={styles.cardContainer}
+          style={styles.cardContainer}
           cards={this.state.submissions}
           renderCard={(submission) => <Submission submission={submission}/>}
-          yupView={this.renderUpVoteIndicator({backgroundColor: 'lightgreen'})}
-          noView={this.renderNoVoteIndicator({backgroundColor: Colors.LOUD_RED})}
-          yupStyle={styles.upVoteControlPosition}
-          nopeStyle={styles.noVoteControlPosition}
           handleYup={this.upVoteSubmission}
           handleNope={this.noVoteSubmission}
-          cardRemoved={this.cardRemoved}
-          renderNoMoreCards={() => <Spinner/>}
-          indexOfLastCard={this.state.indexOfLastCardRemoved}/>
+          cardRemoved={this.cardRemoved}/>
       </View>
-    );
-  },
-
-  renderUpVoteIndicator: function(styleOverrides) {
-    return (
-      <TouchableHighlight
-        style={[styles.voteControl, styleOverrides]}
-        underlayColor="lightgreen"
-        onPress={() => this.onVoteIndicatorPress(true)}>
-        <Icon
-          name='arrow-upward'
-          size={30}
-          color="green"/>
-      </TouchableHighlight>
-    );
-  },
-
-  renderNoVoteIndicator: function(styleOverrides) {
-    return (
-      <TouchableHighlight
-        style={[styles.voteControl, styleOverrides]}
-        underlayColor={Colors.LOUD_RED}
-        onPress={() => this.onVoteIndicatorPress(false)}>
-        <Icon
-          name='clear'
-          size={30}
-          color="red"/>
-      </TouchableHighlight>
     );
   },
   
@@ -184,22 +121,6 @@ var ChallengeSubmissionVotingCardSlider = React.createClass({
     this.setState({
       indexOfLastCardRemoved: newRemovedCardIndex
     }, this.ifNoMoreSubmissionsCloseSliderOrGetMore);
-  },
-
-  _renderGhostUpVoteControl: function() {
-    return (
-      <View style={styles.upVoteControlPosition}>
-        {this.renderUpVoteIndicator()}
-      </View>
-    );
-  },
-
-  _renderGhostNoVoteControl: function() {
-    return (
-      <View style={styles.noVoteControlPosition}>
-        {this.renderNoVoteIndicator()}
-      </View>
-    );
   },
 
   ifNoMoreSubmissionsCloseSliderOrGetMore: function() {

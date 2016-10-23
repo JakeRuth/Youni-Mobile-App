@@ -2,102 +2,89 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
+var Icon = require('react-native-vector-icons/MaterialIcons');
 var clamp = require('clamp');
 
+var Colors = require('../Utils/Common/Colors');
+
 var {
-  StyleSheet,
   Text,
   View,
+  Image,
+  StyleSheet,
+  Dimensions,
   Animated,
   PanResponder,
-  Image
+  TouchableHighlight
 }  = ReactNative;
 
+let AnimatedTouchableHighlight = Animated.createAnimatedComponent(TouchableHighlight);
+let AnimatedIcon = Animated.createAnimatedComponent(Icon);
+
 var SWIPE_THRESHOLD = 120;
+let {width, height} = Dimensions.get('window');
 
-// Base Styles. Use props to override these values
 var styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
+  voteControl: {
+    backgroundColor: 'white',
+    height: 80,
+    width: 80,
+    borderRadius: 40,
     alignItems: 'center',
-    backgroundColor: '#F5FCFF'
+    justifyContent: 'center',
+    shadowColor: Colors.DARK_TEXT_SHADOW,
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    shadowOffset: {
+      height: 1,
+      width: 0
+    }
   },
-  noMoreCardsText: {
-    fontSize: 22,
-  },
-  yup: {
-    borderColor: 'green',
-    borderWidth: 2,
+  nopeControlPosition: {
     position: 'absolute',
-    padding: 20,
-    bottom: 20,
-    borderRadius: 5,
-    right: 20,
+    bottom: 22,
+    left: 50
   },
-  yupText: {
-    fontSize: 16,
-    color: 'green',
-  },
-  nope: {
-    borderColor: 'red',
-    borderWidth: 2,
+  yupControlPosition: {
     position: 'absolute',
-    bottom: 20,
-    padding: 20,
-    borderRadius: 5,
-    left: 20,
-  },
-  nopeText: {
-    fontSize: 16,
-    color: 'red',
+    bottom: 22,
+    right: 50
   }
-});
-
-var NoMoreCards = React.createClass({
-
-  render() {
-    return (
-      <View>
-        <Text style={styles.noMoreCardsText}>No more cards</Text>
-      </View>
-    )
-  }
-
 });
 
 var CustomSwipeCards = React.createClass({
 
-  getDefaultProps: function() {
-    return {
-      loop: false,
-      showYup: true,
-      showNope: true,
-      containerStyle: styles.container,
-      yupStyle: styles.yup,
-      yupTextStyle: styles.yupText,
-      nopeStyle: styles.nope,
-      nopeTextStyle: styles.nopeText,
-      indexOfLastCard: null
-    };
+  propTypes: {
+    cards: React.PropTypes.array.isRequired,
+    renderCard: React.PropTypes.func.isRequired,
+    handleYup: React.PropTypes.func.isRequired,
+    handleNope: React.PropTypes.func.isRequired,
+    cardRemoved: React.PropTypes.func.isRequired
   },
 
   getInitialState: function() {
     return {
       pan: new Animated.ValueXY(),
-      enter: new Animated.Value(0.5),
+      // this will change since we have multiple cards
       card: this.props.cards ? this.props.cards[0] : null
     };
   },
 
+  _resetState() {
+    this.state.pan.setValue({x: 0, y: 0});
+    this._goToNextCard();
+  },
+
+  // this will have to be changed in some way to have x cards in rotation at a time
+  // if there aren't enough cards to keep the rotation # constant, everytime this
+  // function is called it will get closer and closer till one submission, then none.
+  // At that point the parent component will either get more posts
   _goToNextCard() {
     let currentCardIdx = this.props.cards.indexOf(this.state.card);
     let newIdx = currentCardIdx + 1;
 
-    // Checks to see if last card.
-    // If props.loop=true, will start again from the first card.
     let card = newIdx > this.props.cards.length - 1
-      ? this.props.loop ? this.props.cards[0] : null
+      ? null
       : this.props.cards[newIdx];
 
     // Youni HACK
@@ -107,37 +94,7 @@ var CustomSwipeCards = React.createClass({
     });
   },
 
-  componentDidMount() {
-    this._animateEntrance();
-  },
-
-  _animateEntrance() {
-    Animated.spring(
-      this.state.enter,
-      { toValue: 1, friction: 8 }
-    ).start();
-  },
-
-  componentWillReceiveProps(nextProps) {
-    // Youni HACK
-    // if there is no current card (state), that means that the loading screen is showing (aka renderNoMoreCards)
-    if(!this.state.card && nextProps.cards && nextProps.cards.length > 0) {
-      console.log('curren props: ', this.props.cards)
-      console.log('next props: ', nextProps.cards)
-      console.log('going to force set the next card! ', nextProps.cards[this.props.cards.length]);
-      this.setState({
-        card: nextProps.cards[this.props.cards.length]
-      }, () => this._animateEntrance);
-    }
-    // Youni HACK
-    // if the current card is not in the props passed in, we can assume it has been removed
-    else if (nextProps.cards.indexOf(this.state.card) === -1) {
-      this.setState({
-        card: nextProps.cards[this.props.indexOfLastCard]
-      },this._resetState);
-    }
-  },
-
+  // this should remain the same
   componentWillMount() {
     this._panResponder = PanResponder.create({
       onMoveShouldSetResponderCapture: () => true,
@@ -146,12 +103,12 @@ var CustomSwipeCards = React.createClass({
       },
 
       onPanResponderGrant: (e, gestureState) => {
-        this.state.pan.setOffset({x: this.state.pan.x._value, y: this.state.pan.y._value});
         this.state.pan.setValue({x: 0, y: 0});
       },
 
       onPanResponderMove: Animated.event([
-        null, {dx: this.state.pan.x, dy: this.state.pan.y},
+        null, // raw event arg ignored
+        {dx: this.state.pan.x, dy: this.state.pan.y}
       ]),
 
       onPanResponderRelease: (e, {vx, vy}) => {
@@ -165,20 +122,21 @@ var CustomSwipeCards = React.createClass({
         }
 
         if (Math.abs(this.state.pan.x._value) > SWIPE_THRESHOLD) {
-
           this.state.pan.x._value > 0
             ? this.props.handleYup(this.state.card)
-            : this.props.handleNope(this.state.card)
+            : this.props.handleNope(this.state.card);
 
           this.props.cardRemoved
             ? this.props.cardRemoved(this.props.cards.indexOf(this.state.card))
-            : null
+            : null;
 
           Animated.decay(this.state.pan, {
             velocity: {x: velocity, y: vy},
             deceleration: 0.98
           }).start(this._resetState)
-        } else {
+        }
+        else {
+          // bring card back to center of pan
           Animated.spring(this.state.pan, {
             toValue: {x: 0, y: 0},
             friction: 4
@@ -188,88 +146,89 @@ var CustomSwipeCards = React.createClass({
     })
   },
 
-  _resetState() {
-    this.state.pan.setValue({x: 0, y: 0});
-    this.state.enter.setValue(0);
-    this._goToNextCard();
-    this._animateEntrance();
-  },
-
-  renderNoMoreCards() {
-    if (this.props.renderNoMoreCards)
-      return this.props.renderNoMoreCards();
-
-    return (
-      <NoMoreCards />
-    )
-  },
-
-  renderCard(cardData) {
-    return this.props.renderCard(cardData)
-  },
-
   render() {
-    let { pan, enter, } = this.state;
+    let pan = this.state.pan,
+        [translateX, translateY] = [pan.x, pan.y],
+        rotate = pan.x.interpolate({inputRange: [-200, 0, 200], outputRange: ["-30deg", "0deg", "30deg"]}),
+        opacity = pan.x.interpolate({inputRange: [-200, 0, 200], outputRange: [0.25, 1, 0.25], extrapolate: 'clamp'}),
+        animatedCardStyles = {
+          transform: [{translateX}, {translateY}, {rotate}],
+          opacity
+        },
+        card;
 
-    let [translateX, translateY] = [pan.x, pan.y];
-
-    let rotate = pan.x.interpolate({inputRange: [-200, 0, 200], outputRange: ["-30deg", "0deg", "30deg"]});
-    let opacity = pan.x.interpolate({inputRange: [-200, 0, 200], outputRange: [0.5, 1, 0.5]});
-    let scale = enter;
-
-    let animatedCardstyles = {transform: [{translateX}, {translateY}, {rotate}, {scale}], opacity};
-
-    let yupOpacity = pan.x.interpolate({inputRange: [0, 150], outputRange: [0, 1]});
-    let yupScale = pan.x.interpolate({inputRange: [0, 150], outputRange: [0.5, 1], extrapolate: 'clamp'});
-    let animatedYupStyles = {transform: [{scale: yupScale}], opacity: yupOpacity}
-
-    let nopeOpacity = pan.x.interpolate({inputRange: [-150, 0], outputRange: [1, 0]});
-    let nopeScale = pan.x.interpolate({inputRange: [-150, 0], outputRange: [1, 0.5], extrapolate: 'clamp'});
-    let animatedNopeStyles = {transform: [{scale: nopeScale}], opacity: nopeOpacity}
+    // this will change
+    if (this.state.card) {
+      card = (
+        <Animated.View style={animatedCardStyles} {...this._panResponder.panHandlers}>
+          {this.props.renderCard(this.state.card)}
+        </Animated.View>
+      );
+    }
 
     return (
-      <View style={this.props.containerStyle}>
-        { this.state.card
-          ? (
-          <Animated.View style={[this.props.cardStyle, animatedCardstyles]} {...this._panResponder.panHandlers}>
-            {this.renderCard(this.state.card)}
-          </Animated.View>
-        )
-          : this.renderNoMoreCards() }
+      <View style={this.props.style}>
 
+        {card}
+        {this._renderAnimatedNoIndicator()}
+        {this._renderAnimatedYupIndicator()}
 
-        { this.props.renderNope
-          ? this.props.renderNope(pan)
-          : (
-          this.props.showNope
-            ? (
-            <Animated.View style={[this.props.nopeStyle, animatedNopeStyles]}>
-              {this.props.noView
-                ? this.props.noView
-                : <Text style={this.props.nopeTextStyle}>{this.props.noText ? this.props.noText : "Nope!"}</Text>
-              }
-            </Animated.View>
-          )
-            : null
-        )
-        }
+      </View>
+    );
+  },
 
-        { this.props.renderYup
-          ? this.props.renderYup(pan)
-          : (
-          this.props.showYup
-            ? (
-            <Animated.View style={[this.props.yupStyle, animatedYupStyles]}>
-              {this.props.yupView
-                ? this.props.yupView
-                : <Text style={this.props.yupTextStyle}>{this.props.yupText? this.props.yupText : "Yup!"}</Text>
-              }
-            </Animated.View>
-          )
-            : null
-        )
-        }
+  _renderAnimatedNoIndicator: function() {
+    let pan = this.state.pan,
+        whiteToRed = pan.x.interpolate({
+          inputRange: [-width, 0],
+          outputRange: ['rgb(255, 0, 0)', 'rgb(255, 255, 255)'],
+          extrapolate: 'clamp'
+        }),
+        redToWhite = pan.x.interpolate({
+          inputRange: [-25, 0],
+          outputRange: ['rgb(255, 255, 255)', 'rgb(255, 0, 0)'],
+          extrapolate: 'clamp'
+        });
 
+    return (
+      <View style={styles.nopeControlPosition}>
+        <AnimatedTouchableHighlight
+          style={[styles.voteControl, { backgroundColor: whiteToRed }]}
+          underlayColor={Colors.LOUD_RED}
+          onPress={() => /* TODO */ null}>
+          <AnimatedIcon
+            style={{color: redToWhite}}
+            name="clear"
+            size={30}/>
+        </AnimatedTouchableHighlight>
+      </View>
+    );
+  },
+
+  _renderAnimatedYupIndicator: function() {
+    let pan = this.state.pan,
+        whiteToGreen = pan.x.interpolate({
+          inputRange: [0, width],
+          outputRange: ['rgb(255, 255, 255)', 'rgb(0, 255, 0)'],
+          extrapolate: 'clamp'
+        }),
+        greenToWhite = pan.x.interpolate({
+          inputRange: [0, 25],
+          outputRange: ['rgb(0, 255, 0)', 'rgb(255, 255, 255)'],
+          extrapolate: 'clamp'
+        });
+
+    return (
+      <View style={styles.yupControlPosition}>
+        <AnimatedTouchableHighlight
+          style={[styles.voteControl, { backgroundColor: whiteToGreen }]}
+          underlayColor="lightgreen"
+          onPress={() => /* TODO */ null}>
+          <AnimatedIcon
+            style={{color: greenToWhite}}
+            name="arrow-upward"
+            size={30}/>
+        </AnimatedTouchableHighlight>
       </View>
     );
   }
