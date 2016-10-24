@@ -53,7 +53,7 @@ var ShowSubmitChallengeImagePicker = {
       title: 'Upload a Photo',
       quality: .5,
       allowsEditing: true,
-      noData: false
+      noData: true
     };
   },
 
