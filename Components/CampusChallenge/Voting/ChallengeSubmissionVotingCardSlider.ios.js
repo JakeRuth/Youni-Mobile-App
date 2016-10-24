@@ -21,6 +21,8 @@ var {
   StyleSheet
 } = ReactNative;
 
+var THRESHOLD_TO_FETCH_MORE_CARDS = 5;
+
 var styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -42,10 +44,8 @@ var ChallengeSubmissionVotingCardSlider = React.createClass({
 
   getInitialState: function() {
     return {
-      indexOfLastCardRemoved: null,
       submissions: [],
       isFirstPageLoading: true,
-      isLoadingMoreCards: false,
       isVoteRequestInFlight: false, // used for upVote and noVote requests
       moreToFetch: false
     };
@@ -88,85 +88,68 @@ var ChallengeSubmissionVotingCardSlider = React.createClass({
       </View>
     );
   },
-  
-  onVoteIndicatorPress: function(isUpVote) {
-    let submissions = this.state.submissions,
-      currSubmissionIndex = this.state.indexOfLastCardRemoved === null ? 0 : this.state.indexOfLastCardRemoved + 1,
-      currSubmission = submissions[currSubmissionIndex];
 
-    if (isUpVote) {
-      this.upVoteSubmission(currSubmission);
-    }
-    else {
-      this.noVoteSubmission(currSubmission);
-    }
+  cardRemoved: function(indexOfCardRemoved) {
+    let newRemovedCardIndex;
 
-    submissions.splice(currSubmissionIndex, 1);
-    this.setState({
-      submissions: submissions
-    }, this.ifNoMoreSubmissionsCloseSliderOrGetMore);
-  },
-
-  cardRemoved: function() {
-    let newRemovedCardIndex,
-        currentRemovedCardIndex = this.state.indexOfLastCardRemoved;
-
-    if (currentRemovedCardIndex === null) {
+    if (indexOfCardRemoved === null) {
       newRemovedCardIndex = 0;
     }
     else {
-      newRemovedCardIndex = currentRemovedCardIndex + 1;
+      newRemovedCardIndex = indexOfCardRemoved + 1;
     }
 
-    this.setState({
-      indexOfLastCardRemoved: newRemovedCardIndex
-    }, this.ifNoMoreSubmissionsCloseSliderOrGetMore);
+    this.ifNoMoreSubmissionsCloseSliderOrGetMore(indexOfCardRemoved);
   },
 
-  ifNoMoreSubmissionsCloseSliderOrGetMore: function() {
-    let isLastSubmissionInArray = this.state.indexOfLastCardRemoved >= this.state.submissions.length - 1;
-    if (isLastSubmissionInArray) {
-      if (this.state.moreToFetch) {
-        this.fetchSubmissionsForVoting();
-      }
-      else {
-        hackyNonSwipeBackablePageStore.hidePage();
-      }
+  ifNoMoreSubmissionsCloseSliderOrGetMore: function(indexOfCardRemoved) {
+    let shouldFetchMoreSubmissions = indexOfCardRemoved >= this.state.submissions.length - THRESHOLD_TO_FETCH_MORE_CARDS;
+    if (shouldFetchMoreSubmissions && this.state.moreToFetch) {
+      this.fetchSubmissionsForVoting();
+    }
+    else if (!this.state.moreToFetch && indexOfCardRemoved === this.state.submissions.length - 1) {
+      hackyNonSwipeBackablePageStore.hidePage();
     }
   },
 
   fetchSubmissionsForVoting: function() {
-    var that = this;
+    var that = this,
+        fetchSkipAmount;
 
-    this._hackilyWaitForVoteRequestsToFinishIfPresent(() => {
-      AjaxUtils.ajax(
-        '/campusChallenge/fetchSubmissionsToVote',
-        {
-          campusChallengeIdString: campusChallengeStore.getCurrentChallenge().id,
-          userEmail: userLoginMetadataStore.getEmail()
-        },
-        (res) => {
-          that.setState({
-            submissions: that.state.submissions.concat(res.body.submissions),
-            moreToFetch: res.body.moreToFetch,
-            isFirstPageLoading: false,
-            isLoadingMoreCards: false
-          });
+    // is this request for the first page
+    if (this.state.isFirstPageLoading) {
+      fetchSkipAmount = 0;
+    }
+    else {
+      fetchSkipAmount = THRESHOLD_TO_FETCH_MORE_CARDS - 1;
+    }
 
-          // edge case, this is normally handled in cardRemoved function, but when the numbers of submissions to vote
-          // on is a multiple of the page size, then the API will return an incorrect moreToFetch=true
-          if (res.body.submissions.length === 0) {
-            hackyNonSwipeBackablePageStore.hidePage();
-          }
-        },
-        () => {
-          that.setState({
-            isFirstPageLoading: false,
-            isLoadingMoreCards: false
-          });
+    AjaxUtils.ajax(
+      '/campusChallenge/fetchSubmissionsToVote',
+      {
+        campusChallengeIdString: campusChallengeStore.getCurrentChallenge().id,
+        userEmail: userLoginMetadataStore.getEmail(),
+        offsetSkipAmount: fetchSkipAmount
+      },
+      (res) => {
+        that.setState({
+          submissions: that.mergeSubmissionArrays(that.state.submissions, res.body.submissions),
+          moreToFetch: res.body.moreToFetch,
+          isFirstPageLoading: false
+        });
+
+        // edge case, this is normally handled in cardRemoved function, but when the numbers of submissions to vote
+        // on is a multiple of the page size, then the API will return an incorrect moreToFetch=true
+        if (res.body.submissions.length === 0) {
+          hackyNonSwipeBackablePageStore.hidePage();
         }
-      );
-    });
+      },
+      () => {
+        that.setState({
+          isFirstPageLoading: false
+        });
+      }
+    );
   },
 
   upVoteSubmission: function(submission) {
@@ -183,7 +166,6 @@ var ChallengeSubmissionVotingCardSlider = React.createClass({
         userEmail: userLoginMetadataStore.getEmail()
       },
       (res) => {
-        console.log('up: ',res)
         that.setState({
           isVoteRequestInFlight: false
         });
@@ -210,7 +192,6 @@ var ChallengeSubmissionVotingCardSlider = React.createClass({
         userEmail: userLoginMetadataStore.getEmail()
       },
       (res) => {
-        console.log('no: ',res)
         that.setState({
           isVoteRequestInFlight: false
         });
@@ -223,20 +204,21 @@ var ChallengeSubmissionVotingCardSlider = React.createClass({
     );
   },
 
-  _hackilyWaitForVoteRequestsToFinishIfPresent: function(request) {
-    if (!this.state.isVoteRequestInFlight) {
-      request();
-      return;
-    }
-    let timer;
+  mergeSubmissionArrays: function(arr1, arr2) {
+    var mergedArray = arr1,
+        currentSubmissionIds = arr1.map((it) => {
+          return it.id;
+        });
 
-    // every quarter second check to see if
-    timer = setInterval(() => {
-      if (!this.state.isVoteRequestInFlight) {
-        request();
-        clearInterval(timer);
+    for (var i = 0; i < arr2.length; i ++) {
+      if (currentSubmissionIds.indexOf(arr2[i].id) === -1) {
+        mergedArray.push(arr2[i]);
       }
-    }, 250);
+      else {
+        console.log('removed a duplicate!');
+      }
+    }
+    return mergedArray
   }
 
 });
