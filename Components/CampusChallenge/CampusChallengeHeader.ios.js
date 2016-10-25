@@ -2,6 +2,7 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
+var Icon = require('react-native-vector-icons/MaterialIcons');
 
 var ViewCampusChallengeSubmissionButton = require('./ViewCampusChallengeSubmissionButton');
 
@@ -12,18 +13,25 @@ var {
   Text,
   Image,
   StyleSheet,
-  Dimensions
+  Dimensions,
+  AlertIOS
 } = ReactNative;
 
 var styles = StyleSheet.create({
   container: {
     paddingTop: 12
   },
+  labelAndInfoButtonContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 12,
+    paddingBottom: 8
+  },
   label: {
+    flex: 1,
     color: Colors.DARK_GRAY,
-    fontSize: 18,
-    marginBottom: 8,
-    marginHorizontal: 12
+    fontSize: 18
   },
   coverPhoto: {
     width: Dimensions.get('window').width,
@@ -56,10 +64,17 @@ var CampusChallengeHeader = React.createClass({
   render: function() {
     return (
       <View style={styles.container}>
-        
-        <Text style={styles.label}>
-          Today's challenge:
-        </Text>
+
+        <View style={styles.labelAndInfoButtonContainer}>
+          <Text style={styles.label}>
+            Today's challenge:
+          </Text>
+          <Icon
+            onPress={this.onHelpIconPress}
+            name='help'
+            size={25}
+            color={Colors.getPrimaryAppColor()}/>
+        </View>
 
         <Image
           style={styles.coverPhoto}
@@ -80,6 +95,18 @@ var CampusChallengeHeader = React.createClass({
         <ViewCampusChallengeSubmissionButton {...this.props}/>
         
       </View>
+    );
+  },
+
+  onHelpIconPress: function() {
+    AlertIOS.alert(
+      this.props.campusChallenge.name,
+      this.props.campusChallenge.description,
+      [
+        {
+          text: 'Okay'
+        }
+      ]
     );
   }
 
