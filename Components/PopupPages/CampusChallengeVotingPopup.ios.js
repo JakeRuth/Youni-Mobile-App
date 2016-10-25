@@ -2,6 +2,7 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
+var Icon = require('react-native-vector-icons/MaterialIcons');
 
 var NoMoreSubmissionsToVoteOnPage = require('../CampusChallenge/Voting/NoMoreSubmissionsToVoteOnPage');
 var YouniHeader = require('../Common/YouniHeader');
@@ -14,6 +15,7 @@ var hackyNonSwipeBackablePageStore = require('../../stores/common/HackyNonSwipeB
 var {
   View,
   Text,
+  AlertIOS,
   StyleSheet
 } = ReactNative;
 
@@ -26,6 +28,16 @@ var styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '500',
     textAlign: 'center'
+  },
+  helpIcon: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    paddingTop: 29,
+    paddingRight: 12,
+    paddingLeft: 30,
+    paddingBottom: 15,
+    backgroundColor: 'transparent'
   }
 });
 
@@ -61,6 +73,12 @@ var CampusChallengeVotingPopup = React.createClass({
                 hackyNonSwipeBackablePageStore.hidePage();
               }, 100);
             }}/>
+          <Icon
+            style={styles.helpIcon}
+            onPress={this.onHelpIconPress}
+            name='help'
+            size={25}
+            color="white"/>
         </YouniHeader>
 
         {/*
@@ -78,6 +96,18 @@ var CampusChallengeVotingPopup = React.createClass({
         <NoMoreSubmissionsToVoteOnPage {...this.props}/>
         
       </View>
+    );
+  },
+
+  onHelpIconPress: function() {
+    AlertIOS.alert(
+      this.props.campusChallenge.name,
+      this.props.campusChallenge.description,
+      [
+        {
+          text: 'Okay'
+        }
+      ]
     );
   }
 

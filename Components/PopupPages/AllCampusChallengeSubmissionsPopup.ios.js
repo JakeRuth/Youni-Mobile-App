@@ -2,6 +2,7 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
+var Icon = require('react-native-vector-icons/MaterialIcons');
 
 var SubmissionList = require('../CampusChallenge/Submission/SubmissionList');
 var YouniHeader = require('../Common/YouniHeader');
@@ -16,6 +17,7 @@ var userLoginMetadataStore = require('../../stores/UserLoginMetadataStore');
 var {
   View,
   Text,
+  AlertIOS,
   StyleSheet
 } = ReactNative;
 
@@ -28,6 +30,16 @@ var styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '500',
     textAlign: 'center'
+  },
+  helpIcon: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    paddingTop: 29,
+    paddingRight: 12,
+    paddingLeft: 30,
+    paddingBottom: 15,
+    backgroundColor: 'transparent'
   }
 });
 
@@ -85,6 +97,12 @@ var AllCampusChallengeSubmissionsPopup = React.createClass({
           <BackArrow
             color="white"
             onPress={() => this.props.navigator.pop()}/>
+          <Icon
+            style={styles.helpIcon}
+            onPress={this.onHelpIconPress}
+            name='help'
+            size={25}
+            color="white"/>
         </YouniHeader>
 
         {content}
@@ -136,6 +154,18 @@ var AllCampusChallengeSubmissionsPopup = React.createClass({
           isFetchingNextPage: false
         });
       }
+    );
+  },
+
+  onHelpIconPress: function() {
+    AlertIOS.alert(
+      this.props.campusChallenge.name,
+      this.props.campusChallenge.description,
+      [
+        {
+          text: 'Okay'
+        }
+      ]
     );
   }
 
