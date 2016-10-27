@@ -38,7 +38,8 @@ var styles = StyleSheet.create({
     position: 'relative'
   },
   rankingText: {
-    fontSize: 30
+    fontSize: 30,
+    paddingBottom: 20
   }
 });
 

@@ -66,8 +66,7 @@ var AnonymousSubmissionToggle = React.createClass({
   _onAnonymousInfoPress: function() {
     AlertIOS.alert(
       'Shhhh... no one will know',
-      "Switch 'Submit Anonymously' on, and no users will be able to see that it was YOU that created this submission.  " +
-      "Caution: If something criminal or equivalent is entered that can be perceived as a legit threat, our developers will find you!",
+      "Switch 'Submit Anonymously' on and other users will not be able to see that you created this submission.",
       [
         {
           text: 'Cool!'

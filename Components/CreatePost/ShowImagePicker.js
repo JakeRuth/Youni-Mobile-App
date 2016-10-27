@@ -16,7 +16,7 @@ var ShowImagePicker = {
 
   showImagePicker: function(navigator) {
     UIImagePickerManager.showImagePicker(this._getImagePickerOptions(), (response) => {
-      if (!response.didCancel) {
+      if (!response.error && !response.didCancel) {
         let imageUri = response.uri.replace('file://', '');
         this._onImageSelect(navigator, imageUri, response.height / 2);
         
