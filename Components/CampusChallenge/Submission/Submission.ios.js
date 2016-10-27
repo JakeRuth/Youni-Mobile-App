@@ -23,7 +23,6 @@ var styles = StyleSheet.create({
     flex: 1
   },
   submissionContainer: {
-    flex: 1,
     width: Dimensions.get('window').width - 24, // subtract horizontal margin
     backgroundColor: 'white',
     borderRadius: 8,
