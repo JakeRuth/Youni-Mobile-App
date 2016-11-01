@@ -39,11 +39,10 @@ var styles = StyleSheet.create({
   },
   challengeTitle: {
     alignSelf: 'center',
-    fontSize: 50,
+    fontSize: 30,
     textAlign: 'center',
-    height: 60,
     width: Dimensions.get('window').width * .9,
-    marginHorizontal: 12
+    margin: 12
   },
   prize: {
     color: Colors.MED_GRAY,
@@ -81,11 +80,8 @@ var CampusChallengeHeader = React.createClass({
           resizeMode="cover"
           source={{uri: this.props.campusChallenge.coverPhotoUrl}}/>
         
-        <Text
-          style={[styles.challengeTitle, {color: Colors.getPrimaryAppColor()}]}
-          numberOfLines={1}
-          adjustsFontSizeToFit={true}>
-          {this.props.campusChallenge.name}
+        <Text style={[styles.challengeTitle, {color: Colors.getPrimaryAppColor()}]}>
+          Fuck Shit
         </Text>
         
         <Text style={styles.prize}>
