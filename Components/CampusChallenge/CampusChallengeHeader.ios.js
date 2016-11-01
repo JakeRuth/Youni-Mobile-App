@@ -81,7 +81,7 @@ var CampusChallengeHeader = React.createClass({
           source={{uri: this.props.campusChallenge.coverPhotoUrl}}/>
         
         <Text style={[styles.challengeTitle, {color: Colors.getPrimaryAppColor()}]}>
-          Fuck Shit
+          {this.props.campusChallenge.name}
         </Text>
         
         <Text style={styles.prize}>
