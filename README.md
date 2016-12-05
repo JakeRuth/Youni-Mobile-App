@@ -2,8 +2,7 @@
 
 This app is no longer on the app store.  I have a video of the live app on my personal website, I encourage you to check it out: http://jakeruth.com/#portfolio-link
 
-This app is created with React Native.  Xcode was used (forced to be used) to manage the builds and was the 'middleman'
-to upload mobile app binaries to the app store.
+This app is created with React Native.  The mindset I had for this was for it to be a lighweight rendering engine that made RESTful calls to an API I created and hosted with AWS (hopefully will be open sourced soon).  You will see in the code that for the most part, ajax calls are being made to the API, and the API is responding with JSON that the app uses to render content.
 
 When I first started this repo I was completely new to React Native.  Over time the code base began to mature as well as it could in a
 fast pace start up environment.  It's important to note that a lot of the features in this app were prototyped very quickly.  Although
